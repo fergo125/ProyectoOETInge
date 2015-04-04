@@ -1,0 +1,25 @@
+Site master: VerdeOET, con el logo de la OTS, letras blancas, la página seleccionada queda con las letras más grandes y en color negro
+
+Botones:
+-Aceptar: verdeOET
+-Cancelar: naranjaOET
+-Editar: amarillo/caféOET
+-flechas comboboxes: amarillo/caféOET
+
+grids:
+-encabezado: verdeOET
+-lìneas: grises
+-fondo celdas: blanco
+
+Cuadros de texto: grises, con esquinas redondeadas, fondo blanco
+
+Login:
+-muñequito sencillo negro
+-nombre de usuario Y rol (en otra lìnea)
+
+***grupo único de botones para controlar tuplas en un grid
+***los márgenes se hacen con porcentajes, no valores absolutos
+***fondo general blanco
+***títulos en las páginas con una línea verdeOET y letras verdeOET
+***campos erróneos con un asterisco rojo de fondo
+***mensajes de éxito/error/advertencia en cuadros blancos pero letras de colores
