@@ -39,7 +39,12 @@
             </Scripts>
         </asp:ScriptManager>
 
-        <div class="navbar navbar-inverse navbar-fixed-top">
+        <%--Background image--%>
+        <div class="header page-header-fozkr">
+            <img alt="" src="App_Resources/ImagenSiteMaster.png"/>
+        </div>
+        <%--Navigation bar--%>
+        <div class="navbar navbar-fozkr navbar">
             <div class="container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">

@@ -6814,3 +6814,137 @@ td.visible-print {
     display: none !important;
   }
 }
+
+/*
+    My CSS custom stuff.
+*/
+
+.page-header-fozkr {
+  padding-bottom: 0;
+  margin-top: -50px;
+  background: url("../App_Resources/FondoSiteMaster.png") repeat-x scroll 0 0 rgba(0, 0, 0, 0);
+  text-align:center;
+}
+
+.navbar-fozkr {
+  background: url("../App_Resources/FondoNavbar.png") repeat-x scroll 0 0 rgba(0, 0, 0, 0);
+  height: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: -5px auto 40px;
+}
+
+.navbar-fozkr .navbar-brand {
+  color: #ffffff;
+  height: 41px;
+}
+
+.navbar-fozkr .navbar-brand:hover,
+.navbar-fozkr .navbar-brand:focus {
+  color: #ffffff;
+  background-color: transparent;
+}
+
+.navbar-fozkr .navbar-text {
+  color: #999999;
+}
+
+.navbar-fozkr .navbar-nav > li > a {
+  color: #ffffff;
+}
+
+.navbar-fozkr .navbar-nav > li > a:hover,
+.navbar-fozkr .navbar-nav > li > a:focus {
+  color: #ffffff;
+  background-color: transparent;
+}
+
+.navbar-fozkr .navbar-nav > .active > a,
+.navbar-fozkr .navbar-nav > .active > a:hover,
+.navbar-fozkr .navbar-nav > .active > a:focus {
+  color: #ffffff;
+  background-color: #080808;
+}
+
+.navbar-fozkr .navbar-nav > .disabled > a,
+.navbar-fozkr .navbar-nav > .disabled > a:hover,
+.navbar-fozkr .navbar-nav > .disabled > a:focus {
+  color: #444444;
+  background-color: transparent;
+}
+
+.navbar-fozkr .navbar-toggle {
+  border-color: #333333;
+}
+
+.navbar-fozkr .navbar-toggle:hover,
+.navbar-fozkr .navbar-toggle:focus {
+  background-color: #333333;
+}
+
+.navbar-fozkr .navbar-toggle .icon-bar {
+  background-color: #ffffff;
+}
+
+.navbar-fozkr .navbar-collapse,
+.navbar-fozkr .navbar-form {
+  border-color: #101010;
+}
+
+.navbar-fozkr .navbar-nav > .open > a,
+.navbar-fozkr .navbar-nav > .open > a:hover,
+.navbar-fozkr .navbar-nav > .open > a:focus {
+  color: #ffffff;
+  background-color: #080808;
+}
+
+.navbar-fozkr .navbar-nav > .dropdown > a:hover .caret {
+  border-top-color: #ffffff;
+  border-bottom-color: #ffffff;
+}
+
+.navbar-fozkr .navbar-nav > .dropdown > a .caret {
+  border-top-color: #999999;
+  border-bottom-color: #999999;
+}
+
+.navbar-fozkr .navbar-nav > .open > a .caret,
+.navbar-fozkr .navbar-nav > .open > a:hover .caret,
+.navbar-fozkr .navbar-nav > .open > a:focus .caret {
+  border-top-color: #ffffff;
+  border-bottom-color: #ffffff;
+}
+
+@media (max-width: 767px) {
+  .navbar-fozkr .navbar-nav .open .dropdown-menu > .dropdown-header {
+    border-color: #080808;
+  }
+  .navbar-fozkr .navbar-nav .open .dropdown-menu > li > a {
+    color: #999999;
+  }
+  .navbar-fozkr .navbar-nav .open .dropdown-menu > li > a:hover,
+  .navbar-fozkr .navbar-nav .open .dropdown-menu > li > a:focus {
+    color: #ffffff;
+    background-color: transparent;
+  }
+  .navbar-fozkr .navbar-nav .open .dropdown-menu > .active > a,
+  .navbar-fozkr .navbar-nav .open .dropdown-menu > .active > a:hover,
+  .navbar-fozkr .navbar-nav .open .dropdown-menu > .active > a:focus {
+    color: #ffffff;
+    background-color: #080808;
+  }
+  .navbar-fozkr .navbar-nav .open .dropdown-menu > .disabled > a,
+  .navbar-fozkr .navbar-nav .open .dropdown-menu > .disabled > a:hover,
+  .navbar-fozkr .navbar-nav .open .dropdown-menu > .disabled > a:focus {
+    color: #444444;
+    background-color: transparent;
+  }
+}
+
+.navbar-fozkr .navbar-link {
+  color: #999999;
+}
+
+.navbar-fozkr .navbar-link:hover {
+  color: #ffffff;
+}
