@@ -16,6 +16,7 @@
     <!-- Título del Form -->
     <div>
         <h2 id="TituloVentas" runat="server">Facturación</h2>
+        <hr />
     </div>
 
     <!-- Cuerpo del Form -->
