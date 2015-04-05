@@ -25,7 +25,7 @@
                 Cree nuevas facturas rápidamente en un ambiente ágil para el usuario, busque productos, aplique descuentos, y no se preocupe por aspectos como el tipo de cambio o la información que ya debería de generarse automáticamente.
             </p>
             <p>
-                <a class="btn btn-default" href="~/">Ir a Ventas</a>
+                <a class="btn btn-default" href="~/FormVentas">Ir a Ventas</a>
             </p>
         </div>
         <div class="col-md-4">

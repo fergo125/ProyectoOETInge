@@ -517,6 +517,8 @@ h1,
 h2,
 .h2 {
   font-size: 30px;
+  color: #549210; /*added*/
+  border-bottom: 1px solid #549210; /*added*/
 }
 
 h3,
@@ -6831,7 +6833,7 @@ td.visible-print {
   height: auto;
   padding-left: 10px;
   padding-right: 10px;
-  margin: -5px auto 40px;
+  margin: -5px auto 0px;
 }
 
 .navbar-fozkr .navbar-brand {
@@ -6854,15 +6856,15 @@ td.visible-print {
 
 .navbar-fozkr .navbar-nav > li > a:hover,
 .navbar-fozkr .navbar-nav > li > a:focus {
-  color: #ffffff;
+  color: #000000;
   background-color: transparent;
 }
 
 .navbar-fozkr .navbar-nav > .active > a,
 .navbar-fozkr .navbar-nav > .active > a:hover,
 .navbar-fozkr .navbar-nav > .active > a:focus {
-  color: #ffffff;
-  background-color: #080808;
+  color: #000000;
+  background-color: transparent;
 }
 
 .navbar-fozkr .navbar-nav > .disabled > a,
@@ -6894,7 +6896,7 @@ td.visible-print {
 .navbar-fozkr .navbar-nav > .open > a:hover,
 .navbar-fozkr .navbar-nav > .open > a:focus {
   color: #ffffff;
-  background-color: #080808;
+  background-color: transparent;
 }
 
 .navbar-fozkr .navbar-nav > .dropdown > a:hover .caret {
@@ -6946,4 +6948,18 @@ td.visible-print {
 
 .navbar-fozkr .navbar-link:hover {
   color: #ffffff;
+}
+
+.alert-fozkr-success {
+  color: #549210;
+  background-color: transparent;
+  border-color: #000000;
+  margin-bottom: -50px;
+}
+
+.alert-fozkr-error {
+  color: #E93F2F;
+  background-color: transparent;
+  border-color: #000000;
+  margin-bottom: -50px;
 }

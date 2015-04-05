@@ -49,7 +49,7 @@
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-brand">
                         <li><a runat="server" href="~/">Inventarios</a></li>
-                        <li><a runat="server" href="~/FormAbout">Ventas</a></li>
+                        <li id="linkFormVentas"><a runat="server" href="~/FormVentas">Ventas</a></li>
                         <li><a runat="server" href="~/FormAbout">Reportes</a></li>
                         <li><a runat="server" href="~/FormContact">Administración</a></li>
                     </ul>
