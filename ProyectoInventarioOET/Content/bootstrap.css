@@ -2003,6 +2003,7 @@ textarea.input-lg {
   display: inline-block;
   padding: 6px 12px;
   margin-bottom: 0;
+  margin-right: 5px;
   font-size: 14px;
   font-weight: normal;
   line-height: 1.428571429;
@@ -6818,9 +6819,10 @@ td.visible-print {
 }
 
 /*
-    My CSS custom stuff.
+    My CSS custom stuff. Fozkr.
 */
 
+/*Used for the image at the top, inside the sitemaster, above the navigation bar.*/
 .page-header-fozkr {
   padding-bottom: 0;
   margin-top: -50px;
@@ -6828,6 +6830,7 @@ td.visible-print {
   text-align:center;
 }
 
+/*Used for the navigation bar itself, background image and stuff, copied from "navbar-inverse".*/
 .navbar-fozkr {
   background: url("../App_Resources/FondoNavbar.png") repeat-x scroll 0 0 rgba(0, 0, 0, 0);
   height: auto;
@@ -6950,6 +6953,7 @@ td.visible-print {
   color: #ffffff;
 }
 
+/*Used for custom alert messages at the top of the page, probably will remove later.*/
 .alert-fozkr-success {
   color: #549210;
   background-color: transparent;
@@ -6962,4 +6966,23 @@ td.visible-print {
   background-color: transparent;
   border-color: #000000;
   margin-bottom: -50px;
+}
+
+/*Used for the billing table in the sales page, a table with no borders or lines of any kind.*/
+.table-fozkr {
+  width: 40%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.table-fozkr thead > tr > th,
+.table-fozkr tbody > tr > th,
+.table-fozkr tfoot > tr > th,
+.table-fozkr thead > tr > td,
+.table-fozkr tbody > tr > td,
+.table-fozkr tfoot > tr > td {
+  text-align: center;
+  border-collapse: collapse;
+  border: 1px solid;
+  border-color: #ffffff;
 }
