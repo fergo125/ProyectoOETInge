@@ -151,7 +151,6 @@ fieldset {
   padding: 0.35em 0.625em 0.75em;
   margin: 0 2px;
   border: 1px solid #c0c0c0;
-  color: red;
 }
 
 legend {
@@ -1925,6 +1924,7 @@ textarea.input-lg {
 .form-control-static {
   padding-top: 7px;
   margin-bottom: 0;
+  background-color:green;
 }
 
 .help-block {
