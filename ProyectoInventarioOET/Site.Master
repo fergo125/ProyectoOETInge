@@ -48,7 +48,7 @@
             <div class="container">
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-brand">
-                        <li><a runat="server" href="~/FormProductos">Inventarios</a></li>
+                        <li><a runat="server" href="~/FormProductos">Productos</a></li>
                         <li id="linkFormVentas"><a runat="server" href="~/FormVentas">Ventas</a></li>
                         <li><a runat="server" href="~/FormAbout">Ventas</a></li>
                         <li><a runat="server" href="~/FormAbout">Reportes</a></li>

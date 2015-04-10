@@ -4,11 +4,11 @@
 
     <script type="text/javascript">
         function showStuff(id) {
-            var estado = document.getElementById(id).style.visibility;
-            if (estado === 'hidden') {
-                document.getElementById(id).style.visibility = 'visible';
+            var estado = document.getElementById(id).style.display;
+            if (estado === 'none') {
+                document.getElementById(id).style.display = 'block';
             } else {
-                document.getElementById(id).style.visibility = 'hidden';
+                document.getElementById(id).style.display = 'none';
             }
         }
     </script>
@@ -43,9 +43,16 @@
 
     <!-- Fieldset que muestra el form para agregar un nuevo producto -->
     
-    <fieldset id= "FieldsetProductos" style="visibility: hidden" runat="server" class="fieldset">
+    <fieldset id= "FieldsetProductos" style="display:none" runat="server" class="fieldset">
         <legend>Ingresar datos de nuevo producto: </legend>
         
+        
+        <label for="inputCodigo"> Código: </label>      
+        <input type="text" id= "inputCodigo" ><br>
+        <br />
+        <label for="inputCodigoBarras"> Código de Barras: </label>      
+        <input type="text" id= "inputCodigoBarras" ><br>
+        <br />
         <label for="inputNombre"> Nombre: </label>      
         <input type="text" id= "inputNombre" ><br>
         
@@ -57,14 +64,34 @@
 
         <label for="inputFamilia"> Familia: </label>     
         <asp:DropDownList id= "inpuFamilia" runat="server"></asp:DropDownList> 
-
+        <br />
+        <label for="inputCostoColones"> Costo (colones): </label>      
+        <input type="text" id= "inputCostoColones" ><br>
+        <br />
+         <label for="inputCostoDolares"> Costo (dolares): </label>      
+        <input type="text" id= "inputCostoDolares" ><br>
+        <br />
+        <label for="inputCosto"> Unidades: </label>      
+        <input type="text" id= "inputCosto" ><br>
+        <br />
+         <label for="inputEstado"> Estado: </label>      
+        <input type="text" id= "inputEstado" ><br>
+        <br />
+        <label for="inputImpuesto"> Impuesto: </label>      
+        <asp:DropDownList id= "inputImpuesto" runat="server"></asp:DropDownList> 
+        <br />
+        <label for="inputProveedor"> Proveedor: </label>     
+        <asp:DropDownList id= "inputProveedor" runat="server"></asp:DropDownList> 
+        <br />
+        <label for="inputEstacion"> Estación: </label>     
+        <asp:DropDownList id= "inputEstacion" runat="server"></asp:DropDownList> 
+        <br />
 
     </fieldset>
 
 
      <!-- Grid de Consulta de productos -->
-
-
-
+    
+    <asp:Button ID="Button1" runat="server" Text="Button" />
 
 </asp:Content>
