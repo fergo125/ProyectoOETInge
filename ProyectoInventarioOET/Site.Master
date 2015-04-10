@@ -48,13 +48,10 @@
             <div class="container">
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-brand">
-<<<<<<< HEAD
                         <li><a runat="server" href="~/">Inventarios</a></li>
                         <li id="linkFormVentas"><a runat="server" href="~/FormVentas">Ventas</a></li>
-=======
                         <li><a runat="server" href="~/FormProductos">Inventarios</a></li>
                         <li><a runat="server" href="~/FormAbout">Ventas</a></li>
->>>>>>> origin/Carlos-1.0
                         <li><a runat="server" href="~/FormAbout">Reportes</a></li>
                         <li><a runat="server" href="~/FormContact">Administración</a></li>
                     </ul>
