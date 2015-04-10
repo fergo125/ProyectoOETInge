@@ -49,10 +49,16 @@
         <label for="inputNombre"> Nombre: </label>      
         <input type="text" id= "inputNombre" ><br>
         
-        Descripción:  
-        <input type="text"><br>
-        Date of birth:
-        <input type="text">
+        <label for="inputDescripcion"> Descripción: </label>      
+        <input type="text" id= "inputDescripcion" ><br>
+
+        <label for="inputCantidad"> Cantidad: </label>      
+        <input type="text" id= "inputCantidad"  class=""><br>
+
+        <label for="inputFamilia"> Familia: </label>     
+        <asp:DropDownList id= "inpuFamilia" runat="server"></asp:DropDownList> 
+
+
     </fieldset>
 
 
