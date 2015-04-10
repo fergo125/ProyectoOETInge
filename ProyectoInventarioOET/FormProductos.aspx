@@ -43,49 +43,63 @@
 
     <!-- Fieldset que muestra el form para agregar un nuevo producto -->
     
-    <fieldset id= "FieldsetProductos" style="display:none" runat="server" class="fieldset">
+    <fieldset id= "FieldsetProductos" style="display:none" runat="server" class="fieldset row">
         <legend>Ingresar datos de nuevo producto: </legend>
         
-        
-        <label for="inputCodigo"> Código: </label>      
-        <input type="text" id= "inputCodigo" ><br>
-        <br />
-        <label for="inputCodigoBarras"> Código de Barras: </label>      
-        <input type="text" id= "inputCodigoBarras" ><br>
-        <br />
-        <label for="inputNombre"> Nombre: </label>      
-        <input type="text" id= "inputNombre" ><br>
-        
-        <label for="inputDescripcion"> Descripción: </label>      
-        <input type="text" id= "inputDescripcion" ><br>
+        <div class= "form-inline  col-md-6">
 
-        <label for="inputCantidad"> Cantidad: </label>      
-        <input type="text" id= "inputCantidad"  class=""><br>
+            <label for="inputCodigo"> Código: </label>      
+            <input type="text" id= "inputCodigo" class="form-control input-sm col-xs-3"><br>
+            <br />
+            <label for="inputCodigoBarras"> Código de Barras: </label>      
+            <input type="text" id= "inputCodigoBarras" ><br>
+            <br />
+            <label for="inputNombre"> Nombre: </label>      
+            <input type="text" id= "inputNombre" ><br>
+        
+            <label for="inputDescripcion"> Descripción: </label>      
+            <input type="text" id= "inputDescripcion" ><br>
 
-        <label for="inputFamilia"> Familia: </label>     
-        <asp:DropDownList id= "inpuFamilia" runat="server"></asp:DropDownList> 
-        <br />
-        <label for="inputCostoColones"> Costo (colones): </label>      
-        <input type="text" id= "inputCostoColones" ><br>
-        <br />
-         <label for="inputCostoDolares"> Costo (dolares): </label>      
-        <input type="text" id= "inputCostoDolares" ><br>
-        <br />
-        <label for="inputCosto"> Unidades: </label>      
-        <input type="text" id= "inputCosto" ><br>
-        <br />
-         <label for="inputEstado"> Estado: </label>      
-        <input type="text" id= "inputEstado" ><br>
-        <br />
-        <label for="inputImpuesto"> Impuesto: </label>      
-        <asp:DropDownList id= "inputImpuesto" runat="server"></asp:DropDownList> 
-        <br />
-        <label for="inputProveedor"> Proveedor: </label>     
-        <asp:DropDownList id= "inputProveedor" runat="server"></asp:DropDownList> 
-        <br />
-        <label for="inputEstacion"> Estación: </label>     
-        <asp:DropDownList id= "inputEstacion" runat="server"></asp:DropDownList> 
-        <br />
+            <label for="inputCantidad"> Cantidad: </label>      
+            <input type="text" id= "inputCantidad"  class=""><br>
+
+            <label for="inputFamilia"> Familia: </label>     
+            <asp:DropDownList id= "inpuFamilia" runat="server"></asp:DropDownList> 
+            <br />
+            <label for="inputCostoColones"> Costo (colones): </label>      
+            <input type="text" id= "inputCostoColones" ><br>
+            <br />
+            <label for="inputCostoDolares"> Costo (dolares): </label>      
+            <input type="text" id= "inputCostoDolares" ><br>
+            <br />
+        </div>
+        
+        <div class="form-group  col-md-6">
+            <label for="inputCosto"> Unidades: </label>      
+            <input type="text" id= "inputCosto" ><br>
+            <br />
+             <label for="inputEstado"> Estado: </label>      
+            <input type="text" id= "inputEstado" ><br>
+            <br />
+            <label for="inputMinimo"> Cantidad mínima: </label>      
+            <input type="text" id= "inputMinimo" ><br>
+            <br />
+             <label for="inputMaximo"> Cantidad máxima: </label>      
+            <input type="text" id= "inputMaximo" ><br>
+            <br />
+             <label for="inputSaldo"> Saldo: </label>      
+            <input type="text" id= "inputSaldo" ><br>
+            <br />
+            <label for="inputImpuesto"> Impuesto: </label>      
+            <asp:DropDownList id= "inputImpuesto" runat="server"></asp:DropDownList> 
+            <br />
+            <label for="inputProveedor"> Proveedor: </label>     
+            <asp:DropDownList id= "inputProveedor" runat="server"></asp:DropDownList> 
+            <br />
+            <label for="inputEstacion"> Estación: </label>     
+            <asp:DropDownList id= "inputEstacion" runat="server"></asp:DropDownList> 
+            <br />
+        <div>
 
     </fieldset>
 
