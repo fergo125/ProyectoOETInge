@@ -1637,8 +1637,7 @@ table th[class*="col-"] {
 fieldset {
   padding: 0;
   margin: 0;
-  border: 1px solid green;
-  background-color: #EDEDED; 
+  border: 0;
 }
 
 legend {
@@ -1651,13 +1650,14 @@ legend {
   line-height: inherit;
   color: #333333;
   border: 0;
-  border-bottom: 1px solid #e5e5e5;
 }
 
 label {
   display: inline-block;
   margin-bottom: 5px;
   font-weight: bold;
+  text-align: right;
+  width: 140px;
 }
 
 input[type="search"] {
