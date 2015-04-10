@@ -13,5 +13,10 @@ namespace ProyectoInventarioOET
         {
 
         }
+
+        protected void botonAgregarProductos_ServerClick(object sender, EventArgs e)
+        {
+
+        }
     }
 }
