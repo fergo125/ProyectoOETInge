@@ -35,7 +35,7 @@
     <button runat="server" onclick="showStuff('MainContent_FieldsetProductos');" id="botonAgregarProductos" class=" btn btn-info" type="button" style="float: left"><i></i> Nuevo Producto</button>
     <button runat="server" onclick="showStuff('MainContent_FieldsetProductos');" id="botonModificacionProductos" class=" btn btn-info" type="button" style="float: left"><i></i> Modificar Producto </button>
     <button runat="server" onserverclick="Page_Load" id="botonConsultaProductos" class=" btn btn-info" type="button" style="float: left"><i></i>Consulta de Productos </button>
-    <button runat="server" onserverclick="Page_Load" id="Button1" class=" btn btn-primary" type="button" style="float: left"><i></i>Consulta de Productos </button>
+    <button runat="server" onclick="alert('Alejandro')" id="Button1" class=" btn btn-primary" type="button" style="float:right" ><i></i> Categorías</button>
 
 
     <br />
@@ -171,7 +171,7 @@
     </fieldset>
 
      <!-- Grid de Consulta de productos -->
-    <asp:GridView ID="listaDeProdiuctos" runat="server">
+    <asp:GridView ID="listaDeProductos" runat="server">
     </asp:GridView>
 
 
