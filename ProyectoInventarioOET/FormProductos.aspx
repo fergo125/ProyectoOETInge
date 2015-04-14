@@ -33,6 +33,7 @@
 
     <!-- Cuerpo del Form -->
     <button runat="server" onclick="showStuff('MainContent_FieldsetProductos');" id="botonAgregarProductos" class=" btn btn-info" type="button" style="float: right"><i></i>Nuevo Producto</button>
+    <button runat="server" onclick="showStuff('MainContent_FieldsetFamilia');" id="botonAgregarFamilia" class=" btn btn-info" type="button" style="float: right"><i></i>Nueva Familia</button>
     <button runat="server" onclick="showStuff('MainContent_FieldsetProductos');" id="botonModificacionProductos" class=" btn btn-info" type="button" style="float: right"><i></i>Modificar Producto </button>
     <button runat="server" onserverclick="Page_Load" id="botonConsultaProductos" class=" btn btn-info" type="button" style="float: right"><i></i>Consulta de Productos </button>
 
@@ -43,7 +44,7 @@
 
     <!-- Fieldset que muestra el form para agregar un nuevo producto -->
     <fieldset id= "FieldsetProductos" style="display:none" runat="server" class="fieldset">
-        <legend>Ingresar datos de nuevo producto: </legend>
+        <legend >Ingresar datos de nuevo producto: </legend>
     
         <br />
         <br />
@@ -144,7 +145,34 @@
 
     </fieldset>
 
+     <!-- Fieldset para Familia -->
+    <fieldset id= "FieldsetFamilia" style="display:none" runat="server" class="fieldset">
+        <legend> Ingresar datos de nueva familia de productos: </legend>
+    
+        <br />
+        <br />
+        <br />
+
+        <div class= "col-md-6">
+
+            <div class= "form-group">
+                <label for="inputNombreFamilia" class= "control-label"> Nombre: </label>      
+                <input type="text" id= "inputNombreFamilia" class= "form-control"><br>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="inputDescripcionFamilia" class= "control-label"> Descripción: </label>      
+                <input type="text" id= "inputDescripcionFamilia" class="form-control"><br>
+            </div>
+
+        </div>
+    </fieldset>
+
      <!-- Grid de Consulta de productos -->
-    <asp:GridView ID="listaDeProdiuctos" runat="server"></asp:GridView>
+    <asp:GridView ID="listaDeProdiuctos" runat="server">
+    </asp:GridView>
+
 
 </asp:Content>
