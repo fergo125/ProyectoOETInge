@@ -6,7 +6,7 @@
         function showStuff(id) {
             var estado = document.getElementById(id).style.display;
             if (estado === 'none') {
-                document.getElementById(id).style.display = 'block';
+                document.getElementById(id).style.display = 'block'; //Color 7BC134
             } else {
                 document.getElementById(id).style.display = 'none';
             }
@@ -27,15 +27,15 @@
 
     <!-- Título del Form -->
     <div>
-        <h2 id="TituloVentas" runat="server">Inventario</h2>
+        <h2 id="TituloProductos" runat="server"> Productos </h2>
         <hr />
     </div>
 
     <!-- Cuerpo del Form -->
-    <button runat="server" onclick="showStuff('MainContent_FieldsetProductos');" id="botonAgregarProductos" class=" btn btn-info" type="button" style="float: right"><i></i>Nuevo Producto</button>
-    <button runat="server" onclick="showStuff('MainContent_FieldsetFamilia');" id="botonAgregarFamilia" class=" btn btn-info" type="button" style="float: right"><i></i>Nueva Familia</button>
-    <button runat="server" onclick="showStuff('MainContent_FieldsetProductos');" id="botonModificacionProductos" class=" btn btn-info" type="button" style="float: right"><i></i>Modificar Producto </button>
-    <button runat="server" onserverclick="Page_Load" id="botonConsultaProductos" class=" btn btn-info" type="button" style="float: right"><i></i>Consulta de Productos </button>
+    <button runat="server" onclick="showStuff('MainContent_FieldsetProductos');" id="botonAgregarProductos" class=" btn btn-info" type="button" style="float: left"><i></i> Nuevo Producto</button>
+    <button runat="server" onclick="showStuff('MainContent_FieldsetProductos');" id="botonModificacionProductos" class=" btn btn-info" type="button" style="float: left"><i></i> Modificar Producto </button>
+    <button runat="server" onserverclick="Page_Load" id="botonConsultaProductos" class=" btn btn-info" type="button" style="float: left"><i></i>Consulta de Productos </button>
+    <button runat="server" onserverclick="Page_Load" id="Button1" class=" btn btn-primary" type="button" style="float: left"><i></i>Consulta de Productos </button>
 
 
     <br />
