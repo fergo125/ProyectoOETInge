@@ -65,27 +65,27 @@
 
 
             <div class="form-group">
-                <label for="inputFamilia" class= "control-label"> Familia: </label>     
+                <label for="inputFamilia" class= "control-label"> Catgoría: </label>     
                 <asp:DropDownList id= "inpuFamilia" runat="server" class="form-control"> </asp:DropDownList> 
             </div>
 
             <div class="form-group">
-                <label for="inputCantidad" class= "control-label"> Cantidad: </label>      
+                <label for="inputCantidad" class= "control-label"> Cantidad (total): </label>      
                 <input type="text" id= "inputCantidad"  class="form-control" >
             </div>
 
 
 
 
-            <div class="form-group">
+<%--            <div class="form-group">
                 <label for="inputCostoColones" class= "control-label"> Costo (colones): </label>      
                 <input type="text" id= "inputCostoColones" class="form-control" ><br>
-            </div>
+            </div>--%>
 
-            <div class="form-group">
+<%--            <div class="form-group">
                 <label for="inputCostoDolares" class= "control-label"> Costo (dolares): </label>      
                 <input type="text" id= "inputCostoDolares" class="form-control" ><br>
-            </div>
+            </div>--%>
 
 
         </div>
@@ -103,8 +103,8 @@
             </div>
 
             <div class="form-group">
-                <label for="inputCosto" class= "control-label">Unidades: </label>
-                <input type="text" id="inputCosto" class="form-control"><br>
+                <label for="inputUnidades" class= "control-label">Unidades: </label>
+                <input type="text" id="inputUnidades" class="form-control"><br>
             </div>
 
             <div class="form-group">
@@ -112,7 +112,7 @@
                 <input type="text" id="inputEstado" class="form-control"><br>
             </div>
 
-            <div class="form-group">
+<%--            <div class="form-group">
                 <label for="inputMinimo" class= "control-label"> Cantidad mínima: </label>
                 <input type="text" id="inputMinimo" class="form-control"><br>
             </div>
@@ -120,27 +120,27 @@
             <div class="form-group">
                 <label for="inputMaximo" class= "control-label"> Cantidad máxima: </label>
                 <input type="text" id="inputMaximo" class="form-control"><br>
-            </div>
+            </div>--%>
 
-            <div class="form-group">
+<%--            <div class="form-group">
                 <label for="inputSaldo" class= "control-label" >Saldo: </label>
                 <input type="text" id="inputSaldo" class="form-control"><br>
-            </div>
+            </div>--%>
 
-            <div class="form-group">
+<%--            <div class="form-group">
                 <label for="inputImpuesto" class= "control-label" >Impuesto: </label>
                 <asp:DropDownList ID="inputImpuesto" runat="server" class="form-control"></asp:DropDownList>
-            </div>
+            </div>--%>
 
             <div class="form-group">
                 <label for="inputProveedor" class= "control-label" >Proveedor: </label>
                 <asp:DropDownList ID="inputProveedor" runat="server" class="form-control"></asp:DropDownList>
             </div>
 
-            <div class="form-group">
+<%--            <div class="form-group">
                 <label for="inputEstacion" class= "control-label" >Estación: </label>
                 <asp:DropDownList ID="inputEstacion" runat="server" class="form-control"></asp:DropDownList>
-            </div>
+            </div>--%>
         </div>
 
     </fieldset>
