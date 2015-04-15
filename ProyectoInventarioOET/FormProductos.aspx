@@ -44,7 +44,7 @@
 
     <!-- Fieldset que muestra el form para agregar un nuevo producto -->
     <fieldset id= "FieldsetProductos" style="display:none" runat="server" class="fieldset">
-        <legend >Ingresar datos de nuevo producto: </legend>
+        <legend >Ingresar datos de nuevo productow: </legend>
     
         <br />
         <br />
