@@ -35,7 +35,7 @@
       <!-- Cuerpo del Form -->
     <button runat="server" onclick="showStuff('MainContent_FieldsetBodegas');" id="botonAgregarBodega" class=" btn btn-info" type="button" style="float: left"><i></i>Nueva Bodega</button>
     <button runat="server" onclick="showStuff('MainContent_FieldsetBodegas');" id="botonModificarBodega" class=" btn btn-info" type="button" style="float: left"><i></i>Modificar Bodega</button>
-    <button runat="server" onclick="showStuff('MainContent_FieldsetGridBodegas');" id="botonConsultarBodega" class=" btn btn-info" type="button" style="float: left"><i></i>Consultar Bodegas</button>
+    <button runat="server" onclick="showStuff('MainContent_FieldsetGridBodegas');showStuff('MainContent_FieldsetCatalogoLocal');" id="botonConsultarBodega" class=" btn btn-info" type="button" style="float: left"><i></i>Consultar Bodegas</button>
     <br /><br /><br />
 
     <fieldset id="FieldsetGridBodegas" style="display:none" center="left" runat="server" class="fieldset">
@@ -103,6 +103,33 @@
 
     </fieldset>
 
+    <fieldset id="FieldsetCatalogoLocal" style="display:none" center="left" runat="server" class="fieldset">
+      <!-- Gridview de consultar -->
+     <div class="col-lg-12">
+        <asp:UpdatePanel ID="UpdatePanelCatalogoLocal" runat="server">
+            <ContentTemplate>
+                <asp:GridView ID="gridViewCatalogoLocal" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewCatalogoLocal_Seleccion" OnPageIndexChanging="gridViewCatalogoLocal_CambioPagina" runat="server" AllowPaging="True" PageSize="16" BorderColor="Transparent">
+                    <Columns>
+                        <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn-default" CommandName="Select" Text="Consultar">
+                            <ControlStyle CssClass="btn-default disabled"></ControlStyle>
+                        </asp:ButtonField>
+                   </Columns>
+                   <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
+                   <PagerStyle CssClass="paging" HorizontalAlign="Center" />
+                   <AlternatingRowStyle BackColor="#EBEBEB" />
+                   <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
+                   <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" />
+              </asp:GridView>
+         </ContentTemplate>
+         <Triggers>
+            <asp:AsyncPostBackTrigger ControlID="gridViewBodegas" EventName="RowCommand" />
+         </Triggers>
+      </asp:UpdatePanel>
+   </div>
+    <br />
+    <br />
+    <br />
+    </fieldset>
 
 
     <br /><br /><br /><br />

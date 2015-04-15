@@ -40,6 +40,8 @@ namespace ProyectoInventarioOET
         {
 
             DataTable tabla = tablaBodegas();
+            DataTable tabla2 = tablaCatalogoLocal();
+
             for (int i = 1; i < 5; i++)
             {
                 Object[] datos = new Object[3];
@@ -49,8 +51,22 @@ namespace ProyectoInventarioOET
                 tabla.Rows.Add(datos);
             }
 
+            for (int i = 1; i < 5; i++)
+            {
+                Object[] datos2 = new Object[5];
+                datos2[0] = i * 2;
+                datos2[1] = i * 3;
+                datos2[2] = i * 4;
+                datos2[3] = i * 5;
+                datos2[4] = i * 6;
+                tabla2.Rows.Add(datos2);
+            }
+
             this.gridViewBodegas.DataSource = tabla;
             this.gridViewBodegas.DataBind();
+            this.gridViewCatalogoLocal.DataSource = tabla2;
+            this.gridViewCatalogoLocal.DataBind();
+        
         
         }
 
@@ -131,6 +147,39 @@ namespace ProyectoInventarioOET
             return tabla;
         }
 
+        protected DataTable tablaCatalogoLocal()
+        {
+            DataTable tabla = new DataTable();
+            DataColumn columna;
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Nombre";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Precio";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Cantidad";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Mínimo";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Máximo";
+            tabla.Columns.Add(columna);
+
+            return tabla;
+        }
+
         protected void mostrarMensaje(String tipoAlerta, String alerta, String mensaje)
         {
             mensajeAlerta.Attributes["class"] = "alert alert-" + tipoAlerta + " alert-dismissable fade in";
@@ -139,7 +188,22 @@ namespace ProyectoInventarioOET
             mensajeAlerta.Attributes.Remove("hidden");
         }
 
+        protected void gridViewCatalogoLocal_Seleccion(object sender, GridViewCommandEventArgs e)
+        {
+            switch (e.CommandName)
+            {
+                case "Select":
+                    GridViewRow filaSeleccionada = this.gridViewBodegas.Rows[Convert.ToInt32(e.CommandArgument)];
+                    int id = Convert.ToInt32(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewBodegas.PageIndex * resultadosPorPagina)]);
+                    break;
+            }
+        }
 
+        protected void gridViewCatalogoLocal_CambioPagina(Object sender, GridViewPageEventArgs e)
+        {
+            this.gridViewCatalogoLocal.PageIndex = e.NewPageIndex;
+            this.gridViewCatalogoLocal.DataBind();
+        }
 
     }
 }
