@@ -37,7 +37,7 @@
     <button runat="server" onserverclick="Page_Load" id="botonConsultaProductos" class=" btn btn-info" type="button" style="float: left"><i></i>Consulta de Productos </button>
     <button runat="server" onserverclick="botonRedireccionCategorias_ServerClick" id="botonRedireccionCategorias" class=" btn btn-primary" type="button" style="float:right" ><i></i> Categorías</button>
 
-
+    
     <br />
     <br />
 
@@ -73,9 +73,6 @@
                 <label for="inputCantidad" class= "control-label"> Cantidad: </label>      
                 <input type="text" id= "inputCantidad"  class="form-control" >
             </div>
-
-
-
 
             <div class="form-group">
                 <label for="inputCostoColones" class= "control-label"> Costo (colones): </label>      
