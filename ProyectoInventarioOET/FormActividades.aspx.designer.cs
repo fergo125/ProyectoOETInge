@@ -10,7 +10,7 @@
 namespace ProyectoInventarioOET {
     
     
-    public partial class FormProductos {
+    public partial class FormActividades {
         
         /// <summary>
         /// Control mensajeAlerta.
@@ -40,84 +40,57 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.Label labelAlerta;
         
         /// <summary>
-        /// Control TituloProductos.
+        /// Control Titulos.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl TituloProductos;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Titulos;
         
         /// <summary>
-        /// Control botonAgregarProductos.
+        /// Control botonAgregaractividades.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonAgregarProductos;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonAgregaractividades;
         
         /// <summary>
-        /// Control botonModificacionProductos.
+        /// Control botonModificacionactividades.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonModificacionProductos;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonModificacionactividades;
         
         /// <summary>
-        /// Control botonConsultaProductos.
+        /// Control botonConsultaactividades.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonConsultaProductos;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonConsultaactividades;
         
         /// <summary>
-        /// Control botonRedireccionCategorias.
+        /// Control FieldsetActividad.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonRedireccionCategorias;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetActividad;
         
         /// <summary>
-        /// Control FieldsetProductos.
+        /// Control comboBoxEstadosActividades.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetProductos;
-        
-        /// <summary>
-        /// Control inpuFamilia.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList inpuFamilia;
-        
-        /// <summary>
-        /// Control inputProveedor.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList inputProveedor;
-        
-        /// <summary>
-        /// Control listaDeProductos.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView listaDeProductos;
+        protected global::System.Web.UI.WebControls.DropDownList comboBoxEstadosActividades;
     }
 }
