@@ -103,13 +103,13 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.DropDownList inpuFamilia;
         
         /// <summary>
-        /// Control inputProveedor.
+        /// Control inputEstado.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList inputProveedor;
+        protected global::System.Web.UI.WebControls.DropDownList inputEstado;
         
         /// <summary>
         /// Control listaDeProductos.

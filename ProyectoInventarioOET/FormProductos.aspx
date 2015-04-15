@@ -43,39 +43,35 @@
 
 
     <!-- Fieldset que muestra el form para agregar un nuevo producto -->
+    <div class= "col-lg-12">
     <fieldset id= "FieldsetProductos" style="display:none" runat="server" class="fieldset">
-        <legend >Ingresar datos de nuevo productow: </legend>
+        <legend >Ingresar datos de nuevo producto: </legend>
     
         <br />
         <br />
         <br />
 
-        <div class= "col-md-6">
+        <div class= "col-lg-5">
 
-            <div class= "form-group">
-                <label for="inputCodigo" class= "control-label"> Código: </label>      
-                <input type="text" id= "inputCodigo" class= "form-control"><br>
-            </div>
-
-       
             <div class="form-group">
                 <label for="inputNombre" class= "control-label "> Nombre: </label>      
                 <input type="text" id= "inputNombre" class="form-control" ><br>
             </div>
 
-
             <div class="form-group">
-                <label for="inputFamilia" class= "control-label"> Catgoría: </label>     
+                <label for="inputDescripcion" class= "control-label"> Descripción: </label>      
+                <textarea rows="4" cols="50" id="inputDescripcion" class="form-control"> </textarea>
+            </div>
+          
+            <div class="form-group">
+                <label for="inputFamilia" class= "control-label"> Categoría: </label>     
                 <asp:DropDownList id= "inpuFamilia" runat="server" class="form-control"> </asp:DropDownList> 
             </div>
 
-            <div class="form-group">
+<%--            <div class="form-group">
                 <label for="inputCantidad" class= "control-label"> Cantidad (total): </label>      
                 <input type="text" id= "inputCantidad"  class="form-control" >
-            </div>
-
-
-
+            </div>--%>
 
 <%--            <div class="form-group">
                 <label for="inputCostoColones" class= "control-label"> Costo (colones): </label>      
@@ -90,26 +86,27 @@
 
         </div>
 
-        <div class="col-md-6">
+        <div class="col-lg-7">
 
-            <div class="form-group">
+            <div class= "form-group col-lg-3">
+                <label for="inputCodigo" class= "control-label"> Código: </label>      
+                <input type="text" id= "inputCodigo" class= "form-control"><br>
+            </div>
+            
+            <div class="form-group col-lg-4">
                 <label for="inputCodigoBarras" class= "control-label"> Código de Barras: </label>      
                 <input type="text" id= "inputCodigoBarras" class="form-control"><br>
             </div>
-            
-            <div class="form-group">
-                <label for="inputDescripcion" class= "control-label"> Descripción: </label>      
-                <input type="text" id= "inputDescripcion" class="form-control"> <br>
-            </div>
 
-            <div class="form-group">
+
+            <div class="form-group col-lg-4">
                 <label for="inputUnidades" class= "control-label">Unidades: </label>
                 <input type="text" id="inputUnidades" class="form-control"><br>
             </div>
 
-            <div class="form-group">
+            <div class="form-group col-lg-4">
                 <label for="inputEstado" class= "control-label" >Estado: </label>
-                <input type="text" id="inputEstado" class="form-control"><br>
+                <asp:DropDownList ID="inputEstado" runat="server" class="form-control"></asp:DropDownList>
             </div>
 
 <%--            <div class="form-group">
@@ -132,10 +129,10 @@
                 <asp:DropDownList ID="inputImpuesto" runat="server" class="form-control"></asp:DropDownList>
             </div>--%>
 
-            <div class="form-group">
+<%--            <div class="form-group">
                 <label for="inputProveedor" class= "control-label" >Proveedor: </label>
                 <asp:DropDownList ID="inputProveedor" runat="server" class="form-control"></asp:DropDownList>
-            </div>
+            </div>--%>
 
 <%--            <div class="form-group">
                 <label for="inputEstacion" class= "control-label" >Estación: </label>
@@ -144,7 +141,7 @@
         </div>
 
     </fieldset>
-
+    </div>
 
 
      <!-- Grid de Consulta de productos -->
