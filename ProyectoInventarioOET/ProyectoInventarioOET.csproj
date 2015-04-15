@@ -151,6 +151,7 @@
     <Content Include="Account\OpenAuthProviders.ascx" />
     <Content Include="Account\Register.aspx" />
     <Content Include="Account\RegisterExternalLogin.aspx" />
+    <Content Include="FormCategorias.aspx" />
     <Content Include="FormContact.aspx" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -258,6 +259,13 @@
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="FormCategorias.aspx.cs">
+      <DependentUpon>FormCategorias.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormCategorias.aspx.designer.cs">
+      <DependentUpon>FormCategorias.aspx</DependentUpon>
+    </Compile>
     <Compile Include="FormContact.aspx.cs">
       <DependentUpon>FormContact.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

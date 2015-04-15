@@ -35,7 +35,7 @@
     <button runat="server" onclick="showStuff('MainContent_FieldsetProductos');" id="botonAgregarProductos" class=" btn btn-info" type="button" style="float: left"><i></i> Nuevo Producto</button>
     <button runat="server" onclick="showStuff('MainContent_FieldsetProductos');" id="botonModificacionProductos" class=" btn btn-info" type="button" style="float: left"><i></i> Modificar Producto </button>
     <button runat="server" onserverclick="Page_Load" id="botonConsultaProductos" class=" btn btn-info" type="button" style="float: left"><i></i>Consulta de Productos </button>
-    <button runat="server" onclick="alert('Alejandro')" id="Button1" class=" btn btn-primary" type="button" style="float:right" ><i></i> Categorías</button>
+    <button runat="server" onserverclick="botonRedireccionCategorias_ServerClick" id="botonRedireccionCategorias" class=" btn btn-primary" type="button" style="float:right" ><i></i> Categorías</button>
 
 
     <br />
@@ -145,30 +145,7 @@
 
     </fieldset>
 
-     <!-- Fieldset para Familia -->
-    <fieldset id= "FieldsetFamilia" style="display:none" runat="server" class="fieldset">
-        <legend> Ingresar datos de nueva familia de productos: </legend>
-    
-        <br />
-        <br />
-        <br />
 
-        <div class= "col-md-6">
-
-            <div class= "form-group">
-                <label for="inputNombreFamilia" class= "control-label"> Nombre: </label>      
-                <input type="text" id= "inputNombreFamilia" class= "form-control"><br>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="inputDescripcionFamilia" class= "control-label"> Descripción: </label>      
-                <input type="text" id= "inputDescripcionFamilia" class="form-control"><br>
-            </div>
-
-        </div>
-    </fieldset>
 
      <!-- Grid de Consulta de productos -->
     <asp:GridView ID="listaDeProductos" runat="server">

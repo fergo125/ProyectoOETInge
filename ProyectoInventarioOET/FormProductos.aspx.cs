@@ -18,5 +18,11 @@ namespace ProyectoInventarioOET
         {
 
         }
+
+        protected void botonRedireccionCategorias_ServerClick(object sender, EventArgs e)
+        {
+            //Server.Transfer("FormCategorias.aspx");
+            Response.Redirect("FormCategorias.aspx");
+        }
     }
 }

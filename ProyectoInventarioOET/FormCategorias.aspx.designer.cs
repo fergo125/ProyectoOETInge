@@ -10,7 +10,7 @@
 namespace ProyectoInventarioOET {
     
     
-    public partial class FormProductos {
+    public partial class FormCategorias {
         
         /// <summary>
         /// mensajeAlerta control.
@@ -40,102 +40,57 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.Label labelAlerta;
         
         /// <summary>
-        /// TituloProductos control.
+        /// TituloCategorias control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl TituloProductos;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl TituloCategorias;
         
         /// <summary>
-        /// botonAgregarProductos control.
+        /// botonAgregarCategorias control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonAgregarProductos;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonAgregarCategorias;
         
         /// <summary>
-        /// botonModificacionProductos control.
+        /// botonModificacionCategorias control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonModificacionProductos;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonModificacionCategorias;
         
         /// <summary>
-        /// botonConsultaProductos control.
+        /// botonConsultaCategorias control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonConsultaProductos;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonConsultaCategorias;
         
         /// <summary>
-        /// botonRedireccionCategorias control.
+        /// botonRedireccionProductos control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonRedireccionCategorias;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonRedireccionProductos;
         
         /// <summary>
-        /// FieldsetProductos control.
+        /// FieldsetCategoria control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetProductos;
-        
-        /// <summary>
-        /// inpuFamilia control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList inpuFamilia;
-        
-        /// <summary>
-        /// inputImpuesto control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList inputImpuesto;
-        
-        /// <summary>
-        /// inputProveedor control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList inputProveedor;
-        
-        /// <summary>
-        /// inputEstacion control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList inputEstacion;
-        
-        /// <summary>
-        /// listaDeProductos control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView listaDeProductos;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetCategoria;
     }
 }
