@@ -43,7 +43,7 @@
 
 
     <!-- Fieldset que muestra el form para agregar un nuevo producto -->
-    <div class= "col-lg-12">
+    <div class= "row">
     <fieldset id= "FieldsetProductos" style="display:none" runat="server" class="fieldset">
         <legend >Ingresar datos de nuevo producto: </legend>
     
@@ -88,12 +88,12 @@
 
         <div class="col-lg-7">
 
-            <div class= "form-group col-lg-3">
+            <div class= "form-group col-lg-6">
                 <label for="inputCodigo" class= "control-label"> Código: </label>      
                 <input type="text" id= "inputCodigo" class= "form-control"><br>
             </div>
             
-            <div class="form-group col-lg-4">
+            <div class="form-group col-lg-6">
                 <label for="inputCodigoBarras" class= "control-label"> Código de Barras: </label>      
                 <input type="text" id= "inputCodigoBarras" class="form-control"><br>
             </div>
