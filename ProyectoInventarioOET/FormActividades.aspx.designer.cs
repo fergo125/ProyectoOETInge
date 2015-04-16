@@ -10,7 +10,7 @@
 namespace ProyectoInventarioOET {
     
     
-    public partial class FormBodegas {
+    public partial class FormActividades {
         
         /// <summary>
         /// Control mensajeAlerta.
@@ -40,111 +40,57 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.Label labelAlerta;
         
         /// <summary>
-        /// Control TituloBodegas.
+        /// Control Titulos.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl TituloBodegas;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Titulos;
         
         /// <summary>
-        /// Control botonAgregarBodega.
+        /// Control botonAgregaractividades.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonAgregarBodega;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonAgregaractividades;
         
         /// <summary>
-        /// Control botonModificarBodega.
+        /// Control botonModificacionactividades.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonModificarBodega;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonModificacionactividades;
         
         /// <summary>
-        /// Control botonConsultarBodega.
+        /// Control botonConsultaactividades.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonConsultarBodega;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonConsultaactividades;
         
         /// <summary>
-        /// Control FieldsetGridBodegas.
+        /// Control FieldsetActividad.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetGridBodegas;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetActividad;
         
         /// <summary>
-        /// Control UpdatePanelPruebas.
+        /// Control comboBoxEstadosActividades.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanelPruebas;
-        
-        /// <summary>
-        /// Control gridViewBodegas.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gridViewBodegas;
-        
-        /// <summary>
-        /// Control FieldsetBodegas.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetBodegas;
-        
-        /// <summary>
-        /// Control DropDownList1.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownList1;
-        
-        /// <summary>
-        /// Control FieldsetCatalogoLocal.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetCatalogoLocal;
-        
-        /// <summary>
-        /// Control UpdatePanelCatalogoLocal.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanelCatalogoLocal;
-        
-        /// <summary>
-        /// Control gridViewCatalogoLocal.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gridViewCatalogoLocal;
+        protected global::System.Web.UI.WebControls.DropDownList comboBoxEstadosActividades;
     }
 }
