@@ -3,12 +3,14 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
     <script type="text/javascript">
-        function showStuff(id) {
-            var estado = document.getElementById(id).style.display;
+        function showStuff(elementoAMostrar, elementoAEsconder) {
+            var estado = document.getElementById(elementoAMostrar).style.display;
             if (estado === 'none') {
-                document.getElementById(id).style.display = 'block'; //Color 7BC134
+                document.getElementById(elementoAMostrar).style.display = 'block'; //Color 7BC134
+                document.getElementById(elementoAEsconder).style.display = 'none'; //Color 7BC134
             } else {
-                document.getElementById(id).style.display = 'none';
+                document.getElementById(elementoAMostrar).style.display = 'none';
+                document.getElementById(elementoAEsconder).style.display = 'block'; //Color 7BC134
             }
         }
     </script>
@@ -34,7 +36,7 @@
     <!-- Cuerpo del Form -->
     <button runat="server" onclick="showStuff('MainContent_FieldsetProductos');" id="botonAgregarProductos" class=" btn btn-info" type="button" style="float: left"><i></i> Nuevo Producto</button>
     <button runat="server" onclick="showStuff('MainContent_FieldsetProductos');" id="botonModificacionProductos" class=" btn btn-info" type="button" style="float: left"><i></i> Modificar Producto </button>
-    <button runat="server" onserverclick="Page_Load" id="botonConsultaProductos" class=" btn btn-info" type="button" style="float: left"><i></i>Consulta de Productos </button>
+    <button runat="server" onclick="showStuff('bloqueGrid', 'MainContent_FieldsetProductos')" id="botonConsultaProductos" class=" btn btn-info" type="button" style="float: left"><i></i>Consulta de Productos </button>
     <button runat="server" onserverclick="botonRedireccionCategorias_ServerClick" id="botonRedireccionCategorias" class=" btn btn-primary" type="button" style="float:right" ><i></i> Categorías</button>
 
 
@@ -145,8 +147,28 @@
 
 
      <!-- Grid de Consulta de productos -->
-    <asp:GridView ID="listaDeProductos" runat="server">
-    </asp:GridView>
+      <!-- Gridview de consultar -->
+     <div class="col-lg-12" id="bloqueGrid">
+        <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
+            <ContentTemplate>
+                <asp:GridView ID="gridViewBodegas" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewBodegas_Seleccion" OnPageIndexChanging="gridViewBodegas_CambioPagina" runat="server" AllowPaging="True" PageSize="16" BorderColor="Transparent">
+                    <Columns>
+                        <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn-default" CommandName="Select" Text="Consultar">
+                            <ControlStyle CssClass="btn-default disabled"></ControlStyle>
+                        </asp:ButtonField>
+                   </Columns>
+                   <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
+                   <PagerStyle CssClass="paging" HorizontalAlign="Center" />
+                   <AlternatingRowStyle BackColor="#EBEBEB" />
+                   <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
+                   <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" />
+              </asp:GridView>
+         </ContentTemplate>
+         <Triggers>
+            <asp:AsyncPostBackTrigger ControlID="gridViewBodegas" EventName="RowCommand" />
+         </Triggers>
+      </asp:UpdatePanel>
+   </div>
 
 
 </asp:Content>
