@@ -205,5 +205,11 @@ namespace ProyectoInventarioOET
             this.gridViewCatalogoLocal.DataBind();
         }
 
+
+        protected void botonAceptarBodega_ServerClick(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }
