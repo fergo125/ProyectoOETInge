@@ -7,12 +7,19 @@
             var estado = document.getElementById(elementoAMostrar).style.display;
             if (estado === 'none') {
                 document.getElementById(elementoAMostrar).style.display = 'block'; //Color 7BC134
-                document.getElementById(elementoAEsconder).style.display = 'none'; //Color 7BC134
             } else {
                 document.getElementById(elementoAMostrar).style.display = 'none';
-                document.getElementById(elementoAEsconder).style.display = 'block'; //Color 7BC134
+            }
+            document.getElementById(elementoAEsconder).style.display = 'none'; //Color 7BC134
+
+            if (elementoAMostrar === 'bloqueFormulario') {
+                document.getElementById('bloqueBotones').style.display = 'block';
+            }
+            if (elementoAEsconder === 'bloqueFormulario') {
+                document.getElementById('bloqueBotones').style.display = 'none';
             }
         }
+
     </script>
 
     <br />
@@ -34,9 +41,9 @@
     </div>
 
     <!-- Cuerpo del Form -->
-    <button runat="server" onclick="showStuff('MainContent_FieldsetProductos');" id="botonAgregarProductos" class=" btn btn-info" type="button" style="float: left"><i></i> Nuevo Producto</button>
-    <button runat="server" onclick="showStuff('MainContent_FieldsetProductos');" id="botonModificacionProductos" class=" btn btn-info" type="button" style="float: left"><i></i> Modificar Producto </button>
-    <button runat="server" onclick="showStuff('bloqueGrid', 'MainContent_FieldsetProductos')" id="botonConsultaProductos" class=" btn btn-info" type="button" style="float: left"><i></i>Consulta de Productos </button>
+    <button runat="server" onclick="showStuff('bloqueFormulario', 'bloqueGrid' );" id="botonAgregarProductos" class=" btn btn-info" type="button" style="float: left"><i></i> Nuevo Producto</button>
+    <button runat="server" onclick="showStuff('bloqueFormulario', 'bloqueGrid');" id="botonModificacionProductos" class=" btn btn-info" type="button" style="float: left"><i></i> Modificar Producto </button>
+    <button runat="server" onclick="showStuff('bloqueGrid', 'bloqueFormulario');" id="botonConsultaProductos" class=" btn btn-info" type="button" style="float: left"><i></i>Consulta de Productos </button>
     <button runat="server" onserverclick="botonRedireccionCategorias_ServerClick" id="botonRedireccionCategorias" class=" btn btn-primary" type="button" style="float:right" ><i></i> Categorías</button>
 
 
@@ -45,9 +52,9 @@
 
 
     <!-- Fieldset que muestra el form para agregar un nuevo producto -->
-    <div class= "row">
-    <fieldset id= "FieldsetProductos" style="display:none" runat="server" class="fieldset">
-        <legend >Ingresar datos de nuevo producto: </legend>
+    <div class= "row" id="bloqueFormulario" style="display:none">
+    <fieldset id= "FieldsetProductos" runat="server" class="fieldset">
+<%--        <legend >Ingresar datos de nuevo producto: </legend>--%>
     
         <br />
         <br />
@@ -148,6 +155,7 @@
 
      <!-- Grid de Consulta de productos -->
       <!-- Gridview de consultar -->
+
      <div class="col-lg-12" id="bloqueGrid">
         <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
             <ContentTemplate>
@@ -169,6 +177,11 @@
          </Triggers>
       </asp:UpdatePanel>
    </div>
+
+    <div class= "row" id="bloqueBotones" style="display:none">
+        <button id= "botonCancelar" class="btn btn-danger" style="float: right" runat="server"> Cancelar </button>
+        <button id="botonAceptar" class="btn btn-info"  style="float: right" runat="server"> Aceptar </button>
+    </div>
 
 
 </asp:Content>
