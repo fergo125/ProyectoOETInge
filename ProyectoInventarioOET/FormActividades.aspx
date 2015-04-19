@@ -31,9 +31,9 @@
     </div>
 
     <!-- Cuerpo del Form -->
-    <button runat="server" onclick="showStuff('MainContent_FieldsetActividad');" id="botonAgregaractividades" class=" btn btn-info" type="button" style="float: left" > Nueva Actividad</button>
-    <button runat="server" onclick="showStuff('MainContent_FieldsetActividad');" id="botonModificacionactividades" class=" btn btn-info" type="button" style="float: left"><i></i> Modificar Actividad </button>
-    <button runat="server" onserverclick="Page_Load" id="botonConsultaactividades" class=" btn btn-info" type="button" style="float: left"><i></i>Consulta de Actividades </button>
+    <button runat="server" onclick="showStuff('MainContent_FieldsetActividad');" id="botonAgregarActividades" class=" btn btn-info" type="button" style="float: left" > Nueva Actividad</button>
+    <button runat="server" onclick="showStuff('MainContent_FieldsetActividad');" id="botonModificacionActividades" class=" btn btn-info" type="button" style="float: left"><i></i> Modificar Actividad </button>
+    <button runat="server" onserverclick="Page_Load" id="botonConsultaActividades" class=" btn btn-info" type="button" style="float: left"><i></i>Consulta de Actividades </button>
     <%--<button runat="server" onserverclick="botonRedireccionProductos_ServerClick" id="botonRedireccionProductos" class=" btn btn-primary" type="button" style="float:right" ><i></i> Productos</button>--%>
 
 
