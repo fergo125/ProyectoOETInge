@@ -14,7 +14,7 @@
     </asp:PlaceHolder>
     <webopt:bundlereference runat="server" path="~/Content/css" />
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-
+    <link href="Content/bootstrap.css" rel="stylesheet" />
 </head>
 <body>
     <form runat="server">
@@ -48,8 +48,9 @@
             <div class="container">
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-brand">
-                        <li><a runat="server" href="~/">Inventarios</a></li>
+                        <li><a runat="server" href="~/FormProductos">Productos</a></li>
                         <li id="linkFormVentas"><a runat="server" href="~/FormVentas">Ventas</a></li>
+                        <li><a runat="server" href="~/FormAbout">Ventas</a></li>
                         <li><a runat="server" href="~/FormAbout">Reportes</a></li>
                         <li><a runat="server" href="~/FormContact">Administración</a></li>
                     </ul>

@@ -1642,6 +1642,7 @@ fieldset {
 
 legend {
   display: block;
+  float:left;
   width: 100%;
   padding: 0;
   margin-bottom: 20px;
@@ -1649,7 +1650,6 @@ legend {
   line-height: inherit;
   color: #333333;
   border: 0;
-  border-bottom: 1px solid #e5e5e5;
 }
 
 label {
@@ -1726,7 +1726,6 @@ input[type="number"]::-webkit-inner-spin-button {
   line-height: 1.428571429;
   color: #555555;
   vertical-align: middle;
-  background-color: #ffffff;
   border: 1px solid #cccccc;
   border-radius: 4px;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
@@ -1925,6 +1924,7 @@ textarea.input-lg {
 .form-control-static {
   padding-top: 7px;
   margin-bottom: 0;
+  background-color:green;
 }
 
 .help-block {
@@ -2258,8 +2258,8 @@ fieldset[disabled] .btn-success.active {
 
 .btn-info {
   color: #ffffff;
-  background-color: #5bc0de;
-  border-color: #46b8da;
+  background-color: #7BC134;
+  border-color: #7BC134;
 }
 
 .btn-info:hover,
@@ -2268,8 +2268,8 @@ fieldset[disabled] .btn-success.active {
 .btn-info.active,
 .open .dropdown-toggle.btn-info {
   color: #ffffff;
-  background-color: #39b3d7;
-  border-color: #269abc;
+  background-color: #6ead24;
+  border-color: #6ead24;
 }
 
 .btn-info:active,
@@ -2293,8 +2293,8 @@ fieldset[disabled] .btn-info:active,
 .btn-info.disabled.active,
 .btn-info[disabled].active,
 fieldset[disabled] .btn-info.active {
-  background-color: #5bc0de;
-  border-color: #46b8da;
+  background-color: #99c565;
+  border-color: #99c565;
 }
 
 .btn-link {
@@ -6827,7 +6827,7 @@ td.visible-print {
   padding-bottom: 0;
   margin-top: -50px;
   background: url("../App_Resources/FondoSiteMaster.png") repeat-x scroll 0 0 rgba(0, 0, 0, 0);
-  text-align:center;
+  text-align: left;
 }
 
 /*Used for the navigation bar itself, background image and stuff, copied from "navbar-inverse".*/
@@ -6989,17 +6989,17 @@ td.visible-print {
 
 /*Used for most of the dropdownlists.*/
 .input-fozkr-dropdownlist {
-  width: 150px;
+    width: 150px;
 }
 
 /*Used for the quantity inputs in billing, needs more work.*/
 .input-fozkr-quantity {
-  width: 50px;
-  margin-top: -3px;
+    width: 50px;
+    margin-top: -3px;
 }
 
 /*Used for the checkboxes associated to products in billing, the margin-right is not working.*/
 .input-fozkr-check {
-  margin-top: -3px;
-  margin-right: 10px;
+    margin-top: -3px;
+    margin-right: 10px;
 }

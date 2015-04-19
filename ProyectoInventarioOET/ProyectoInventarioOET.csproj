@@ -151,17 +151,22 @@
     <Content Include="Account\OpenAuthProviders.ascx" />
     <Content Include="Account\Register.aspx" />
     <Content Include="Account\RegisterExternalLogin.aspx" />
+    <Content Include="FormActividades.aspx" />
+    <Content Include="FormCategorias.aspx" />
     <Content Include="FormContact.aspx" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="FormEntradas.aspx" />
+    <Content Include="FormProductos.aspx" />
     <Content Include="FormVentas.aspx" />
     <Content Include="packages.config" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Account\Web.config" />
+    <Content Include="FormBodegas.aspx" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -255,6 +260,20 @@
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="FormActividades.aspx.cs">
+      <DependentUpon>FormActividades.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormActividades.aspx.designer.cs">
+      <DependentUpon>FormActividades.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FormCategorias.aspx.cs">
+      <DependentUpon>FormCategorias.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormCategorias.aspx.designer.cs">
+      <DependentUpon>FormCategorias.aspx</DependentUpon>
+    </Compile>
     <Compile Include="FormContact.aspx.cs">
       <DependentUpon>FormContact.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -268,6 +287,20 @@
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FormEntradas.aspx.cs">
+      <DependentUpon>FormEntradas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormEntradas.aspx.designer.cs">
+      <DependentUpon>FormEntradas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FormProductos.aspx.cs">
+      <DependentUpon>FormProductos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormProductos.aspx.designer.cs">
+      <DependentUpon>FormProductos.aspx</DependentUpon>
     </Compile>
     <Compile Include="FormVentas.aspx.cs">
       <DependentUpon>FormVentas.aspx</DependentUpon>
@@ -302,6 +335,13 @@
     </Compile>
     <Compile Include="ViewSwitcher.ascx.designer.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="FormBodegas.aspx.cs">
+      <DependentUpon>FormBodegas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormBodegas.aspx.designer.cs">
+      <DependentUpon>FormBodegas.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

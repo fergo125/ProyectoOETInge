@@ -7,72 +7,90 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ProyectoInventarioOET.Account {
+namespace ProyectoInventarioOET {
     
     
-    public partial class Login {
+    public partial class FormCategorias {
         
         /// <summary>
-        /// ErrorMessage control.
+        /// mensajeAlerta control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder ErrorMessage;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mensajeAlerta;
         
         /// <summary>
-        /// FailureText control.
+        /// labelTipoAlerta control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal FailureText;
+        protected global::System.Web.UI.WebControls.Label labelTipoAlerta;
         
         /// <summary>
-        /// UserName control.
+        /// labelAlerta control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox UserName;
+        protected global::System.Web.UI.WebControls.Label labelAlerta;
         
         /// <summary>
-        /// Password control.
+        /// TituloCategorias control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Password;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl TituloCategorias;
         
         /// <summary>
-        /// RememberMe control.
+        /// botonAgregarCategorias control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox RememberMe;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonAgregarCategorias;
         
         /// <summary>
-        /// RegisterHyperLink control.
+        /// botonModificacionCategorias control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink RegisterHyperLink;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonModificacionCategorias;
         
         /// <summary>
-        /// OpenAuthLogin control.
+        /// botonConsultaCategorias control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::ProyectoInventarioOET.Account.OpenAuthProviders OpenAuthLogin;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonConsultaCategorias;
+        
+        /// <summary>
+        /// botonRedireccionProductos control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonRedireccionProductos;
+        
+        /// <summary>
+        /// FieldsetCategoria control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetCategoria;
     }
 }
