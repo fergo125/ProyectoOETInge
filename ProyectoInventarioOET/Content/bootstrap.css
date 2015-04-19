@@ -6989,17 +6989,17 @@ td.visible-print {
 
 /*Used for most of the dropdownlists.*/
 .input-fozkr-dropdownlist {
-    width: 150px;
+  width: 150px;
 }
 
 /*Used for the quantity inputs in billing, needs more work.*/
 .input-fozkr-quantity {
-    width: 50px;
-    margin-top: -3px;
+  width: 50px;
+  margin-top: -3px;
 }
 
 /*Used for the checkboxes associated to products in billing, the margin-right is not working.*/
 .input-fozkr-check {
-    margin-top: -3px;
-    margin-right: 10px;
+  margin-top: -3px;
+  margin-right: 10px;
 }
