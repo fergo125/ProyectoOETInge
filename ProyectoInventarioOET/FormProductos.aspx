@@ -3,29 +3,33 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
     <script type="text/javascript">
-        function showStuff(elementoAMostrar, elementoAEsconder) {
-            var estado = document.getElementById(elementoAMostrar).style.display;
-            if (estado === 'none') {
-                document.getElementById(elementoAMostrar).style.display = 'block'; //Color 7BC134
+        function showStuff(elementoATogglear) {
+            var estado = document.getElementById(elementoATogglear).style.display;
+            if (elementoATogglear === 'bloqueFormulario') {
+                if (estado === 'none') {
+                    document.getElementById('bloqueGrid').style.display = 'none';
+                    document.getElementById(elementoATogglear).style.display = 'block';
+                    document.getElementById('bloqueBotones').style.display = 'block';
+                } else {
+                    document.getElementById(elementoATogglear).style.display = 'none';
+                    document.getElementById('bloqueBotones').style.display = 'none';
+                }
             } else {
-                document.getElementById(elementoAMostrar).style.display = 'none';
-            }
-            document.getElementById(elementoAEsconder).style.display = 'none'; //Color 7BC134
-
-            if (elementoAMostrar === 'bloqueFormulario') {
-                document.getElementById('bloqueBotones').style.display = 'block';
-            }
-            if (elementoAEsconder === 'bloqueFormulario') {
                 document.getElementById('bloqueBotones').style.display = 'none';
+                if (estado === 'none') {
+                    document.getElementById(elementoATogglear).style.display = 'block';
+                    document.getElementById('bloqueFormulario').style.display = 'none'
+                } else {
+                    document.getElementById(elementoATogglear).style.display = 'none';
+                }
             }
-        }
-
+        } // Final de funcion 
     </script>
 
     <br />
     <!-- Label para desplegar mensajes -->
     <div>
-        <div id="mensajeAlerta" class="alert alert-fozkr-error fade in" runat="server" style="margin-left: 70%;">
+        <div id="mensajeAlerta" class="alert alert-fozkr-error fade in" runat="server" style="margin-left: 70%; visibility:hidden">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <strong>
                 <asp:Label ID="labelTipoAlerta" runat="server" Text="Alerta! "></asp:Label>
@@ -41,9 +45,9 @@
     </div>
 
     <!-- Cuerpo del Form -->
-    <button runat="server" onclick="showStuff('bloqueFormulario', 'bloqueGrid' );" id="botonAgregarProductos" class=" btn btn-info" type="button" style="float: left"><i></i> Nuevo Producto</button>
-    <button runat="server" onclick="showStuff('bloqueFormulario', 'bloqueGrid');" id="botonModificacionProductos" class=" btn btn-info" type="button" style="float: left"><i></i> Modificar Producto </button>
-    <button runat="server" onclick="showStuff('bloqueGrid', 'bloqueFormulario');" id="botonConsultaProductos" class=" btn btn-info" type="button" style="float: left"><i></i>Consulta de Productos </button>
+    <button runat="server" onclick="showStuff('bloqueFormulario');" id="botonAgregarProductos" class=" btn btn-info" type="button" style="float: left"><i></i> Nuevo Producto</button>
+    <button runat="server" onclick="showStuff('bloqueFormulario');" id="botonModificacionProductos" class=" btn btn-info" type="button" style="float: left"><i></i> Modificar Producto </button>
+    <button runat="server" onclick="showStuff('bloqueGrid');" id="botonConsultaProductos" class=" btn btn-info" type="button" style="float: left"><i></i>Consulta de Productos </button>
     <button runat="server" onserverclick="botonRedireccionCategorias_ServerClick" id="botonRedireccionCategorias" class=" btn btn-primary" type="button" style="float:right" ><i></i> Categorías</button>
 
 
@@ -155,8 +159,16 @@
 
      <!-- Grid de Consulta de productos -->
       <!-- Gridview de consultar -->
+    <br/> <br/>
 
      <div class="col-lg-12" id="bloqueGrid">
+       <div class="row">
+            <div class="col-xs-9">
+                <input class="form-control" type="search" placeholder="Busqueda">
+                <span class="glyphicon glyphicon-search"></span>
+            </div>
+        </div>
+        <br/> <br/>
         <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
             <ContentTemplate>
                 <asp:GridView ID="gridViewBodegas" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewBodegas_Seleccion" OnPageIndexChanging="gridViewBodegas_CambioPagina" runat="server" AllowPaging="True" PageSize="16" BorderColor="Transparent">
@@ -178,6 +190,9 @@
       </asp:UpdatePanel>
    </div>
 
+
+
+<%--    Botones de aceptar y cancelar acción--%> 
     <div class= "row" id="bloqueBotones" style="display:none">
         <button id= "botonCancelar" class="btn btn-danger" style="float: right" runat="server"> Cancelar </button>
         <button id="botonAceptar" class="btn btn-info"  style="float: right" runat="server"> Aceptar </button>
