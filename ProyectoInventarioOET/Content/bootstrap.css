@@ -7011,3 +7011,89 @@ td.visible-print {
     margin-top: -3px;
     margin-right: 10px;
 }
+
+/*Used for buttons */
+
+.btn-success-fozkr {
+  color: #ffffff;
+  background-color: #7BC143;
+  border-color: #4cae4c;
+
+}
+
+
+.btn-success-fozkr:hover,
+.btn-success-fozkr:focus,
+.btn-success-fozkr:active,
+.btn-success-fozkr.active,
+.open .dropdown-toggle.btn-success-fozkr {
+  color: #ffffff;
+  background-color: #47a447;
+  border-color: #398439;
+}
+
+.btn-success-fozkr:active,
+.btn-success-fozkr.active,
+.open .dropdown-toggle.btn-success-fozkr {
+  background-image: none;
+}
+
+.btn-success-fozkr-fozkr.disabled,
+.btn-success-fozkr[disabled],
+fieldset[disabled] .btn-success-fozkr,
+.btn-success-fozkr.disabled:hover,
+.btn-success-fozkr[disabled]:hover,
+fieldset[disabled] .btn-success-fozkr:hover,
+.btn-success-fozkr.disabled:focus,
+.btn-success-fozkr[disabled]:focus,
+fieldset[disabled] .btn-success-fozkr:focus,
+.btn-success-fozkr.disabled:active,
+.btn-success-fozkr[disabled]:active,
+fieldset[disabled] .btn-success-fozkr:active,
+.btn-success-fozkr.disabled.active,
+.btn-success-fozkr[disabled].active,
+fieldset[disabled] .btn-success-fozkr.active {
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+}
+
+.btn-danger-fozkr {
+  color: #ffffff;
+  background-color: #F26631;
+  border-color: #d43f3a;
+}
+
+.btn-danger-fozkr:hover,
+.btn-danger-fozkr:focus,
+.btn-danger-fozkr:active,
+.btn-danger-fozkr.active,
+.open .dropdown-toggle.btn-danger-fozkr {
+  color: #ffffff;
+  background-color: #d2322d;
+  border-color: #ac2925;
+}
+
+.btn-danger-fozkr:active,
+.btn-danger-fozkr.active,
+.open .dropdown-toggle.btn-danger-fozkr {
+  background-image: none;
+}
+
+.btn-danger-fozkr.disabled,
+.btn-danger-fozkr[disabled],
+fieldset[disabled] .btn-danger-fozkr,
+.btn-danger-fozkr.disabled:hover,
+.btn-danger-fozkr[disabled]:hover,
+fieldset[disabled] .btn-danger-fozkr:hover,
+.btn-danger-fozkr.disabled:focus,
+.btn-danger-fozkr[disabled]:focus,
+fieldset[disabled] .btn-danger-fozkr:focus,
+.btn-danger-fozkr.disabled:active,
+.btn-danger-fozkr[disabled]:active,
+fieldset[disabled] .btn-danger-fozkr:active,
+.btn-danger-fozkr.disabled.active,
+.btn-danger-fozkr[disabled].active,
+fieldset[disabled] .btn-danger-fozkr.active {
+  background-color: #d9534f;
+  border-color: #d43f3a;
+}

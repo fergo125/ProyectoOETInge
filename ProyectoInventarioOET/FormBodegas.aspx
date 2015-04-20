@@ -43,7 +43,7 @@
      <div class="col-lg-12">
         <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
             <ContentTemplate>
-                <asp:GridView ID="gridViewBodegas" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewBodegas_Seleccion" OnPageIndexChanging="gridViewBodegas_CambioPagina" runat="server" AllowPaging="True" PageSize="16" BorderColor="Transparent">
+                <asp:GridView ID="gridViewBodegas" CssClass="table table-responsive table-condensed" OnRowCommand="gridViewBodegas_Seleccion" OnPageIndexChanging="gridViewBodegas_CambioPagina" runat="server" AllowPaging="True" PageSize="16" BorderColor="Transparent">
                     <Columns>
                         <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn-default" CommandName="Select" Text="Consultar">
                             <ControlStyle CssClass="btn-default disabled"></ControlStyle>
@@ -128,8 +128,8 @@
     <div class="col-lg-12">
         <div class =" row">
             <div class="text-center">
-                <button runat="server" onserverclick="botonAceptarBodega_ServerClick" id="botonAceptarBodega" class="btn btn-success" type="button"><i class="fa fa-pencil-square-o"></i>Aceptar</button>
-                <a id="botonCancelarBodega" href="#modalCancelar" class="btn btn-danger" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cancelar</a>
+                <button runat="server" onserverclick="botonAceptarBodega_ServerClick" id="botonAceptarBodega" class="btn btn-success-fozkr" type="button"><i class="fa fa-pencil-square-o"></i>Aceptar</button>
+                <a id="botonCancelarBodega" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cancelar</a>
                 
             </div>
         </div>
