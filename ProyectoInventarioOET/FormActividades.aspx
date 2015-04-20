@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="FormActividades.aspx.cs" Inherits="ProyectoInventarioOET.FormActividades" %>
+﻿<%@ Page Title="Actividades" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="FormActividades.aspx.cs" Inherits="ProyectoInventarioOET.FormActividades" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
     <script type="text/javascript">
@@ -42,40 +42,77 @@
 
          <!-- Fieldset para Actividades -->
     <fieldset id= "FieldsetActividad" style="display:none" runat="server" class="fieldset">
-        <legend> Ingresar datos de nueva Actividad: </legend>
+        <legend> Ingresar datos de una nueva Actividad: </legend>
     
         <br />
         <br />
         <br />
+        <div class="row">
 
-        <div class= "col-md-4">
+            <div class= "col-md-4">
 
-            <div class= "form-group">
-                <label for="inputNombreActividad" class= "control-label"> Nombre: </label>      
-                <input type="text" id= "inputNombreActividad" class= "form-control"><br>
+                <div class= "form-group">
+                    <label for="inputNombreActividad" class= "control-label"> Nombre: </label>      
+                    <input type="text" id= "inputNombreActividad" class= "form-control"><br>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="inputDescripcionActividad" class= "control-label"> Descripción: </label>      
+                    <input type="text" id= "inputDescripcionActividad" class="form-control"><br>
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="inputEstadoActividad" class= "control-label"> Estado: </label>      
+                    <asp:DropDownList id="comboBoxEstadosActividades" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
+                        <asp:ListItem Selected="True">Ninguno</asp:ListItem>
+                    </asp:DropDownList>
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+
+        <label for="textoObligatorioActividad" class="text-danger text-center">Los campos con (*) son obligatorios</label>
+    <div class="col-lg-12">
+        <div class =" row">
+            <div class="text-center">
+                <button runat="server" onserverclick="botonAceptarActividad_ServerClick" id="botonAceptarActividad" class="btn btn-success-fozkr" type="button"><i class="fa fa-pencil-square-o"></i>Aceptar</button>
+                <a id="botonCancelarActividad" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cancelar</a>
+                
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="inputDescripcionActividad" class= "control-label"> Descripción: </label>      
-                <input type="text" id= "inputDescripcionActividad" class="form-control"><br>
-            </div>
-
-        </div>
-
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="inputEstadoActividad" class= "control-label"> Estado: </label>      
-                <asp:DropDownList id="comboBoxEstadosActividades" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
-                    <asp:ListItem Selected="True">Ninguno</asp:ListItem>
-                </asp:DropDownList>
-            </div>
-
-        </div>
+    </div>
 
         
     </fieldset>
+
+    <!--Modal Cancelar-->
+    <div class="modal fade" id="modalCancelar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="modalTitle"><i class="fa fa-exclamation-triangle text-danger fa-2x"></i>Confirmar cancelación</h4>
+                </div>
+                <div class="modal-body">
+                    ¿Está seguro que desea cancelar los cambios? Perdería todos los datos no guardados.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="botonAceptarModalCancelar" class="btn btn-success-fozkr" runat="server" onserverclick="botonAceptarModalCancelar_ServerClick" >Aceptar</button>
+                    <button type="button" id="botonCancelarModalCancelar" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 </asp:Content>

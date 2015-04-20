@@ -13,5 +13,15 @@ namespace ProyectoInventarioOET
         {
 
         }
+
+        protected void botonAceptarActividad_ServerClick(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void botonAceptarModalCancelar_ServerClick(object sender, EventArgs e)
+        {
+
+        }
     }
 }
