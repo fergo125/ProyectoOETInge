@@ -7013,12 +7013,10 @@ td.visible-print {
 }
 
 /*Used for buttons */
-
 .btn-success-fozkr {
   color: #ffffff;
   background-color: #7BC143;
-  border-color: #4cae4c;
-
+  border-color: #7BC143;
 }
 
 
@@ -7028,8 +7026,8 @@ td.visible-print {
 .btn-success-fozkr.active,
 .open .dropdown-toggle.btn-success-fozkr {
   color: #ffffff;
-  background-color: #47a447;
-  border-color: #398439;
+  background-color: #6AA53A;
+  border-color: #6AA53A;
 }
 
 .btn-success-fozkr:active,
@@ -7059,8 +7057,8 @@ fieldset[disabled] .btn-success-fozkr.active {
 
 .btn-danger-fozkr {
   color: #ffffff;
-  background-color: #F26631;
-  border-color: #d43f3a;
+  background-color: #d9534f;
+  border-color: #d9534f;
 }
 
 .btn-danger-fozkr:hover,
@@ -7069,8 +7067,8 @@ fieldset[disabled] .btn-success-fozkr.active {
 .btn-danger-fozkr.active,
 .open .dropdown-toggle.btn-danger-fozkr {
   color: #ffffff;
-  background-color: #d2322d;
-  border-color: #ac2925;
+  background-color: #BF4846;
+  border-color: #BF4846;
 }
 
 .btn-danger-fozkr:active,
@@ -7096,4 +7094,86 @@ fieldset[disabled] .btn-danger-fozkr:active,
 fieldset[disabled] .btn-danger-fozkr.active {
   background-color: #d9534f;
   border-color: #d43f3a;
+}
+
+.btn-warning-fozkr {
+  color: #ffffff;
+  background-color: #FDBB30;    /*changed f0ad4e with FDBB30 (amarilloOET)*/
+  border-color: #FDBB30;    /*changed eea236 with FDBB30 (amarilloOET)*/
+}
+
+.btn-warning-fozkr:hover,
+.btn-warning-fozkr:focus,
+.btn-warning-fozkr:active,
+.btn-warning-fozkr.active,
+.open .dropdown-toggle.btn-warning-fozkr {
+  color: #ffffff;
+  background-color: #E2A52B;
+  border-color: #E2A52B;
+}
+
+.btn-warning-fozkr:active,
+.btn-warning-fozkr.active,
+.open .dropdown-toggle.btn-warning-fozkr {
+  background-image: none;
+}
+
+.btn-warning-fozkr.disabled,
+.btn-warning-fozkr[disabled],
+fieldset[disabled] .btn-warning-fozkr,
+.btn-warning-fozkr.disabled:hover,
+.btn-warning-fozkr[disabled]:hover,
+fieldset[disabled] .btn-warning-fozkr:hover,
+.btn-warning-fozkr.disabled:focus,
+.btn-warning-fozkr[disabled]:focus,
+fieldset[disabled] .btn-warning-fozkr:focus,
+.btn-warning-fozkr.disabled:active,
+.btn-warning-fozkr[disabled]:active,
+fieldset[disabled] .btn-warning-fozkr:active,
+.btn-warning-fozkr.disabled.active,
+.btn-warning-fozkr[disabled].active,
+fieldset[disabled] .btn-warning-fozkr.active {
+  background-color: #f0ad4e;
+  border-color: #eea236;
+}
+
+.btn-info-fozkr {
+  color: #ffffff;
+  background-color: #F26631;    /*added naranjaOET*/
+  border-color: #F26631;    /*added naranjaOET*/
+}
+
+.btn-info-fozkr:hover,
+.btn-info-fozkr:focus,
+.btn-info-fozkr:active,
+.btn-info-fozkr.active,
+.open .dropdown-toggle.btn-info-fozkr {
+  color: #ffffff;
+  background-color: #D65A2C;
+  border-color: #D65A2C;
+}
+
+.btn-info-fozkr:active,
+.btn-info-fozkr.active,
+.open .dropdown-toggle.btn-info-fozkr {
+  background-image: none;
+}
+
+.btn-info-fozkr.disabled,
+.btn-info-fozkr[disabled],
+fieldset[disabled] .btn-info-fozkr,
+.btn-info-fozkr.disabled:hover,
+.btn-info-fozkr[disabled]:hover,
+fieldset[disabled] .btn-info-fozkr:hover,
+.btn-info-fozkr.disabled:focus,
+.btn-info-fozkr[disabled]:focus,
+fieldset[disabled] .btn-info-fozkr:focus,
+.btn-info-fozkr.disabled:active,
+.btn-info-fozkr[disabled]:active,
+fieldset[disabled] .btn-info-fozkr:active,
+.btn-info-fozkr.disabled.active,
+.btn-info-fozkr[disabled].active,
+fieldset[disabled] .btn-info-fozkr.active {
+  background-color: #99c565;
+  border-color: #99c565;
 }
