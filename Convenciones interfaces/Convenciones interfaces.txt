@@ -1,21 +1,29 @@
-Site master: VerdeOET, con el logo de la OTS, letras blancas, la página seleccionada queda con las letras más grandes y en color negro
+Site master: VerdeOET, con el logo de la OTS, letras blancas,
+la página seleccionada queda con las letras más grandes y en color negro
+
+Colores:
+verdeOET: #7BC143
+amarilloOET: #d9534f
+naranjaOET: #FDBB30
+rojoOET (página): #F26631
 
 Botones:
--Aceptar: verdeOET
--Cancelar: naranjaOET
--Editar: amarillo/caféOET
--flechas comboboxes: amarillo/caféOET
+-Aceptar/Enviar/Guardar: verdeOET
+-Cancelar/Eliminar: rojoOET
+-Editar/Modificar: amarilloOET
+-Información/Resto: naranjaOET
+-flechas comboboxes (de ser posible): amarilloOET
 
 grids:
 -encabezado: verdeOET
--lìneas: grises
+-líneas: grises
 -fondo celdas: blanco
 
-Cuadros de texto: grises, con esquinas redondeadas, fondo blanco
+Cuadros de texto: bordes grises, con esquinas redondeadas, fondo blanco
 
 Login:
--muñequito sencillo negro
--nombre de usuario Y rol (en otra lìnea)
+-nombre de usuario
+-perfil de usuario (en otra línea)
 
 ***grupo único de botones para controlar tuplas en un grid
 ***los márgenes se hacen con porcentajes, no valores absolutos

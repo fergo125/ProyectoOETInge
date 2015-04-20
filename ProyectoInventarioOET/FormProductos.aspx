@@ -151,5 +151,11 @@
     <asp:GridView ID="listaDeProductos" runat="server">
     </asp:GridView>
 
-
+    <!-- Javascript -->
+    <!-- Modificar tab de site master activo -->
+    <script type = "text/javascript">
+        function setCurrentTab() {
+            document.getElementById("linkFormProductos").className = "active";
+        }
+    </script>
 </asp:Content>

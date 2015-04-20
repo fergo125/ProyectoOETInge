@@ -57,7 +57,7 @@
         </tr>
         <tr>
             <td colspan="4"><asp:DropDownList ID="dropDownList1" class="input input-fozkr-dropdownlist" runat="server" Width="450px"></asp:DropDownList></td>
-            <td><button type="button" id="botonAgregarProducto" class="btn btn-success" onserverclick="Page_Load" runat="server"><i>Agregar</i></button></td>
+            <td><button type="button" id="botonAgregarProducto" class="btn btn-success" onserverclick="Page_Load" runat="server">Agregar</button></td>
         </tr>
         <tr>
             <td colspan="2">Nombre</td>
@@ -85,8 +85,8 @@
         </tr>
         <tr>
             <td colspan="5">
-                <button type="button" id="Button2" class="btn btn-danger" href="#modalCancelarFactura" data-toggle="modal" style="float: left" runat="server"><i>Quitar producto</i></button>
-                <button type="button" id="Button1" class="btn btn-info" onserverclick="Page_Load" style="float: left" runat="server"><i>Aplicar descuento</i></button>
+                <button type="button" id="Button2" class="btn btn-danger" href="#modalCancelarFactura" data-toggle="modal" style="float: left" runat="server">Quitar producto</button>
+                <button type="button" id="Button1" class="btn btn-warning" onserverclick="Page_Load" style="float: left" runat="server">Aplicar descuento</button>
             </td>
         </tr>
         <tr>
@@ -98,8 +98,8 @@
         </tr>
         <tr>
             <td colspan="5">
-                <button type="button" id="botonGuardarFactura" class="btn btn-success" onserverclick="Page_Load" style="float: right" runat="server"><i>Guardar factura</i></button>
-                <button type="button" id="botonCancelarFactura" class="btn btn-danger" href="#modalCancelarFactura" data-toggle="modal" style="float: right" runat="server"><i>Cancelar factura</i></button>
+                <button type="button" id="botonGuardarFactura" class="btn btn-success" onserverclick="Page_Load" style="float: right" runat="server">Guardar factura</button>
+                <button type="button" id="botonCancelarFactura" class="btn btn-danger" href="#modalCancelarFactura" data-toggle="modal" style="float: right" runat="server">Cancelar factura</button>
             </td>
         </tr>
         </table>
