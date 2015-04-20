@@ -20,9 +20,9 @@
     </div>
 
     <!-- Cuerpo del Form -->
-    <button runat="server" onclick="showStuff('bloqueFormulario');" id="botonAgregarProductos" class=" btn btn-info" type="button" style="float: left"><i></i> Nuevo Producto</button>
-    <button runat="server" onclick="showStuff('bloqueFormulario');" id="botonModificacionProductos" class=" btn btn-info" type="button" style="float: left"><i></i> Modificar Producto </button>
-    <button runat="server" onclick="showStuff('bloqueGrid');" id="botonConsultaProductos" class=" btn btn-info" type="button" style="float: left"><i></i>Consulta de Productos </button>
+    <button runat="server" onclick="showStuff('bloqueFormulario', 'Nuevo Producto');" id="botonAgregarProductos" class=" btn btn-info" type="button" style="float: left"><i></i> Nuevo Producto</button>
+    <button runat="server" onclick="showStuff('bloqueFormulario', 'Modificación de Producto');" id="botonModificacionProductos" class=" btn btn-info" type="button" style="float: left"><i></i> Modificar Producto </button>
+    <button runat="server" onclick="showStuff('bloqueGrid', 'Consulta de Productos');" id="botonConsultaProductos" class=" btn btn-info" type="button" style="float: left"><i></i>Consulta de Productos </button>
     <button runat="server" onserverclick="botonRedireccionCategorias_ServerClick" id="botonRedireccionCategorias" class=" btn btn-primary" type="button" style="float:right" ><i></i> Categorías</button>
 
 
@@ -176,14 +176,14 @@
     
 
     <script type="text/javascript">
-        function showStuff(elementoATogglear) {
+        function showStuff(elementoATogglear, mensaje) {
             var estado = document.getElementById(elementoATogglear).style.display;
+            document.getElementById('MainContent_titulo').innerHTML = mensaje;
             if (elementoATogglear === 'bloqueFormulario') {
                 if (estado === 'none') {
                     document.getElementById('bloqueGrid').style.display = 'none';
                     document.getElementById(elementoATogglear).style.display = 'block';
                     document.getElementById('bloqueBotones').style.display = 'block';
-                    document.getElementById('MainContent_titulo').innerHTML = "Nuevo Producto";
                 } else {
                     document.getElementById(elementoATogglear).style.display = 'none';
                     document.getElementById('bloqueBotones').style.display = 'none';
@@ -192,7 +192,7 @@
                 document.getElementById('bloqueBotones').style.display = 'none';
                 if (estado === 'none') {
                     document.getElementById(elementoATogglear).style.display = 'block';
-                    document.getElementById('bloqueFormulario').style.display = 'none'
+                    document.getElementById('bloqueFormulario').style.display = 'none';
                 } else {
                     document.getElementById(elementoATogglear).style.display = 'none';
                 }
