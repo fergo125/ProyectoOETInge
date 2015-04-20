@@ -42,13 +42,14 @@
         <div class= "col-lg-5">
 
             <div class="form-group">
-                <label for="inputNombre" class= "control-label "> Nombre: </label>      
-                <input type="text" id= "inputNombre" class="form-control" ><br>
+                <label for="inputNombre" class= "control-label"> Nombre: </label>      
+                <input type="text" id= "inputNombre" class="form-control" required" ><br>
             </div>
 
             <div class="form-group">
                 <label for="inputDescripcion" class= "control-label"> Descripción: </label>      
-                <textarea rows="4" cols="50" id="inputDescripcion" class="form-control"> </textarea>
+                <textarea rows="4" cols="50" id="inputDescripcion" class="form-control" required> </textarea>
+
             </div>
           
             <div class="form-group">
@@ -78,18 +79,18 @@
 
             <div class= "form-group col-lg-6">
                 <label for="inputCodigo" class= "control-label"> Código: </label>      
-                <input type="text" id= "inputCodigo" class= "form-control" data-validation="number"><br>
+                <input type="text" id= "inputCodigo" class= "form-control" required><br>
             </div>
             
             <div class="form-group col-lg-6">
                 <label for="inputCodigoBarras" class= "control-label"> Código de Barras: </label>      
-                <input type="text" id= "inputCodigoBarras" class="form-control" ><br>
+                <input type="text" id= "inputCodigoBarras" class="form-control" required><br>
             </div>
 
 
             <div class="form-group col-lg-4">
                 <label for="inputUnidades" class= "control-label">Unidades: </label>
-                <input type="text" id="inputUnidades" class="form-control" ><br>
+                <input type="text" id="inputUnidades" class="form-control" required ><br>
             </div>
 
             <div class="form-group col-lg-4">
