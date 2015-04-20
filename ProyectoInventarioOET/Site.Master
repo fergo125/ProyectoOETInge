@@ -41,7 +41,7 @@
 
         <%--Background image--%>
         <div class="header page-header-fozkr">
-            <img alt="" src="App_Resources/ImagenSiteMaster.png"/>
+            <img alt="" src="App_Resources/LogoOET.png"/>
         </div>
         <%--Navigation bar--%>
         <div class="navbar navbar-fozkr navbar">
