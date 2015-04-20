@@ -15,6 +15,7 @@ namespace ProyectoInventarioOET
 
         protected void Page_Load(object sender, EventArgs e)
         {
+<<<<<<< HEAD
             testGrid();
         }
 
@@ -174,6 +175,9 @@ namespace ProyectoInventarioOET
             tabla.Columns.Add(columna);
 
             return tabla;
+=======
+            ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true);
+>>>>>>> origin/master
         }
 
         protected void mostrarMensaje(String tipoAlerta, String alerta, String mensaje)

@@ -40,7 +40,11 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.Label labelAlerta;
         
         /// <summary>
+<<<<<<< HEAD
         /// titulo control.
+=======
+        /// TituloProductos control.
+>>>>>>> origin/master
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
@@ -103,7 +107,11 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.DropDownList inpuFamilia;
         
         /// <summary>
+<<<<<<< HEAD
         /// inputEstado control.
+=======
+        /// inputProveedor control.
+>>>>>>> origin/master
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
@@ -112,7 +120,11 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.DropDownList inputEstado;
         
         /// <summary>
+<<<<<<< HEAD
         /// UpdatePanelPruebas control.
+=======
+        /// listaDeProductos control.
+>>>>>>> origin/master
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
