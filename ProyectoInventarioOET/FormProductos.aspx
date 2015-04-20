@@ -78,18 +78,18 @@
 
             <div class= "form-group col-lg-6">
                 <label for="inputCodigo" class= "control-label"> Código: </label>      
-                <input type="text" id= "inputCodigo" class= "form-control"><br>
+                <input type="text" id= "inputCodigo" class= "form-control" data-validation="number"><br>
             </div>
             
             <div class="form-group col-lg-6">
                 <label for="inputCodigoBarras" class= "control-label"> Código de Barras: </label>      
-                <input type="text" id= "inputCodigoBarras" class="form-control"><br>
+                <input type="text" id= "inputCodigoBarras" class="form-control" ><br>
             </div>
 
 
             <div class="form-group col-lg-4">
                 <label for="inputUnidades" class= "control-label">Unidades: </label>
-                <input type="text" id="inputUnidades" class="form-control"><br>
+                <input type="text" id="inputUnidades" class="form-control" ><br>
             </div>
 
             <div class="form-group col-lg-4">
@@ -144,6 +144,8 @@
             </div>
         </div>
         <br/> <br/>
+
+        <label for="UpdatePanelPruebas" class= "control-label" > Catálogo global de Productos </label>
         <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
             <ContentTemplate>
                 <asp:GridView ID="gridViewBodegas" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewBodegas_Seleccion" OnPageIndexChanging="gridViewBodegas_CambioPagina" runat="server" AllowPaging="True" PageSize="16" BorderColor="Transparent">
@@ -199,4 +201,7 @@
             }
         } // Final de funcion 
     </script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.1.47/jquery.form-validator.min.js"> </script>
+    <script> $.validate(); </script>
+
 </asp:Content>
