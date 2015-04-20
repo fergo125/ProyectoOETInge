@@ -1,31 +1,6 @@
 ﻿<%@ Page Title="Productos" Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="FormProductos.aspx.cs" Inherits="ProyectoInventarioOET.FormProductos" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-
-    <script type="text/javascript">
-        function showStuff(elementoATogglear) {
-            var estado = document.getElementById(elementoATogglear).style.display;
-            if (elementoATogglear === 'bloqueFormulario') {
-                if (estado === 'none') {
-                    document.getElementById('bloqueGrid').style.display = 'none';
-                    document.getElementById(elementoATogglear).style.display = 'block';
-                    document.getElementById('bloqueBotones').style.display = 'block';
-                } else {
-                    document.getElementById(elementoATogglear).style.display = 'none';
-                    document.getElementById('bloqueBotones').style.display = 'none';
-                }
-            } else {
-                document.getElementById('bloqueBotones').style.display = 'none';
-                if (estado === 'none') {
-                    document.getElementById(elementoATogglear).style.display = 'block';
-                    document.getElementById('bloqueFormulario').style.display = 'none'
-                } else {
-                    document.getElementById(elementoATogglear).style.display = 'none';
-                }
-            }
-        } // Final de funcion 
-    </script>
-
+<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">   
     <br />
     <!-- Label para desplegar mensajes -->
     <div>
@@ -40,7 +15,7 @@
 
     <!-- Título del Form -->
     <div>
-        <h2 id="TituloProductos" runat="server"> Productos </h2>
+        <h2 id="titulo" runat="server"> Consulta de Productos </h2>
         <hr />
     </div>
 
@@ -198,5 +173,30 @@
         <button id="botonAceptar" class="btn btn-info"  style="float: right" runat="server"> Aceptar </button>
     </div>
 
+    
 
+    <script type="text/javascript">
+        function showStuff(elementoATogglear) {
+            var estado = document.getElementById(elementoATogglear).style.display;
+            if (elementoATogglear === 'bloqueFormulario') {
+                if (estado === 'none') {
+                    document.getElementById('bloqueGrid').style.display = 'none';
+                    document.getElementById(elementoATogglear).style.display = 'block';
+                    document.getElementById('bloqueBotones').style.display = 'block';
+                    document.getElementById('MainContent_titulo').innerHTML = "Nuevo Producto";
+                } else {
+                    document.getElementById(elementoATogglear).style.display = 'none';
+                    document.getElementById('bloqueBotones').style.display = 'none';
+                }
+            } else {
+                document.getElementById('bloqueBotones').style.display = 'none';
+                if (estado === 'none') {
+                    document.getElementById(elementoATogglear).style.display = 'block';
+                    document.getElementById('bloqueFormulario').style.display = 'none'
+                } else {
+                    document.getElementById(elementoATogglear).style.display = 'none';
+                }
+            }
+        } // Final de funcion 
+    </script>
 </asp:Content>
