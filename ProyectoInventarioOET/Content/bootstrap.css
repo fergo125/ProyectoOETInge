@@ -3255,7 +3255,7 @@ input[type="button"].btn-block {
   margin: 2px 0 0;
   font-size: 14px;
   list-style: none;
-  background-color: #549210;    /*changed ffffff with 549210*/
+  background-color: #7BC143;    /*changed ffffff with 7BC143*/
   border: 1px solid #cccccc;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 4px;
@@ -4018,13 +4018,13 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .nav .caret {
-  border-top-color: #428bca;
-  border-bottom-color: #428bca;
+  border-top-color: #000000;    /*changed 428bca with 000000*/
+  border-bottom-color: #000000;    /*changed 428bca with 000000*/
 }
 
 .nav a:hover .caret {
-  border-top-color: #2a6496;
-  border-bottom-color: #2a6496;
+  border-top-color: #FFFFFF;    /*changed 2a6496 with FFFFFF*/
+  border-bottom-color: #FFFFFF;    /*changed 2a6496 with FFFFFF*/
 }
 
 .nav-tabs .dropdown-menu {

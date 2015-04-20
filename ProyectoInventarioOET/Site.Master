@@ -50,17 +50,43 @@
                     <ul class="nav navbar-nav navbar-brand">
                         <li id="linkFormProductos" class="dropdown">
                             <a runat="server" class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                Productos
-                                <span class="caret"></span>
+                                Productos<span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a runat="server" href="~/FormProductos">Gestión de productos</a></li>
-                                <li><a runat="server" href="~/FormProductos">Categorías de productos</a></li>
+                                <li><a runat="server" href="~/FormProductos">Catálogo global de productos</a></li>
+                                <li><a runat="server" href="~/FormCategorias">Categorías de productos</a></li>
+                            </ul>
+                        </li>
+                        <li id="linkFormBodegas" class="dropdown">
+                            <a runat="server" class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                Bodegas<span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a runat="server" href="~/FormBodegas">Catálogo local de productos</a></li>
+                                <li><a runat="server" href="~/FormBodegas">Gestión de bodegas</a></li>
+                                <li><a runat="server" href="~/FormActividades">Gestión de actividades</a></li>
+                            </ul>
+                        </li>
+                        <li id="linkFormInventario" class="dropdown">
+                            <a runat="server" class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                Inventario<span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a runat="server" href="~/FormContact">Entradas de inventario</a></li>
+                                <li><a runat="server" href="~/FormContact">Movimientos de inventario</a></li>
+                                <li><a runat="server" href="~/FormContact">Ajustes de inventario</a></li>
                             </ul>
                         </li>
                         <li id="linkFormVentas"><a runat="server" href="~/FormVentas">Ventas</a></li>
-                        <li><a runat="server" href="~/FormAbout">Reportes</a></li>
-                        <li><a runat="server" href="~/FormContact">Administración</a></li>
+                        <li id="linkFormAdministracion" class="dropdown">
+                            <a runat="server" class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                Administración<span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a runat="server" href="~/FormContact">Reportes</a></li>
+                                <li><a runat="server" href="~/FormContact">Seguridad</a></li>
+                            </ul>
+                        </li>
                     </ul>
                     <asp:LoginView runat="server" ViewStateMode="Disabled">
                         <AnonymousTemplate>

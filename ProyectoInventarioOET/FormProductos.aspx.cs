@@ -11,7 +11,7 @@ namespace ProyectoInventarioOET
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true);
         }
 
         protected void botonAgregarProductos_ServerClick(object sender, EventArgs e)
