@@ -216,5 +216,10 @@ namespace ProyectoInventarioOET
 
         }
 
+        protected void botonAceptarModalDesactivar_ServerClick(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }

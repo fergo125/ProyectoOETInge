@@ -160,6 +160,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="FormEntradas.aspx" />
     <Content Include="FormProductos.aspx" />
+    <Content Include="FormProductosLocales.aspx" />
     <Content Include="FormVentas.aspx" />
     <Content Include="packages.config" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -301,6 +302,13 @@
     </Compile>
     <Compile Include="FormProductos.aspx.designer.cs">
       <DependentUpon>FormProductos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FormProductosLocales.aspx.cs">
+      <DependentUpon>FormProductosLocales.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormProductosLocales.aspx.designer.cs">
+      <DependentUpon>FormProductosLocales.aspx</DependentUpon>
     </Compile>
     <Compile Include="FormVentas.aspx.cs">
       <DependentUpon>FormVentas.aspx</DependentUpon>
