@@ -76,33 +76,6 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlButton botonConsultarBodega;
         
         /// <summary>
-        /// Control FieldsetGridBodegas.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetGridBodegas;
-        
-        /// <summary>
-        /// Control UpdatePanelPruebas.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanelPruebas;
-        
-        /// <summary>
-        /// Control gridViewBodegas.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gridViewBodegas;
-        
-        /// <summary>
         /// Control FieldsetBodegas.
         /// </summary>
         /// <remarks>
@@ -166,6 +139,33 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.GridView gridViewCatalogoLocal;
         
         /// <summary>
+        /// Control FieldsetGridBodegas.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetGridBodegas;
+        
+        /// <summary>
+        /// Control UpdatePanelPruebas.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanelPruebas;
+        
+        /// <summary>
+        /// Control gridViewBodegas.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gridViewBodegas;
+        
+        /// <summary>
         /// Control botonAceptarModalCancelar.
         /// </summary>
         /// <remarks>
@@ -173,14 +173,5 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlButton botonAceptarModalCancelar;
-        
-        /// <summary>
-        /// Control botonAceptarModalDesactivar.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonAceptarModalDesactivar;
     }
 }
