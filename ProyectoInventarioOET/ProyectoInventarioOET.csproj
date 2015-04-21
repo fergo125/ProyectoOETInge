@@ -39,11 +39,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Oracle.ManagedDataAccess, Version=4.121.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.DirectoryServices.Protocols" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
@@ -167,6 +171,17 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Account\Web.config" />
     <Content Include="FormBodegas.aspx" />
+    <Content Include="DataSets\DataSetBodegas.xsc">
+      <DependentUpon>DataSetBodegas.xsd</DependentUpon>
+    </Content>
+    <None Include="DataSets\DataSetBodegas.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSetBodegas.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="DataSets\DataSetBodegas.xss">
+      <DependentUpon>DataSetBodegas.xsd</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -250,7 +265,15 @@
     <Compile Include="Account\RegisterExternalLogin.aspx.designer.cs">
       <DependentUpon>RegisterExternalLogin.aspx</DependentUpon>
     </Compile>
+    <Content Include="App_Code\Módulo Bodegas\EntidadBodega.cs" />
+    <Content Include="App_Code\Módulo Bodegas\ControladoraBodegas.cs" />
+    <Content Include="App_Code\Módulo Bodegas\ControladoraBDBodegas.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="DataSets\DataSetBodegas.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSetBodegas.xsd</DependentUpon>
+    </Compile>
     <Compile Include="FormAbout.aspx.cs">
       <DependentUpon>FormAbout.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -345,7 +368,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Code\" />
     <Folder Include="App_Data\" />
     <Folder Include="App_Resources\" />
   </ItemGroup>
