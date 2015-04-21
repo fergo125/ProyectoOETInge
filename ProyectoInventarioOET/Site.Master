@@ -50,6 +50,7 @@
             <div class="container">
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-brand">
+                        <%--Productos--%>
                         <li id="linkFormProductos" class="dropdown">
                             <a runat="server" class="dropdown-toggle" data-toggle="dropdown" href="#">
                                 Productos<span class="caret"></span>
@@ -59,6 +60,7 @@
                                 <li><a runat="server" href="~/FormCategorias">Categorías de productos</a></li>
                             </ul>
                         </li>
+                        <%--Bodegas--%>
                         <li id="linkFormBodegas" class="dropdown">
                             <a runat="server" class="dropdown-toggle" data-toggle="dropdown" href="#">
                                 Bodegas<span class="caret"></span>
@@ -69,6 +71,7 @@
                                 <li><a runat="server" href="~/FormActividades">Gestión de actividades</a></li>
                             </ul>
                         </li>
+                        <%--Inventario--%>
                         <li id="linkFormInventario" class="dropdown">
                             <a runat="server" class="dropdown-toggle" data-toggle="dropdown" href="#">
                                 Inventario<span class="caret"></span>
@@ -79,7 +82,9 @@
                                 <li><a runat="server" href="~/FormContact">Ajustes de inventario</a></li>
                             </ul>
                         </li>
+                        <%--Ventas--%>
                         <li id="linkFormVentas"><a runat="server" href="~/FormVentas">Ventas</a></li>
+                        <%--Administración--%>
                         <li id="linkFormAdministracion" class="dropdown">
                             <a runat="server" class="dropdown-toggle" data-toggle="dropdown" href="#">
                                 Administración<span class="caret"></span>
@@ -93,7 +98,7 @@
                     <asp:LoginView runat="server" ViewStateMode="Disabled">
                         <AnonymousTemplate>
                             <ul class="nav navbar-nav navbar-right">
-                                <li><a runat="server" href="~/Account/Register">Registrarse</a></li>
+                                <%--<li><a runat="server" href="~/Account/Register">Registrarse</a></li>--%>
                                 <li><a runat="server" href="~/Account/Login">Iniciar sesión</a></li>
                             </ul>
                         </AnonymousTemplate>

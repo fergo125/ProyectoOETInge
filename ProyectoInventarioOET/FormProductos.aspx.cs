@@ -15,6 +15,7 @@ namespace ProyectoInventarioOET
 
         protected void Page_Load(object sender, EventArgs e)
         {
+<<<<<<< HEAD
             testGrid();
         }
 
@@ -176,6 +177,9 @@ namespace ProyectoInventarioOET
             return tabla;
 
             ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true);
+=======
+            ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
+>>>>>>> origin/master
         }
 
         protected void mostrarMensaje(String tipoAlerta, String alerta, String mensaje)
