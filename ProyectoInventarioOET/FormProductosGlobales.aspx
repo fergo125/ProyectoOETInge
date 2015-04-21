@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Productos" Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="FormProductos.aspx.cs" Inherits="ProyectoInventarioOET.FormProductos" %>
+﻿<%@ Page Title="Productos" Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="FormProductosGlobales.aspx.cs" Inherits="ProyectoInventarioOET.FormProductos" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">   
     <br />
@@ -34,8 +34,6 @@
     <div class= "row" id="bloqueFormulario" style="display:none">
     <fieldset id= "FieldsetProductos" runat="server" class="fieldset">
         <br />
-        <br />
-        <br />
 
         <div class= "col-lg-5">
 
@@ -70,7 +68,7 @@
                 <input type="text" id= "inputCostoDolares" class="form-control" ><br>
             </div>--%>
 
-
+            <label class="text-danger text-center">Los campos con (*) son obligatorios</label>
         </div>
 
         <div class="col-lg-7">
@@ -128,18 +126,19 @@
         </div>
 
     </fieldset>
-     <label class="text-danger text-center">Los campos con (*) son obligatorios</label>
     </div>
 
 
      <!-- Grid de Consulta de productos -->
       <!-- Gridview de consultar -->
-    <br/> <br/>
+    <br/>
 
      <div class="col-lg-12" id="bloqueGrid">
-       <div class="row">
-            <div class="col-xs-9">
-                <input class="form-control" type="search" placeholder="Busqueda">
+       
+         <div class="row">
+            <label class= "col-lg-1"> Buscar: </label>
+            <div class="col-lg-11">
+                <input id="barraDeBusqueda" class="form-control" type="search" placeholder="Busqueda">
                 <span class="glyphicon glyphicon-search"></span>
             </div>
         </div>

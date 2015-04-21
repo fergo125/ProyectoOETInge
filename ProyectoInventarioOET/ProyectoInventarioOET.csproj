@@ -159,7 +159,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="FormEntradas.aspx" />
-    <Content Include="FormProductos.aspx" />
+    <Content Include="FormProductosGlobales.aspx" />
     <Content Include="FormVentas.aspx" />
     <Content Include="packages.config" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -295,12 +295,12 @@
     <Compile Include="FormEntradas.aspx.designer.cs">
       <DependentUpon>FormEntradas.aspx</DependentUpon>
     </Compile>
-    <Compile Include="FormProductos.aspx.cs">
-      <DependentUpon>FormProductos.aspx</DependentUpon>
+    <Compile Include="FormProductosGlobales.aspx.cs">
+      <DependentUpon>FormProductosGlobales.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="FormProductos.aspx.designer.cs">
-      <DependentUpon>FormProductos.aspx</DependentUpon>
+    <Compile Include="FormProductosGlobales.aspx.designer.cs">
+      <DependentUpon>FormProductosGlobales.aspx</DependentUpon>
     </Compile>
     <Compile Include="FormVentas.aspx.cs">
       <DependentUpon>FormVentas.aspx</DependentUpon>
