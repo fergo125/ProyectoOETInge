@@ -15,26 +15,24 @@
 
     <!-- Título del Form -->
     <div>
-        <h2 id="titulo" runat="server"> Consulta de Productos </h2>
+        <h2 runat="server"> Catálogo global de productos </h2>
         <hr />
     </div>
 
     <!-- Cuerpo del Form -->
-    <button runat="server" onclick="showStuff('bloqueFormulario', 'Nuevo Producto');" id="botonAgregarProductos" class=" btn btn-info" type="button" style="float: left"><i></i> Nuevo Producto</button>
-    <button runat="server" onclick="showStuff('bloqueFormulario', 'Modificación de Producto');" id="botonModificacionProductos" class=" btn btn-info" type="button" style="float: left"><i></i> Modificar Producto </button>
-    <button runat="server" onclick="showStuff('bloqueGrid', 'Consulta de Productos');" id="botonConsultaProductos" class=" btn btn-info" type="button" style="float: left"><i></i>Consulta de Productos </button>
-    <button runat="server" onserverclick="botonRedireccionCategorias_ServerClick" id="botonRedireccionCategorias" class=" btn btn-primary" type="button" style="float:right" ><i></i> Categorías</button>
+    <button runat="server" onclick="showStuff('bloqueFormulario', 'Nuevo producto');" id="botonAgregarProductos" class=" btn btn-info" type="button" style="float: left"><i></i> Nuevo Producto</button>
+    <button runat="server" onclick="showStuff('bloqueFormulario', 'Modificación de producto');" id="botonModificacionProductos" class=" btn btn-info" type="button" style="float: left"><i></i> Modificar Producto </button>
+    <button runat="server" onclick="showStuff('bloqueGrid', 'Consulta de productos');" id="botonConsultaProductos" class=" btn btn-info" type="button" style="float: left"><i></i>Consulta de Productos </button>
 
 
     <br />
     <br />
 
+    <h3 id="tituloAccion"> Consulta de productos </h3>
 
     <!-- Fieldset que muestra el form para agregar un nuevo producto -->
     <div class= "row" id="bloqueFormulario" style="display:none">
     <fieldset id= "FieldsetProductos" runat="server" class="fieldset">
-<%--        <legend >Ingresar datos de nuevo producto: </legend>--%>
-    
         <br />
         <br />
         <br />
@@ -130,6 +128,7 @@
         </div>
 
     </fieldset>
+     <label class="text-danger text-center">Los campos con (*) son obligatorios</label>
     </div>
 
 
@@ -146,7 +145,7 @@
         </div>
         <br/> <br/>
 
-        <label for="UpdatePanelPruebas" class= "control-label" > Catálogo global de Productos </label>
+<%--        <label for="UpdatePanelPruebas" class= "control-label" > Catálogo global de Productos </label>--%>
         <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
             <ContentTemplate>
                 <asp:GridView ID="gridViewBodegas" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewBodegas_Seleccion" OnPageIndexChanging="gridViewBodegas_CambioPagina" runat="server" AllowPaging="True" PageSize="16" BorderColor="Transparent">
@@ -171,16 +170,18 @@
 
 
 <%--    Botones de aceptar y cancelar acción--%> 
-    <div class= "row" id="bloqueBotones" style="display:none">
-        <button id= "botonCancelar" class="btn btn-danger" style="float: right" runat="server"> Cancelar </button>
-        <button id="botonAceptar" class="btn btn-info"  style="float: right" runat="server"> Aceptar </button>
+    <div class= "row" id="bloqueBotones" style="display:none;">
+        <div class="text-center">
+            <button id="botonAceptarProducto" class="btn btn-success-fozkr" type="button" runat="server"> Aceptar </button>
+            <a id="botonCancelarProducto" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cancelar</a>
+        </div>
     </div>
 
    
     <script type="text/javascript">
         function showStuff(elementoATogglear, mensaje) {
             var estado = document.getElementById(elementoATogglear).style.display;
-            document.getElementById('MainContent_titulo').innerHTML = mensaje;
+            document.getElementById('tituloAccion').innerHTML = mensaje;
             if (elementoATogglear === 'bloqueFormulario') {
                 if (estado === 'none') {
                     document.getElementById('bloqueGrid').style.display = 'none';
@@ -211,4 +212,25 @@
             document.getElementById("linkFormProductos").className = "active";
         }
     </script>
+
+
+    <div class="modal fade" id="modalCancelar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="modalTitle"><i class="fa fa-exclamation-triangle text-danger fa-2x"></i>Confirmar cancelación</h4>
+                </div>
+                <div class="modal-body">
+                    ¿Está seguro que desea cancelar los cambios? Perdería todos los datos no guardados.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="botonAceptarModalCancelar" class="btn btn-success-fozkr" runat="server"> Aceptar</button>
+                    <button type="button" id="botonCancelarModalCancelar" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </asp:Content>
