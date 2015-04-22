@@ -25,57 +25,52 @@
     <button runat="server" onclick="showStuff('bloqueGrids', 'Consulta de bodegas');" id="botonConsultarBodega" class=" btn btn-info" type="button" style="float: left"><i></i>Consultar Bodegas</button>
     <br />
     <br />
-
+    
+        <h3 id="tituloAccionBodegas"></h3>
+        <br />
 
     <div class= "row" id="bloqueFormulario" style="display:none">
  
         <!-- Fieldset que muestra el form para agregar una nueva bodega -->
         <fieldset id= "FieldsetBodegas" runat="server" class="fieldset">
-        <legend id="tituloAccionBodegas"></legend>
-        <br />
 
-        <div class="row">
             <div class= "col-lg-3">
-                <div class="form-group">
+                <div class="form-group col-lg-12">
                     <label for="inputEmpresa" class="control-label">Empresa: </label>
                     <asp:DropDownList ID="comboBoxEmpresa" runat="server" CssClass="form-control">
                     </asp:DropDownList>
                 </div>
             </div>
             <div class="col-lg-3">
-                <div class="form-group">
+                <div class="form-group col-lg-12">
                     <label for="inputEstacion" class="control-label">Estación: </label>
                     <asp:DropDownList ID="comboBoxEstacion" runat="server" CssClass="form-control">
                     </asp:DropDownList>
                 </div>
             </div>
             <div class="col-lg-6">
-                <div class= "form-group">
+                <div class= "form-group col-lg-12">
                     <label for="inputNombre" class= "control-label"> Nombre: </label>      
                     <input type="text" id= "inputNombre" class= "form-control"><br>
                 </div>
             </div>
-        </div>
         
 
-        <div class="row">
             <div class="col-lg-3">
-                <div class="form-group">
+                <div class="form-group col-lg-12">
                         <label for="inputEstado" class="control-label">Estado: </label>
                     <asp:DropDownList ID="dropdownEstado" runat="server" CssClass="form-control">
                     </asp:DropDownList>
                 </div>
 
             </div>
-            <div class="col-lg-5">
-
-                       
+            <div class="col-lg-9">
             </div>
+                <label for="textoObligatorioBodega" class="text-danger text-center">Los campos con (*) son obligatorios</label>
+        
 
-        </div>
 
         </fieldset>
-        <label for="textoObligatorioBodega" class="text-danger text-center">Los campos con (*) son obligatorios</label>
 
     </div>
 
