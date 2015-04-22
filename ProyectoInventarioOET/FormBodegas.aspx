@@ -1,8 +1,6 @@
 ﻿<%@ Page Title="Bodegas" Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="FormBodegas.aspx.cs" Inherits="ProyectoInventarioOET.FormBodegas" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-
-
     <br />
     <!-- Label para desplegar mensajes -->
     <div>
@@ -24,7 +22,7 @@
       <!-- Cuerpo del Form -->
     <button runat="server" onclick="showStuff('bloqueFormulario', 'Nueva bodega');" id="botonAgregarBodega" class=" btn btn-info" type="button" style="float: left"><i></i>Nueva Bodega</button>
     <button runat="server" onclick="showStuff('bloqueFormulario', 'Modificación de bodega');" id="botonModificarBodega" class=" btn btn-info" type="button" style="float: left"><i></i>Modificar Bodega</button>
-    <button runat="server" onserverclick="botonConsultarBodega_consultarBodegas"  onclick="showStuff('bloqueGrids', 'Consulta de bodegas');" id="botonConsultarBodega" class=" btn btn-info" type="button" style="float: left"><i></i>Consultar Bodegas</button>
+    <button runat="server" onclick="showStuff('bloqueGrids', 'Consulta de bodegas');" id="botonConsultarBodega" class=" btn btn-info" type="button" style="float: left"><i></i>Consultar Bodegas</button>
     <br />
     <br />
 
@@ -33,21 +31,21 @@
  
         <!-- Fieldset que muestra el form para agregar una nueva bodega -->
         <fieldset id= "FieldsetBodegas" runat="server" class="fieldset">
-        <h3 id="tituloAccionBodegas"></h3>
+        <legend id="tituloAccionBodegas"></legend>
         <br />
 
         <div class="row">
             <div class= "col-lg-3">
                 <div class="form-group">
                     <label for="inputEmpresa" class="control-label">Empresa: </label>
-                    <asp:DropDownList ID="dropdownEmpresa" runat="server" CssClass="form-control">
+                    <asp:DropDownList ID="comboBoxEmpresa" runat="server" CssClass="form-control">
                     </asp:DropDownList>
                 </div>
             </div>
             <div class="col-lg-3">
                 <div class="form-group">
                     <label for="inputEstacion" class="control-label">Estación: </label>
-                    <asp:DropDownList ID="dropdownEstacion" runat="server" CssClass="form-control">
+                    <asp:DropDownList ID="comboBoxEstacion" runat="server" CssClass="form-control">
                     </asp:DropDownList>
                 </div>
             </div>
@@ -96,34 +94,6 @@
 
 
     <div id="bloqueGrids" class="col-lg-12" style="display:none">
-        <fieldset id="FieldsetCatalogoLocal" center="left" runat="server" class="fieldset">
-      <!-- Gridview de consultar -->
-     <div class="col-lg-12">
-        <asp:UpdatePanel ID="UpdatePanelCatalogoLocal" runat="server">
-            <ContentTemplate>
-                <asp:GridView ID="gridViewCatalogoLocal" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewCatalogoLocal_Seleccion" OnPageIndexChanging="gridViewCatalogoLocal_CambioPagina" runat="server" AllowPaging="True" PageSize="16" BorderColor="Transparent">
-                    <Columns>
-                        <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn-default" CommandName="Select" Text="Consultar">
-                            <ControlStyle CssClass="btn-default disabled"></ControlStyle>
-                        </asp:ButtonField>
-                   </Columns>
-                   <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
-                   <PagerStyle CssClass="paging" HorizontalAlign="Center" />
-                   <AlternatingRowStyle BackColor="#EBEBEB" />
-                   <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
-                   <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" />
-              </asp:GridView>
-         </ContentTemplate>
-         <Triggers>
-            <asp:AsyncPostBackTrigger ControlID="gridViewBodegas" EventName="RowCommand" />
-         </Triggers>
-      </asp:UpdatePanel>
-   </div>
-    <br />
-    <br />
-    <br />
-    </fieldset>
-
         <fieldset id="FieldsetGridBodegas" center="left" runat="server" class="fieldset">
           <!-- Gridview de consultar -->
          <div class="col-lg-12">
@@ -150,9 +120,7 @@
         <br />
         <br />
         <br />
-        </fieldset>
-
-
+        </fieldset>        
     </div>
     
 
@@ -215,7 +183,7 @@
                     document.getElementById(elementoATogglear).style.display = 'none';
                 }
             }
-        } // Final de funcion
+        } // Final de funcion 
     </script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.1.47/jquery.form-validator.min.js"> </script>
     <script> $.validate(); </script>

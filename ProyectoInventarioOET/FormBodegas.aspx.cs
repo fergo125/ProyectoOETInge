@@ -68,8 +68,6 @@ namespace ProyectoInventarioOET
 
             this.gridViewBodegas.DataSource = tabla;
             this.gridViewBodegas.DataBind();
-            this.gridViewCatalogoLocal.DataSource = tabla2;
-            this.gridViewCatalogoLocal.DataBind();
         
         
         }
@@ -201,13 +199,6 @@ namespace ProyectoInventarioOET
                     break;
             }
         }
-
-        protected void gridViewCatalogoLocal_CambioPagina(Object sender, GridViewPageEventArgs e)
-        {
-            this.gridViewCatalogoLocal.PageIndex = e.NewPageIndex;
-            this.gridViewCatalogoLocal.DataBind();
-        }
-
 
         protected void botonAceptarBodega_ServerClick(object sender, EventArgs e)
         {
