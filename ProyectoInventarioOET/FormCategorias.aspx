@@ -29,39 +29,128 @@
         <hr />
     </div>
 
+
     <!-- Cuerpo del Form -->
-    <button runat="server" onclick="showStuff('MainContent_FieldsetCategoria');" id="botonAgregarCategorias" class=" btn btn-info" type="button" style="float: left" > Nueva Categoría</button>
-    <button runat="server" onclick="showStuff('MainContent_FieldsetCategoria');" id="botonModificacionCategorias" class=" btn btn-info" type="button" style="float: left"><i></i> Modificar Categoría </button>
-    <button runat="server" onserverclick="Page_Load" id="botonConsultaCategorias" class=" btn btn-info" type="button" style="float: left"><i></i>Consulta de Categorías </button>
-    <button runat="server" onserverclick="botonRedireccionProductos_ServerClick" id="botonRedireccionProductos" class=" btn btn-primary" type="button" style="float:right" ><i></i> Productos</button>
+    <button runat="server" onclick="showStuff('bloqueFormulario', 'Nueva Categoria');" id="botonAgregarCategoria" class=" btn btn-info" type="button" style="float: left"><i></i> Nueva Categoria</button>
+    <button runat="server" onclick="showStuff('bloqueFormulario', 'Modificación de Categoria');" id="botonModificacionCategoria" class=" btn btn-info" type="button" style="float: left"><i></i> Modificar Categoria </button>
+    <button runat="server" onclick="showStuff('bloqueGrid', 'Consulta de Categoria');" id="botonConsultaCategoria" class=" btn btn-info" type="button" style="float: left"><i></i>Consulta de Categorias </button>
 
 
     <br />
     <br />
 
+    <h3 id="tituloAccion"> Consulta de Categorias </h3>
 
-         <!-- Fieldset para Categorías -->
-    <fieldset id= "FieldsetCategoria" style="display:none" runat="server" class="fieldset">
-        <legend> Ingresar datos de nueva Categoría de productos: </legend>
-    
-        <br />
-        <br />
+    <!-- Fieldset que muestra el form para agregar un nuevo categoria -->
+    <div class= "row" id="bloqueFormulario" style="display:none">
+    <fieldset id= "FieldsetCategorias" class="fieldset">
         <br />
 
-        <div class= "col-md-6">
+        <div class= "col-lg-5">
 
-            <div class= "form-group">
-                <label for="inputNombreCategoria" class= "control-label"> Nombre: </label>      
-                <input type="text" id= "inputNombreCategoria" class= "form-control"><br>
-            </div>
-        </div>
-
-        <div class="col-md-6">
             <div class="form-group">
-                <label for="inputDescripcionCategoria" class= "control-label"> Descripción: </label>      
-                <input type="text" id= "inputDescripcionCategoria" class="form-control"><br>
+                <label for="inputNombre" class= "control-label"> Nombre: </label>      
+                <input type="text" id= "inputNombre" class="form-control" required runat="server" ><br>
             </div>
 
+          
+
+            <label class="text-danger text-center">Los campos con (*) son obligatorios</label>
         </div>
+
     </fieldset>
+    </div>
+
+
+     <!-- Grid de Consulta de categorias -->
+      <!-- Gridview de consultar -->
+    <br/>
+
+     <div class="col-lg-12" id="bloqueGrid">
+
+<%--        <label for="UpdatePanelPruebas" class= "control-label" > Catálogo global de categorias </label> OnRowCommand="gridViewCategorias_Seleccion" OnPageIndexChanging="gridViewCategorias_CambioPagina"--%>
+        <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
+            <ContentTemplate>
+                <asp:GridView ID="gridViewCategorias" CssClass="table able-responsive table-condensed" runat="server" OnRowCommand="gridViewCategorias_Seleccion" OnPageIndexChanging="gridViewCategorias_CambioPagina" AllowPaging="True" PageSize="16" BorderColor="Transparent">
+                    <Columns>
+                        <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn-default" CommandName="Select" Text="Consultar">
+                            <ControlStyle CssClass="btn-default disabled"></ControlStyle>
+                        </asp:ButtonField>
+                   </Columns>
+                   <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
+                   <PagerStyle CssClass="paging" HorizontalAlign="Center" />
+                   <AlternatingRowStyle BackColor="#EBEBEB" />
+                   <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
+                   <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" />
+              </asp:GridView>
+         </ContentTemplate>
+         <Triggers>
+            <asp:AsyncPostBackTrigger ControlID="gridViewCategorias" EventName="RowCommand" />
+         </Triggers>
+      </asp:UpdatePanel>
+   </div>
+
+
+
+<%--    Botones de aceptar y cancelar acción--%> 
+    <div class= "row" id="bloqueBotones" style="display:none;">
+        <div class="text-center">
+            <button id="botonAceptarCategoria" class="btn btn-success-fozkr" type="button" runat="server"> Aceptar </button>
+            <a id="botonCancelarCategoria" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cancelar</a>
+        </div>
+    </div>
+
+   
+    <script type="text/javascript">
+        function showStuff(elementoATogglear, mensaje) {
+            var estado = document.getElementById(elementoATogglear).style.display;
+            document.getElementById('tituloAccion').innerHTML = mensaje;
+            if (elementoATogglear === 'bloqueFormulario') {
+                if (estado === 'none') {
+                    document.getElementById('bloqueGrid').style.display = 'none';
+                    document.getElementById(elementoATogglear).style.display = 'block';
+                    document.getElementById('bloqueBotones').style.display = 'block';
+                } else {
+                    document.getElementById(elementoATogglear).style.display = 'none';
+                    document.getElementById('bloqueBotones').style.display = 'none';
+                }
+            } else {
+                document.getElementById('bloqueBotones').style.display = 'none';
+                if (estado === 'none') {
+                    document.getElementById(elementoATogglear).style.display = 'block';
+                    document.getElementById('bloqueFormulario').style.display = 'none';
+                } else {
+                    document.getElementById(elementoATogglear).style.display = 'none';
+                }
+            }
+        } // Final de funcion 
+    </script>
+
+    <!-- Javascript -->
+    <!-- Modificar tab de site master activo -->
+    <script type = "text/javascript">
+        function setCurrentTab() {
+            document.getElementById("linkFormCategorias").className = "active";
+        }
+    </script>
+
+
+    <div class="modal fade" id="modalCancelar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="modalTitle"><i class="fa fa-exclamation-triangle text-danger fa-2x"></i>Confirmar cancelación</h4>
+                </div>
+                <div class="modal-body">
+                    ¿Está seguro que desea cancelar los cambios? Perdería todos los datos no guardados.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="botonAceptarModalCancelar" class="btn btn-success-fozkr" runat="server"> Aceptar</button>
+                    <!--onserverclick="botonCancelarModalCancelar_ServerClick" --> 
+                    <button type="button" id="botonCancelarModalCancelar" class="btn btn-danger-fozkr" onserverclick="botonCancelarModalCancelar_ServerClick" data-dismiss="modal" runat="server" >Cancelar</button>                   
+                </div>
+            </div>
+        </div>
+    </div>
 </asp:Content>
