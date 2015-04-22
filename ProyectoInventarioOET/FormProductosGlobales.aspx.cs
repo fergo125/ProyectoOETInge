@@ -10,8 +10,8 @@ namespace ProyectoInventarioOET
 {
     public partial class FormProductosGlobales : System.Web.UI.Page
     {
-        private static int modo = 0;
-        private static int modoC = 0;
+        enum Modo { Inicial,  Consulta, Insercion, Modificacion};
+        private static int modo = (int) Modo.Inicial;
         private static int idProducto = 0; //Sirve para estar en modo consulta
         private static int idRequerimiento = 0;
         private static int idCriterio = 0;
@@ -20,6 +20,7 @@ namespace ProyectoInventarioOET
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            modo = (int)Modo.Inicial;
             testGrid();
         }
 
@@ -217,15 +218,35 @@ namespace ProyectoInventarioOET
         protected void limpiarCampos()
         {
             this.inputNombre.Value = "";
-            this.inputDescripcion.Value = "";
             this.inputCodigo.Value = "";
             this.inputCodigoBarras.Value = "";
-            this.inputUnidades.Value = "";
         }
+
+        protected void deshabilitarCampos() 
+        {
+            this.inputNombre.Disabled = true;
+            this.inputCodigo.Disabled = true;
+            this.inputCodigoBarras.Disabled = true;
+            this.inputUnidades.Enabled = false;
+            this.inpuCategoria.Enabled = false;
+            this.inputEstado.Enabled = false; 
+        }
+
+        protected void habilitarCampos()
+        {
+            this.inputNombre.Disabled = false;
+            this.inputCodigo.Disabled = false;
+            this.inputCodigoBarras.Disabled = false;
+            this.inputUnidades.Enabled = true;
+            this.inpuCategoria.Enabled = true;
+            this.inputEstado.Enabled = true;
+        }
+
 
         protected void botonCancelarModalCancelar_ServerClick(object sender, EventArgs e)
         {
             limpiarCampos();
+            deshabilitarCampos();
         }
 
 

@@ -37,20 +37,20 @@
 
         <div class= "col-lg-5">
 
-            <div class="form-group">
+            <div class="form-group col-lg-12" >
                 <label for="inputNombre" class= "control-label"> Nombre: </label>      
                 <input type="text" id= "inputNombre" class="form-control" required runat="server" ><br>
             </div>
 
-            <div class="form-group">
+<%--            <div class="form-group">
                 <label for="inputDescripcion" class= "control-label"> Descripción: </label>      
                 <textarea rows="4" cols="50" id="inputDescripcion" class="form-control" required runat="server"> </textarea>
 
-            </div>
+            </div>--%>
           
-            <div class="form-group">
-                <label for="inputFamilia" class= "control-label"> Categoría: </label>     
-                <asp:DropDownList id= "inpuFamilia" runat="server" class="form-control"> </asp:DropDownList> 
+            <div class="form-group col-lg-12">
+                <label for="inputCategoria" class= "control-label"> Categoría: </label>     
+                <asp:DropDownList id= "inpuCategoria" runat="server" class="form-control"> </asp:DropDownList> 
             </div>
 
 <%--            <div class="form-group">
@@ -58,18 +58,16 @@
                 <input type="text" id= "inputCantidad"  class="form-control" >
             </div>--%>
 
-<%--            <div class="form-group">
-                <label for="inputCostoColones" class= "control-label"> Costo (colones): </label>      
-                <input type="text" id= "inputCostoColones" class="form-control" ><br>
-            </div>--%>
-
-<%--            <div class="form-group">
-                <label for="inputCostoDolares" class= "control-label"> Costo (dolares): </label>      
-                <input type="text" id= "inputCostoDolares" class="form-control" ><br>
-            </div>--%>
+            <div class="form-group col-lg-12">
+                <label for="inputUnidades" class= "control-label">Unidades: </label>
+                <asp:DropDownList ID="inputUnidades" runat="server" class="form-control"></asp:DropDownList>
+            </div>
 
             <label class="text-danger text-center">Los campos con (*) son obligatorios</label>
         </div>
+
+
+<%--        COLUMNA IZQUIERDA--%>
 
         <div class="col-lg-7">
 
@@ -83,15 +81,25 @@
                 <input type="text" id= "inputCodigoBarras" name= "inputCodigoBarras" class="form-control" required runat="server"><br>
             </div>
 
-
-            <div class="form-group col-lg-4">
-                <label for="inputUnidades" class= "control-label">Unidades: </label>
-                <input type="text" id="inputUnidades" class="form-control" required runat="server" ><br>
+            <div class="form-group col-lg-6">
+                <label for="inputEstacion" class= "control-label" >Estación: </label>
+                <asp:DropDownList ID="inputEstacion" runat="server" class="form-control"></asp:DropDownList>
             </div>
 
-            <div class="form-group col-lg-4">
+
+            <div class="form-group col-lg-6">
                 <label for="inputEstado" class= "control-label" >Estado: </label>
                 <asp:DropDownList ID="inputEstado" runat="server" class="form-control"></asp:DropDownList>
+            </div>
+
+            <div class="form-group col-lg-6">
+                <label for="inputCostoColones" class= "control-label"> Costo (colones): </label>      
+                <input type="text" id= "inputCostoColones" class="form-control" ><br>
+            </div>
+
+            <div class="form-group col-lg-6">
+                <label for="inputCostoDolares" class= "control-label"> Costo (dolares): </label>      
+                <input type="text" id= "inputCostoDolares" class="form-control" ><br>
             </div>
 
 <%--            <div class="form-group">
@@ -119,10 +127,8 @@
                 <asp:DropDownList ID="inputProveedor" runat="server" class="form-control"></asp:DropDownList>
             </div>--%>
 
-<%--            <div class="form-group">
-                <label for="inputEstacion" class= "control-label" >Estación: </label>
-                <asp:DropDownList ID="inputEstacion" runat="server" class="form-control"></asp:DropDownList>
-            </div>--%>
+
+
         </div>
 
     </fieldset>
