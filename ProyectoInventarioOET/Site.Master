@@ -16,6 +16,8 @@
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <link href="Content/bootstrap.css" rel="stylesheet" />
 </head>
+
+
 <body>
     <form runat="server">
         <asp:ScriptManager runat="server">
@@ -54,7 +56,7 @@
                                 Productos<span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a runat="server" href="~/FormProductos">Catálogo global de productos</a></li>
+                                <li><a runat="server" href="~/FormProductosGlobales">Catálogo global de productos</a></li>
                                 <li><a runat="server" href="~/FormCategorias">Categorías de productos</a></li>
                             </ul>
                         </li>
@@ -117,7 +119,7 @@
             </asp:ContentPlaceHolder>
             <hr />
             <footer>
-                <p>&copy; <%: DateTime.Now.Year %> - Mi aplicación ASP.NET</p>
+                <p>&copy; <%: DateTime.Now.Year %> - Organización de Estudios Tropicales</p>
             </footer>
         </div>
     </form>

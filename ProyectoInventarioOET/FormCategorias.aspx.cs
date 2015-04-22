@@ -20,6 +20,21 @@ namespace ProyectoInventarioOET
             Response.Redirect("FormProductos.aspx");
         }
 
+        protected void gridViewCategorias_Seleccion(object sender, GridViewCommandEventArgs e)
+        {
+
+        }
+
+        protected void gridViewCategorias_CambioPagina(object sender, GridViewPageEventArgs e)
+        {
+
+        }
+
+        protected void botonCancelarModalCancelar_ServerClick(object sender, EventArgs e)
+        {
+
+        }
+
 
     }
 }

@@ -10,7 +10,7 @@
 namespace ProyectoInventarioOET {
     
     
-    public partial class FormBodegas {
+    public partial class FormProductosGlobales {
         
         /// <summary>
         /// Control mensajeAlerta.
@@ -40,103 +40,103 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.Label labelAlerta;
         
         /// <summary>
-        /// Control TituloBodegas.
+        /// Control botonAgregarProductos.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl TituloBodegas;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonAgregarProductos;
         
         /// <summary>
-        /// Control botonAgregarBodega.
+        /// Control botonModificacionProductos.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonAgregarBodega;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonModificacionProductos;
         
         /// <summary>
-        /// Control botonModificarBodega.
+        /// Control botonConsultaProductos.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonModificarBodega;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonConsultaProductos;
         
         /// <summary>
-        /// Control botonConsultarBodega.
+        /// Control inputNombre.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonConsultarBodega;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText inputNombre;
         
         /// <summary>
-        /// Control FieldsetBodegas.
+        /// Control inpuCategoria.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetBodegas;
+        protected global::System.Web.UI.WebControls.DropDownList inpuCategoria;
         
         /// <summary>
-        /// Control comboBoxEmpresa.
+        /// Control inputUnidades.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList comboBoxEmpresa;
+        protected global::System.Web.UI.WebControls.DropDownList inputUnidades;
         
         /// <summary>
-        /// Control comboBoxEstacion.
+        /// Control inputCodigo.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList comboBoxEstacion;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText inputCodigo;
         
         /// <summary>
-        /// Control dropdownEstado.
+        /// Control inputCodigoBarras.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList dropdownEstado;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText inputCodigoBarras;
         
         /// <summary>
-        /// Control botonAceptarBodega.
+        /// Control inputEstacion.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonAceptarBodega;
+        protected global::System.Web.UI.WebControls.DropDownList inputEstacion;
         
         /// <summary>
-        /// Control botonCancelarBodega.
+        /// Control inputEstado.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor botonCancelarBodega;
+        protected global::System.Web.UI.WebControls.DropDownList inputEstado;
         
         /// <summary>
-        /// Control FieldsetGridBodegas.
+        /// Control barraDeBusqueda.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetGridBodegas;
+        protected global::System.Web.UI.HtmlControls.HtmlInputGenericControl barraDeBusqueda;
         
         /// <summary>
         /// Control UpdatePanelPruebas.
@@ -157,6 +157,24 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.GridView gridViewBodegas;
         
         /// <summary>
+        /// Control botonAceptarProducto.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonAceptarProducto;
+        
+        /// <summary>
+        /// Control botonCancelarProducto.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor botonCancelarProducto;
+        
+        /// <summary>
         /// Control botonAceptarModalCancelar.
         /// </summary>
         /// <remarks>
@@ -166,12 +184,12 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlButton botonAceptarModalCancelar;
         
         /// <summary>
-        /// Control botonAceptarModalDesactivar.
+        /// Control botonCancelarModalCancelar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonAceptarModalDesactivar;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonCancelarModalCancelar;
     }
 }

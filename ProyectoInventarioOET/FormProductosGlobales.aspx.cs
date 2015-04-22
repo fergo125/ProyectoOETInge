@@ -1,31 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Data;
 using System.Web;
+using System.Data;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using ProyectoInventarioOET.Módulo_Bodegas;
 
 namespace ProyectoInventarioOET
 {
-    public partial class FormBodegas : System.Web.UI.Page
+    public partial class FormProductosGlobales : System.Web.UI.Page
     {
-
+        enum Modo { Inicial,  Consulta, Insercion, Modificacion};
+        private static int modo = (int) Modo.Inicial;
+        private static int idProducto = 0; //Sirve para estar en modo consulta
+        private static int idRequerimiento = 0;
+        private static int idCriterio = 0;
         private static int resultadosPorPagina;
-        private static EntidadBodega bodegaConsultada;
-        private static ControladoraBodegas controladoraBodegas;
         private static Object[] idArray;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            modo = (int)Modo.Inicial;
             testGrid();
-            controladoraBodegas = new ControladoraBodegas();
         }
 
         protected void gridViewBodegas_Seleccion(object sender, GridViewCommandEventArgs e)
         {
-            switch (e.CommandName) 
+            switch (e.CommandName)
             {
                 case "Select":
                     GridViewRow filaSeleccionada = this.gridViewBodegas.Rows[Convert.ToInt32(e.CommandArgument)];
@@ -68,60 +69,60 @@ namespace ProyectoInventarioOET
 
             this.gridViewBodegas.DataSource = tabla;
             this.gridViewBodegas.DataBind();
-        
-        
+
         }
 
 
         protected void llenarGrid()
         {
-                DataTable tabla = tablaBodegas();
-                int indiceNuevaBodega = -1;
-                int i = 0;
+            DataTable tabla = tablaBodegas();
+            int indiceNuevaBodega = -1;
+            int i = 0;
 
-                try
+            try
+            {
+                // Cargar proyectos
+                Object[] datos = new Object[3];
+                DataTable bodegas = new DataTable(); //quitar una vez que ya está la controladora
+                //bodegas = controladora.consultarBodegas();
+
+                if (bodegas.Rows.Count > 0)
                 {
-                    // Cargar bodegas
-                    Object[] datos = new Object[3];
-                    DataTable bodegas = controladoraBodegas.consultarBodegas();
-
-                    if (bodegas.Rows.Count > 0)
+                    idArray = new Object[bodegas.Rows.Count];
+                    foreach (DataRow fila in bodegas.Rows)
                     {
-                        idArray = new Object[bodegas.Rows.Count];
-                        foreach (DataRow fila in bodegas.Rows)
-                        {
-                            idArray[i] = fila[0];
-                            datos[0] = fila[1].ToString();
-                            datos[1] = fila[2].ToString();
-                            datos[2] = fila[3].ToString();
-                            tabla.Rows.Add(datos);
-                            /*if (bodegaConsultada != null && (fila[0].Equals(bodegaConsultada.Identificador)))
-                            {
-                                indiceNuevaBodega = i;
-                            }*/
-                            i++;
-                        }
-                    }
-                    else
-                    {
-                        datos[0] = "-";
-                        datos[1] = "-";
-                        datos[2] = "-";
+                        idArray[i] = fila[0];
+                        datos[0] = fila[1].ToString();
+                        datos[1] = fila[6].ToString();
+                        datos[2] = fila[7].ToString();
                         tabla.Rows.Add(datos);
+                        /* if (bodegaConsultada != null && (fila[0].Equals(bodegaConsultada.Identificador)))
+                         {
+                             indiceNuevaBodega = i;
+                         }*/
+                        i++;
                     }
-
-                    this.gridViewBodegas.DataSource = tabla;
-                    this.gridViewBodegas.DataBind();
-                   /* if (bodegaConsultada != null)
-                    {
-                        GridViewRow filaSeleccionada = this.gridViewProyecto.Rows[indiceNuevoProyecto];
-                    }*/
                 }
-
-                catch (Exception e)
+                else
                 {
-                    mostrarMensaje("warning", "Alerta", "No hay conexión a la base de datos.");
+                    datos[0] = "-";
+                    datos[1] = "-";
+                    datos[2] = "-";
+                    tabla.Rows.Add(datos);
                 }
+
+                this.gridViewBodegas.DataSource = tabla;
+                this.gridViewBodegas.DataBind();
+                /* if (bodegaConsultada != null)
+                 {
+                     GridViewRow filaSeleccionada = this.gridViewProyecto.Rows[indiceNuevoProyecto];
+                 }*/
+            }
+
+            catch (Exception e)
+            {
+                mostrarMensaje("warning", "Alerta", "No hay conexión a la base de datos.");
+            }
         }
 
 
@@ -179,6 +180,10 @@ namespace ProyectoInventarioOET
             tabla.Columns.Add(columna);
 
             return tabla;
+
+            ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true);
+            ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
+
         }
 
         protected void mostrarMensaje(String tipoAlerta, String alerta, String mensaje)
@@ -200,25 +205,51 @@ namespace ProyectoInventarioOET
             }
         }
 
-        protected void botonAceptarBodega_ServerClick(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void botonAceptarModalCancelar_ServerClick(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void botonAceptarModalDesactivar_ServerClick(object sender, EventArgs e)
+        protected void gridViewCatalogoLocal_CambioPagina(Object sender, GridViewPageEventArgs e)
         {
         }
 
-        protected void botonConsultarBodega_consultarBodegas(object sender, EventArgs e)
+
+
+
+        /* METODOS DE INTERFAZ RUTINARIOS
+         * Limpiar pantalla, Habilitar campos          */
+
+        protected void limpiarCampos()
         {
-            llenarGrid();
+            this.inputNombre.Value = "";
+            this.inputCodigo.Value = "";
+            this.inputCodigoBarras.Value = "";
         }
-           
+
+        protected void deshabilitarCampos() 
+        {
+            this.inputNombre.Disabled = true;
+            this.inputCodigo.Disabled = true;
+            this.inputCodigoBarras.Disabled = true;
+            this.inputUnidades.Enabled = false;
+            this.inpuCategoria.Enabled = false;
+            this.inputEstado.Enabled = false; 
+        }
+
+        protected void habilitarCampos()
+        {
+            this.inputNombre.Disabled = false;
+            this.inputCodigo.Disabled = false;
+            this.inputCodigoBarras.Disabled = false;
+            this.inputUnidades.Enabled = true;
+            this.inpuCategoria.Enabled = true;
+            this.inputEstado.Enabled = true;
+        }
+
+
+        protected void botonCancelarModalCancelar_ServerClick(object sender, EventArgs e)
+        {
+            limpiarCampos();
+            deshabilitarCampos();
+        }
+
+
 
     }
 }

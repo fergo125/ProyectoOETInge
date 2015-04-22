@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using ProyectoInventarioOET.DataSets;
+using ProyectoInventarioOET.DataSetGeneralTableAdapters;
+using System.Data.SqlClient;
 
 namespace ProyectoInventarioOET.Módulo_Bodegas
 
@@ -10,12 +12,12 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
     
     public class ControladoraBDBodegas
     {
-        /*
-        DataSetBodegas adaptadorBodega;
+        
+        CAT_BODEGATableAdapter adaptadorBodega;
 
-        public ControladoraBDBodega()
+        public ControladoraBDBodegas()
         {
-            adaptadorBodega = new DataSetBodegas();
+            adaptadorBodega = new CAT_BODEGATableAdapter();
         }
 
         public String[] insertarBodega(EntidadBodega bodega)
@@ -63,7 +65,7 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
         }
 
 
-        public String[] desactivarModega(EntidadBodega bodega)
+        public String[] desactivarBodega(EntidadBodega bodega)
         {
             String[] res = new String[3];
             try
@@ -109,7 +111,7 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
 
             try
             {
-                resultado = adaptadorBodega.consultarFilaBodega(id);
+                //resultado = adaptadorBodega.consultarFilaBodega(id);
 
                 if (resultado.Rows.Count == 1)
                 {
@@ -119,13 +121,13 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
                         datosConsultados[i] = resultado.Rows[0][i].ToString();
                     }
 
-                    bodegaConsultado = new EntidadBodega(datosConsultados);
+                    bodegaConsultada = new EntidadBodega(datosConsultados);
                 }
             }
             catch (Exception e) { }
 
             return bodegaConsultada;
         }
-     */
+     
     }
 }
