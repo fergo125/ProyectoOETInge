@@ -22,7 +22,7 @@
       <!-- Cuerpo del Form -->
     <button runat="server" onclick="showStuff('bloqueFormulario', 'Nueva bodega');" id="botonAgregarBodega" class=" btn btn-info" type="button" style="float: left"><i></i>Nueva Bodega</button>
     <button runat="server" onclick="showStuff('bloqueFormulario', 'Modificación de bodega');" id="botonModificarBodega" class=" btn btn-info" type="button" style="float: left"><i></i>Modificar Bodega</button>
-    <button runat="server" onclick="showStuff('bloqueGrids', 'Consulta de bodegas');" id="botonConsultarBodega" class=" btn btn-info" type="button" style="float: left"><i></i>Consultar Bodegas</button>
+    <button runat="server" onserverclick="botonConsultarBodega_consultarBodegas" onclick="showStuff('bloqueGrids', 'Consulta de bodegas');" id="botonConsultarBodega" class=" btn btn-info" type="button" style="float: left"><i></i>Consultar Bodegas</button>
     <br />
     <br />
 
@@ -52,7 +52,7 @@
             <div class="col-lg-6">
                 <div class= "form-group">
                     <label for="inputNombre" class= "control-label"> Nombre: </label>      
-                    <input type="text" id= "inputNombre" class= "form-control"><br>
+                    <input type="text" ID="inputNombre" runat="server" class= "form-control"><br>
                 </div>
             </div>
         </div>

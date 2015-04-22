@@ -218,6 +218,17 @@ namespace ProyectoInventarioOET
         {
             llenarGrid();
         }
+
+        protected Object[] obtenerDatosBodegas()
+        {
+            Object[] datos = new Object[5];
+            datos[0] = 0;
+            datos[1] = this.inputNombre.Value;
+            datos[2] = this.comboBoxEmpresa.SelectedValue;
+            datos[3] = this.comboBoxEstacion.SelectedValue;
+            datos[4] = this.dropdownEstado.SelectedValue;
+            return datos;
+        }
            
 
     }
