@@ -2,17 +2,6 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
 
-<%--    <script type="text/javascript">
-        function showStuff(id) {
-            var estado = document.getElementById(id).style.display;
-            if (estado === 'none') {
-                document.getElementById(id).style.display = 'block'; //Color 7BC134
-            } else {
-                document.getElementById(id).style.display = 'none';
-            }
-        }
-    </script>--%>
-
 
     <br />
     <!-- Label para desplegar mensajes -->
@@ -35,7 +24,7 @@
       <!-- Cuerpo del Form -->
     <button runat="server" onclick="showStuff('bloqueFormulario', 'Nueva bodega');" id="botonAgregarBodega" class=" btn btn-info" type="button" style="float: left"><i></i>Nueva Bodega</button>
     <button runat="server" onclick="showStuff('bloqueFormulario', 'Modificación de bodega');" id="botonModificarBodega" class=" btn btn-info" type="button" style="float: left"><i></i>Modificar Bodega</button>
-    <button runat="server" onclick="showStuff('bloqueGrids', 'Consulta de bodegas');" id="botonConsultarBodega" class=" btn btn-info" type="button" style="float: left"><i></i>Consultar Bodegas</button>
+    <button runat="server" onserverclick="botonConsultarBodega_consultarBodegas"  onclick="showStuff('bloqueGrids', 'Consulta de bodegas');" id="botonConsultarBodega" class=" btn btn-info" type="button" style="float: left"><i></i>Consultar Bodegas</button>
     <br />
     <br />
 
@@ -226,7 +215,7 @@
                     document.getElementById(elementoATogglear).style.display = 'none';
                 }
             }
-        } // Final de funcion 
+        } // Final de funcion
     </script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.1.47/jquery.form-validator.min.js"> </script>
     <script> $.validate(); </script>
