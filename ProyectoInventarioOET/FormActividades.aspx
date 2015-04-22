@@ -1,17 +1,6 @@
 ﻿<%@ Page Title="Actividades" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="FormActividades.aspx.cs" Inherits="ProyectoInventarioOET.FormActividades" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-    <script type="text/javascript">
-    function showStuff(id) {
-        var estado = document.getElementById(id).style.display;
-        if (estado === 'none') {
-            document.getElementById(id).style.display = 'block'; //Color 7BC134
-        } else {
-            document.getElementById(id).style.display = 'none';
-        }
-    }
-    </script>
-
     <br />
     <!-- Label para desplegar mensajes -->
     <div>
@@ -39,49 +28,42 @@
 
     <br />
     <br />
-
+    <div class= "row" id="bloqueFormulario" style="display:none">
          <!-- Fieldset para Actividades -->
-    <fieldset id= "FieldsetActividad" style="display:none" runat="server" class="fieldset">
-        <legend> Ingresar datos de una nueva Actividad: </legend>
+        <fieldset id= "FieldsetActividad" style="display:none" runat="server" class="fieldset">
+            <legend> Ingresar datos de una nueva Actividad: </legend>
     
-        <br />
-        <br />
-        <br />
-        <div class="row">
+            <br />
+            <br />
+            <br />
+            <div class="row">
 
-            <div class= "col-md-4">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="inputDescripcionActividad" class= "control-label"> Descripción: </label>      
+                        <input type="text" id= "inputDescripcionActividad" class="form-control"><br>
+                    </div>
 
-                <div class= "form-group">
-                    <label for="inputNombreActividad" class= "control-label"> Nombre: </label>      
-                    <input type="text" id= "inputNombreActividad" class= "form-control"><br>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="inputDescripcionActividad" class= "control-label"> Descripción: </label>      
-                    <input type="text" id= "inputDescripcionActividad" class="form-control"><br>
                 </div>
 
-            </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="inputEstadoActividad" class= "control-label"> Estado: </label>      
+                        <asp:DropDownList id="comboBoxEstadosActividades" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
+                            <asp:ListItem Selected="True">Ninguno</asp:ListItem>
+                        </asp:DropDownList>
+                    </div>
 
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="inputEstadoActividad" class= "control-label"> Estado: </label>      
-                    <asp:DropDownList id="comboBoxEstadosActividades" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
-                        <asp:ListItem Selected="True">Ninguno</asp:ListItem>
-                    </asp:DropDownList>
                 </div>
+
 
             </div>
 
-
-
-        </div>
-
-
+        </fieldset>
         <label for="textoObligatorioActividad" class="text-danger text-center">Los campos con (*) son obligatorios</label>
-    <div class="col-lg-12">
+
+    </div>
+    <div class="col-lg-12" id="bloqueBotones" style="display:none">
         <div class =" row">
             <div class="text-center">
                 <button runat="server" onserverclick="botonAceptarActividad_ServerClick" id="botonAceptarActividad" class="btn btn-success-fozkr" type="button"><i class="fa fa-pencil-square-o"></i>Aceptar</button>
@@ -93,10 +75,8 @@
     </div>
 
         
-    </fieldset>
-
     <!--Modal Cancelar-->
-    <div class="modal fade" id="modalCancelar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalCancelar" tabindex="-1" role="dialog" aria-labelledby="modalCancelarLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -113,6 +93,33 @@
             </div>
         </div>
     </div>
+
+    <script type="text/javascript">
+        function showStuff(elementoATogglear, mensaje) {
+            var estado = document.getElementById(elementoATogglear).style.display;
+            document.getElementById('tituloAccionBodegas').innerHTML = mensaje;
+            if (elementoATogglear === 'bloqueFormulario') {
+                if (estado === 'none') {
+                    document.getElementById('bloqueGrids').style.display = 'none';
+                    document.getElementById(elementoATogglear).style.display = 'block';
+                    document.getElementById('bloqueBotones').style.display = 'block';
+                } else {
+                    document.getElementById(elementoATogglear).style.display = 'none';
+                    document.getElementById('bloqueBotones').style.display = 'none';
+                }
+            } else {
+                document.getElementById('bloqueBotones').style.display = 'none';
+                if (estado === 'none') {
+                    document.getElementById(elementoATogglear).style.display = 'block';
+                    document.getElementById('bloqueFormulario').style.display = 'none';
+                } else {
+                    document.getElementById(elementoATogglear).style.display = 'none';
+                }
+            }
+        } // Final de funcion 
+    </script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.1.47/jquery.form-validator.min.js"> </script>
+    <script> $.validate(); </script>
 
 
 </asp:Content>

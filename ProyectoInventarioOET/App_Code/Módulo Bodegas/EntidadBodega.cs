@@ -1,0 +1,66 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace ProyectoInventarioOET.Módulo_Bodegas
+{
+    public class EntidadBodega
+    {
+
+        private String codigo;
+        private String nombre;
+        private String anfitriona;
+        private String estacion;
+        private int estado;
+
+
+        public EntidadBodega(Object[] datos)
+        {
+            this.codigo = autogenerarCodigo();
+            this.nombre = datos[0].ToString();
+            this.anfitriona = datos[1].ToString();
+            this.estacion = datos[2].ToString();
+            this.estado = Convert.ToInt32(datos[3].ToString());
+        }
+
+        public String Codigo
+        {
+            get { return codigo; }
+            set { codigo = value; }
+        }
+
+        public String Nombre
+        {
+            get { return nombre; }
+            set { nombre = value; }
+        }
+
+        public String Anfitriona
+        {
+            get { return anfitriona; }
+            set { anfitriona = value; }
+        }
+
+        public String Estacion
+        {
+            get { return estacion; }
+            set { estacion = value; }
+        }
+
+        public int Estado
+        {
+            get { return estado; }
+            set { estado = value; }
+        }
+
+        private String autogenerarCodigo()
+        {
+            //here's where the magic happens
+            //in the meanwhile...
+            return "";
+        }
+
+
+    }
+}
