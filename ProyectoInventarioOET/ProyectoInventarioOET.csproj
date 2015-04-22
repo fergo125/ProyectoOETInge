@@ -176,16 +176,16 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Account\Web.config" />
     <Content Include="FormBodegas.aspx" />
-    <Content Include="DataSets\DataSetBodegas.xsc">
-      <DependentUpon>DataSetBodegas.xsd</DependentUpon>
+    <Content Include="DataSetGeneral.xsc">
+      <DependentUpon>DataSetGeneral.xsd</DependentUpon>
     </Content>
-    <None Include="DataSets\DataSetBodegas.xsd">
+    <None Include="DataSetGeneral.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>DataSetBodegas.Designer.cs</LastGenOutput>
+      <LastGenOutput>DataSetGeneral.Designer.cs</LastGenOutput>
     </None>
-    <Content Include="DataSets\DataSetBodegas.xss">
-      <DependentUpon>DataSetBodegas.xsd</DependentUpon>
+    <Content Include="DataSetGeneral.xss">
+      <DependentUpon>DataSetGeneral.xsd</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -270,14 +270,14 @@
     <Compile Include="Account\RegisterExternalLogin.aspx.designer.cs">
       <DependentUpon>RegisterExternalLogin.aspx</DependentUpon>
     </Compile>
-    <Content Include="App_Code\Módulo Bodegas\EntidadBodega.cs" />
-    <Content Include="App_Code\Módulo Bodegas\ControladoraBodegas.cs" />
-    <Content Include="App_Code\Módulo Bodegas\ControladoraBDBodegas.cs" />
+    <Compile Include="App_Code\Módulo Bodegas\EntidadBodega.cs" />
+    <Compile Include="App_Code\Módulo Bodegas\ControladoraBodegas.cs" />
+    <Compile Include="App_Code\Módulo Bodegas\ControladoraBDBodegas.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
-    <Compile Include="DataSets\DataSetBodegas.Designer.cs">
+    <Compile Include="DataSetGeneral.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DataSetBodegas.xsd</DependentUpon>
+      <DependentUpon>DataSetGeneral.xsd</DependentUpon>
     </Compile>
     <Compile Include="FormAbout.aspx.cs">
       <DependentUpon>FormAbout.aspx</DependentUpon>
@@ -382,6 +382,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="App_Resources\" />
+    <Folder Include="DataSets\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
