@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using ProyectoInventarioOET.DataSets;
+using System.Data;
+using ProyectoInventarioOET.DataSetGeneralTableAdapters;
 
 /*
  * Controladora del conjunto de datos de las unidades métricas del sistema.
@@ -12,12 +13,11 @@ namespace ProyectoInventarioOET.App_Code
 {
     public class ControladoraBDUnidades
     {
-        /*
-        DataSetUnidades adaptadorUnidades;
+        CAT_UNIDADESTableAdapter adaptadorUnidades;
 
         public ControladoraBDUnidades()
         {
-            adaptadorUnidades = new DataSetUnidades();
+            adaptadorUnidades = new CAT_UNIDADESTableAdapter();
         }
 
         public DataTable consultarUnidades()
@@ -33,6 +33,5 @@ namespace ProyectoInventarioOET.App_Code
             }
             return resultado;
         }
-        */
     }
 }

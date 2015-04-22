@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using ProyectoInventarioOET.DataSets;
+using System.Data;
+using ProyectoInventarioOET.DataSetGeneralTableAdapters;
 
 /*
  * Controladora del conjunto de datos de las organizaciones anfitrionas del sistema.
@@ -12,12 +13,11 @@ namespace ProyectoInventarioOET.App_Code
 {
     public class ControladoraBDAnfitriones
     {
-        /*
-        DataSetAnfitriona adaptadorAnfitriones;
+        ANFITRIONATableAdapter adaptadorAnfitriones;
 
         public ControladoraBDAnfitriones()
         {
-            adaptadorAnfitriones = new DataSetAnfitriona();
+            adaptadorAnfitriones = new ANFITRIONATableAdapter();
         }
 
         public DataTable consultarAnfitriones()
@@ -33,6 +33,5 @@ namespace ProyectoInventarioOET.App_Code
             }
             return resultado;
         }
-        */
     }
 }

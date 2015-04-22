@@ -34,9 +34,37 @@ namespace ProyectoInventarioOET.App_Code
             }
         }
 
-        public ControladoraDatosGenerales()
+        private ControladoraDatosGenerales()
         {
-            // Crear controladoras BD y traer datos
+            ControladoraBDAnfitriones controladoraAnfitriones = new ControladoraBDAnfitriones();
+            ControladoraBDEstaciones controladoraEstaciones = new ControladoraBDEstaciones();
+            ControladoraBDEstados controladoraEstados = new ControladoraBDEstados();
+            ControladoraBDUnidades controladoraUnidades = new ControladoraBDUnidades();
+
+            anfitriones = controladoraAnfitriones.consultarAnfitriones();
+            estaciones = controladoraEstaciones.consultarEstaciones();
+            estados = controladoraEstados.consultarEstados();
+            unidades = controladoraUnidades.consultarUnidades();
+        }
+
+        public DataTable consultarAnfitriones()
+        {
+            return anfitriones;
+        }
+
+        public DataTable consultarEstaciones()
+        {
+            return estaciones;
+        }
+
+        public DataTable consultarEstados()
+        {
+            return estados;
+        }
+
+        public DataTable consultarUnidades()
+        {
+            return unidades;
         }
     }
 }

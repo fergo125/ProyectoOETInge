@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using ProyectoInventarioOET.DataSets;
+using System.Data;
+using ProyectoInventarioOET.DataSetGeneralTableAdapters;
 
 /*
  * Controladora del conjunto de datos de las estaciones del sistema.
@@ -12,12 +13,11 @@ namespace ProyectoInventarioOET.App_Code
 {
     public class ControladoraBDEstaciones
     {
-        /*
-        DataSetEstacion adaptadorEstaciones;
+        ESTACIONTableAdapter adaptadorEstaciones;
 
         public ControladoraBDEstaciones()
         {
-            adaptadorEstaciones = new DataSetEstacion();
+            adaptadorEstaciones = new ESTACIONTableAdapter();
         }
 
         public DataTable consultarEstaciones()
@@ -33,6 +33,5 @@ namespace ProyectoInventarioOET.App_Code
             }
             return resultado;
         }
-        */
     }
 }

@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using ProyectoInventarioOET.DataSets;
+using System.Data;
+using ProyectoInventarioOET.DataSetGeneralTableAdapters;
 
 /*
  * Controladora del conjunto de datos de los estados del sistema.
@@ -12,12 +13,11 @@ namespace ProyectoInventarioOET.App_Code
 {
     public class ControladoraBDEstados
     {
-        /*
-        DataSetEstados adaptadorEstados;
+        CAT_ESTADOSTableAdapter adaptadorEstados;
 
         public ControladoraBDEstados()
         {
-            adaptadorEstados = new DataSetEstados();
+            adaptadorEstados = new CAT_ESTADOSTableAdapter();
         }
 
         public DataTable consultarEstados()
@@ -33,6 +33,5 @@ namespace ProyectoInventarioOET.App_Code
             }
             return resultado;
         }
-        */
     }
 }

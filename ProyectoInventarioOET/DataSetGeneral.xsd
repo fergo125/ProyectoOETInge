@@ -60,6 +60,86 @@
             </Mappings>
             <Sources />
           </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="ESTACIONTableAdapter" GeneratorDataComponentClassName="ESTACIONTableAdapter" Name="ESTACION" UserDataComponentName="ESTACIONTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="ConnectionString (Web.config)" DbObjectName="GRUPO02.ESTACION" DbObjectType="Table" GenerateMethods="Get" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="GetData">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT        ID, NOMBRE, SIGLAS, RESERVABLE
+FROM            GRUPO02.ESTACION</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="ID" DataSetColumn="ID" />
+              <Mapping SourceColumn="NOMBRE" DataSetColumn="NOMBRE" />
+              <Mapping SourceColumn="SIGLAS" DataSetColumn="SIGLAS" />
+              <Mapping SourceColumn="RESERVABLE" DataSetColumn="RESERVABLE" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="CAT_UNIDADESTableAdapter" GeneratorDataComponentClassName="CAT_UNIDADESTableAdapter" Name="CAT_UNIDADES" UserDataComponentName="CAT_UNIDADESTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="ConnectionString (Web.config)" DbObjectName="GRUPO02.CAT_UNIDADES" DbObjectType="Table" GenerateMethods="Get" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="GetData">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT * FROM CAT_UNIDADES</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="CAT_UNIDADES" DataSetColumn="CAT_UNIDADES" />
+              <Mapping SourceColumn="DESCRIPCION" DataSetColumn="DESCRIPCION" />
+              <Mapping SourceColumn="ESTADO" DataSetColumn="ESTADO" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="CAT_ESTADOSTableAdapter" GeneratorDataComponentClassName="CAT_ESTADOSTableAdapter" Name="CAT_ESTADOS" UserDataComponentName="CAT_ESTADOSTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="ConnectionString (Web.config)" DbObjectName="GRUPO02.CAT_ESTADOS" DbObjectType="Table" GenerateMethods="Get" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="GetData">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT * FROM CAT_ESTADOS</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="CAT_ESTADO" DataSetColumn="CAT_ESTADO" />
+              <Mapping SourceColumn="DESCRIPCION" DataSetColumn="DESCRIPCION" />
+              <Mapping SourceColumn="VALOR" DataSetColumn="VALOR" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="ANFITRIONATableAdapter" GeneratorDataComponentClassName="ANFITRIONATableAdapter" Name="ANFITRIONA" UserDataComponentName="ANFITRIONATableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="ConnectionString (Web.config)" DbObjectName="GRUPO02.ANFITRIONA" DbObjectType="Table" GenerateMethods="Get" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="GetData">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT        ID, NOMBRE, SIGLAS, MONEDA, TIPOCAMBIO, TIPOUSUARIO, TIPOCAMBIO_CONTA, MONEDA_CONTA
+FROM            GRUPO02.ANFITRIONA</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="ID" DataSetColumn="ID" />
+              <Mapping SourceColumn="NOMBRE" DataSetColumn="NOMBRE" />
+              <Mapping SourceColumn="SIGLAS" DataSetColumn="SIGLAS" />
+              <Mapping SourceColumn="MONEDA" DataSetColumn="MONEDA" />
+              <Mapping SourceColumn="TIPOCAMBIO" DataSetColumn="TIPOCAMBIO" />
+              <Mapping SourceColumn="TIPOUSUARIO" DataSetColumn="TIPOUSUARIO" />
+              <Mapping SourceColumn="TIPOCAMBIO_CONTA" DataSetColumn="TIPOCAMBIO_CONTA" />
+              <Mapping SourceColumn="MONEDA_CONTA" DataSetColumn="MONEDA_CONTA" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
         </Tables>
         <Sources />
       </DataSource>
@@ -68,7 +148,7 @@
   <xs:element name="DataSetGeneral" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSetGeneral" msprop:Generator_UserDSName="DataSetGeneral">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="CAT_BODEGA" msprop:Generator_TableClassName="CAT_BODEGADataTable" msprop:Generator_TableVarName="tableCAT_BODEGA" msprop:Generator_TablePropName="CAT_BODEGA" msprop:Generator_RowDeletingName="CAT_BODEGARowDeleting" msprop:Generator_RowChangingName="CAT_BODEGARowChanging" msprop:Generator_RowEvHandlerName="CAT_BODEGARowChangeEventHandler" msprop:Generator_RowDeletedName="CAT_BODEGARowDeleted" msprop:Generator_UserTableName="CAT_BODEGA" msprop:Generator_RowChangedName="CAT_BODEGARowChanged" msprop:Generator_RowEvArgName="CAT_BODEGARowChangeEvent" msprop:Generator_RowClassName="CAT_BODEGARow">
+        <xs:element name="CAT_BODEGA" msprop:Generator_TableClassName="CAT_BODEGADataTable" msprop:Generator_TableVarName="tableCAT_BODEGA" msprop:Generator_RowChangedName="CAT_BODEGARowChanged" msprop:Generator_TablePropName="CAT_BODEGA" msprop:Generator_RowDeletingName="CAT_BODEGARowDeleting" msprop:Generator_RowChangingName="CAT_BODEGARowChanging" msprop:Generator_RowEvHandlerName="CAT_BODEGARowChangeEventHandler" msprop:Generator_RowDeletedName="CAT_BODEGARowDeleted" msprop:Generator_RowClassName="CAT_BODEGARow" msprop:Generator_UserTableName="CAT_BODEGA" msprop:Generator_RowEvArgName="CAT_BODEGARowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="CAT_BODEGA" msprop:Generator_ColumnVarNameInTable="columnCAT_BODEGA" msprop:Generator_ColumnPropNameInRow="CAT_BODEGA" msprop:Generator_ColumnPropNameInTable="CAT_BODEGAColumn" msprop:Generator_UserColumnName="CAT_BODEGA">
@@ -103,11 +183,153 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="ESTACION" msprop:Generator_TableClassName="ESTACIONDataTable" msprop:Generator_TableVarName="tableESTACION" msprop:Generator_TablePropName="ESTACION" msprop:Generator_RowDeletingName="ESTACIONRowDeleting" msprop:Generator_RowChangingName="ESTACIONRowChanging" msprop:Generator_RowEvHandlerName="ESTACIONRowChangeEventHandler" msprop:Generator_RowDeletedName="ESTACIONRowDeleted" msprop:Generator_UserTableName="ESTACION" msprop:Generator_RowChangedName="ESTACIONRowChanged" msprop:Generator_RowEvArgName="ESTACIONRowChangeEvent" msprop:Generator_RowClassName="ESTACIONRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID" msprop:Generator_ColumnVarNameInTable="columnID" msprop:Generator_ColumnPropNameInRow="ID" msprop:Generator_ColumnPropNameInTable="IDColumn" msprop:Generator_UserColumnName="ID">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="26" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="NOMBRE" msprop:Generator_ColumnVarNameInTable="columnNOMBRE" msprop:Generator_ColumnPropNameInRow="NOMBRE" msprop:Generator_ColumnPropNameInTable="NOMBREColumn" msprop:Generator_UserColumnName="NOMBRE">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="SIGLAS" msprop:Generator_ColumnVarNameInTable="columnSIGLAS" msprop:Generator_ColumnPropNameInRow="SIGLAS" msprop:Generator_ColumnPropNameInTable="SIGLASColumn" msprop:Generator_UserColumnName="SIGLAS" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="RESERVABLE" msprop:Generator_ColumnVarNameInTable="columnRESERVABLE" msprop:Generator_ColumnPropNameInRow="RESERVABLE" msprop:Generator_ColumnPropNameInTable="RESERVABLEColumn" msprop:Generator_UserColumnName="RESERVABLE" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="CAT_UNIDADES" msprop:Generator_TableClassName="CAT_UNIDADESDataTable" msprop:Generator_TableVarName="tableCAT_UNIDADES" msprop:Generator_TablePropName="CAT_UNIDADES" msprop:Generator_RowDeletingName="CAT_UNIDADESRowDeleting" msprop:Generator_RowChangingName="CAT_UNIDADESRowChanging" msprop:Generator_RowEvHandlerName="CAT_UNIDADESRowChangeEventHandler" msprop:Generator_RowDeletedName="CAT_UNIDADESRowDeleted" msprop:Generator_UserTableName="CAT_UNIDADES" msprop:Generator_RowChangedName="CAT_UNIDADESRowChanged" msprop:Generator_RowEvArgName="CAT_UNIDADESRowChangeEvent" msprop:Generator_RowClassName="CAT_UNIDADESRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="CAT_UNIDADES" msprop:Generator_ColumnVarNameInTable="columnCAT_UNIDADES" msprop:Generator_ColumnPropNameInRow="CAT_UNIDADES" msprop:Generator_ColumnPropNameInTable="CAT_UNIDADESColumn" msprop:Generator_UserColumnName="CAT_UNIDADES">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DESCRIPCION" msprop:Generator_ColumnVarNameInTable="columnDESCRIPCION" msprop:Generator_ColumnPropNameInRow="DESCRIPCION" msprop:Generator_ColumnPropNameInTable="DESCRIPCIONColumn" msprop:Generator_UserColumnName="DESCRIPCION" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1000" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ESTADO" msprop:Generator_ColumnVarNameInTable="columnESTADO" msprop:Generator_ColumnPropNameInRow="ESTADO" msprop:Generator_ColumnPropNameInTable="ESTADOColumn" msprop:Generator_UserColumnName="ESTADO" type="xs:short" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="CAT_ESTADOS" msprop:Generator_TableClassName="CAT_ESTADOSDataTable" msprop:Generator_TableVarName="tableCAT_ESTADOS" msprop:Generator_TablePropName="CAT_ESTADOS" msprop:Generator_RowDeletingName="CAT_ESTADOSRowDeleting" msprop:Generator_RowChangingName="CAT_ESTADOSRowChanging" msprop:Generator_RowEvHandlerName="CAT_ESTADOSRowChangeEventHandler" msprop:Generator_RowDeletedName="CAT_ESTADOSRowDeleted" msprop:Generator_UserTableName="CAT_ESTADOS" msprop:Generator_RowChangedName="CAT_ESTADOSRowChanged" msprop:Generator_RowEvArgName="CAT_ESTADOSRowChangeEvent" msprop:Generator_RowClassName="CAT_ESTADOSRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="CAT_ESTADO" msprop:Generator_ColumnVarNameInTable="columnCAT_ESTADO" msprop:Generator_ColumnPropNameInRow="CAT_ESTADO" msprop:Generator_ColumnPropNameInTable="CAT_ESTADOColumn" msprop:Generator_UserColumnName="CAT_ESTADO" type="xs:int" />
+              <xs:element name="DESCRIPCION" msprop:Generator_ColumnVarNameInTable="columnDESCRIPCION" msprop:Generator_ColumnPropNameInRow="DESCRIPCION" msprop:Generator_ColumnPropNameInTable="DESCRIPCIONColumn" msprop:Generator_UserColumnName="DESCRIPCION" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="200" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="VALOR" msprop:Generator_ColumnVarNameInTable="columnVALOR" msprop:Generator_ColumnPropNameInRow="VALOR" msprop:Generator_ColumnPropNameInTable="VALORColumn" msprop:Generator_UserColumnName="VALOR" type="xs:short" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="ANFITRIONA" msprop:Generator_TableClassName="ANFITRIONADataTable" msprop:Generator_TableVarName="tableANFITRIONA" msprop:Generator_TablePropName="ANFITRIONA" msprop:Generator_RowDeletingName="ANFITRIONARowDeleting" msprop:Generator_RowChangingName="ANFITRIONARowChanging" msprop:Generator_RowEvHandlerName="ANFITRIONARowChangeEventHandler" msprop:Generator_RowDeletedName="ANFITRIONARowDeleted" msprop:Generator_UserTableName="ANFITRIONA" msprop:Generator_RowChangedName="ANFITRIONARowChanged" msprop:Generator_RowEvArgName="ANFITRIONARowChangeEvent" msprop:Generator_RowClassName="ANFITRIONARow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID" msprop:Generator_ColumnVarNameInTable="columnID" msprop:Generator_ColumnPropNameInRow="ID" msprop:Generator_ColumnPropNameInTable="IDColumn" msprop:Generator_UserColumnName="ID">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="NOMBRE" msprop:Generator_ColumnVarNameInTable="columnNOMBRE" msprop:Generator_ColumnPropNameInRow="NOMBRE" msprop:Generator_ColumnPropNameInTable="NOMBREColumn" msprop:Generator_UserColumnName="NOMBRE">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="SIGLAS" msprop:Generator_ColumnVarNameInTable="columnSIGLAS" msprop:Generator_ColumnPropNameInRow="SIGLAS" msprop:Generator_ColumnPropNameInTable="SIGLASColumn" msprop:Generator_UserColumnName="SIGLAS">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MONEDA" msprop:Generator_ColumnVarNameInTable="columnMONEDA" msprop:Generator_ColumnPropNameInRow="MONEDA" msprop:Generator_ColumnPropNameInTable="MONEDAColumn" msprop:Generator_UserColumnName="MONEDA">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="26" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="TIPOCAMBIO" msprop:Generator_ColumnVarNameInTable="columnTIPOCAMBIO" msprop:Generator_ColumnPropNameInRow="TIPOCAMBIO" msprop:Generator_ColumnPropNameInTable="TIPOCAMBIOColumn" msprop:Generator_UserColumnName="TIPOCAMBIO">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="10" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="TIPOUSUARIO" msprop:Generator_ColumnVarNameInTable="columnTIPOUSUARIO" msprop:Generator_ColumnPropNameInRow="TIPOUSUARIO" msprop:Generator_ColumnPropNameInTable="TIPOUSUARIOColumn" msprop:Generator_UserColumnName="TIPOUSUARIO" type="xs:decimal" />
+              <xs:element name="TIPOCAMBIO_CONTA" msprop:Generator_ColumnVarNameInTable="columnTIPOCAMBIO_CONTA" msprop:Generator_ColumnPropNameInRow="TIPOCAMBIO_CONTA" msprop:Generator_ColumnPropNameInTable="TIPOCAMBIO_CONTAColumn" msprop:Generator_UserColumnName="TIPOCAMBIO_CONTA">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="10" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MONEDA_CONTA" msprop:Generator_ColumnVarNameInTable="columnMONEDA_CONTA" msprop:Generator_ColumnPropNameInRow="MONEDA_CONTA" msprop:Generator_ColumnPropNameInTable="MONEDA_CONTAColumn" msprop:Generator_UserColumnName="MONEDA_CONTA">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="26" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:choice>
     </xs:complexType>
     <xs:unique name="Constraint1" msdata:PrimaryKey="true">
       <xs:selector xpath=".//mstns:CAT_BODEGA" />
       <xs:field xpath="mstns:CAT_BODEGA" />
+    </xs:unique>
+    <xs:unique name="ESTACION_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:ESTACION" />
+      <xs:field xpath="mstns:ID" />
+    </xs:unique>
+    <xs:unique name="CAT_UNIDADES_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:CAT_UNIDADES" />
+      <xs:field xpath="mstns:CAT_UNIDADES" />
+    </xs:unique>
+    <xs:unique name="CAT_ESTADOS_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:CAT_ESTADOS" />
+      <xs:field xpath="mstns:CAT_ESTADO" />
+    </xs:unique>
+    <xs:unique name="ANFITRIONA_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:ANFITRIONA" />
+      <xs:field xpath="mstns:ID" />
     </xs:unique>
   </xs:element>
 </xs:schema>
