@@ -163,12 +163,12 @@
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="FormEntradas.aspx" />
-<<<<<<< HEAD
+
     <Content Include="FormProductosGlobales.aspx" />
-=======
+
     <Content Include="FormProductos.aspx" />
     <Content Include="FormProductosLocales.aspx" />
->>>>>>> 8aa1a7504f732be84a4ffed0ddb21c32f8e87a72
+
     <Content Include="FormVentas.aspx" />
     <Content Include="packages.config" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
