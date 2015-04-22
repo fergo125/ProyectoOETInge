@@ -64,7 +64,7 @@
                                 Bodegas<span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a runat="server" href="~/FormBodegas">Catálogo local de productos</a></li>
+                                <li><a runat="server" href="~/FormProductosLocales">Catálogo local de productos</a></li>
                                 <li><a runat="server" href="~/FormBodegas">Gestión de bodegas</a></li>
                                 <li><a runat="server" href="~/FormActividades">Gestión de actividades</a></li>
                             </ul>
