@@ -85,22 +85,22 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetBodegas;
         
         /// <summary>
-        /// Control dropdownEmpresa.
+        /// Control comboBoxEmpresa.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList dropdownEmpresa;
+        protected global::System.Web.UI.WebControls.DropDownList comboBoxEmpresa;
         
         /// <summary>
-        /// Control dropdownEstacion.
+        /// Control comboBoxEstacion.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList dropdownEstacion;
+        protected global::System.Web.UI.WebControls.DropDownList comboBoxEstacion;
         
         /// <summary>
         /// Control dropdownEstado.
@@ -128,33 +128,6 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlAnchor botonCancelarBodega;
-        
-        /// <summary>
-        /// Control FieldsetCatalogoLocal.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetCatalogoLocal;
-        
-        /// <summary>
-        /// Control UpdatePanelCatalogoLocal.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanelCatalogoLocal;
-        
-        /// <summary>
-        /// Control gridViewCatalogoLocal.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gridViewCatalogoLocal;
         
         /// <summary>
         /// Control FieldsetGridBodegas.
