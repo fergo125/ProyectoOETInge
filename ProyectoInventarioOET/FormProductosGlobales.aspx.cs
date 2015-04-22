@@ -8,8 +8,13 @@ using System.Web.UI.WebControls;
 
 namespace ProyectoInventarioOET
 {
-    public partial class FormProductos : System.Web.UI.Page
+    public partial class FormProductosGlobales : System.Web.UI.Page
     {
+        private static int modo = 0;
+        private static int modoC = 0;
+        private static int idProducto = 0; //Sirve para estar en modo consulta
+        private static int idRequerimiento = 0;
+        private static int idCriterio = 0;
         private static int resultadosPorPagina;
         private static Object[] idArray;
 
@@ -208,5 +213,18 @@ namespace ProyectoInventarioOET
             //Server.Transfer("FormCategorias.aspx");
             Response.Redirect("FormCategorias.aspx");
         }
+
+
+
+        /* METODOS DE INTERFAZ RUTINARIOS
+         * Limpiar pantalla, Habilitar campos          */
+
+        protected void limpiarCamposC()
+        {
+            
+        }
+
+
+
     }
 }

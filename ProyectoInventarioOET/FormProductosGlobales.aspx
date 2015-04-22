@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Productos" Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="FormProductosGlobales.aspx.cs" Inherits="ProyectoInventarioOET.FormProductos" %>
+﻿<%@ Page Title="Productos" Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="FormProductosGlobales.aspx.cs" Inherits="ProyectoInventarioOET.FormProductosGlobales" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">   
     <br />
@@ -80,7 +80,7 @@
             
             <div class="form-group col-lg-6">
                 <label for="inputCodigoBarras" class= "control-label"> Código de Barras: </label>      
-                <input type="text" id= "inputCodigoBarras" class="form-control" required><br>
+                <input type="text" id= "inputCodigoBarras" name= "inputCodigoBarras" class="form-control" required><br>
             </div>
 
 
@@ -201,8 +201,6 @@
             }
         } // Final de funcion 
     </script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.1.47/jquery.form-validator.min.js"> </script>
-    <script> $.validate(); </script>
 
     <!-- Javascript -->
     <!-- Modificar tab de site master activo -->
