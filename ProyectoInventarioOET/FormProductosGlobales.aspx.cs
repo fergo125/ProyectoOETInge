@@ -208,20 +208,24 @@ namespace ProyectoInventarioOET
         {
         }
 
-        protected void botonRedireccionCategorias_ServerClick(object sender, EventArgs e)
-        {
-            //Server.Transfer("FormCategorias.aspx");
-            Response.Redirect("FormCategorias.aspx");
-        }
 
 
 
         /* METODOS DE INTERFAZ RUTINARIOS
          * Limpiar pantalla, Habilitar campos          */
 
-        protected void limpiarCamposC()
+        protected void limpiarCampos()
         {
-            
+            this.inputNombre.Value = "";
+            this.inputDescripcion.Value = "";
+            this.inputCodigo.Value = "";
+            this.inputCodigoBarras.Value = "";
+            this.inputUnidades.Value = "";
+        }
+
+        protected void botonCancelarModalCancelar_ServerClick(object sender, EventArgs e)
+        {
+            limpiarCampos();
         }
 
 

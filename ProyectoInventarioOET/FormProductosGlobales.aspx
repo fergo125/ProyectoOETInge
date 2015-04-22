@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Productos" Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="FormProductosGlobales.aspx.cs" Inherits="ProyectoInventarioOET.FormProductosGlobales" %>
+﻿<%@ Page Title="Productos" Language="C#" AutoEventWireup="True" MasterPageFile="~/Site.Master" CodeBehind="FormProductosGlobales.aspx.cs" Inherits="ProyectoInventarioOET.FormProductosGlobales" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">   
     <br />
@@ -32,19 +32,19 @@
 
     <!-- Fieldset que muestra el form para agregar un nuevo producto -->
     <div class= "row" id="bloqueFormulario" style="display:none">
-    <fieldset id= "FieldsetProductos" runat="server" class="fieldset">
+    <fieldset id= "FieldsetProductos" class="fieldset">
         <br />
 
         <div class= "col-lg-5">
 
             <div class="form-group">
                 <label for="inputNombre" class= "control-label"> Nombre: </label>      
-                <input type="text" id= "inputNombre" class="form-control" required" ><br>
+                <input type="text" id= "inputNombre" class="form-control" required runat="server" ><br>
             </div>
 
             <div class="form-group">
                 <label for="inputDescripcion" class= "control-label"> Descripción: </label>      
-                <textarea rows="4" cols="50" id="inputDescripcion" class="form-control" required> </textarea>
+                <textarea rows="4" cols="50" id="inputDescripcion" class="form-control" required runat="server"> </textarea>
 
             </div>
           
@@ -75,18 +75,18 @@
 
             <div class= "form-group col-lg-6">
                 <label for="inputCodigo" class= "control-label"> Código: </label>      
-                <input type="text" id= "inputCodigo" class= "form-control" required><br>
+                <input type="text" id= "inputCodigo" class= "form-control" required runat="server"><br>
             </div>
             
             <div class="form-group col-lg-6">
                 <label for="inputCodigoBarras" class= "control-label"> Código de Barras: </label>      
-                <input type="text" id= "inputCodigoBarras" name= "inputCodigoBarras" class="form-control" required><br>
+                <input type="text" id= "inputCodigoBarras" name= "inputCodigoBarras" class="form-control" required runat="server"><br>
             </div>
 
 
             <div class="form-group col-lg-4">
                 <label for="inputUnidades" class= "control-label">Unidades: </label>
-                <input type="text" id="inputUnidades" class="form-control" required ><br>
+                <input type="text" id="inputUnidades" class="form-control" required runat="server" ><br>
             </div>
 
             <div class="form-group col-lg-4">
@@ -138,7 +138,7 @@
          <div class="row">
             <label class= "col-lg-1"> Buscar: </label>
             <div class="col-lg-11">
-                <input id="barraDeBusqueda" class="form-control" type="search" placeholder="Busqueda">
+                <input id="barraDeBusqueda" class="form-control" type="search" placeholder="Busqueda" runat="server">
                 <span class="glyphicon glyphicon-search"></span>
             </div>
         </div>
@@ -223,7 +223,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="botonAceptarModalCancelar" class="btn btn-success-fozkr" runat="server"> Aceptar</button>
-                    <button type="button" id="botonCancelarModalCancelar" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
+                    <button type="button" id="botonCancelarModalCancelar" class="btn btn-danger-fozkr" data-dismiss="modal" runat="server" onserverclick="botonCancelarModalCancelar_ServerClick">Cancelar</button>                   
                 </div>
             </div>
         </div>

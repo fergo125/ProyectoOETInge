@@ -56,7 +56,7 @@
                                 Productos<span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a runat="server" href="~/FormProductos">Catálogo global de productos</a></li>
+                                <li><a runat="server" href="~/FormProductosGlobales">Catálogo global de productos</a></li>
                                 <li><a runat="server" href="~/FormCategorias">Categorías de productos</a></li>
                             </ul>
                         </li>
