@@ -26,8 +26,8 @@
     <br />
     <br />
     
-        <h3 id="tituloAccionBodegas"></h3>
-        <br />
+    <h3 id="tituloAccionBodegas"></h3>
+    <br />
 
     <div class= "row" id="bloqueFormulario" style="display:none">
  
