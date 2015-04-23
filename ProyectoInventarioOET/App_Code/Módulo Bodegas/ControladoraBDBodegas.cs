@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using ProyectoInventarioOET.DataSetGeneralTableAdapters;
+using Oracle.DataAccess.Client; //para conectarse a la base de datos manualmente con strings
 using System.Data.SqlClient;
 
 namespace ProyectoInventarioOET.Módulo_Bodegas
 
 {
     
-    public class ControladoraBDBodegas
+    public class ControladoraBDBodegas : ControladoraBD
     {
         
         CAT_BODEGATableAdapter adaptadorBodega;
@@ -19,21 +20,25 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
         {
             adaptadorBodega = new CAT_BODEGATableAdapter();
         }
-
         public String[] insertarBodega(EntidadBodega bodega)
         {
             String[] res = new String[4];
-            res[3] = bodega.Codigo.ToString();
+            res[3] = bodega.Codigo;
             try
             {
-              //  adaptadorBodega.Insert();
+               
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "INSERT INTO CAT_BODEGA (CAT_BODEGA,DESCRIPCION,ANFITRIONA,ESTACION,ESTADO) VALUES ('"
+                + bodega.Codigo + "','" + bodega.Nombre + "','" + bodega.Anfitriona + "','"
+                + bodega.Estacion + "'," + (short)bodega.Estado + ")";
+                OracleDataReader reader = command.ExecuteReader();
+                
                 res[0] = "success";
                 res[1] = "Exito";
                 res[2] = "Bodega Agregada";
             }
             catch (SqlException e)
             {
-                // Como la llave es generada se puede volver a intentar
                 res[0] = "danger";
                 res[1] = "Fallo en la operacion";
                 res[2] = "Intente nuevamente";
@@ -42,15 +47,22 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
         }
 
 
-        public String[] modificarBodega(EntidadBodega bodega, EntidadBodega nuevoBodega)
+        public String[] modificarBodega(EntidadBodega bodega, EntidadBodega nuevaBodega)
         {
             String[] res = new String[3];
             try
             {
-                //adaptadorBodega.Update();
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "UPDATE CAT_BODEGA SET CAT_BODEGA = '" + nuevaBodega.Codigo + "', DESCRIPCION = '" + nuevaBodega.Nombre + "',ANFITRIONA = '"
+                    + nuevaBodega.Anfitriona + "',ESTACION = '" + nuevaBodega.Estacion + "',ESTADO = " + (short)nuevaBodega.Estado + "WHERE CAT_BODEGA = '"
+                    + bodega.Codigo + "' AND DESCRIPCION = '" + bodega.Nombre + "' AND ANFITRIONA = '" + bodega.Anfitriona + "' AND ESTACION = '"
+                    + bodega.Estacion + "' AND ESTADO = " + bodega.Estado;
+                OracleDataReader reader = command.ExecuteReader();
+                
+                
                 res[0] = "success";
                 res[1] = "Exito";
-                res[2] = "Bodega modificado";
+                res[2] = "Bodega modificada";
             }
             catch (SqlException e)
             {
@@ -92,7 +104,10 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
 
             try
             {
-                resultado = adaptadorBodega.GetData().CopyToDataTable();
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "SELECT * FROM CAT_BODEGA";
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
             }
             catch (Exception e)
             {
@@ -103,7 +118,7 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
 
        
 
-        public EntidadBodega consultarBodega(int codigo)
+        public EntidadBodega consultarBodega(String codigo)
         {
             DataTable resultado = new DataTable();
             EntidadBodega bodegaConsultada = null; 
@@ -111,7 +126,10 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
 
             try
             {
-                //resultado = adaptadorBodega.consultarFilaBodega(id);
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "SELECT * FROM CAT_BODEGA WHERE  CAT_BODEGA = '" + codigo + "'";
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
 
                 if (resultado.Rows.Count == 1)
                 {

@@ -20,16 +20,16 @@
     </div>
 
       <!-- Cuerpo del Form -->
-    <button runat="server" onclick="showStuff('bloqueFormulario', 'Nueva bodega');" id="botonAgregarBodega" class=" btn btn-info" type="button" style="float: left"><i></i>Nueva Bodega</button>
-    <button runat="server" onclick="showStuff('bloqueFormulario', 'Modificación de bodega');" id="botonModificarBodega" class=" btn btn-info" type="button" style="float: left"><i></i>Modificar Bodega</button>
-    <button runat="server" onserverclick="botonConsultarBodega_consultarBodegas" onclick="showStuff('bloqueGrids', 'Consulta de bodegas');" id="botonConsultarBodega" class=" btn btn-info" type="button" style="float: left"><i></i>Consultar Bodegas</button>
+    <button runat="server" onserverclick="botonAgregarBodega_ServerClick" id="botonAgregarBodega" class=" btn btn-info" type="button" style="float: left"><i></i>Nueva Bodega</button>
+    <button runat="server" onserverclick="botonModificarBodega_ServerClick"  id="botonModificarBodega" class=" btn btn-info" type="button" style="float: left"><i></i>Modificar Bodega</button>
+    <button runat="server" onserverclick="botonConsultarBodega_consultarBodegas"  id="botonConsultarBodega" class=" btn btn-info" type="button" style="float: left"><i></i>Consultar Bodegas</button>
     <br />
     <br />
     
-        <h3 id="tituloAccionBodegas"></h3>
-        <br />
+    <h3 id="tituloAccionBodegas"></h3>
+    <br />
 
-    <div class= "row" id="bloqueFormulario" style="display:none">
+    <div class= "row" id="bloqueFormulario" style="display:block">
  
         <!-- Fieldset que muestra el form para agregar una nueva bodega -->
         <fieldset id= "FieldsetBodegas" runat="server" class="fieldset">
@@ -37,14 +37,14 @@
             <div class= "col-lg-3">
                 <div class="form-group col-lg-12">
                     <label for="inputEmpresa" class="control-label">Empresa: </label>
-                    <asp:DropDownList ID="comboBoxEmpresa" runat="server" CssClass="form-control">
+                    <asp:DropDownList ID="comboBoxEmpresa" AutoPostBack="True" runat="server" CssClass="form-control">
                     </asp:DropDownList>
                 </div>
             </div>
             <div class="col-lg-3">
                 <div class="form-group col-lg-12">
                     <label for="inputEstacion" class="control-label">Estación: </label>
-                    <asp:DropDownList ID="comboBoxEstacion" runat="server" CssClass="form-control">
+                    <asp:DropDownList ID="comboBoxEstacion" AutoPostBack="True" runat="server" CssClass="form-control">
                     </asp:DropDownList>
                 </div>
             </div>
@@ -59,7 +59,7 @@
             <div class="col-lg-3">
                 <div class="form-group col-lg-12">
                         <label for="inputEstado" class="control-label">Estado: </label>
-                    <asp:DropDownList ID="dropdownEstado" runat="server" CssClass="form-control">
+                    <asp:DropDownList ID="dropdownEstado" AutoPostBack="True" runat="server" CssClass="form-control">
                     </asp:DropDownList>
                 </div>
 
@@ -75,7 +75,7 @@
     </div>
 
 
-    <div class="col-lg-12" id="bloqueBotones" style="display:none">
+    <div class="col-lg-12" id="bloqueBotones" style="display:block">
         <div class =" row">
             <div class="text-center">
                 <button runat="server" onserverclick="botonAceptarBodega_ServerClick" id="botonAceptarBodega" class="btn btn-success-fozkr" type="button"><i class="fa fa-pencil-square-o"></i>Aceptar</button>
@@ -88,7 +88,7 @@
 
 
 
-    <div id="bloqueGrids" class="col-lg-12" style="display:none">
+    <div id="bloqueGrids" class="col-lg-12" style="display:block">
         <fieldset id="FieldsetGridBodegas" center="left" runat="server" class="fieldset">
           <!-- Gridview de consultar -->
          <div class="col-lg-12">

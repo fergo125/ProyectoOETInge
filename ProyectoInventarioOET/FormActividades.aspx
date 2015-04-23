@@ -15,33 +15,28 @@
 
     <!-- Título del Form -->
     <div>
-        <h2 id="Titulos" runat="server"> Actividades </h2>
+        <h2 id="TituloActividades" runat="server">Actividades</h2>
         <hr />
     </div>
 
     <!-- Cuerpo del Form -->
-    <button runat="server" onclick="showStuff('MainContent_FieldsetActividad');" id="botonAgregarActividades" class=" btn btn-info" type="button" style="float: left" > Nueva Actividad</button>
-    <button runat="server" onclick="showStuff('MainContent_FieldsetActividad');" id="botonModificacionActividades" class=" btn btn-info" type="button" style="float: left"><i></i> Modificar Actividad </button>
-    <button runat="server" onserverclick="Page_Load" id="botonConsultaActividades" class=" btn btn-info" type="button" style="float: left"><i></i>Consulta de Actividades </button>
-    <%--<button runat="server" onserverclick="botonRedireccionProductos_ServerClick" id="botonRedireccionProductos" class=" btn btn-primary" type="button" style="float:right" ><i></i> Productos</button>--%>
-
-
+    <button runat="server" onclick="showStuff('bloqueFormulario', 'Nueva actividad');" id="botonAgregarActividades" class=" btn btn-info" type="button" style="float: left" > Nueva Actividad</button>
+    <button runat="server" onclick="showStuff('bloqueFormulario', 'Modificar actividad');" id="botonModificacionActividades" class=" btn btn-info" type="button" style="float: left"><i></i> Modificar Actividad </button>
+    <button runat="server" onserverclick="botonConsultaActividades_ServerClick" onclick="showStuff('bloqueGrid', 'Consulta de actividades');"  id="botonConsultaActividades" class=" btn btn-info" type="button" style="float: left"><i></i>Consulta de Actividades </button>
     <br />
     <br />
+
+    <h3 id="tituloAccionActividades"></h3>
+    <br />
+
     <div class= "row" id="bloqueFormulario" style="display:none">
          <!-- Fieldset para Actividades -->
-        <fieldset id= "FieldsetActividad" style="display:none" runat="server" class="fieldset">
-            <legend> Ingresar datos de una nueva Actividad: </legend>
+        <fieldset id= "FieldsetActividad" runat="server" class="fieldset">
     
-            <br />
-            <br />
-            <br />
-            <div class="row">
-
                 <div class="col-lg-4">
                     <div class="form-group">
                         <label for="inputDescripcionActividad" class= "control-label"> Descripción: </label>      
-                        <input type="text" id= "inputDescripcionActividad" class="form-control"><br>
+                        <input type="text" id= "inputDescripcionActividad" runat="server" class="form-control"><br>
                     </div>
 
                 </div>
@@ -50,15 +45,9 @@
                     <div class="form-group">
                         <label for="inputEstadoActividad" class= "control-label"> Estado: </label>      
                         <asp:DropDownList id="comboBoxEstadosActividades" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
-                            <asp:ListItem Selected="True">Ninguno</asp:ListItem>
                         </asp:DropDownList>
                     </div>
-
                 </div>
-
-
-            </div>
-
         </fieldset>
         <label for="textoObligatorioActividad" class="text-danger text-center">Los campos con (*) son obligatorios</label>
 
@@ -67,13 +56,41 @@
         <div class =" row">
             <div class="text-center">
                 <button runat="server" onserverclick="botonAceptarActividad_ServerClick" id="botonAceptarActividad" class="btn btn-success-fozkr" type="button"><i class="fa fa-pencil-square-o"></i>Aceptar</button>
-                <a id="botonCancelarActividad" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cancelar</a>
-                
+                <a id="botonCancelarActividad" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cancelar</a>                
             </div>
         </div>
-
     </div>
 
+    <div id="bloqueGrid" class="col-lg-12" style="display:none">
+        <fieldset id="FieldsetGridActividades" center="left" runat="server" class="fieldset">
+          <!-- Gridview de consultar -->
+         <div class="col-lg-12">
+            <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
+                <ContentTemplate>
+                    <asp:GridView ID="gridViewActividades" CssClass="table table-responsive table-condensed" OnRowCommand="gridViewActividades_Seleccion" OnPageIndexChanging="gridViewActividades_CambioPagina" runat="server" AllowPaging="True" PageSize="16" BorderColor="Transparent">
+                        <Columns>
+                            <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn-default" CommandName="Select" Text="Consultar">
+                                <ControlStyle CssClass="btn-default disabled"></ControlStyle>
+                            </asp:ButtonField>
+                       </Columns>
+                       <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
+                       <PagerStyle CssClass="paging" HorizontalAlign="Center" />
+                       <AlternatingRowStyle BackColor="#EBEBEB" />
+                       <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
+                       <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" />
+                  </asp:GridView>
+             </ContentTemplate>
+             <Triggers>
+                <asp:AsyncPostBackTrigger ControlID="gridViewActividades" EventName="RowCommand" />
+             </Triggers>
+          </asp:UpdatePanel>
+       </div>
+        <br />
+        <br />
+        <br />
+        </fieldset>        
+    </div>
+    
         
     <!--Modal Cancelar-->
     <div class="modal fade" id="modalCancelar" tabindex="-1" role="dialog" aria-labelledby="modalCancelarLabel" aria-hidden="true">
@@ -94,10 +111,29 @@
         </div>
     </div>
 
+    <!--Modal Desactivar-->
+    <div class="modal fade" id="modalDesactivar" tabindex="-1" role="dialog" aria-labelledby="modalDesactivarLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="modalTitleDesactivar"><i class="fa fa-exclamation-triangle text-danger fa-2x"></i>Confirmar desactivación</h4>
+                </div>
+                <div class="modal-body">
+                    ¿Está seguro que desea desactivar la actividad? La modificación sería guardada permanentemente.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="botonAceptarModalDesactivar" class="btn btn-success-fozkr" runat="server"  onserverclick="botonAceptarModalDesactivar_ServerClick">Aceptar</button>
+                    <button type="button" id="botonCancelarModalDesactivar" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script type="text/javascript">
         function showStuff(elementoATogglear, mensaje) {
             var estado = document.getElementById(elementoATogglear).style.display;
-            document.getElementById('tituloAccionBodegas').innerHTML = mensaje;
+            document.getElementById('tituloAccionActividades').innerHTML = mensaje;
             if (elementoATogglear === 'bloqueFormulario') {
                 if (estado === 'none') {
                     document.getElementById('bloqueGrids').style.display = 'none';

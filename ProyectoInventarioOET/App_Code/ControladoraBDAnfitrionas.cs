@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data;
 using ProyectoInventarioOET.DataSetGeneralTableAdapters;
+using Oracle.DataAccess.Client; //para conectarse a la base de datos manualmente con strings
 
 /*
  * Controladora del conjunto de datos de las organizaciones anfitrionas del sistema.
@@ -11,11 +12,11 @@ using ProyectoInventarioOET.DataSetGeneralTableAdapters;
  */
 namespace ProyectoInventarioOET.App_Code
 {
-    public class ControladoraBDAnfitriones
+    public class ControladoraBDAnfitrionas : ControladoraBD
     {
         ANFITRIONATableAdapter adaptadorAnfitriones;
 
-        public ControladoraBDAnfitriones()
+        public ControladoraBDAnfitrionas()
         {
             adaptadorAnfitriones = new ANFITRIONATableAdapter();
         }
@@ -23,14 +24,10 @@ namespace ProyectoInventarioOET.App_Code
         public DataTable consultarAnfitriones()
         {
             DataTable resultado = new DataTable();
-            try
-            {
-                resultado = adaptadorAnfitriones.GetData().CopyToDataTable();
-            }
-            catch (Exception e)
-            {
-                resultado = null;
-            }
+            OracleCommand command = conexionBD.CreateCommand();
+            command.CommandText = "SELECT * FROM ANFITRIONA";
+            OracleDataReader reader = command.ExecuteReader();
+            resultado.Load(reader);
             return resultado;
         }
     }
