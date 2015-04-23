@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data;
+using Oracle.DataAccess.Client; //para conectarse a la base de datos manualmente con strings
 
 /*
  * Controladora de datos generales, utilizada entre varios módulos.
@@ -17,44 +18,34 @@ namespace ProyectoInventarioOET.App_Code
 {
     public class ControladoraDatosGenerales
     {
-        private static ControladoraDatosGenerales instancia = null;
-        private DataTable estaciones;
-        private DataTable anfitriones;
-        private DataTable unidades;
+        private static ControladoraDatosGenerales instanciaSingleton = null;
         private DataTable estados;
+        private DataTable unidades;
+        private DataTable estaciones;
+        private DataTable anfitrionas;
         
 
         public static ControladoraDatosGenerales Instanciar
         {
             get
             {
-                if (instancia == null)
-                    instancia = new ControladoraDatosGenerales();
-                return instancia;
+                if (instanciaSingleton == null)
+                    instanciaSingleton = new ControladoraDatosGenerales();
+                return instanciaSingleton;
             }
         }
 
         private ControladoraDatosGenerales()
         {
-            ControladoraBDAnfitriones controladoraAnfitriones = new ControladoraBDAnfitriones();
-            ControladoraBDEstaciones controladoraEstaciones = new ControladoraBDEstaciones();
             ControladoraBDEstados controladoraEstados = new ControladoraBDEstados();
             ControladoraBDUnidades controladoraUnidades = new ControladoraBDUnidades();
+            ControladoraBDEstaciones controladoraEstaciones = new ControladoraBDEstaciones();
+            ControladoraBDAnfitrionas controladoraAnfitriones = new ControladoraBDAnfitrionas();
 
-            anfitriones = controladoraAnfitriones.consultarAnfitriones();
-            estaciones = controladoraEstaciones.consultarEstaciones();
             estados = controladoraEstados.consultarEstados();
             unidades = controladoraUnidades.consultarUnidades();
-        }
-
-        public DataTable consultarAnfitriones()
-        {
-            return anfitriones;
-        }
-
-        public DataTable consultarEstaciones()
-        {
-            return estaciones;
+            estaciones = controladoraEstaciones.consultarEstaciones();
+            anfitrionas = controladoraAnfitriones.consultarAnfitriones();
         }
 
         public DataTable consultarEstados()
@@ -65,6 +56,16 @@ namespace ProyectoInventarioOET.App_Code
         public DataTable consultarUnidades()
         {
             return unidades;
+        }
+
+        public DataTable consultarEstaciones()
+        {
+            return estaciones;
+        }
+
+        public DataTable consultarAnfitriones()
+        {
+            return anfitrionas;
         }
     }
 }
