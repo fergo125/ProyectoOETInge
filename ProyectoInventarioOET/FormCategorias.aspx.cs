@@ -109,7 +109,7 @@ namespace ProyectoInventarioOET
             {
                 case "Select":
                     GridViewRow filaSeleccionada = this.gridViewCategorias.Rows[Convert.ToInt32(e.CommandArgument)];
-                    int id = Convert.ToInt32(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewBodegas.PageIndex * resultadosPorPagina)]);
+                    int id = Convert.ToInt32(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewCategorias.PageIndex * resultadosPorPagina)]);
                     break;
             }
         }
@@ -135,6 +135,21 @@ namespace ProyectoInventarioOET
         {
             limpiarCampos();
             deshabilitarCampos();
+        }
+
+        protected void botonAgregarCategoria_ServerClick(object sender, EventArgs e)
+        {
+            modo = (int)Modo.Insercion;
+        }
+
+        protected void botonModificacionCategoria_ServerClick(object sender, EventArgs e)
+        {
+            modo = (int)Modo.Modificacion;
+        }
+
+        protected void botonConsultaCategoria_ServerClick(object sender, EventArgs e)
+        {
+            modo = (int)Modo.Consulta;
         }
 
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -15,7 +16,7 @@ namespace ProyectoInventarioOET
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            testGrid();
         }
 
         protected void gridViewCatalogoLocal_Seleccion(object sender, GridViewCommandEventArgs e)
@@ -34,7 +35,36 @@ namespace ProyectoInventarioOET
             this.gridViewCatalogoLocal.PageIndex = e.NewPageIndex;
             this.gridViewCatalogoLocal.DataBind();
         }
+        protected void testGrid()
+        {
+            DataTable tabla = tablaBodegas();
+            for (int i = 1; i < 20; i++)
+            {
+                Object[] datos2 = new Object[2];
+                datos2[0] = i * 21;
+                datos2[1] = i * 35;
+                tabla.Rows.Add(datos2);
+            }
+            this.gridViewCatalogoLocal.DataSource = tabla;
+            this.gridViewCatalogoLocal.DataBind();
+        }
+        protected DataTable tablaBodegas()
+        {
+            DataTable tabla = new DataTable();
+            DataColumn columna;
 
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Nombre";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Descripción";
+            tabla.Columns.Add(columna);
+
+            return tabla;
+        }
 
     }
 }

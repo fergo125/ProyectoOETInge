@@ -29,7 +29,7 @@
     <br /><br />
 
     <!-- Fieldset que muestra los productos de la bodega local elegida -->
-    <fieldset id= "FieldsetCatalogoLocal" style="display:none" center="left" runat="server" class="fieldset" aria-hidden="true">
+    <fieldset id= "FieldsetCatalogoLocal" style="display:block" center="left" runat="server" class="fieldset" aria-hidden="true">
         <!-- Gridview de productos -->
          <div class="col-lg-12">
             <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
@@ -55,6 +55,44 @@
         <br />
         <br />
         <br />
-    </fieldset> 
+    </fieldset>
+    <fieldset>
+          <div class="form-group col-lg-4">
+                <label for="inputIDProducto" class= "control-label"> Costo (dolares): </label>      
+                <input type="text" id= "inputIDProducto" class="form-control" ><br>
+            </div>
+          <div class="form-group col-lg-5">
+                <label for="inputNombreProducto" class= "control-label"> Nombre:</label>      
+                <input type="text" id= "inputNombreProducto" class="form-control" ><br>
+            </div>
+            <div class= "form-group col-lg-6">
+                <label for="inputCostoColones" class= "control-label"> Costo Colones: </label>      
+                <input type="text" id= "inputCostoColones" class= "form-control" required runat="server"><br>
+            </div>
+            
+            <div class="form-group col-lg-7">
+                <label for="inputCostoDolares" class= "control-label"> Costo Dolares: </label>      
+                <input type="text" id= "inputCostoDolares" name= "inputCodigoBarras" class="form-control" required runat="server"><br>
+            </div>
+
+            <div class="form-group col-lg-8">
+                <label for="inputSaldo" class= "control-label" >Saldo: </label>
+                <input type="text" id= "inputSaldo" name= "inputCodigoBarras" class="form-control" required runat="server"><br>
+             
+            </div>
+            <div class="form-group col-lg-9">
+                <label for="inputCantidadMinima" class= "control-label" >Cantidad Minima: </label>
+
+                <asp:DropDownList ID="inputCantidadMinima" runat="server" class="form-control"></asp:DropDownList>
+            </div>
+
+            <div class="form-group col-lg-10">
+                <label for="inputCantidadMaxima" class= "control-label"> Cantidad Maxima</label>      
+                <input type="text" id= "inputCantidadMaxima" class="form-control" ><br>
+            </div>
+
+          
+        </fieldset>
+    <!-- costo colones,dolares,saldo, cantidad min. cantidad max--> 
 
 </asp:Content>

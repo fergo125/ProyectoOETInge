@@ -31,9 +31,9 @@
 
 
     <!-- Cuerpo del Form -->
-    <button runat="server" onclick="showStuff('bloqueFormulario', 'Nueva Categoria');"  id="botonAgregarCategoria" class=" btn btn-info" type="button" style="float: left"><i></i> Nueva Categoria</button>
-    <button runat="server" onclick="showStuff('bloqueFormulario', 'Modificación de Categoria');" id="botonModificacionCategoria" class=" btn btn-info" type="button" style="float: left"><i></i> Modificar Categoria </button>
-    <button runat="server" onclick="showStuff('bloqueGrid', 'Consulta de Categoria');" id="botonConsultaCategoria" class=" btn btn-info" type="button" style="float: left"><i></i>Consulta de Categorias </button>
+    <button runat="server" onclick="showStuff('bloqueFormulario', 'Nueva Categoria');" onserverclick="botonAgregarCategoria_ServerClick"  id="botonAgregarCategoria" class=" btn btn-info" type="button" style="float: left"><i></i> Nueva Categoria</button>
+    <button runat="server" onclick="showStuff('bloqueFormulario', 'Modificación de Categoria');" onserverclick="botonModificacionCategoria_ServerClick" id="botonModificacionCategoria" class=" btn btn-info" type="button" style="float: left"><i></i> Modificar Categoria </button>
+    <button runat="server" onclick="showStuff('bloqueGrid', 'Consulta de Categoria');" id="botonConsultaCategoria" onserverclick="botonConsultaCategoria_ServerClick" class=" btn btn-info" type="button" style="float: left"><i></i>Consulta de Categorias </button>
 
 
     <br />

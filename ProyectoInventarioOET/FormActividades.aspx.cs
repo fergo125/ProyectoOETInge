@@ -66,7 +66,7 @@ namespace ProyectoInventarioOET
             {
                 // Cargar bodegas
                 Object[] datos = new Object[3];
-                DataTable bodegas = controladoraActividades.consultarActividades();
+                DataTable bodegas = null;//controladoraActividades.consultarActividades();
 
                 if (bodegas.Rows.Count > 0)
                 {
