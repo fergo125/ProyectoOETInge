@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 
-namespace ProyectoInventarioOET.App_Code.Módulo_Actividades
+namespace ProyectoInventarioOET.Módulo_Actividades
 {
     class ControladoraBDActividades
     {

@@ -273,9 +273,9 @@
     <Compile Include="App_Code\ControladoraBDEstados.cs" />
     <Compile Include="App_Code\ControladoraBDUnidades.cs" />
     <Compile Include="App_Code\ControladoraDatosGenerales.cs" />
-    <Content Include="App_Code\Módulo Actividades\ControladoraActividades.cs" />
-    <Content Include="App_Code\Módulo Actividades\ControladoraBDActividades.cs" />
-    <Content Include="App_Code\Módulo Actividades\EntidadActividad.cs" />
+    <Compile Include="App_Code\Módulo Actividades\ControladoraActividades.cs" />
+    <Compile Include="App_Code\Módulo Actividades\ControladoraBDActividades.cs" />
+    <Compile Include="App_Code\Módulo Actividades\EntidadActividad.cs" />
     <Compile Include="App_Code\Módulo Bodegas\EntidadBodega.cs" />
     <Compile Include="App_Code\Módulo Bodegas\ControladoraBodegas.cs" />
     <Compile Include="App_Code\Módulo Bodegas\ControladoraBDBodegas.cs" />

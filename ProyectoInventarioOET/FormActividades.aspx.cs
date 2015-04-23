@@ -5,15 +5,25 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using ProyectoInventarioOET.Módulo_Actividades;
+using ProyectoInventarioOET.App_Code;
+
 
 namespace ProyectoInventarioOET
 {
     public partial class FormActividades : System.Web.UI.Page
     {
+        enum Modo { Inicial, Consulta, Insercion, Modificacion };
+        private int modo = (int)Modo.Inicial;
         private static int resultadosPorPagina;
         private static Object[] idArray;
+        private static ControladoraDatosGenerales controladoraDatosGenerales;
+        private static EntidadActividad actividadConsultada;
+        private static ControladoraActividades controladoraActividades;
         protected void Page_Load(object sender, EventArgs e)
         {
+            modo = (int)Modo.Inicial;
+
 
         }
 
@@ -158,6 +168,47 @@ namespace ProyectoInventarioOET
             this.comboBoxEstadosActividades.Enabled = habilitar;
         }
 
+        protected void cargarEstados()
+        {
+            comboBoxEstadosActividades.Items.Clear();
+            comboBoxEstadosActividades.Items.Add(new ListItem("", null));
+            DataTable estados = controladoraDatosGenerales.consultarEstados();
+            foreach (DataRow fila in estados.Rows)
+            {
+                comboBoxEstadosActividades.Items.Add(new ListItem(fila[1].ToString(), fila[2].ToString()));
+            }
+        }
+
+        protected void cambiarModo()
+        {
+            switch (modo)
+            {
+                case 0:
+                //    limpiarCampos();
+                //    botonAgregarBodega.Disabled = false;
+                //    botonModificarBodega.Disabled = true;
+                //    habilitarCampos(false);
+                //    break;
+                //case 1: //insertar
+                //    habilitarCampos(true);
+                //    botonAgregarBodega.Disabled = true;
+                //    botonModificarBodega.Disabled = true;
+                //    break;
+                //case 2: //modificar
+                //    habilitarCampos(true);
+                //    botonAgregarBodega.Disabled = true;
+                //    botonModificarBodega.Disabled = true;
+
+                //    break;
+                //case 3://consultar
+                //    habilitarCampos(false);
+                //    break;
+
+                default:
+                    // Algo salio mal
+                    break;
+            }
+        }
 
     }
 }

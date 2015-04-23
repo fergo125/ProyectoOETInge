@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ProyectoInventarioOET.App_Code.Módulo_Actividades
+namespace ProyectoInventarioOET.Módulo_Actividades
 {
     public class EntidadActividad
     {
