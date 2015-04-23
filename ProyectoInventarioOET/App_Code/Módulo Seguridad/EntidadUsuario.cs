@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
+/*
+ * Entidad Usuario
+ * Encapsulador de información acerca de cuentas de usuario
+ */
 namespace ProyectoInventarioOET.App_Code.Módulo_Seguridad
 {
     public class EntidadUsuario
@@ -17,13 +21,14 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Seguridad
         private String nombre;
         private int estado;
 
+        // Constructor
         public EntidadUsuario(Object[] datos)
         {
             this.codigo = datos[0].ToString();
             this.usuario = datos[1].ToString();
             this.clave = datos[2].ToString();
             this.descripcion = datos[3].ToString();
-            //this.fechaCreacion = datos[4].ToString(); // Falta pasarlo a formato fecha
+            this.fechaCreacion = Convert.ToDateTime(datos[4].ToString());
             this.idEstacion = datos[5].ToString();
             this.anfitriona = datos[6].ToString();
             this.nombre = datos[7].ToString();

@@ -281,6 +281,7 @@
     <Compile Include="App_Code\Módulo Bodegas\ControladoraBDBodegas.cs" />
     <Content Include="App_Code\Módulo Seguridad\ControladoraSeguridad.cs" />
     <Content Include="App_Code\Módulo Seguridad\EntidadUsuario.cs" />
+    <Content Include="App_Code\Módulo Seguridad\ControladoraBDSeguridad.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Code\ControladoraBD.cs" />
     <Compile Include="DataSetGeneral.Designer.cs">

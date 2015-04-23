@@ -16,9 +16,7 @@ namespace ProyectoInventarioOET
         private static int resultadosPorPagina;
         private static EntidadBodega bodegaConsultada;
         private static ControladoraBodegas controladoraBodegas;
-        private static ControladoraBDEstados controladoraEstados;
-        private static ControladoraBDEstaciones controladoraEstaciones;
-        private static ControladoraBDAnfitrionas controladoraAnfitriones;
+        private static ControladoraDatosGenerales controladoraDatosGenerales;
         private static Boolean seConsulto = false;
         private static Object[] idArray;
         private static int modo = 0;
@@ -29,9 +27,7 @@ namespace ProyectoInventarioOET
             {
                 
                     controladoraBodegas = new ControladoraBodegas();
-                    controladoraEstados = new ControladoraBDEstados();
-                    controladoraAnfitriones = new ControladoraBDAnfitrionas();
-                    controladoraEstaciones = new ControladoraBDEstaciones();
+                    controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
 
                     if (!seConsulto)
                     {
@@ -108,37 +104,6 @@ namespace ProyectoInventarioOET
             this.gridViewBodegas.DataBind();
         }
 
-        protected void testGrid()
-        {
-
-            DataTable tabla = tablaBodegas();
-            DataTable tabla2 = tablaCatalogoLocal();
-
-            for (int i = 1; i < 5; i++)
-            {
-                Object[] datos = new Object[2];
-                datos[0] = i * 2;
-                datos[1] = i * 3;
-                tabla.Rows.Add(datos);
-            }
-
-            for (int i = 1; i < 5; i++)
-            {
-                Object[] datos2 = new Object[5];
-                datos2[0] = i * 2;
-                datos2[1] = i * 3;
-                datos2[2] = i * 4;
-                datos2[3] = i * 5;
-                datos2[4] = i * 6;
-                tabla2.Rows.Add(datos2);
-            }
-
-            this.gridViewBodegas.DataSource = tabla;
-            this.gridViewBodegas.DataBind();
-        
-        
-        }
-
 
         protected void llenarGrid()
         {
@@ -196,8 +161,6 @@ namespace ProyectoInventarioOET
             gridViewBodegas.DataBind();
         }
 
-
-
         protected DataTable tablaBodegas()
         {
             DataTable tabla = new DataTable();
@@ -216,38 +179,6 @@ namespace ProyectoInventarioOET
             return tabla;
         }
 
-        protected DataTable tablaCatalogoLocal()
-        {
-            DataTable tabla = new DataTable();
-            DataColumn columna;
-
-            columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Nombre";
-            tabla.Columns.Add(columna);
-
-            columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Precio";
-            tabla.Columns.Add(columna);
-
-            columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Cantidad";
-            tabla.Columns.Add(columna);
-
-            columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Mínimo";
-            tabla.Columns.Add(columna);
-
-            columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Máximo";
-            tabla.Columns.Add(columna);
-
-            return tabla;
-        }
 
         protected void mostrarMensaje(String tipoAlerta, String alerta, String mensaje)
         {
@@ -257,16 +188,6 @@ namespace ProyectoInventarioOET
             mensajeAlerta.Attributes.Remove("hidden");
         }
 
-        protected void gridViewCatalogoLocal_Seleccion(object sender, GridViewCommandEventArgs e)
-        {
-            switch (e.CommandName)
-            {
-                case "Select":
-                    GridViewRow filaSeleccionada = this.gridViewBodegas.Rows[Convert.ToInt32(e.CommandArgument)];
-                    int id = Convert.ToInt32(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewBodegas.PageIndex * resultadosPorPagina)]);
-                    break;
-            }
-        }
 
         protected void botonAceptarBodega_ServerClick(object sender, EventArgs e)
         {
@@ -340,8 +261,6 @@ namespace ProyectoInventarioOET
                 res = false;
                 modo = 2;
             }
-
-
             return res;
         }
 
@@ -395,7 +314,7 @@ namespace ProyectoInventarioOET
         {
             dropdownEstado.Items.Clear();
             dropdownEstado.Items.Add(new ListItem("", null));
-            DataTable estados = controladoraEstados.consultarEstados();
+            DataTable estados = controladoraDatosGenerales.consultarEstados();
             foreach (DataRow fila in estados.Rows)
             {
                 dropdownEstado.Items.Add(new ListItem(fila[1].ToString(), fila[2].ToString()));
@@ -406,7 +325,7 @@ namespace ProyectoInventarioOET
         {
             comboBoxEmpresa.Items.Clear();
             comboBoxEmpresa.Items.Add(new ListItem("", null));
-            DataTable anfitriones = controladoraAnfitriones.consultarAnfitriones();
+            DataTable anfitriones = controladoraDatosGenerales.consultarAnfitriones();
             foreach (DataRow fila in anfitriones.Rows)
             {
                 comboBoxEmpresa.Items.Add(new ListItem(fila[2].ToString(), fila[0].ToString()));
@@ -417,7 +336,7 @@ namespace ProyectoInventarioOET
         {
             comboBoxEstacion.Items.Clear();
             comboBoxEstacion.Items.Add(new ListItem("", null));
-            DataTable estaciones = controladoraEstaciones.consultarEstaciones();
+            DataTable estaciones = controladoraDatosGenerales.consultarEstaciones();
             foreach (DataRow fila in estaciones.Rows)
             {
                 comboBoxEstacion.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
