@@ -18,7 +18,7 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
         }
 
 
-        public EntidadBodega consultarBodega(int id)
+        public EntidadBodega consultarBodega(String id)
         {
             /*consulta la información de una bodega particular*/
             return controladoraBDBodegas.consultarBodega(id);
