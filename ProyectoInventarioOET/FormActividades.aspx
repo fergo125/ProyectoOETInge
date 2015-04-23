@@ -36,7 +36,7 @@
                 <div class="col-lg-4">
                     <div class="form-group">
                         <label for="inputDescripcionActividad" class= "control-label"> Descripción: </label>      
-                        <input type="text" id= "inputDescripcionActividad" class="form-control"><br>
+                        <input type="text" id= "inputDescripcionActividad" runat="server" class="form-control"><br>
                     </div>
 
                 </div>
