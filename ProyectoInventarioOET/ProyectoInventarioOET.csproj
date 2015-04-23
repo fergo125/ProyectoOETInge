@@ -164,7 +164,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="FormEntradas.aspx" />
     <Content Include="FormProductosGlobales.aspx" />
-    <Content Include="FormProductos.aspx" />
     <Content Include="FormProductosLocales.aspx" />
     <Content Include="FormVentas.aspx" />
     <Content Include="packages.config" />
@@ -275,6 +274,9 @@
     <Compile Include="App_Code\Módulo Bodegas\EntidadBodega.cs" />
     <Compile Include="App_Code\Módulo Bodegas\ControladoraBodegas.cs" />
     <Compile Include="App_Code\Módulo Bodegas\ControladoraBDBodegas.cs" />
+    <Content Include="App_Code\Módulo ProductosGlobales\ControladoraBDProductosGlobales.cs" />
+    <Content Include="App_Code\Módulo ProductosGlobales\ControladoraProductosGlobales.cs" />
+    <Content Include="App_Code\Módulo ProductosGlobales\EntidadProductoGlobal.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="DataSetGeneral.Designer.cs">
       <AutoGen>True</AutoGen>

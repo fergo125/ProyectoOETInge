@@ -31,7 +31,7 @@
     <h3 id="tituloAccion"> Consulta de productos </h3>
 
     <!-- Fieldset que muestra el form para agregar un nuevo producto -->
-    <div class= "row" id="bloqueFormulario" style="display:none">
+    <div class= "row" id="bloqueFormulario" style="display:block">
     <fieldset id= "FieldsetProductos" class="fieldset">
         <br />
 

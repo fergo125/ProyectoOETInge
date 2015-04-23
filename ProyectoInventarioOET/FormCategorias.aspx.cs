@@ -118,12 +118,7 @@ namespace ProyectoInventarioOET
         {
 
         }
-
-        protected void botonCancelarModalCancelar_ServerClick(object sender, EventArgs e)
-        {
-
-        }
-
+        
         protected void limpiarCampos()
         {
             this.inputNombre.Value = "";
