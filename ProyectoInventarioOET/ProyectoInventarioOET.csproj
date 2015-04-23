@@ -164,6 +164,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="FormEntradas.aspx" />
+    <Content Include="FormLogin.aspx" />
     <Content Include="FormProductosGlobales.aspx" />
     <Content Include="FormProductosLocales.aspx" />
     <Content Include="FormVentas.aspx" />
@@ -330,6 +331,13 @@
     </Compile>
     <Compile Include="FormEntradas.aspx.designer.cs">
       <DependentUpon>FormEntradas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FormLogin.aspx.cs">
+      <DependentUpon>FormLogin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormLogin.aspx.designer.cs">
+      <DependentUpon>FormLogin.aspx</DependentUpon>
     </Compile>
     <Compile Include="FormProductosGlobales.aspx.cs">
       <DependentUpon>FormProductosGlobales.aspx</DependentUpon>
