@@ -5,6 +5,7 @@ using System.Data;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using ProyectoInventarioOET.Módulo_Bodegas;
 
 namespace ProyectoInventarioOET
 {
@@ -12,11 +13,14 @@ namespace ProyectoInventarioOET
     {
 
         private static int resultadosPorPagina;
+        private static EntidadBodega bodegaConsultada;
+        private static ControladoraBodegas controladoraBodegas;
         private static Object[] idArray;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             testGrid();
+            controladoraBodegas = new ControladoraBodegas();
         }
 
         protected void gridViewBodegas_Seleccion(object sender, GridViewCommandEventArgs e)
@@ -64,8 +68,6 @@ namespace ProyectoInventarioOET
 
             this.gridViewBodegas.DataSource = tabla;
             this.gridViewBodegas.DataBind();
-            this.gridViewCatalogoLocal.DataSource = tabla2;
-            this.gridViewCatalogoLocal.DataBind();
         
         
         }
@@ -79,10 +81,9 @@ namespace ProyectoInventarioOET
 
                 try
                 {
-                    // Cargar proyectos
+                    // Cargar bodegas
                     Object[] datos = new Object[3];
-                    DataTable bodegas = new DataTable(); //quitar una vez que ya está la controladora
-                    //bodegas = controladora.consultarBodegas();
+                    DataTable bodegas = controladoraBodegas.consultarBodegas();
 
                     if (bodegas.Rows.Count > 0)
                     {
@@ -91,10 +92,10 @@ namespace ProyectoInventarioOET
                         {
                             idArray[i] = fila[0];
                             datos[0] = fila[1].ToString();
-                            datos[1] = fila[6].ToString();
-                            datos[2] = fila[7].ToString();
+                            datos[1] = fila[2].ToString();
+                            datos[2] = fila[3].ToString();
                             tabla.Rows.Add(datos);
-                           /* if (bodegaConsultada != null && (fila[0].Equals(bodegaConsultada.Identificador)))
+                            /*if (bodegaConsultada != null && (fila[0].Equals(bodegaConsultada.Identificador)))
                             {
                                 indiceNuevaBodega = i;
                             }*/
@@ -199,13 +200,6 @@ namespace ProyectoInventarioOET
             }
         }
 
-        protected void gridViewCatalogoLocal_CambioPagina(Object sender, GridViewPageEventArgs e)
-        {
-            this.gridViewCatalogoLocal.PageIndex = e.NewPageIndex;
-            this.gridViewCatalogoLocal.DataBind();
-        }
-
-
         protected void botonAceptarBodega_ServerClick(object sender, EventArgs e)
         {
 
@@ -215,6 +209,27 @@ namespace ProyectoInventarioOET
         {
 
         }
+
+        protected void botonAceptarModalDesactivar_ServerClick(object sender, EventArgs e)
+        {
+        }
+
+        protected void botonConsultarBodega_consultarBodegas(object sender, EventArgs e)
+        {
+            llenarGrid();
+        }
+
+        protected Object[] obtenerDatosBodegas()
+        {
+            Object[] datos = new Object[5];
+            datos[0] = 0;
+            datos[1] = this.inputNombre.Value;
+            datos[2] = this.comboBoxEmpresa.SelectedValue;
+            datos[3] = this.comboBoxEstacion.SelectedValue;
+            datos[4] = this.dropdownEstado.SelectedValue;
+            return datos;
+        }
+           
 
     }
 }

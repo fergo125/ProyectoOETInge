@@ -39,11 +39,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Oracle.ManagedDataAccess, Version=4.121.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.DirectoryServices.Protocols" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
@@ -160,6 +164,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="FormEntradas.aspx" />
     <Content Include="FormProductosGlobales.aspx" />
+    <Content Include="FormProductos.aspx" />
+    <Content Include="FormProductosLocales.aspx" />
     <Content Include="FormVentas.aspx" />
     <Content Include="packages.config" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -167,6 +173,17 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Account\Web.config" />
     <Content Include="FormBodegas.aspx" />
+    <Content Include="DataSetGeneral.xsc">
+      <DependentUpon>DataSetGeneral.xsd</DependentUpon>
+    </Content>
+    <None Include="DataSetGeneral.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSetGeneral.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="DataSetGeneral.xss">
+      <DependentUpon>DataSetGeneral.xsd</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -250,7 +267,20 @@
     <Compile Include="Account\RegisterExternalLogin.aspx.designer.cs">
       <DependentUpon>RegisterExternalLogin.aspx</DependentUpon>
     </Compile>
+    <Content Include="App_Code\ControladoraBDAnfitriones.cs" />
+    <Content Include="App_Code\ControladoraBDEstaciones.cs" />
+    <Content Include="App_Code\ControladoraBDEstados.cs" />
+    <Content Include="App_Code\ControladoraBDUnidades.cs" />
+    <Content Include="App_Code\ControladoraDatosGenerales.cs" />
+    <Compile Include="App_Code\Módulo Bodegas\EntidadBodega.cs" />
+    <Compile Include="App_Code\Módulo Bodegas\ControladoraBodegas.cs" />
+    <Compile Include="App_Code\Módulo Bodegas\ControladoraBDBodegas.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="DataSetGeneral.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSetGeneral.xsd</DependentUpon>
+    </Compile>
     <Compile Include="FormAbout.aspx.cs">
       <DependentUpon>FormAbout.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -302,6 +332,13 @@
     <Compile Include="FormProductosGlobales.aspx.designer.cs">
       <DependentUpon>FormProductosGlobales.aspx</DependentUpon>
     </Compile>
+    <Compile Include="FormProductosLocales.aspx.cs">
+      <DependentUpon>FormProductosLocales.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormProductosLocales.aspx.designer.cs">
+      <DependentUpon>FormProductosLocales.aspx</DependentUpon>
+    </Compile>
     <Compile Include="FormVentas.aspx.cs">
       <DependentUpon>FormVentas.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -345,9 +382,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Code\" />
     <Folder Include="App_Data\" />
     <Folder Include="App_Resources\" />
+    <Folder Include="DataSets\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -40,13 +40,13 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.Label labelAlerta;
         
         /// <summary>
-        /// Titulos control.
+        /// TituloActividades control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Titulos;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl TituloActividades;
         
         /// <summary>
         /// botonAgregarActividades control.
@@ -112,6 +112,33 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlAnchor botonCancelarActividad;
         
         /// <summary>
+        /// FieldsetGridActividades control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetGridActividades;
+        
+        /// <summary>
+        /// UpdatePanelPruebas control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanelPruebas;
+        
+        /// <summary>
+        /// gridViewActividades control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gridViewActividades;
+        
+        /// <summary>
         /// botonAceptarModalCancelar control.
         /// </summary>
         /// <remarks>
@@ -119,5 +146,14 @@ namespace ProyectoInventarioOET {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlButton botonAceptarModalCancelar;
+        
+        /// <summary>
+        /// botonAceptarModalDesactivar control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonAceptarModalDesactivar;
     }
 }
