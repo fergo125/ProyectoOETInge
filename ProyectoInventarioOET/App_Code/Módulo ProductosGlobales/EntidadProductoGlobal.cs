@@ -92,15 +92,5 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
             return "";
         }
 
-
-
-
-
-
-
-
-
-
-
     }
 }
