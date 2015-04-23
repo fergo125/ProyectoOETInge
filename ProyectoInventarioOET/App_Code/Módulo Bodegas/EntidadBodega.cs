@@ -18,10 +18,10 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
         public EntidadBodega(Object[] datos)
         {
             this.codigo = autogenerarCodigo();
-            this.nombre = datos[0].ToString();
-            this.anfitriona = datos[1].ToString();
-            this.estacion = datos[2].ToString();
-            this.estado = Convert.ToInt32(datos[3].ToString());
+            this.nombre = datos[1].ToString();
+            this.anfitriona = datos[2].ToString();
+            this.estacion = datos[3].ToString();
+            this.estado = Convert.ToInt32(datos[4].ToString());
         }
 
         public String Codigo
@@ -58,7 +58,7 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
         {
             //here's where the magic happens
             //in the meanwhile...
-            return "";
+            return "DUMMYCODE";
         }
 
 

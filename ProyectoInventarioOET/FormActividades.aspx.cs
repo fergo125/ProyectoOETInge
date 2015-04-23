@@ -66,9 +66,9 @@ namespace ProyectoInventarioOET
             {
                 // Cargar bodegas
                 Object[] datos = new Object[3];
-                DataTable bodegas = controladoraActividades.consultarActividades();
+                //DataTable bodegas = controladoraActividades.consultarActividades();
 
-                if (bodegas.Rows.Count > 0)
+               /* if (bodegas.Rows.Count > 0)
                 {
                     idArray = new Object[bodegas.Rows.Count];
                     foreach (DataRow fila in bodegas.Rows)
@@ -80,7 +80,7 @@ namespace ProyectoInventarioOET
                         /*if (bodegaConsultada != null && (fila[0].Equals(bodegaConsultada.Identificador)))
                         {
                             indiceNuevaBodega = i;
-                        }*/
+                        }
                         i++;
                     }
                 }
@@ -90,7 +90,7 @@ namespace ProyectoInventarioOET
                     datos[1] = "-";
                     tabla.Rows.Add(datos);
                 }
-
+    */
                 this.gridViewActividades.DataSource = tabla;
                 this.gridViewActividades.DataBind();
                 /* if (bodegaConsultada != null)

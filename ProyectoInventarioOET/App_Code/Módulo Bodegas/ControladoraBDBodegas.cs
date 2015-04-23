@@ -23,10 +23,10 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
         public String[] insertarBodega(EntidadBodega bodega)
         {
             String[] res = new String[4];
-            res[3] = bodega.Codigo.ToString();
+            res[3] = bodega.Codigo;
             try
             {
-              //  adaptadorBodega.Insert();
+                adaptadorBodega.Insert(bodega.Codigo,bodega.Nombre,bodega.Anfitriona,bodega.Estacion,(short)bodega.Estado);
                 res[0] = "success";
                 res[1] = "Exito";
                 res[2] = "Bodega Agregada";
@@ -42,12 +42,12 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
         }
 
 
-        public String[] modificarBodega(EntidadBodega bodega, EntidadBodega nuevoBodega)
+        public String[] modificarBodega(EntidadBodega bodega, EntidadBodega nuevaBodega)
         {
             String[] res = new String[3];
             try
             {
-                //adaptadorBodega.Update();
+                adaptadorBodega.Modificar(nuevaBodega.Codigo,nuevaBodega.Nombre,nuevaBodega.Anfitriona,nuevaBodega.Estacion,(short)nuevaBodega.Estado,bodega.Codigo,bodega.Nombre,bodega.Anfitriona,bodega.Estacion,(short)bodega.Estado);
                 res[0] = "success";
                 res[1] = "Exito";
                 res[2] = "Bodega modificado";
@@ -103,7 +103,7 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
 
        
 
-        public EntidadBodega consultarBodega(int codigo)
+        public EntidadBodega consultarBodega(String codigo)
         {
             DataTable resultado = new DataTable();
             EntidadBodega bodegaConsultada = null; 
@@ -111,7 +111,7 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
 
             try
             {
-                //resultado = adaptadorBodega.consultarFilaBodega(id);
+                resultado = adaptadorBodega.consultarFilaBodega(codigo);
 
                 if (resultado.Rows.Count == 1)
                 {
