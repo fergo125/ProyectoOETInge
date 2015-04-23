@@ -5,12 +5,18 @@ using System.Web;
 using System.Data;
 using Oracle.DataAccess.Client; //para conectarse a la base de datos manualmente con strings
 
+/*
+ * Controladora de base de datos de seguridad
+ * Encargada de obtener información acerca de la seguridad del sistema desde la base de datos
+ * Hereda de la controladora de base de datos
+ */
 namespace ProyectoInventarioOET.App_Code.Módulo_Seguridad
 {
     public class ControladoraBDSeguridad : ControladoraBD
     {
         public ControladoraBDSeguridad() { }
 
+        // Busca un usuario con un nombre y una password específicos
         public EntidadUsuario consultarUsuario(String nombre, String password)
         {
             DataTable resultado = new DataTable();
