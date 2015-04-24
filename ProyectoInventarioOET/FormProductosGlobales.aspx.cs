@@ -286,6 +286,34 @@ namespace ProyectoInventarioOET
             limpiarCampos();
         }
 
+        protected void botonAgregarProductos_ServerClick(object sender, EventArgs e)
+        {
+            modo = (int)Modo.Insercion;
+            cambiarModo();
+            limpiarCampos();
+            //cargarEstados();
+        }
+
+        protected void botonModificacionProductos_ServerClick(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void botonConsultaProductos_ServerClick(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void gridViewProductosGlobales_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+
+        }
+
+        protected void gridViewProductosGlobales_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+
+        }
+
 
 
     }

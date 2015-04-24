@@ -20,9 +20,9 @@
     </div>
 
     <!-- Cuerpo del Form -->
-    <button runat="server" onclick="showStuff('bloqueFormulario', 'Nuevo producto');" id="botonAgregarProductos" class=" btn btn-info" type="button" style="float: left"><i></i> Nuevo Producto</button>
-    <button runat="server" onclick="showStuff('bloqueFormulario', 'Modificación de producto');" id="botonModificacionProductos" class=" btn btn-info" type="button" style="float: left"><i></i> Modificar Producto </button>
-    <button runat="server" onclick="showStuff('bloqueGrid', 'Consulta de productos');" id="botonConsultaProductos" class=" btn btn-info" type="button" style="float: left"><i></i>Consulta de Productos </button>
+    <button runat="server" onclick="showStuff('bloqueFormulario', 'Nuevo producto');" onserverclick="botonAgregarProductos_ServerClick" id="botonAgregarProductos" class=" btn btn-info" type="button" style="float: left"><i></i> Nuevo Producto</button>
+    <button runat="server" onclick="showStuff('bloqueFormulario', 'Modificación de producto');" onserverclick="botonModificacionProductos_ServerClick" id="botonModificacionProductos" class=" btn btn-info" type="button" style="float: left"><i></i> Modificar Producto </button>
+    <button runat="server" onclick="showStuff('bloqueGrid', 'Consulta de productos');" id="botonConsultaProductos" onserverclick="botonConsultaProductos_ServerClick" class=" btn btn-info" type="button" style="float: left"><i></i>Consulta de Productos </button>
 
 
     <br />
@@ -31,7 +31,7 @@
     <h3 id="tituloAccion"> Consulta de productos </h3>
 
     <!-- Fieldset que muestra el form para agregar un nuevo producto -->
-    <div class= "row" id="bloqueFormulario" style="display:block">
+    <div class= "row" id="bloqueFormulario" style="display:none">
     <fieldset id= "FieldsetProductos" class="fieldset">
         <br />
 
@@ -153,10 +153,10 @@
 <%--        <label for="UpdatePanelPruebas" class= "control-label" > Catálogo global de Productos </label>--%>
         <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
             <ContentTemplate>
-                <asp:GridView ID="gridViewBodegas" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewBodegas_Seleccion" OnPageIndexChanging="gridViewBodegas_CambioPagina" runat="server" AllowPaging="True" PageSize="16" BorderColor="Transparent">
+                <asp:GridView ID="gridViewProductosGlobales" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewProductosGlobales_RowCommand" OnPageIndexChanging="gridViewProductosGlobales_PageIndexChanging" runat="server" AllowPaging="True" PageSize="16" BorderColor="Transparent">
                     <Columns>
-                        <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn-default" CommandName="Select" Text="Consultar">
-                            <ControlStyle CssClass="btn-default disabled"></ControlStyle>
+                        <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-info" CommandName="Select" Text="Consultar">
+                            <ControlStyle CssClass="btn btn-info"></ControlStyle>
                         </asp:ButtonField>
                    </Columns>
                    <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
@@ -167,7 +167,7 @@
               </asp:GridView>
          </ContentTemplate>
          <Triggers>
-            <asp:AsyncPostBackTrigger ControlID="gridViewBodegas" EventName="RowCommand" />
+            <asp:AsyncPostBackTrigger ControlID="gridViewProductosGlobales" EventName="RowCommand" />
          </Triggers>
       </asp:UpdatePanel>
    </div>
