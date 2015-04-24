@@ -23,8 +23,13 @@ namespace ProyectoInventarioOET
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack) 
+            {
             modo = (int)Modo.Inicial;
+            controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
             cambiarModo();
+            }
+   
         }
 
 
@@ -162,9 +167,9 @@ namespace ProyectoInventarioOET
                     habilitarCampos(false);
                     this.gridViewProductosGlobales.Visible = false;///********************
                     this.botonAceptarProducto.Visible = false;///******************
-                    this.botonCancelarProducto.Visible = false;///******************          
-                    //this. =controladoraDatosGenerales.consultarEstaciones;                              ///
-
+                    this.botonCancelarProducto.Visible = false;///******************                                       ///
+                    cargarEstaciones();
+                    cargarEstados();
                     break;
                 case (int)Modo.Insercion: //insertar
                     habilitarCampos(true);
