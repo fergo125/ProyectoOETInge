@@ -10,7 +10,7 @@ using Oracle.DataAccess.Client; //para conectarse a la base de datos manualmente
  * Encargada de obtener información acerca de la seguridad del sistema desde la base de datos
  * Hereda de la controladora de base de datos
  */
-namespace ProyectoInventarioOET.App_Code.Módulo_Seguridad
+namespace ProyectoInventarioOET.Módulo_Seguridad
 {
     public class ControladoraBDSeguridad : ControladoraBD
     {
