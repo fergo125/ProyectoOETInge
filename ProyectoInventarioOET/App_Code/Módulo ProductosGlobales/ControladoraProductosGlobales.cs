@@ -9,6 +9,7 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
     public class ControladoraProductosGlobales
     {
         private ControladoraBDProductosGlobales controladoraBD;
+        private EntidadProductoGlobal productoActual; // 
 
         public ControladoraProductosGlobales()
         {
@@ -16,30 +17,40 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
         }
 
 
-        public EntidadProductoGlobal consultarProductoGlobal(int id)
+        public EntidadProductoGlobal consultarProductoGlobal(String id)
         {
-            /*consulta la información de una bodega particular*/
-            return ControladoraBDProductosGlobales.consultarProductoGlobal(id);
+            productoActual = controladoraBD.consultarProductoGlobal(id);
+            return productoActual;
         }
 
-        public String[] insertarDatos(Object[] datosBodega)
+        public String[] insertarDatos(String nombre, String categoria, String unidades, String codigo, String codigoDeBarras, String estacion,
+            int estado, double costoColones, double costoDolares )
         {
-            /*crea una nueva bodega dado un vector con los datos de la misma*/
-            EntidadProductoGlobal productoGlobal = new EntidadProductoGlobal(datosBodega);
-            return ControladoraBDProductosGlobales.insertarProductoGlobal(productoGlobal);
+            Object[] datosProductoGlobal = new Object[9];
+            datosProductoGlobal[0] = nombre;
+            datosProductoGlobal[1] = categoria;
+            datosProductoGlobal[2] = unidades;
+            datosProductoGlobal[3] = codigo;
+            datosProductoGlobal[4] = codigoDeBarras;
+            datosProductoGlobal[5] = estacion;
+            datosProductoGlobal[6] = estado;
+            datosProductoGlobal[7] = costoColones;
+            datosProductoGlobal[8] = costoColones;
+            EntidadProductoGlobal productoGlobal = new EntidadProductoGlobal(datosProductoGlobal);
+            return controladoraBD.insertarProductoGlobal(productoGlobal);
         }
 
-        public String[] modificarDatos(EntidadProductoGlobal bodegaVieja, Object[] datosBodegaNueva)
+        public String[] modificarDatos(EntidadProductoGlobal productoViejo, Object[] datosProductoNuevo)
         {
             /*modifica los datos de una bodega particular*/
-            EntidadProductoGlobal bodegaNueva = new EntidadProductoGlobal(datosBodegaNueva);
-            return ControladoraBDProductosGlobales.modificarProductoGlobal(bodegaVieja, bodegaNueva);
+            EntidadProductoGlobal bodegaNueva = new EntidadProductoGlobal(datosProductoNuevo);
+            return controladoraBD.modificarProductoGlobal(bVieja, bodegaNueva);
         }
 
         public String[] desactivarProductoGlobal(EntidadProductoGlobal productoGlobal)
         {
             /*desactiva una bodega de la base de datos*/
-            return ControladoraBDProductosGlobales.desactivarProductoGlobal(productoGlobal);
+            return controladoraBD.desactivarProductoGlobal(productoGlobal);
         }
 
         /*
