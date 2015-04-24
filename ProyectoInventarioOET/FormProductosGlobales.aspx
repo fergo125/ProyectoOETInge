@@ -31,7 +31,7 @@
     <h3 id="tituloAccion"> Consulta de productos </h3>
 
     <!-- Fieldset que muestra el form para agregar un nuevo producto -->
-    <div class= "row" id="bloqueFormulario" style="display:none">
+    <div class= "row" id="bloqueFormulario" style="display:block">
     <fieldset id= "FieldsetProductos" class="fieldset">
         <br />
 
@@ -175,7 +175,7 @@
 
 
 <%--    Botones de aceptar y cancelar acción--%> 
-    <div class= "row" id="bloqueBotones" style="display:none;">
+    <div class= "row" id="bloqueBotones" style="display:block;">
         <div class="text-center">
             <button id="botonAceptarProducto" class="btn btn-success-fozkr" type="button" runat="server"> Aceptar </button>
             <a id="botonCancelarProducto" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cancelar</a>
@@ -185,26 +185,26 @@
    
     <script type="text/javascript">
         function showStuff(elementoATogglear, mensaje) {
-            var estado = document.getElementById(elementoATogglear).style.display;
-            document.getElementById('tituloAccion').innerHTML = mensaje;
-            if (elementoATogglear === 'bloqueFormulario') {
-                if (estado === 'none') {
-                    document.getElementById('bloqueGrid').style.display = 'none';
-                    document.getElementById(elementoATogglear).style.display = 'block';
-                    document.getElementById('bloqueBotones').style.display = 'block';
-                } else {
-                    document.getElementById(elementoATogglear).style.display = 'none';
-                    document.getElementById('bloqueBotones').style.display = 'none';
-                }
-            } else {
-                document.getElementById('bloqueBotones').style.display = 'none';
-                if (estado === 'none') {
-                    document.getElementById(elementoATogglear).style.display = 'block';
-                    document.getElementById('bloqueFormulario').style.display = 'none';
-                } else {
-                    document.getElementById(elementoATogglear).style.display = 'none';
-                }
-            }
+            //var estado = document.getElementById(elementoATogglear).style.display;
+            //document.getElementById('tituloAccion').innerHTML = mensaje;
+            //if (elementoATogglear === 'bloqueFormulario') {
+            //    if (estado === 'none') {
+            //        document.getElementById('bloqueGrid').style.display = 'none';
+            //        document.getElementById(elementoATogglear).style.display = 'block';
+            //        document.getElementById('bloqueBotones').style.display = 'block';
+            //    } else {
+            //        document.getElementById(elementoATogglear).style.display = 'none';
+            //        document.getElementById('bloqueBotones').style.display = 'none';
+            //    }
+            //} else {
+            //    document.getElementById('bloqueBotones').style.display = 'none';
+            //    if (estado === 'none') {
+            //        document.getElementById(elementoATogglear).style.display = 'block';
+            //        document.getElementById('bloqueFormulario').style.display = 'none';
+            //    } else {
+            //        document.getElementById(elementoATogglear).style.display = 'none';
+            //    }
+            //}
         } // Final de funcion 
     </script>
 

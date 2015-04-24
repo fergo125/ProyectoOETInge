@@ -24,8 +24,32 @@ namespace ProyectoInventarioOET
         protected void Page_Load(object sender, EventArgs e)
         {
             modo = (int)Modo.Inicial;
+            cambiarModo();
         }
 
+
+        protected void cargarEstaciones()
+        {
+            inputEstacion.Items.Clear();
+            inputEstacion.Items.Add(new ListItem("", null));
+            DataTable estaciones = controladoraDatosGenerales.consultarEstaciones();
+            foreach (DataRow fila in estaciones.Rows)
+            {
+                inputEstacion.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
+            }
+        }
+
+
+        protected void cargarEstados()
+        {
+            inputEstado.Items.Clear();
+            inputEstado.Items.Add(new ListItem("", null));
+            DataTable estados = controladoraDatosGenerales.consultarEstados();
+            foreach (DataRow fila in estados.Rows)
+            {
+                inputEstado.Items.Add(new ListItem(fila[1].ToString(), fila[2].ToString()));
+            }
+        }
 
         protected DataTable tablaProductosGlobales()
         {
@@ -136,9 +160,11 @@ namespace ProyectoInventarioOET
                     this.botonAgregarProductos.Disabled = false;
                     this.botonModificacionProductos.Disabled = true;
                     habilitarCampos(false);
-                    //this.gridViewActividades.Visible = false;///********************
+                    this.gridViewProductosGlobales.Visible = false;///********************
                     this.botonAceptarProducto.Visible = false;///******************
-                    this.botonCancelarProducto.Visible = false;///******************                                                                
+                    this.botonCancelarProducto.Visible = false;///******************          
+                    //this. =controladoraDatosGenerales.consultarEstaciones;                              ///
+
                     break;
                 case (int)Modo.Insercion: //insertar
                     habilitarCampos(true);
