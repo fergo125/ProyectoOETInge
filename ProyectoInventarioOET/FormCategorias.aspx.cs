@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using ProyectoInventarioOET.Modulo_Categorias;
 
 namespace ProyectoInventarioOET
 {
@@ -15,12 +16,36 @@ namespace ProyectoInventarioOET
         private static int idCategoria = 0; //Sirve para estar en modo consulta
         private static int resultadosPorPagina;
         private static Object[] idArray;
+        private static ControladoraCategorias controladoraCategorias;
+        private static EntidadCategoria categoriaConsultada;
+        private static bool seConsulto = false;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            modo = (int)Modo.Inicial;
+           if (!IsPostBack)
+            {
+                
+                    controladoraCategorias = new ControladoraCategorias();
+                    //controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
 
-            testGrid();
+                    if (!seConsulto)
+                    {
+                        modo = 0;
+                    }
+                    else{
+                        if (categoriaConsultada == null)
+                        {
+                            mostrarMensaje("warning", "Alerta: ", "No se pudo consultar la categoria.");
+                        }
+                        else
+                        {
+                            setDatosConsultados();
+
+                            seConsulto = false;
+                        }
+                    }
+            }
+           irAModo();
         }
         protected void irAModo()
         {
@@ -28,19 +53,21 @@ namespace ProyectoInventarioOET
             { // el modo 0 se usa para resetear la interfaz
                 botonAceptar.Disabled = true;
                 botonCancelar.Disabled = true;
+                botonAceptar.Visible = true;
+                botonCancelar.Visible = true;
                 botonModificacionCategoria.Disabled = true;
-                botonAgregarCategoria.Disabled = true;
+                botonAgregarCategoria.Disabled = false;
+                camposCategoria.Visible = true;
                 botonConsultaCategoria.Disabled = true;
                 habilitarCampos(true);
             }
             else if (modo == (int)Modo.Modificacion)
             { // se desea insertar
-                botonAceptar.Disabled = true;
-                botonCancelar.Disabled = true;
+                botonAceptar.Disabled = false;
+                botonCancelar.Disabled = false;
                 botonModificacionCategoria.Disabled = true;
                 botonAgregarCategoria.Disabled = true;
                 botonConsultaCategoria.Disabled = true;
-
             }
             else if (modo == (int)Modo.Insercion)
             { //modificar
@@ -66,7 +93,7 @@ namespace ProyectoInventarioOET
         protected void testGrid()
         {
 
-            DataTable tabla = tablaBodegas();
+            DataTable tabla = tablaCategorias();
             for (int i = 1; i < 5; i++)
             {
                 Object[] datos2 = new Object[2];
@@ -80,7 +107,7 @@ namespace ProyectoInventarioOET
 
         }
 
-        protected DataTable tablaBodegas()
+        protected DataTable tablaCategorias()
         {
             DataTable tabla = new DataTable();
             DataColumn columna;
@@ -152,5 +179,17 @@ namespace ProyectoInventarioOET
             modo = (int)Modo.Consulta;
         }
 
+        protected void mostrarMensaje(String tipoAlerta, String alerta, String mensaje)
+        {
+            mensajeAlerta.Attributes["class"] = "alert alert-" + tipoAlerta + " alert-dismissable fade in";
+            labelTipoAlerta.Text = alerta + " ";
+            labelAlerta.Text = mensaje;
+            mensajeAlerta.Visible= true;
+        }
+        protected void setDatosConsultados()
+        {
+            this.inputNombre.Value = categoriaConsultada.Descripcion;
+        }
     }
+
 }

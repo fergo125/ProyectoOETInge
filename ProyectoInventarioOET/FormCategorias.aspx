@@ -31,9 +31,9 @@
 
 
     <!-- Cuerpo del Form -->
-    <button runat="server" onclick="showStuff('bloqueFormulario', 'Nueva Categoria');" onserverclick="botonAgregarCategoria_ServerClick"  id="botonAgregarCategoria" class=" btn btn-info" type="button" style="float: left"><i></i> Nueva Categoria</button>
-    <button runat="server" onclick="showStuff('bloqueFormulario', 'Modificación de Categoria');" onserverclick="botonModificacionCategoria_ServerClick" id="botonModificacionCategoria" class=" btn btn-info" type="button" style="float: left"><i></i> Modificar Categoria </button>
-    <button runat="server" onclick="showStuff('bloqueGrid', 'Consulta de Categoria');" id="botonConsultaCategoria" onserverclick="botonConsultaCategoria_ServerClick" class=" btn btn-info" type="button" style="float: left"><i></i>Consulta de Categorias </button>
+    <button runat="server" onserverclick="botonAgregarCategoria_ServerClick"  id="botonAgregarCategoria" class=" btn btn-info" type="button" style="float: left"><i></i> Nueva Categoria</button>
+    <button runat="server" onserverclick="botonModificacionCategoria_ServerClick" id="botonModificacionCategoria" class=" btn btn-info" type="button" style="float: left"><i></i> Modificar Categoria </button>
+    <button runat="server" onserverclick="botonConsultaCategoria_ServerClick" id="botonConsultaCategoria"  class=" btn btn-info" type="button" style="float: left"><i></i>Consulta de Categorias </button>
 
 
     <br />
@@ -42,13 +42,13 @@
     <h3 id="tituloAccion"> Consulta de Categorias </h3>
 
     <!-- Fieldset que muestra el form para agregar un nuevo categoria -->
-    <div class= "row" id="bloqueFormulario" style="display:none">
+    <div class= "row" id="bloqueFormulario" >
     <fieldset id= "FieldsetCategorias" class="fieldset">
         <br />
 
         <div class= "col-lg-5">
 
-            <div class="form-group">
+            <div class="form-group" id="camposCategoria" visible="false" runat="server">
                 <label for="inputNombre" class= "control-label"> Descripcion*: </label>      
                 <input type="text" id= "inputNombre" class="form-control" required runat="server" ><br>
             </div>
@@ -93,7 +93,7 @@
 
 
 <%--    Botones de aceptar y cancelar acción--%> 
-    <div class= "row" id="bloqueBotones" style="display:none;">
+    <div class= "row" id="bloqueBotones" visible="false">
         <div class="text-center">
             <button id="botonAceptar" class="btn btn-success-fozkr" type="button" runat="server"> Aceptar </button>
             <a id="botonCancelar" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cancelar</a>
@@ -101,7 +101,7 @@
     </div>
 
    
-    <script type="text/javascript">
+    <!--script type="text/javascript">
         function showStuff(elementoATogglear, mensaje) {
             var estado = document.getElementById(elementoATogglear).style.display;
             document.getElementById('tituloAccion').innerHTML = mensaje;
@@ -124,7 +124,7 @@
                 }
             }
         } // Final de funcion 
-    </script>
+    </!--script>
 
     <!-- Javascript -->
     <!-- Modificar tab de site master activo -->
