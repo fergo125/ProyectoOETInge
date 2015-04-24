@@ -17,6 +17,7 @@ namespace ProyectoInventarioOET
         private static int resultadosPorPagina;
         private static int modo=0;
         private static Object[] idArray;
+        private static int estacionSeleccionada, bodegaSeleccionada;
         private static Object[] idArray2;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -39,9 +40,18 @@ namespace ProyectoInventarioOET
                     FieldsetCatalogoLocal.Visible = false;
                     FieldsetProductos.Visible = false;
                     break;
-                case 1://consultar con los espacios bloqueados
+                case 1: // consultar catálogo
+                    FieldsetCatalogoLocal.Visible = true;
+                    DropDownListEstacion.SelectedIndex = estacionSeleccionada;
+                    DropDownListEstacion_SelectedIndexChanged(DropDownListEstacion,null);
+                    DropDownListBodega.SelectedIndex = bodegaSeleccionada;
+                    break;
+                case 2://consultar con los espacios bloqueados
                     FieldsetCatalogoLocal.Visible = true;
                     FieldsetProductos.Visible = true;
+                    DropDownListEstacion.SelectedIndex = estacionSeleccionada;
+                    DropDownListEstacion_SelectedIndexChanged(DropDownListEstacion,null);
+                    DropDownListBodega.SelectedIndex = bodegaSeleccionada;
                     break;
                 default:
                     // Algo salio mal
@@ -108,7 +118,7 @@ namespace ProyectoInventarioOET
                 case "Select":
                     //GridViewRow filaSeleccionada = this.gridViewCatalogoLocal.Rows[Convert.ToInt32(e.CommandArgument)];
                     //int id = Convert.ToInt32(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewCatalogoLocal.PageIndex * resultadosPorPagina)]);
-                    modo=1;
+                    modo=2;
                     Response.Redirect("FormProductosLocales.aspx");
                     break;
             }
@@ -140,7 +150,8 @@ namespace ProyectoInventarioOET
         protected void DropDownListEstacion_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.DropDownListBodega.Items.Clear();
-            String idEstacion = idArray[this.DropDownListEstacion.SelectedIndex].ToString();
+            estacionSeleccionada= this.DropDownListEstacion.SelectedIndex;
+            String idEstacion = idArray[estacionSeleccionada].ToString();
             DataTable bodegas = controladoraBodegas.consultarBodegasDeEstacion(idEstacion);
             int i = 0;
             if (bodegas.Rows.Count > 0)
@@ -159,8 +170,25 @@ namespace ProyectoInventarioOET
         {
             if (this.DropDownListBodega.SelectedItem != null)
             {
+                bodegaSeleccionada = this.DropDownListBodega.SelectedIndex;
                 FieldsetCatalogoLocal.Visible = true;
             }
+        }
+        /*// Envío de modificaciones de producto de catálogo local
+        protected void botonEnviarProducto_ServerClick(object sender, EventArgs e)
+        {
+
+        }*/
+        // Aceptar cancelación del modal de cancelar
+        protected void botonAceptarModalCancelar_ServerClick(object sender, EventArgs e)
+        {
+            modo = 1;
+            Response.Redirect("FormProductosLocales.aspx");
+        }
+        // Desactivación confirmada
+        protected void botonAceptarModalDesactivar_ServerClick(object sender, EventArgs e)
+        {
+
         }
 
     }

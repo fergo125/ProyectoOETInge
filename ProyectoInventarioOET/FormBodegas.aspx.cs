@@ -342,7 +342,7 @@ namespace ProyectoInventarioOET
         {
             dropdownEstado.Items.Clear();
             dropdownEstado.Items.Add(new ListItem("", null));
-            DataTable estados = controladoraDatosGenerales.consultarEstados();
+            DataTable estados = controladoraDatosGenerales.consultarEstadosActividad();
             foreach (DataRow fila in estados.Rows)
             {
                 dropdownEstado.Items.Add(new ListItem(fila[1].ToString(), fila[2].ToString()));

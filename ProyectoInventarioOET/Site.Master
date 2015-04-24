@@ -119,7 +119,7 @@
             </asp:ContentPlaceHolder>
             <hr />
             <footer>
-                <p>&copy; <%: DateTime.Now.Year %> - Organización de Estudios Tropicales</p>
+                <p>&copy; <%: DateTime.Now.Year %> - Organización para Estudios Tropicales</p>
             </footer>
         </div>
     </form>

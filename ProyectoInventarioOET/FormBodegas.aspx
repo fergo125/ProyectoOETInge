@@ -109,7 +109,7 @@
         </fieldset>        
     </div>
     
-        <div class="col-lg-12" id="bloqueBotones" style="display:block">
+    <div class="col-lg-12" id="bloqueBotones" style="display:block">
         <div class =" row">
             <div class="text-center">
                 <button runat="server" onserverclick="botonAceptarBodega_ServerClick" id="botonAceptarBodega" class="btn btn-success-fozkr" type="button"><i class="fa fa-pencil-square-o"></i>Aceptar</button>
