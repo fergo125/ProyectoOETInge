@@ -13,7 +13,7 @@ namespace ProyectoInventarioOET
 {
     public partial class FormActividades : System.Web.UI.Page
     {
-        enum Modo { Inicial, Consulta, Insercion, Modificacion };
+        enum Modo { Inicial, Consulta, Insercion, Modificacion, Consultado };
         private static int modo = (int)Modo.Inicial;
         private static int resultadosPorPagina;
         private static Object[] idArray;
@@ -47,7 +47,7 @@ namespace ProyectoInventarioOET
                         cargarEstados();
                         //cargarAnfitriones();
                         //cargarEstaciones();
-                        //setDatosConsultados();
+                        setDatosConsultados();
 
                         seConsulto = false;
                     }
@@ -63,7 +63,10 @@ namespace ProyectoInventarioOET
             {
                 case "Select":
                     GridViewRow filaSeleccionada = this.gridViewActividades.Rows[Convert.ToInt32(e.CommandArgument)];
-                    int id = Convert.ToInt32(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewActividades.PageIndex * resultadosPorPagina)]);
+                    String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewActividades.PageIndex * resultadosPorPagina)]);
+                    consultarActividad(codigo);
+                    modo = (int)Modo.Consultado;
+                    Response.Redirect("FormActividades.aspx");
                     break;
             }
         }
@@ -74,28 +77,6 @@ namespace ProyectoInventarioOET
             this.gridViewActividades.DataBind();
         }
 
-        protected void testGrid()
-        {
-
-            DataTable tabla = tablaActividades();
-
-            for (int i = 1; i < 5; i++)
-            {
-                Object[] datos = new Object[3];
-                datos[0] = i * 2;
-                datos[1] = i * 3;
-                datos[2] = i * 4;
-                tabla.Rows.Add(datos);
-            }
-
-
-            this.gridViewActividades.DataSource = tabla;
-            this.gridViewActividades.DataBind();
-
-
-        }
-
-
         protected void llenarGrid()
         {
             DataTable tabla = tablaActividades();
@@ -104,22 +85,21 @@ namespace ProyectoInventarioOET
 
             try
             {
-                // Cargar bodegas
-                Object[] datos = new Object[3];
-                //DataTable bodegas = controladoraActividades.consultarActividades();
+                // Cargar actividades
+                Object[] datos = new Object[2];
+                DataTable actividades = controladoraActividades.consultarActividades();
 
-               /* if (bodegas.Rows.Count > 0)
+                if (actividades.Rows.Count > 0)
                 {
-                    idArray = new Object[bodegas.Rows.Count];
-                    foreach (DataRow fila in bodegas.Rows)
+                    idArray = new Object[actividades.Rows.Count];
+                    foreach (DataRow fila in actividades.Rows)
                     {
                         idArray[i] = fila[0];
                         datos[0] = fila[1].ToString();
-                        datos[1] = fila[2].ToString();                       
                         tabla.Rows.Add(datos);
-                        /*if (bodegaConsultada != null && (fila[0].Equals(bodegaConsultada.Identificador)))
+                        if (actividadConsultada != null && (fila[0].Equals(actividadConsultada.Codigo)))
                         {
-                            indiceNuevaBodega = i;
+                            indiceNuevaActividad = i;
                         }
                         i++;
                     }
@@ -130,15 +110,14 @@ namespace ProyectoInventarioOET
                     datos[1] = "-";
                     tabla.Rows.Add(datos);
                 }
-    */
+
                 this.gridViewActividades.DataSource = tabla;
                 this.gridViewActividades.DataBind();
-                /* if (bodegaConsultada != null)
-                 {
-                     GridViewRow filaSeleccionada = this.gridViewProyecto.Rows[indiceNuevoProyecto];
-                 }*/
+                if (actividadConsultada != null)
+                {
+                    GridViewRow filaSeleccionada = this.gridViewActividades.Rows[indiceNuevaActividad];
+                }
             }
-
             catch (Exception e)
             {
                 mostrarMensaje("warning", "Alerta", "No hay conexión a la base de datos.");
@@ -154,11 +133,6 @@ namespace ProyectoInventarioOET
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
             columna.ColumnName = "Descripción";
-            tabla.Columns.Add(columna);
-
-            columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Estado";
             tabla.Columns.Add(columna);
 
             return tabla;
@@ -180,7 +154,7 @@ namespace ProyectoInventarioOET
 
             if (modo == (int)Modo.Insercion)
             {
-                resultado = controladoraActividades.insertarDatos("codigo", this.inputDescripcionActividad.Value.ToString(), Int32.Parse(this.comboBoxEstadosActividades.SelectedValue.ToString()));
+                resultado = controladoraActividades.insertarDatos("loquesea", this.inputDescripcionActividad.Value.ToString(), Int32.Parse(this.comboBoxEstadosActividades.SelectedValue.ToString()));
                 codigoInsertado = resultado[3];
 
                 if (codigoInsertado != "")
@@ -212,7 +186,9 @@ namespace ProyectoInventarioOET
 
         protected void botonConsultaActividades_ServerClick(object sender, EventArgs e)
         {
-
+            llenarGrid();
+            modo = (int)Modo.Consulta;
+            cambiarModo();
         }
 
         protected void botonAceptarModalDesactivar_ServerClick(object sender, EventArgs e)
@@ -247,28 +223,45 @@ namespace ProyectoInventarioOET
         protected void cambiarModo()
         {
             switch (modo)
-            {
+            {///Probar si aun se pueden mostrar los campos con el JS********************
                 case (int)Modo.Inicial:
                     limpiarCampos();
-                    botonAgregarActividades.Disabled = false;
-                    botonModificacionActividades.Disabled = true;
+                    this.botonAgregarActividades.Disabled = false;
+                    this.botonModificacionActividades.Disabled = true;
                     habilitarCampos(false);
+                    this.gridViewActividades.Visible = false;///********************
+                    this.botonAceptarActividad.Visible = false;///******************
+                    this.botonCancelarActividad.Visible = false;///******************                                                                
                     break;
                 case (int)Modo.Insercion: //insertar
                     habilitarCampos(true);
-                    botonAgregarActividades.Disabled = true;
-                    botonModificacionActividades.Disabled = true;
+                    this.botonAgregarActividades.Disabled = true;
+                    this.botonModificacionActividades.Disabled = true;
+                    this.gridViewActividades.Visible = false;///********************
                     break;
                 case (int)Modo.Modificacion: //modificar
                     habilitarCampos(true);
-                    botonAgregarActividades.Disabled = true;
-                    botonModificacionActividades.Disabled = true;
-
+                    this.botonAgregarActividades.Disabled = true;
+                    this.botonModificacionActividades.Disabled = true;
+                    this.gridViewActividades.Visible = false;///********************
                     break;
                 case (int)Modo.Consulta://consultar
+                    limpiarCampos();
                     habilitarCampos(false);
+                    this.botonAceptarActividad.Visible = false;///******************
+                    this.botonCancelarActividad.Visible = false;///******************
+                    this.botonModificacionActividades.Disabled = true;//**********************
+                    this.gridViewActividades.Visible = true;///********************
                     break;
+                case (int)Modo.Consultado://consultada una actividad
+                    habilitarCampos(false);
+                    this.botonAgregarActividades.Disabled = true;
+                    this.botonModificacionActividades.Disabled = false;
+                    this.botonAceptarActividad.Visible = false;///******************
+                    this.botonCancelarActividad.Visible = false;///****************** 
+                    this.gridViewActividades.Visible = false;///********************///
 
+                    break;
                 default:
 
                     break;
@@ -283,26 +276,26 @@ namespace ProyectoInventarioOET
             cargarEstados();
         }
 
-        protected String insertar()
+        protected void consultarActividad(String codigo)
         {
-            //String codigo = "";
-            //Object[] bodega = obtenerDatosBodega();
+            seConsulto = true;
+            try
+            {
+                actividadConsultada = controladoraActividades.consultarActividad(codigo);
+                modo = (int)Modo.Consulta;
+            }
+            catch
+            {
+                actividadConsultada = null;
+                modo = (int)Modo.Inicial;
+            }
+            cambiarModo();
+        }
 
-            //String[] error = controladoraBodegas.insertarDatos(bodega);
-
-            //codigo = Convert.ToString(error[3]);
-            //mostrarMensaje(error[0], error[1], error[2]);
-            //if (error[0].Contains("success"))
-            //{
-            //    llenarGrid();
-            //}
-            //else
-            //{
-            //    codigo = "";
-            //    modo = 1;
-            //}
-
-            return "hola";
+        protected void setDatosConsultados()
+        {
+            this.inputDescripcionActividad.Value = actividadConsultada.Descripcion;
+            this.comboBoxEstadosActividades.SelectedValue = actividadConsultada.Estado.ToString();
         }
 
     }

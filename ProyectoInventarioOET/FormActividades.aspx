@@ -69,8 +69,8 @@
                 <ContentTemplate>
                     <asp:GridView ID="gridViewActividades" CssClass="table table-responsive table-condensed" OnRowCommand="gridViewActividades_Seleccion" OnPageIndexChanging="gridViewActividades_CambioPagina" runat="server" AllowPaging="True" PageSize="16" BorderColor="Transparent">
                         <Columns>
-                            <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn-default" CommandName="Select" Text="Consultar">
-                                <ControlStyle CssClass="btn-default disabled"></ControlStyle>
+                            <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-info" CommandName="Select" Text="Consultar">
+                                <ControlStyle CssClass="btn btn-info"></ControlStyle>
                             </asp:ButtonField>
                        </Columns>
                        <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
