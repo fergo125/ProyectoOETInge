@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="Categorías" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="FormCategorias.aspx.cs" Inherits="ProyectoInventarioOET.FormCategorias" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <script type="text/javascript">
+    <!--script type="text/javascript">
         function showStuff(id) {
             var estado = document.getElementById(id).style.display;
             if (estado === 'none') {
@@ -9,7 +9,7 @@
                 document.getElementById(id).style.display = 'none';
             }
         }
-    </script>
+    </!--script>
 
     <br />
     <!-- Label para desplegar mensajes -->
