@@ -152,6 +152,12 @@ namespace ProyectoInventarioOET
 
         }
 
+        protected void habilitarCampos(bool habilitar)
+        {
+            this.inputDescripcionActividad.Disabled = !habilitar;
+            this.comboBoxEstadosActividades.Enabled = habilitar;
+        }
+
 
     }
 }
