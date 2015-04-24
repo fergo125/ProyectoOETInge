@@ -19,6 +19,7 @@ namespace ProyectoInventarioOET.App_Code
     {
         private static ControladoraDatosGenerales instanciaSingleton = null;
         private DataTable estados;
+        private DataTable estadosActividad;
         private DataTable unidades;
         private DataTable estaciones;
         private DataTable anfitrionas;
@@ -42,6 +43,7 @@ namespace ProyectoInventarioOET.App_Code
             ControladoraBDAnfitrionas controladoraAnfitriones = new ControladoraBDAnfitrionas();
 
             estados = controladoraEstados.consultarEstados();
+            estadosActividad = controladoraEstados.consultarEstadosActividad();
             unidades = controladoraUnidades.consultarUnidades();
             estaciones = controladoraEstaciones.consultarEstaciones();
             anfitrionas = controladoraAnfitriones.consultarAnfitriones();
@@ -50,6 +52,12 @@ namespace ProyectoInventarioOET.App_Code
         public DataTable consultarEstados()
         {
             return estados;
+        }
+
+        // Activo e inactivo
+        public DataTable consultarEstadosActividad()
+        {
+            return estadosActividad;
         }
 
         public DataTable consultarUnidades()
