@@ -19,43 +19,15 @@
             <asp:DropDownList ID="DropDownListBodega" runat="server" CssClass="form-control">
             </asp:DropDownList>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-4"><br /><br />
             <button runat="server" onserverclick="botonConsultarBodega_ServerClick" id="botonConsultarBodega" class=" btn btn-info" type="button" style="float: left" >Consultar Bodega</button>
         </div>
      </div>
-    <br /><br /><br />
-
-    <!-- Fieldset que muestra los productos de la bodega local elegida -->
-    <fieldset id= "FieldsetCatalogoLocal" center="left" runat="server" class="fieldset" visible="false">
-        <!-- Gridview de productos -->
-         <div class="col-lg-12">
-            <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
-                <ContentTemplate>
-                    <asp:GridView ID="gridViewCatalogoLocal" CssClass="table table-responsive table-condensed" OnRowCommand="gridViewCatalogoLocal_Seleccion" OnPageIndexChanging="gridViewCatalogoLocal_CambioPagina" runat="server" AllowPaging="True" PageSize="16" BorderColor="Transparent">
-                        <Columns>
-                            <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn-default" CommandName="Select" Text="Consultar">
-                                <ControlStyle CssClass="btn-default disabled"></ControlStyle>
-                            </asp:ButtonField>
-                       </Columns>
-                       <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
-                       <PagerStyle CssClass="paging" HorizontalAlign="Center" />
-                       <AlternatingRowStyle BackColor="#EBEBEB" />
-                       <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
-                       <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" />
-                  </asp:GridView>
-             </ContentTemplate>
-             <Triggers>
-                <asp:AsyncPostBackTrigger ControlID="gridViewCatalogoLocal" EventName="RowCommand" />
-             </Triggers>
-          </asp:UpdatePanel>
-       </div>
-        <br />
-        <br />
-        <br />
-    </fieldset> 
+    <br />
 
     <!-- Fieldset para consultar y modificar productos -->
     <fieldset id= "FieldsetProductos" center="left" runat="server" class="fieldset" visible="false">
+        <h3 id="tituloProducto"> Consulta de producto </h3>
         <div class= "col-lg-5">
 
             <div class="form-group col-lg-12" >
@@ -122,6 +94,35 @@
         </div>
         <br /><br /><br />
     </fieldset>
+
+    <!-- Fieldset que muestra los productos de la bodega local elegida -->
+    <fieldset id= "FieldsetCatalogoLocal" center="left" runat="server" class="fieldset" visible="false">
+        <!-- Gridview de productos -->
+         <div class="col-lg-12">
+            <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
+                <ContentTemplate>
+                    <asp:GridView ID="gridViewCatalogoLocal" CssClass="table table-responsive table-condensed" OnRowCommand="gridViewCatalogoLocal_Seleccion" OnPageIndexChanging="gridViewCatalogoLocal_CambioPagina" runat="server" AllowPaging="True" PageSize="16" BorderColor="Transparent">
+                        <Columns>
+                            <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn-default" CommandName="Select" Text="Consultar">
+                                <ControlStyle CssClass="btn-default disabled"></ControlStyle>
+                            </asp:ButtonField>
+                       </Columns>
+                       <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
+                       <PagerStyle CssClass="paging" HorizontalAlign="Center" />
+                       <AlternatingRowStyle BackColor="#EBEBEB" />
+                       <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
+                       <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" />
+                  </asp:GridView>
+             </ContentTemplate>
+             <Triggers>
+                <asp:AsyncPostBackTrigger ControlID="gridViewCatalogoLocal" EventName="RowCommand" />
+             </Triggers>
+          </asp:UpdatePanel>
+       </div>
+        <br />
+        <br />
+        <br />
+    </fieldset> 
 
     <!--Modal Cancelar-->
     <div class="modal fade" id="modalCancelar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

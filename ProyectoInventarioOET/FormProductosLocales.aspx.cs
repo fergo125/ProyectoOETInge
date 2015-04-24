@@ -40,7 +40,13 @@ namespace ProyectoInventarioOET
                     FieldsetCatalogoLocal.Visible = false;
                     FieldsetProductos.Visible = false;
                     break;
-                case 1://consultar con los espacios bloqueados
+                case 1: // consultar catálogo
+                    FieldsetCatalogoLocal.Visible = true;
+                    DropDownListEstacion.SelectedIndex = estacionSeleccionada;
+                    DropDownListEstacion_SelectedIndexChanged(DropDownListEstacion,null);
+                    DropDownListBodega.SelectedIndex = bodegaSeleccionada;
+                    break;
+                case 2://consultar con los espacios bloqueados
                     FieldsetCatalogoLocal.Visible = true;
                     FieldsetProductos.Visible = true;
                     DropDownListEstacion.SelectedIndex = estacionSeleccionada;
@@ -112,7 +118,7 @@ namespace ProyectoInventarioOET
                 case "Select":
                     //GridViewRow filaSeleccionada = this.gridViewCatalogoLocal.Rows[Convert.ToInt32(e.CommandArgument)];
                     //int id = Convert.ToInt32(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewCatalogoLocal.PageIndex * resultadosPorPagina)]);
-                    modo=1;
+                    modo=2;
                     Response.Redirect("FormProductosLocales.aspx");
                     break;
             }
@@ -176,6 +182,7 @@ namespace ProyectoInventarioOET
         // Aceptar cancelación del modal de cancelar
         protected void botonAceptarModalCancelar_ServerClick(object sender, EventArgs e)
         {
+            modo = 1;
             Response.Redirect("FormProductosLocales.aspx");
         }
         // Desactivación confirmada
