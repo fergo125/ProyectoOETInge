@@ -14,7 +14,7 @@ namespace ProyectoInventarioOET
     public partial class FormActividades : System.Web.UI.Page
     {
         enum Modo { Inicial, Consulta, Insercion, Modificacion };
-        private int modo;
+        private static int modo = (int)Modo.Inicial;
         private static int resultadosPorPagina;
         private static Object[] idArray;
         private static ControladoraDatosGenerales controladoraDatosGenerales;
@@ -34,7 +34,7 @@ namespace ProyectoInventarioOET
 
                 if (!seConsulto)
                 {
-                    modo = (int)Modo.Inicial;
+                    //modo = (int)Modo.Inicial;
                 }
                 else
                 {
@@ -180,7 +180,7 @@ namespace ProyectoInventarioOET
 
             if (modo == (int)Modo.Insercion)
             {
-                resultado = controladoraActividades.insertarDatos("LOQUESEA", inputDescripcionActividad.Value, Int32.Parse(this.comboBoxEstadosActividades.SelectedValue));
+                resultado = controladoraActividades.insertarDatos("codigo", this.inputDescripcionActividad.Value.ToString(), Int32.Parse(this.comboBoxEstadosActividades.SelectedValue.ToString()));
                 codigoInsertado = resultado[3];
 
                 if (codigoInsertado != "")
