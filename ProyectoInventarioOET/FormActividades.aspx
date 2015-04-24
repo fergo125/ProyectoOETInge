@@ -20,7 +20,7 @@
     </div>
 
     <!-- Cuerpo del Form -->
-    <button runat="server" onclick="showStuff('bloqueFormulario', 'Nueva actividad');" id="botonAgregarActividades" class=" btn btn-info" type="button" style="float: left" > Nueva Actividad</button>
+    <button runat="server" onclick="showStuff('bloqueFormulario', 'Nueva actividad');" onserverclick="botonAgregarActividades_ServerClick" id="botonAgregarActividades" class=" btn btn-info" type="button" style="float: left" > Nueva Actividad</button>
     <button runat="server" onclick="showStuff('bloqueFormulario', 'Modificar actividad');" id="botonModificacionActividades" class=" btn btn-info" type="button" style="float: left"><i></i> Modificar Actividad </button>
     <button runat="server" onserverclick="botonConsultaActividades_ServerClick" onclick="showStuff('bloqueGrid', 'Consulta de actividades');"  id="botonConsultaActividades" class=" btn btn-info" type="button" style="float: left"><i></i>Consulta de Actividades </button>
     <br />
@@ -29,7 +29,7 @@
     <h3 id="tituloAccionActividades"></h3>
     <br />
 
-    <div class= "row" id="bloqueFormulario" style="display:none">
+    <div class= "row" id="bloqueFormulario">
          <!-- Fieldset para Actividades -->
         <fieldset id= "FieldsetActividad" runat="server" class="fieldset">
     
@@ -52,7 +52,7 @@
         <label for="textoObligatorioActividad" class="text-danger text-center">Los campos con (*) son obligatorios</label>
 
     </div>
-    <div class="col-lg-12" id="bloqueBotones" style="display:none">
+    <div class="col-lg-12" id="bloqueBotones">
         <div class =" row">
             <div class="text-center">
                 <button runat="server" onserverclick="botonAceptarActividad_ServerClick" id="botonAceptarActividad" class="btn btn-success-fozkr" type="button"><i class="fa fa-pencil-square-o"></i>Aceptar</button>
@@ -62,7 +62,7 @@
     </div>
 
     <div id="bloqueGrid" class="col-lg-12" style="display:none">
-        <fieldset id="FieldsetGridActividades" center="left" runat="server" class="fieldset">
+        <fieldset id="FieldsetGridActividades" runat="server" class="fieldset">
           <!-- Gridview de consultar -->
          <div class="col-lg-12">
             <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
