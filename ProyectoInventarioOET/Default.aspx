@@ -35,7 +35,7 @@
                 Toda la contabilidad del sistema comprimida en un sólo lugar.
             </p>
             <p>
-                <a class="btn btn-default" href="~/">Ir a Reportes</a>
+                <a class="btn btn-default" href="~/">Ir a Reportes </a>
             </p>
         </div>
     </div>
