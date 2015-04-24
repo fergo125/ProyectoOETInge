@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data;
 using ProyectoInventarioOET.DataSetGeneralTableAdapters;
+using Oracle.DataAccess.Client; //para conectarse a la base de datos manualmente con strings
 
 /*
  * Controladora del conjunto de datos de las estaciones del sistema.
@@ -11,7 +12,7 @@ using ProyectoInventarioOET.DataSetGeneralTableAdapters;
  */
 namespace ProyectoInventarioOET.App_Code
 {
-    public class ControladoraBDEstaciones
+    public class ControladoraBDEstaciones : ControladoraBD
     {
         ESTACIONTableAdapter adaptadorEstaciones;
 
@@ -23,28 +24,10 @@ namespace ProyectoInventarioOET.App_Code
         public DataTable consultarEstaciones()
         {
             DataTable resultado = new DataTable();
-            //try
-            //{
-            //    resultado = adaptadorEstaciones.GetData().CopyToDataTable();
-            //}
-            //catch (Exception e)
-            //{
-            //    resultado = null;
-            //}
-            //return resultado;
-
-            //Crea la conexión, con la string de conexión, y la abre
-            OracleConnection myConnection = new OracleConnection();
-            myConnection.ConnectionString = "Data Source=10.1.4.93;User ID=grupo02;Password=blacjof7";
-            myConnection.Open();
-            //ejecutar operaciones
-            OracleCommand command = myConnection.CreateCommand();
-            command.CommandText = "SELECT ID,NOMBRE,SIGLAS,RESERVABLE FROM ESTACION";
+            OracleCommand command = conexionBD.CreateCommand();
+            command.CommandText = "SELECT * FROM ESTACION";
             OracleDataReader reader = command.ExecuteReader();
             resultado.Load(reader);
-            //cerrar conexión
-            myConnection.Close();
-
             return resultado;
         }
     }

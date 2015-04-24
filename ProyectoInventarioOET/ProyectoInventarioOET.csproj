@@ -267,7 +267,7 @@
     <Compile Include="Account\RegisterExternalLogin.aspx.designer.cs">
       <DependentUpon>RegisterExternalLogin.aspx</DependentUpon>
     </Compile>
-    <Compile Include="App_Code\ControladoraBDAnfitriones.cs" />
+    <Compile Include="App_Code\ControladoraBDAnfitrionas.cs" />
     <Compile Include="App_Code\ControladoraBDEstaciones.cs" />
     <Compile Include="App_Code\ControladoraBDEstados.cs" />
     <Compile Include="App_Code\ControladoraBDUnidades.cs" />
@@ -278,6 +278,7 @@
     <Content Include="App_Code\Módulo Seguridad\ControladoraSeguridad.cs" />
     <Content Include="App_Code\Módulo Seguridad\EntidadUsuario.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Code\ControladoraBD.cs" />
     <Compile Include="DataSetGeneral.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

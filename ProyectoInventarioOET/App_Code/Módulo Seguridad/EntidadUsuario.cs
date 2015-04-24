@@ -10,7 +10,7 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Seguridad
         private String codigo;
         private String usuario;
         private String clave;
-        private Date fechaCreacion;
+        private DateTime fechaCreacion;
         private String descripcion;
         private String idEstacion;
         private String anfitriona;
@@ -48,7 +48,7 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Seguridad
             set { clave = value; }
         }
 
-        public Date FechaCreacion
+        public DateTime FechaCreacion
         {
             get { return fechaCreacion; }
             set { fechaCreacion = value; }

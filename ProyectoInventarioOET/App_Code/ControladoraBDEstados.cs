@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data;
 using ProyectoInventarioOET.DataSetGeneralTableAdapters;
+using Oracle.DataAccess.Client; //para conectarse a la base de datos manualmente con strings
 
 /*
  * Controladora del conjunto de datos de los estados del sistema.
@@ -11,7 +12,7 @@ using ProyectoInventarioOET.DataSetGeneralTableAdapters;
  */
 namespace ProyectoInventarioOET.App_Code
 {
-    public class ControladoraBDEstados
+    public class ControladoraBDEstados : ControladoraBD
     {
         CAT_ESTADOSTableAdapter adaptadorEstados;
 
@@ -23,14 +24,10 @@ namespace ProyectoInventarioOET.App_Code
         public DataTable consultarEstados()
         {
             DataTable resultado = new DataTable();
-            try
-            {
-                resultado = adaptadorEstados.GetData().CopyToDataTable();
-            }
-            catch (Exception e)
-            {
-                resultado = null;
-            }
+            OracleCommand command = conexionBD.CreateCommand();
+            command.CommandText = "SELECT * FROM CAT_ESTADOS";
+            OracleDataReader reader = command.ExecuteReader();
+            resultado.Load(reader);
             return resultado;
         }
     }
