@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ProyectoInventarioOET.App_Code.Módulo_Actividades
+namespace ProyectoInventarioOET.Módulo_Actividades
 {
     public class EntidadActividad
     {
@@ -16,8 +16,8 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Actividades
         public EntidadActividad(Object[] datos)
         {
             this.codigo = autogenerarCodigo();
-            this.descripcion = datos[0].ToString();
-            this.estado = Convert.ToInt32(datos[1].ToString());
+            this.descripcion = datos[1].ToString();
+            this.estado = Convert.ToInt32(datos[2].ToString());
         }
 
         public String Codigo
@@ -26,7 +26,7 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Actividades
             set { codigo = value; }
         }
 
-        public String Nombre
+        public String Descripcion
         {
             get { return descripcion; }
             set { descripcion = value; }
@@ -42,7 +42,7 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Actividades
         {
             //here's where the magic happens
             //in the meanwhile...
-            return "";
+            return DateTime.Now.ToString("h:mm:ss");
         }
 
     }

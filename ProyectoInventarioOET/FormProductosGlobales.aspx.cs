@@ -5,78 +5,97 @@ using System.Web;
 using System.Data;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales;
+using ProyectoInventarioOET.App_Code;
+
 
 namespace ProyectoInventarioOET
 {
     public partial class FormProductosGlobales : System.Web.UI.Page
     {
-        enum Modo { Inicial,  Consulta, Insercion, Modificacion};
+        enum Modo { Inicial, Consulta, Insercion, Modificacion, Consultado };
         private static int modo = (int) Modo.Inicial;
         private static int idProducto = 0; //Sirve para estar en modo consulta
-        private static int idRequerimiento = 0;
-        private static int idCriterio = 0;
         private static int resultadosPorPagina;
         private static Object[] idArray;
+        private static ControladoraDatosGenerales controladoraDatosGenerales;
+        private static ControladoraProductosGlobales controladora; 
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack) 
+            {
             modo = (int)Modo.Inicial;
-            testGrid();
+            controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
+            cambiarModo();
+            }
+   
         }
 
-        protected void gridViewBodegas_Seleccion(object sender, GridViewCommandEventArgs e)
+
+        protected void cargarEstaciones()
         {
-            switch (e.CommandName)
+            inputEstacion.Items.Clear();
+            inputEstacion.Items.Add(new ListItem("", null));
+            DataTable estaciones = controladoraDatosGenerales.consultarEstaciones();
+            foreach (DataRow fila in estaciones.Rows)
             {
-                case "Select":
-                    GridViewRow filaSeleccionada = this.gridViewBodegas.Rows[Convert.ToInt32(e.CommandArgument)];
-                    int id = Convert.ToInt32(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewBodegas.PageIndex * resultadosPorPagina)]);
-                    break;
+                inputEstacion.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
             }
         }
 
-        protected void gridViewBodegas_CambioPagina(Object sender, GridViewPageEventArgs e)
+
+        protected void cargarEstados()
         {
-            this.gridViewBodegas.PageIndex = e.NewPageIndex;
-            this.gridViewBodegas.DataBind();
+            inputEstado.Items.Clear();
+            inputEstado.Items.Add(new ListItem("", null));
+            DataTable estados = controladoraDatosGenerales.consultarEstados();
+            foreach (DataRow fila in estados.Rows)
+            {
+                inputEstado.Items.Add(new ListItem(fila[1].ToString(), fila[2].ToString()));
+            }
         }
 
-        protected void testGrid()
+        protected DataTable tablaProductosGlobales()
         {
+            DataTable tabla = new DataTable();
+            DataColumn columna;
 
-            DataTable tabla = tablaBodegas();
-            DataTable tabla2 = tablaCatalogoLocal();
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Nombre";
+            tabla.Columns.Add(columna);
 
-            for (int i = 1; i < 5; i++)
-            {
-                Object[] datos = new Object[3];
-                datos[0] = i * 2;
-                datos[1] = i * 3;
-                datos[2] = i * 4;
-                tabla.Rows.Add(datos);
-            }
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Costo en colones";
+            tabla.Columns.Add(columna);
 
-            for (int i = 1; i < 5; i++)
-            {
-                Object[] datos2 = new Object[5];
-                datos2[0] = i * 2;
-                datos2[1] = i * 3;
-                datos2[2] = i * 4;
-                datos2[3] = i * 5;
-                datos2[4] = i * 6;
-                tabla2.Rows.Add(datos2);
-            }
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Costo en dolares";
+            tabla.Columns.Add(columna);
 
-            this.gridViewBodegas.DataSource = tabla;
-            this.gridViewBodegas.DataBind();
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Estacion";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Estado";
+            tabla.Columns.Add(columna);
+
+            return tabla;
+
+            ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true);
+            ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
 
         }
-
-
         protected void llenarGrid()
         {
-            DataTable tabla = tablaBodegas();
-            int indiceNuevaBodega = -1;
+            DataTable tabla = tablaProductosGlobales();
+            int indiceNuevoProducto = -1;
             int i = 0;
 
             try
@@ -111,8 +130,8 @@ namespace ProyectoInventarioOET
                     tabla.Rows.Add(datos);
                 }
 
-                this.gridViewBodegas.DataSource = tabla;
-                this.gridViewBodegas.DataBind();
+                this.gridViewProductosGlobales.DataSource = tabla;
+                this.gridViewProductosGlobales.DataBind();
                 /* if (bodegaConsultada != null)
                  {
                      GridViewRow filaSeleccionada = this.gridViewProyecto.Rows[indiceNuevoProyecto];
@@ -125,66 +144,8 @@ namespace ProyectoInventarioOET
             }
         }
 
+        
 
-        protected DataTable tablaBodegas()
-        {
-            DataTable tabla = new DataTable();
-            DataColumn columna;
-
-            columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Nombre";
-            tabla.Columns.Add(columna);
-
-            columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Descripción";
-            tabla.Columns.Add(columna);
-
-            columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Estación";
-            tabla.Columns.Add(columna);
-
-            return tabla;
-        }
-
-        protected DataTable tablaCatalogoLocal()
-        {
-            DataTable tabla = new DataTable();
-            DataColumn columna;
-
-            columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Nombre";
-            tabla.Columns.Add(columna);
-
-            columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Precio";
-            tabla.Columns.Add(columna);
-
-            columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Cantidad";
-            tabla.Columns.Add(columna);
-
-            columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Mínimo";
-            tabla.Columns.Add(columna);
-
-            columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Máximo";
-            tabla.Columns.Add(columna);
-
-            return tabla;
-
-            ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true);
-            ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
-
-        }
 
         protected void mostrarMensaje(String tipoAlerta, String alerta, String mensaje)
         {
@@ -194,22 +155,56 @@ namespace ProyectoInventarioOET
             mensajeAlerta.Attributes.Remove("hidden");
         }
 
-        protected void gridViewCatalogoLocal_Seleccion(object sender, GridViewCommandEventArgs e)
+
+        protected void cambiarModo()
         {
-            switch (e.CommandName)
-            {
-                case "Select":
-                    GridViewRow filaSeleccionada = this.gridViewBodegas.Rows[Convert.ToInt32(e.CommandArgument)];
-                    int id = Convert.ToInt32(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewBodegas.PageIndex * resultadosPorPagina)]);
+            switch (modo)
+            {///Probar si aun se pueden mostrar los campos con el JS********************
+                case (int)Modo.Inicial:
+                    limpiarCampos();
+                    this.botonAgregarProductos.Disabled = false;
+                    this.botonModificacionProductos.Disabled = true;
+                    habilitarCampos(false);
+                    this.gridViewProductosGlobales.Visible = false;///********************
+                    this.botonAceptarProducto.Visible = false;///******************
+                    this.botonCancelarProducto.Visible = false;///******************                                       ///
+                    cargarEstaciones();
+                    cargarEstados();
+                    break;
+                case (int)Modo.Insercion: //insertar
+                    habilitarCampos(true);
+                    this.botonAgregarProductos.Disabled = true;
+                    this.botonModificacionProductos.Disabled = true;
+                    //this.gridViewActividades.Visible = false;///********************
+                    break;
+                case (int)Modo.Modificacion: //modificar
+                    habilitarCampos(true);
+                    this.botonAgregarProductos.Disabled = true;
+                    this.botonModificacionProductos.Disabled = true;
+                    //this.gridViewActividades.Visible = false;///********************
+                    break;
+                case (int)Modo.Consulta://consultar
+                    limpiarCampos();
+                    habilitarCampos(false);
+                    this.botonAceptarProducto.Visible = false;///******************
+                    this.botonCancelarProducto.Visible = false;///******************
+                    this.botonModificacionProductos.Disabled = true;//**********************
+                    //this.gridViewActividades.Visible = true;///********************
+                    break;
+                case (int)Modo.Consultado://consultada una actividad
+                    habilitarCampos(false);
+                    this.botonAgregarProductos.Disabled = true;
+                    this.botonModificacionProductos.Disabled = false;
+                    this.botonAceptarProducto.Visible = false;///******************
+                    this.botonCancelarProducto.Visible = false;///****************** 
+                    //this.gridViewActividades.Visible = false;///********************///
+
+                    break;
+                default:
+
                     break;
             }
         }
-
-        protected void gridViewCatalogoLocal_CambioPagina(Object sender, GridViewPageEventArgs e)
-        {
-        }
-
-
 
 
         /* METODOS DE INTERFAZ RUTINARIOS
@@ -222,31 +217,58 @@ namespace ProyectoInventarioOET
             this.inputCodigoBarras.Value = "";
         }
 
-        protected void deshabilitarCampos() 
+        protected void habilitarCampos(bool resp)
         {
-            this.inputNombre.Disabled = true;
-            this.inputCodigo.Disabled = true;
-            this.inputCodigoBarras.Disabled = true;
-            this.inputUnidades.Enabled = false;
-            this.inpuCategoria.Enabled = false;
-            this.inputEstado.Enabled = false; 
-        }
-
-        protected void habilitarCampos()
-        {
-            this.inputNombre.Disabled = false;
-            this.inputCodigo.Disabled = false;
-            this.inputCodigoBarras.Disabled = false;
-            this.inputUnidades.Enabled = true;
-            this.inpuCategoria.Enabled = true;
-            this.inputEstado.Enabled = true;
+            this.inputNombre.Disabled = !resp;
+            this.inputCodigo.Disabled = !resp;
+            this.inputCodigoBarras.Disabled = !resp;
+            this.inputUnidades.Enabled = resp;
+            this.inpuCategoria.Enabled = resp;
+            this.inputEstado.Enabled = resp;
         }
 
 
         protected void botonCancelarModalCancelar_ServerClick(object sender, EventArgs e)
         {
             limpiarCampos();
-            deshabilitarCampos();
+        }
+
+        protected void botonAgregarProductos_ServerClick(object sender, EventArgs e)
+        {
+            modo = (int)Modo.Insercion;
+            cambiarModo();
+            limpiarCampos();
+            //cargarEstados();
+        }
+
+        protected void botonModificacionProductos_ServerClick(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void botonConsultaProductos_ServerClick(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void gridViewProductosGlobales_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            switch (e.CommandName)
+            {
+                case "Select":
+                    GridViewRow filaSeleccionada = this.gridViewProductosGlobales.Rows[Convert.ToInt32(e.CommandArgument)];
+                    String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewProductosGlobales.PageIndex * resultadosPorPagina)]);
+                    //consultarActividad(codigo);
+                    modo = (int)Modo.Consultado;
+                    Response.Redirect("FormActividades.aspx");
+                    break;
+            }
+        }
+
+        protected void gridViewProductosGlobales_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            this.gridViewProductosGlobales.PageIndex = e.NewPageIndex;
+            this.gridViewProductosGlobales.DataBind();
         }
 
 

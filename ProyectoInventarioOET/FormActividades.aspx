@@ -4,7 +4,7 @@
     <br />
     <!-- Label para desplegar mensajes -->
     <div>
-        <div id="mensajeAlerta" class="alert alert-fozkr-error fade in" runat="server" style="margin-left: 70%;">
+        <div id="mensajeAlerta" class="alert alert-fozkr-error fade in" runat="server" visible =" false" style="margin-left: 70%;">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <strong>
                 <asp:Label ID="labelTipoAlerta" runat="server" Text="Alerta! "></asp:Label>
@@ -20,23 +20,23 @@
     </div>
 
     <!-- Cuerpo del Form -->
-    <button runat="server" onclick="showStuff('bloqueFormulario', 'Nueva actividad');" id="botonAgregarActividades" class=" btn btn-info" type="button" style="float: left" > Nueva Actividad</button>
-    <button runat="server" onclick="showStuff('bloqueFormulario', 'Modificar actividad');" id="botonModificacionActividades" class=" btn btn-info" type="button" style="float: left"><i></i> Modificar Actividad </button>
-    <button runat="server" onserverclick="botonConsultaActividades_ServerClick" onclick="showStuff('bloqueGrid', 'Consulta de actividades');"  id="botonConsultaActividades" class=" btn btn-info" type="button" style="float: left"><i></i>Consulta de Actividades </button>
+    <button runat="server" onserverclick="botonAgregarActividades_ServerClick" id="botonAgregarActividades" class=" btn btn-info" type="button" style="float: left" > Nueva Actividad</button>
+    <button runat="server" onserverclick="botonModificacionActividades_ServerClick" id="botonModificacionActividades" class=" btn btn-info" type="button" style="float: left"><i></i> Modificar Actividad </button>
+    <button runat="server" onserverclick="botonConsultaActividades_ServerClick"  id="botonConsultaActividades" class=" btn btn-info" type="button" style="float: left"><i></i>Consulta de Actividades </button>
     <br />
     <br />
 
     <h3 id="tituloAccionActividades"></h3>
     <br />
 
-    <div class= "row" id="bloqueFormulario" style="display:none">
+    <div class= "row" id="bloqueFormulario">
          <!-- Fieldset para Actividades -->
         <fieldset id= "FieldsetActividad" runat="server" class="fieldset">
     
                 <div class="col-lg-4">
                     <div class="form-group">
                         <label for="inputDescripcionActividad" class= "control-label"> Descripción: </label>      
-                        <input type="text" id= "inputDescripcionActividad" class="form-control"><br>
+                        <input type="text" id= "inputDescripcionActividad" runat="server" class="form-control"><br>
                     </div>
 
                 </div>
@@ -49,10 +49,11 @@
                     </div>
                 </div>
         </fieldset>
-        <label for="textoObligatorioActividad" class="text-danger text-center">Los campos con (*) son obligatorios</label>
+        <label id="labelTextoObligatorioActividad" runat="server" for="textoObligatorioActividad" class="text-danger text-center">Los campos con (*) son obligatorios</label>
+
 
     </div>
-    <div class="col-lg-12" id="bloqueBotones" style="display:none">
+    <div class="col-lg-12" id="bloqueBotones">
         <div class =" row">
             <div class="text-center">
                 <button runat="server" onserverclick="botonAceptarActividad_ServerClick" id="botonAceptarActividad" class="btn btn-success-fozkr" type="button"><i class="fa fa-pencil-square-o"></i>Aceptar</button>
@@ -60,17 +61,17 @@
             </div>
         </div>
     </div>
-
-    <div id="bloqueGrid" class="col-lg-12" style="display:none">
-        <fieldset id="FieldsetGridActividades" center="left" runat="server" class="fieldset">
+     <%--style="display:none"--%>
+    <div id="bloqueGrid" class="col-lg-12">
+        <fieldset id="FieldsetGridActividades" runat="server" class="fieldset">
           <!-- Gridview de consultar -->
          <div class="col-lg-12">
             <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
                 <ContentTemplate>
                     <asp:GridView ID="gridViewActividades" CssClass="table table-responsive table-condensed" OnRowCommand="gridViewActividades_Seleccion" OnPageIndexChanging="gridViewActividades_CambioPagina" runat="server" AllowPaging="True" PageSize="16" BorderColor="Transparent">
                         <Columns>
-                            <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn-default" CommandName="Select" Text="Consultar">
-                                <ControlStyle CssClass="btn-default disabled"></ControlStyle>
+                            <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-info" CommandName="Select" Text="Consultar">
+                                <ControlStyle CssClass="btn btn-info"></ControlStyle>
                             </asp:ButtonField>
                        </Columns>
                        <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />

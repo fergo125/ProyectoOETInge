@@ -1,13 +1,14 @@
-﻿using System;
+﻿using Oracle.DataAccess.Client;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 
-namespace ProyectoInventarioOET.App_Code.Módulo_Actividades
+namespace ProyectoInventarioOET.Módulo_Actividades
 {
-    class ControladoraBDActividades
+    class ControladoraBDActividades : ControladoraBD
     {
         public EntidadActividad consultarActividad(String codigo)
         {
@@ -17,7 +18,10 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Actividades
 
             try
             {
-                //resultado = adaptadorBodega.consultarFilaBodega(codigo);
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "SELECT * FROM CAT_ACTIVIDAD WHERE  CAT_ACTIVIDAD = '" + codigo + "'";
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
 
                 if (resultado.Rows.Count == 1)
                 {
@@ -41,10 +45,17 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Actividades
             res[3] = actividad.Codigo.ToString();
             try
             {
-                //  adaptadorBodega.Insert();
+                DataTable resultado = new DataTable();
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "INSERT INTO CAT_ACTIVIDAD (CAT_ACTIVIDAD,DESCRIPCION,ESTADO) VALUES ('"
+                + actividad.Codigo + "','" + actividad.Descripcion + "','"
+                + (short)actividad.Estado + "')";
+                OracleDataReader reader = command.ExecuteReader();
+
+
                 res[0] = "success";
                 res[1] = "Exito";
-                res[2] = "Bodega Agregada";
+                res[2] = "Actividad Agregada";
             }
             catch (SqlException e)
             {
@@ -56,15 +67,18 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Actividades
             return res;
         }
 
-        public string[] modificarActividad(EntidadActividad actividadVieja, EntidadActividad actividadNueva)
+        public string[] modificarActividad(EntidadActividad actividad, EntidadActividad nuevaActividad)
         {
             String[] res = new String[3];
             try
             {
-                //adaptadorBodega.Update();
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "UPDATE CAT_ACTIVIDAD SET DESCRIPCION = '" + nuevaActividad.Descripcion 
+                    + "',ESTADO = '" + (short)nuevaActividad.Estado + "' WHERE DESCRIPCION = '" + actividad.Descripcion + "' AND ESTADO = " + actividad.Estado;
+                OracleDataReader reader = command.ExecuteReader();
                 res[0] = "success";
                 res[1] = "Exito";
-                res[2] = "Bodega modificado";
+                res[2] = "Actividad modificada";
             }
             catch (SqlException e)
             {
@@ -105,13 +119,17 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Actividades
 
             try
             {
-                //resultado = adaptadorBodega.GetData().CopyToDataTable();
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "SELECT * FROM CAT_ACTIVIDAD";
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
             }
             catch (Exception e)
             {
                 resultado = null;
             }
             return resultado;
+
         }
     }
 }

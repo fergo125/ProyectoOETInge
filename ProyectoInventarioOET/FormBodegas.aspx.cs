@@ -16,9 +16,7 @@ namespace ProyectoInventarioOET
         private static int resultadosPorPagina;
         private static EntidadBodega bodegaConsultada;
         private static ControladoraBodegas controladoraBodegas;
-        private static ControladoraBDEstados controladoraEstados;
-        private static ControladoraBDEstaciones controladoraEstaciones;
-        private static ControladoraBDAnfitriones controladoraAnfitriones;
+        private static ControladoraDatosGenerales controladoraDatosGenerales;
         private static Boolean seConsulto = false;
         private static Object[] idArray;
         private static int modo = 0;
@@ -29,9 +27,7 @@ namespace ProyectoInventarioOET
             {
                 
                     controladoraBodegas = new ControladoraBodegas();
-                    controladoraEstados = new ControladoraBDEstados();
-                    controladoraAnfitriones = new ControladoraBDAnfitriones();
-                    controladoraEstaciones = new ControladoraBDEstaciones();
+                    controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
 
                     if (!seConsulto)
                     {
@@ -64,24 +60,54 @@ namespace ProyectoInventarioOET
                 case 0:
                     limpiarCampos();
                     botonAgregarBodega.Disabled = false;
+                    FieldsetBodegas.Visible = false;
                     botonModificarBodega.Disabled = true;
+                    botonAceptarBodega.Visible = false;
+                    botonCancelarBodega.Visible = false;
+                    botonConsultarBodega.Disabled = false;
                     habilitarCampos(false);
                     break;
                 case 1: //insertar
+                    gridViewBodegas.Visible = false;
+                    FieldsetBodegas.Visible = true;
                     habilitarCampos(true);
                     botonAgregarBodega.Disabled = true;
                     botonModificarBodega.Disabled = true;
+                    botonConsultarBodega.Disabled = false;
+                    botonAceptarBodega.Visible = true;
+                    botonCancelarBodega.Visible = true;
                     break;
                 case 2: //modificar
+                    gridViewBodegas.Visible = false;
+                    FieldsetBodegas.Visible = true;
                     habilitarCampos(true);
+                    llenarGrid();
                     botonAgregarBodega.Disabled = true;
                     botonModificarBodega.Disabled = true;
+                    botonConsultarBodega.Disabled = false;
+                    botonAceptarBodega.Visible = true;
+                    botonCancelarBodega.Visible = true;
 
                     break;
                 case 3://consultar
+                    gridViewBodegas.Visible = true;
+                    FieldsetBodegas.Visible = false;
+                    botonAgregarBodega.Disabled = false;
+                    botonConsultarBodega.Disabled = true;
+                    botonAceptarBodega.Visible = false;
+                    botonCancelarBodega.Visible = false;
                     habilitarCampos(false);
                     break;
-
+                case 4: //consultado, con los espacios bloqueados
+                    gridViewBodegas.Visible = true;
+                    FieldsetBodegas.Visible = true;
+                    botonAgregarBodega.Disabled = false;
+                    botonConsultarBodega.Disabled = false;
+                    botonAceptarBodega.Visible = false;
+                    botonCancelarBodega.Visible = false;
+                    habilitarCampos(false);
+                    llenarGrid();
+                    break;
                 default:
                     // Algo salio mal
                     break;
@@ -97,6 +123,7 @@ namespace ProyectoInventarioOET
                     GridViewRow filaSeleccionada = this.gridViewBodegas.Rows[Convert.ToInt32(e.CommandArgument)];
                     String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewBodegas.PageIndex * resultadosPorPagina)]);
                     consultarBodega(codigo);
+                    modo = 4;
                     Response.Redirect("FormBodegas.aspx");
                     break;
             }
@@ -106,37 +133,6 @@ namespace ProyectoInventarioOET
         {
             this.gridViewBodegas.PageIndex = e.NewPageIndex;
             this.gridViewBodegas.DataBind();
-        }
-
-        protected void testGrid()
-        {
-
-            DataTable tabla = tablaBodegas();
-            DataTable tabla2 = tablaCatalogoLocal();
-
-            for (int i = 1; i < 5; i++)
-            {
-                Object[] datos = new Object[2];
-                datos[0] = i * 2;
-                datos[1] = i * 3;
-                tabla.Rows.Add(datos);
-            }
-
-            for (int i = 1; i < 5; i++)
-            {
-                Object[] datos2 = new Object[5];
-                datos2[0] = i * 2;
-                datos2[1] = i * 3;
-                datos2[2] = i * 4;
-                datos2[3] = i * 5;
-                datos2[4] = i * 6;
-                tabla2.Rows.Add(datos2);
-            }
-
-            this.gridViewBodegas.DataSource = tabla;
-            this.gridViewBodegas.DataBind();
-        
-        
         }
 
 
@@ -177,12 +173,7 @@ namespace ProyectoInventarioOET
 
                     this.gridViewBodegas.DataSource = tabla;
                     this.gridViewBodegas.DataBind();
-                    if (bodegaConsultada != null)
-                    {
-                        GridViewRow filaSeleccionada = this.gridViewBodegas.Rows[indiceNuevaBodega];
-                    }
                 }
-
                 catch (Exception e)
                 {
                     mostrarMensaje("warning", "Alerta", "No hay conexión a la base de datos.");
@@ -195,8 +186,6 @@ namespace ProyectoInventarioOET
             gridViewBodegas.DataSource = tablaLimpia;
             gridViewBodegas.DataBind();
         }
-
-
 
         protected DataTable tablaBodegas()
         {
@@ -216,57 +205,15 @@ namespace ProyectoInventarioOET
             return tabla;
         }
 
-        protected DataTable tablaCatalogoLocal()
-        {
-            DataTable tabla = new DataTable();
-            DataColumn columna;
-
-            columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Nombre";
-            tabla.Columns.Add(columna);
-
-            columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Precio";
-            tabla.Columns.Add(columna);
-
-            columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Cantidad";
-            tabla.Columns.Add(columna);
-
-            columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Mínimo";
-            tabla.Columns.Add(columna);
-
-            columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Máximo";
-            tabla.Columns.Add(columna);
-
-            return tabla;
-        }
 
         protected void mostrarMensaje(String tipoAlerta, String alerta, String mensaje)
         {
             mensajeAlerta.Attributes["class"] = "alert alert-" + tipoAlerta + " alert-dismissable fade in";
             labelTipoAlerta.Text = alerta + " ";
             labelAlerta.Text = mensaje;
-            mensajeAlerta.Attributes.Remove("hidden");
+            mensajeAlerta.Visible = true;
         }
 
-        protected void gridViewCatalogoLocal_Seleccion(object sender, GridViewCommandEventArgs e)
-        {
-            switch (e.CommandName)
-            {
-                case "Select":
-                    GridViewRow filaSeleccionada = this.gridViewBodegas.Rows[Convert.ToInt32(e.CommandArgument)];
-                    int id = Convert.ToInt32(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewBodegas.PageIndex * resultadosPorPagina)]);
-                    break;
-            }
-        }
 
         protected void botonAceptarBodega_ServerClick(object sender, EventArgs e)
         {
@@ -281,7 +228,7 @@ namespace ProyectoInventarioOET
                 {
                     operacionCorrecta = true;
                     bodegaConsultada = controladoraBodegas.consultarBodega(codigoInsertado);
-                    modo = 3;
+                    modo = 4;
                     habilitarCampos(false);
                 }
                 else
@@ -340,8 +287,6 @@ namespace ProyectoInventarioOET
                 res = false;
                 modo = 2;
             }
-
-
             return res;
         }
 
@@ -350,7 +295,7 @@ namespace ProyectoInventarioOET
             vaciarGridBodegas();
             modo = 0;
             cambiarModo();
-            limpiarCampos();;
+            limpiarCampos();
             bodegaConsultada = null;
         }
 
@@ -361,6 +306,8 @@ namespace ProyectoInventarioOET
         protected void botonConsultarBodega_consultarBodegas(object sender, EventArgs e)
         {
             llenarGrid();
+            modo = 3;
+            cambiarModo();
         }
 
 
@@ -395,7 +342,7 @@ namespace ProyectoInventarioOET
         {
             dropdownEstado.Items.Clear();
             dropdownEstado.Items.Add(new ListItem("", null));
-            DataTable estados = controladoraEstados.consultarEstados();
+            DataTable estados = controladoraDatosGenerales.consultarEstadosActividad();
             foreach (DataRow fila in estados.Rows)
             {
                 dropdownEstado.Items.Add(new ListItem(fila[1].ToString(), fila[2].ToString()));
@@ -406,7 +353,7 @@ namespace ProyectoInventarioOET
         {
             comboBoxEmpresa.Items.Clear();
             comboBoxEmpresa.Items.Add(new ListItem("", null));
-            DataTable anfitriones = controladoraAnfitriones.consultarAnfitriones();
+            DataTable anfitriones = controladoraDatosGenerales.consultarAnfitriones();
             foreach (DataRow fila in anfitriones.Rows)
             {
                 comboBoxEmpresa.Items.Add(new ListItem(fila[2].ToString(), fila[0].ToString()));
@@ -417,7 +364,7 @@ namespace ProyectoInventarioOET
         {
             comboBoxEstacion.Items.Clear();
             comboBoxEstacion.Items.Add(new ListItem("", null));
-            DataTable estaciones = controladoraEstaciones.consultarEstaciones();
+            DataTable estaciones = controladoraDatosGenerales.consultarEstaciones();
             foreach (DataRow fila in estaciones.Rows)
             {
                 comboBoxEstacion.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));

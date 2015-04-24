@@ -4,7 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 
-namespace ProyectoInventarioOET.App_Code.Módulo_Actividades
+namespace ProyectoInventarioOET.Módulo_Actividades
 {
     public class ControladoraActividades
     {
@@ -24,18 +24,28 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Actividades
             return controladoraBDActividades.consultarActividad(codigo);
         }
 
-        public String[] insertarDatos(Object[] datosActividad)
+        public String[] insertarDatos(String descripcion, int estado)
         {
             /*crea una nueva actividad dado un vector con los datos de la misma*/
+            Object[] datosActividad = new Object[3];
+            datosActividad[0] = DateTime.Now.ToString("h:mm:ss");
+            datosActividad[1] = descripcion;
+            datosActividad[2] = estado;
+
             EntidadActividad actividad = new EntidadActividad(datosActividad);
             return controladoraBDActividades.insertarActividad(actividad);
         }
 
-        public String[] modificarDatos(EntidadActividad actividadVieja, Object[] datosActividadNueva)
+        public String[] modificarDatos(EntidadActividad actividadVieja, String descripcionNueva, int estadoNuevo)
         {
-            /*modifica los datos de una actividad particular*/
-            EntidadActividad actividadNueva = new EntidadActividad(datosActividadNueva);
-            return controladoraBDActividades.modificarActividad(actividadVieja, actividadNueva);
+            /*crea una nueva actividad dado un vector con los datos de la misma*/
+            Object[] actividadNueva = new Object[3];
+            actividadNueva[0] = actividadVieja.Codigo;
+            actividadNueva[1] = descripcionNueva;
+            actividadNueva[2] = estadoNuevo;
+
+            EntidadActividad actividad = new EntidadActividad(actividadNueva);
+            return controladoraBDActividades.modificarActividad(actividadVieja, actividad);
         }
 
         public String[] desactivarActividad(EntidadActividad actividad)
