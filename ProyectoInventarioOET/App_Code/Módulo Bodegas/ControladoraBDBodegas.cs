@@ -140,6 +140,7 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
                     }
 
                     bodegaConsultada = new EntidadBodega(datosConsultados);
+
                 }
             }
             catch (Exception e) { }
