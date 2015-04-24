@@ -15,6 +15,7 @@ namespace ProyectoInventarioOET
         private static ControladoraBodegas controladoraBodegas;
         private static ControladoraDatosGenerales controladoraDatosGenerales;
         private static int resultadosPorPagina;
+        private static int modo=0;
         private static Object[] idArray;
         private static Object[] idArray2;
 
@@ -26,6 +27,25 @@ namespace ProyectoInventarioOET
                 controladoraBodegas = new ControladoraBodegas();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
                 DropDownListEstacion_CargaEstaciones();
+            }
+            cambiarModo();
+        }
+
+        protected void cambiarModo()
+        {
+            switch (modo)
+            {
+                case 0:
+                    FieldsetCatalogoLocal.Visible = false;
+                    FieldsetProductos.Visible = false;
+                    break;
+                case 1://consultar con los espacios bloqueados
+                    FieldsetCatalogoLocal.Visible = true;
+                    FieldsetProductos.Visible = true;
+                    break;
+                default:
+                    // Algo salio mal
+                    break;
             }
         }
 
@@ -86,8 +106,10 @@ namespace ProyectoInventarioOET
             switch (e.CommandName)
             {
                 case "Select":
-                    GridViewRow filaSeleccionada = this.gridViewCatalogoLocal.Rows[Convert.ToInt32(e.CommandArgument)];
-                    int id = Convert.ToInt32(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewCatalogoLocal.PageIndex * resultadosPorPagina)]);
+                    //GridViewRow filaSeleccionada = this.gridViewCatalogoLocal.Rows[Convert.ToInt32(e.CommandArgument)];
+                    //int id = Convert.ToInt32(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewCatalogoLocal.PageIndex * resultadosPorPagina)]);
+                    modo=1;
+                    Response.Redirect("FormProductosLocales.aspx");
                     break;
             }
         }
@@ -135,7 +157,10 @@ namespace ProyectoInventarioOET
         //Consulta de bodega, aquí se carga la tabla
         protected void botonConsultarBodega_ServerClick(object sender, EventArgs e)
         {
-            FieldsetCatalogoLocal.Visible = true;
+            if (this.DropDownListBodega.SelectedItem != null)
+            {
+                FieldsetCatalogoLocal.Visible = true;
+            }
         }
 
     }

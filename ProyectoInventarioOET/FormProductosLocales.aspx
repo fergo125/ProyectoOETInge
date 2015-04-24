@@ -20,7 +20,7 @@
             </asp:DropDownList>
         </div>
         <div class="col-lg-4">
-            <button runat="server" onserverclick="botonConsultarBodega_ServerClick" id="botonConsultarBodega" class=" btn btn-info" type="button" style="float: left"><i></i>Consultar Bodega</button>
+            <button runat="server" onserverclick="botonConsultarBodega_ServerClick" id="botonConsultarBodega" class=" btn btn-info" type="button" style="float: left" >Consultar Bodega</button>
         </div>
      </div>
     <br /><br /><br />
@@ -53,5 +53,65 @@
         <br />
         <br />
     </fieldset> 
+
+    <!-- Fieldset para consultar y modificar productos -->
+    <fieldset id= "FieldsetProductos" center="left" runat="server" class="fieldset" visible="false">
+        <div class= "col-lg-5">
+
+            <div class="form-group col-lg-12" >
+                <label for="inputNombre" class= "control-label"> Nombre: </label>      
+                <input type="text" id= "inputNombre" class="form-control" required runat="server" ><br>
+            </div>
+          
+            <div class="form-group col-lg-12">
+                <label for="inputCategoria" class= "control-label"> Categoría: </label>     
+                <asp:DropDownList id= "inpuCategoria" runat="server" class="form-control"> </asp:DropDownList> 
+            </div>
+
+            <div class="form-group col-lg-12">
+                <label for="inputUnidades" class= "control-label">Unidades: </label>
+                <asp:DropDownList ID="inputUnidades" runat="server" class="form-control"></asp:DropDownList>
+            </div>
+        </div>
+
+
+<%--        COLUMNA IZQUIERDA--%>
+
+        <div class="col-lg-7">
+
+            <div class= "form-group col-lg-6">
+                <label for="inputCodigo" class= "control-label"> Código: </label>      
+                <input type="text" id= "inputCodigo" class= "form-control" required runat="server"><br>
+            </div>
+            
+            <div class="form-group col-lg-6">
+                <label for="inputCodigoBarras" class= "control-label"> Código de Barras: </label>      
+                <input type="text" id= "inputCodigoBarras" name= "inputCodigoBarras" class="form-control" required runat="server"><br>
+            </div>
+
+            <div class="form-group col-lg-6">
+                <label for="inputEstacion" class= "control-label" >Estación: </label>
+                <asp:DropDownList ID="inputEstacion" runat="server" class="form-control"></asp:DropDownList>
+            </div>
+
+
+            <div class="form-group col-lg-6">
+                <label for="inputEstado" class= "control-label" >Estado: </label>
+                <asp:DropDownList ID="inputEstado" runat="server" class="form-control"></asp:DropDownList>
+            </div>
+
+            <div class="form-group col-lg-6">
+                <label for="inputCostoColones" class= "control-label"> Costo (colones): </label>      
+                <input type="text" id= "inputCostoColones" class="form-control" ><br>
+            </div>
+
+            <div class="form-group col-lg-6">
+                <label for="inputCostoDolares" class= "control-label"> Costo (dolares): </label>      
+                <input type="text" id= "inputCostoDolares" class="form-control" ><br>
+            </div>
+
+        </div>
+        <br /><br /><br />
+    </fieldset>
 
 </asp:Content>
