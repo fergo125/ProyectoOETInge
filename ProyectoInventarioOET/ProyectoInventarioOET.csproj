@@ -279,15 +279,12 @@
     <Compile Include="App_Code\Módulo Bodegas\EntidadBodega.cs" />
     <Compile Include="App_Code\Módulo Bodegas\ControladoraBodegas.cs" />
     <Compile Include="App_Code\Módulo Bodegas\ControladoraBDBodegas.cs" />
-<<<<<<< HEAD
     <Content Include="App_Code\Módulo ProductosGlobales\ControladoraBDProductosGlobales.cs" />
     <Content Include="App_Code\Módulo ProductosGlobales\ControladoraProductosGlobales.cs" />
     <Content Include="App_Code\Módulo ProductosGlobales\EntidadProductoGlobal.cs" />
-=======
     <Compile Include="App_Code\Módulo Seguridad\ControladoraSeguridad.cs" />
     <Compile Include="App_Code\Módulo Seguridad\EntidadUsuario.cs" />
     <Compile Include="App_Code\Módulo Seguridad\ControladoraBDSeguridad.cs" />
->>>>>>> origin/master
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Code\ControladoraBD.cs" />
     <Compile Include="DataSetGeneral.Designer.cs">
