@@ -8,7 +8,7 @@ using System.Text;
 
 namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
 {
-    public class ControladoraBDProductosGlobales
+    public class ControladoraBDProductosGlobales : ControladoraBD
     {
         public EntidadProductoGlobal consultarProductoGlobal(String id)
         {

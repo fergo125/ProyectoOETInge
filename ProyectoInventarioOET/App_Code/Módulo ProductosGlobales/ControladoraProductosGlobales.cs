@@ -40,11 +40,21 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
             return controladoraBD.insertarProductoGlobal(productoGlobal);
         }
 
-        public String[] modificarDatos(EntidadProductoGlobal productoViejo, Object[] datosProductoNuevo)
+        public String[] modificarDatos(EntidadProductoGlobal productoGlobalViejo, String nombreModificado, String categoriaModificado, String unidadesModificado, String codigoModificado,
+            String codigoDeBarrasModificado, String estacionModificado, int estadoModificado, double costoColonesModificado, double costoDolaresModificado)
         {
-            /*modifica los datos de una bodega particular*/
-            EntidadProductoGlobal bodegaNueva = new EntidadProductoGlobal(datosProductoNuevo);
-            return controladoraBD.modificarProductoGlobal(bVieja, bodegaNueva);
+            Object[] datosProductoGlobalModificado = new Object[9];
+            datosProductoGlobalModificado[0] = nombreModificado;
+            datosProductoGlobalModificado[1] = categoriaModificado;
+            datosProductoGlobalModificado[2] = unidadesModificado;
+            datosProductoGlobalModificado[3] = codigoModificado;
+            datosProductoGlobalModificado[4] = codigoDeBarrasModificado;
+            datosProductoGlobalModificado[5] = estacionModificado;
+            datosProductoGlobalModificado[6] = estadoModificado;
+            datosProductoGlobalModificado[7] = costoColonesModificado;
+            datosProductoGlobalModificado[8] = costoColonesModificado;
+            EntidadProductoGlobal productoGlobalModificado = new EntidadProductoGlobal(datosProductoGlobalModificado);
+            return controladoraBD.modificarProductoGlobal(productoGlobalViejo, productoGlobalModificado);
         }
 
         public String[] desactivarProductoGlobal(EntidadProductoGlobal productoGlobal)
