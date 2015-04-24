@@ -49,7 +49,7 @@ namespace ProyectoInventarioOET.Módulo_Actividades
                 OracleCommand command = conexionBD.CreateCommand();
                 command.CommandText = "INSERT INTO CAT_ACTIVIDAD (CAT_ACTIVIDAD,DESCRIPCION,ESTADO) VALUES ('"
                 + actividad.Codigo + "','" + actividad.Descripcion + "','"
-                + (short)actividad.Estado + ")";
+                + (short)actividad.Estado + "')";
                 OracleDataReader reader = command.ExecuteReader();
 
 

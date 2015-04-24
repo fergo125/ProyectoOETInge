@@ -146,6 +146,23 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
 
             return bodegaConsultada;
         }
+
+        public DataTable consultarBodegasDeEstacion(String codigo)
+        {
+            DataTable resultado = new DataTable();
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "SELECT * FROM CAT_BODEGA WHERE CAT_BODEGA.ESTACION = '"+codigo+"'";
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
+            }
+            catch (Exception e)
+            {
+                resultado = null;
+            }
+            return resultado;
+        }
      
     }
 }

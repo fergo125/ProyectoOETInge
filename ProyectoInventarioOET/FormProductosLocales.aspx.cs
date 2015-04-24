@@ -5,18 +5,28 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
+using ProyectoInventarioOET.Módulo_Bodegas;
+using ProyectoInventarioOET.App_Code;
 
 namespace ProyectoInventarioOET
 {
     public partial class FormProductosLocales : System.Web.UI.Page
     {
-
+        private static ControladoraBodegas controladoraBodegas;
+        private static ControladoraDatosGenerales controladoraDatosGenerales;
         private static int resultadosPorPagina;
         private static Object[] idArray;
+        private static Object[] idArray2;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             testGrid();
+            if (!IsPostBack)
+            {
+                controladoraBodegas = new ControladoraBodegas();
+                controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
+                DropDownListEstacion_CargaEstaciones();
+            }
         }
 
         // SOLO PARA PRUEBAS
@@ -87,14 +97,46 @@ namespace ProyectoInventarioOET
             this.gridViewCatalogoLocal.PageIndex = e.NewPageIndex;
             this.gridViewCatalogoLocal.DataBind();
         }
-
-        // Seleccion de bodega, aqui deberia cargarse la nueva bodega a la tabla
-        protected void DropDownListBodega_SelectedIndexChanged(object sender, EventArgs e)
+        // Carga estaciones
+        protected void DropDownListEstacion_CargaEstaciones()
         {
-            
+            DataTable estaciones = controladoraDatosGenerales.consultarEstaciones();
+            int i=0;
+            if (estaciones.Rows.Count > 0)
+            {
+                this.DropDownListEstacion.Items.Clear();
+                idArray = new Object[estaciones.Rows.Count];
+                foreach (DataRow fila in estaciones.Rows)
+                {
+                    idArray[i] = fila[0];
+                    this.DropDownListEstacion.Items.Add(new ListItem(fila[1].ToString()));
+                    i++;
+                }
+            }
         }
+        // Seleccion de estación, se cargan las bodegas disponibles
+        protected void DropDownListEstacion_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.DropDownListBodega.Items.Clear();
+            String idEstacion = idArray[this.DropDownListEstacion.SelectedIndex].ToString();
+            DataTable bodegas = controladoraBodegas.consultarBodegasDeEstacion(idEstacion);
+            int i = 0;
+            if (bodegas.Rows.Count > 0)
+            {
+                idArray2 = new Object[bodegas.Rows.Count];
+                foreach (DataRow fila in bodegas.Rows)
+                {
+                    idArray2[i] = fila[0];
+                    this.DropDownListBodega.Items.Add(new ListItem(fila[1].ToString()));
+                }
+            }
 
-        // protocol epsilon chi tau
+        }
+        //Consulta de bodega, aquí se carga la tabla
+        protected void botonConsultarBodega_ServerClick(object sender, EventArgs e)
+        {
+            FieldsetCatalogoLocal.Visible = true;
+        }
 
     }
 }

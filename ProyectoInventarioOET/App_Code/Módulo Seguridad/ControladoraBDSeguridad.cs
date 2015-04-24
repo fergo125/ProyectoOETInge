@@ -10,7 +10,7 @@ using Oracle.DataAccess.Client; //para conectarse a la base de datos manualmente
  * Encargada de obtener información acerca de la seguridad del sistema desde la base de datos
  * Hereda de la controladora de base de datos
  */
-namespace ProyectoInventarioOET.App_Code.Módulo_Seguridad
+namespace ProyectoInventarioOET.Módulo_Seguridad
 {
     public class ControladoraBDSeguridad : ControladoraBD
     {
@@ -26,10 +26,10 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Seguridad
             command.CommandText = "SELECT * FROM SEG_USUARIO WHERE USUARIO = '" + nombre + "' AND CLAVE = '" + password + "'";
             OracleDataReader reader = command.ExecuteReader();
             resultado.Load(reader);
-            if( resultado.Rows.Count == 1 )
+            if(resultado.Rows.Count == 1)
             {
                 Object[] datosConsultados = new Object[9];
-                for(int i = 0; i < 9; ++i)
+                for(int i=0; i<9; ++i)
                 {
                     datosConsultados[i] = resultado.Rows[0][i].ToString();
                 }

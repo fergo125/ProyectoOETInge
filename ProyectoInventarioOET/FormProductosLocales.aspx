@@ -10,11 +10,17 @@
     <br />
     <div class="row">
         <div class="col-lg-4">
-            <label for="inputBodega" class="control-label">Seleccione bodega: </label>
-            <asp:DropDownList ID="DropDownListBodega" runat="server" CssClass="form-control" OnSelectedIndexChanged="DropDownListBodega_SelectedIndexChanged">
-                <asp:ListItem Value="lol" Selected="False">Lol</asp:ListItem>
-                <asp:ListItem Value="lel" Selected="False">Lel</asp:ListItem>
+            <label for="inputEstacion" class="control-label">Seleccione estación: </label>
+            <asp:DropDownList ID="DropDownListEstacion" runat="server" CssClass="form-control" OnSelectedIndexChanged="DropDownListEstacion_SelectedIndexChanged" AutoPostBack="true">
             </asp:DropDownList>
+        </div>
+        <div class="col-lg-4">
+            <label for="inputBodega" class="control-label">Seleccione bodega: </label>
+            <asp:DropDownList ID="DropDownListBodega" runat="server" CssClass="form-control">
+            </asp:DropDownList>
+        </div>
+        <div class="col-lg-4">
+            <button runat="server" onserverclick="botonConsultarBodega_ServerClick" id="botonConsultarBodega" class=" btn btn-info" type="button" style="float: left"><i></i>Consultar Bodega</button>
         </div>
      </div>
     <br /><br /><br />
@@ -27,7 +33,7 @@
                 <ContentTemplate>
                     <asp:GridView ID="gridViewCatalogoLocal" CssClass="table table-responsive table-condensed" OnRowCommand="gridViewCatalogoLocal_Seleccion" OnPageIndexChanging="gridViewCatalogoLocal_CambioPagina" runat="server" AllowPaging="True" PageSize="16" BorderColor="Transparent">
                         <Columns>
-                            <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn-default" CommandName="Select" Text="Desactivar">
+                            <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn-default" CommandName="Select" Text="Consultar">
                                 <ControlStyle CssClass="btn-default disabled"></ControlStyle>
                             </asp:ButtonField>
                        </Columns>
