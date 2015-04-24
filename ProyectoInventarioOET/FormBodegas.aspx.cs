@@ -60,10 +60,10 @@ namespace ProyectoInventarioOET
                 case 0:
                     limpiarCampos();
                     botonAgregarBodega.Disabled = false;
-                    FieldsetBodegas.Visible = true;
+                    FieldsetBodegas.Visible = false;
                     botonModificarBodega.Disabled = true;
-                    botonAceptarBodega.Visible = true;
-                    botonCancelarBodega.Visible = true;
+                    botonAceptarBodega.Visible = false;
+                    botonCancelarBodega.Visible = false;
                     botonConsultarBodega.Disabled = false;
                     habilitarCampos(false);
                     break;
@@ -78,7 +78,7 @@ namespace ProyectoInventarioOET
                     botonCancelarBodega.Visible = true;
                     break;
                 case 2: //modificar
-                    gridViewBodegas.Visible = true;
+                    gridViewBodegas.Visible = false;
                     FieldsetBodegas.Visible = true;
                     habilitarCampos(true);
                     llenarGrid();
@@ -228,7 +228,7 @@ namespace ProyectoInventarioOET
                 {
                     operacionCorrecta = true;
                     bodegaConsultada = controladoraBodegas.consultarBodega(codigoInsertado);
-                    modo = 3;
+                    modo = 4;
                     habilitarCampos(false);
                 }
                 else
