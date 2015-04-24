@@ -60,21 +60,42 @@ namespace ProyectoInventarioOET
                 case 0:
                     limpiarCampos();
                     botonAgregarBodega.Disabled = false;
+                    FieldsetBodegas.Visible = true;
                     botonModificarBodega.Disabled = true;
+                    botonAceptarBodega.Visible = true;
+                    botonCancelarBodega.Visible = true;
+                    botonConsultarBodega.Disabled = false;
                     habilitarCampos(false);
                     break;
                 case 1: //insertar
+                    gridViewBodegas.Visible = false;
+                    FieldsetBodegas.Visible = true;
                     habilitarCampos(true);
                     botonAgregarBodega.Disabled = true;
                     botonModificarBodega.Disabled = true;
+                    botonConsultarBodega.Disabled = false;
+                    botonAceptarBodega.Visible = true;
+                    botonCancelarBodega.Visible = true;
                     break;
                 case 2: //modificar
+                    gridViewBodegas.Visible = false;
+                    FieldsetBodegas.Visible = true;
                     habilitarCampos(true);
                     botonAgregarBodega.Disabled = true;
                     botonModificarBodega.Disabled = true;
+                    botonConsultarBodega.Disabled = false;
+                    botonAceptarBodega.Visible = true;
+                    botonCancelarBodega.Visible = true;
 
                     break;
                 case 3://consultar
+                    gridViewBodegas.Visible = true;
+                    FieldsetBodegas.Visible = false;
+                    botonAgregarBodega.Disabled = false;
+                    botonModificarBodega.Disabled = true;
+                    botonConsultarBodega.Disabled = true;
+                    botonAceptarBodega.Visible = false;
+                    botonCancelarBodega.Visible = false;
                     habilitarCampos(false);
                     break;
 
@@ -147,7 +168,6 @@ namespace ProyectoInventarioOET
                         GridViewRow filaSeleccionada = this.gridViewBodegas.Rows[indiceNuevaBodega];
                     }
                 }
-
                 catch (Exception e)
                 {
                     mostrarMensaje("warning", "Alerta", "No hay conexión a la base de datos.");
@@ -280,6 +300,8 @@ namespace ProyectoInventarioOET
         protected void botonConsultarBodega_consultarBodegas(object sender, EventArgs e)
         {
             llenarGrid();
+            modo = 3;
+            cambiarModo();
         }
 
 
