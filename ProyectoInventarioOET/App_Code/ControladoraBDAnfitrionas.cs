@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data;
-using ProyectoInventarioOET.DataSetGeneralTableAdapters;
 using Oracle.DataAccess.Client; //para conectarse a la base de datos manualmente con strings
 
 /*
@@ -14,11 +13,10 @@ namespace ProyectoInventarioOET.App_Code
 {
     public class ControladoraBDAnfitrionas : ControladoraBD
     {
-        ANFITRIONATableAdapter adaptadorAnfitriones;
 
         public ControladoraBDAnfitrionas()
         {
-            adaptadorAnfitriones = new ANFITRIONATableAdapter();
+
         }
 
         public DataTable consultarAnfitriones()

@@ -7,7 +7,7 @@ using System.Web;
  * Entidad Usuario
  * Encapsulador de información acerca de cuentas de usuario
  */
-namespace ProyectoInventarioOET.App_Code.Módulo_Seguridad
+namespace ProyectoInventarioOET.Módulo_Seguridad
 {
     public class EntidadUsuario
     {
