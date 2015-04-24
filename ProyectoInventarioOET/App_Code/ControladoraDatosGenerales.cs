@@ -11,7 +11,7 @@ using System.Data;
  * 
  * Al ser instanciada trae todos los datos desde la base de datos, almacenándolos en memoria.
  * Por esto, para que se actualicen es necesario cerrar el explorador y volver a abrirlo.
- * Se hizo de esta forma por la invariabilidad de datos.
+ * Se hizo de esta forma tomando en cuenta la invariabilidad de estos datos.
  */
 namespace ProyectoInventarioOET.App_Code
 {
