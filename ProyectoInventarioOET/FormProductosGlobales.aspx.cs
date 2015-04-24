@@ -5,7 +5,9 @@ using System.Web;
 using System.Data;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales;
 using ProyectoInventarioOET.App_Code;
+
 
 namespace ProyectoInventarioOET
 {
@@ -14,11 +16,10 @@ namespace ProyectoInventarioOET
         enum Modo { Inicial, Consulta, Insercion, Modificacion, Consultado };
         private static int modo = (int) Modo.Inicial;
         private static int idProducto = 0; //Sirve para estar en modo consulta
-        private static int idRequerimiento = 0;
-        private static int idCriterio = 0;
         private static int resultadosPorPagina;
         private static Object[] idArray;
         private static ControladoraDatosGenerales controladoraDatosGenerales;
+        private static ControladoraProductosGlobales controladora; 
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -38,22 +39,22 @@ namespace ProyectoInventarioOET
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Precio";
+            columna.ColumnName = "Costo en colones";
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Cantidad";
+            columna.ColumnName = "Costo en dolares";
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Mínimo";
+            columna.ColumnName = "Estacion";
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Máximo";
+            columna.ColumnName = "Estado";
             tabla.Columns.Add(columna);
 
             return tabla;
