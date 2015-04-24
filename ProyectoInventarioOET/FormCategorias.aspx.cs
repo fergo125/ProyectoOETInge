@@ -109,7 +109,7 @@ namespace ProyectoInventarioOET
             {
                 case "Select":
                     GridViewRow filaSeleccionada = this.gridViewCategorias.Rows[Convert.ToInt32(e.CommandArgument)];
-                    int id = Convert.ToInt32(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewBodegas.PageIndex * resultadosPorPagina)]);
+                    int id = Convert.ToInt32(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewCategorias.PageIndex * resultadosPorPagina)]);
                     break;
             }
         }
