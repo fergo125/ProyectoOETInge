@@ -7006,7 +7006,7 @@ td.visible-print {
     width: 150px;
 }
 
-/*Used for the quantity inputs in billing, needs more work.*/
+/*Used for the quantity inputs in billing, TODO needs more work.*/
 .input-fozkr-quantity {
     width: 50px;
     margin-top: -3px;

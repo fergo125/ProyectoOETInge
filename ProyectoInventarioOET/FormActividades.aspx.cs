@@ -5,15 +5,55 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using ProyectoInventarioOET.Módulo_Actividades;
+using ProyectoInventarioOET.App_Code;
+
 
 namespace ProyectoInventarioOET
 {
     public partial class FormActividades : System.Web.UI.Page
     {
+        enum Modo { Inicial, Consulta, Insercion, Modificacion };
+        private static int modo = (int)Modo.Inicial;
         private static int resultadosPorPagina;
         private static Object[] idArray;
+        private static ControladoraDatosGenerales controladoraDatosGenerales;
+        private static EntidadActividad actividadConsultada;
+        private static ControladoraActividades controladoraActividades;
+        private static Boolean seConsulto = false;
+
+
         protected void Page_Load(object sender, EventArgs e)
         {
+
+            if (!IsPostBack)
+            {
+
+                controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
+                controladoraActividades = new ControladoraActividades();
+
+                if (!seConsulto)
+                {
+                    //modo = (int)Modo.Inicial;
+                }
+                else
+                {
+                    if (actividadConsultada == null)
+                    {
+                        mostrarMensaje("warning", "Alerta: ", "No se pudo consultar la actividad.");
+                    }
+                    else
+                    {
+                        cargarEstados();
+                        //cargarAnfitriones();
+                        //cargarEstaciones();
+                        //setDatosConsultados();
+
+                        seConsulto = false;
+                    }
+                }
+            }
+            cambiarModo();
 
         }
 
@@ -66,9 +106,9 @@ namespace ProyectoInventarioOET
             {
                 // Cargar bodegas
                 Object[] datos = new Object[3];
-                DataTable bodegas = controladoraActividades.consultarActividades();
+                //DataTable bodegas = controladoraActividades.consultarActividades();
 
-                if (bodegas.Rows.Count > 0)
+               /* if (bodegas.Rows.Count > 0)
                 {
                     idArray = new Object[bodegas.Rows.Count];
                     foreach (DataRow fila in bodegas.Rows)
@@ -80,7 +120,7 @@ namespace ProyectoInventarioOET
                         /*if (bodegaConsultada != null && (fila[0].Equals(bodegaConsultada.Identificador)))
                         {
                             indiceNuevaBodega = i;
-                        }*/
+                        }
                         i++;
                     }
                 }
@@ -90,7 +130,7 @@ namespace ProyectoInventarioOET
                     datos[1] = "-";
                     tabla.Rows.Add(datos);
                 }
-
+    */
                 this.gridViewActividades.DataSource = tabla;
                 this.gridViewActividades.DataBind();
                 /* if (bodegaConsultada != null)
@@ -134,6 +174,34 @@ namespace ProyectoInventarioOET
 
         protected void botonAceptarActividad_ServerClick(object sender, EventArgs e)
         {
+            Boolean operacionCorrecta = true;
+            String codigoInsertado = "";
+            String[] resultado = new String[4];
+
+            if (modo == (int)Modo.Insercion)
+            {
+                resultado = controladoraActividades.insertarDatos("codigo", this.inputDescripcionActividad.Value.ToString(), Int32.Parse(this.comboBoxEstadosActividades.SelectedValue.ToString()));
+                codigoInsertado = resultado[3];
+
+                if (codigoInsertado != "")
+                {
+                    operacionCorrecta = true;
+                    actividadConsultada = controladoraActividades.consultarActividad(codigoInsertado);
+                    modo = (int)Modo.Consulta;
+                    habilitarCampos(false);
+                    mostrarMensaje(resultado[0], resultado[1], resultado[2]);
+                }
+                else
+                    operacionCorrecta = false;
+            }
+            else if (modo == (int)Modo.Modificacion)
+            {
+                //operacionCorrecta = modificar();
+            }
+            if (operacionCorrecta)
+            {
+                cambiarModo();
+            }
 
         }
 
@@ -152,6 +220,90 @@ namespace ProyectoInventarioOET
 
         }
 
+        protected void habilitarCampos(bool habilitar)
+        {
+            this.inputDescripcionActividad.Disabled = !habilitar;
+            this.comboBoxEstadosActividades.Enabled = habilitar;
+        }
+
+        protected void limpiarCampos()
+        {
+            this.inputDescripcionActividad.Value = "";
+            this.comboBoxEstadosActividades.SelectedValue = null;
+        }
+
+        protected void cargarEstados()
+        {
+            comboBoxEstadosActividades.Items.Clear();
+            comboBoxEstadosActividades.Items.Add(new ListItem("", null));
+            DataTable estados = controladoraDatosGenerales.consultarEstados();
+            foreach (DataRow fila in estados.Rows)
+            {
+                comboBoxEstadosActividades.Items.Add(new ListItem(fila[1].ToString(), fila[2].ToString()));
+            }
+        }
+
+
+        protected void cambiarModo()
+        {
+            switch (modo)
+            {
+                case (int)Modo.Inicial:
+                    limpiarCampos();
+                    botonAgregarActividades.Disabled = false;
+                    botonModificacionActividades.Disabled = true;
+                    habilitarCampos(false);
+                    break;
+                case (int)Modo.Insercion: //insertar
+                    habilitarCampos(true);
+                    botonAgregarActividades.Disabled = true;
+                    botonModificacionActividades.Disabled = true;
+                    break;
+                case (int)Modo.Modificacion: //modificar
+                    habilitarCampos(true);
+                    botonAgregarActividades.Disabled = true;
+                    botonModificacionActividades.Disabled = true;
+
+                    break;
+                case (int)Modo.Consulta://consultar
+                    habilitarCampos(false);
+                    break;
+
+                default:
+
+                    break;
+            }
+        }
+
+        protected void botonAgregarActividades_ServerClick(object sender, EventArgs e)
+        {
+            modo = (int)Modo.Insercion;
+            cambiarModo();
+            limpiarCampos();
+            cargarEstados();
+        }
+
+        protected String insertar()
+        {
+            //String codigo = "";
+            //Object[] bodega = obtenerDatosBodega();
+
+            //String[] error = controladoraBodegas.insertarDatos(bodega);
+
+            //codigo = Convert.ToString(error[3]);
+            //mostrarMensaje(error[0], error[1], error[2]);
+            //if (error[0].Contains("success"))
+            //{
+            //    llenarGrid();
+            //}
+            //else
+            //{
+            //    codigo = "";
+            //    modo = 1;
+            //}
+
+            return "hola";
+        }
 
     }
 }

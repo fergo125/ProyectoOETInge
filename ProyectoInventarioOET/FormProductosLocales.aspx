@@ -1,17 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="FormProductosLocales.aspx.cs" Inherits="ProyectoInventarioOET.FormProductosLocales" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-    <script type="text/javascript">
-        function showStuff(id) {
-            var estado = document.getElementById(id).style.display;
-            if (estado === 'none') {
-                document.getElementById(id).style.display = 'block'; //Color 7BC134
-            } else {
-                document.getElementById(id).style.display = 'none';
-            }
-        }
-    </script>
-
     <br />
     <!-- Título del Form -->
     <div>
@@ -21,15 +10,23 @@
     <br />
     <div class="row">
         <div class="col-lg-4">
+            <label for="inputEstacion" class="control-label">Seleccione estación: </label>
+            <asp:DropDownList ID="DropDownListEstacion" runat="server" CssClass="form-control" OnSelectedIndexChanged="DropDownListEstacion_SelectedIndexChanged" AutoPostBack="true">
+            </asp:DropDownList>
+        </div>
+        <div class="col-lg-4">
             <label for="inputBodega" class="control-label">Seleccione bodega: </label>
             <asp:DropDownList ID="DropDownListBodega" runat="server" CssClass="form-control">
             </asp:DropDownList>
         </div>
+        <div class="col-lg-4">
+            <button runat="server" onserverclick="botonConsultarBodega_ServerClick" id="botonConsultarBodega" class=" btn btn-info" type="button" style="float: left"><i></i>Consultar Bodega</button>
+        </div>
      </div>
-    <br /><br />
+    <br /><br /><br />
 
     <!-- Fieldset que muestra los productos de la bodega local elegida -->
-    <fieldset id= "FieldsetCatalogoLocal" style="display:none" center="left" runat="server" class="fieldset" aria-hidden="true">
+    <fieldset id= "FieldsetCatalogoLocal" center="left" runat="server" class="fieldset" visible="false">
         <!-- Gridview de productos -->
          <div class="col-lg-12">
             <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">

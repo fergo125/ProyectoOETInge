@@ -18,7 +18,7 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
         }
 
 
-        public EntidadBodega consultarBodega(int id)
+        public EntidadBodega consultarBodega(String id)
         {
             /*consulta la información de una bodega particular*/
             return controladoraBDBodegas.consultarBodega(id);
@@ -48,6 +48,12 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
         {
             /*consulta la información de todas las bodegas*/
             return controladoraBDBodegas.consultarBodegas();
+        }
+
+        public DataTable consultarBodegasDeEstacion(String codigo)
+        {
+            /*consulta la información de las bodegas pertenecientes a la estación*/
+            return controladoraBDBodegas.consultarBodegasDeEstacion(codigo);
         }
     }
 }

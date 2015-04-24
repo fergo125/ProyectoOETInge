@@ -10,69 +10,78 @@
 namespace ProyectoInventarioOET {
     
     
-    public partial class FormProductosLocales {
+    public partial class FormLogin {
         
         /// <summary>
-        /// Control TituloProductosLocales.
+        /// Control mensajeAlerta.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl TituloProductosLocales;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mensajeAlerta;
         
         /// <summary>
-        /// Control DropDownListEstacion.
+        /// Control labelTipoAlerta.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownListEstacion;
+        protected global::System.Web.UI.WebControls.Label labelTipoAlerta;
         
         /// <summary>
-        /// Control DropDownListBodega.
+        /// Control labelAlerta.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownListBodega;
+        protected global::System.Web.UI.WebControls.Label labelAlerta;
         
         /// <summary>
-        /// Control botonConsultarBodega.
+        /// Control TituloLogin.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonConsultarBodega;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl TituloLogin;
         
         /// <summary>
-        /// Control FieldsetCatalogoLocal.
+        /// Control ErrorMessage.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetCatalogoLocal;
+        protected global::System.Web.UI.WebControls.PlaceHolder ErrorMessage;
         
         /// <summary>
-        /// Control UpdatePanelPruebas.
+        /// Control FailureText.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanelPruebas;
+        protected global::System.Web.UI.WebControls.Literal FailureText;
         
         /// <summary>
-        /// Control gridViewCatalogoLocal.
+        /// Control UserName.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gridViewCatalogoLocal;
+        protected global::System.Web.UI.WebControls.TextBox UserName;
+        
+        /// <summary>
+        /// Control Password.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox Password;
     }
 }

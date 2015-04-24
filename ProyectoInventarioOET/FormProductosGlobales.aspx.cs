@@ -5,6 +5,7 @@ using System.Web;
 using System.Data;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using ProyectoInventarioOET.App_Code;
 
 namespace ProyectoInventarioOET
 {
@@ -17,6 +18,7 @@ namespace ProyectoInventarioOET
         private static int idCriterio = 0;
         private static int resultadosPorPagina;
         private static Object[] idArray;
+        private static ControladoraDatosGenerales controladoraDatosGenerales;
 
         protected void Page_Load(object sender, EventArgs e)
         {
