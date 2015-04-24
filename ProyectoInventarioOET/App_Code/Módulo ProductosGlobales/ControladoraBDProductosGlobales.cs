@@ -36,7 +36,7 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
             }
             catch (Exception e) { }
 
-            return actividadConsultada;
+            return producConsultado;
         }
 
         public string[] insertarProductoGlobal(EntidadProductoGlobal productoGlobal)
@@ -74,9 +74,31 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
             throw new NotImplementedException();
         }
 
-        internal static string[] desactivarProductoGlobal(EntidadProductoGlobal productoGlobal)
+        public string[] desactivarProductoGlobal(EntidadProductoGlobal productoGlobal)
         {
-            throw new NotImplementedException();
+            String[] res = new String[4];
+            res[3] = productoGlobal.Codigo.ToString();
+            try
+            {
+                DataTable resultado = new DataTable();
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText =   "UPDATE INV_PRODUCTOS "
+                                      + "SET ESTADO = " + productoGlobal.Estado.ToString()
+                                      + "WHERE INV_PRODUCTOS = " + productoGlobal.Inv_Productos;
+                OracleDataReader reader = command.ExecuteReader();
+
+                res[0] = "success";
+                res[1] = "Exito";
+                res[2] = "Producto Desactivado";
+            }
+            catch (SqlException e)
+            {
+                // Como la llave es generada se puede volver a intentar
+                res[0] = "danger";
+                res[1] = "Fallo en la operacion";
+                res[2] = "Intente nuevamente";
+            }
+            return res;
         }
 
         internal static System.Data.DataTable consultarProductosGlobales()
