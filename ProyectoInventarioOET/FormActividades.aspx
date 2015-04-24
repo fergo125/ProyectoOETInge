@@ -20,9 +20,9 @@
     </div>
 
     <!-- Cuerpo del Form -->
-    <button runat="server" onclick="showStuff('bloqueFormulario', 'Nueva actividad');" onserverclick="botonAgregarActividades_ServerClick" id="botonAgregarActividades" class=" btn btn-info" type="button" style="float: left" > Nueva Actividad</button>
-    <button runat="server" onclick="showStuff('bloqueFormulario', 'Modificar actividad');" id="botonModificacionActividades" class=" btn btn-info" type="button" style="float: left"><i></i> Modificar Actividad </button>
-    <button runat="server" onserverclick="botonConsultaActividades_ServerClick" onclick="showStuff('bloqueGrid', 'Consulta de actividades');"  id="botonConsultaActividades" class=" btn btn-info" type="button" style="float: left"><i></i>Consulta de Actividades </button>
+    <button runat="server" onserverclick="botonAgregarActividades_ServerClick" id="botonAgregarActividades" class=" btn btn-info" type="button" style="float: left" > Nueva Actividad</button>
+    <button runat="server" onserverclick="botonModificacionActividades_ServerClick" id="botonModificacionActividades" class=" btn btn-info" type="button" style="float: left"><i></i> Modificar Actividad </button>
+    <button runat="server" onserverclick="botonConsultaActividades_ServerClick"  id="botonConsultaActividades" class=" btn btn-info" type="button" style="float: left"><i></i>Consulta de Actividades </button>
     <br />
     <br />
 
@@ -49,7 +49,8 @@
                     </div>
                 </div>
         </fieldset>
-        <label for="textoObligatorioActividad" class="text-danger text-center">Los campos con (*) son obligatorios</label>
+        <label id="labelTextoObligatorioActividad" runat="server" for="textoObligatorioActividad" class="text-danger text-center">Los campos con (*) son obligatorios</label>
+
 
     </div>
     <div class="col-lg-12" id="bloqueBotones">
@@ -60,8 +61,8 @@
             </div>
         </div>
     </div>
-
-    <div id="bloqueGrid" class="col-lg-12" style="display:none">
+     <%--style="display:none"--%>
+    <div id="bloqueGrid" class="col-lg-12">
         <fieldset id="FieldsetGridActividades" runat="server" class="fieldset">
           <!-- Gridview de consultar -->
          <div class="col-lg-12">

@@ -36,11 +36,16 @@ namespace ProyectoInventarioOET.Módulo_Actividades
             return controladoraBDActividades.insertarActividad(actividad);
         }
 
-        public String[] modificarDatos(EntidadActividad actividadVieja, Object[] datosActividadNueva)
+        public String[] modificarDatos(EntidadActividad actividadVieja, String descripcionNueva, int estadoNuevo)
         {
-            /*modifica los datos de una actividad particular*/
-            EntidadActividad actividadNueva = new EntidadActividad(datosActividadNueva);
-            return controladoraBDActividades.modificarActividad(actividadVieja, actividadNueva);
+            /*crea una nueva actividad dado un vector con los datos de la misma*/
+            Object[] actividadNueva = new Object[3];
+            actividadNueva[0] = actividadVieja.Codigo;
+            actividadNueva[1] = descripcionNueva;
+            actividadNueva[2] = estadoNuevo;
+
+            EntidadActividad actividad = new EntidadActividad(actividadNueva);
+            return controladoraBDActividades.modificarActividad(actividadVieja, actividad);
         }
 
         public String[] desactivarActividad(EntidadActividad actividad)
