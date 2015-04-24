@@ -53,9 +53,9 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "UPDATE CAT_BODEGA SET CAT_BODEGA = '" + nuevaBodega.Codigo + "', DESCRIPCION = '" + nuevaBodega.Nombre + "',ANFITRIONA = '"
-                    + nuevaBodega.Anfitriona + "',ESTACION = '" + nuevaBodega.Estacion + "',ESTADO = " + (short)nuevaBodega.Estado + "WHERE CAT_BODEGA = '"
-                    + bodega.Codigo + "' AND DESCRIPCION = '" + bodega.Nombre + "' AND ANFITRIONA = '" + bodega.Anfitriona + "' AND ESTACION = '"
+                command.CommandText = "UPDATE CAT_BODEGA SET DESCRIPCION = '" + nuevaBodega.Nombre + "',ANFITRIONA = '"
+                    + nuevaBodega.Anfitriona + "',ESTACION = '" + nuevaBodega.Estacion + "',ESTADO = " + (short)nuevaBodega.Estado + " WHERE DESCRIPCION = '"
+                    + bodega.Nombre + "' AND ANFITRIONA = '" + bodega.Anfitriona + "' AND ESTACION = '" 
                     + bodega.Estacion + "' AND ESTADO = " + bodega.Estado;
                 OracleDataReader reader = command.ExecuteReader();
                 

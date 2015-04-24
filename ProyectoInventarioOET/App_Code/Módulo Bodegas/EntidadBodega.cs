@@ -58,7 +58,7 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
         {
             //here's where the magic happens
             //in the meanwhile...
-            return "DUMMYCODE";
+            return DateTime.Now.ToString("h:mm:ss"); ;
         }
 
 

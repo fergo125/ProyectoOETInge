@@ -173,10 +173,6 @@ namespace ProyectoInventarioOET
 
                     this.gridViewBodegas.DataSource = tabla;
                     this.gridViewBodegas.DataBind();
-                    if (bodegaConsultada != null)
-                    {
-                        GridViewRow filaSeleccionada = this.gridViewBodegas.Rows[indiceNuevaBodega];
-                    }
                 }
                 catch (Exception e)
                 {
@@ -215,7 +211,7 @@ namespace ProyectoInventarioOET
             mensajeAlerta.Attributes["class"] = "alert alert-" + tipoAlerta + " alert-dismissable fade in";
             labelTipoAlerta.Text = alerta + " ";
             labelAlerta.Text = mensaje;
-            mensajeAlerta.Attributes.Remove("hidden");
+            mensajeAlerta.Visible = true;
         }
 
 
