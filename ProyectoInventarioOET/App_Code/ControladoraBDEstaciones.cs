@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using System.Data;
 using ProyectoInventarioOET.DataSetGeneralTableAdapters;
-using Oracle.DataAccess.Client;
 
 /*
  * Controladora del conjunto de datos de las estaciones del sistema.
@@ -40,8 +39,7 @@ namespace ProyectoInventarioOET.App_Code
             myConnection.Open();
             //ejecutar operaciones
             OracleCommand command = myConnection.CreateCommand();
-            string operacion = "SELECT ID,NOMBRE,SIGLAS,RESERVABLE FROM ESTACION";
-            command.CommandText = operacion;
+            command.CommandText = "SELECT ID,NOMBRE,SIGLAS,RESERVABLE FROM ESTACION";
             OracleDataReader reader = command.ExecuteReader();
             resultado.Load(reader);
             //cerrar conexión

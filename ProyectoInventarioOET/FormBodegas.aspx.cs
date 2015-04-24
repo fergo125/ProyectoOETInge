@@ -18,7 +18,7 @@ namespace ProyectoInventarioOET
         private static ControladoraBodegas controladoraBodegas;
         private static ControladoraBDEstados controladoraEstados;
         private static ControladoraBDEstaciones controladoraEstaciones;
-        private static ControladoraBDAnfitriones controladoraAnfitriones;
+        private static ControladoraBDAnfitrionas controladoraAnfitriones;
         private static Boolean seConsulto = false;
         private static Object[] idArray;
         private static int modo = 0;
@@ -30,7 +30,7 @@ namespace ProyectoInventarioOET
                 
                     controladoraBodegas = new ControladoraBodegas();
                     controladoraEstados = new ControladoraBDEstados();
-                    controladoraAnfitriones = new ControladoraBDAnfitriones();
+                    controladoraAnfitriones = new ControladoraBDAnfitrionas();
                     controladoraEstaciones = new ControladoraBDEstaciones();
 
                     if (!seConsulto)

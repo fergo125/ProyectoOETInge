@@ -11,11 +11,11 @@ using ProyectoInventarioOET.DataSetGeneralTableAdapters;
  */
 namespace ProyectoInventarioOET.App_Code
 {
-    public class ControladoraBDAnfitriones
+    public class ControladoraBDAnfitrionas
     {
         ANFITRIONATableAdapter adaptadorAnfitriones;
 
-        public ControladoraBDAnfitriones()
+        public ControladoraBDAnfitrionas()
         {
             adaptadorAnfitriones = new ANFITRIONATableAdapter();
         }
