@@ -34,7 +34,7 @@ namespace ProyectoInventarioOET
 
                 if (!seConsulto)
                 {
-                    //modo = (int)Modo.Inicial;
+                    modo = (int)Modo.Inicial;
                 }
                 else
                 {
@@ -142,7 +142,7 @@ namespace ProyectoInventarioOET
             mensajeAlerta.Attributes["class"] = "alert alert-" + tipoAlerta + " alert-dismissable fade in";
             labelTipoAlerta.Text = alerta + " ";
             labelAlerta.Text = mensaje;
-            mensajeAlerta.Attributes.Remove("hidden");
+            mensajeAlerta.Visible = true;
         }
 
         protected void botonAceptarActividad_ServerClick(object sender, EventArgs e)
@@ -153,14 +153,14 @@ namespace ProyectoInventarioOET
 
             if (modo == (int)Modo.Insercion)
             {
-                resultado = controladoraActividades.insertarDatos("loquesea", this.inputDescripcionActividad.Value.ToString(), Int32.Parse(this.comboBoxEstadosActividades.SelectedValue.ToString()));
+                resultado = controladoraActividades.insertarDatos(this.inputDescripcionActividad.Value.ToString(), Int32.Parse(this.comboBoxEstadosActividades.SelectedValue.ToString()));
                 codigoInsertado = resultado[3];
 
                 if (codigoInsertado != "")
                 {
                     operacionCorrecta = true;
                     actividadConsultada = controladoraActividades.consultarActividad(codigoInsertado);
-                    modo = (int)Modo.Consulta;
+                    modo = (int)Modo.Consultado;
                     habilitarCampos(false);
                     mostrarMensaje(resultado[0], resultado[1], resultado[2]);
                 }
@@ -193,6 +193,8 @@ namespace ProyectoInventarioOET
 
         protected void botonAceptarModalCancelar_ServerClick(object sender, EventArgs e)
         {
+            modo = (int)Modo.Inicial;
+            cambiarModo();
 
         }
 
@@ -270,6 +272,7 @@ namespace ProyectoInventarioOET
                 case (int)Modo.Consulta://consultar
                     limpiarCampos();
                     habilitarCampos(false);
+                    this.botonAgregarActividades.Disabled = false;
                     this.FieldsetActividad.Visible = false;
                     this.labelTextoObligatorioActividad.Visible = false;
                     this.botonAceptarActividad.Visible = false;///******************
