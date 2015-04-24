@@ -78,9 +78,10 @@ namespace ProyectoInventarioOET
                     botonCancelarBodega.Visible = true;
                     break;
                 case 2: //modificar
-                    gridViewBodegas.Visible = false;
+                    gridViewBodegas.Visible = true;
                     FieldsetBodegas.Visible = true;
                     habilitarCampos(true);
+                    llenarGrid();
                     botonAgregarBodega.Disabled = true;
                     botonModificarBodega.Disabled = true;
                     botonConsultarBodega.Disabled = false;
@@ -92,13 +93,21 @@ namespace ProyectoInventarioOET
                     gridViewBodegas.Visible = true;
                     FieldsetBodegas.Visible = false;
                     botonAgregarBodega.Disabled = false;
-                    botonModificarBodega.Disabled = true;
                     botonConsultarBodega.Disabled = true;
                     botonAceptarBodega.Visible = false;
                     botonCancelarBodega.Visible = false;
                     habilitarCampos(false);
                     break;
-
+                case 4: //consultado, con los espacios bloqueados
+                    gridViewBodegas.Visible = true;
+                    FieldsetBodegas.Visible = true;
+                    botonAgregarBodega.Disabled = false;
+                    botonConsultarBodega.Disabled = false;
+                    botonAceptarBodega.Visible = false;
+                    botonCancelarBodega.Visible = false;
+                    habilitarCampos(false);
+                    llenarGrid();
+                    break;
                 default:
                     // Algo salio mal
                     break;
@@ -114,6 +123,7 @@ namespace ProyectoInventarioOET
                     GridViewRow filaSeleccionada = this.gridViewBodegas.Rows[Convert.ToInt32(e.CommandArgument)];
                     String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewBodegas.PageIndex * resultadosPorPagina)]);
                     consultarBodega(codigo);
+                    modo = 4;
                     Response.Redirect("FormBodegas.aspx");
                     break;
             }
@@ -289,7 +299,7 @@ namespace ProyectoInventarioOET
             vaciarGridBodegas();
             modo = 0;
             cambiarModo();
-            limpiarCampos();;
+            limpiarCampos();
             bodegaConsultada = null;
         }
 
