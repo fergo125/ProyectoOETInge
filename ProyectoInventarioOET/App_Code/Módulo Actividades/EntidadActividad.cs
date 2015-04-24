@@ -26,7 +26,7 @@ namespace ProyectoInventarioOET.Módulo_Actividades
             set { codigo = value; }
         }
 
-        public String Nombre
+        public String Descripcion
         {
             get { return descripcion; }
             set { descripcion = value; }
