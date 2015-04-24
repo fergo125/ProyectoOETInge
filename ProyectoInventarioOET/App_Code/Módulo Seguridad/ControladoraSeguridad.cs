@@ -9,7 +9,7 @@ using System.Data;
  * Encargada de las funciones de seguridad del sistema
  * También encripta/desencripta contraseñas
  */
-namespace ProyectoInventarioOET.App_Code.Módulo_Seguridad
+namespace ProyectoInventarioOET.Módulo_Seguridad
 {
     public class ControladoraSeguridad
     {
