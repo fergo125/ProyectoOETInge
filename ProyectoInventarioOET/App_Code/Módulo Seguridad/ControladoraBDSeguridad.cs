@@ -26,10 +26,10 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Seguridad
             command.CommandText = "SELECT * FROM SEG_USUARIO WHERE USUARIO = '" + nombre + "' AND CLAVE = '" + password + "'";
             OracleDataReader reader = command.ExecuteReader();
             resultado.Load(reader);
-            if( resultado.Rows.Count == 1 )
+            if(resultado.Rows.Count == 1)
             {
                 Object[] datosConsultados = new Object[9];
-                for(int i = 0; i < 9; ++i)
+                for(int i=0; i<9; ++i)
                 {
                     datosConsultados[i] = resultado.Rows[0][i].ToString();
                 }
