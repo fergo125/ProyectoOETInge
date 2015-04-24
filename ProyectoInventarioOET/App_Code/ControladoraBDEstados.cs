@@ -30,5 +30,15 @@ namespace ProyectoInventarioOET.App_Code
             resultado.Load(reader);
             return resultado;
         }
+
+        public DataTable consultarEstadosActividad()
+        {
+            DataTable resultado = new DataTable();
+            OracleCommand command = conexionBD.CreateCommand();
+            command.CommandText = "SELECT * FROM CAT_ESTADOS WHERE VALOR < 2";
+            OracleDataReader reader = command.ExecuteReader();
+            resultado.Load(reader);
+            return resultado;
+        }
     }
 }

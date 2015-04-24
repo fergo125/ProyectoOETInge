@@ -226,7 +226,7 @@ namespace ProyectoInventarioOET
         {
             comboBoxEstadosActividades.Items.Clear();
             comboBoxEstadosActividades.Items.Add(new ListItem("", null));
-            DataTable estados = controladoraDatosGenerales.consultarEstados();
+            DataTable estados = controladoraDatosGenerales.consultarEstadosActividad();
             foreach (DataRow fila in estados.Rows)
             {
                 comboBoxEstadosActividades.Items.Add(new ListItem(fila[1].ToString(), fila[2].ToString()));

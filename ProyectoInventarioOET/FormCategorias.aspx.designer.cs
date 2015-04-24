@@ -76,6 +76,15 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlButton botonConsultaCategoria;
         
         /// <summary>
+        /// Control camposCategoria.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl camposCategoria;
+        
+        /// <summary>
         /// Control inputNombre.
         /// </summary>
         /// <remarks>
@@ -103,22 +112,22 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.GridView gridViewCategorias;
         
         /// <summary>
-        /// Control botonAceptarCategoria.
+        /// Control botonAceptar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonAceptarCategoria;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonAceptar;
         
         /// <summary>
-        /// Control botonCancelarCategoria.
+        /// Control botonCancelar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor botonCancelarCategoria;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor botonCancelar;
         
         /// <summary>
         /// Control botonAceptarModalCancelar.
