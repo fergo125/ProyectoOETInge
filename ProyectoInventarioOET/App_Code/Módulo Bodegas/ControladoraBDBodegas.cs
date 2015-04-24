@@ -105,7 +105,7 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT * FROM CAT_BODEGA";
+                command.CommandText = "SELECT C.CAT_BODEGA,C.DESCRIPCION,C.ANFITRIONA,D.NOMBRE,C.ESTADO FROM cat_bodega C, estacion D WHERE C.ESTACION = D.ID";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
             }
