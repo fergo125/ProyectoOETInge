@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data;
 
-namespace ProyectoInventarioOET.App_Code.Módulo_Productos_Locales
+namespace ProyectoInventarioOET.Módulo_Productos_Locales
 {
     public class ControladoraProductoLocal
     {

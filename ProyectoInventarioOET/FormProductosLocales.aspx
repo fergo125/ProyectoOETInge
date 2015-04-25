@@ -151,7 +151,7 @@
                     <h4 class="modal-title" id="modalTitleDesactivar"><i class="fa fa-exclamation-triangle text-danger fa-2x"></i>Confirmar desactivación</h4>
                 </div>
                 <div class="modal-body">
-                    ¿Está seguro que desea desactivar el producto? La modificación sería guardada permanentemente.
+                    ¿Está seguro que desea desactivar el producto? La modificación será guardada permanentemente.
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="botonAceptarModalDesactivar" class="btn btn-success-fozkr" runat="server" onserverclick="botonAceptarModalDesactivar_ServerClick">Aceptar</button>

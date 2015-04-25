@@ -46,7 +46,7 @@ namespace ProyectoInventarioOET
                     DropDownListEstacion_SelectedIndexChanged(DropDownListEstacion,null);
                     DropDownListBodega.SelectedIndex = bodegaSeleccionada;
                     break;
-                case 2://consultar con los espacios bloqueados
+                case 2: //consultar con los espacios bloqueados
                     FieldsetCatalogoLocal.Visible = true;
                     FieldsetProductos.Visible = true;
                     DropDownListEstacion.SelectedIndex = estacionSeleccionada;
@@ -172,6 +172,17 @@ namespace ProyectoInventarioOET
             {
                 bodegaSeleccionada = this.DropDownListBodega.SelectedIndex;
                 FieldsetCatalogoLocal.Visible = true;
+
+                DataTable tabla = tablaCatalogoLocal();
+                Object[] datos = new Object[5];
+                for (int i = 1; i < 5; i++)
+                {
+
+                    tabla.Rows.Add(datos);
+                }
+                this.gridViewCatalogoLocal.DataSource = tabla;
+                this.gridViewCatalogoLocal.DataBind();
+
             }
         }
         /*// Envío de modificaciones de producto de catálogo local
