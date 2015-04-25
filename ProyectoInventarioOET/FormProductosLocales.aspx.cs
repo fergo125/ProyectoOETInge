@@ -22,7 +22,7 @@ namespace ProyectoInventarioOET
         private static Object[] idArray;
         private static int estacionSeleccionada, bodegaSeleccionada, pagina;
         private static Object[] idArray2;
-        private static DataTable catalogoLocal;
+        private static DataTable catalogoLocal,consultaProducto;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -58,9 +58,8 @@ namespace ProyectoInventarioOET
                     DropDownListEstacion.SelectedIndex = estacionSeleccionada;
                     DropDownListEstacion_SelectedIndexChanged(DropDownListEstacion,null);
                     DropDownListBodega.SelectedIndex = bodegaSeleccionada;
-                    /*this.gridViewCatalogoLocal.DataSource = catalogoLocal;
-                    this.gridViewCatalogoLocal.PageIndex = pagina;
-                    this.gridViewCatalogoLocal.DataBind();*/
+                    cargarCatalogoLocal();
+                    cargarDatosProducto();
                     break;
                 default:
                     // Algo salio mal
@@ -80,7 +79,7 @@ namespace ProyectoInventarioOET
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Precio";
+            columna.ColumnName = "Código Interno";
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
@@ -106,14 +105,50 @@ namespace ProyectoInventarioOET
             this.gridViewCatalogoLocal.PageIndex = pagina;
             this.gridViewCatalogoLocal.DataBind();
         }
+        protected void cargarDatosProducto()
+        {
+            // nombre, codigo interno, codigo de barras, categoria, intencion, unidades metricas, estado local, existencia, impuesto, precio col, precio dol
+            // costo col, costo dol, min, max, creador, creado, modifica, modificado, costo ult col, costo ult dol, idproveedor ult
+            if (consultaProducto.Rows.Count > 0)
+            {
+                DataRow producto = consultaProducto.Rows[0];
+                inputNombre.Value = producto[0].ToString();
+                inputCodigo.Value = producto[1].ToString();
+                inputCodigoBarras.Value = producto[2].ToString();
+                inputCategoria.Value = producto[3].ToString();
+                inputVendible.Value = producto[4].ToString();
+                inputUnidades.Value = producto[5].ToString();
+                // ESTADO
+                inputSaldo.Value = producto[7].ToString();
+                inputImpuesto.Value = producto[8].ToString();
+                inputPrecioColones.Value = producto[9].ToString();
+                inputPrecioDolares.Value = producto[10].ToString();
+                inputCostoColones.Value = producto[11].ToString();
+                inputCostoDolares.Value = producto[12].ToString();
+                inputMinimo.Value = producto[13].ToString();
+                inputMaximo.Value = producto[14].ToString();
+                inputCreador.Value = producto[15].ToString();
+                inputCreado.Value = producto[16].ToString();
+                inputModifica.Value = producto[17].ToString();
+                inputModificado.Value = producto[18].ToString();
+                inputCostoUltCol.Value = producto[19].ToString();
+                inputCostoUltDol.Value = producto[20].ToString();
+                inputProveedorUlt.Value = producto[21].ToString();
+
+            }
+
+        }
 
         protected void gridViewCatalogoLocal_Seleccion(object sender, GridViewCommandEventArgs e)
         {
             switch (e.CommandName)
             {
                 case "Select":
-                    //GridViewRow filaSeleccionada = this.gridViewCatalogoLocal.Rows[Convert.ToInt32(e.CommandArgument)];
+                    GridViewRow filaSeleccionada = this.gridViewCatalogoLocal.Rows[Convert.ToInt32(e.CommandArgument)];
                     //int id = Convert.ToInt32(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewCatalogoLocal.PageIndex * resultadosPorPagina)]);
+                    String codigo = filaSeleccionada.Cells[2].Text.ToString();
+                    String idBodega = idArray2[bodegaSeleccionada].ToString();
+                    consultaProducto = controladoraProductoLocal.consultarProductoDeBodega(idBodega, codigo);
                     modo=2;
                     Response.Redirect("FormProductosLocales.aspx");
                     break;
@@ -185,7 +220,7 @@ namespace ProyectoInventarioOET
                         {
                             datos[i] = producto[i];
                         }
-                        catalogoLocal.Rows.Add(datos);
+                            catalogoLocal.Rows.Add(datos);
                     }
                 }
                 this.gridViewCatalogoLocal.DataSource = catalogoLocal;

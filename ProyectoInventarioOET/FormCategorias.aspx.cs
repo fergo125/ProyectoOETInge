@@ -15,48 +15,50 @@ namespace ProyectoInventarioOET
         private static int modo = (int)Modo.Inicial;
         private static int idCategoria = 0; //Sirve para estar en modo consulta
         private static int resultadosPorPagina;
-        private static Object[] idArray;
+        private static Object[][] idArray;
         private static ControladoraCategorias controladoraCategorias;
         private static EntidadCategoria categoriaConsultada;
         private static bool seConsulto = false;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-           if (!IsPostBack)
+            if (!IsPostBack)
             {
-                
-                    controladoraCategorias = new ControladoraCategorias();
 
-                    if (!seConsulto)
+                controladoraCategorias = new ControladoraCategorias();
+
+                if (!seConsulto)
+                {
+                    modo = 0;
+                }
+                else
+                {
+                    if (categoriaConsultada == null)
                     {
-                        modo = 0;
+                        mostrarMensaje("warning", "Alerta: ", "No se pudo consultar la categoria.");
                     }
-                    else{
-                        if (categoriaConsultada == null)
-                        {
-                            mostrarMensaje("warning", "Alerta: ", "No se pudo consultar la categoria.");
-                        }
-                        else
-                        {
-                            setDatosConsultados();
-
-                            seConsulto = false;
-                        }
+                    else
+                    {
+                        setDatosConsultados();
+                        llenarGrid();
+                        seConsulto = false;
                     }
+                }
             }
-           irAModo();
+            irAModo();
         }
         protected void irAModo()
         {
             if (modo == (int)Modo.Consulta)
             { // el modo 0 se usa para resetear la interfaz
-                bloqueBotones.Visible = true;
+                bloqueBotones.Visible = false;
                 bloqueBotones.Disabled = true;
                 botonModificacionCategoria.Disabled = true;
                 botonAgregarCategoria.Disabled = false;
                 botonConsultaCategoria.Disabled = true;
                 camposCategoria.Visible = false;
                 gridViewCategorias.Visible = true;
+                cargarDatosCategorias();
             }
             else if (modo == (int)Modo.Modificacion)
             { // se desea insertar
@@ -88,26 +90,27 @@ namespace ProyectoInventarioOET
                 camposCategoria.Visible = false;
                 gridViewCategorias.Visible = false;
             }
+            else if (modo == (int)Modo.Consultado)
+            { // eliminar
+                bloqueBotones.Visible = false;
+                bloqueBotones.Disabled = true;
+                botonModificacionCategoria.Disabled = false;
+                botonAgregarCategoria.Disabled = false;
+                botonConsultaCategoria.Disabled = true;
+                camposCategoria.Visible = true;
+                camposCategoria.Disabled = true;
+                inputNombre.Disabled = true;
+                gridViewCategorias.Visible = true;
+
+            }
 
             //aplicarPermisos();// se aplican los permisos del usuario para el acceso a funcionalidades
         }
-        protected void testGrid()
+
+        protected void cargarDatosCategorias()
         {
 
-            DataTable tabla = tablaCategorias();
-            for (int i = 1; i < 5; i++)
-            {
-                Object[] datos2 = new Object[2];
-                datos2[0] = i * 2;
-                datos2[1] = i * 3;
-                tabla.Rows.Add(datos2);
-            }
-
-            this.gridViewCategorias.DataSource = tabla;
-            this.gridViewCategorias.DataBind();
-
         }
-
         protected DataTable tablaCategorias()
         {
             DataTable tabla = new DataTable();
@@ -137,7 +140,13 @@ namespace ProyectoInventarioOET
             {
                 case "Select":
                     GridViewRow filaSeleccionada = this.gridViewCategorias.Rows[Convert.ToInt32(e.CommandArgument)];
-                    int id = Convert.ToInt32(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewCategorias.PageIndex * resultadosPorPagina)]);
+                    Object[] entidad = new Object[2];
+                    entidad[0] = idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewCategorias.PageIndex * resultadosPorPagina)][0];
+                    entidad[1] = idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewCategorias.PageIndex * resultadosPorPagina)][1];
+                    categoriaConsultada = new EntidadCategoria(entidad);
+                    seConsulto = true;
+                    modo = 4;
+                    Response.Redirect("FormCategorias.aspx");
                     break;
             }
         }
@@ -146,7 +155,7 @@ namespace ProyectoInventarioOET
         {
 
         }
-        
+
         protected void limpiarCampos()
         {
             this.inputNombre.Value = "";
@@ -180,7 +189,7 @@ namespace ProyectoInventarioOET
         protected void botonConsultaCategoria_ServerClick(object sender, EventArgs e)
         {
             modo = (int)Modo.Consulta;
-            testGrid();
+            llenarGrid();
             irAModo();
         }
 
@@ -189,36 +198,38 @@ namespace ProyectoInventarioOET
             mensajeAlerta.Attributes["class"] = "alert alert-" + tipoAlerta + " alert-dismissable fade in";
             labelTipoAlerta.Text = alerta + " ";
             labelAlerta.Text = mensaje;
-            mensajeAlerta.Visible= true;
+            mensajeAlerta.Visible = true;
         }
         protected void setDatosConsultados()
         {
             this.inputNombre.Value = categoriaConsultada.Descripcion;
         }
+
         protected void llenarGrid()
         {
             DataTable tabla = tablaCategorias();
-            int indiceNuevaBodega = -1;
+            int indiceNuevaCategoria = -1;
             int i = 0;
 
             try
             {
                 // Cargar bodegas
                 Object[] datos = new Object[2];
-                DataTable bodegas = controladoraCategorias.consultarCategorias();
+                DataTable categorias = controladoraCategorias.consultarCategorias();
 
-                if (bodegas.Rows.Count > 0)
+                if (categorias.Rows.Count > 0)
                 {
-                    idArray = new Object[bodegas.Rows.Count];
-                    foreach (DataRow fila in bodegas.Rows)
+                    idArray = new Object[categorias.Rows.Count][];
+                    foreach (DataRow fila in categorias.Rows)
                     {
-                        idArray[i] = fila[0];
-                        datos[0] = fila[1].ToString();
-                        datos[1] = fila[3].ToString();
+                        datos[0] = fila[0].ToString();
+                        datos[1] = fila[1].ToString();
                         tabla.Rows.Add(datos);
+                        idArray[i] = datos;
+
                         if (categoriaConsultada != null && (fila[0].Equals(categoriaConsultada.Nombre)))
                         {
-                            indiceNuevaBodega = i;
+                            indiceNuevaCategoria = i;
                         }
                         i++;
                     }
@@ -234,7 +245,7 @@ namespace ProyectoInventarioOET
                 this.gridViewCategorias.DataBind();
                 if (categoriaConsultada != null)
                 {
-                    GridViewRow filaSeleccionada = this.gridViewCategorias.Rows[indiceNuevaBodega];
+                    GridViewRow filaSeleccionada = this.gridViewCategorias.Rows[indiceNuevaCategoria];
                 }
             }
             catch (Exception e)
@@ -242,6 +253,65 @@ namespace ProyectoInventarioOET
                 mostrarMensaje("warning", "Alerta", "No hay conexión a la base de datos.");
             }
         }
-    }
+        protected void botonAceptarCategoria_ServerClick(object sender, EventArgs e)
+        {
+            Boolean operacionCorrecta = true;
+            String codigoInsertado = "";
 
+            if (modo == 2)
+            {
+                codigoInsertado = insertar();
+
+                if (codigoInsertado != "")
+                {
+                    operacionCorrecta = true;
+                    categoriaConsultada = controladoraCategorias.consultarCategoria(codigoInsertado);
+                    modo = (int)Modo.Consultado;
+                    habilitarCampos(false);
+                }
+                else
+                    operacionCorrecta = false;
+            }
+            else if (modo == 2)
+            {
+                operacionCorrecta = modificar();
+            }
+            if (operacionCorrecta)
+            {
+                irAModo();
+            }
+        }
+
+        private bool modificar()
+        {
+            bool res = true;
+            String[] datosCat = new String[1]{inputNombre.Value};
+            String[] error = controladoraCategorias.modificarDatos(categoriaConsultada, datosCat);
+            mostrarMensaje(error[0], error[1], error[2]);
+
+            if (error[0].Contains("success"))// si fue exitoso
+            {
+                llenarGrid();
+                categoriaConsultada = controladoraCategorias.consultarCategoria(categoriaConsultada.Nombre);
+                modo = (int)Modo.Consulta;
+            }
+            else
+            {
+                res = false;
+                modo = (int)Modo.Modificacion;
+            }
+            return res;
+            
+        }
+
+        private void habilitarCampos(bool p)
+        {
+            throw new NotImplementedException();
+        }
+
+        private string insertar()
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

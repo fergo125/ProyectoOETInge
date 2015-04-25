@@ -22,28 +22,25 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
         private double costoColones;
         private double costoDolares; //Calculo se hace en interfaz
         private String inv_productos; //Clave primaria es autogenerada en la BD
+        private String estacion; //Desde la cual fue creado el producto
 
         public EntidadProductoGlobal (Object[] datos)
         {
-            this.nombre = datos[0].ToString();
-            this.codigo = datos[1].ToString();
-            this.codigoDeBarras = datos[2].ToString();
-            this.categoria = datos[3].ToString(); // es string
-            this.intencion = datos[4].ToString();
+            this.codigo = datos[0].ToString();
+            this.codigoDeBarras = datos[1].ToString();
+            this.nombre = datos[2].ToString();
+            this.costoColones = Convert.ToDouble(datos[3].ToString());
+            this.categoria = datos[4].ToString(); // es string
             this.unidades = datos[5].ToString();
-            this.estado = Convert.ToInt32(datos[6].ToString());
-            this.existencia = Convert.ToDouble(datos[7].ToString());
-            this.impuesto = Convert.ToInt32(datos[8].ToString());
-            this.precioColones = datos[9].ToString()!=""?Convert.ToDouble(datos[9].ToString()):0;
-            this.precioDolares = datos[10].ToString() != "" ? Convert.ToDouble(datos[10].ToString()) : 0;
-            this.costoColones = Convert.ToDouble(datos[11].ToString());
-            this.costoDolares = Convert.ToDouble(datos[12].ToString());
+            this.existencia = Convert.ToDouble(datos[6].ToString());
+            this.estado = Convert.ToInt32(datos[7].ToString());
+            this.costoDolares = Convert.ToDouble(datos[8].ToString());
+            this.impuesto = Convert.ToInt32(datos[9].ToString());
+            this.intencion = datos[10].ToString();
+            this.precioColones = datos[11].ToString()!=""?Convert.ToDouble(datos[9].ToString()):0;
+            this.precioDolares = datos[12].ToString() != "" ? Convert.ToDouble(datos[10].ToString()) : 0;
             this.inv_productos = datos[13].ToString(); //Clave primaria es autogenerada en la BD
         }
-
-
-
-        
 
         public String Nombre 
         {
@@ -80,7 +77,6 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
             get { return unidades; }
             set { unidades = value; }
         }
-
 
         public int Estado
         {
@@ -130,5 +126,10 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
             set { inv_productos = value; }
         }
 
+        public String Estacion
+        {
+            get { return estacion; }
+            set { estacion = value; }
+        }
     }
 }

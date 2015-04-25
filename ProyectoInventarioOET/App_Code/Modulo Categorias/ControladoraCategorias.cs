@@ -34,7 +34,7 @@ namespace ProyectoInventarioOET.Modulo_Categorias
         public String[] modificarDatos(EntidadCategoria categoriaVieja, Object[] datoscategoriaNueva)
         {
             /*modifica los datos de una categoria particular*/
-            EntidadCategoria categoriaNueva = new EntidadCategoria(datoscategoriaNueva);
+            EntidadCategoria categoriaNueva = new EntidadCategoria(datoscategoriaNueva,categoriaVieja.Nombre);
             return controladoraBDCategorias.modificarCategoria(categoriaVieja, categoriaNueva);
         }
 

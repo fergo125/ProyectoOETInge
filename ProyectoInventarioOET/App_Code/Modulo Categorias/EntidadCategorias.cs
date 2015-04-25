@@ -10,12 +10,22 @@ namespace ProyectoInventarioOET.Modulo_Categorias
 
         private String nombre;
         private String descripcion;
+        private object[] datoscategoriaNueva;
+        private string p;
 
 
         public EntidadCategoria(Object[] datos)
         {
-            this.nombre = autogenerarCodigo();
+            this.nombre = datos[0].ToString();
             this.descripcion = datos[1].ToString();
+        }
+
+        public EntidadCategoria(object[] datoscategoriaNueva, string p)
+        {
+            // TODO: Complete member initialization
+            descripcion = datoscategoriaNueva[0].ToString();
+            nombre = p;
+
         }
 
         public String Nombre
