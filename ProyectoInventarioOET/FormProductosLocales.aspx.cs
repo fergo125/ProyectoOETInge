@@ -20,7 +20,7 @@ namespace ProyectoInventarioOET
         private static int resultadosPorPagina;
         private static int modo=0;
         private static Object[] idArray;
-        private static int estacionSeleccionada, bodegaSeleccionada;
+        private static int estacionSeleccionada, bodegaSeleccionada, pagina;
         private static Object[] idArray2;
         private static DataTable catalogoLocal;
 
@@ -46,11 +46,11 @@ namespace ProyectoInventarioOET
                     break;
                 case 1: // consultar catálogo
                     FieldsetCatalogoLocal.Visible = true;
+                    FieldsetProductos.Visible = false;
                     DropDownListEstacion.SelectedIndex = estacionSeleccionada;
                     DropDownListEstacion_SelectedIndexChanged(DropDownListEstacion,null);
                     DropDownListBodega.SelectedIndex = bodegaSeleccionada;
-                    this.gridViewCatalogoLocal.DataSource = catalogoLocal;
-                    this.gridViewCatalogoLocal.DataBind();
+                    cargarCatalogoLocal();
                     break;
                 case 2: //consultar con los espacios bloqueados
                     FieldsetCatalogoLocal.Visible = true;
@@ -58,8 +58,9 @@ namespace ProyectoInventarioOET
                     DropDownListEstacion.SelectedIndex = estacionSeleccionada;
                     DropDownListEstacion_SelectedIndexChanged(DropDownListEstacion,null);
                     DropDownListBodega.SelectedIndex = bodegaSeleccionada;
-                    this.gridViewCatalogoLocal.DataSource = catalogoLocal;
-                    this.gridViewCatalogoLocal.DataBind();
+                    /*this.gridViewCatalogoLocal.DataSource = catalogoLocal;
+                    this.gridViewCatalogoLocal.PageIndex = pagina;
+                    this.gridViewCatalogoLocal.DataBind();*/
                     break;
                 default:
                     // Algo salio mal
@@ -99,6 +100,12 @@ namespace ProyectoInventarioOET
 
             return tabla;
         }
+        protected void cargarCatalogoLocal()
+        {
+            this.gridViewCatalogoLocal.DataSource = catalogoLocal;
+            this.gridViewCatalogoLocal.PageIndex = pagina;
+            this.gridViewCatalogoLocal.DataBind();
+        }
 
         protected void gridViewCatalogoLocal_Seleccion(object sender, GridViewCommandEventArgs e)
         {
@@ -115,8 +122,10 @@ namespace ProyectoInventarioOET
 
         protected void gridViewCatalogoLocal_CambioPagina(Object sender, GridViewPageEventArgs e)
         {
-            this.gridViewCatalogoLocal.PageIndex = e.NewPageIndex;
-            this.gridViewCatalogoLocal.DataBind();
+            pagina = e.NewPageIndex;
+            modo = 1;
+            //cargarCatalogoLocal();
+            Response.Redirect("FormProductosLocales.aspx");
         }
         // Carga estaciones
         protected void DropDownListEstacion_CargaEstaciones()
@@ -139,7 +148,7 @@ namespace ProyectoInventarioOET
         protected void DropDownListEstacion_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.DropDownListBodega.Items.Clear();
-            estacionSeleccionada= this.DropDownListEstacion.SelectedIndex;
+            estacionSeleccionada = this.DropDownListEstacion.SelectedIndex;
             String idEstacion = idArray[estacionSeleccionada].ToString();
             DataTable bodegas = controladoraBodegas.consultarBodegasDeEstacion(idEstacion);
             int i = 0;
@@ -153,7 +162,7 @@ namespace ProyectoInventarioOET
                     i++;
                 }
             }
-
+            modo = 0;
         }
         //Consulta de bodega, aquí se carga la tabla
         protected void botonConsultarBodega_ServerClick(object sender, EventArgs e)
@@ -161,6 +170,7 @@ namespace ProyectoInventarioOET
             if (this.DropDownListBodega.SelectedItem != null)
             {
                 bodegaSeleccionada = this.DropDownListBodega.SelectedIndex;
+                pagina = 0;
                 FieldsetCatalogoLocal.Visible = true;
                 String idBodega = idArray2[bodegaSeleccionada].ToString();
                 catalogoLocal = tablaCatalogoLocal();
@@ -179,8 +189,8 @@ namespace ProyectoInventarioOET
                     }
                 }
                 this.gridViewCatalogoLocal.DataSource = catalogoLocal;
+                this.gridViewCatalogoLocal.PageIndex = pagina;
                 this.gridViewCatalogoLocal.DataBind();
-
             }
         }
         /*// Envío de modificaciones de producto de catálogo local
