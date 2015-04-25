@@ -319,7 +319,6 @@ namespace ProyectoInventarioOET
                     this.botonAgregarProductos.Disabled = true;
                     this.botonModificacionProductos.Disabled = true;
                     habilitarCampos(true);
-                    limpiarCampos();
                     break;
                 case (int)Modo.Modificacion: //modificar
                     this.bloqueGrid.Visible = false;///********************
