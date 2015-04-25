@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data;
-
+using ProyectoInventarioOET.Módulo_Bodegas;
 /*
  * Controladora de datos generales, utilizada entre varios módulos.
  * Utiliza patrón singleton.
@@ -23,7 +23,7 @@ namespace ProyectoInventarioOET.App_Code
         private DataTable unidades;
         private DataTable estaciones;
         private DataTable anfitrionas;
-        
+        private DataTable intenciones;
 
         public static ControladoraDatosGenerales Instanciar
         {
@@ -41,12 +41,14 @@ namespace ProyectoInventarioOET.App_Code
             ControladoraBDUnidades controladoraUnidades = new ControladoraBDUnidades();
             ControladoraBDEstaciones controladoraEstaciones = new ControladoraBDEstaciones();
             ControladoraBDAnfitrionas controladoraAnfitriones = new ControladoraBDAnfitrionas();
+            ControladoraBDBodegas controladoraBDBodegas = new ControladoraBDBodegas();
 
             estados = controladoraEstados.consultarEstados();
             estadosActividad = controladoraEstados.consultarEstadosActividad();
             unidades = controladoraUnidades.consultarUnidades();
             estaciones = controladoraEstaciones.consultarEstaciones();
             anfitrionas = controladoraAnfitriones.consultarAnfitriones();
+            intenciones = controladoraBDBodegas.consultarIntenciones();
         }
 
         public DataTable consultarEstados()
@@ -73,6 +75,11 @@ namespace ProyectoInventarioOET.App_Code
         public DataTable consultarAnfitriones()
         {
             return anfitrionas;
+        }
+
+        public DataTable consultarIntenciones()
+        {
+            return intenciones;
         }
 
         public String traduccionEstado(int valor)
