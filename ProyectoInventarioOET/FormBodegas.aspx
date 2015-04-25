@@ -55,6 +55,15 @@
                 </div>
             </div>
         
+            
+            <div class="col-lg-3">
+                <div class="form-group col-lg-12">
+                    <label for="inputIntencion" class="control-label">Intención de uso: </label>
+                    <asp:DropDownList ID="comboBoxIntencion" AutoPostBack="True" runat="server" CssClass="form-control">
+                    </asp:DropDownList>
+                </div>
+            </div>
+
 
             <div class="col-lg-3">
                 <div class="form-group col-lg-12">
@@ -64,14 +73,11 @@
                 </div>
 
             </div>
-            <div class="col-lg-9">
-            </div>
-                <label for="textoObligatorioBodega" class="text-danger text-center">Los campos con (*) son obligatorios</label>
+
         
-
-
         </fieldset>
-
+        
+            <label for="textoObligatorioBodega" id="textoObligatorioBodega" runat="server" class="text-danger text-center">Los campos con (*) son obligatorios</label>
     </div>
 
     <br />
@@ -85,7 +91,7 @@
          <div class="col-lg-12">
             <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
                 <ContentTemplate>
-                    <asp:GridView ID="gridViewBodegas" CssClass="table table-responsive table-condensed" OnRowCommand="gridViewBodegas_Seleccion" OnPageIndexChanging="gridViewBodegas_CambioPagina" runat="server" AllowPaging="True" PageSize="16" BorderColor="Transparent">
+                    <asp:GridView ID="gridViewBodegas" CssClass="table table-responsive table-condensed" OnRowCommand="gridViewBodegas_Seleccion" OnPageIndexChanging="gridViewBodegas_CambioPagina" runat="server" AllowPaging="True" PageSize="2" BorderColor="Transparent">
                         <Columns>
                             <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn-default" CommandName="Select" Text="Consultar">
                                 <ControlStyle CssClass="btn-default disabled"></ControlStyle>

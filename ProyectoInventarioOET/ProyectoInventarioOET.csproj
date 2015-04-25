@@ -271,6 +271,7 @@
     <Compile Include="App_Code\ControladoraBDAnfitrionas.cs" />
     <Compile Include="App_Code\ControladoraBDEstaciones.cs" />
     <Compile Include="App_Code\ControladoraBDEstados.cs" />
+    <Compile Include="App_Code\ControladoraBDGeneral.cs" />
     <Compile Include="App_Code\ControladoraBDUnidades.cs" />
     <Compile Include="App_Code\ControladoraDatosGenerales.cs" />
     <Compile Include="App_Code\Modulo Categorias\ControladoraBDCategorias.cs" />
