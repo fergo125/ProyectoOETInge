@@ -51,7 +51,6 @@ namespace ProyectoInventarioOET
                         cargarUnidades();
                         cargarVendible();
                         cargarCategorias();
-                        //cargarCategorias();
                         presentarDatos();
                         seConsulto = false;
                     }
@@ -105,20 +104,22 @@ namespace ProyectoInventarioOET
 
         protected Object[] obtenerDatosProductosGlobales()
         {
+             
+            
             Object[] datos = new Object[14];
-            datos[0] = this.inputNombre.Value;
-            datos[1] = this.inputCodigo.Value;
-            datos[2] = this.inputCodigoBarras.Value;
-            datos[3] = this.inpuCategoria.SelectedValue;
-            datos[4] = this.inputVendible.SelectedValue;
+            datos[0] = this.inputCodigo.Value;
+            datos[1] = this.inputCodigoBarras.Value;
+            datos[2] = this.inputNombre.Value;
+            datos[3] = this.inputCostoColones.Value;
+            datos[4] = this.inpuCategoria.SelectedValue;
             datos[5] = this.inputUnidades.SelectedValue;
-            datos[6] = this.inputEstado.SelectedValue;
-            datos[7] = this.inputSaldo.Value;
-            datos[8] = this.inputImpuesto.Value;
-            datos[9] = this.inputPrecioColones.Value;
-            datos[10] = this.inputPrecioDolares.Value;
-            datos[11] = this.inputCostoColones.Value;
-            datos[12] = this.inputCostoDolares.Value;
+            datos[6] = this.inputSaldo.Value;
+            datos[7] = this.inputEstado.SelectedValue;
+            datos[8] = this.inputCostoDolares.Value;
+            datos[9] = this.inputImpuesto.Value;
+            datos[10] = this.inputVendible.SelectedValue;
+            datos[11] = this.inputPrecioColones.Value;
+            datos[12] = this.inputPrecioDolares.Value;
             datos[13] = 0; // Id que identifica
             return datos;
         }
@@ -312,6 +313,7 @@ namespace ProyectoInventarioOET
                     cargarEstados();
                     cargarUnidades();
                     cargarVendible();
+                    cargarCategorias();
                     habilitarCampos(false);
                     break;
                 case (int)Modo.Insercion: //insertar
