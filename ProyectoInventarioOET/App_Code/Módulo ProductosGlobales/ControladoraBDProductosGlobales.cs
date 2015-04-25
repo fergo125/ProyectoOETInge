@@ -51,12 +51,15 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
             {
                 DataTable resultado = new DataTable();
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "INSERT INTO INV_PRODUCTOS (NOMBRE, CAT_CATEGORIA, CAT_UNIDADES, CODIGO, CODIGO_BARRAS, " +
-                " ESTACION, ESTADO, COSTO_COLONES, COSTO_DOLARES ) VALUES ('"
-                + productoGlobal.Nombre + "','" + productoGlobal.Categoria + "','"
-                + productoGlobal.Unidades + "','" + productoGlobal.Codigo + "','"
-                + productoGlobal.CodigoDeBarras + "','" + productoGlobal.Estado + "','"
-                + productoGlobal.CostoColones + "','" + productoGlobal.CostoDolares + "');";
+                command.CommandText = "INSERT INTO INV_PRODUCTOS (NOMBRE, CODIGO, CODIGO_BARRAS, CAT_CATEGORIAS, INTENCION, CAT_UNIDADES, ESTADO,  "
+                + " SALDO, IMPUESTO, PRECIO_C, PRECIO_D, COSTO_COLONES, COSTO_DOLARES, INV_PRODUCTOS ) VALUES ('"
+                + productoGlobal.Nombre + "','" + productoGlobal.Codigo + "','"
+                + productoGlobal.CodigoDeBarras + "','" + productoGlobal.Categoria + "','"
+                + productoGlobal.Intencion + "','" + productoGlobal.Unidades + "','"
+                + productoGlobal.Estado + "','" + productoGlobal.Existencia + "','"
+                + productoGlobal.Impuesto + "','" + productoGlobal.PrecioColones + "','"
+                + productoGlobal.PrecioDolares + "','" + productoGlobal.CostoColones + "','"
+                + productoGlobal.CostoDolares + "','" + productoGlobal.Inv_Productos + "');";
                 OracleDataReader reader = command.ExecuteReader();
 
                 res[0] = "success";
