@@ -37,8 +37,8 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
             this.costoDolares = Convert.ToDouble(datos[8].ToString());
             this.impuesto = Convert.ToInt32(datos[9].ToString());
             this.intencion = datos[10].ToString();
-            this.precioColones = datos[11].ToString()!=""?Convert.ToDouble(datos[9].ToString()):0;
-            this.precioDolares = datos[12].ToString() != "" ? Convert.ToDouble(datos[10].ToString()) : 0;
+            this.precioColones = datos[11].ToString()!=""?Convert.ToDouble(datos[11].ToString()):0;
+            this.precioDolares = datos[12].ToString() != "" ? Convert.ToDouble(datos[12].ToString()) : 0;
             this.inv_productos = datos[13].ToString(); //Clave primaria es autogenerada en la BD
         }
 
