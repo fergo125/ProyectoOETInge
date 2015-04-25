@@ -4,7 +4,7 @@
     <br />
     <!-- Label para desplegar mensajes -->
     <div>
-        <div id="mensajeAlerta" class="alert alert-fozkr-error fade in" runat="server" style="margin-left:70%;">
+        <div id="mensajeAlerta" class="alert alert-fozkr-error fade in" runat="server" Visible="false" style="margin-left:70%;">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <strong>
                 <asp:Label ID="labelTipoAlerta" runat="server" Text="Alerta! "></asp:Label>
@@ -15,7 +15,7 @@
 
     <!-- Título del Form -->
     <div>
-        <h2 id="TituloBodegas" runat="server">Bodegas</h2>
+        <h2 id="TituloBodegas" runat="server">Gestión de bodegas</h2>
         <hr />
     </div>
 
@@ -74,17 +74,8 @@
 
     </div>
 
+    <br />
 
-    <div class="col-lg-12" id="bloqueBotones" style="display:block">
-        <div class =" row">
-            <div class="text-center">
-                <button runat="server" onserverclick="botonAceptarBodega_ServerClick" id="botonAceptarBodega" class="btn btn-success-fozkr" type="button"><i class="fa fa-pencil-square-o"></i>Aceptar</button>
-                <a id="botonCancelarBodega" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cancelar</a>
-                
-            </div>
-        </div>
-
-    </div>
 
 
 
@@ -118,6 +109,18 @@
         </fieldset>        
     </div>
     
+    <div class="col-lg-12" id="bloqueBotones" style="display:block">
+        <div class =" row">
+            <div class="text-center">
+                <button runat="server" onserverclick="botonAceptarBodega_ServerClick" id="botonAceptarBodega" class="btn btn-success-fozkr" type="button"><i class="fa fa-pencil-square-o"></i>Enviar</button>
+                <a id="botonCancelarBodega" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cancelar</a>
+                
+            </div>
+        </div>
+
+    </div>
+
+
 
     <!--Modal Cancelar-->
     <div class="modal fade" id="modalCancelar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

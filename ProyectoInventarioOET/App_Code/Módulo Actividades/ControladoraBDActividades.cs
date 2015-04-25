@@ -73,9 +73,8 @@ namespace ProyectoInventarioOET.Módulo_Actividades
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "UPDATE CAT_ACTIVIDAD SET CAT_ACTIVIDAD = '" + nuevaActividad.Codigo + "', DESCRIPCION = '" + nuevaActividad.Descripcion 
-                    + "',ESTADO = " + (short)nuevaActividad.Estado + "WHERE CAT_ACTIVIDAD = '"
-                    + actividad.Codigo + "' AND DESCRIPCION = '" + actividad.Descripcion + "' AND ESTADO = " + actividad.Estado;
+                command.CommandText = "UPDATE CAT_ACTIVIDAD SET DESCRIPCION = '" + nuevaActividad.Descripcion 
+                    + "',ESTADO = '" + (short)nuevaActividad.Estado + "' WHERE DESCRIPCION = '" + actividad.Descripcion + "' AND ESTADO = " + actividad.Estado;
                 OracleDataReader reader = command.ExecuteReader();
                 res[0] = "success";
                 res[1] = "Exito";

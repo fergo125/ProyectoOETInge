@@ -24,6 +24,7 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
         // Busca un usuario con un nombre y una password específicos
         public EntidadUsuario consultarUsuario(String nombre, String password)
         {
+            // Probablemente encripta aqui
             return controladoraBDSeguridad.consultarUsuario(nombre, password);
         }
 
