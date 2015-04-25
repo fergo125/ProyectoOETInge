@@ -57,8 +57,6 @@ namespace ProyectoInventarioOET
                 }
             }
             cambiarModo();
-            
-   
         }
 
         //*****************METODOS DE LLENADO DE DROPDOWNLIST*************************************
@@ -104,8 +102,6 @@ namespace ProyectoInventarioOET
 
         protected Object[] obtenerDatosProductosGlobales()
         {
-             
-            
             Object[] datos = new Object[14];
             datos[0] = this.inputCodigo.Value;
             datos[1] = this.inputCodigoBarras.Value;
@@ -308,7 +304,6 @@ namespace ProyectoInventarioOET
                     this.bloqueBotones.Visible = false;
                     this.botonAgregarProductos.Disabled = false;
                     this.botonModificacionProductos.Disabled = true;                                ///
-                    //cargarCategorias();  // Fernando
                     limpiarCampos();
                     cargarEstados();
                     cargarUnidades();
@@ -403,7 +398,6 @@ namespace ProyectoInventarioOET
         {
             modo = (int)Modo.Insercion;
             cambiarModo();
-            //cargarEstados();
         }
 
         protected void botonModificacionProductos_ServerClick(object sender, EventArgs e)
