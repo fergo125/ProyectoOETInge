@@ -16,14 +16,19 @@ namespace ProyectoInventarioOET.Módulo_Productos_Locales
             controladoraBD = new ControladoraBDProductosLocales();
         }
 
+        public DataTable consultarProductosDeBodega(String idBodega)
+        {
+            return controladoraBD.consultarProductosDeBodega(idBodega);
+        }
 
-        public EntidadProductoLocal consultarProductoLocal(String id)
+
+        /*public EntidadProductoLocal consultarProductoLocal(String id)
         {
             productoActual = controladoraBD.consultarProductoLocal(id);
             return productoActual;
         }
 
-        /*public String[] insertarDatos(String nombre, String categoria, String unidades, String codigo, String codigoDeBarras, String estacion,
+        public String[] insertarDatos(String nombre, String categoria, String unidades, String codigo, String codigoDeBarras, String estacion,
             int estado, double costoColones, double costoDolares)
         {
             Object[] datosProductoLocal = new Object[9];
@@ -66,10 +71,10 @@ namespace ProyectoInventarioOET.Módulo_Productos_Locales
         /*
          * Método para cargar el grid
          */
-        public DataTable consultarProductosLocales()
+        /*public DataTable consultarProductosLocales()
         {
-            /*consulta la información de todas los productos globales*/
+            /*consulta la información de todas los productos globales
             return ControladoraBDProductosLocales.consultarProductosLocales();
-        }
+        }*/
     }
 }

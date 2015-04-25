@@ -13,6 +13,7 @@ namespace ProyectoInventarioOET
     {
         //Atributos
         protected static OracleConnection conexionBD; //atributo estático compartido por todas las ControladorasBD para conectarse
+        protected static int consecutivo;
 
         //Constructor, crea y abre la conexión sólo la primera vez que es necesario.
         public ControladoraBD()
@@ -29,6 +30,12 @@ namespace ProyectoInventarioOET
         ~ControladoraBD()
         {
             //conexionBD.Close();
+        }
+
+        protected String generarID()
+        {
+            consecutivo = (consecutivo + 1) % 999;
+            return "" + DateTime.Now.Day.ToString("D2") + DateTime.Now.Month.ToString("D2") + DateTime.Now.Year.ToString() + DateTime.Now.Hour.ToString("D2") + DateTime.Now.Minute.ToString("D2") + DateTime.Now.Second.ToString("D2") + DateTime.Now.Millisecond.ToString("D3") + consecutivo.ToString("D3");
         }
     }
 }

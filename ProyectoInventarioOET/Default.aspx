@@ -1,11 +1,11 @@
-﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="ProyectoInventarioOET._Default" %>
+﻿<%@ Page Title="Inicio" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="ProyectoInventarioOET._Default" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
     <div class="jumbotron">
         <h1>Sistema de Inventarios OET</h1>
         <p class="lead">Este sistema permite realizar diversas labores, como facturación, mantenimiento de inventario, generación de reportes contables, e incluso tareas administrativas.</p>
-        <p><a href="~/" class="btn btn-primary btn-large">Iniciar sesión</a></p>
+        <p><a href="~/FormLogin" class="btn btn-primary btn-large">Iniciar sesión</a></p>
     </div>
 
     <div class="row">
