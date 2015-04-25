@@ -48,7 +48,6 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
          */
         public DataTable consultarProductosGlobales()
         {
-            /*consulta la información de todas los productos globales*/
             return ControladoraBDProductosGlobales.consultarProductosGlobales();
         }
 

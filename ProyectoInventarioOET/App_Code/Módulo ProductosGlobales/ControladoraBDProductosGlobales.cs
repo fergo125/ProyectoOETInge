@@ -103,7 +103,21 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
 
         internal static System.Data.DataTable consultarProductosGlobales()
         {
-            throw new NotImplementedException();
+            DataTable resultado = new DataTable();
+
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText =   "SELECT P.INV_PRODUCTOS, P.NOMBRE, P.CODIGO, P.CAT_CATEGORIAS, P.ESTADO  "  
+                +                       "FROM INV_PRODUCTOS P";
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
+            }
+            catch (Exception e)
+            {
+                resultado = null;
+            }
+            return resultado;
         }
     }
 }

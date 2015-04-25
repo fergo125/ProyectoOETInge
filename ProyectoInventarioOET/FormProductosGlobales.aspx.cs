@@ -27,11 +27,13 @@ namespace ProyectoInventarioOET
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            
             if (!IsPostBack) 
             {
-            modo = (int)Modo.Inicial;
-            controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
-            cambiarModo();
+                modo = (int)Modo.Inicial;
+                controladora = new ControladoraProductosGlobales();
+                controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
+                cambiarModo();
             }
    
         }
@@ -106,12 +108,12 @@ namespace ProyectoInventarioOET
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Categoria";
+            columna.ColumnName = "Código";
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Estación";
+            columna.ColumnName = "Categoria";
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
@@ -127,11 +129,9 @@ namespace ProyectoInventarioOET
             DataTable tabla = tablaProductosGlobales();
             int indiceNuevoProductoGlobal = -1;
             int id = 0; // Es la posicion en donde se guardan los iD'  
-
             try
             {
-                // Cargar proyectos
-                Object[] datos = new Object[3];
+                Object[] datos = new Object[4];
                 DataTable productosGlobales = new DataTable(); //quitar una vez que ya está la controladora
                 productosGlobales = controladora.consultarProductosGlobales();
 
@@ -142,8 +142,9 @@ namespace ProyectoInventarioOET
                     {
                         idArray[id] = fila[0];   // Se guarda el id para hacer las consultas individuales
                         datos[0] = fila[1].ToString();
-                        datos[1] = fila[6].ToString();
-                        datos[2] = fila[7].ToString();
+                        datos[1] = fila[2].ToString();
+                        datos[2] = fila[3].ToString();
+                        datos[3] = fila[4].ToString();
                         tabla.Rows.Add(datos);
                         if (productoConsultado != null && (fila[0].Equals(productoConsultado.Inv_Productos)))
                          {
@@ -239,8 +240,7 @@ namespace ProyectoInventarioOET
                     limpiarCampos();
                     this.botonAgregarProductos.Disabled = false;
                     this.botonModificacionProductos.Disabled = true;
-
-                    this.gridViewProductosGlobales.Visible = false;///********************
+                    //this.gridViewProductosGlobales.Visible = false;///********************
                     this.botonAceptarProducto.Visible = false;///******************
                     this.botonCancelarProducto.Visible = false;///******************                                       ///
                     //cargarCategorias();
@@ -303,6 +303,10 @@ namespace ProyectoInventarioOET
             this.inputCodigoBarras.Disabled = !resp;
             this.inputCostoColones.Disabled = !resp;
             this.inputCostoDolares.Disabled = !resp;
+            this.inputPrecioColones.Disabled = !resp;
+            this.inputPrecioDolares.Disabled = !resp;
+            this.inputImpuesto.Disabled = !resp;
+            this.inputSaldo.Disabled = !resp;
             this.inputUnidades.Enabled = resp;
             this.inpuCategoria.Enabled = resp;
             this.inputEstado.Enabled = resp;

@@ -35,11 +35,11 @@
     <fieldset id= "FieldsetProductos" class="fieldset">
         <br />
 
-        <div class= "col-lg-5">
+        <div class= "col-lg-7">
 
             <div class="form-group col-lg-12" >
                 <label for="inputNombre" class= "control-label"> Nombre: </label>      
-                <input type="text" id= "inputNombre" class="form-control" style= "max-width: 100%" runat="server"><br>
+                <input type="text" id= "inputNombre" class="form-control" style="max-width:100%"  runat="server"><br>
             </div>
          
             <div class= "form-group col-lg-6">
@@ -78,41 +78,41 @@
 
 <%--        COLUMNA IZQUIERDA--%>
 
-        <div class="col-lg-7">
+        <div class="col-lg-5">
            
             <div class="row">
             <div class="form-group col-lg-6">
                 <label for="inputSaldo" class= "control-label" >Saldo: </label>
-                <input type="text" id="inputSaldo" class="form-control" runat="server" ><br>
+                <input type="text" id="inputSaldo" class="form-control" runat="server" style= "max-width: 100%"><br>
             </div>
 
              <div class="form-group col-lg-6">
                 <label for="inputImpuesto" class= "control-label" >Impuesto: </label>
-                <asp:DropDownList ID="inputImpuesto" runat="server" style= "max-width: 100%" class="form-control"></asp:DropDownList>
+                 <input type="text" id="inputImpuesto" class="form-control" runat="server" style= "max-width: 100%"><br>
             </div>
             </div>
             
             <div class="row">
             <div class="form-group col-lg-6">
                 <label for="inputPrecioColones" class= "control-label"> Precio (colones): </label>      
-                <input type="text" id= "inputPrecioColones" class="form-control" runat="server" ><br>
+                <input type="text" id= "inputPrecioColones" class="form-control" runat="server" style= "max-width: 100%"><br>
             </div>
 
             <div class="form-group col-lg-6">
                 <label for="inputPrecioDolares" class= "control-label"> Precio (dolares): </label>      
-                <input type="text" id= "inputPrecioDolares" class="form-control" runat="server" ><br>
+                <input type="text" id= "inputPrecioDolares" class="form-control" runat="server" style= "max-width: 100%" ><br>
             </div>
             </div>
 
             <div class="row">
             <div class="form-group col-lg-6">
                 <label for="inputCostoColones" class= "control-label"> Costo (colones): </label>      
-                <input type="text" id= "inputCostoColones" class="form-control" runat="server" ><br>
+                <input type="text" id= "inputCostoColones" class="form-control" runat="server" style= "max-width: 100%"><br>
             </div>
 
             <div class="form-group col-lg-6">
                 <label for="inputCostoDolares" class= "control-label"> Costo (dolares): </label>      
-                <input type="text" id= "inputCostoDolares" class="form-control" runat="server" ><br>
+                <input type="text" id= "inputCostoDolares" class="form-control" runat="server" style= "max-width: 100%"><br>
             </div>
             </div>
         </div>
