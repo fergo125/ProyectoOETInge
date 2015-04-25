@@ -13,7 +13,6 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
         private String unidades;
         private String codigo;
         private String codigoDeBarras;
-        private String estacion;
         private int estado;
         private double costoColones;
         private double costoDolares; //Calculo se hace en interfaz
@@ -26,7 +25,6 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
             this.unidades = datos[2].ToString();
             this.codigo = datos[3].ToString(); // PREGUNTAR SI VA A SER AUTOGENERADO
             this.codigoDeBarras = datos[4].ToString(); ;
-            this.estacion = datos[5].ToString();
             this.estado = Convert.ToInt32(datos[6].ToString());
             this.costoColones = Convert.ToDouble(datos[7].ToString());
             this.costoDolares = Convert.ToDouble(datos[8].ToString());
@@ -62,11 +60,6 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
         }
         
 
-        public String Estacion
-        {
-            get { return estacion; }
-            set { estacion = value; }
-        }
 
         public int Estado
         {

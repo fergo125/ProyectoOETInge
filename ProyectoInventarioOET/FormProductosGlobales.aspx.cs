@@ -63,7 +63,7 @@ namespace ProyectoInventarioOET
             DataTable unidades = controladoraDatosGenerales.consultarUnidades();
             foreach (DataRow fila in unidades.Rows)
             {
-                inputEstacion.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
+                inputUnidades.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
             }
         }
 
@@ -88,11 +88,10 @@ namespace ProyectoInventarioOET
             datos[2] = this.inputUnidades.SelectedValue;
             datos[3] = this.inputCodigo.Value;
             datos[4] = this.inputCodigoBarras.Value;
-            datos[5] = this.inputEstacion.SelectedValue;
-            datos[6] = this.inputEstado.SelectedValue;
-            datos[7] = this.inputCostoColones.Value;
-            datos[8] = this.inputCostoDolares.Value;
-            datos[9] = 0; // Codigo
+            datos[5] = this.inputEstado.SelectedValue;
+            datos[6] = this.inputCostoColones.Value;
+            datos[7] = this.inputCostoDolares.Value;
+            datos[8] = 0; // Codigo
             return datos;
         }
 
@@ -248,7 +247,6 @@ namespace ProyectoInventarioOET
                     this.botonAceptarProducto.Visible = false;///******************
                     this.botonCancelarProducto.Visible = false;///******************                                       ///
                     //cargarCategorias();
-                    cargarEstaciones();
                     cargarEstados();
                     cargarUnidades();
                     break;
@@ -294,7 +292,6 @@ namespace ProyectoInventarioOET
             this.inputCodigoBarras.Value = " ";
             this.inputCostoColones.Value = " ";
             this.inputCostoDolares.Value = " ";
-            this.inputEstacion.SelectedValue = null;
             this.inputEstado.SelectedValue = null;
             this.inputUnidades.SelectedValue = null;
             this.inpuCategoria.SelectedValue = null;
@@ -310,7 +307,6 @@ namespace ProyectoInventarioOET
             this.inputUnidades.Enabled = resp;
             this.inpuCategoria.Enabled = resp;
             this.inputEstado.Enabled = resp;
-            this.inputEstacion.Enabled = resp;
         }
         //*******************************************************************************
 

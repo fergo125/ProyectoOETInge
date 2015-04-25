@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Productos" Language="C#" AutoEventWireup="True" MasterPageFile="~/Site.Master" CodeBehind="FormProductosGlobales.aspx.cs" Inherits="ProyectoInventarioOET.FormProductosGlobales" %>
+﻿<%@ Page Title="Productos Globales" Language="C#" AutoEventWireup="True" MasterPageFile="~/Site.Master" CodeBehind="FormProductosGlobales.aspx.cs" Inherits="ProyectoInventarioOET.FormProductosGlobales" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">   
     <br />
@@ -39,33 +39,37 @@
 
             <div class="form-group col-lg-12" >
                 <label for="inputNombre" class= "control-label"> Nombre: </label>      
-                <input type="text" id= "inputNombre" class="form-control" required runat="server" ><br>
+                <input type="text" id= "inputNombre" class="form-control" style= "max-width: 100%" runat="server"><br>
+            </div>
+         
+            <div class= "form-group col-lg-6">
+                <label for="inputCodigo" class= "control-label"> Código: </label>      
+                <input type="text" id= "inputCodigo" class= "form-control" style= "max-width: 100%" required runat="server"><br>
+            </div>
+            
+            <div class="form-group col-lg-6">
+                <label for="inputCodigoBarras" class= "control-label"> Código de Barras: </label>      
+                <input type="text" id= "inputCodigoBarras" name= "inputCodigoBarras" style= "max-width: 100%" class="form-control" required runat="server"><br>
             </div>
 
-<%--            <div class="form-group">
-                <label for="inputDescripcion" class= "control-label"> Descripción: </label>      
-                <textarea rows="4" cols="50" id="inputDescripcion" class="form-control" required runat="server"> </textarea>
-
-            </div>--%>
-          
-            <div class="form-group col-lg-12">
+            <div class="form-group col-lg-6">
                 <label for="inputCategoria" class= "control-label"> Categoría: </label>     
                 <asp:DropDownList id= "inpuCategoria" runat="server" class="form-control"> </asp:DropDownList> 
             </div>
 
-              <div class="form-group col-lg-12">
+              <div class="form-group col-lg-6">
                 <label for="inputVendible" class= "control-label"> Vendible: </label>     
                 <asp:DropDownList id= "inputVendible" runat="server" class="form-control"> </asp:DropDownList> 
             </div>
 
-<%--         <div class="form-group">
-                <label for="inputCantidad" class= "control-label"> Cantidad (total): </label>      
-                <input type="text" id= "inputCantidad"  class="form-control" >
-            </div>--%>
-
-            <div class="form-group col-lg-12">
+            <div class="form-group col-lg-6">
                 <label for="inputUnidades" class= "control-label">Unidades: </label>
                 <asp:DropDownList ID="inputUnidades" runat="server" class="form-control"></asp:DropDownList>
+            </div>
+
+            <div class="form-group col-lg-6">
+                <label for="inputEstado" class= "control-label" >Estado: </label>
+                <asp:DropDownList ID="inputEstado" runat="server" class="form-control"></asp:DropDownList>
             </div>
 
             <label class="text-danger text-center">Los campos con (*) son obligatorios</label>
@@ -74,27 +78,28 @@
 
 <%--        COLUMNA IZQUIERDA--%>
 
-        <div class="col-lg-7">
+        <div class="col-lg-7" style="background-color:yellow">
+           
+            <div class="row">
+            <div class="form-group col-lg-6">
+                <label for="inputSaldo" class= "control-label" >Saldo: </label>
+                <input type="text" id="inputSaldo" class="form-control" runat="server" ><br>
+            </div>
 
-            <div class= "form-group col-lg-6">
-                <label for="inputCodigo" class= "control-label"> Código: </label>      
-                <input type="text" id= "inputCodigo" class= "form-control" required runat="server"><br>
+             <div class="form-group col-lg-6">
+                <label for="inputImpuesto" class= "control-label" >Impuesto: </label>
+                <asp:DropDownList ID="inputImpuesto" runat="server" class="form-control"></asp:DropDownList>
+            </div>
             </div>
             
             <div class="form-group col-lg-6">
-                <label for="inputCodigoBarras" class= "control-label"> Código de Barras: </label>      
-                <input type="text" id= "inputCodigoBarras" name= "inputCodigoBarras" class="form-control" required runat="server"><br>
+                <label for="inputPrecioColones" class= "control-label"> Precio (colones): </label>      
+                <input type="text" id= "inputPrecioColones" class="form-control" runat="server" ><br>
             </div>
 
-<%--            <div class="form-group col-lg-6">
-                <label for="inputEstacion" class= "control-label" >Estación: </label>
-                <asp:DropDownList ID="inputEstacion" runat="server" class="form-control"></asp:DropDownList>
-            </div>--%>
-
-
             <div class="form-group col-lg-6">
-                <label for="inputEstado" class= "control-label" >Estado: </label>
-                <asp:DropDownList ID="inputEstado" runat="server" class="form-control"></asp:DropDownList>
+                <label for="inputPrecioDolares" class= "control-label"> Precio (dolares): </label>      
+                <input type="text" id= "inputPrecioDolares" class="form-control" runat="server" ><br>
             </div>
 
             <div class="form-group col-lg-6">
@@ -106,34 +111,6 @@
                 <label for="inputCostoDolares" class= "control-label"> Costo (dolares): </label>      
                 <input type="text" id= "inputCostoDolares" class="form-control" runat="server" ><br>
             </div>
-
-<%--            <div class="form-group">
-                <label for="inputMinimo" class= "control-label"> Cantidad mínima: </label>
-                <input type="text" id="inputMinimo" class="form-control"><br>
-            </div>
-
-            <div class="form-group">
-                <label for="inputMaximo" class= "control-label"> Cantidad máxima: </label>
-                <input type="text" id="inputMaximo" class="form-control"><br>
-            </div>--%>
-
-            <div class="form-group">
-                <label for="inputSaldo" class= "control-label" >Saldo: </label>
-                <input type="text" id="inputSaldo" class="form-control"><br>
-            </div>
-
-            <div class="form-group">
-                <label for="inputImpuesto" class= "control-label" >Impuesto: </label>
-                <asp:DropDownList ID="inputImpuesto" runat="server" class="form-control"></asp:DropDownList>
-            </div>
-
-<%--            <div class="form-group">
-                <label for="inputProveedor" class= "control-label" >Proveedor: </label>
-                <asp:DropDownList ID="inputProveedor" runat="server" class="form-control"></asp:DropDownList>
-            </div>--%>
-
-
-
         </div>
 
     </fieldset>
