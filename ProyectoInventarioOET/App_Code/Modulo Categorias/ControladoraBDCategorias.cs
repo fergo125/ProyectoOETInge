@@ -96,7 +96,7 @@ namespace ProyectoInventarioOET.Modulo_Categorias
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT C.CAT_CATEGORIAS,C.DESCRIPCION FROM cat_bodega C";
+                command.CommandText = "SELECT * FROM cat_categorias";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
                 
