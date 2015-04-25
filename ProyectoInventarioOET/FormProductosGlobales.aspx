@@ -1,5 +1,4 @@
 ﻿<%@ Page Title="Productos Globales" Language="C#" AutoEventWireup="True" MasterPageFile="~/Site.Master" CodeBehind="FormProductosGlobales.aspx.cs" Inherits="ProyectoInventarioOET.FormProductosGlobales" %>
-
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">   
     <br />
     <!-- Label para desplegar mensajes -->

@@ -16,7 +16,7 @@ namespace ProyectoInventarioOET
         private const string AntiXsrfUserNameKey = "__AntiXsrfUserName";
         private string _antiXsrfTokenValue;
 
-        private static EntidadUsuario usuario;
+        private static EntidadUsuario usuarioLogueado;
 
         protected void Page_Init(object sender, EventArgs e)
         {
@@ -71,7 +71,20 @@ namespace ProyectoInventarioOET
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if(usuarioLogueado != null)
+            {
+                this.linkNombreUsuarioLogueado.InnerText = usuarioLogueado.Nombre + " (" + usuarioLogueado.Perfil + ")";
+                this.linkIniciarSesion.Visible = false;
+                this.linkNombreUsuarioLogueado.Visible = true;
+                this.linkCerrarSesion.Visible = true;
+                //TODO poner los links como invisibles por default para que sólo puedan usarse después de iniciar sesión
+                //TODO pesonalizar cuáles links serán visibles para cada perfil
+                this.linkFormProductos.Visible = true;
+                this.linkFormBodegas.Visible = true;
+                this.linkFormInventario.Visible = true;
+                this.linkFormVentas.Visible = true;
+                this.linkFormAdministracion.Visible = true;
+            }
         }
 
         protected void Unnamed_LoggingOut(object sender, LoginCancelEventArgs e)
@@ -79,10 +92,23 @@ namespace ProyectoInventarioOET
             Context.GetOwinContext().Authentication.SignOut();
         }
 
+        protected void cerrarSesion(object sender, EventArgs e)
+        {
+            usuarioLogueado = null;
+            this.linkIniciarSesion.Visible = true;
+            this.linkNombreUsuarioLogueado.Visible = false;
+            this.linkCerrarSesion.Visible = false;
+            this.linkFormProductos.Visible = false;
+            this.linkFormBodegas.Visible = false;
+            this.linkFormInventario.Visible = false;
+            this.linkFormVentas.Visible = false;
+            this.linkFormAdministracion.Visible = false;
+        }
+
         public EntidadUsuario Usuario
         {
-            get { return usuario; }
-            set { usuario = value; }
+            get { return usuarioLogueado; }
+            set { usuarioLogueado = value; }
         }
     }
 

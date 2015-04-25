@@ -23,11 +23,10 @@ namespace ProyectoInventarioOET
         protected void iniciarSesion(object sender, EventArgs e)
         {
             EntidadUsuario usuario = controladora.consultarUsuario(UserName.Text, Password.Text);
-            if( usuario != null )
+            if(usuario != null)
             {
                 // Asignar a global
                 (this.Master as SiteMaster).Usuario = usuario;
-
                 // Redirigir a pagina principal
                 Response.Redirect("Default.aspx");
             }
