@@ -74,5 +74,10 @@ namespace ProyectoInventarioOET.App_Code
         {
             return anfitrionas;
         }
+
+        public String traduccionEstado(int valor)
+        {
+            return estados.Rows[valor-1][0].ToString();
+        }
     }
 }
