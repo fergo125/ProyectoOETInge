@@ -20,6 +20,9 @@ namespace ProyectoInventarioOET
         private static Object[] idArray;
         private static ControladoraDatosGenerales controladoraDatosGenerales;
         private static ControladoraProductosGlobales controladora; 
+        
+        
+        //ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -32,6 +35,17 @@ namespace ProyectoInventarioOET
    
         }
 
+        //*****************METODOS DE LLENADO DE DROPDOWNLIST*************************************
+        protected void cargarCategorias()
+        {
+            inpuCategoria.Items.Clear();
+            inpuCategoria.Items.Add(new ListItem("", null));
+            DataTable categorias = controladoraDatosGenerales.consultarCategorias(); // Hacer un llamado al metodo de Fernando
+            foreach (DataRow fila in categorias.Rows)
+            {
+                inpuCategoria.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
+            }
+        }
 
         protected void cargarEstaciones()
         {
@@ -44,6 +58,16 @@ namespace ProyectoInventarioOET
             }
         }
 
+        protected void cargarUnidades()
+        {
+            inputUnidades.Items.Clear();
+            inputUnidades.Items.Add(new ListItem("", null));
+            DataTable unidades = controladoraDatosGenerales.consultarUnidades();
+            foreach (DataRow fila in unidades.Rows)
+            {
+                inputEstacion.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
+            }
+        }
 
         protected void cargarEstados()
         {
@@ -55,6 +79,26 @@ namespace ProyectoInventarioOET
                 inputEstado.Items.Add(new ListItem(fila[1].ToString(), fila[2].ToString()));
             }
         }
+        //***********************************************************************************
+
+
+        protected Object[] obtenerDatosProductosGlobales()
+        {
+            Object[] datos = new Object[9];
+            datos[0] = this.inputNombre.Value;
+            datos[1] = this.inpuCategoria.SelectedValue;
+            datos[2] = this.inputUnidades.SelectedValue;
+            datos[3] = this.inputCodigo.Value;
+            datos[4] = this.inputCodigoBarras.Value;
+            datos[5] = this.inputEstacion.SelectedValue;
+            datos[6] = this.inputEstado.SelectedValue;
+            datos[7] = this.inputCostoColones.Value;
+            datos[8] = this.inputCostoDolares.Value;
+            datos[9] = 0; // Codigo
+            return datos;
+        }
+
+        
 
         protected DataTable tablaProductosGlobales()
         {
@@ -87,11 +131,8 @@ namespace ProyectoInventarioOET
             tabla.Columns.Add(columna);
 
             return tabla;
-
-            ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true);
-            ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
-
         }
+
         protected void llenarGrid()
         {
             DataTable tabla = tablaProductosGlobales();
@@ -168,20 +209,22 @@ namespace ProyectoInventarioOET
                     this.gridViewProductosGlobales.Visible = false;///********************
                     this.botonAceptarProducto.Visible = false;///******************
                     this.botonCancelarProducto.Visible = false;///******************                                       ///
+                    cargarCategorias();
                     cargarEstaciones();
                     cargarEstados();
+                    cargarUnidades();
                     break;
                 case (int)Modo.Insercion: //insertar
                     habilitarCampos(true);
                     this.botonAgregarProductos.Disabled = true;
                     this.botonModificacionProductos.Disabled = true;
-                    //this.gridViewActividades.Visible = false;///********************
+                    this.gridViewProductosGlobales.Visible = false;///********************
                     break;
                 case (int)Modo.Modificacion: //modificar
                     habilitarCampos(true);
                     this.botonAgregarProductos.Disabled = true;
                     this.botonModificacionProductos.Disabled = true;
-                    //this.gridViewActividades.Visible = false;///********************
+                    this.gridViewProductosGlobales.Visible = false;///********************
                     break;
                 case (int)Modo.Consulta://consultar
                     limpiarCampos();
@@ -189,7 +232,7 @@ namespace ProyectoInventarioOET
                     this.botonAceptarProducto.Visible = false;///******************
                     this.botonCancelarProducto.Visible = false;///******************
                     this.botonModificacionProductos.Disabled = true;//**********************
-                    //this.gridViewActividades.Visible = true;///********************
+                    this.gridViewProductosGlobales.Visible = true;///********************
                     break;
                 case (int)Modo.Consultado://consultada una actividad
                     habilitarCampos(false);
@@ -197,11 +240,9 @@ namespace ProyectoInventarioOET
                     this.botonModificacionProductos.Disabled = false;
                     this.botonAceptarProducto.Visible = false;///******************
                     this.botonCancelarProducto.Visible = false;///****************** 
-                    //this.gridViewActividades.Visible = false;///********************///
-
+                    this.gridViewProductosGlobales.Visible = false;///********************///
                     break;
                 default:
-
                     break;
             }
         }
@@ -215,6 +256,10 @@ namespace ProyectoInventarioOET
             this.inputNombre.Value = "";
             this.inputCodigo.Value = "";
             this.inputCodigoBarras.Value = "";
+            this.inputEstacion.SelectedValue = null;
+            this.inputEstado.SelectedValue = null;
+            this.inputUnidades.SelectedValue = null;
+            this.inputE.SelectedValue = null;
         }
 
         protected void habilitarCampos(bool resp)

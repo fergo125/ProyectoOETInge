@@ -94,12 +94,12 @@
 
             <div class="form-group col-lg-6">
                 <label for="inputCostoColones" class= "control-label"> Costo (colones): </label>      
-                <input type="text" id= "inputCostoColones" class="form-control" ><br>
+                <input type="text" id= "inputCostoColones" class="form-control" runat="server" ><br>
             </div>
 
             <div class="form-group col-lg-6">
                 <label for="inputCostoDolares" class= "control-label"> Costo (dolares): </label>      
-                <input type="text" id= "inputCostoDolares" class="form-control" ><br>
+                <input type="text" id= "inputCostoDolares" class="form-control" runat="server" ><br>
             </div>
 
 <%--            <div class="form-group">
