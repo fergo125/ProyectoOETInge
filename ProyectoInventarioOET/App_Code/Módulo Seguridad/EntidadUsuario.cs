@@ -77,16 +77,17 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
             set { anfitriona = value; }
         }
 
+        public String Nombre
+        {
+            get { return nombre; }
+            set { nombre = value; }
+        }
+
         public int Estado
         {
             get { return estado; }
             set { estado = value; }
         }
 
-        public int Nombre
-        {
-            get { return nombre; }
-            set { nombre = value; }
-        }
     }
 }
