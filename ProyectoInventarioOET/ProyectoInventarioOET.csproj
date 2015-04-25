@@ -283,9 +283,9 @@
     <Compile Include="App_Code\Módulo Bodegas\EntidadBodega.cs" />
     <Compile Include="App_Code\Módulo Bodegas\ControladoraBodegas.cs" />
     <Compile Include="App_Code\Módulo Bodegas\ControladoraBDBodegas.cs" />
-    <Content Include="App_Code\Módulo Productos Locales\ControladoraBDProductoLocal.cs" />
-    <Content Include="App_Code\Módulo Productos Locales\ControladoraProductoLocal.cs" />
-    <Content Include="App_Code\Módulo Productos Locales\EntidadProductoLocal.cs" />
+    <Compile Include="App_Code\Módulo Productos Locales\ControladoraBDProductoLocal.cs" />
+    <Compile Include="App_Code\Módulo Productos Locales\ControladoraProductoLocal.cs" />
+    <Compile Include="App_Code\Módulo Productos Locales\EntidadProductoLocal.cs" />
     <Compile Include="App_Code\Módulo ProductosGlobales\ControladoraBDProductosGlobales.cs" />
     <Compile Include="App_Code\Módulo ProductosGlobales\ControladoraProductosGlobales.cs" />
     <Compile Include="App_Code\Módulo ProductosGlobales\EntidadProductoGlobal.cs" />
