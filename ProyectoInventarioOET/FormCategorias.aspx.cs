@@ -258,7 +258,7 @@ namespace ProyectoInventarioOET
             Boolean operacionCorrecta = true;
             String codigoInsertado = "";
 
-            if (modo == 2)
+            if (modo == 1)
             {
                 codigoInsertado = insertar();
 
@@ -272,7 +272,7 @@ namespace ProyectoInventarioOET
                 else
                     operacionCorrecta = false;
             }
-            else if (modo == 2)
+            else if (modo == 3)
             {
                 operacionCorrecta = modificar();
             }
@@ -285,7 +285,7 @@ namespace ProyectoInventarioOET
         private bool modificar()
         {
             bool res = true;
-            String[] datosCat = new String[1]{inputNombre.Value};
+            String[] datosCat = new String[3]{inputNombre.Value,categoriaConsultada.Nombre,"1"};
             String[] error = controladoraCategorias.modificarDatos(categoriaConsultada, datosCat);
             mostrarMensaje(error[0], error[1], error[2]);
 
@@ -306,12 +306,29 @@ namespace ProyectoInventarioOET
 
         private void habilitarCampos(bool p)
         {
-            throw new NotImplementedException();
+            camposCategoria.Disabled = !p;
         }
 
         private string insertar()
         {
-            throw new NotImplementedException();
+
+            String codigo = "";
+
+            String[] error = controladoraCategorias.insertarDatos(inputNombre.Value.ToString());
+
+            codigo = Convert.ToString(error[3]);
+            mostrarMensaje(error[0], error[1], error[2]);
+            if (error[0].Contains("success"))
+            {
+                llenarGrid();
+            }
+            else
+            {
+                codigo = "";
+                modo = (int)Modo.Insercion;
+            }
+
+            return codigo;
         }
     }
 }

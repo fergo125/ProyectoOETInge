@@ -24,17 +24,17 @@ namespace ProyectoInventarioOET.Modulo_Categorias
             return controladoraBDCategorias.consultarCategoria(id);
         }
 
-        public String[] insertarDatos(Object[] datoscategoria)
+        public String[] insertarDatos(string descripcion)
         {
             /*crea una nueva categoria dado un vector con los datos de la misma*/
-            EntidadCategoria categoria = new EntidadCategoria(datoscategoria);
+            EntidadCategoria categoria = new EntidadCategoria(descripcion);
             return controladoraBDCategorias.insertarCategoria(categoria);
         }
 
         public String[] modificarDatos(EntidadCategoria categoriaVieja, Object[] datoscategoriaNueva)
         {
             /*modifica los datos de una categoria particular*/
-            EntidadCategoria categoriaNueva = new EntidadCategoria(datoscategoriaNueva,categoriaVieja.Nombre);
+            EntidadCategoria categoriaNueva = new EntidadCategoria(datoscategoriaNueva);
             return controladoraBDCategorias.modificarCategoria(categoriaVieja, categoriaNueva);
         }
 

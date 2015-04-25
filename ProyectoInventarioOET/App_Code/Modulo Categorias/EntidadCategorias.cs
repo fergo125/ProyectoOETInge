@@ -7,9 +7,9 @@ namespace ProyectoInventarioOET.Modulo_Categorias
 {
     public class EntidadCategoria
     {
-
         private String nombre;
         private String descripcion;
+        private int estado; 
         private object[] datoscategoriaNueva;
         private string p;
 
@@ -18,18 +18,13 @@ namespace ProyectoInventarioOET.Modulo_Categorias
         {
             this.nombre = datos[0].ToString();
             this.descripcion = datos[1].ToString();
+            this.estado = (int)datos[2];
         }
         public EntidadCategoria(String descripcion)
         {
-            this.nombre = datos[0].ToString();
-            this.descripcion = datos[1].ToString();
-        }
-        public EntidadCategoria(object[] datoscategoriaNueva, string p)
-        {
-            // TODO: Complete member initialization
-            descripcion = datoscategoriaNueva[0].ToString();
-            nombre = p;
-
+            this.descripcion = descripcion;
+            this.nombre = autogenerarCodigo();
+            this.estado = 1;
         }
 
         public String Nombre
