@@ -49,6 +49,8 @@ namespace ProyectoInventarioOET
                     {
                         presentarDatos();
                         cargarEstados();
+                        cargarUnidades();
+                        //cargarCategorias();
                         seConsulto = false;
                     }
                 }
@@ -101,7 +103,7 @@ namespace ProyectoInventarioOET
 
         protected Object[] obtenerDatosProductosGlobales()
         {
-            Object[] datos = new Object[9];
+            Object[] datos = new Object[14];
             datos[0] = this.inputNombre.Value;
             datos[1] = this.inputCodigo.Value;
             datos[2] = this.inputCodigoBarras.Value;
@@ -115,7 +117,7 @@ namespace ProyectoInventarioOET
             datos[10] = this.inputPrecioDolares.Value;
             datos[11] = this.inputCostoColones.Value;
             datos[12] = this.inputCostoDolares.Value;
-            datos[8] = 0; // Id que identifica
+            datos[13] = 0; // Id que identifica
             return datos;
         }
 
@@ -207,6 +209,7 @@ namespace ProyectoInventarioOET
                 this.inputCodigo.Value = productoConsultado.Codigo;
                 this.inputCodigoBarras.Value = productoConsultado.CodigoDeBarras;
                 this.inpuCategoria.SelectedValue = productoConsultado.Categoria;
+                //this.inputUnidades.SelectedItem = productoConsultado.Unidades;
                 this.inputSaldo.Value = productoConsultado.Existencia.ToString();
                 this.inputImpuesto.Value = productoConsultado.Impuesto.ToString();
                 this.inputPrecioColones.Value = productoConsultado.PrecioColones.ToString();
@@ -332,7 +335,7 @@ namespace ProyectoInventarioOET
                 case (int)Modo.Consulta://consulta de todos los productos
                     this.bloqueGrid.Visible = true;///********************
                     this.gridViewProductosGlobales.Visible = true;///********************///
-                    this.bloqueFormulario.Visible = true;
+                    this.bloqueFormulario.Visible = false;
                     this.bloqueBotones.Visible = false;
                     this.botonAgregarProductos.Disabled = false;
                     this.botonModificacionProductos.Disabled = true;
@@ -434,6 +437,33 @@ namespace ProyectoInventarioOET
 
         protected void botonAceptarProductoGlobal_ServerClick(object sender, EventArgs e)
         {
+            Boolean operacionCorrecta = true;
+            String codigoInsertado = "";
+
+            if (modo == (int)Modo.Insercion)
+            {
+                codigoInsertado = insertar();
+
+                if (codigoInsertado != "")
+                {
+                    operacionCorrecta = true;
+                    productoConsultado = controladora.consultarProductoGlobal(codigoInsertado);
+                    modo = (int)Modo.Consultado;
+                    habilitarCampos(false);
+                }
+                else
+                    operacionCorrecta = false;
+            }
+            else if (modo == (int)Modo.Modificacion)
+            {
+                operacionCorrecta = modificar();
+            }
+            if (operacionCorrecta)
+            {
+                cambiarModo();
+            }
+
+
 
         }
 

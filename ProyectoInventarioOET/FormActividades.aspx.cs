@@ -204,7 +204,7 @@ namespace ProyectoInventarioOET
 
                 resultado = controladoraActividades.modificarDatos(actividadConsultada, this.inputDescripcionActividad.Value.ToString(), Int32.Parse(this.comboBoxEstadosActividades.SelectedValue.ToString()));
 
-                if (resultado[1] == "Exito")
+                if (resultado[1] == "Éxito")
                 {
                     codigoInsertado = actividadConsultada.Codigo;
                     operacionCorrecta = true;
@@ -300,6 +300,7 @@ namespace ProyectoInventarioOET
                     break;
                 case (int)Modo.Modificacion: //modificar
                     habilitarCampos(true);
+                    llenarGrid();
                     this.botonAgregarActividades.Disabled = true;
                     this.botonModificacionActividades.Disabled = true;
                     this.FieldsetActividad.Visible = true;
@@ -331,7 +332,7 @@ namespace ProyectoInventarioOET
                     this.labelTextoObligatorioActividad.Visible = false;
                     this.botonAceptarActividad.Visible = false;
                     this.botonCancelarActividad.Visible = false;
-                    this.gridViewActividades.Visible = false;
+                    this.gridViewActividades.Visible = true;
                     this.codigoInternoActividad.Visible = true;
                     this.labelCodigoInterno.Visible = true;
                     this.codigoInternoActividad.Disabled = true;
