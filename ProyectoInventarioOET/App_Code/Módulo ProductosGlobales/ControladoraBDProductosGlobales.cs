@@ -29,7 +29,7 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
                 {
                     datosConsultados[0] = id;
                     for (int i = 0; i < 14; i++)
-                    {
+                    {  
                         datosConsultados[i] = resultado.Rows[0][i].ToString();
                     }
                     productoConsultado = new EntidadProductoGlobal(datosConsultados);
