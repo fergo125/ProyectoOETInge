@@ -206,7 +206,7 @@ namespace ProyectoInventarioOET
                 this.inputNombre.Value = productoConsultado.Nombre;
                 this.inputCodigo.Value = productoConsultado.Codigo;
                 this.inputCodigoBarras.Value = productoConsultado.CodigoDeBarras;
-                //this.wqewqe
+                this.inpuCategoria.SelectedValue = productoConsultado.Categoria;
                 this.inputSaldo.Value = productoConsultado.Existencia.ToString();
                 this.inputImpuesto.Value = productoConsultado.Impuesto.ToString();
                 this.inputPrecioColones.Value = productoConsultado.PrecioColones.ToString();
