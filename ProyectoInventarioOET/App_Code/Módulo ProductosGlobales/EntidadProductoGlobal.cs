@@ -8,45 +8,46 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
     public class EntidadProductoGlobal
     {
 
-        private String nombre; 
-        private String categoria; // es string
-        private String unidades;
+        private String nombre;
         private String codigo;
         private String codigoDeBarras;
+        private String categoria; // es string
+        private String intencion;
+        private String unidades;
         private int estado;
+        private double existencia;
+        private int impuesto;
+        private double precioColones;
+        private double precioDolares; //Calculo se hace en interfaz
         private double costoColones;
         private double costoDolares; //Calculo se hace en interfaz
         private String inv_productos; //Clave primaria es autogenerada en la BD
+        private String estacion; //Desde la cual fue creado el producto
 
         public EntidadProductoGlobal (Object[] datos)
         {
-            this.nombre = datos[0].ToString();
-            this.categoria = datos[1].ToString();
-            this.unidades = datos[2].ToString();
-            this.codigo = datos[3].ToString(); // PREGUNTAR SI VA A SER AUTOGENERADO
-            this.codigoDeBarras = datos[4].ToString(); ;
-            this.estado = Convert.ToInt32(datos[6].ToString());
-            this.costoColones = Convert.ToDouble(datos[7].ToString());
+            this.codigo = datos[0].ToString();
+            this.codigoDeBarras = datos[1].ToString();
+            this.nombre = datos[2].ToString();
+            this.costoColones = Convert.ToDouble(datos[3].ToString());
+            this.categoria = datos[4].ToString(); // es string
+            this.unidades = datos[5].ToString();
+            this.existencia = Convert.ToDouble(datos[6].ToString());
+            this.estado = Convert.ToInt32(datos[7].ToString());
             this.costoDolares = Convert.ToDouble(datos[8].ToString());
+            this.impuesto = Convert.ToInt32(datos[9].ToString());
+            this.intencion = datos[10].ToString();
+            this.precioColones = datos[11].ToString()!=""?Convert.ToDouble(datos[9].ToString()):0;
+            this.precioDolares = datos[12].ToString() != "" ? Convert.ToDouble(datos[10].ToString()) : 0;
+            this.inv_productos = datos[13].ToString(); //Clave primaria es autogenerada en la BD
         }
 
-
-        public String Nombre
+        public String Nombre 
         {
             get { return nombre; }
             set { nombre = value; }
         }
 
-        public String Categoria
-        {
-            get { return categoria; }
-            set { categoria = value; }
-        }
-        public String Unidades
-        {
-            get { return unidades; }
-            set { unidades = value; }
-        }
         public String Codigo
         {
             get { return codigo; }
@@ -58,13 +59,53 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
             get { return codigoDeBarras; }
             set { codigoDeBarras = value; }
         }
-        
 
+        public String Categoria
+        {
+            get { return categoria; }
+            set { categoria = value; }
+        }
+
+        public String Intencion
+        {
+            get { return intencion; }
+            set { intencion = value; }
+        }
+
+        public String Unidades
+        {
+            get { return unidades; }
+            set { unidades = value; }
+        }
 
         public int Estado
         {
             get { return estado; }
             set { estado = value; }
+        }
+
+        public double Existencia // saldo
+        {
+            get { return existencia; }
+            set { existencia = value; }
+        }
+
+        public int Impuesto
+        {
+            get { return impuesto; }
+            set { impuesto = value; }
+        }
+
+        public double PrecioColones
+        {
+            get { return precioColones; }
+            set { precioColones = value; }
+        }
+
+        public double PrecioDolares
+        {
+            get { return precioDolares; }
+            set { precioDolares = value; }
         }
 
         public double CostoColones
@@ -85,14 +126,10 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
             set { inv_productos = value; }
         }
 
-        private String autogenerarCodigo()
+        public String Estacion
         {
-            //here's where the magic happens
-            //in the meanwhile...
-            return "";
+            get { return estacion; }
+            set { estacion = value; }
         }
-
-
-
     }
 }

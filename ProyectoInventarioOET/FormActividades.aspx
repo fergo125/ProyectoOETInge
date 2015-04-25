@@ -21,30 +21,29 @@
 
     <!-- Cuerpo del Form -->
     <button runat="server" onserverclick="botonAgregarActividades_ServerClick" id="botonAgregarActividades" class=" btn btn-info-fozkr" type="button" style="float: left" > Nueva Actividad</button>
-    <button runat="server" onserverclick="botonModificacionActividades_ServerClick" id="botonModificacionActividades" class=" btn btn-info-fozkr" type="button" style="float: left"><i></i> Modificar Actividad </button>
-    <button runat="server" onserverclick="botonConsultaActividades_ServerClick"  id="botonConsultaActividades" class=" btn btn-info-fozkr" type="button" style="float: left"><i></i>Consulta de Actividades </button>
+    <button runat="server" onserverclick="botonModificacionActividades_ServerClick" causesvalidation="false"  id="botonModificacionActividades" class=" btn btn-info-fozkr" type="button" style="float: left"><i></i> Modificar Actividad </button>
+    <button runat="server" onserverclick="botonConsultaActividades_ServerClick" causesvalidation="false"  id="botonConsultaActividades" class=" btn btn-info-fozkr" type="button" style="float: left"><i></i>Consulta de Actividades </button>
     <br />
     <br />
 
     <h3 id="tituloAccionActividades"></h3>
     <br />
-
+    <h3 id="tituloBienvenidaActividades" runat="server">Seleccione una opción.</h3>
     <div class= "row" id="bloqueFormulario">
          <!-- Fieldset para Actividades -->
         <fieldset id= "FieldsetActividad" runat="server" class="fieldset">
-    <asp:ValidationSummary CssClass="label label-warning" runat=server 
-    HeaderText="Uno de los campos está vacío o con información inválida" />
+            <asp:ValidationSummary CssClass="label label-warning" runat=server 
+            HeaderText="Uno de los campos está vacío o con información inválida" />
             <div class="col-lg-4">
-            <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
-                ControlToValidate=inputDescripcionActividad
-                ErrorMessage=""> 
-            </asp:RequiredFieldValidator>
-                <br />
-                <div class="form-group">
-                    <label for="inputDescripcionActividad" class= "control-label"> Nombre*: </label>      
-                    <input type="text" id= "inputDescripcionActividad" runat="server" class="form-control required">
-
-                </div>
+                <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
+                    ControlToValidate=inputDescripcionActividad
+                    ErrorMessage=""> 
+                </asp:RequiredFieldValidator>
+                    <br />
+                    <div class="form-group">
+                        <label for="inputDescripcionActividad" class= "control-label"> Nombre:* </label>      
+                        <input type="text" id= "inputDescripcionActividad" runat="server" class="form-control">
+                    </div>
             </div>
 
             <div class="col-lg-3">
@@ -54,7 +53,7 @@
             </asp:RequiredFieldValidator>
                 <br />
                 <div class="form-group">
-                    <label for="inputEstadoActividad" class= "control-label"> Estado*: </label>      
+                    <label for="inputEstadoActividad" class= "control-label"> Estado:* </label>      
                     <asp:DropDownList id="comboBoxEstadosActividades" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
                     </asp:DropDownList>
                 </div>
@@ -88,7 +87,7 @@
          <div class="col-lg-12">
             <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
                 <ContentTemplate>
-                    <asp:GridView ID="gridViewActividades" CssClass="table table-responsive table-condensed" OnRowCommand="gridViewActividades_Seleccion" OnPageIndexChanging="gridViewActividades_CambioPagina" runat="server" AllowPaging="True" PageSize="2" BorderColor="Transparent">
+                    <asp:GridView ID="gridViewActividades" CssClass="table table-responsive table-condensed" OnRowCommand="gridViewActividades_Seleccion" OnPageIndexChanging="gridViewActividades_CambioPagina" runat="server" AllowPaging="True" PageSize="5" BorderColor="Transparent">
                         <Columns>
                             <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-info-fozkr" CommandName="Select" Text="Consultar">
                                 <ControlStyle CssClass="btn btn-info-fozkr"></ControlStyle>
@@ -125,8 +124,8 @@
                     ¿Está seguro que desea cancelar los cambios? Perdería todos los datos no guardados.
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="botonAceptarModalCancelar" class="btn btn-success-fozkr" runat="server" onserverclick="botonAceptarModalCancelar_ServerClick" >Aceptar</button>
-                    <button type="button" id="botonCancelarModalCancelar" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
+                    <button type="button" id="botonAceptarModalCancelar" causesvalidation="false" class="btn btn-success-fozkr" runat="server" onserverclick="botonAceptarModalCancelar_ServerClick" >Aceptar</button>
+                    <button type="button" id="botonCancelarModalCancelar" causesvalidation="false" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
                 </div>
             </div>
         </div>

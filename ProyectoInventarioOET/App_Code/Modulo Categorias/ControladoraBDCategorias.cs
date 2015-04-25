@@ -23,7 +23,7 @@ namespace ProyectoInventarioOET.Modulo_Categorias
             {
 
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "INSERT INTO CAT_CATEGORIAS (CAT_CATEGORIAS,DESCRIPCION,ANFITRIONA,ESTACION,ESTADO) VALUES ('"
+                command.CommandText = "INSERT INTO CAT_CATEGORIAS (CAT_CATEGORIAS,DESCRIPCION) VALUES ('"
                 + categoria.Nombre + "','" + categoria.Descripcion + ")";
                 OracleDataReader reader = command.ExecuteReader();
 
@@ -96,9 +96,10 @@ namespace ProyectoInventarioOET.Modulo_Categorias
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT C.CAT_CATEGORIAS,C.DESCRIPCION FROM cat_bodega C";
+                command.CommandText = "SELECT * FROM cat_categorias";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
+                
             }
             catch (Exception e)
             {
@@ -107,7 +108,23 @@ namespace ProyectoInventarioOET.Modulo_Categorias
             return resultado;
         }
 
-
+        public String consultarDescripcionCategoria(String idCategoria)
+        {
+            String res = "";
+            DataTable resultado = new DataTable();
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "SELECT C.DESCRIPCION FROM cat_bodega C WHERE C.NOMBRE = '" + idCategoria + "'";
+                OracleDataReader reader = command.ExecuteReader();
+                res = resultado.Rows[0][0].ToString();
+            }
+            catch (Exception e)
+            {
+                resultado = null;
+            }
+            return res;
+        }
 
         public EntidadCategoria consultarCategoria(String nombre)
         {

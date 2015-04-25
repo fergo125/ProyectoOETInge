@@ -211,6 +211,15 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlInputGenericControl barraDeBusqueda;
         
         /// <summary>
+        /// Control UpdatePanelPruebas.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanelPruebas;
+        
+        /// <summary>
         /// Control gridViewProductosGlobales.
         /// </summary>
         /// <remarks>
@@ -220,22 +229,31 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.GridView gridViewProductosGlobales;
         
         /// <summary>
-        /// Control botonAceptarProducto.
+        /// Control bloqueBotones.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonAceptarProducto;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl bloqueBotones;
         
         /// <summary>
-        /// Control botonCancelarProducto.
+        /// Control botonAceptarProductoGlobal.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor botonCancelarProducto;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonAceptarProductoGlobal;
+        
+        /// <summary>
+        /// Control botonCancelarProductoGlobal.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor botonCancelarProductoGlobal;
         
         /// <summary>
         /// Control botonAceptarModalCancelar.
