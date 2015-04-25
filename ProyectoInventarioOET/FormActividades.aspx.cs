@@ -21,8 +21,7 @@ namespace ProyectoInventarioOET
         private static EntidadActividad actividadConsultada;
         private static ControladoraActividades controladoraActividades;
         private static Boolean seConsulto = false;
-        private static int pagina;
-        private static Boolean paginaCambiada = false;
+
 
 
         protected void Page_Load(object sender, EventArgs e)
@@ -48,7 +47,6 @@ namespace ProyectoInventarioOET
                     {
                         cargarEstados();
                         setDatosConsultados();
-
                         seConsulto = false;
                     }
                 }
@@ -65,7 +63,8 @@ namespace ProyectoInventarioOET
             {
                 case "Select":
                     GridViewRow filaSeleccionada = this.gridViewActividades.Rows[Convert.ToInt32(e.CommandArgument)];
-                    String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewActividades.PageIndex * resultadosPorPagina)]);
+                    //String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewActividades.PageIndex * resultadosPorPagina)]);
+                    String codigo = filaSeleccionada.Cells[2].Text.ToString();
                     consultarActividad(codigo);
                     modo = (int)Modo.Consultado;
                     Response.Redirect("FormActividades.aspx");
@@ -132,14 +131,10 @@ namespace ProyectoInventarioOET
 
                 this.gridViewActividades.DataSource = tabla;
                 this.gridViewActividades.DataBind();
-                if (actividadConsultada != null)
-                {
-                    GridViewRow filaSeleccionada = this.gridViewActividades.Rows[indiceNuevaActividad];
-                }
             }
             catch (Exception e)
             {
-                mostrarMensaje("warning", "Alerta", "No hay conexión a la base de datos.");
+                mostrarMensaje("warning", "Alerta", "Error al llenar la tabla de Actividades.");
             }
         }
 
@@ -305,7 +300,7 @@ namespace ProyectoInventarioOET
                     this.botonModificacionActividades.Disabled = true;
                     this.FieldsetActividad.Visible = true;
                     this.labelTextoObligatorioActividad.Visible = true;
-                    this.gridViewActividades.Visible = false;
+                    this.gridViewActividades.Visible = true;
                     this.botonAceptarActividad.Visible = true;
                     this.botonCancelarActividad.Visible = true;
                     this.codigoInternoActividad.Visible = false;
@@ -326,6 +321,7 @@ namespace ProyectoInventarioOET
                     break;
                 case (int)Modo.Consultado://consultada una actividad
                     habilitarCampos(false);
+                    llenarGrid();
                     this.FieldsetActividad.Visible = true;
                     this.botonAgregarActividades.Disabled = false;
                     this.botonModificacionActividades.Disabled = false;

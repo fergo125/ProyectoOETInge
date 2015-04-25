@@ -42,7 +42,7 @@
                     <br />
                     <div class="form-group">
                         <label for="inputDescripcionActividad" class= "control-label"> Nombre:* </label>      
-                        <input type="text" id= "inputDescripcionActividad" runat="server" class="form-control">
+                        <input type="text" id= "inputDescripcionActividad" runat="server" class="form-control" style="max-width:100%">
                     </div>
             </div>
 
@@ -80,6 +80,8 @@
             </div>
         </div>
     </div>
+    <br />
+    <br />
      <%--style="display:none"--%>
     <div id="bloqueGrid" class="col-lg-12">
         <fieldset id="FieldsetGridActividades" runat="server" class="fieldset">

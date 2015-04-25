@@ -42,6 +42,7 @@ namespace ProyectoInventarioOET.Módulo_Actividades
         public string[] insertarActividad(EntidadActividad actividad)
         {
             String[] res = new String[4];
+            actividad.Codigo = generarID();
             res[3] = actividad.Codigo.ToString();
             try
             {
