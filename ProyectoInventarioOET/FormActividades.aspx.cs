@@ -193,6 +193,8 @@ namespace ProyectoInventarioOET
                 }
                 else
                     operacionCorrecta = false;
+
+                setDatosConsultados();
             }
             else if (modo == (int)Modo.Modificacion)
             {
