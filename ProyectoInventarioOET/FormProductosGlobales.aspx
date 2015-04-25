@@ -52,22 +52,22 @@
 
             <div class="form-group col-lg-6">
                 <label for="inputCategoria" class= "control-label"> Categoría: </label>     
-                <asp:DropDownList id= "inpuCategoria" runat="server" CssClass="form-control" AutoPostBack="true"> </asp:DropDownList> 
+                <asp:DropDownList id= "inpuCategoria" runat="server" CssClass="form-control" > </asp:DropDownList> 
             </div>
 
               <div class="form-group col-lg-6">
                 <label for="inputVendible" class= "control-label"> Intención de uso: </label>     
-                <asp:DropDownList id= "inputVendible" runat="server" CssClass="form-control" AutoPostBack="true"> </asp:DropDownList> 
+                <asp:DropDownList id= "inputVendible" runat="server" CssClass="form-control"> </asp:DropDownList> 
             </div>
 
             <div class="form-group col-lg-6">
                 <label for="inputUnidades" class= "control-label">Unidades: </label>
-                <asp:DropDownList ID="inputUnidades" runat="server" Cssclass="form-control" AutoPostBack="true"></asp:DropDownList>
+                <asp:DropDownList ID="inputUnidades" runat="server" Cssclass="form-control" ></asp:DropDownList>
             </div>
 
             <div class="form-group col-lg-6">
                 <label for="inputEstado" class= "control-label" >Estado: </label>
-                <asp:DropDownList ID="inputEstado" runat="server" Cssclass="form-control" AutoPostBack="true"></asp:DropDownList>
+                <asp:DropDownList ID="inputEstado" runat="server" Cssclass="form-control"></asp:DropDownList>
             </div>
 
             <label class="text-danger text-center">Los campos con (*) son obligatorios</label>
