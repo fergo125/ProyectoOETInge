@@ -8,12 +8,12 @@ namespace ProyectoInventarioOET.Módulo_Productos_Locales
 {
     public class ControladoraProductoLocal
     {
-        private ControladoraBDProductoLocal controladoraBD;
+        private ControladoraBDProductosLocales controladoraBD;
         private EntidadProductoLocal productoActual; 
 
         public ControladoraProductoLocal()
         {
-            controladoraBD = new ControladoraBDProductoLocal();
+            controladoraBD = new ControladoraBDProductosLocales();
         }
 
 
