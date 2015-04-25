@@ -13,30 +13,34 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
         public EntidadProductoGlobal consultarProductoGlobal(String id)
         {
             DataTable resultado = new DataTable();
-            EntidadProductoGlobal producConsultado = null;
-            Object[] datosConsultados = new Object[3];
+            EntidadProductoGlobal productoConsultado = null;
+            Object[] datosConsultados = new Object[14];
 
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT * FROM INV_ACTIVIDAD WHERE INV_PRODUCTOS = '" + id + "'";
+                command.CommandText = "SELECT P.NOMBRE, P.CODIGO, P.CODIGO_BARRAS, P.CAT_CATEGORIAS, P.INTENCION, P.CAT_UNIDADES, P.ESTADO,  "
+                +                     " P.SALDO, P.IMPUESTO ,P.PRECIO_C, P.PRECIO_D, P.COSTO_COLONES, P.COSTO_DOLARES, P.INV_PRODUCTOS "
+                +                      "FROM INV_PRODUCTOS P WHERE INV_PRODUCTOS = '" + id + "'";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
 
                 if (resultado.Rows.Count == 1)
                 {
                     datosConsultados[0] = id;
-                    for (int i = 1; i < 3; i++)
+                    for (int i = 0; i < 14; i++)
                     {
                         datosConsultados[i] = resultado.Rows[0][i].ToString();
                     }
 
-                    producConsultado = new EntidadProductoGlobal(datosConsultados);
+                    productoConsultado = new EntidadProductoGlobal(datosConsultados);
                 }
             }
-            catch (Exception e) { }
+            catch (Exception e) {
+                productoConsultado = null;
+            }
 
-            return producConsultado;
+            return productoConsultado;
         }
 
         public string[] insertarProductoGlobal(EntidadProductoGlobal productoGlobal)

@@ -49,6 +49,5 @@ namespace ProyectoInventarioOET.Modulo_Categorias
             /*consulta la información de todas las categorias*/
             return controladoraBDCategorias.consultarCategorias();
         }
-
     }
     }
