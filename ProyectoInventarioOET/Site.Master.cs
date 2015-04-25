@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using ProyectoInventarioOET.Módulo_Seguridad;
 
 namespace ProyectoInventarioOET
 {
@@ -14,6 +15,8 @@ namespace ProyectoInventarioOET
         private const string AntiXsrfTokenKey = "__AntiXsrfToken";
         private const string AntiXsrfUserNameKey = "__AntiXsrfUserName";
         private string _antiXsrfTokenValue;
+
+        private static EntidadUsuario usuario;
 
         protected void Page_Init(object sender, EventArgs e)
         {
@@ -74,6 +77,12 @@ namespace ProyectoInventarioOET
         protected void Unnamed_LoggingOut(object sender, LoginCancelEventArgs e)
         {
             Context.GetOwinContext().Authentication.SignOut();
+        }
+
+        public EntidadUsuario Usuario
+        {
+            get { return usuario; }
+            set { usuario = value; }
         }
     }
 

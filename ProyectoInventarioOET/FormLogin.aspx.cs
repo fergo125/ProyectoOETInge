@@ -26,6 +26,8 @@ namespace ProyectoInventarioOET
             if( usuario != null )
             {
                 // Asignar a global
+                (this.Master as SiteMaster).Usuario = usuario;
+
                 // Redirigir a pagina principal
                 Response.Redirect("Default.aspx");
             }
