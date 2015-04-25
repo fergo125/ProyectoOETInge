@@ -10,7 +10,7 @@ namespace ProyectoInventarioOET.Módulo_Productos_Locales
 {
     public class ControladoraBDProductosLocales : ControladoraBD
     {
-        public EntidadProductoLocal consultarProductoLocal(String id)
+        /*public EntidadProductoLocal consultarProductoLocal(String id)
         {
             DataTable resultado = new DataTable();
             EntidadProductoLocal producConsultado = null;
@@ -42,6 +42,24 @@ namespace ProyectoInventarioOET.Módulo_Productos_Locales
         internal static System.Data.DataTable consultarProductosLocales()
         {
             throw new NotImplementedException();
+        }*/
+
+        public DataTable consultarProductosDeBodega(String idBodega)
+        {
+            DataTable resultado = new DataTable();
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "SELECT INV_PRODUCTOS.NOMBRE,INV_BODEGA_PRODUCTOS.COSTO_COLONES,INV_BODEGA_PRODUCTOS.SALDO,INV_BODEGA_PRODUCTOS.MINIMO,INV_BODEGA_PRODUCTOS.MAXIMO FROM INV_BODEGA_PRODUCTOS,INV_PRODUCTOS WHERE INV_BODEGA_PRODUCTOS.INV_PRODUCTOS = INV_PRODUCTOS.INV_PRODUCTOS AND INV_BODEGA_PRODUCTOS.CAT_BODEGA = '" + idBodega + "'";
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
+            }
+            catch (Exception e)
+            {
+                resultado = null;
+            }
+            return resultado;
         }
+
     }
 }

@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 using ProyectoInventarioOET.Módulo_Bodegas;
 using ProyectoInventarioOET.App_Code;
+using ProyectoInventarioOET.Módulo_Productos_Locales;
 
 namespace ProyectoInventarioOET
 {
@@ -14,18 +15,21 @@ namespace ProyectoInventarioOET
     {
         private static ControladoraBodegas controladoraBodegas;
         private static ControladoraDatosGenerales controladoraDatosGenerales;
+        private static ControladoraProductoLocal controladoraProductoLocal;
+
         private static int resultadosPorPagina;
         private static int modo=0;
         private static Object[] idArray;
         private static int estacionSeleccionada, bodegaSeleccionada;
         private static Object[] idArray2;
+        private static DataTable catalogoLocal;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            testGrid();
             if (!IsPostBack)
             {
                 controladoraBodegas = new ControladoraBodegas();
+                controladoraProductoLocal = new ControladoraProductoLocal();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
                 DropDownListEstacion_CargaEstaciones();
             }
@@ -45,6 +49,8 @@ namespace ProyectoInventarioOET
                     DropDownListEstacion.SelectedIndex = estacionSeleccionada;
                     DropDownListEstacion_SelectedIndexChanged(DropDownListEstacion,null);
                     DropDownListBodega.SelectedIndex = bodegaSeleccionada;
+                    this.gridViewCatalogoLocal.DataSource = catalogoLocal;
+                    this.gridViewCatalogoLocal.DataBind();
                     break;
                 case 2: //consultar con los espacios bloqueados
                     FieldsetCatalogoLocal.Visible = true;
@@ -52,30 +58,13 @@ namespace ProyectoInventarioOET
                     DropDownListEstacion.SelectedIndex = estacionSeleccionada;
                     DropDownListEstacion_SelectedIndexChanged(DropDownListEstacion,null);
                     DropDownListBodega.SelectedIndex = bodegaSeleccionada;
+                    this.gridViewCatalogoLocal.DataSource = catalogoLocal;
+                    this.gridViewCatalogoLocal.DataBind();
                     break;
                 default:
                     // Algo salio mal
                     break;
             }
-        }
-
-        // SOLO PARA PRUEBAS
-        protected void testGrid()
-        {
-            DataTable tabla2 = tablaCatalogoLocal();
-            for (int i = 1; i < 5; i++)
-            {
-                Object[] datos2 = new Object[5];
-                datos2[0] = i * 2;
-                datos2[1] = i * 3;
-                datos2[2] = i * 4;
-                datos2[3] = i * 5;
-                datos2[4] = i * 6;
-                tabla2.Rows.Add(datos2);
-            }
-            this.gridViewCatalogoLocal.DataSource = tabla2;
-            this.gridViewCatalogoLocal.DataBind();
-
         }
 
         protected DataTable tablaCatalogoLocal()
@@ -161,6 +150,7 @@ namespace ProyectoInventarioOET
                 {
                     idArray2[i] = fila[0];
                     this.DropDownListBodega.Items.Add(new ListItem(fila[1].ToString()));
+                    i++;
                 }
             }
 
@@ -172,15 +162,23 @@ namespace ProyectoInventarioOET
             {
                 bodegaSeleccionada = this.DropDownListBodega.SelectedIndex;
                 FieldsetCatalogoLocal.Visible = true;
-
-                DataTable tabla = tablaCatalogoLocal();
-                Object[] datos = new Object[5];
-                for (int i = 1; i < 5; i++)
+                String idBodega = idArray2[bodegaSeleccionada].ToString();
+                catalogoLocal = tablaCatalogoLocal();
+                DataTable productos = controladoraProductoLocal.consultarProductosDeBodega(idBodega);
+                if (productos.Rows.Count > 0)
                 {
-
-                    tabla.Rows.Add(datos);
+                    Object[] datos = new Object[5];
+                    int i;
+                    foreach (DataRow producto in productos.Rows)
+                    {
+                        for (i = 0; i < 5; i++)
+                        {
+                            datos[i] = producto[i];
+                        }
+                        catalogoLocal.Rows.Add(datos);
+                    }
                 }
-                this.gridViewCatalogoLocal.DataSource = tabla;
+                this.gridViewCatalogoLocal.DataSource = catalogoLocal;
                 this.gridViewCatalogoLocal.DataBind();
 
             }
