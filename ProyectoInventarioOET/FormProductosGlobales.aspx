@@ -89,7 +89,7 @@
 
              <div class="form-group col-lg-6">
                 <label for="inputImpuesto" class= "control-label" >Impuesto: </label>
-                <asp:DropDownList ID="inputImpuesto" runat="server" Cssclass="form-control" AutoPostBack="true"></asp:DropDownList>
+                 <input type="text" id= "inputImpuesto" class="form-control" style="max-width:100%"  runat="server"><br>
             </div>
             </div>
             
