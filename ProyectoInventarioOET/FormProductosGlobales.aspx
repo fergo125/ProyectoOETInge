@@ -53,7 +53,12 @@
                 <asp:DropDownList id= "inpuCategoria" runat="server" class="form-control"> </asp:DropDownList> 
             </div>
 
-<%--            <div class="form-group">
+              <div class="form-group col-lg-12">
+                <label for="inputVendible" class= "control-label"> Vendible: </label>     
+                <asp:DropDownList id= "inputVendible" runat="server" class="form-control"> </asp:DropDownList> 
+            </div>
+
+<%--         <div class="form-group">
                 <label for="inputCantidad" class= "control-label"> Cantidad (total): </label>      
                 <input type="text" id= "inputCantidad"  class="form-control" >
             </div>--%>
@@ -81,10 +86,10 @@
                 <input type="text" id= "inputCodigoBarras" name= "inputCodigoBarras" class="form-control" required runat="server"><br>
             </div>
 
-            <div class="form-group col-lg-6">
+<%--            <div class="form-group col-lg-6">
                 <label for="inputEstacion" class= "control-label" >Estación: </label>
                 <asp:DropDownList ID="inputEstacion" runat="server" class="form-control"></asp:DropDownList>
-            </div>
+            </div>--%>
 
 
             <div class="form-group col-lg-6">
@@ -112,15 +117,15 @@
                 <input type="text" id="inputMaximo" class="form-control"><br>
             </div>--%>
 
-<%--            <div class="form-group">
+            <div class="form-group">
                 <label for="inputSaldo" class= "control-label" >Saldo: </label>
                 <input type="text" id="inputSaldo" class="form-control"><br>
-            </div>--%>
+            </div>
 
-<%--            <div class="form-group">
+            <div class="form-group">
                 <label for="inputImpuesto" class= "control-label" >Impuesto: </label>
                 <asp:DropDownList ID="inputImpuesto" runat="server" class="form-control"></asp:DropDownList>
-            </div>--%>
+            </div>
 
 <%--            <div class="form-group">
                 <label for="inputProveedor" class= "control-label" >Proveedor: </label>

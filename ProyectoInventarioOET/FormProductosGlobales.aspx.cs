@@ -41,22 +41,19 @@ namespace ProyectoInventarioOET
         {
             inpuCategoria.Items.Clear();
             inpuCategoria.Items.Add(new ListItem("", null));
-            DataTable categorias = controladoraDatosGenerales.consultarCategorias(); // Hacer un llamado al metodo de Fernando
+            DataTable categorias = controladora.consultarCategorias(); // Hacer un llamado al metodo de Fernando
             foreach (DataRow fila in categorias.Rows)
             {
                 inpuCategoria.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
             }
         }
 
-        protected void cargarEstaciones()
+        protected void cargarVendible()
         {
-            inputEstacion.Items.Clear();
-            inputEstacion.Items.Add(new ListItem("", null));
-            DataTable estaciones = controladoraDatosGenerales.consultarEstaciones();
-            foreach (DataRow fila in estaciones.Rows)
-            {
-                inputEstacion.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
-            }
+            inputVendible.Items.Clear();
+            inputVendible.Items.Add(new ListItem("Consumo interno", null));
+            inputVendible.Items.Add(new ListItem("Consumo interno", null));
+            
         }
 
         protected void cargarUnidades()
@@ -250,7 +247,7 @@ namespace ProyectoInventarioOET
                     this.gridViewProductosGlobales.Visible = false;///********************
                     this.botonAceptarProducto.Visible = false;///******************
                     this.botonCancelarProducto.Visible = false;///******************                                       ///
-                    cargarCategorias();
+                    //cargarCategorias();
                     cargarEstaciones();
                     cargarEstados();
                     cargarUnidades();

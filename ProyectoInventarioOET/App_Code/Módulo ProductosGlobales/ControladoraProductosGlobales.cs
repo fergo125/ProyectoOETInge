@@ -51,5 +51,12 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
             /*consulta la información de todas los productos globales*/
             return ControladoraBDProductosGlobales.consultarProductosGlobales();
         }
+
+        public DataTable consultarCategorias()
+        {
+            DataTable resp = new DataTable();
+            return resp;
+            //Hacer llamado a la controladora de fer ;
+        }
     }
 }

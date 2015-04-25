@@ -230,11 +230,11 @@ namespace ProyectoInventarioOET
                     tabla.Rows.Add(datos);
                 }
 
-                this.gridViewBodegas.DataSource = tabla;
-                this.gridViewBodegas.DataBind();
-                if (bodegaConsultada != null)
+                this.gridViewCategorias.DataSource = tabla;
+                this.gridViewCategorias.DataBind();
+                if (categoriaConsultada != null)
                 {
-                    GridViewRow filaSeleccionada = this.gridViewBodegas.Rows[indiceNuevaBodega];
+                    GridViewRow filaSeleccionada = this.gridViewCategorias.Rows[indiceNuevaBodega];
                 }
             }
             catch (Exception e)
