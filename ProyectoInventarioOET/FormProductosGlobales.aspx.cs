@@ -15,7 +15,6 @@ namespace ProyectoInventarioOET
     {
         enum Modo { Inicial, Consulta, Insercion, Modificacion, Consultado };
         private static int modo = (int) Modo.Inicial;
-        private static int idProducto = 0; //Sirve para estar en modo consulta
         private static int resultadosPorPagina;
         private static bool seConsulto = false;
         private static Object[] idArray;
@@ -47,10 +46,13 @@ namespace ProyectoInventarioOET
                     }
                     else
                     {
-                        presentarDatos();
+                        
                         cargarEstados();
                         cargarUnidades();
+                        cargarVendible();
+                        cargarCategorias();
                         //cargarCategorias();
+                        presentarDatos();
                         seConsulto = false;
                     }
                 }
@@ -209,7 +211,7 @@ namespace ProyectoInventarioOET
                 this.inputCodigo.Value = productoConsultado.Codigo;
                 this.inputCodigoBarras.Value = productoConsultado.CodigoDeBarras;
                 this.inpuCategoria.SelectedValue = productoConsultado.Categoria;
-                //this.inputUnidades.SelectedItem = productoConsultado.Unidades;
+                this.inputUnidades.SelectedValue = productoConsultado.Unidades.ToString();
                 this.inputSaldo.Value = productoConsultado.Existencia.ToString();
                 this.inputImpuesto.Value = productoConsultado.Impuesto.ToString();
                 this.inputPrecioColones.Value = productoConsultado.PrecioColones.ToString();
