@@ -23,6 +23,27 @@ namespace ProyectoInventarioOET
         protected void iniciarSesion(object sender, EventArgs e)
         {
             EntidadUsuario usuario = controladora.consultarUsuario(UserName.Text, Password.Text);
+            if( usuario != null )
+            {
+                // Asignar a global
+                (this.Master as SiteMaster).Usuario = usuario;
+
+                // Redirigir a pagina principal
+                Response.Redirect("Default.aspx");
+            }
+            else
+            {
+                // Mostrar mensaje
+                mostrarMensaje();
+            }
+        }
+
+        protected void mostrarMensaje()
+        {
+            mensajeAlerta.Attributes["class"] = "alert alert-danger alert-dismissable fade in";
+            labelTipoAlerta.Text = "Error";
+            labelAlerta.Text = "Nombre de usuario o contraseña inválidos";
+            mensajeAlerta.Visible = true;
         }
     }
 }
