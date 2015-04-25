@@ -3,12 +3,12 @@
     <br />
     <!-- Label para desplegar mensajes -->
     <div>
-        <div id="mensajeAlerta" class="alert alert-fozkr-error fade in" runat="server" style="margin-left: 70%; visibility:hidden">
+        <div id="mensajeAlerta" runat="server" style="margin-left: 70%; visibility:hidden">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <strong>
-                <asp:Label ID="labelTipoAlerta" runat="server" Text="Alerta! "></asp:Label>
+                <asp:Label ID="labelTipoAlerta" runat="server"></asp:Label>
             </strong>
-            <asp:Label ID="labelAlerta" runat="server" Text="Mensaje de alerta"></asp:Label>
+            <asp:Label ID="labelAlerta" runat="server"></asp:Label>
         </div>
     </div>
 
@@ -53,7 +53,7 @@
                     <input type="text" id= "inputCodigoBarras" name= "inputCodigoBarras" style= "max-width: 100%" class="form-control" required runat="server"><br>
                 </div>
                 <div class="form-group col-lg-6">
-                    <label for="inputCategoria" class= "control-label">Categoría </label>     
+                    <label for="inputCategoria" class= "control-label">Categoría:</label>     
                     <input type="text" id= "inputCategoria" runat="server" class="form-control" style="max-width:100%" AutoPostBack="true"> </input> 
                 </div>
                   <div class="form-group col-lg-6">
@@ -90,7 +90,7 @@
             <div class="col-lg-5">
                 <div class="row">
                     <div class="form-group col-lg-6">
-                        <label for="inputSaldo" class= "control-label">Existencia global </label>
+                        <label for="inputSaldo" class= "control-label">Existencia global:</label>
                         <input type="text" id="inputSaldo" class="form-control" runat="server" style= "max-width: 100%"><br>
                     </div>
                      <div class="form-group col-lg-6">
@@ -100,44 +100,44 @@
                 </div>
                 <div class="row">
                     <div class="form-group col-lg-6">
-                        <label for="inputPrecioColones" class= "control-label">Precio (colones):</label>      
+                        <label for="inputPrecioColones" class= "control-label">Precio (colones):</label>
                         <input type="text" id= "inputPrecioColones" class="form-control" runat="server" style= "max-width: 100%"><br>
                     </div>
                     <div class="form-group col-lg-6">
-                        <label for="inputPrecioDolares" class= "control-label">Precio (dólares):</label>      
+                        <label for="inputPrecioDolares" class= "control-label">Precio (dólares):</label>
                         <input type="text" id= "inputPrecioDolares" class="form-control" runat="server" style= "max-width: 100%" ><br>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-lg-6">
-                        <label for="inputCostoColones" class= "control-label">Costo (cólones):</label>      
+                        <label for="inputCostoColones" class= "control-label">Costo (colones):</label>
                         <input type="text" id= "inputCostoColones" class="form-control" runat="server" style= "max-width: 100%"><br>
                     </div>
 
                     <div class="form-group col-lg-6">
-                        <label for="inputCostoDolares" class= "control-label">Costo (dólares):</label>      
+                        <label for="inputCostoDolares" class= "control-label">Costo (dólares):</label>
                         <input type="text" id= "inputCostoDolares" class="form-control" runat="server" style= "max-width: 100%"><br>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-lg-6">
-                        <label for="inputMinimo" class= "control-label">Mínimo de existencias:</label>      
+                        <label for="inputMinimo" class= "control-label">Nivel mínimo de existencia:</label>      
                         <input type="text" id= "inputMinimo" class="form-control" runat="server" style= "max-width: 100%"><br>
                     </div>
 
                     <div class="form-group col-lg-6">
-                        <label for="inputMaximo" class= "control-label">Máximo de existencias:</label>      
+                        <label for="inputMaximo" class= "control-label">Nivel máximo de existencia:</label>      
                         <input type="text" id= "inputMaximo" class="form-control" runat="server" style= "max-width: 100%"><br>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-lg-6">
-                        <label for="inputCostoUltCol" class= "control-label">Último costo (colones):</label>      
+                        <label for="inputCostoUltCol" class= "control-label">Último costo compra (colones):</label>      
                         <input type="text" id= "inputCostoUltCol" class="form-control" runat="server" style= "max-width: 100%"><br>
                     </div>
 
                     <div class="form-group col-lg-6">
-                        <label for="inputCostoUltDol" class= "control-label">Último costo (dólares):</label>      
+                        <label for="inputCostoUltDol" class= "control-label">Último costo compra (dólares):</label>      
                         <input type="text" id= "inputCostoUltDol" class="form-control" runat="server" style= "max-width: 100%"><br>
                     </div>
                 </div>
