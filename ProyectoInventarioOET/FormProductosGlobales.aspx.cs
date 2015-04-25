@@ -74,7 +74,7 @@ namespace ProyectoInventarioOET
         protected void cargarEstados()
         {
             inputEstado.Items.Clear();
-            DataTable estados = controladoraDatosGenerales.consultarEstados();
+            DataTable estados = controladoraDatosGenerales.consultarEstadosActividad();
             foreach (DataRow fila in estados.Rows)
             {
                 inputEstado.Items.Add(new ListItem(fila[1].ToString(), fila[2].ToString()));
@@ -241,15 +241,14 @@ namespace ProyectoInventarioOET
             switch (modo)
             {///Probar si aun se pueden mostrar los campos con el JS********************
                 case (int)Modo.Inicial:
-                    limpiarCampos();
                     this.bloqueGrid.Visible = false;///********************
                     this.gridViewProductosGlobales.Visible = false;///********************///
                     this.bloqueFormulario.Visible = false;
+                    this.bloqueBotones.Visible = false;
                     this.botonAgregarProductos.Disabled = false;
-                    this.botonModificacionProductos.Disabled = true;
-                    this.botonAceptarProducto.Visible = false;///******************
-                    this.botonCancelarProducto.Visible = false;///******************                                       ///
+                    this.botonModificacionProductos.Disabled = true;                                ///
                     //cargarCategorias();  // Fernando
+                    limpiarCampos();
                     cargarEstados();
                     cargarUnidades();
                     cargarVendible();
@@ -259,33 +258,36 @@ namespace ProyectoInventarioOET
                     this.bloqueGrid.Visible = false;///********************
                     this.gridViewProductosGlobales.Visible = false;///********************///
                     this.bloqueFormulario.Visible = true;
-                    habilitarCampos(true);
-                    limpiarCampos();
+                    this.bloqueBotones.Visible = true;
                     this.botonAgregarProductos.Disabled = true;
                     this.botonModificacionProductos.Disabled = true;
+                    habilitarCampos(true);
+                    limpiarCampos();
                     break;
                 case (int)Modo.Modificacion: //modificar
+                    this.bloqueGrid.Visible = false;///********************
+                    this.gridViewProductosGlobales.Visible = false;///********************///
+                    this.bloqueFormulario.Visible = true;
+                    this.bloqueBotones.Visible = true;
                     habilitarCampos(true);
                     this.botonAgregarProductos.Disabled = true;
                     this.botonModificacionProductos.Disabled = true;
                     this.gridViewProductosGlobales.Visible = false;///********************
                     break;
-                case (int)Modo.Consulta://consultar
+                case (int)Modo.Consulta://consulta de un producto especifico
+                    this.bloqueGrid.Visible = false;///********************
+                    this.gridViewProductosGlobales.Visible = false;///********************///
+                    this.bloqueFormulario.Visible = false;
+                    this.bloqueBotones.Visible = false;
+                    this.botonAgregarProductos.Disabled = true;
+                    this.botonModificacionProductos.Disabled = true;
                     limpiarCampos();
                     habilitarCampos(false);
-                    this.bloqueFormulario.Visible = false;
-                    this.botonAceptarProducto.Visible = false;///******************
-                    this.botonCancelarProducto.Visible = false;///******************
-                    this.botonModificacionProductos.Disabled = true;//**********************
-                    this.bloqueGrid.Visible = true;
-                    this.gridViewProductosGlobales.Visible = true;///********************///
                     break;
                 case (int)Modo.Consultado://consultada una actividad
                     habilitarCampos(false);
                     this.botonAgregarProductos.Disabled = true;
                     this.botonModificacionProductos.Disabled = false;
-                    this.botonAceptarProducto.Visible = false;///******************
-                    this.botonCancelarProducto.Visible = false;///****************** 
                     this.gridViewProductosGlobales.Visible = false;///********************///
                     break;
                 default:
@@ -335,7 +337,6 @@ namespace ProyectoInventarioOET
         {
             modo = (int)Modo.Insercion;
             cambiarModo();
-            limpiarCampos();
             //cargarEstados();
         }
 
@@ -370,6 +371,11 @@ namespace ProyectoInventarioOET
         {
             this.gridViewProductosGlobales.PageIndex = e.NewPageIndex;
             this.gridViewProductosGlobales.DataBind();
+        }
+
+        protected void botonAceptarProductoGlobal_ServerClick(object sender, EventArgs e)
+        {
+
         }
 
 
