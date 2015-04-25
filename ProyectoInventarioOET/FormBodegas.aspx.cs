@@ -43,6 +43,7 @@ namespace ProyectoInventarioOET
                             cargarEstados();
                             cargarAnfitriones();
                             cargarEstaciones();
+                            cargarIntenciones();
                             setDatosConsultados();
 
                             seConsulto = false;
@@ -61,6 +62,7 @@ namespace ProyectoInventarioOET
                     limpiarCampos();
                     botonAgregarBodega.Disabled = false;
                     FieldsetBodegas.Visible = false;
+                    textoObligatorioBodega.Visible = false;
                     botonModificarBodega.Disabled = true;
                     botonAceptarBodega.Visible = false;
                     botonCancelarBodega.Visible = false;
@@ -70,6 +72,7 @@ namespace ProyectoInventarioOET
                 case (int)Modo.Insercion: //insertar
                     gridViewBodegas.Visible = false;
                     FieldsetBodegas.Visible = true;
+                    textoObligatorioBodega.Visible = true;
                     habilitarCampos(true);
                     botonAgregarBodega.Disabled = true;
                     botonModificarBodega.Disabled = true;
@@ -80,6 +83,7 @@ namespace ProyectoInventarioOET
                 case (int)Modo.Modificacion: //modificar
                     gridViewBodegas.Visible = false;
                     FieldsetBodegas.Visible = true;
+                    textoObligatorioBodega.Visible = true;
                     habilitarCampos(true);
                     llenarGrid();
                     botonAgregarBodega.Disabled = true;
@@ -92,6 +96,7 @@ namespace ProyectoInventarioOET
                 case (int)Modo.Consulta://consultar
                     gridViewBodegas.Visible = true;
                     FieldsetBodegas.Visible = false;
+                    textoObligatorioBodega.Visible = false;
                     botonAgregarBodega.Disabled = false;
                     botonConsultarBodega.Disabled = true;
                     botonAceptarBodega.Visible = false;
@@ -101,6 +106,7 @@ namespace ProyectoInventarioOET
                 case (int)Modo.Consultado://consultado, pero con los espacios bloqueados
                     gridViewBodegas.Visible = true;
                     FieldsetBodegas.Visible = true;
+                    textoObligatorioBodega.Visible = true;
                     botonAgregarBodega.Disabled = false;
                     botonConsultarBodega.Disabled = false;
                     botonAceptarBodega.Visible = false;
@@ -131,6 +137,7 @@ namespace ProyectoInventarioOET
 
         protected void gridViewBodegas_CambioPagina(Object sender, GridViewPageEventArgs e)
         {
+            llenarGrid();
             this.gridViewBodegas.PageIndex = e.NewPageIndex;
             this.gridViewBodegas.DataBind();
         }
@@ -220,7 +227,7 @@ namespace ProyectoInventarioOET
             Boolean operacionCorrecta = true;
             String codigoInsertado = "";
 
-            if (modo == 1)
+            if (modo == (int)Modo.Insercion)
             {
                 codigoInsertado = insertar();
 
@@ -234,7 +241,7 @@ namespace ProyectoInventarioOET
                 else
                     operacionCorrecta = false;
             }
-            else if (modo == 2)
+            else if (modo == (int)Modo.Modificacion)
             {
                 operacionCorrecta = modificar();
             }
@@ -329,12 +336,13 @@ namespace ProyectoInventarioOET
 
         protected Object[] obtenerDatosBodega()
         {
-            Object[] datos = new Object[5];
+            Object[] datos = new Object[6];
             datos[0] = 0;
             datos[1] = this.inputNombre.Value;
             datos[2] = this.comboBoxEmpresa.SelectedValue;
             datos[3] = this.comboBoxEstacion.SelectedValue;
             datos[4] = this.dropdownEstado.SelectedValue;
+            datos[5] = this.comboBoxIntencion.SelectedValue;
             return datos;
         }
 
@@ -346,6 +354,17 @@ namespace ProyectoInventarioOET
             foreach (DataRow fila in estados.Rows)
             {
                 dropdownEstado.Items.Add(new ListItem(fila[1].ToString(), fila[2].ToString()));
+            }
+        }
+
+        protected void cargarIntenciones()
+        {
+            comboBoxIntencion.Items.Clear();
+            comboBoxIntencion.Items.Add(new ListItem("", null));
+            DataTable intenciones = controladoraDatosGenerales.consultarIntenciones();
+            foreach (DataRow fila in intenciones.Rows)
+            {
+                comboBoxIntencion.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
             }
         }
 
@@ -377,6 +396,7 @@ namespace ProyectoInventarioOET
             this.comboBoxEstacion.SelectedValue = bodegaConsultada.Estacion;
             this.comboBoxEmpresa.SelectedValue = bodegaConsultada.Anfitriona;
             this.dropdownEstado.SelectedValue = Convert.ToString(bodegaConsultada.Estado);
+            this.comboBoxIntencion.SelectedValue = Convert.ToString(bodegaConsultada.IntencionUso);
         }
 
         protected void limpiarCampos()
@@ -385,6 +405,7 @@ namespace ProyectoInventarioOET
             this.comboBoxEstacion.SelectedValue = null;
             this.comboBoxEmpresa.SelectedValue = null;
             this.dropdownEstado.SelectedValue = null;
+            this.comboBoxIntencion.SelectedValue = null;
         }
 
         protected void habilitarCampos(bool habilitar)
@@ -393,6 +414,7 @@ namespace ProyectoInventarioOET
             this.comboBoxEmpresa.Enabled = habilitar;
             this.comboBoxEstacion.Enabled = habilitar;
             this.dropdownEstado.Enabled = habilitar;
+            this.comboBoxIntencion.Enabled = habilitar;
         }
 
         protected void botonAgregarBodega_ServerClick(object sender, EventArgs e)
@@ -403,6 +425,7 @@ namespace ProyectoInventarioOET
             cargarEstados();
             cargarAnfitriones();
             cargarEstaciones();
+            cargarIntenciones();
         }
 
         protected void botonModificarBodega_ServerClick(object sender, EventArgs e)
