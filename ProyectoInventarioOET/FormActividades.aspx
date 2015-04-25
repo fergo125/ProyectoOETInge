@@ -134,7 +134,7 @@
     </div>
 
     <!--Modal Desactivar-->
-    <div class="modal fade" id="modalDesactivar" tabindex="-1" role="dialog" aria-labelledby="modalDesactivarLabel" aria-hidden="true">
+    <div class="modal fade" id="modalDesactivar" runat="server" tabindex="-1" role="dialog" aria-labelledby="modalDesactivarLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
