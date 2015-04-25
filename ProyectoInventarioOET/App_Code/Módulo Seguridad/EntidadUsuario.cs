@@ -27,8 +27,8 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
             this.codigo = datos[0].ToString();
             this.usuario = datos[1].ToString();
             this.clave = datos[2].ToString();
-            this.descripcion = datos[3].ToString();
-            this.fechaCreacion = Convert.ToDateTime(datos[4].ToString());
+            this.fechaCreacion = Convert.ToDateTime(datos[3].ToString());
+            this.descripcion = datos[4].ToString();
             this.idEstacion = datos[5].ToString();
             this.anfitriona = datos[6].ToString();
             this.nombre = datos[7].ToString();
@@ -83,6 +83,10 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
             set { estado = value; }
         }
 
-
+        public int Nombre
+        {
+            get { return nombre; }
+            set { nombre = value; }
+        }
     }
 }
