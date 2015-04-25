@@ -18,6 +18,7 @@ namespace ProyectoInventarioOET
         private static int idProducto = 0; //Sirve para estar en modo consulta
         private static int resultadosPorPagina;
         private static Object[] idArray;
+        private EntidadProductoGlobal productoConsultado;
         private static ControladoraDatosGenerales controladoraDatosGenerales;
         private static ControladoraProductosGlobales controladora; 
         
@@ -112,17 +113,12 @@ namespace ProyectoInventarioOET
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Costo en colones";
+            columna.ColumnName = "Categoria";
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Costo en dolares";
-            tabla.Columns.Add(columna);
-
-            columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Estacion";
+            columna.ColumnName = "Estación";
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
@@ -136,31 +132,31 @@ namespace ProyectoInventarioOET
         protected void llenarGrid()
         {
             DataTable tabla = tablaProductosGlobales();
-            int indiceNuevoProducto = -1;
-            int i = 0;
+            int indiceNuevoProductoGlobal = -1;
+            int id = 0; // Es la posicion en donde se guardan los iD'  
 
             try
             {
                 // Cargar proyectos
                 Object[] datos = new Object[3];
-                DataTable bodegas = new DataTable(); //quitar una vez que ya está la controladora
-                //bodegas = controladora.consultarBodegas();
+                DataTable productosGlobales = new DataTable(); //quitar una vez que ya está la controladora
+                productosGlobales = controladora.consultarProductosGlobales();
 
-                if (bodegas.Rows.Count > 0)
+                if (productosGlobales.Rows.Count > 0)
                 {
-                    idArray = new Object[bodegas.Rows.Count];
-                    foreach (DataRow fila in bodegas.Rows)
+                    idArray = new Object[productosGlobales.Rows.Count];
+                    foreach (DataRow fila in productosGlobales.Rows)
                     {
-                        idArray[i] = fila[0];
+                        idArray[id] = fila[0];   // Se guarda el id para hacer las consultas individuales
                         datos[0] = fila[1].ToString();
                         datos[1] = fila[6].ToString();
                         datos[2] = fila[7].ToString();
                         tabla.Rows.Add(datos);
-                        /* if (bodegaConsultada != null && (fila[0].Equals(bodegaConsultada.Identificador)))
+                        if (productoConsultado != null && (fila[0].Equals(productoConsultado.Inv_Productos)))
                          {
-                             indiceNuevaBodega = i;
-                         }*/
-                        i++;
+                             indiceNuevoProductoGlobal = id; // Para marcar el producto consultado en el grid
+                         }
+                        id++;
                     }
                 }
                 else
@@ -173,10 +169,10 @@ namespace ProyectoInventarioOET
 
                 this.gridViewProductosGlobales.DataSource = tabla;
                 this.gridViewProductosGlobales.DataBind();
-                /* if (bodegaConsultada != null)
+                 if (productoConsultado != null)
                  {
-                     GridViewRow filaSeleccionada = this.gridViewProyecto.Rows[indiceNuevoProyecto];
-                 }*/
+                     GridViewRow filaSeleccionada = this.gridViewProductosGlobales.Rows[indiceNuevoProductoGlobal];
+                 }
             }
 
             catch (Exception e)
@@ -185,7 +181,52 @@ namespace ProyectoInventarioOET
             }
         }
 
-        
+
+        protected String insertar()
+        {
+            String codigo = "";
+            Object[] nuevoProductoGlobal = obtenerDatosProductosGlobales();
+
+            String[] error = controladora.insertar(nuevoProductoGlobal); 
+
+            codigo = Convert.ToString(error[3]);
+            mostrarMensaje(error[0], error[1], error[2]);
+            if (error[0].Contains("success"))
+            {
+                llenarGrid();
+            }
+            else
+            {
+                codigo = "";
+                modo = 1;
+            }
+
+            return codigo;
+        }
+
+        protected Boolean modificar()
+        {
+            Boolean res = true;
+
+            Object[] productoGlobalModificado = obtenerDatosProductosGlobales();
+            String id = productoConsultado.Inv_Productos;
+            productoGlobalModificado[9] = id;
+            String[] error = controladora.modificarDatos(productoConsultado, productoGlobalModificado);
+            mostrarMensaje(error[0], error[1], error[2]);
+
+            if (error[0].Contains("success"))// si fue exitoso
+            {
+                llenarGrid();
+                productoConsultado = controladora.consultar(productoConsultado.Inv_Productos);
+                modo = (int)Modo.Consultado;
+            }
+            else
+            {
+                res = false;
+                modo = (int)Modo.Consulta;
+            }
+            return res;
+        }
 
 
         protected void mostrarMensaje(String tipoAlerta, String alerta, String mensaje)

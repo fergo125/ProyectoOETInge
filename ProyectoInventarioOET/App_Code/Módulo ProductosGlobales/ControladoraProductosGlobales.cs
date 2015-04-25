@@ -17,42 +17,22 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
         }
 
 
-        public EntidadProductoGlobal consultarProductoGlobal(String id)
+        public EntidadProductoGlobal consultar(String id)
         {
             productoActual = controladoraBD.consultarProductoGlobal(id);
             return productoActual;
         }
 
-        public String[] insertarDatos(String nombre, String categoria, String unidades, String codigo, String codigoDeBarras, String estacion,
-            int estado, double costoColones, double costoDolares )
+        public String[] insertar(Object[] datosProductoGlobal)
         {
-            Object[] datosProductoGlobal = new Object[9];
-            datosProductoGlobal[0] = nombre;
-            datosProductoGlobal[1] = categoria;
-            datosProductoGlobal[2] = unidades;
-            datosProductoGlobal[3] = codigo;
-            datosProductoGlobal[4] = codigoDeBarras;
-            datosProductoGlobal[5] = estacion;
-            datosProductoGlobal[6] = estado;
-            datosProductoGlobal[7] = costoColones;
-            datosProductoGlobal[8] = costoColones;
+            //Logica de generacion de identificador
+            //datosProductoGlobal[9] = codigoAutogenerado();
             EntidadProductoGlobal productoGlobal = new EntidadProductoGlobal(datosProductoGlobal);
             return controladoraBD.insertarProductoGlobal(productoGlobal);
         }
 
-        public String[] modificarDatos(EntidadProductoGlobal productoGlobalViejo, String nombreModificado, String categoriaModificado, String unidadesModificado, String codigoModificado,
-            String codigoDeBarrasModificado, String estacionModificado, int estadoModificado, double costoColonesModificado, double costoDolaresModificado)
+        public String[] modificarDatos(EntidadProductoGlobal productoGlobalViejo, Object[] datosProductoGlobalModificado)
         {
-            Object[] datosProductoGlobalModificado = new Object[9];
-            datosProductoGlobalModificado[0] = nombreModificado;
-            datosProductoGlobalModificado[1] = categoriaModificado;
-            datosProductoGlobalModificado[2] = unidadesModificado;
-            datosProductoGlobalModificado[3] = codigoModificado;
-            datosProductoGlobalModificado[4] = codigoDeBarrasModificado;
-            datosProductoGlobalModificado[5] = estacionModificado;
-            datosProductoGlobalModificado[6] = estadoModificado;
-            datosProductoGlobalModificado[7] = costoColonesModificado;
-            datosProductoGlobalModificado[8] = costoColonesModificado;
             EntidadProductoGlobal productoGlobalModificado = new EntidadProductoGlobal(datosProductoGlobalModificado);
             return controladoraBD.modificarProductoGlobal(productoGlobalViejo, productoGlobalModificado);
         }
