@@ -89,7 +89,7 @@
 
              <div class="form-group col-lg-6">
                 <label for="inputImpuesto" class= "control-label" >Impuesto: </label>
-                 <input type="text" id="inputImpuesto" class="form-control" runat="server" style= "max-width: 100%"><br>
+                 <input type="text" id= "inputImpuesto" class="form-control" style="max-width:100%"  runat="server"><br>
             </div>
             </div>
             
@@ -137,10 +137,10 @@
         </div>
         <br/> <br/>
 
-<%--       <label for="UpdatePanelPruebas" class= "control-label" > Catálogo global de Productos </label>
+       <label for="UpdatePanelPruebas" class= "control-label" > Catálogo global de Productos </label>
        <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
-           <ContentTemplate>--%>
-                <asp:GridView ID="gridViewProductosGlobales" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewProductosGlobales_RowCommand" OnPageIndexChanging="gridViewProductosGlobales_PageIndexChanging" runat="server" AllowS PageSize="16" BorderColor="Transparent">
+           <ContentTemplate>
+                <asp:GridView ID="gridViewProductosGlobales" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewProductosGlobales_RowCommand" OnPageIndexChanging="gridViewProductosGlobales_PageIndexChanging" runat="server" AllowPaging="true" PageSize="16" BorderColor="Transparent">
                     <Columns>
                         <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-info" CommandName="Select" Text="Consultar">
                             <ControlStyle CssClass="btn btn-info"></ControlStyle>
@@ -152,21 +152,25 @@
                    <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
                    <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" />
               </asp:GridView>
-<%--         </ContentTemplate>
+         </ContentTemplate>
          <Triggers>
             <asp:AsyncPostBackTrigger ControlID="gridViewProductosGlobales" EventName="RowCommand" />
          </Triggers>
-      </asp:UpdatePanel>--%>
+      </asp:UpdatePanel>
    </div>
 
 
 
 <%--    Botones de aceptar y cancelar acción--%> 
-    <div class= "row" id="bloqueBotones" style="display:block;">
-        <div class="text-center">
-            <button id="botonAceptarProducto" class="btn btn-success-fozkr" type="button" runat="server"> Aceptar </button>
-            <a id="botonCancelarProducto" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cancelar</a>
+    <div class="col-lg-12" id="bloqueBotones" runat="server">
+        <div class =" row">
+            <div class="text-center">
+                <button runat="server" onserverclick="botonAceptarProductoGlobal_ServerClick" id="botonAceptarProductoGlobal" class="btn btn-success-fozkr" type="button"><i class="fa fa-pencil-square-o"></i>Enviar</button>
+                <a id="botonCancelarProductoGlobal" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cancelar</a>
+                
+            </div>
         </div>
+
     </div>
 
    
