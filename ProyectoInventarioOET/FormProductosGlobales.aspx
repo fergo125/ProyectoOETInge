@@ -28,10 +28,11 @@
     <br />
     <br />
 
-    <h3 id="tituloAccion"> Consulta de productos </h3>
+
 
     <!-- Fieldset que muestra el form para agregar un nuevo producto -->
     <div class= "row" id="bloqueFormulario" runat="server">
+<%--    <h3 id="tituloAccion"> Consulta de productos </h3>--%>
     <fieldset id= "FieldsetProductos" class="fieldset">
         <br />
 
@@ -58,7 +59,7 @@
             </div>
 
               <div class="form-group col-lg-6">
-                <label for="inputVendible" class= "control-label"> Vendible: </label>     
+                <label for="inputVendible" class= "control-label"> Intención de uso: </label>     
                 <asp:DropDownList id= "inputVendible" runat="server" CssClass="form-control" AutoPostBack="true"> </asp:DropDownList> 
             </div>
 
@@ -82,7 +83,7 @@
            
             <div class="row">
             <div class="form-group col-lg-6">
-                <label for="inputSaldo" class= "control-label" >Saldo: </label>
+                <label for="inputSaldo" class= "control-label"> Existencia global: </label>
                 <input type="text" id="inputSaldo" class="form-control" runat="server" style= "max-width: 100%"><br>
             </div>
 
@@ -99,14 +100,14 @@
             </div>
 
             <div class="form-group col-lg-6">
-                <label for="inputPrecioDolares" class= "control-label"> Precio (dolares): </label>      
+                <label for="inputPrecioDolares" class= "control-label"> Precio (dólares): </label>      
                 <input type="text" id= "inputPrecioDolares" class="form-control" runat="server" style= "max-width: 100%" ><br>
             </div>
             </div>
 
             <div class="row">
             <div class="form-group col-lg-6">
-                <label for="inputCostoColones" class= "control-label"> Costo (colones): </label>      
+                <label for="inputCostoColones" class= "control-label"> Costo (cólones): </label>      
                 <input type="text" id= "inputCostoColones" class="form-control" runat="server" style= "max-width: 100%"><br>
             </div>
 
@@ -136,10 +137,10 @@
         </div>
         <br/> <br/>
 
-<%--        <label for="UpdatePanelPruebas" class= "control-label" > Catálogo global de Productos </label>--%>
-        <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
-            <ContentTemplate>
-                <asp:GridView ID="gridViewProductosGlobales" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewProductosGlobales_RowCommand" OnPageIndexChanging="gridViewProductosGlobales_PageIndexChanging" runat="server" AllowPaging="True" PageSize="16" BorderColor="Transparent">
+<%--       <label for="UpdatePanelPruebas" class= "control-label" > Catálogo global de Productos </label>
+       <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
+           <ContentTemplate>--%>
+                <asp:GridView ID="gridViewProductosGlobales" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewProductosGlobales_RowCommand" OnPageIndexChanging="gridViewProductosGlobales_PageIndexChanging" runat="server" AllowS PageSize="16" BorderColor="Transparent">
                     <Columns>
                         <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-info" CommandName="Select" Text="Consultar">
                             <ControlStyle CssClass="btn btn-info"></ControlStyle>
@@ -151,11 +152,11 @@
                    <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
                    <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" />
               </asp:GridView>
-         </ContentTemplate>
+<%--         </ContentTemplate>
          <Triggers>
             <asp:AsyncPostBackTrigger ControlID="gridViewProductosGlobales" EventName="RowCommand" />
          </Triggers>
-      </asp:UpdatePanel>
+      </asp:UpdatePanel>--%>
    </div>
 
 

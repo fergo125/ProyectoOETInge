@@ -27,12 +27,16 @@ namespace ProyectoInventarioOET
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            
-            if (!IsPostBack) 
+
+            if (!IsPostBack)
             {
                 modo = (int)Modo.Inicial;
                 controladora = new ControladoraProductosGlobales();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
+                cambiarModo();
+            }
+            else {
+                modo = (int)Modo.Consulta;
                 cambiarModo();
             }
    
@@ -53,7 +57,7 @@ namespace ProyectoInventarioOET
         {
             inputVendible.Items.Clear();
             inputVendible.Items.Add(new ListItem("Consumo interno", null));
-            inputVendible.Items.Add(new ListItem("En venta", null));
+            inputVendible.Items.Add(new ListItem("Para venta", null));
             
         }
 
@@ -238,22 +242,27 @@ namespace ProyectoInventarioOET
             {///Probar si aun se pueden mostrar los campos con el JS********************
                 case (int)Modo.Inicial:
                     limpiarCampos();
+                    this.bloqueGrid.Visible = false;///********************
+                    this.gridViewProductosGlobales.Visible = false;///********************///
+                    this.bloqueFormulario.Visible = false;
                     this.botonAgregarProductos.Disabled = false;
                     this.botonModificacionProductos.Disabled = true;
-                    this.bloqueGrid.Visible = false;///********************
                     this.botonAceptarProducto.Visible = false;///******************
                     this.botonCancelarProducto.Visible = false;///******************                                       ///
-                    //cargarCategorias();
+                    //cargarCategorias();  // Fernando
                     cargarEstados();
                     cargarUnidades();
                     cargarVendible();
                     habilitarCampos(false);
                     break;
                 case (int)Modo.Insercion: //insertar
+                    this.bloqueGrid.Visible = false;///********************
+                    this.gridViewProductosGlobales.Visible = false;///********************///
+                    this.bloqueFormulario.Visible = true;
                     habilitarCampos(true);
+                    limpiarCampos();
                     this.botonAgregarProductos.Disabled = true;
                     this.botonModificacionProductos.Disabled = true;
-                    this.gridViewProductosGlobales.Visible = false;///********************
                     break;
                 case (int)Modo.Modificacion: //modificar
                     habilitarCampos(true);
