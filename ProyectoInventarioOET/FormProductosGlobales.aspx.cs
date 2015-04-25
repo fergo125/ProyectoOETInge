@@ -40,7 +40,6 @@ namespace ProyectoInventarioOET
         protected void cargarCategorias()
         {
             inpuCategoria.Items.Clear();
-            inpuCategoria.Items.Add(new ListItem("", null));
             DataTable categorias = controladora.consultarCategorias(); // Hacer un llamado al metodo de Fernando
             foreach (DataRow fila in categorias.Rows)
             {
@@ -52,14 +51,13 @@ namespace ProyectoInventarioOET
         {
             inputVendible.Items.Clear();
             inputVendible.Items.Add(new ListItem("Consumo interno", null));
-            inputVendible.Items.Add(new ListItem("Consumo interno", null));
+            inputVendible.Items.Add(new ListItem("En venta", null));
             
         }
 
         protected void cargarUnidades()
         {
             inputUnidades.Items.Clear();
-            inputUnidades.Items.Add(new ListItem("", null));
             DataTable unidades = controladoraDatosGenerales.consultarUnidades();
             foreach (DataRow fila in unidades.Rows)
             {
@@ -70,7 +68,6 @@ namespace ProyectoInventarioOET
         protected void cargarEstados()
         {
             inputEstado.Items.Clear();
-            inputEstado.Items.Add(new ListItem("", null));
             DataTable estados = controladoraDatosGenerales.consultarEstados();
             foreach (DataRow fila in estados.Rows)
             {
@@ -242,13 +239,15 @@ namespace ProyectoInventarioOET
                     limpiarCampos();
                     this.botonAgregarProductos.Disabled = false;
                     this.botonModificacionProductos.Disabled = true;
-                    habilitarCampos(false);
+
                     this.gridViewProductosGlobales.Visible = false;///********************
                     this.botonAceptarProducto.Visible = false;///******************
                     this.botonCancelarProducto.Visible = false;///******************                                       ///
                     //cargarCategorias();
                     cargarEstados();
                     cargarUnidades();
+                    cargarVendible();
+                    habilitarCampos(false);
                     break;
                 case (int)Modo.Insercion: //insertar
                     habilitarCampos(true);
@@ -307,6 +306,7 @@ namespace ProyectoInventarioOET
             this.inputUnidades.Enabled = resp;
             this.inpuCategoria.Enabled = resp;
             this.inputEstado.Enabled = resp;
+            this.inputVendible.Enabled = resp;
         }
         //*******************************************************************************
 

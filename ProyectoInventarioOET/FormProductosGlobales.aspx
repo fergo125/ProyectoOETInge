@@ -54,22 +54,22 @@
 
             <div class="form-group col-lg-6">
                 <label for="inputCategoria" class= "control-label"> Categoría: </label>     
-                <asp:DropDownList id= "inpuCategoria" runat="server" class="form-control"> </asp:DropDownList> 
+                <asp:DropDownList id= "inpuCategoria" runat="server" CssClass="form-control" AutoPostBack="true"> </asp:DropDownList> 
             </div>
 
               <div class="form-group col-lg-6">
                 <label for="inputVendible" class= "control-label"> Vendible: </label>     
-                <asp:DropDownList id= "inputVendible" runat="server" class="form-control"> </asp:DropDownList> 
+                <asp:DropDownList id= "inputVendible" runat="server" CssClass="form-control" AutoPostBack="true"> </asp:DropDownList> 
             </div>
 
             <div class="form-group col-lg-6">
                 <label for="inputUnidades" class= "control-label">Unidades: </label>
-                <asp:DropDownList ID="inputUnidades" runat="server" class="form-control"></asp:DropDownList>
+                <asp:DropDownList ID="inputUnidades" runat="server" Cssclass="form-control" AutoPostBack="true"></asp:DropDownList>
             </div>
 
             <div class="form-group col-lg-6">
                 <label for="inputEstado" class= "control-label" >Estado: </label>
-                <asp:DropDownList ID="inputEstado" runat="server" class="form-control"></asp:DropDownList>
+                <asp:DropDownList ID="inputEstado" runat="server" Cssclass="form-control" AutoPostBack="true"></asp:DropDownList>
             </div>
 
             <label class="text-danger text-center">Los campos con (*) son obligatorios</label>
@@ -78,7 +78,7 @@
 
 <%--        COLUMNA IZQUIERDA--%>
 
-        <div class="col-lg-7" style="background-color:yellow">
+        <div class="col-lg-7">
            
             <div class="row">
             <div class="form-group col-lg-6">
@@ -88,10 +88,11 @@
 
              <div class="form-group col-lg-6">
                 <label for="inputImpuesto" class= "control-label" >Impuesto: </label>
-                <asp:DropDownList ID="inputImpuesto" runat="server" class="form-control"></asp:DropDownList>
+                <asp:DropDownList ID="inputImpuesto" runat="server" style= "max-width: 100%" class="form-control"></asp:DropDownList>
             </div>
             </div>
             
+            <div class="row">
             <div class="form-group col-lg-6">
                 <label for="inputPrecioColones" class= "control-label"> Precio (colones): </label>      
                 <input type="text" id= "inputPrecioColones" class="form-control" runat="server" ><br>
@@ -101,7 +102,9 @@
                 <label for="inputPrecioDolares" class= "control-label"> Precio (dolares): </label>      
                 <input type="text" id= "inputPrecioDolares" class="form-control" runat="server" ><br>
             </div>
+            </div>
 
+            <div class="row">
             <div class="form-group col-lg-6">
                 <label for="inputCostoColones" class= "control-label"> Costo (colones): </label>      
                 <input type="text" id= "inputCostoColones" class="form-control" runat="server" ><br>
@@ -110,6 +113,7 @@
             <div class="form-group col-lg-6">
                 <label for="inputCostoDolares" class= "control-label"> Costo (dolares): </label>      
                 <input type="text" id= "inputCostoDolares" class="form-control" runat="server" ><br>
+            </div>
             </div>
         </div>
 
