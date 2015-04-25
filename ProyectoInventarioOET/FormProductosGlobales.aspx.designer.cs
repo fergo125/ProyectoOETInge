@@ -192,18 +192,6 @@ namespace ProyectoInventarioOET {
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputText inputCostoDolares;
         
-                
-
-
-        
- 
-
-
-
-
-        
-
-        
         /// <summary>
         /// Control bloqueGrid.
         /// </summary>
@@ -240,8 +228,6 @@ namespace ProyectoInventarioOET {
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gridViewProductosGlobales;
         
-
-        
         /// <summary>
         /// Control bloqueBotones.
         /// </summary>
@@ -268,24 +254,6 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlAnchor botonCancelarProductoGlobal;
-        
-        /// <summary>
-        /// Control botonAceptarProducto.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonAceptarProducto;
-        
-        /// <summary>
-        /// Control botonCancelarProducto.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor botonCancelarProducto;
         
         /// <summary>
         /// Control botonAceptarModalCancelar.
