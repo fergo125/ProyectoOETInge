@@ -17,7 +17,7 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
         }
 
 
-        public EntidadProductoGlobal consultar(String id)
+        public EntidadProductoGlobal consultarProductoGlobal(String id)
         {
             productoActual = controladoraBD.consultarProductoGlobal(id);
             return productoActual;
