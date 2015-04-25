@@ -59,7 +59,7 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
                 + productoGlobal.Estado + "','" + productoGlobal.Existencia + "','"
                 + productoGlobal.Impuesto + "','" + productoGlobal.PrecioColones + "','"
                 + productoGlobal.PrecioDolares + "','" + productoGlobal.CostoColones + "','"
-                + productoGlobal.CostoDolares + "','" + productoGlobal.Inv_Productos + "');";  
+                + productoGlobal.CostoDolares + "','" + productoGlobal.Inv_Productos + "');";
                 OracleDataReader reader = command.ExecuteReader();
 
                 res[0] = "success";
