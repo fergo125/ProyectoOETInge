@@ -20,7 +20,7 @@
             </asp:DropDownList>
         </div>
         <div class="col-lg-4"><br /><br />
-            <button runat="server" onserverclick="botonConsultarBodega_ServerClick" id="botonConsultarBodega" class=" btn btn-info" type="button" style="float: left" >Consultar Bodega</button>
+            <button runat="server" onserverclick="botonConsultarBodega_ServerClick" id="botonConsultarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" >Consultar Bodega</button>
         </div>
      </div>
     <br />

@@ -20,9 +20,9 @@
     </div>
 
       <!-- Cuerpo del Form -->
-    <button runat="server" onserverclick="botonAgregarBodega_ServerClick" id="botonAgregarBodega" class=" btn btn-info" type="button" style="float: left"><i></i>Nueva Bodega</button>
-    <button runat="server" onserverclick="botonModificarBodega_ServerClick"  id="botonModificarBodega" class=" btn btn-info" type="button" style="float: left"><i></i>Modificar Bodega</button>
-    <button runat="server" onserverclick="botonConsultarBodega_consultarBodegas"  id="botonConsultarBodega" class=" btn btn-info" type="button" style="float: left"><i></i>Consultar Bodegas</button>
+    <button runat="server" onserverclick="botonAgregarBodega_ServerClick" id="botonAgregarBodega" class=" btn btn-info-fozkr" type="button" style="float: left"><i></i>Nueva Bodega</button>
+    <button runat="server" onserverclick="botonModificarBodega_ServerClick"  id="botonModificarBodega" class=" btn btn-info-fozkr" type="button" style="float: left"><i></i>Modificar Bodega</button>
+    <button runat="server" onserverclick="botonConsultarBodega_consultarBodegas"  id="botonConsultarBodega" class=" btn btn-info-fozkr" type="button" style="float: left"><i></i>Consultar Bodegas</button>
     <br />
     <br />
     
