@@ -22,19 +22,25 @@
       <!-- Cuerpo del Form -->
     <button runat="server" onserverclick="botonAgregarBodega_ServerClick" id="botonAgregarBodega" class=" btn btn-info-fozkr" type="button" style="float: left"><i></i>Nueva Bodega</button>
     <button runat="server" onserverclick="botonModificarBodega_ServerClick"  id="botonModificarBodega" class=" btn btn-info-fozkr" type="button" style="float: left"><i></i>Modificar Bodega</button>
-    <button runat="server" onserverclick="botonConsultarBodega_consultarBodegas"  id="botonConsultarBodega" class=" btn btn-info-fozkr" type="button" style="float: left"><i></i>Consultar Bodegas</button>
+    <button runat="server" onserverclick="botonConsultarBodega_consultarBodegas" causesvalidation="false" id="botonConsultarBodega" class=" btn btn-info-fozkr" type="button" style="float: left"><i></i>Consultar Bodegas</button>
     <br />
     <br />
     
     <h3 id="tituloAccionBodegas"></h3>
     <br />
+    
 
     <div class= "row" id="bloqueFormulario" style="display:block">
- 
         <!-- Fieldset que muestra el form para agregar una nueva bodega -->
         <fieldset id= "FieldsetBodegas" runat="server" class="fieldset">
 
+            
+
             <div class= "col-lg-3">
+                <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
+                ControlToValidate=comboBoxEmpresa
+                ErrorMessage=""> 
+            </asp:RequiredFieldValidator>
                 <div class="form-group col-lg-12">
                     <label for="inputEmpresa" class="control-label">Empresa: </label>
                     <asp:DropDownList ID="comboBoxEmpresa" AutoPostBack="True" runat="server" CssClass="form-control">
@@ -42,6 +48,10 @@
                 </div>
             </div>
             <div class="col-lg-3">
+                <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
+                ControlToValidate=comboBoxEstacion
+                ErrorMessage=""> 
+            </asp:RequiredFieldValidator>
                 <div class="form-group col-lg-12">
                     <label for="inputEstacion" class="control-label">Estación: </label>
                     <asp:DropDownList ID="comboBoxEstacion" AutoPostBack="True" runat="server" CssClass="form-control">
@@ -49,6 +59,10 @@
                 </div>
             </div>
             <div class="col-lg-6">
+                <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
+                ControlToValidate=inputNombre
+                ErrorMessage=""> 
+            </asp:RequiredFieldValidator>
                 <div class= "form-group col-lg-12">
                     <label for="inputNombre" class= "control-label"> Nombre: </label>      
                     <input type="text" ID="inputNombre" runat="server" class= "form-control"><br>
@@ -57,6 +71,10 @@
         
             
             <div class="col-lg-3">
+             <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
+                ControlToValidate=comboBoxIntencion
+                ErrorMessage=""> 
+            </asp:RequiredFieldValidator>
                 <div class="form-group col-lg-12">
                     <label for="inputIntencion" class="control-label">Intención de uso: </label>
                     <asp:DropDownList ID="comboBoxIntencion" AutoPostBack="True" runat="server" CssClass="form-control">
@@ -66,6 +84,10 @@
 
 
             <div class="col-lg-3">
+            <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
+                ControlToValidate=dropdownEstado
+                ErrorMessage=""> 
+            </asp:RequiredFieldValidator>
                 <div class="form-group col-lg-12">
                         <label for="inputEstado" class="control-label">Estado: </label>
                     <asp:DropDownList ID="dropdownEstado" AutoPostBack="True" runat="server" CssClass="form-control">
@@ -140,8 +162,8 @@
                     ¿Está seguro que desea cancelar los cambios? Perdería todos los datos no guardados.
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="botonAceptarModalCancelar" class="btn btn-success-fozkr" runat="server" onserverclick="botonAceptarModalCancelar_ServerClick">Aceptar</button>
-                    <button type="button" id="botonCancelarModalCancelar" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
+                    <button type="button" id="botonAceptarModalCancelar" causesvalidation="false" class="btn btn-success-fozkr" runat="server" onserverclick="botonAceptarModalCancelar_ServerClick">Aceptar</button>
+                    <button type="button" id="botonCancelarModalCancelar" causesvalidation="false" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
                 </div>
             </div>
         </div>
