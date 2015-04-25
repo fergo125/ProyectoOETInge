@@ -15,7 +15,7 @@
 
     <!-- Título del Form -->
     <div>
-        <h2 id="TituloBodegas" runat="server">Bodegas</h2>
+        <h2 id="TituloBodegas" runat="server">Gestión de bodegas</h2>
         <hr />
     </div>
 
@@ -112,7 +112,7 @@
     <div class="col-lg-12" id="bloqueBotones" style="display:block">
         <div class =" row">
             <div class="text-center">
-                <button runat="server" onserverclick="botonAceptarBodega_ServerClick" id="botonAceptarBodega" class="btn btn-success-fozkr" type="button"><i class="fa fa-pencil-square-o"></i>Aceptar</button>
+                <button runat="server" onserverclick="botonAceptarBodega_ServerClick" id="botonAceptarBodega" class="btn btn-success-fozkr" type="button"><i class="fa fa-pencil-square-o"></i>Enviar</button>
                 <a id="botonCancelarBodega" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cancelar</a>
                 
             </div>
