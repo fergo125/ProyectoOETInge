@@ -29,7 +29,6 @@
     <div class= "row" id="bloqueFormulario" runat="server">
         <h3 id="tituloAccion"></h3>
         <br />
-<<<<<<< HEAD
 
         <div class= "col-lg-7">
 
@@ -110,7 +109,6 @@
                 <label for="inputCostoDolares" class= "control-label"> Costo (dolares): </label>      
                 <input type="text" id= "inputCostoDolares" class="form-control" runat="server" style= "max-width: 100%"><br>
             </div>
-=======
         <fieldset id= "FieldsetProductos" class="fieldset">
             <div class= "col-lg-7">
                 <div class="form-group col-lg-12" >
@@ -177,7 +175,6 @@
                         <input type="text" id= "inputCostoDolares" class="form-control" runat="server" style= "max-width: 100%"><br>
                     </div>
                 </div>
->>>>>>> aa184df06c98b71e171d9482d98d58f6b76dfbc6
             </div>
         </fieldset>
     </div>
@@ -195,17 +192,14 @@
         <br/>
         <br/>
 
-<<<<<<< HEAD
        <label for="UpdatePanelPruebas" class= "control-label" > Catálogo global de Productos </label>
        <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
            <ContentTemplate>
                 <asp:GridView ID="gridViewProductosGlobales" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewProductosGlobales_RowCommand" OnPageIndexChanging="gridViewProductosGlobales_PageIndexChanging" runat="server" AllowPaging="true" PageSize="16" BorderColor="Transparent">
-=======
         <%-- <label for="UpdatePanelPruebas" class= "control-label" > Catálogo global de Productos </label>
        <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
            <ContentTemplate>--%>
                 <asp:GridView ID="gridViewProductosGlobales" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewProductosGlobales_RowCommand" OnPageIndexChanging="gridViewProductosGlobales_PageIndexChanging" runat="server" PageSize="16" BorderColor="Transparent">
->>>>>>> aa184df06c98b71e171d9482d98d58f6b76dfbc6
                     <Columns>
                         <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Consultar">
                             <ControlStyle CssClass="btn btn-default"></ControlStyle>
@@ -224,7 +218,6 @@
       </asp:UpdatePanel>
    </div>
 
-<<<<<<< HEAD
 
 
 <%--    Botones de aceptar y cancelar acción--%> 
@@ -235,13 +228,11 @@
                 <a id="botonCancelarProductoGlobal" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cancelar</a>
                 
             </div>
-=======
     <%-- Botones de aceptar y cancelar acción --%> 
     <div class= "row" id="bloqueBotones" style="display:block;">
         <div class="text-center">
             <button id="botonAceptarProducto" class="btn btn-success-fozkr" type="button" runat="server">Enviar</button>
             <a id="botonCancelarProducto" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cancelar</a>
->>>>>>> aa184df06c98b71e171d9482d98d58f6b76dfbc6
         </div>
 
     </div>
