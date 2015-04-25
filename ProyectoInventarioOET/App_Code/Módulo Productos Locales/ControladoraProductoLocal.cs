@@ -4,16 +4,16 @@ using System.Linq;
 using System.Web;
 using System.Data;
 
-namespace ProyectoInventarioOET.App_Code.Módulo_Productos_Locales
+namespace ProyectoInventarioOET.Módulo_Productos_Locales
 {
     public class ControladoraProductoLocal
     {
-        private ControladoraBDProductoLocal controladoraBD;
+        private ControladoraBDProductosLocales controladoraBD;
         private EntidadProductoLocal productoActual; 
 
         public ControladoraProductoLocal()
         {
-            controladoraBD = new ControladoraBDProductoLocal();
+            controladoraBD = new ControladoraBDProductosLocales();
         }
 
 
@@ -23,7 +23,7 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Productos_Locales
             return productoActual;
         }
 
-        public String[] insertarDatos(String nombre, String categoria, String unidades, String codigo, String codigoDeBarras, String estacion,
+        /*public String[] insertarDatos(String nombre, String categoria, String unidades, String codigo, String codigoDeBarras, String estacion,
             int estado, double costoColones, double costoDolares)
         {
             Object[] datosProductoLocal = new Object[9];
@@ -55,11 +55,11 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Productos_Locales
             datosProductoLocalModificado[8] = costoColonesModificado;
             EntidadProductoLocal productoLocalModificado = new EntidadProductoLocal(datosProductoLocalModificado);
             return controladoraBD.modificarProductoLocal(productoLocalViejo, productoLocalModificado);
-        }
-
+        }*/
+        /*
         public String[] desactivarProductoLocal(EntidadProductoLocal productoLocal)
         {
-            /*desactiva una bodega de la base de datos*/
+            /*desactiva una bodega de la base de datos
             return controladoraBD.desactivarProductoGlobal(productoLocal);
         }
 
@@ -69,7 +69,7 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Productos_Locales
         public DataTable consultarProductosLocales()
         {
             /*consulta la información de todas los productos globales*/
-            return ControladoraBDProductosGlobales.consultarProductosLocales();
+            return ControladoraBDProductosLocales.consultarProductosLocales();
         }
     }
 }
