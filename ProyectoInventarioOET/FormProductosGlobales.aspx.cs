@@ -248,18 +248,18 @@ namespace ProyectoInventarioOET
         }
 
 
-        /* METODOS DE INTERFAZ RUTINARIOS
-         * Limpiar pantalla, Habilitar campos          */
-
+        // ************************************METODOS DE INTERFAZ RUTINARIOS
         protected void limpiarCampos()
         {
-            this.inputNombre.Value = "";
-            this.inputCodigo.Value = "";
-            this.inputCodigoBarras.Value = "";
+            this.inputNombre.Value = " ";
+            this.inputCodigo.Value = " ";
+            this.inputCodigoBarras.Value = " ";
+            this.inputCostoColones.Value = " ";
+            this.inputCostoDolares.Value = " ";
             this.inputEstacion.SelectedValue = null;
             this.inputEstado.SelectedValue = null;
             this.inputUnidades.SelectedValue = null;
-            this.inputE.SelectedValue = null;
+            this.inpuCategoria.SelectedValue = null;
         }
 
         protected void habilitarCampos(bool resp)
@@ -267,12 +267,16 @@ namespace ProyectoInventarioOET
             this.inputNombre.Disabled = !resp;
             this.inputCodigo.Disabled = !resp;
             this.inputCodigoBarras.Disabled = !resp;
+            this.inputCostoColones.Disabled = !resp;
+            this.inputCostoDolares.Disabled = !resp;
             this.inputUnidades.Enabled = resp;
             this.inpuCategoria.Enabled = resp;
             this.inputEstado.Enabled = resp;
+            this.inputEstacion.Enabled = resp;
         }
+        //*******************************************************************************
 
-
+        // *******************EVENTOS ***********************************
         protected void botonCancelarModalCancelar_ServerClick(object sender, EventArgs e)
         {
             limpiarCampos();
@@ -293,7 +297,10 @@ namespace ProyectoInventarioOET
 
         protected void botonConsultaProductos_ServerClick(object sender, EventArgs e)
         {
-
+            llenarGrid();
+            modo = (int)Modo.Consulta;
+            cambiarModo();
+            
         }
 
         protected void gridViewProductosGlobales_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -304,8 +311,8 @@ namespace ProyectoInventarioOET
                     GridViewRow filaSeleccionada = this.gridViewProductosGlobales.Rows[Convert.ToInt32(e.CommandArgument)];
                     String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewProductosGlobales.PageIndex * resultadosPorPagina)]);
                     //consultarActividad(codigo);
-                    modo = (int)Modo.Consultado;
-                    Response.Redirect("FormActividades.aspx");
+                    modo = (int)Modo.Consultado;  
+                    Response.Redirect("FormProductosGlobales.aspx"); //Se hace un PostBack
                     break;
             }
         }
