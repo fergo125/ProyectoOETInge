@@ -80,7 +80,7 @@
 <%--    Botones de aceptar y cancelar acción--%> 
     <div class= "row" id="bloqueBotones" visible="true" runat="server">
         <div class="text-center">
-            <button id="botonAceptar" class="btn btn-success-fozkr" type="button" runat="server" onserverclick="botonAgregarCategoria_ServerClick"> Aceptar </button>
+            <button id="botonAceptar" class="btn btn-success-fozkr" type="button" runat="server" > Aceptar </button>
             <a id="botonCancelar" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cancelar</a>
         </div>
     </div>

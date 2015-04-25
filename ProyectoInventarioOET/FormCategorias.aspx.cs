@@ -258,7 +258,7 @@ namespace ProyectoInventarioOET
             Boolean operacionCorrecta = true;
             String codigoInsertado = "";
 
-            if (modo == 1)
+            if (modo == 2)
             {
                 codigoInsertado = insertar();
 

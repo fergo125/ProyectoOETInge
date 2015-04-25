@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data;
+using ProyectoInventarioOET.Modulo_Categorias;
 
 namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
 {
@@ -53,8 +54,9 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
 
         public DataTable consultarCategorias()
         {
-            DataTable resp = new DataTable();
-            return resp;
+
+            ControladoraCategorias controladoraCategorias = new ControladoraCategorias();
+            return controladoraCategorias.consultarCategorias();
             //Hacer llamado a la controladora de fer ;
         }
     }

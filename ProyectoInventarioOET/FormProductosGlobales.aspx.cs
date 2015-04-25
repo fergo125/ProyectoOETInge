@@ -15,7 +15,6 @@ namespace ProyectoInventarioOET
     {
         enum Modo { Inicial, Consulta, Insercion, Modificacion, Consultado };
         private static int modo = (int) Modo.Inicial;
-        private static int idProducto = 0; //Sirve para estar en modo consulta
         private static int resultadosPorPagina;
         private static bool seConsulto = false;
         private static Object[] idArray;
@@ -47,17 +46,17 @@ namespace ProyectoInventarioOET
                     }
                     else
                     {
-                        presentarDatos();
+                        
                         cargarEstados();
                         cargarUnidades();
-                        //cargarCategorias();
+                        cargarVendible();
+                        cargarCategorias();
+                        presentarDatos();
                         seConsulto = false;
                     }
                 }
             }
             cambiarModo();
-            
-   
         }
 
         //*****************METODOS DE LLENADO DE DROPDOWNLIST*************************************
@@ -104,19 +103,19 @@ namespace ProyectoInventarioOET
         protected Object[] obtenerDatosProductosGlobales()
         {
             Object[] datos = new Object[14];
-            datos[0] = this.inputNombre.Value;
-            datos[1] = this.inputCodigo.Value;
-            datos[2] = this.inputCodigoBarras.Value;
-            datos[3] = this.inpuCategoria.SelectedValue;
-            datos[4] = this.inputVendible.SelectedValue;
+            datos[0] = this.inputCodigo.Value;
+            datos[1] = this.inputCodigoBarras.Value;
+            datos[2] = this.inputNombre.Value;
+            datos[3] = this.inputCostoColones.Value;
+            datos[4] = this.inpuCategoria.SelectedValue;
             datos[5] = this.inputUnidades.SelectedValue;
-            datos[6] = this.inputEstado.SelectedValue;
-            datos[7] = this.inputSaldo.Value;
-            datos[8] = this.inputImpuesto.Value;
-            datos[9] = this.inputPrecioColones.Value;
-            datos[10] = this.inputPrecioDolares.Value;
-            datos[11] = this.inputCostoColones.Value;
-            datos[12] = this.inputCostoDolares.Value;
+            datos[6] = this.inputSaldo.Value;
+            datos[7] = this.inputEstado.SelectedValue;
+            datos[8] = this.inputCostoDolares.Value;
+            datos[9] = this.inputImpuesto.Value;
+            datos[10] = this.inputVendible.SelectedValue;
+            datos[11] = this.inputPrecioColones.Value;
+            datos[12] = this.inputPrecioDolares.Value;
             datos[13] = 0; // Id que identifica
             return datos;
         }
@@ -209,7 +208,7 @@ namespace ProyectoInventarioOET
                 this.inputCodigo.Value = productoConsultado.Codigo;
                 this.inputCodigoBarras.Value = productoConsultado.CodigoDeBarras;
                 this.inpuCategoria.SelectedValue = productoConsultado.Categoria;
-                //this.inputUnidades.SelectedItem = productoConsultado.Unidades;
+                this.inputUnidades.SelectedValue = productoConsultado.Unidades.ToString();
                 this.inputSaldo.Value = productoConsultado.Existencia.ToString();
                 this.inputImpuesto.Value = productoConsultado.Impuesto.ToString();
                 this.inputPrecioColones.Value = productoConsultado.PrecioColones.ToString();
@@ -305,11 +304,11 @@ namespace ProyectoInventarioOET
                     this.bloqueBotones.Visible = false;
                     this.botonAgregarProductos.Disabled = false;
                     this.botonModificacionProductos.Disabled = true;                                ///
-                    //cargarCategorias();  // Fernando
                     limpiarCampos();
                     cargarEstados();
                     cargarUnidades();
                     cargarVendible();
+                    cargarCategorias();
                     habilitarCampos(false);
                     break;
                 case (int)Modo.Insercion: //insertar
@@ -320,7 +319,6 @@ namespace ProyectoInventarioOET
                     this.botonAgregarProductos.Disabled = true;
                     this.botonModificacionProductos.Disabled = true;
                     habilitarCampos(true);
-                    limpiarCampos();
                     break;
                 case (int)Modo.Modificacion: //modificar
                     this.bloqueGrid.Visible = false;///********************
@@ -399,7 +397,6 @@ namespace ProyectoInventarioOET
         {
             modo = (int)Modo.Insercion;
             cambiarModo();
-            //cargarEstados();
         }
 
         protected void botonModificacionProductos_ServerClick(object sender, EventArgs e)

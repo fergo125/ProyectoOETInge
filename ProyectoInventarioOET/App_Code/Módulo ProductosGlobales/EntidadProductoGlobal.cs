@@ -24,6 +24,10 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
         private String inv_productos; //Clave primaria es autogenerada en la BD
         private String estacion; //Desde la cual fue creado el producto
 
+        // Seguridad
+        private String usuario;
+        private DateTime fecha;
+
         public EntidadProductoGlobal (Object[] datos)
         {
             this.codigo = datos[0].ToString();
@@ -37,9 +41,11 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
             this.costoDolares = Convert.ToDouble(datos[8].ToString());
             this.impuesto = Convert.ToInt32(datos[9].ToString());
             this.intencion = datos[10].ToString();
-            this.precioColones = datos[11].ToString()!=""?Convert.ToDouble(datos[9].ToString()):0;
-            this.precioDolares = datos[12].ToString() != "" ? Convert.ToDouble(datos[10].ToString()) : 0;
+            this.precioColones = datos[11].ToString()!=""?Convert.ToDouble(datos[11].ToString()):0;
+            this.precioDolares = datos[12].ToString() != "" ? Convert.ToDouble(datos[12].ToString()) : 0;
             this.inv_productos = datos[13].ToString(); //Clave primaria es autogenerada en la BD
+            //this.usuario = datos[14].ToString();
+            //this.fecha = Convert.ToDateTime(datos[15].ToString());
         }
 
         public String Nombre 
@@ -130,6 +136,19 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
         {
             get { return estacion; }
             set { estacion = value; }
+        }
+
+        public String Usuario
+        {
+            get { return usuario; }
+            set { usuario = value; }
+        }
+
+        public DateTime Fecha
+        {
+            get { return fecha; }
+            set { fecha = value; }
+
         }
     }
 }
