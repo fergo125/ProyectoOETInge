@@ -51,7 +51,7 @@
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-brand">
                         <%-- Productos --%>
-                        <li id="linkFormProductos" class="dropdown">
+                        <li id="linkFormProductos" runat="server" class="dropdown">
                             <a runat="server" class="dropdown-toggle" data-toggle="dropdown" href="#">
                                 Productos<span class="caret"></span>
                             </a>
@@ -61,7 +61,7 @@
                             </ul>
                         </li>
                         <%-- Bodegas --%>
-                        <li id="linkFormBodegas" class="dropdown">
+                        <li id="linkFormBodegas" runat="server" class="dropdown">
                             <a runat="server" class="dropdown-toggle" data-toggle="dropdown" href="#">
                                 Bodegas<span class="caret"></span>
                             </a>
@@ -72,7 +72,7 @@
                             </ul>
                         </li>
                         <%-- Inventario --%>
-                        <li id="linkFormInventario" class="dropdown">
+                        <li id="linkFormInventario" runat="server" class="dropdown">
                             <a runat="server" class="dropdown-toggle" data-toggle="dropdown" href="#">
                                 Inventario<span class="caret"></span>
                             </a>
@@ -83,9 +83,9 @@
                             </ul>
                         </li>
                         <%-- Ventas --%>
-                        <li id="linkFormVentas"><a runat="server" href="~/FormVentas">Ventas</a></li>
+                        <li id="linkFormVentas" runat="server"><a runat="server" href="~/FormVentas">Ventas</a></li>
                         <%-- Administración --%>
-                        <li id="linkFormAdministracion" class="dropdown">
+                        <li id="linkFormAdministracion" runat="server" class="dropdown">
                             <a runat="server" class="dropdown-toggle" data-toggle="dropdown" href="#">
                                 Administración<span class="caret"></span>
                             </a>
@@ -96,21 +96,20 @@
                         </li>
                     </ul>
                     <%-- Login --%>
-                    <asp:LoginView runat="server" ViewStateMode="Disabled">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a runat="server" id="linkIniciarSesion" href="~/FormLogin">Iniciar sesión</a></li>
+                        <li><a runat="server" id="linkNombreUsuarioLogueado" href="~/" visible="false" title="Datos personales"></a></li>
+                        <li onclick="cerrarSesion"><a runat="server" id="linkCerrarSesion" onServerClick="cerrarSesion" href="~/FormLogin" visible="false">Cerrar sesión</a></li>
+                    </ul>
+                    <%--<asp:LoginView runat="server" ViewStateMode="Disabled">
                         <AnonymousTemplate>
-                            <ul class="nav navbar-nav navbar-right">
-                                <li><a runat="server" href="~/FormLogin">Iniciar sesión</a></li>
-                            </ul>
                         </AnonymousTemplate>
                         <LoggedInTemplate>
-                            <ul class="nav navbar-nav navbar-right">
-                                <li><a runat="server" href="~/Account/Manage" title="Datos personales"><%: Context.User.Identity.GetUserName()  %> !</a></li>
-                                <li>
-                                    <asp:LoginStatus runat="server" LogoutAction="Redirect" LogoutText="Cerrar sesión" LogoutPageUrl="~/" OnLoggingOut="Unnamed_LoggingOut" />
-                                </li>
-                            </ul>
+                            <li>
+                                <asp:LoginStatus runat="server" LogoutAction="Redirect" LogoutText="Cerrar sesión" LogoutPageUrl="~/" OnLoggingOut="Unnamed_LoggingOut" />
+                            </li>
                         </LoggedInTemplate>
-                    </asp:LoginView>
+                    </asp:LoginView>--%>
                 </div>
             </div>
         </div>

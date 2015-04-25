@@ -23,8 +23,11 @@ namespace ProyectoInventarioOET.App_Code
         private DataTable unidades;
         private DataTable estaciones;
         private DataTable anfitrionas;
+        private int tipoCambioCompra;
+        private int tipoCambioVenta;
+        private int impuesto;
         private DataTable intenciones;
-
+        
         public static ControladoraDatosGenerales Instanciar
         {
             get
@@ -42,12 +45,18 @@ namespace ProyectoInventarioOET.App_Code
             ControladoraBDEstaciones controladoraEstaciones = new ControladoraBDEstaciones();
             ControladoraBDAnfitrionas controladoraAnfitriones = new ControladoraBDAnfitrionas();
             ControladoraBDBodegas controladoraBDBodegas = new ControladoraBDBodegas();
+            ControladoraBDGeneral controladoraGeneral = new ControladoraBDGeneral();
 
             estados = controladoraEstados.consultarEstados();
             estadosActividad = controladoraEstados.consultarEstadosActividad();
             unidades = controladoraUnidades.consultarUnidades();
             estaciones = controladoraEstaciones.consultarEstaciones();
             anfitrionas = controladoraAnfitriones.consultarAnfitriones();
+            impuesto = controladoraGeneral.consultarImpuesto();
+
+            DataTable tipoCambio = controladoraGeneral.consultarTipoCambio();
+            tipoCambioCompra = Convert.ToInt32(tipoCambio.Rows[0][0]);
+            tipoCambioVenta = Convert.ToInt32(tipoCambio.Rows[0][1]);
             intenciones = controladoraBDBodegas.consultarIntenciones();
         }
 
@@ -85,6 +94,21 @@ namespace ProyectoInventarioOET.App_Code
         public String traduccionEstado(int valor)
         {
             return estados.Rows[valor-1][0].ToString();
+        }
+
+        public int impuestoVentas()
+        {
+            return impuesto;
+        }
+
+        public int dolarCompra()
+        {
+            return tipoCambioCompra;
+        }
+
+        public int dolarVenta()
+        {
+            return tipoCambioVenta;
         }
     }
 }
