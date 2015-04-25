@@ -196,7 +196,6 @@ namespace ProyectoInventarioOET
             }
             else if (modo == (int)Modo.Modificacion)
             {
-
                 resultado = controladoraActividades.modificarDatos(actividadConsultada, this.inputDescripcionActividad.Value.ToString(), Int32.Parse(this.comboBoxEstadosActividades.SelectedValue.ToString()));
 
                 if (resultado[1] == "Éxito")
