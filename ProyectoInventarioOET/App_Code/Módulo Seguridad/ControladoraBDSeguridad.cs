@@ -35,8 +35,24 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
                 }
                 usuario = new EntidadUsuario(datosConsultados);
             }
+            usuario.Perfil = consultarPerfilUsuario(usuario.Codigo);
 
             return usuario;
+        }
+
+        public String consultarPerfilUsuario(String codigoUsuario)
+        {
+            DataTable resultado = new DataTable();
+
+            OracleCommand command = conexionBD.CreateCommand();
+            command.CommandText = "SELECT NOMBRE FROM SEG_PERFIL WHERE (SEG_PERFIL = (SELECT SEG_PERFIL FROM SEG_PERFIL_USUARIO WHERE SEG_USUARIO = '" + codigoUsuario + "'))";
+            OracleDataReader reader = command.ExecuteReader();
+            resultado.Load(reader);
+            if(resultado.Rows.Count == 1)
+            {
+                return resultado.Rows[0][0].ToString();
+            }
+            return null;
         }
     }
 }

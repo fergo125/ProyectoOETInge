@@ -1,0 +1,29 @@
+-- Actualizacion de base de datos
+
+-- Agregar nuevos atributos a producto
+ALTER TABLE INV_PRODUCTOS
+  ADD
+  (
+    INTENCION VARCHAR2(35),
+    PRECIO_C  NUMBER(15,2),
+    PRECIO_D  NUMBER(15,2)
+  );
+
+-- Agregar nuevos atributos a bodega
+ALTER TABLE CAT_BODEGA
+  ADD
+    CAT_INTENCIONUSO NUMBER(2);
+
+CREATE TABLE CAT_INTENCIONUSO
+(
+  CAT_INTENCIONUSO  NUMBER(2),
+  NOMBRE            VARCHAR(35)
+);
+
+INSERT ALL
+  INTO CAT_INTENCIONUSO VALUES (0, 'Punto de Venta')
+  INTO CAT_INTENCIONUSO VALUES (1, 'Cocina')
+  INTO CAT_INTENCIONUSO VALUES (2, 'Almacenamiento')
+SELECT * FROM dual;
+
+SELECT * FROM CAT_INTENCIONUSO;

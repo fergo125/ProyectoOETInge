@@ -13,6 +13,7 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
         private String anfitriona;
         private String estacion;
         private int estado;
+        private int intencionUso;
 
 
         public EntidadBodega(Object[] datos)
@@ -22,6 +23,7 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
             this.anfitriona = datos[2].ToString();
             this.estacion = datos[3].ToString();
             this.estado = Convert.ToInt32(datos[4].ToString());
+            this.intencionUso = Convert.ToInt32(datos[5].ToString());
         }
 
         public String Codigo
@@ -59,6 +61,12 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
             //here's where the magic happens
             //in the meanwhile...
             return DateTime.Now.ToString("h:mm:ss"); ;
+        }
+
+        public int IntencionUso
+        {
+            get { return intencionUso; }
+            set { intencionUso = value; } 
         }
 
 

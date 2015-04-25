@@ -20,6 +20,7 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
         private String anfitriona;
         private String nombre;
         private int estado;
+        private String perfil;
 
         // Constructor
         public EntidadUsuario(Object[] datos)
@@ -87,6 +88,12 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
         {
             get { return estado; }
             set { estado = value; }
+        }
+
+        public String Perfil
+        {
+            get { return perfil; }
+            set { perfil = value; }
         }
 
     }
