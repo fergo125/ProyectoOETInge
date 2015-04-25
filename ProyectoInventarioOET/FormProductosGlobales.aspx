@@ -31,7 +31,7 @@
     <h3 id="tituloAccion"> Consulta de productos </h3>
 
     <!-- Fieldset que muestra el form para agregar un nuevo producto -->
-    <div class= "row" id="bloqueFormulario" style="display:block">
+    <div class= "row" id="bloqueFormulario" runat="server">
     <fieldset id= "FieldsetProductos" class="fieldset">
         <br />
 
@@ -125,7 +125,7 @@
       <!-- Gridview de consultar -->
     <br/>
 
-     <div class="col-lg-12" id="bloqueGrid">
+     <div class="col-lg-12" id="bloqueGrid" runat="server">
        
          <div class="row">
             <label class= "col-lg-1"> Buscar: </label>

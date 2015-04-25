@@ -240,7 +240,7 @@ namespace ProyectoInventarioOET
                     limpiarCampos();
                     this.botonAgregarProductos.Disabled = false;
                     this.botonModificacionProductos.Disabled = true;
-                    //this.gridViewProductosGlobales.Visible = false;///********************
+                    this.bloqueGrid.Visible = false;///********************
                     this.botonAceptarProducto.Visible = false;///******************
                     this.botonCancelarProducto.Visible = false;///******************                                       ///
                     //cargarCategorias();
@@ -264,10 +264,12 @@ namespace ProyectoInventarioOET
                 case (int)Modo.Consulta://consultar
                     limpiarCampos();
                     habilitarCampos(false);
+                    this.bloqueFormulario.Visible = false;
                     this.botonAceptarProducto.Visible = false;///******************
                     this.botonCancelarProducto.Visible = false;///******************
                     this.botonModificacionProductos.Disabled = true;//**********************
-                    this.gridViewProductosGlobales.Visible = true;///********************
+                    this.bloqueGrid.Visible = true;
+                    this.gridViewProductosGlobales.Visible = true;///********************///
                     break;
                 case (int)Modo.Consultado://consultada una actividad
                     habilitarCampos(false);
