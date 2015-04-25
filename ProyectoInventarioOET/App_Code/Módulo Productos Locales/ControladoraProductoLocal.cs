@@ -21,6 +21,11 @@ namespace ProyectoInventarioOET.Módulo_Productos_Locales
             return controladoraBD.consultarProductosDeBodega(idBodega);
         }
 
+        public DataTable consultarProductoDeBodega(String idBodega, String idProducto)
+        {
+            return controladoraBD.consultarProductoDeBodega(idBodega, idProducto);
+        }
+
 
         /*public EntidadProductoLocal consultarProductoLocal(String id)
         {

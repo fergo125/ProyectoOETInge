@@ -28,7 +28,7 @@ namespace ProyectoInventarioOET.Módulo_Actividades
         {
             /*crea una nueva actividad dado un vector con los datos de la misma*/
             Object[] datosActividad = new Object[3];
-            datosActividad[0] = DateTime.Now.ToString("h:mm:ss");
+            datosActividad[0] = "";
             datosActividad[1] = descripcion;
             datosActividad[2] = estado;
 

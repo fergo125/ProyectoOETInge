@@ -42,6 +42,7 @@ namespace ProyectoInventarioOET.Módulo_Actividades
         public string[] insertarActividad(EntidadActividad actividad)
         {
             String[] res = new String[4];
+            actividad.Codigo = generarID();
             res[3] = actividad.Codigo.ToString();
             try
             {
@@ -54,7 +55,7 @@ namespace ProyectoInventarioOET.Módulo_Actividades
 
 
                 res[0] = "success";
-                res[1] = "Exito";
+                res[1] = "Éxito";
                 res[2] = "Actividad Agregada";
             }
             catch (SqlException e)
@@ -77,7 +78,7 @@ namespace ProyectoInventarioOET.Módulo_Actividades
                     + "',ESTADO = '" + (short)nuevaActividad.Estado + "' WHERE DESCRIPCION = '" + actividad.Descripcion + "' AND ESTADO = " + actividad.Estado;
                 OracleDataReader reader = command.ExecuteReader();
                 res[0] = "success";
-                res[1] = "Exito";
+                res[1] = "Éxito";
                 res[2] = "Actividad modificada";
             }
             catch (SqlException e)
@@ -101,7 +102,7 @@ namespace ProyectoInventarioOET.Módulo_Actividades
                 //adaptadorBodega.Update();
 
                 res[0] = "success";
-                res[1] = "Exito";
+                res[1] = "Éxito";
                 res[2] = "Bodega eliminado";
             }
             catch (SqlException e)

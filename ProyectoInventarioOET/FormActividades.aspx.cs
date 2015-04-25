@@ -21,8 +21,7 @@ namespace ProyectoInventarioOET
         private static EntidadActividad actividadConsultada;
         private static ControladoraActividades controladoraActividades;
         private static Boolean seConsulto = false;
-        private static int pagina;
-        private static Boolean paginaCambiada = false;
+
 
 
         protected void Page_Load(object sender, EventArgs e)
@@ -48,7 +47,6 @@ namespace ProyectoInventarioOET
                     {
                         cargarEstados();
                         setDatosConsultados();
-
                         seConsulto = false;
                     }
                 }
@@ -65,7 +63,8 @@ namespace ProyectoInventarioOET
             {
                 case "Select":
                     GridViewRow filaSeleccionada = this.gridViewActividades.Rows[Convert.ToInt32(e.CommandArgument)];
-                    String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewActividades.PageIndex * resultadosPorPagina)]);
+                    //String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewActividades.PageIndex * resultadosPorPagina)]);
+                    String codigo = filaSeleccionada.Cells[2].Text.ToString();
                     consultarActividad(codigo);
                     modo = (int)Modo.Consultado;
                     Response.Redirect("FormActividades.aspx");
@@ -132,14 +131,10 @@ namespace ProyectoInventarioOET
 
                 this.gridViewActividades.DataSource = tabla;
                 this.gridViewActividades.DataBind();
-                if (actividadConsultada != null)
-                {
-                    GridViewRow filaSeleccionada = this.gridViewActividades.Rows[indiceNuevaActividad];
-                }
             }
             catch (Exception e)
             {
-                mostrarMensaje("warning", "Alerta", "No hay conexión a la base de datos.");
+                mostrarMensaje("warning", "Alerta", "Error al llenar la tabla de Actividades.");
             }
         }
 
@@ -204,7 +199,7 @@ namespace ProyectoInventarioOET
 
                 resultado = controladoraActividades.modificarDatos(actividadConsultada, this.inputDescripcionActividad.Value.ToString(), Int32.Parse(this.comboBoxEstadosActividades.SelectedValue.ToString()));
 
-                if (resultado[1] == "Exito")
+                if (resultado[1] == "Éxito")
                 {
                     codigoInsertado = actividadConsultada.Codigo;
                     operacionCorrecta = true;
@@ -283,6 +278,7 @@ namespace ProyectoInventarioOET
                     this.codigoInternoActividad.Visible = false;
                     this.labelCodigoInterno.Visible = false;
                     this.codigoInternoActividad.Disabled = true;
+                    this.tituloBienvenidaActividades.Visible = true;
                     break;
                 case (int)Modo.Insercion: //insertar
                     habilitarCampos(true);
@@ -295,18 +291,21 @@ namespace ProyectoInventarioOET
                     this.botonCancelarActividad.Visible = true;  
                     this.codigoInternoActividad.Visible = false;
                     this.labelCodigoInterno.Visible = false;
+                    this.tituloBienvenidaActividades.Visible = false;
                     break;
                 case (int)Modo.Modificacion: //modificar
                     habilitarCampos(true);
+                    llenarGrid();
                     this.botonAgregarActividades.Disabled = true;
                     this.botonModificacionActividades.Disabled = true;
                     this.FieldsetActividad.Visible = true;
                     this.labelTextoObligatorioActividad.Visible = true;
-                    this.gridViewActividades.Visible = false;
+                    this.gridViewActividades.Visible = true;
                     this.botonAceptarActividad.Visible = true;
                     this.botonCancelarActividad.Visible = true;
                     this.codigoInternoActividad.Visible = false;
                     this.labelCodigoInterno.Visible = false;
+                    this.tituloBienvenidaActividades.Visible = false;
                     break;
                 case (int)Modo.Consulta://consultar
                     limpiarCampos();
@@ -318,19 +317,22 @@ namespace ProyectoInventarioOET
                     this.botonCancelarActividad.Visible = false;
                     this.botonModificacionActividades.Disabled = true;
                     this.gridViewActividades.Visible = true;
+                    this.tituloBienvenidaActividades.Visible = false;
                     break;
                 case (int)Modo.Consultado://consultada una actividad
                     habilitarCampos(false);
+                    llenarGrid();
                     this.FieldsetActividad.Visible = true;
                     this.botonAgregarActividades.Disabled = false;
                     this.botonModificacionActividades.Disabled = false;
                     this.labelTextoObligatorioActividad.Visible = false;
                     this.botonAceptarActividad.Visible = false;
                     this.botonCancelarActividad.Visible = false;
-                    this.gridViewActividades.Visible = false;
+                    this.gridViewActividades.Visible = true;
                     this.codigoInternoActividad.Visible = true;
                     this.labelCodigoInterno.Visible = true;
                     this.codigoInternoActividad.Disabled = true;
+                    this.tituloBienvenidaActividades.Visible = false;
                     break;
                 default:
 
