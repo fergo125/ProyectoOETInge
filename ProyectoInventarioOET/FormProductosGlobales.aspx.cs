@@ -179,6 +179,18 @@ namespace ProyectoInventarioOET
             }
         }
 
+        protected void presentarDatos(){
+            if (productoConsultado != null)
+            {
+                this.inputNombre.Value = productoConsultado.Nombre;
+                this.inputCodigo.Value = productoConsultado.Codigo;
+                this.inputCodigoBarras.Value = productoConsultado.CodigoDeBarras;
+                this.inputCostoColones.Value = productoConsultado.CostoColones.ToString();
+                this.inputCostoDolares.Value = productoConsultado.CostoDolares.ToString();
+            }
+    
+        }
+
 
         protected String insertar()
         {
@@ -215,7 +227,7 @@ namespace ProyectoInventarioOET
             if (error[0].Contains("success"))// si fue exitoso
             {
                 llenarGrid();
-                productoConsultado = controladora.consultar(productoConsultado.Inv_Productos);
+                //productoConsultado = controladora.consultarProductosGlobales(productoConsultado.Inv_Productos);
                 modo = (int)Modo.Consultado;
             }
             else
@@ -225,6 +237,22 @@ namespace ProyectoInventarioOET
             }
             return res;
         }
+
+        protected void consultar(String id)
+        {
+            try
+            {
+                productoConsultado = controladora.consultarProductoGlobal(id);
+                modo = (int)Modo.Consulta;
+            }
+            catch
+            {
+                productoConsultado = null;
+                modo = (int)Modo.Consultado;
+            }
+            cambiarModo();
+        }
+
 
 
         protected void mostrarMensaje(String tipoAlerta, String alerta, String mensaje)
@@ -274,17 +302,17 @@ namespace ProyectoInventarioOET
                     this.botonModificacionProductos.Disabled = true;
                     this.gridViewProductosGlobales.Visible = false;///********************
                     break;
-                case (int)Modo.Consulta://consulta de un producto especifico
-                    this.bloqueGrid.Visible = false;///********************
-                    this.gridViewProductosGlobales.Visible = false;///********************///
+                case (int)Modo.Consulta://consulta de todos los productos
+                    this.bloqueGrid.Visible = true;///********************
+                    this.gridViewProductosGlobales.Visible = true;///********************///
                     this.bloqueFormulario.Visible = false;
                     this.bloqueBotones.Visible = false;
-                    this.botonAgregarProductos.Disabled = true;
+                    this.botonAgregarProductos.Disabled = false;
                     this.botonModificacionProductos.Disabled = true;
                     limpiarCampos();
                     habilitarCampos(false);
                     break;
-                case (int)Modo.Consultado://consultada una actividad
+                case (int)Modo.Consultado://consulta de un producto especifico
                     habilitarCampos(false);
                     this.botonAgregarProductos.Disabled = true;
                     this.botonModificacionProductos.Disabled = false;
@@ -318,12 +346,12 @@ namespace ProyectoInventarioOET
             this.inputCostoDolares.Disabled = !resp;
             this.inputPrecioColones.Disabled = !resp;
             this.inputPrecioDolares.Disabled = !resp;
-            this.inputImpuesto.Disabled = !resp;
+            this.inputImpuesto.Enabled = !resp;
             this.inputSaldo.Disabled = !resp;
-            this.inputUnidades.Enabled = resp;
-            this.inpuCategoria.Enabled = resp;
-            this.inputEstado.Enabled = resp;
-            this.inputVendible.Enabled = resp;
+            this.inputUnidades.Enabled = !resp;
+            this.inpuCategoria.Enabled = !resp;
+            this.inputEstado.Enabled = !resp;
+            this.inputVendible.Enabled = !resp;
         }
         //*******************************************************************************
 
@@ -360,7 +388,7 @@ namespace ProyectoInventarioOET
                 case "Select":
                     GridViewRow filaSeleccionada = this.gridViewProductosGlobales.Rows[Convert.ToInt32(e.CommandArgument)];
                     String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewProductosGlobales.PageIndex * resultadosPorPagina)]);
-                    //consultarActividad(codigo);
+                    consultar(codigo);
                     modo = (int)Modo.Consultado;  
                     Response.Redirect("FormProductosGlobales.aspx"); //Se hace un PostBack
                     break;
