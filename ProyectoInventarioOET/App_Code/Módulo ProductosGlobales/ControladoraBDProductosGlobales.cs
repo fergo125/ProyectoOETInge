@@ -171,8 +171,8 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
                 OracleCommand command = conexionBD.CreateCommand();
                 command.CommandText = "SELECT P.INV_PRODUCTOS, P.NOMBRE, P.CODIGO, P.CAT_CATEGORIAS, P.ESTADO  "
                 + "FROM INV_PRODUCTOS P"
-                + "WHERE P.NOMBRE = " + " '" + query + "' "
-                + "OR P.CODIGO ";
+                + "WHERE P.NOMBRE LIKE " + " '" + query + "%'"
+                + "OR P.CODIGO LIKE"     + " '" + query + "%'";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
             }
