@@ -8,8 +8,15 @@ using System.Text;
 
 namespace ProyectoInventarioOET.Módulo_Actividades
 {
+    /*
+     * ???
+     * Comunicación con la Base de Datos.
+     */
     class ControladoraBDActividades : ControladoraBD
     {
+        /*
+         * ???
+         */
         public EntidadActividad consultarActividad(String codigo)
         {
             DataTable resultado = new DataTable();
@@ -34,11 +41,15 @@ namespace ProyectoInventarioOET.Módulo_Actividades
                     actividadConsultada = new EntidadActividad(datosConsultados);
                 }
             }
-            catch (Exception e) { }
-
+            catch (Exception e)
+            {
+            }
             return actividadConsultada;
         }
 
+        /*
+         * ???
+         */
         public string[] insertarActividad(EntidadActividad actividad)
         {
             String[] res = new String[4];
@@ -68,6 +79,9 @@ namespace ProyectoInventarioOET.Módulo_Actividades
             return res;
         }
 
+        /*
+         * ???
+         */
         public string[] modificarActividad(EntidadActividad actividad, EntidadActividad nuevaActividad)
         {
             String[] res = new String[3];
@@ -93,6 +107,9 @@ namespace ProyectoInventarioOET.Módulo_Actividades
             return res;
         }
 
+        /*
+         * ???
+         */
         public string[] desactivarActividad(EntidadActividad actividad)
         {
             String[] res = new String[3];
@@ -114,10 +131,12 @@ namespace ProyectoInventarioOET.Módulo_Actividades
             return res;
         }
 
+        /*
+         * ???
+         */
         public DataTable consultarActividades()
         {
             DataTable resultado = new DataTable();
-
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
@@ -130,7 +149,6 @@ namespace ProyectoInventarioOET.Módulo_Actividades
                 resultado = null;
             }
             return resultado;
-
         }
     }
 }
