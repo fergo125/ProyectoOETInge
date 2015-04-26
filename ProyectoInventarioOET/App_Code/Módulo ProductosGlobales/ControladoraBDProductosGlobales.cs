@@ -77,9 +77,43 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
             return res;
         }
 
-        public string[] modificarProductoGlobal(EntidadProductoGlobal bodegaVieja, EntidadProductoGlobal bodegaNueva)
+        public string[] modificarProductoGlobal(EntidadProductoGlobal productoGlobalViejo, EntidadProductoGlobal productoGlobalNuevo)
         {
-            throw new NotImplementedException();
+            String[] res = new String[4];
+            res[3] = productoGlobalViejo.Inv_Productos.ToString();
+            try
+            {
+                DataTable resultado = new DataTable();
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "UPDATE INV_PRODUCTOS "
+                                    + "SET ESTADO = " + productoGlobalNuevo.Categoria.ToString()
+                                    + "SET ESTADO = " + productoGlobalNuevo.Codigo.ToString()
+                                    + "SET ESTADO = " + productoGlobalNuevo.CodigoDeBarras.ToString()
+                                    + "SET ESTADO = " + productoGlobalNuevo.CostoColones.ToString()
+                                    + "SET ESTADO = " + productoGlobalNuevo.CostoDolares.ToString()
+                                    + "SET ESTADO = " + productoGlobalNuevo.Estado.ToString()
+                                    + "SET ESTADO = " + productoGlobalNuevo.Existencia.ToString()
+                                    + "SET ESTADO = " + productoGlobalNuevo.Impuesto.ToString()
+                                    + "SET ESTADO = " + productoGlobalNuevo.Intencion.ToString()
+                                    + "SET ESTADO = " + productoGlobalNuevo.Nombre.ToString()
+                                    + "SET ESTADO = " + productoGlobalNuevo.PrecioColones.ToString()
+                                    + "SET ESTADO = " + productoGlobalNuevo.PrecioDolares.ToString()
+                                    + "SET ESTADO = " + productoGlobalNuevo.Unidades.ToString()
+                                    + "WHERE INV_PRODUCTOS = " + productoGlobalViejo.Inv_Productos;
+                OracleDataReader reader = command.ExecuteReader();
+
+                res[0] = "success";
+                res[1] = "Exito";
+                res[2] = "Producto Desactivado";
+            }
+            catch (SqlException e)
+            {
+                // Como la llave es generada se puede volver a intentar
+                res[0] = "danger";
+                res[1] = "Fallo en la operacion";
+                res[2] = "Intente nuevamente";
+            }
+            return res;
         }
 
         public string[] desactivarProductoGlobal(EntidadProductoGlobal productoGlobal)
