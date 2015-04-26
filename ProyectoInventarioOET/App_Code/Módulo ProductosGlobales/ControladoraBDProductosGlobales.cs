@@ -143,7 +143,7 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
             return res;
         }
 
-        internal static System.Data.DataTable consultarProductosGlobales()
+        public DataTable consultarProductosGlobales()
         {
             DataTable resultado = new DataTable();
 
@@ -161,5 +161,27 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
             }
             return resultado;
         }
+
+        public DataTable consultarProductosGlobalesBusqueda(String query)
+        {
+            DataTable resultado = new DataTable();
+
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "SELECT P.INV_PRODUCTOS, P.NOMBRE, P.CODIGO, P.CAT_CATEGORIAS, P.ESTADO  "
+                + "FROM INV_PRODUCTOS P"
+                + "WHERE P.NOMBRE = " + " '" + query + "' "
+                + "OR P.CODIGO ";
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
+            }
+            catch (Exception e)
+            {
+                resultado = null;
+            }
+            return resultado;
+        }
+
     }
 }
