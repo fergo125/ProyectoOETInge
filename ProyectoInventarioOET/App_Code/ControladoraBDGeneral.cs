@@ -3,21 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data;
-using ProyectoInventarioOET.DataSetGeneralTableAdapters;
 using Oracle.DataAccess.Client; //para conectarse a la base de datos manualmente con strings
 
-/*
- * Controladora del conjunto de datos de las aspectos generales del sistema.
- * Tablas muy pequeñas como para implementar una controladora propia.
- * Comunicación con la Base de Datos.
- */
 namespace ProyectoInventarioOET.App_Code
 {
+    /*
+     * Controladora del conjunto de datos de las aspectos generales del sistema.
+     * Tablas muy pequeñas como para implementar una controladora propia.
+     * Comunicación con la Base de Datos.
+     */
     public class ControladoraBDGeneral : ControladoraBD
     {
-        public ControladoraBDGeneral() { }
+        /*
+         * Constructor.
+         */
+        public ControladoraBDGeneral()
+        {
+        }
 
-        // Retorna el impuesto de venta
+        /*
+         * Retorna el impuesto de venta
+         */
         public int consultarImpuesto()
         {
             DataTable resultado = new DataTable();
@@ -28,6 +34,9 @@ namespace ProyectoInventarioOET.App_Code
             return Convert.ToInt32(resultado.Rows[0][0]);
         }
 
+        /*
+         * ???
+         */
         public DataTable consultarTipoCambio()
         {
             DataTable resultado = new DataTable();
