@@ -5,14 +5,19 @@ using System.Web;
 
 namespace ProyectoInventarioOET.Módulo_Actividades
 {
+    /*
+     * ???
+     */
     public class EntidadActividad
     {
+        //Atributos
+        private String codigo;          //???
+        private String descripcion;     //???
+        private int estado;             //???
 
-        private String codigo;
-        private String descripcion;
-        private int estado;
-
-
+        /*
+         * Constructor.
+         */
         public EntidadActividad(Object[] datos)
         {
             this.codigo = datos[0].ToString();
@@ -20,24 +25,34 @@ namespace ProyectoInventarioOET.Módulo_Actividades
             this.estado = Convert.ToInt32(datos[2].ToString());
         }
 
+        /*
+         * ???
+         */
         public String Codigo
         {
             get { return codigo; }
             set { codigo = value; }
         }
 
+        /*
+         * ???
+         */
         public String Descripcion
         {
             get { return descripcion; }
             set { descripcion = value; }
         }
 
+        /*
+         * ???
+         */
         public int Estado
         {
             get { return estado; }
             set { estado = value; }
         }
 
+        //TODO: eliminar este método.
         private String autogenerarCodigo()
         {
             //here's where the magic happens
