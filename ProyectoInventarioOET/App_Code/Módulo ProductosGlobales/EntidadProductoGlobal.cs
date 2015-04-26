@@ -7,7 +7,7 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
 {
     public class EntidadProductoGlobal
     {
-
+        
         private String nombre;
         private String codigo;
         private String codigoDeBarras;

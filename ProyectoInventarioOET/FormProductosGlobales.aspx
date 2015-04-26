@@ -204,7 +204,7 @@
         }
     </script>
 
-
+    <%--MODAL CANCELAR--%>
     <div class="modal fade" id="modalCancelar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -216,8 +216,8 @@
                     ¿Está seguro que desea cancelar los cambios? Perdería todos los datos no guardados.
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="botonAceptarModalCancelar" class="btn btn-success-fozkr" runat="server">Aceptar</button>
-                    <button type="button" id="botonCancelarModalCancelar" class="btn btn-danger-fozkr" data-dismiss="modal" runat="server" onserverclick="botonCancelarModalCancelar_ServerClick">Cancelar</button>                   
+                    <button type="button" id="botonAceptarModalCancelar" causesvalidation="false" class="btn btn-success-fozkr" runat="server" onserverclick="botonAceptarModalCancelar_ServerClick">Aceptar</button>
+                    <button type="button" id="botonCancelarModalCancelar" causesvalidation="false" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
                 </div>
             </div>
         </div>

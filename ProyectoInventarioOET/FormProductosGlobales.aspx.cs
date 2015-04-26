@@ -16,7 +16,7 @@ namespace ProyectoInventarioOET
         enum Modo { Inicial, Consulta, Insercion, Modificacion, Consultado };
         private static int modo = (int) Modo.Inicial;
         private static int resultadosPorPagina;
-        private static bool seConsulto = false;
+        private static Boolean seConsulto = false;
         private static Object[] idArray;
         private static EntidadProductoGlobal productoConsultado;
         private static ControladoraDatosGenerales controladoraDatosGenerales;
@@ -27,13 +27,10 @@ namespace ProyectoInventarioOET
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
-            if (!IsPostBack)
+            if (!IsPostBack) 
             {
-
                 controladora = new ControladoraProductosGlobales();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
-
                 if (!seConsulto)
                 {
                     modo = (int)Modo.Inicial;
@@ -42,11 +39,10 @@ namespace ProyectoInventarioOET
                 {
                     if (productoConsultado == null)
                     {
-                        mostrarMensaje("warning", "Alerta: ", "No se pudo consultar la bodega.");
+                        mostrarMensaje("warning", "Alerta: ", "No se pudo consultar el producto.");
                     }
                     else
-                    {
-                        
+                    { // Caso en que se hizo la consulta de un producto
                         cargarEstados();
                         cargarUnidades();
                         cargarVendible();
@@ -56,8 +52,72 @@ namespace ProyectoInventarioOET
                     }
                 }
             }
-            cambiarModo();
+            cambiarModo(); // Al cargar la página sin importar se cambia de modo
         }
+
+        protected void mostrarMensaje(String tipoAlerta, String alerta, String mensaje)
+        {
+            mensajeAlerta.Attributes["class"] = "alert alert-" + tipoAlerta + " alert-dismissable fade in";
+            labelTipoAlerta.Text = alerta + " ";
+            labelAlerta.Text = mensaje;
+            mensajeAlerta.Attributes.Remove("hidden");
+        }
+
+        // Manejo de la lógica de la interfaz
+        protected void cambiarModo()
+        {
+            switch (modo)
+            {///Probar si aun se pueden mostrar los campos con el JS********************
+                case (int)Modo.Inicial:
+                    this.bloqueGrid.Visible = false;
+                    this.gridViewProductosGlobales.Visible = false;
+                    this.bloqueFormulario.Visible = false;
+                    this.bloqueBotones.Visible = false;
+                    this.botonAgregarProductos.Disabled = false;
+                    this.botonModificacionProductos.Disabled = true;
+                    this.botonConsultaProductos.Disabled = false;
+                    break;
+                case (int)Modo.Insercion: //insertar
+                    this.bloqueGrid.Visible = false;
+                    this.gridViewProductosGlobales.Visible = false;
+                    this.bloqueFormulario.Visible = true;
+                    this.bloqueBotones.Visible = true;
+                    this.botonAgregarProductos.Disabled = true;
+                    this.botonModificacionProductos.Disabled = true;
+                    this.botonConsultaProductos.Disabled = false;
+                    break;
+                case (int)Modo.Modificacion: //modificar
+                    this.bloqueGrid.Visible = false;
+                    this.gridViewProductosGlobales.Visible = false;
+                    this.bloqueFormulario.Visible = true;
+                    this.bloqueBotones.Visible = true;
+                    this.botonAgregarProductos.Disabled = true;
+                    this.botonModificacionProductos.Disabled = true;
+                    this.botonConsultaProductos.Disabled = false;
+                    break;
+                case (int)Modo.Consulta:
+                    this.bloqueGrid.Visible = true;
+                    this.gridViewProductosGlobales.Visible = true;
+                    this.bloqueFormulario.Visible = false;
+                    this.bloqueBotones.Visible = false;
+                    this.botonAgregarProductos.Disabled = false;
+                    this.botonModificacionProductos.Disabled = true;
+                    this.botonConsultaProductos.Disabled = false;
+                    break;
+                case (int)Modo.Consultado:
+                    this.bloqueGrid.Visible = false;
+                    this.gridViewProductosGlobales.Visible = false;
+                    this.bloqueFormulario.Visible = true;
+                    this.bloqueBotones.Visible = true;
+                    this.botonAgregarProductos.Disabled = false;
+                    this.botonModificacionProductos.Disabled = false;
+                    this.botonConsultaProductos.Disabled = false;
+                    break;
+                default:
+                    break;
+            }
+        }
+
 
         //*****************METODOS DE LLENADO DE DROPDOWNLIST*************************************
         protected void cargarCategorias()
@@ -74,10 +134,8 @@ namespace ProyectoInventarioOET
         {
             inputVendible.Items.Clear();
             inputVendible.Items.Add(new ListItem("Consumo interno", null));
-            inputVendible.Items.Add(new ListItem("Para venta", null));
-            
+            inputVendible.Items.Add(new ListItem("Para venta", null));   
         }
-
         protected void cargarUnidades()
         {
             inputUnidades.Items.Clear();
@@ -99,7 +157,9 @@ namespace ProyectoInventarioOET
         }
         //***********************************************************************************
 
-
+        /* Método para obtener los datos del usuario
+         * 
+         */
         protected Object[] obtenerDatosProductosGlobales()
         {
             Object[] datos = new Object[14];
@@ -116,7 +176,7 @@ namespace ProyectoInventarioOET
             datos[10] = this.inputVendible.SelectedValue;
             datos[11] = this.inputPrecioColones.Value;
             datos[12] = this.inputPrecioDolares.Value;
-            datos[13] = 0; // Id que identifica
+            datos[13] = 0; // Id que identifica se genera despues en la controladora de BD
             return datos;
         }
 
@@ -150,20 +210,26 @@ namespace ProyectoInventarioOET
             return tabla;
         }
 
+        protected void vaciarGridProductosGlobales()
+        {
+            DataTable tablaLimpia = null;
+            gridViewProductosGlobales.DataSource = tablaLimpia;
+            gridViewProductosGlobales.DataBind();
+        }
+
         protected void llenarGrid()
         {
-            DataTable tabla = tablaProductosGlobales();
+            DataTable tabla = tablaProductosGlobales();  // Secrea el esquema de la tabla
             int indiceNuevoProductoGlobal = -1;
             int id = 0; // Es la posicion en donde se guardan los iD'  
             try
             {
                 Object[] datos = new Object[4];
-                DataTable productosGlobales = new DataTable(); //quitar una vez que ya está la controladora
-                productosGlobales = controladora.consultarProductosGlobales();
+                DataTable productosGlobales = controladora.consultarProductosGlobales(); //Se trae e resultado de todos los productos
 
                 if (productosGlobales.Rows.Count > 0)
                 {
-                    idArray = new Object[productosGlobales.Rows.Count];
+                    idArray = new Object[productosGlobales.Rows.Count]; 
                     foreach (DataRow fila in productosGlobales.Rows)
                     {
                         idArray[id] = fila[0];   // Se guarda el id para hacer las consultas individuales
@@ -174,7 +240,7 @@ namespace ProyectoInventarioOET
                         tabla.Rows.Add(datos);
                         if (productoConsultado != null && (fila[0].Equals(productoConsultado.Inv_Productos)))
                          {
-                             indiceNuevoProductoGlobal = id; // Para marcar el producto consultado en el grid
+                             indiceNuevoProductoGlobal = id; // Para marcar el producto consultado en el grid, puede ser util en el futuro
                          }
                         id++;
                     }
@@ -187,7 +253,7 @@ namespace ProyectoInventarioOET
                     tabla.Rows.Add(datos);
                 }
 
-                this.gridViewProductosGlobales.DataSource = tabla;
+                this.gridViewProductosGlobales.DataSource = tabla;  // Se llena el grid con los datos de la BD
                 this.gridViewProductosGlobales.DataBind();
                  if (productoConsultado != null)
                  {
@@ -219,53 +285,7 @@ namespace ProyectoInventarioOET
     
         }
 
-
-        protected String insertar()
-        {
-            String codigo = "";
-            Object[] nuevoProductoGlobal = obtenerDatosProductosGlobales();
-
-            String[] error = controladora.insertar(nuevoProductoGlobal); 
-
-            codigo = Convert.ToString(error[3]);
-            mostrarMensaje(error[0], error[1], error[2]);
-            if (error[0].Contains("success"))
-            {
-                llenarGrid();
-            }
-            else
-            {
-                codigo = "";
-                modo = 1;
-            }
-
-            return codigo;
-        }
-
-        protected Boolean modificar()
-        {
-            Boolean res = true;
-
-            Object[] productoGlobalModificado = obtenerDatosProductosGlobales();
-            String id = productoConsultado.Inv_Productos;
-            productoGlobalModificado[9] = id;
-            String[] error = controladora.modificarDatos(productoConsultado, productoGlobalModificado);
-            mostrarMensaje(error[0], error[1], error[2]);
-
-            if (error[0].Contains("success"))// si fue exitoso
-            {
-                llenarGrid();
-                //productoConsultado = controladora.consultarProductosGlobales(productoConsultado.Inv_Productos);
-                modo = (int)Modo.Consultado;
-            }
-            else
-            {
-                res = false;
-                modo = (int)Modo.Consulta;
-            }
-            return res;
-        }
-
+//************************************* METODOS DE COMUNICACION CON LA CONTROLADORA******************************* 
         protected void consultar(String id)
         {
             seConsulto = true;
@@ -273,6 +293,7 @@ namespace ProyectoInventarioOET
             {
                 productoConsultado = controladora.consultarProductoGlobal(id);
                 modo = (int)Modo.Consultado;
+                presentarDatos();
             }
             catch
             {
@@ -282,77 +303,44 @@ namespace ProyectoInventarioOET
             cambiarModo();
         }
 
-
-
-        protected void mostrarMensaje(String tipoAlerta, String alerta, String mensaje)
+        protected String insertar()
         {
-            mensajeAlerta.Attributes["class"] = "alert alert-" + tipoAlerta + " alert-dismissable fade in";
-            labelTipoAlerta.Text = alerta + " ";
-            labelAlerta.Text = mensaje;
-            mensajeAlerta.Attributes.Remove("hidden");
+            String identificadorProducto = "";
+            Object[] nuevoProductoGlobal = obtenerDatosProductosGlobales(); // Se recolectan los datos
+            String[] error = controladora.insertar(nuevoProductoGlobal); 
+            identificadorProducto = Convert.ToString(error[3]);  // Contiene el código generado por la controladora de BD que identifica el producto en la BD
+            mostrarMensaje(error[0], error[1], error[2]);
+            if (error[0].Contains("success"))
+            {
+                llenarGrid();
+            }
+            else
+            {
+                identificadorProducto = "";
+                modo = 1; // REVISAR ESTO
+            }
+
+            return identificadorProducto;
         }
 
-
-        protected void cambiarModo()
+        protected Boolean modificar()
         {
-            switch (modo)
-            {///Probar si aun se pueden mostrar los campos con el JS********************
-                case (int)Modo.Inicial:
-                    this.bloqueGrid.Visible = false;///********************
-                    this.gridViewProductosGlobales.Visible = false;///********************///
-                    this.bloqueFormulario.Visible = false;
-                    this.bloqueBotones.Visible = false;
-                    this.botonAgregarProductos.Disabled = false;
-                    this.botonModificacionProductos.Disabled = true;                                ///
-                    limpiarCampos();
-                    cargarEstados();
-                    cargarUnidades();
-                    cargarVendible();
-                    cargarCategorias();
-                    habilitarCampos(false);
-                    break;
-                case (int)Modo.Insercion: //insertar
-                    this.bloqueGrid.Visible = false;///********************
-                    this.gridViewProductosGlobales.Visible = false;///********************///
-                    this.bloqueFormulario.Visible = true;
-                    this.bloqueBotones.Visible = true;
-                    this.botonAgregarProductos.Disabled = true;
-                    this.botonModificacionProductos.Disabled = true;
-                    habilitarCampos(true);
-                    break;
-                case (int)Modo.Modificacion: //modificar
-                    this.bloqueGrid.Visible = false;///********************
-                    this.gridViewProductosGlobales.Visible = false;///********************///
-                    this.bloqueFormulario.Visible = true;
-                    this.bloqueBotones.Visible = true;
-                    habilitarCampos(true);
-                    this.botonAgregarProductos.Disabled = true;
-                    this.botonModificacionProductos.Disabled = true;
-                    this.gridViewProductosGlobales.Visible = false;///********************
-                    break;
-                case (int)Modo.Consulta://consulta de todos los productos
-                    this.bloqueGrid.Visible = true;///********************
-                    this.gridViewProductosGlobales.Visible = true;///********************///
-                    this.bloqueFormulario.Visible = false;
-                    this.bloqueBotones.Visible = false;
-                    this.botonAgregarProductos.Disabled = false;
-                    this.botonModificacionProductos.Disabled = true;
-                    limpiarCampos();
-                    habilitarCampos(false);
-                    break;
-                case (int)Modo.Consultado://consulta de un producto especifico
-                    habilitarCampos(false);
-                    this.bloqueGrid.Visible = false;///********************
-                    this.gridViewProductosGlobales.Visible = false;///********************///
-                    this.bloqueFormulario.Visible = true;
-                    this.bloqueBotones.Visible = true;
-                    this.botonAgregarProductos.Disabled = true;
-                    this.botonModificacionProductos.Disabled = false;
-                    this.gridViewProductosGlobales.Visible = false;///********************///
-                    break;
-                default:
-                    break;
+            Boolean res = true;
+            Object[] productoGlobalModificado = obtenerDatosProductosGlobales();
+            String id = productoConsultado.Inv_Productos;
+            productoGlobalModificado[13] = id;
+            String[] error = controladora.modificarDatos(productoConsultado, productoGlobalModificado);
+            mostrarMensaje(error[0], error[1], error[2]);
+
+            if (error[0].Contains("success"))// si fue exitoso
+            {
+                consultar(productoConsultado.Inv_Productos);
             }
+            else
+            {
+                res = false;
+            }
+            return res;
         }
 
 
@@ -364,9 +352,14 @@ namespace ProyectoInventarioOET
             this.inputCodigoBarras.Value = " ";
             this.inputCostoColones.Value = " ";
             this.inputCostoDolares.Value = " ";
-            this.inputEstado.SelectedValue = null;
+            this.inputPrecioColones.Value = " ";
+            this.inputPrecioDolares.Value = " ";
+            this.inputImpuesto.Value = " ";
+            this.inputSaldo.Value = " ";
             this.inputUnidades.SelectedValue = null;
             this.inpuCategoria.SelectedValue = null;
+            this.inputEstado.SelectedValue = null;
+            this.inputVendible.SelectedValue= null;
         }
 
         protected void habilitarCampos(bool resp)
@@ -387,71 +380,81 @@ namespace ProyectoInventarioOET
         }
         //*******************************************************************************
 
-        // *******************EVENTOS ***********************************
-        protected void botonCancelarModalCancelar_ServerClick(object sender, EventArgs e)
-        {
-            limpiarCampos();
-        }
+        // *******************EVENTOS***********************************
 
-        protected void botonAgregarProductos_ServerClick(object sender, EventArgs e)
-        {
-            modo = (int)Modo.Insercion;
-            cambiarModo();
-        }
 
-        protected void botonModificacionProductos_ServerClick(object sender, EventArgs e)
-        {
-
-        }
-
+        /* Consulta de todos los productos y mostrar información parcial en el grid
+         * 
+         */
         protected void botonConsultaProductos_ServerClick(object sender, EventArgs e)
         {
             llenarGrid();
             modo = (int)Modo.Consulta;
             cambiarModo();
-            
         }
 
+        /* Consulta de UN PRODUCTO EN PARTICULAR y muestra la información completa en el formulario
+         * 
+         */
         protected void gridViewProductosGlobales_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             switch (e.CommandName)
             {
                 case "Select":
                     GridViewRow filaSeleccionada = this.gridViewProductosGlobales.Rows[Convert.ToInt32(e.CommandArgument)];
-                    String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewProductosGlobales.PageIndex * resultadosPorPagina)]);
-                    consultar(codigo);
-                    modo = (int)Modo.Consultado;  
+                    String identificador = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewProductosGlobales.PageIndex * resultadosPorPagina)]);
+                    consultar(identificador);
+                    modo = (int)Modo.Consultado;
                     Response.Redirect("FormProductosGlobales.aspx"); //Se hace un PostBack
                     break;
             }
         }
 
-        protected void gridViewProductosGlobales_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        /*  Adición de un nuevo producto al inventario global de productos
+         * 
+         */
+        protected void botonAgregarProductos_ServerClick(object sender, EventArgs e)
         {
-            this.gridViewProductosGlobales.PageIndex = e.NewPageIndex;
-            this.gridViewProductosGlobales.DataBind();
+            modo = (int)Modo.Insercion;
+            cambiarModo();
+            limpiarCampos();
+            habilitarCampos(true);
+            cargarEstados();
+            cargarUnidades();
+            cargarVendible();
+            cargarCategorias();
         }
 
+        protected void botonModificacionProductos_ServerClick(object sender, EventArgs e)
+        {
+            modo = (int)Modo.Modificacion;
+            cambiarModo();
+            habilitarCampos(true);  // Aqui va la logica en caso de no poder modificar un producto si este esta INACTIVO
+        }
+
+        //------Lógica de los botones Enviar y Cancelar
+
+        /* Lógica del boton aceptar. Dependiendo del modo se tomarán distintas acciones acciones 
+         * 
+         */
         protected void botonAceptarProductoGlobal_ServerClick(object sender, EventArgs e)
         {
             Boolean operacionCorrecta = true;
             String codigoInsertado = "";
-
-            if (modo == (int)Modo.Insercion)
+            if (modo == (int)Modo.Insercion)  // Caso inserción
             {
                 codigoInsertado = insertar();
-
-                if (codigoInsertado != "")
+                if (codigoInsertado != "") // Fue éxitoso
                 {
                     operacionCorrecta = true;
-                    productoConsultado = controladora.consultarProductoGlobal(codigoInsertado);
-                    modo = (int)Modo.Consultado;
+                    consultar(codigoInsertado);
+                    modo = (int)Modo.Consultado; //De modo inserción se pasa a modo consultado para mostrar/consultar los datos del nuevo  producto 
                     habilitarCampos(false);
                 }
                 else
                     operacionCorrecta = false;
             }
-            else if (modo == (int)Modo.Modificacion)
+            else if (modo == (int)Modo.Modificacion) // Caso modificación
             {
                 operacionCorrecta = modificar();
             }
@@ -459,12 +462,21 @@ namespace ProyectoInventarioOET
             {
                 cambiarModo();
             }
-
-
-
         }
 
+        protected void gridViewProductosGlobales_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            llenarGrid();
+            this.gridViewProductosGlobales.PageIndex = e.NewPageIndex;
+            this.gridViewProductosGlobales.DataBind();
+        }
 
-
+        protected void botonAceptarModalCancelar_ServerClick(object sender, EventArgs e)
+        {
+            limpiarCampos();
+            habilitarCampos(false);
+            modo = (int)Modo.Inicial;
+            cambiarModo();
+        }
     }
 }
