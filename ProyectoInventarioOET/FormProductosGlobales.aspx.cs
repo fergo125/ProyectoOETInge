@@ -20,7 +20,7 @@ namespace ProyectoInventarioOET
         private static Object[] idArray;
         private static EntidadProductoGlobal productoConsultado;
         private static ControladoraDatosGenerales controladoraDatosGenerales;
-        private static ControladoraProductosGlobales controladora; 
+        private static ControladoraProductosGlobales controladora;
         
         
         //ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
@@ -130,6 +130,19 @@ namespace ProyectoInventarioOET
             }
         }
 
+        protected Dictionary<String, String> traduccionCategorias()
+        {
+            Dictionary<String, String> mapCategorias = new Dictionary<String, String>(); ;
+            DataTable categorias = controladora.consultarCategorias(); // Hacer un llamado al metodo de Fernando
+            foreach (DataRow fila in categorias.Rows)
+            {
+                mapCategorias.Add(fila[0].ToString(), fila[1].ToString());
+            }
+            return mapCategorias;
+        }
+
+
+
         protected void cargarVendible()
         {
             inputVendible.Items.Clear();
@@ -155,6 +168,18 @@ namespace ProyectoInventarioOET
                 inputEstado.Items.Add(new ListItem(fila[1].ToString(), fila[2].ToString()));
             }
         }
+
+        private Dictionary<string, string> traduccionEstado()
+        {
+            Dictionary<String, String> mapEstado = new Dictionary<String, String>(); ;
+            DataTable estados = controladoraDatosGenerales.consultarEstadosActividad();
+            foreach (DataRow fila in estados.Rows)
+            {
+                mapEstado.Add(fila[0].ToString(), fila[1].ToString());
+            }
+            return mapEstado;
+        }
+
         //***********************************************************************************
 
         /* Método para obtener los datos del usuario
@@ -225,8 +250,9 @@ namespace ProyectoInventarioOET
             try
             {
                 Object[] datos = new Object[4];
-                DataTable productosGlobales = controladora.consultarProductosGlobales(); //Se trae e resultado de todos los productos
-
+                DataTable productosGlobales = controladora.consultarProductosGlobales(); //Se trae el resultado de todos los productos
+                Dictionary<String, String>  mapCategorias= traduccionCategorias(); // Para cargar y llenar el map con los codigos de las categorias
+                Dictionary<String, String> mapEstado = traduccionEstado(); // Para cargar y llenar el map con los codigos de las categorias
                 if (productosGlobales.Rows.Count > 0)
                 {
                     idArray = new Object[productosGlobales.Rows.Count]; 
@@ -235,8 +261,11 @@ namespace ProyectoInventarioOET
                         idArray[id] = fila[0];   // Se guarda el id para hacer las consultas individuales
                         datos[0] = fila[1].ToString();
                         datos[1] = fila[2].ToString();
-                        datos[2] = fila[3].ToString();
-                        datos[3] = fila[4].ToString();
+                        String aux;
+                        datos[2] = mapCategorias.TryGetValue(fila[3].ToString(), out aux)?aux:" ";
+                        datos[3] = mapEstado.TryGetValue(fila[4].ToString(), out aux) ? aux : " ";  //Traducir el estado a representación humana
+                        
+                        
                         tabla.Rows.Add(datos);
                         if (productoConsultado != null && (fila[0].Equals(productoConsultado.Inv_Productos)))
                          {
@@ -266,6 +295,8 @@ namespace ProyectoInventarioOET
                 mostrarMensaje("warning", "Alerta", "No hay conexión a la base de datos.");
             }
         }
+
+        
 
         protected void presentarDatos(){
             if (productoConsultado != null)
