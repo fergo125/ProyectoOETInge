@@ -87,24 +87,23 @@ namespace ProyectoInventarioOET
                     this.botonModificacionProductos.Disabled = true;
                     this.botonConsultaProductos.Disabled = false;
                     break;
-                case (int)Modo.Consulta://consulta de todos los productos
+                case (int)Modo.Consulta:
                     this.bloqueGrid.Visible = true;
                     this.gridViewProductosGlobales.Visible = true;
                     this.bloqueFormulario.Visible = false;
-                    this.bloqueBotones.Visible = true;
-                    this.botonAgregarProductos.Disabled = true;
+                    this.bloqueBotones.Visible = false;
+                    this.botonAgregarProductos.Disabled = false;
                     this.botonModificacionProductos.Disabled = true;
                     this.botonConsultaProductos.Disabled = false;
                     break;
-                case (int)Modo.Consultado://consulta de un producto especifico
-                    habilitarCampos(false);
-                    this.bloqueGrid.Visible = false;///********************
-                    this.gridViewProductosGlobales.Visible = false;///********************///
+                case (int)Modo.Consultado:
+                    this.bloqueGrid.Visible = false;
+                    this.gridViewProductosGlobales.Visible = false;
                     this.bloqueFormulario.Visible = true;
                     this.bloqueBotones.Visible = true;
-                    this.botonAgregarProductos.Disabled = true;
+                    this.botonAgregarProductos.Disabled = false;
                     this.botonModificacionProductos.Disabled = false;
-                    this.gridViewProductosGlobales.Visible = false;///********************///
+                    this.botonConsultaProductos.Disabled = false;
                     break;
                 default:
                     break;
@@ -363,9 +362,14 @@ namespace ProyectoInventarioOET
             this.inputCodigoBarras.Value = " ";
             this.inputCostoColones.Value = " ";
             this.inputCostoDolares.Value = " ";
-            this.inputEstado.SelectedValue = null;
+            this.inputPrecioColones.Value = " ";
+            this.inputPrecioDolares.Value = " ";
+            this.inputImpuesto.Value = " ";
+            this.inputSaldo.Value = " ";
             this.inputUnidades.SelectedValue = null;
             this.inpuCategoria.SelectedValue = null;
+            this.inputEstado.SelectedValue = null;
+            this.inputVendible.SelectedValue= null;
         }
 
         protected void habilitarCampos(bool resp)
@@ -417,6 +421,8 @@ namespace ProyectoInventarioOET
             
         }
 
+
+        // Evento cuando se selecciona un producto del grid
         protected void gridViewProductosGlobales_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             switch (e.CommandName)
@@ -465,12 +471,6 @@ namespace ProyectoInventarioOET
             {
                 cambiarModo();
             }
-
-
-
         }
-
-
-
     }
 }
