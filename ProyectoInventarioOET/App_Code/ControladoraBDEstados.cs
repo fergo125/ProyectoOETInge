@@ -3,24 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data;
-using ProyectoInventarioOET.DataSetGeneralTableAdapters;
 using Oracle.DataAccess.Client; //para conectarse a la base de datos manualmente con strings
 
-/*
- * Controladora del conjunto de datos de los estados del sistema.
- * Comunicación con la Base de Datos.
- */
 namespace ProyectoInventarioOET.App_Code
 {
+    /*
+     * Controladora del conjunto de datos de los estados del sistema.
+     * Comunicación con la Base de Datos.
+     */
     public class ControladoraBDEstados : ControladoraBD
     {
-        CAT_ESTADOSTableAdapter adaptadorEstados;
-
+        /*
+         * Constructor.
+         */
         public ControladoraBDEstados()
         {
-            adaptadorEstados = new CAT_ESTADOSTableAdapter();
         }
 
+        /*
+         * Método que retorna una tabla con la información de los posibles estados para las entidades dentro del sistema.
+         */
         public DataTable consultarEstados()
         {
             DataTable resultado = new DataTable();
@@ -31,6 +33,10 @@ namespace ProyectoInventarioOET.App_Code
             return resultado;
         }
 
+        /*
+         * Método que retorna una tabla con la información de un subgrupo de los posibles estados para las entidades dentro del sistema,
+         * por ahora sólo "Activo" e "Inactivo".
+         */
         public DataTable consultarEstadosActividad()
         {
             DataTable resultado = new DataTable();
