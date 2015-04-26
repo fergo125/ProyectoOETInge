@@ -5,20 +5,25 @@ using System.Web;
 using System.Data;
 using Oracle.DataAccess.Client; //para conectarse a la base de datos manualmente con strings
 
-/*
- * Controladora del conjunto de datos de las organizaciones anfitrionas del sistema.
- * Comunicación con la Base de Datos.
- */
 namespace ProyectoInventarioOET.App_Code
 {
+    /*
+     * Controladora del conjunto de datos de las compañías anfitrionas del sistema.
+     * Comunicación con la Base de Datos.
+     */
     public class ControladoraBDAnfitrionas : ControladoraBD
     {
-
+        /*
+         * Constructor.
+         */
         public ControladoraBDAnfitrionas()
         {
-
         }
 
+        /*
+         * Método que retorna una tabla con la información de las compañías anfitrionas en el sistema.
+         * Por ahora son sólo la OET o la ESINTRO.
+         */
         public DataTable consultarAnfitriones()
         {
             DataTable resultado = new DataTable();
