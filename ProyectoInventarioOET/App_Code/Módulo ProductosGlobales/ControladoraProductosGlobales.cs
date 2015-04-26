@@ -26,8 +26,6 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
 
         public String[] insertar(Object[] datosProductoGlobal)
         {
-            //Logica de generacion de identificador
-            //datosProductoGlobal[9] = codigoAutogenerado();
             EntidadProductoGlobal productoGlobal = new EntidadProductoGlobal(datosProductoGlobal);
             return controladoraBD.insertarProductoGlobal(productoGlobal);
         }

@@ -60,6 +60,7 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
                 + productoGlobal.Impuesto + "','" + productoGlobal.PrecioColones + "','"
                 + productoGlobal.PrecioDolares + "','" + productoGlobal.CostoColones + "','"
                 + productoGlobal.CostoDolares + "','" + generarID() + "');";
+
                 OracleDataReader reader = command.ExecuteReader();
 
                 res[0] = "success";

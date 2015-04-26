@@ -55,6 +55,14 @@ namespace ProyectoInventarioOET
             cambiarModo(); // Al cargar la página sin importar se cambia de modo
         }
 
+        protected void mostrarMensaje(String tipoAlerta, String alerta, String mensaje)
+        {
+            mensajeAlerta.Attributes["class"] = "alert alert-" + tipoAlerta + " alert-dismissable fade in";
+            labelTipoAlerta.Text = alerta + " ";
+            labelAlerta.Text = mensaje;
+            mensajeAlerta.Attributes.Remove("hidden");
+        }
+
         // Manejo de la lógica de la interfaz
         protected void cambiarModo()
         {
@@ -277,7 +285,7 @@ namespace ProyectoInventarioOET
     
         }
 
-//************************************* METODOS DE COMUNICACION CON LA BD ******************************* 
+//************************************* METODOS DE COMUNICACION CON LA CONTROLADORA******************************* 
         protected void consultar(String id)
         {
             seConsulto = true;
@@ -285,6 +293,7 @@ namespace ProyectoInventarioOET
             {
                 productoConsultado = controladora.consultarProductoGlobal(id);
                 modo = (int)Modo.Consultado;
+                presentarDatos();
             }
             catch
             {
@@ -293,8 +302,6 @@ namespace ProyectoInventarioOET
             }
             cambiarModo();
         }
-
-
 
         protected String insertar()
         {
@@ -319,39 +326,22 @@ namespace ProyectoInventarioOET
         protected Boolean modificar()
         {
             Boolean res = true;
-
             Object[] productoGlobalModificado = obtenerDatosProductosGlobales();
             String id = productoConsultado.Inv_Productos;
-            productoGlobalModificado[9] = id;
+            productoGlobalModificado[13] = id;
             String[] error = controladora.modificarDatos(productoConsultado, productoGlobalModificado);
             mostrarMensaje(error[0], error[1], error[2]);
 
             if (error[0].Contains("success"))// si fue exitoso
             {
-                llenarGrid();
-                //productoConsultado = controladora.consultarProductosGlobales(productoConsultado.Inv_Productos);
-                modo = (int)Modo.Consultado;
+                consultar(productoConsultado.Inv_Productos);
             }
             else
             {
                 res = false;
-                modo = (int)Modo.Consulta;
             }
             return res;
         }
-
-//*************************************************************************************************************
-
-        protected void mostrarMensaje(String tipoAlerta, String alerta, String mensaje)
-        {
-            mensajeAlerta.Attributes["class"] = "alert alert-" + tipoAlerta + " alert-dismissable fade in";
-            labelTipoAlerta.Text = alerta + " ";
-            labelAlerta.Text = mensaje;
-            mensajeAlerta.Attributes.Remove("hidden");
-        }
-
-
-
 
 
         // ************************************METODOS DE INTERFAZ RUTINARIOS
@@ -390,12 +380,39 @@ namespace ProyectoInventarioOET
         }
         //*******************************************************************************
 
-        // *******************EVENTOS ***********************************
-        protected void botonCancelarModalCancelar_ServerClick(object sender, EventArgs e)
+        // *******************EVENTOS***********************************
+
+
+        /* Consulta de todos los productos y mostrar información parcial en el grid
+         * 
+         */
+        protected void botonConsultaProductos_ServerClick(object sender, EventArgs e)
         {
-            limpiarCampos();
+            llenarGrid();
+            modo = (int)Modo.Consulta;
+            cambiarModo();
         }
 
+        /* Consulta de UN PRODUCTO EN PARTICULAR y muestra la información completa en el formulario
+         * 
+         */
+        protected void gridViewProductosGlobales_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            switch (e.CommandName)
+            {
+                case "Select":
+                    GridViewRow filaSeleccionada = this.gridViewProductosGlobales.Rows[Convert.ToInt32(e.CommandArgument)];
+                    String identificador = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewProductosGlobales.PageIndex * resultadosPorPagina)]);
+                    consultar(identificador);
+                    modo = (int)Modo.Consultado;
+                    Response.Redirect("FormProductosGlobales.aspx"); //Se hace un PostBack
+                    break;
+            }
+        }
+
+        /*  Adición de un nuevo producto al inventario global de productos
+         * 
+         */
         protected void botonAgregarProductos_ServerClick(object sender, EventArgs e)
         {
             modo = (int)Modo.Insercion;
@@ -410,30 +427,40 @@ namespace ProyectoInventarioOET
 
         protected void botonModificacionProductos_ServerClick(object sender, EventArgs e)
         {
-
-        }
-
-        protected void botonConsultaProductos_ServerClick(object sender, EventArgs e)
-        {
-            llenarGrid();
-            modo = (int)Modo.Consulta;
+            modo = (int)Modo.Modificacion;
             cambiarModo();
-            
+            habilitarCampos(true);  // Aqui va la logica en caso de no poder modificar un producto si este esta INACTIVO
         }
 
+        //------Lógica de los botones Enviar y Cancelar
 
-        // Evento cuando se selecciona un producto del grid
-        protected void gridViewProductosGlobales_RowCommand(object sender, GridViewCommandEventArgs e)
+        /* Lógica del boton aceptar. Dependiendo del modo se tomarán distintas acciones acciones 
+         * 
+         */
+        protected void botonAceptarProductoGlobal_ServerClick(object sender, EventArgs e)
         {
-            switch (e.CommandName)
+            Boolean operacionCorrecta = true;
+            String codigoInsertado = "";
+            if (modo == (int)Modo.Insercion)  // Caso inserción
             {
-                case "Select":
-                    GridViewRow filaSeleccionada = this.gridViewProductosGlobales.Rows[Convert.ToInt32(e.CommandArgument)];
-                    String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewProductosGlobales.PageIndex * resultadosPorPagina)]);
-                    consultar(codigo);
-                    modo = (int)Modo.Consultado;  
-                    Response.Redirect("FormProductosGlobales.aspx"); //Se hace un PostBack
-                    break;
+                codigoInsertado = insertar();
+                if (codigoInsertado != "") // Fue éxitoso
+                {
+                    operacionCorrecta = true;
+                    consultar(codigoInsertado);
+                    modo = (int)Modo.Consultado; //De modo inserción se pasa a modo consultado para mostrar/consultar los datos del nuevo  producto 
+                    habilitarCampos(false);
+                }
+                else
+                    operacionCorrecta = false;
+            }
+            else if (modo == (int)Modo.Modificacion) // Caso modificación
+            {
+                operacionCorrecta = modificar();
+            }
+            if (operacionCorrecta)
+            {
+                cambiarModo();
             }
         }
 
@@ -444,33 +471,12 @@ namespace ProyectoInventarioOET
             this.gridViewProductosGlobales.DataBind();
         }
 
-        protected void botonAceptarProductoGlobal_ServerClick(object sender, EventArgs e)
+        protected void botonAceptarModalCancelar_ServerClick(object sender, EventArgs e)
         {
-            Boolean operacionCorrecta = true;
-            String codigoInsertado = "";
-
-            if (modo == (int)Modo.Insercion)
-            {
-                codigoInsertado = insertar();
-
-                if (codigoInsertado != "")
-                {
-                    operacionCorrecta = true;
-                    productoConsultado = controladora.consultarProductoGlobal(codigoInsertado);
-                    modo = (int)Modo.Consultado;
-                    habilitarCampos(false);
-                }
-                else
-                    operacionCorrecta = false;
-            }
-            else if (modo == (int)Modo.Modificacion)
-            {
-                operacionCorrecta = modificar();
-            }
-            if (operacionCorrecta)
-            {
-                cambiarModo();
-            }
+            limpiarCampos();
+            habilitarCampos(false);
+            modo = (int)Modo.Inicial;
+            cambiarModo();
         }
     }
 }
