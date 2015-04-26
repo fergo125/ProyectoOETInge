@@ -8,25 +8,29 @@ using Oracle.DataAccess.Client; //para conectarse a la base de datos manualmente
 using System.Data.SqlClient;
 
 namespace ProyectoInventarioOET.Módulo_Bodegas
-
 {
-    
+    /*
+     * ???
+     * Comunicación con la Base de Datos.
+     */
     public class ControladoraBDBodegas : ControladoraBD
     {
-        
-        CAT_BODEGATableAdapter adaptadorBodega;
-
+        /*
+         * Constructor.
+         */
         public ControladoraBDBodegas()
         {
-            adaptadorBodega = new CAT_BODEGATableAdapter();
         }
+
+        /*
+         * ???
+         */
         public String[] insertarBodega(EntidadBodega bodega)
         {
             String[] res = new String[4];
             res[3] = bodega.Codigo;
             try
             {
-               
                 OracleCommand command = conexionBD.CreateCommand();
                 command.CommandText = "INSERT INTO CAT_BODEGA (CAT_BODEGA,DESCRIPCION,ANFITRIONA,ESTACION,ESTADO,CAT_INTENCIONUSO) VALUES ('"
                 + bodega.Codigo + "','" + bodega.Nombre + "','" + bodega.Anfitriona + "','"
@@ -46,7 +50,9 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
             return res;
         }
 
-
+        /*
+         * ???
+         */
         public String[] modificarBodega(EntidadBodega bodega, EntidadBodega nuevaBodega)
         {
             String[] res = new String[3];
@@ -59,7 +65,6 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
                     + bodega.Nombre + "' AND ANFITRIONA = '" + bodega.Anfitriona + "' AND ESTACION = '" 
                     + bodega.Estacion + "' AND ESTADO = " + bodega.Estado + " AND CAT_INTENCIONUSO = " + bodega.IntencionUso;
                 OracleDataReader reader = command.ExecuteReader();
-                
                 
                 res[0] = "success";
                 res[1] = "Exito";
@@ -77,15 +82,15 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
             return res;
         }
 
-
+        /*
+         * ???
+         */
         public String[] desactivarBodega(EntidadBodega bodega)
         {
             String[] res = new String[3];
             try
             {
-
                 //adaptadorBodega.Update();
-
                 res[0] = "success";
                 res[1] = "Exito";
                 res[2] = "Bodega eliminado";
@@ -99,10 +104,12 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
             return res;
         }
 
+        /*
+         * ???
+         */
         public DataTable consultarBodegas()
         {
             DataTable resultado = new DataTable();
-
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
@@ -117,14 +124,14 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
             return resultado;
         }
 
-       
-
+        /*
+         * ???
+         */
         public EntidadBodega consultarBodega(String codigo)
         {
             DataTable resultado = new DataTable();
             EntidadBodega bodegaConsultada = null; 
             Object[] datosConsultados = new Object[6]; 
-
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
@@ -141,14 +148,17 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
                     }
 
                     bodegaConsultada = new EntidadBodega(datosConsultados);
-
                 }
             }
-            catch (Exception e) { }
-
+            catch (Exception e)
+            {
+            }
             return bodegaConsultada;
         }
 
+        /*
+         * ???
+         */
         public DataTable consultarBodegasDeEstacion(String codigo)
         {
             DataTable resultado = new DataTable();
@@ -166,6 +176,9 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
             return resultado;
         }
 
+        /*
+         * ???
+         */
         public DataTable consultarIntenciones()
         {
             DataTable resultado = new DataTable();
@@ -182,6 +195,5 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
             }
             return resultado;
         }
-     
     }
 }
