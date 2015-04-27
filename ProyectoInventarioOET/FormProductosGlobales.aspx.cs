@@ -242,7 +242,7 @@ namespace ProyectoInventarioOET
             gridViewProductosGlobales.DataBind();
         }
 
-        protected void llenarGrid()
+        protected void llenarGrid(String query)
         {
             DataTable tabla = tablaProductosGlobales();  // Secrea el esquema de la tabla
             int indiceNuevoProductoGlobal = -1;
@@ -250,7 +250,17 @@ namespace ProyectoInventarioOET
             try
             {
                 Object[] datos = new Object[4];
-                DataTable productosGlobales = controladora.consultarProductosGlobales(); //Se trae el resultado de todos los productos
+
+                if (query == null)
+                {
+                    DataTable productosGlobales = controladora.consultarProductosGlobales(); //Se trae el resultado de todos los productos
+                }
+                else {
+                    DataTable productosGlobales = controladora.consultarProductosGlobales(query); //Se trae el resultado de todos los productos
+                }
+                
+                
+                
                 Dictionary<String, String>  mapCategorias= traduccionCategorias(); // Para cargar y llenar el map con los codigos de las categorias
                 Dictionary<String, String> mapEstado = traduccionEstado(); // Para cargar y llenar el map con los codigos de las categorias
                 if (productosGlobales.Rows.Count > 0)
@@ -448,12 +458,12 @@ namespace ProyectoInventarioOET
         {
             modo = (int)Modo.Insercion;
             cambiarModo();
-            limpiarCampos();
-            habilitarCampos(true);
             cargarEstados();
             cargarUnidades();
             cargarVendible();
             cargarCategorias();
+            limpiarCampos();
+            habilitarCampos(true);
         }
 
         protected void botonModificacionProductos_ServerClick(object sender, EventArgs e)
@@ -507,6 +517,13 @@ namespace ProyectoInventarioOET
             limpiarCampos();
             habilitarCampos(false);
             modo = (int)Modo.Inicial;
+            cambiarModo();
+        }
+
+        protected void botonBuscar_ServerClick(object sender, EventArgs e)
+        {
+            llenarGrid();
+            modo = (int)Modo.Consulta;
             cambiarModo();
         }
     }

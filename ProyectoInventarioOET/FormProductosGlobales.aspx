@@ -20,9 +20,9 @@
     </div>
 
     <!-- Cuerpo del Form -->
-    <button runat="server" onclick="showStuff('bloqueFormulario', 'Nuevo producto');" onserverclick="botonAgregarProductos_ServerClick" id="botonAgregarProductos" class=" btn btn-info-fozkr" type="button" style="float: left">Nuevo Producto</button>
-    <button runat="server" onclick="showStuff('bloqueFormulario', 'Modificación de producto');" onserverclick="botonModificacionProductos_ServerClick" id="botonModificacionProductos" class=" btn btn-info-fozkr" type="button" style="float: left">Modificar Producto</button>
-    <button runat="server" onclick="showStuff('bloqueGrid', 'Consulta de productos');" id="botonConsultaProductos" onserverclick="botonConsultaProductos_ServerClick" class=" btn btn-info-fozkr" type="button" style="float: left">Consultar Productos</button>
+    <button runat="server" onserverclick="botonAgregarProductos_ServerClick" id="botonAgregarProductos" class=" btn btn-info-fozkr" type="button" style="float: left">Nuevo Producto</button>
+    <button runat="server" onserverclick="botonModificacionProductos_ServerClick" id="botonModificacionProductos" class=" btn btn-info-fozkr" type="button" style="float: left">Modificar Producto</button>
+    <button runat="server" id="botonConsultaProductos" onserverclick="botonConsultaProductos_ServerClick" class=" btn btn-info-fozkr" type="button" style="float: left">Consultar Productos</button>
 
     <br />
     <br />
@@ -128,8 +128,9 @@
          <div class="row">
             <label class= "col-lg-2">Buscar producto:</label>
             <div class="col-lg-10">
-                <input id="barraDeBusqueda" class="form-control" type="search" placeholder="Busqueda" runat="server">
-                <span class="glyphicon glyphicon-search"></span>
+                <input id="barraDeBusqueda" class="form-control" type="search" placeholder="Ingresa una palabra o código" runat="server" >
+<%--                <span class="glyphicon glyphicon-search" runat="server"></span>--%>
+                <Button ID="botonBuscar" runat="server" Text="Enviar" onserverclick="botonBuscar_ServerClick" />
             </div>
         </div>
         <br/> <br/>
@@ -164,7 +165,6 @@
             <div class="text-center">
                 <button runat="server" onserverclick="botonAceptarProductoGlobal_ServerClick" id="botonAceptarProductoGlobal" class="btn btn-success-fozkr" type="button">Enviar</button>
                 <a id="botonCancelarProductoGlobal" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server">Cancelar</a>
-                
             </div>
         </div>
 
@@ -172,7 +172,7 @@
 
    
     <script type="text/javascript">
-        function showStuff(elementoATogglear, mensaje) {
+onclick        function showStuff(elementoATogglear, mensaje) {
             //var estado = document.getElementById(elementoATogglear).style.display;
             //document.getElementById('tituloAccion').innerHTML = mensaje;
             //if (elementoATogglear === 'bloqueFormulario') {
