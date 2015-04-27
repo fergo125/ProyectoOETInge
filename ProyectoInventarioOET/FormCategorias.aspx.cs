@@ -70,6 +70,8 @@ namespace ProyectoInventarioOET
                 camposCategoria.Visible = false;
                 gridViewCategorias.Visible = true;
                 comboBoxEstadosActividades.Enabled = false;
+                
+
             }
             else if (modo == (int)Modo.Modificacion)
             { // se desea insertar
@@ -117,6 +119,7 @@ namespace ProyectoInventarioOET
                 inputNombre.Disabled = true;
                 gridViewCategorias.Visible = true;
                 comboBoxEstadosActividades.Enabled = false;
+
             }
             //aplicarPermisos();// se aplican los permisos del usuario para el acceso a funcionalidades
         }
@@ -336,14 +339,25 @@ namespace ProyectoInventarioOET
                     operacionCorrecta = true;
                     categoriaConsultada = controladoraCategorias.consultarCategoria(codigoInsertado);
                     modo = (int)Modo.Consultado;
-                    habilitarCampos(false);
+                    seConsulto = true;
+                    mostrarMensaje("success", "Exito", "Categoria Agregada");
+                    cargarEstados();
+                    setDatosConsultados();
+
                 }
                 else
+                {
                     operacionCorrecta = false;
+                    mostrarMensaje("Warning", "Alerta", "No se pudo agregar la categoria");
+                }
             }
             else if (modo == 3)
             {
                 operacionCorrecta = modificar();
+                if(operacionCorrecta)
+                    mostrarMensaje("success", "Exito", "Categoria Modificada");
+                else
+                    mostrarMensaje("Warning", "Alerta", "No se pudo Modificar");
             }
             if (operacionCorrecta)
             {

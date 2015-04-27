@@ -147,7 +147,7 @@ namespace ProyectoInventarioOET.Modulo_Categorias
         {
             DataTable resultado = new DataTable();
             EntidadCategoria categoriaConsultada = null;
-            Object[] datosConsultados = new Object[2];
+            Object[] datosConsultados = new Object[3];
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
@@ -159,6 +159,7 @@ namespace ProyectoInventarioOET.Modulo_Categorias
                 {
                     datosConsultados[0] = nombre;
                     datosConsultados[1] = resultado.Rows[0][1].ToString();
+                    datosConsultados[2] = Convert.ToInt32(resultado.Rows[0][2].ToString());
                     categoriaConsultada = new EntidadCategoria(datosConsultados);
                 }
             }
