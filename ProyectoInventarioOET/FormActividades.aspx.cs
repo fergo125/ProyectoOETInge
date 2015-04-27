@@ -180,21 +180,50 @@ namespace ProyectoInventarioOET
 
             if (modo == (int)Modo.Insercion)
             {
-                resultado = controladoraActividades.insertarDatos(this.inputDescripcionActividad.Value.ToString(), Int32.Parse(this.comboBoxEstadosActividades.SelectedValue.ToString()));
-                codigoInsertado = resultado[3];
+                //resultado = controladoraActividades.insertarDatos(this.inputDescripcionActividad.Value.ToString(), Int32.Parse(this.comboBoxEstadosActividades.SelectedValue.ToString()));
+                //codigoInsertado = resultado[3];
 
-                if (codigoInsertado != "")
+                //if (codigoInsertado != "")
+                //{
+                //    operacionCorrecta = true;
+                //    actividadConsultada = controladoraActividades.consultarActividad(codigoInsertado);
+                //    modo = (int)Modo.Consultado;
+                //    habilitarCampos(false);
+                //    mostrarMensaje(resultado[0], resultado[1], resultado[2]);
+                //}
+                //else
+                //    operacionCorrecta = false;
+
+                //setDatosConsultados();
+
+                String nombreNuevo = this.inputDescripcionActividad.Value.ToString();
+                EntidadActividad repetida = controladoraActividades.consultarActividadPorNombre(nombreNuevo);
+
+                if (repetida != null || !repetida.Codigo.Equals(""))
                 {
-                    operacionCorrecta = true;
-                    actividadConsultada = controladoraActividades.consultarActividad(codigoInsertado);
-                    modo = (int)Modo.Consultado;
-                    habilitarCampos(false);
-                    mostrarMensaje(resultado[0], resultado[1], resultado[2]);
+                    resultado = controladoraActividades.insertarDatos(nombreNuevo, Int32.Parse(this.comboBoxEstadosActividades.SelectedValue.ToString()));
+                    codigoInsertado = resultado[3];
+
+                    if (codigoInsertado != "")
+                    {
+                        operacionCorrecta = true;
+                        actividadConsultada = controladoraActividades.consultarActividad(codigoInsertado);
+                        modo = (int)Modo.Consultado;
+                        habilitarCampos(false);
+                        mostrarMensaje(resultado[0], resultado[1], resultado[2]);
+                    }
+                    else
+                        operacionCorrecta = false;
+
+                    setDatosConsultados();
                 }
                 else
+                {
+                    mostrarMensaje("warning", "Alerta", "El nombre de la actividad corresponde a una existente, por favor ingrese otro nombre.");
                     operacionCorrecta = false;
 
-                setDatosConsultados();
+
+                }
             }
             else if (modo == (int)Modo.Modificacion)
             {

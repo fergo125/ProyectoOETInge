@@ -50,6 +50,39 @@ namespace ProyectoInventarioOET.Módulo_Actividades
         /*
          * ???
          */
+        public EntidadActividad consultarActividadPorNombre(String nombre)
+        {
+            DataTable resultado = new DataTable();
+            EntidadActividad actividadConsultada = null;
+            Object[] datosConsultados = new Object[3];
+
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "SELECT * FROM CAT_ACTIVIDAD WHERE  CAT_ACTIVIDAD = '" + nombre + "'";
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
+
+                if (resultado.Rows.Count == 1)
+                {
+                    datosConsultados[0] = resultado.Rows[0][0].ToString();
+                    for (int i = 1; i < 3; i++)
+                    {
+                        datosConsultados[i] = resultado.Rows[0][i].ToString();
+                    }
+
+                    actividadConsultada = new EntidadActividad(datosConsultados);
+                }
+            }
+            catch (Exception e)
+            {
+            }
+            return actividadConsultada;
+        }
+
+        /*
+         * ???
+         */
         public string[] insertarActividad(EntidadActividad actividad)
         {
             String[] res = new String[4];

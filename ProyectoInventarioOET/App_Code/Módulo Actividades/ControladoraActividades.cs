@@ -31,6 +31,14 @@ namespace ProyectoInventarioOET.Módulo_Actividades
         }
 
         /*
+         * Consulta la información de una actividad particular a partir de su nombre.
+         */
+        public EntidadActividad consultarActividadPorNombre(String nombre)
+        {
+            return controladoraBDActividades.consultarActividadPorNombre(nombre);
+        }
+
+        /*
          * Crea una nueva actividad dado un vector con los datos de la misma.
          */
         public String[] insertarDatos(String descripcion, int estado)
