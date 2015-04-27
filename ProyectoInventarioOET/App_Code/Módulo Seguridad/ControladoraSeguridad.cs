@@ -4,31 +4,37 @@ using System.Linq;
 using System.Web;
 using System.Data;
 
-/*
- * Controladora de Seguridad
- * Encargada de las funciones de seguridad del sistema
- * También encripta/desencripta contraseñas
- */
 namespace ProyectoInventarioOET.Módulo_Seguridad
 {
+    /*
+     * Controladora de Seguridad, encargada de las funciones de seguridad del sistema, también encripta/desencripta contraseñas.
+     */
     public class ControladoraSeguridad
     {
-        private ControladoraBDSeguridad controladoraBDSeguridad;
-        private String llaveEncriptacion = "SISTEOTS";
+        //Atributos
+        private ControladoraBDSeguridad controladoraBDSeguridad;    //???
+        private String llaveEncriptacion = "SISTEOTS";              //???
 
+        /*
+         * Constructor.
+         */
         public ControladoraSeguridad()
         {
             controladoraBDSeguridad = new ControladoraBDSeguridad();
         }
 
-        // Busca un usuario con un nombre y una password específicos
+        /*
+         * Busca un usuario con un nombre y una password específicos.
+         */
         public EntidadUsuario consultarUsuario(String nombre, String password)
         {
-            // Encriptar password aqui
+            // Encriptar password aqui***
             return controladoraBDSeguridad.consultarUsuario(nombre, password);
         }
 
-        // Encripta un string en el formato de almacenamiento de la base de datos
+        /*
+         * Encripta un string en el formato de almacenamiento de la base de datos.
+         */
         public String encriptarTexto(String s)
         {
             String resultado = "";
@@ -42,7 +48,9 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
             return resultado;
         }
 
-        // Desencripta un string en el formato de almacenamiento de la base de datos
+        /*
+         * Desencripta un string en el formato de almacenamiento de la base de datos.
+         */
         public String desencriptarText(String s)
         {
             String resultado = "";
