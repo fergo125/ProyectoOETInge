@@ -10,14 +10,22 @@ using ProyectoInventarioOET.Módulo_Seguridad;
 
 namespace ProyectoInventarioOET
 {
+    /* 
+     * Clase SiteMaster, presente en toda página, contiene toda la página y presenta la barra de navegación junto con el pie de página.
+     * Al ser omnipresente se le asocia el identificar al usuario que está conectado y usando el sistema, por lo que se relaciona
+     * estrechamente con las labores de seguridad.
+     */
     public partial class SiteMaster : MasterPage
     {
-        private const string AntiXsrfTokenKey = "__AntiXsrfToken";
-        private const string AntiXsrfUserNameKey = "__AntiXsrfUserName";
-        private string _antiXsrfTokenValue;
+        //Atributos
+        private const string AntiXsrfTokenKey = "__AntiXsrfToken";          //Tokens usados para protección contra ataques XSRF
+        private const string AntiXsrfUserNameKey = "__AntiXsrfUserName";    //Tokens usados para protección contra ataques XSRF
+        private string _antiXsrfTokenValue;                                 //Tokens usados para protección contra ataques XSRF
+        private static EntidadUsuario usuarioLogueado;              //Instancia que almacena la información del usuario conectado
 
-        private static EntidadUsuario usuarioLogueado;
-
+        /*
+         * Código de inicialización, aparentemente se ejecuta sólo una vez.
+         */
         protected void Page_Init(object sender, EventArgs e)
         {
             // El código siguiente ayuda a proteger frente a ataques XSRF
@@ -46,10 +54,12 @@ namespace ProyectoInventarioOET
                 }
                 Response.Cookies.Set(responseCookie);
             }
-
             Page.PreLoad += master_Page_PreLoad;
         }
 
+        /*
+         * Pre carga del SiteMaster, maneja los tokens.
+         */
         protected void master_Page_PreLoad(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -69,6 +79,10 @@ namespace ProyectoInventarioOET
             }
         }
 
+        /*
+         * Método Page_Load del SiteMaster, por ahora se encarga de mostrar los elementos correctos al usuario dependiendo de
+         * si está conectado o no.
+         */
         protected void Page_Load(object sender, EventArgs e)
         {
             if(usuarioLogueado != null)
@@ -87,11 +101,18 @@ namespace ProyectoInventarioOET
             }
         }
 
+        /*
+         * Método no usado.
+         */
         protected void Unnamed_LoggingOut(object sender, LoginCancelEventArgs e)
         {
             Context.GetOwinContext().Authentication.SignOut();
         }
 
+        /*
+         * Para simular el cierre de sesión esconde todos los elementos y borra el usuario que estaba conectado antes.
+         * Muestra de nuevo el enlace para iniciar sesión.
+         */
         protected void cerrarSesion(object sender, EventArgs e)
         {
             usuarioLogueado = null;
@@ -105,11 +126,13 @@ namespace ProyectoInventarioOET
             this.linkFormAdministracion.Visible = false;
         }
 
+        /*
+         * Setter y getter para el atributo de usuarioLogueado.
+         */
         public EntidadUsuario Usuario
         {
             get { return usuarioLogueado; }
             set { usuarioLogueado = value; }
         }
     }
-
 }
