@@ -8,10 +8,17 @@ using ProyectoInventarioOET.Módulo_Seguridad;
 
 namespace ProyectoInventarioOET
 {
+    /*
+     * ???
+     */
     public partial class FormLogin : System.Web.UI.Page
     {
+        //Atributos
         static ControladoraSeguridad controladora;
 
+        /*
+         * ???
+         */
         protected void Page_Load(object sender, EventArgs e)
         {
             if(!IsPostBack)
@@ -20,6 +27,9 @@ namespace ProyectoInventarioOET
             }
         }
 
+        /*
+         * ???
+         */
         protected void iniciarSesion(object sender, EventArgs e)
         {
             EntidadUsuario usuario = controladora.consultarUsuario(UserName.Text, Password.Text);
@@ -37,6 +47,9 @@ namespace ProyectoInventarioOET
             }
         }
 
+        /*
+         * ???
+         */
         protected void mostrarMensaje()
         {
             mensajeAlerta.Attributes["class"] = "alert alert-danger alert-dismissable fade in";
