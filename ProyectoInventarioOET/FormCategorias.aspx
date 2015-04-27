@@ -67,6 +67,8 @@
             <div class="form-group" id="camposCategoria" visible="false" runat="server">
                 <label for="inputNombre" class= "control-label"> Descripcion*: </label>      
                 <input type="text" id= "inputNombre" class="form-control" required runat="server" ><br>
+                <asp:DropDownList id="comboBoxEstadosActividades" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
+                    </asp:DropDownList>
             </div>
 
           

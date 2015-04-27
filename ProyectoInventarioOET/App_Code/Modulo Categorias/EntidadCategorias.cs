@@ -14,8 +14,6 @@ namespace ProyectoInventarioOET.Modulo_Categorias
         private String nombre;                  //???
         private String descripcion;             //???
         private int estado;                     //???
-        private object[] datoscategoriaNueva; //wtf?
-        private string p; //wtf?
 
         /*
          * Constructor.
@@ -53,6 +51,11 @@ namespace ProyectoInventarioOET.Modulo_Categorias
         {
             get { return descripcion; }
             set { descripcion = value; }
+        }
+        public int Estado
+        {
+            get { return estado; }
+            set { estado = value; }
         }
 
         //TODO: eliminar este método.
