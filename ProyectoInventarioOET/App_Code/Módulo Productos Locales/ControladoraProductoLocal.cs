@@ -6,21 +6,34 @@ using System.Data;
 
 namespace ProyectoInventarioOET.Módulo_Productos_Locales
 {
+    /*
+     * ???
+     */
     public class ControladoraProductoLocal
     {
-        private ControladoraBDProductosLocales controladoraBD;
-        private EntidadProductoLocal productoActual; 
+        //Atributos
+        private ControladoraBDProductosLocales controladoraBD;  //???
+        private EntidadProductoLocal productoActual; //wtf?
 
+        /*
+         * Constructor.
+         */
         public ControladoraProductoLocal()
         {
             controladoraBD = new ControladoraBDProductosLocales();
         }
 
+        /*
+         * ???
+         */
         public DataTable consultarProductosDeBodega(String idBodega)
         {
             return controladoraBD.consultarProductosDeBodega(idBodega);
         }
 
+        /*
+         * ???
+         */
         public DataTable consultarProductoDeBodega(String idBodega, String idProducto)
         {
             return controladoraBD.consultarProductoDeBodega(idBodega, idProducto);
