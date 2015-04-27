@@ -47,7 +47,7 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
          */
         public DataTable consultarProductosGlobales()
         {
-            return ControladoraBDProductosGlobales.consultarProductosGlobales();
+            return controladoraBD.consultarProductosGlobales();
         }
 
         public DataTable consultarCategorias()
@@ -60,7 +60,7 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
 
         public DataTable consultarProductosGlobales(string query)
         {
-            return ControladoraBDProductosGlobales.consultarProductosGlobales(query); ;
+            return controladoraBD.consultarProductosGlobales(query); ;
         }
     }
 }

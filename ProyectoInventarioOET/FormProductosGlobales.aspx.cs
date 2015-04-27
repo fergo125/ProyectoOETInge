@@ -249,17 +249,16 @@ namespace ProyectoInventarioOET
             int id = 0; // Es la posicion en donde se guardan los iD'  
             try
             {
+                DataTable productosGlobales;
                 Object[] datos = new Object[4];
 
                 if (query == null)
                 {
-                    DataTable productosGlobales = controladora.consultarProductosGlobales(); //Se trae el resultado de todos los productos
+                    productosGlobales = controladora.consultarProductosGlobales(); //Se trae el resultado de todos los productos
                 }
                 else {
-                    DataTable productosGlobales = controladora.consultarProductosGlobales(query); //Se trae el resultado de todos los productos
+                    productosGlobales = controladora.consultarProductosGlobales(query); //Se trae el resultado de todos los productos
                 }
-                
-                
                 
                 Dictionary<String, String>  mapCategorias= traduccionCategorias(); // Para cargar y llenar el map con los codigos de las categorias
                 Dictionary<String, String> mapEstado = traduccionEstado(); // Para cargar y llenar el map con los codigos de las categorias
@@ -353,7 +352,7 @@ namespace ProyectoInventarioOET
             mostrarMensaje(error[0], error[1], error[2]);
             if (error[0].Contains("success"))
             {
-                llenarGrid();
+                llenarGrid(null);
             }
             else
             {
@@ -429,7 +428,7 @@ namespace ProyectoInventarioOET
          */
         protected void botonConsultaProductos_ServerClick(object sender, EventArgs e)
         {
-            llenarGrid();
+            llenarGrid(null);
             modo = (int)Modo.Consulta;
             cambiarModo();
         }
@@ -507,7 +506,7 @@ namespace ProyectoInventarioOET
 
         protected void gridViewProductosGlobales_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
-            llenarGrid();
+            llenarGrid(null);
             this.gridViewProductosGlobales.PageIndex = e.NewPageIndex;
             this.gridViewProductosGlobales.DataBind();
         }
@@ -522,7 +521,7 @@ namespace ProyectoInventarioOET
 
         protected void botonBuscar_ServerClick(object sender, EventArgs e)
         {
-            llenarGrid();
+            llenarGrid(this.barraDeBusqueda.Value.ToString());
             modo = (int)Modo.Consulta;
             cambiarModo();
         }
