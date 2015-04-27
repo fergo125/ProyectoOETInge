@@ -33,29 +33,7 @@
       <!-- Gridview de consultar -->
     <br/>
 
-     <div class="col-lg-12" id="bloqueGrid">
 
-<%--        <label for="UpdatePanelPruebas" class= "control-label" > Catálogo global de categorias </label> OnRowCommand="gridViewCategorias_Seleccion" OnPageIndexChanging="gridViewCategorias_CambioPagina"--%>
-        <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
-            <ContentTemplate>
-                <asp:GridView ID="gridViewCategorias" CssClass="table able-responsive table-condensed" runat="server" OnRowCommand="gridViewCategorias_Seleccion" OnPageIndexChanging="gridViewCategorias_CambioPagina" AllowPaging="True" PageSize="16" BorderColor="Transparent" Visible ="false">
-                    <Columns>
-                        <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn-default" CommandName="Select" Text="Consultar">
-                            <ControlStyle CssClass="btn-default disabled"></ControlStyle>
-                        </asp:ButtonField>
-                   </Columns>
-                   <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
-                   <PagerStyle CssClass="paging" HorizontalAlign="Center" />
-                   <AlternatingRowStyle BackColor="#EBEBEB" />
-                   <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
-                   <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" />
-              </asp:GridView>
-         </ContentTemplate>
-         <Triggers>
-            <asp:AsyncPostBackTrigger ControlID="gridViewCategorias" EventName="RowCommand" />
-         </Triggers>
-      </asp:UpdatePanel>
-   </div>
 
     <!-- Fieldset que muestra el form para agregar un nuevo categoria -->
     <div class= "row" id="bloqueFormulario" >
@@ -78,11 +56,33 @@
 
     </fieldset>
     </div>
+         <div class="col-lg-12" id="bloqueGrid">
 
+<%--  <label for="UpdatePanelPruebas" class= "control-label" > Catálogo global de categorias </label> OnRowCommand="gridViewCategorias_Seleccion" OnPageIndexChanging="gridViewCategorias_CambioPagina"--%>
+        <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
+            <ContentTemplate>
+                <asp:GridView ID="gridViewCategorias" CssClass="table able-responsive table-condensed" runat="server" OnRowCommand="gridViewCategorias_Seleccion" OnPageIndexChanging="gridViewCategorias_CambioPagina" AllowPaging="True" PageSize="16" BorderColor="Transparent" Visible ="false">
+                    <Columns>
+                        <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn-default" CommandName="Select" Text="Consultar">
+                            <ControlStyle CssClass="btn-default disabled"></ControlStyle>
+                        </asp:ButtonField>
+                   </Columns>
+                   <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
+                   <PagerStyle CssClass="paging" HorizontalAlign="Center" />
+                   <AlternatingRowStyle BackColor="#EBEBEB" />
+                   <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
+                   <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" />
+              </asp:GridView>
+         </ContentTemplate>
+         <Triggers>
+            <asp:AsyncPostBackTrigger ControlID="gridViewCategorias" EventName="RowCommand" />
+         </Triggers>
+      </asp:UpdatePanel>
+   </div>
 <%--    Botones de aceptar y cancelar acción--%> 
     <div class= "row" id="bloqueBotones" visible="true" runat="server">
         <div class="text-center">
-            <button id="botonAceptar" class="btn btn-success-fozkr" type="button" runat="server" > Aceptar </button>
+            <button id="botonAceptar" class="btn btn-success-fozkr" type="button" runat="server" onserverclick="botonAceptarCategoria_ServerClick" > Aceptar </button>
             <a id="botonCancelar" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cancelar</a>
         </div>
     </div>
@@ -107,7 +107,7 @@
                     ¿Está seguro que desea cancelar los cambios? Perdería todos los datos no guardados.
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="botonAceptarModalCancelar" class="btn btn-success-fozkr" runat="server"> Aceptar</button>
+                    <button type="button" id="botonAceptarModalCancelar" class="btn btn-success-fozkr" runat="server" > Aceptar</button>
                     <!--onserverclick="botonCancelarModalCancelar_ServerClick" --> 
                     <button type="button" id="botonCancelarModalCancelar" class="btn btn-danger-fozkr" onserverclick="botonCancelarModalCancelar_ServerClick" data-dismiss="modal" runat="server" >Cancelar</button>                   
                 </div>

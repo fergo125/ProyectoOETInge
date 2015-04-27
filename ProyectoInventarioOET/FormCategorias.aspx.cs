@@ -92,6 +92,7 @@ namespace ProyectoInventarioOET
                 camposCategoria.Visible = true;
                 gridViewCategorias.Visible = false;
                 comboBoxEstadosActividades.Enabled = true;
+                cargarEstados();
             }
             else if (modo == (int)Modo.Inicial)
             { // eliminar
@@ -131,11 +132,6 @@ namespace ProyectoInventarioOET
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
             columna.ColumnName = "Nombre";
-            tabla.Columns.Add(columna);
-
-            columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Descripción";
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
@@ -292,7 +288,8 @@ namespace ProyectoInventarioOET
                         datos[0] = fila[0].ToString();
                         datos[1] = fila[1].ToString();
                         datos[2] = fila[2];
-                        tabla.Rows.Add(datos);
+                        Object[] datos2 = new Object[2] { datos[1], Convert.ToInt16(datos[2].ToString()) == 1 ? "Activo" : "inactivo" };
+                        tabla.Rows.Add(datos2);
                         idArray[i] = datos;
 
                         if (categoriaConsultada != null && (fila[0].Equals(categoriaConsultada.Nombre)))
