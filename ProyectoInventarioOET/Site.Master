@@ -50,7 +50,7 @@
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-brand">
                         <%-- Productos --%>
-                        <li id="linkFormProductos" runat="server" class="dropdown">
+                        <li id="linkFormProductos" runat="server" class="dropdown" visible="false">
                             <a runat="server" class="dropdown-toggle" data-toggle="dropdown" href="#">
                                 Productos<span class="caret"></span>
                             </a>
@@ -60,7 +60,7 @@
                             </ul>
                         </li>
                         <%-- Bodegas --%>
-                        <li id="linkFormBodegas" runat="server" class="dropdown">
+                        <li id="linkFormBodegas" runat="server" class="dropdown" visible="false">
                             <a runat="server" class="dropdown-toggle" data-toggle="dropdown" href="#">
                                 Bodegas<span class="caret"></span>
                             </a>
@@ -71,7 +71,7 @@
                             </ul>
                         </li>
                         <%-- Inventario --%>
-                        <li id="linkFormInventario" runat="server" class="dropdown">
+                        <li id="linkFormInventario" runat="server" class="dropdown" visible="false">
                             <a runat="server" class="dropdown-toggle" data-toggle="dropdown" href="#">
                                 Inventario<span class="caret"></span>
                             </a>
@@ -82,9 +82,11 @@
                             </ul>
                         </li>
                         <%-- Ventas --%>
-                        <li id="linkFormVentas" runat="server"><a runat="server" href="~/FormVentas">Ventas</a></li>
+                        <li id="linkFormVentas" runat="server" visible="false">
+                            <a runat="server" href="~/FormVentas">Ventas</a>
+                        </li>
                         <%-- Administración --%>
-                        <li id="linkFormAdministracion" runat="server" class="dropdown">
+                        <li id="linkFormAdministracion" runat="server" class="dropdown" visible="false">
                             <a runat="server" class="dropdown-toggle" data-toggle="dropdown" href="#">
                                 Administración<span class="caret"></span>
                             </a>

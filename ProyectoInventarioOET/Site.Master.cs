@@ -91,39 +91,8 @@ namespace ProyectoInventarioOET
                 this.linkIniciarSesion.Visible = false;
                 this.linkNombreUsuarioLogueado.Visible = true;
                 this.linkCerrarSesion.Visible = true;
-                //TODO poner los links como invisibles por default para que sólo puedan usarse después de iniciar sesión
-                //TODO pesonalizar cuáles links serán visibles para cada perfil
-                this.linkFormProductos.Visible = true;
-                this.linkFormBodegas.Visible = true;
-                this.linkFormInventario.Visible = true;
-                this.linkFormVentas.Visible = true;
-                this.linkFormAdministracion.Visible = true;
+                esconderLinks(false);
             }
-        }
-
-        /*
-         * Método no usado.
-         */
-        protected void Unnamed_LoggingOut(object sender, LoginCancelEventArgs e)
-        {
-            Context.GetOwinContext().Authentication.SignOut();
-        }
-
-        /*
-         * Para simular el cierre de sesión esconde todos los elementos y borra el usuario que estaba conectado antes.
-         * Muestra de nuevo el enlace para iniciar sesión.
-         */
-        protected void cerrarSesion(object sender, EventArgs e)
-        {
-            usuarioLogueado = null;
-            this.linkIniciarSesion.Visible = true;
-            this.linkNombreUsuarioLogueado.Visible = false;
-            this.linkCerrarSesion.Visible = false;
-            this.linkFormProductos.Visible = false;
-            this.linkFormBodegas.Visible = false;
-            this.linkFormInventario.Visible = false;
-            this.linkFormVentas.Visible = false;
-            this.linkFormAdministracion.Visible = false;
         }
 
         /*
@@ -133,6 +102,41 @@ namespace ProyectoInventarioOET
         {
             get { return usuarioLogueado; }
             set { usuarioLogueado = value; }
+        }
+
+        /*
+         * Para simular el cierre de sesión esconde todos los elementos y borra el usuario que estaba conectado antes.
+         * Muestra de nuevo el enlace para iniciar sesión.
+         */
+        protected void cerrarSesion(object sender, EventArgs e)
+        {
+            usuarioLogueado = null;
+            esconderLinks(true);
+        }
+
+        /*
+         * Usado cuando se inicia o cierra sesión, al iniciar sesión vuelve a todos los links visibles excepto al de iniciar sesión,
+         * al cerrar sesión los esconde, excepto el de iniciar sesión, el cual muestra.
+         */
+        protected void esconderLinks(bool esconder)
+        {
+            //TODO pesonalizar cuáles links serán visibles para cada perfil
+            this.linkIniciarSesion.Visible = esconder;
+            this.linkNombreUsuarioLogueado.Visible = !esconder;
+            this.linkCerrarSesion.Visible = !esconder;
+            this.linkFormProductos.Visible = !esconder;
+            this.linkFormBodegas.Visible = !esconder;
+            this.linkFormInventario.Visible = !esconder;
+            this.linkFormVentas.Visible = !esconder;
+            this.linkFormAdministracion.Visible = !esconder;
+        }
+
+        /*
+         * Método no usado.
+         */
+        protected void Unnamed_LoggingOut(object sender, LoginCancelEventArgs e)
+        {
+            Context.GetOwinContext().Authentication.SignOut();
         }
     }
 }
