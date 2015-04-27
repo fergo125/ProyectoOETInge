@@ -286,5 +286,21 @@ namespace ProyectoInventarioOET
         {
 
         }
+        //NO BORRAR
+        //int contador = 0; //Sirve para saber cuantos productos se asociaron y no recorrer todo el arreglo que puede tener muchos campos vacios
+        //String[] productosSeleccionados = new String[gridProductosDisponibles.Rows.Count];//podria ser mas grande, como del total de productos disponibles, no se si esto toma en cuenta si hay multipagina	
+
+        //for (int i = 0; i < gridProductosDisponibles.Rows.Count; i++)
+        //{				
+        //    GridViewRow fila = gridProductosDisponibles.Rows[i];
+        //    bool estaSeleccionadoProducto = ((CheckBox)fila.FindControl("checkBoxProductos")).Checked;
+        //    if (estaSeleccionadoProducto)
+        //    {
+        //        String nuevoProducto = gridProductosDisponibles.Rows[i].Cells[2].Text.ToString() ;
+        //        productosSeleccionados[contador] = nuevoProducto; 
+        //        contador++;
+        //    }
+				
+        //}
     }
 }
