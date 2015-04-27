@@ -286,21 +286,53 @@ namespace ProyectoInventarioOET
         {
 
         }
-        //NO BORRAR
-        //int contador = 0; //Sirve para saber cuantos productos se asociaron y no recorrer todo el arreglo que puede tener muchos campos vacios
-        //String[] productosSeleccionados = new String[gridProductosDisponibles.Rows.Count];//podria ser mas grande, como del total de productos disponibles, no se si esto toma en cuenta si hay multipagina	
 
-        //for (int i = 0; i < gridProductosDisponibles.Rows.Count; i++)
+        //NO BORRAR    
+        //La idea seria q haya un boton de asignacion de productos a la par del de consulta 
+        //y que eso haga que se muestre el grid de productos disponibles, se marquen
+        //los checkboxes y al momento de darle aceptar con el codigo de abajo se pueden tomar
+        //los que estan seleccionados.
+
+        //Con esto que sigue se llena el grid de productos a asignar
+        //if (this.DropDownListBodega.SelectedItem != null)
+        //{
+        //    bodegaSeleccionada = this.DropDownListBodega.SelectedIndex;
+        //    pagina = 0;
+        //    FieldsetCatalogoLocal.Visible = true;
+        //    String idBodega = idArray2[bodegaSeleccionada].ToString();
+        //    catalogoLocal = tablaCatalogoLocal();
+        //    DataTable productos = controladoraProductoLocal.consultarProductosDeBodega(idBodega);
+        //    if (productos.Rows.Count > 0)
+        //    {
+        //        Object[] datos = new Object[5];
+        //        int i;
+        //        foreach (DataRow producto in productos.Rows)
+        //        {
+        //            for (i = 0; i < 5; i++)
+        //            {
+        //                datos[i] = producto[i];
+        //            }
+        //                catalogoLocal.Rows.Add(datos);
+        //        }
+        //    }
+        //    this.gridViewProductosDisponibles.DataSource = catalogoLocal;
+        //    this.gridViewProductosDisponibles.PageIndex = pagina;
+        //    this.gridViewProductosDisponibles.DataBind();
+        //}
+
+        //Con esto se recolectan los productos asociados para luego asociarlos en la BD
+        //int contador = 0; //Sirve para saber cuantos productos se asociaron y no recorrer todo el arreglo que puede tener muchos campos vacios
+        //String[] productosSeleccionados = new String[gridViewProductosDisponibles.Rows.Count];//podria ser mas grande, como del total de productos disponibles, no se si esto toma en cuenta si hay multipagina
+        //for (int i = 0; i < gridViewProductosDisponibles.Rows.Count; i++)
         //{				
-        //    GridViewRow fila = gridProductosDisponibles.Rows[i];
+        //    GridViewRow fila = gridViewProductosDisponibles.Rows[i];
         //    bool estaSeleccionadoProducto = ((CheckBox)fila.FindControl("checkBoxProductos")).Checked;
         //    if (estaSeleccionadoProducto)
         //    {
-        //        String nuevoProducto = gridProductosDisponibles.Rows[i].Cells[2].Text.ToString() ;
+        //        String nuevoProducto = gridViewProductosDisponibles.Rows[i].Cells[2].Text.ToString() ;
         //        productosSeleccionados[contador] = nuevoProducto; 
         //        contador++;
         //    }
-				
         //}
     }
 }

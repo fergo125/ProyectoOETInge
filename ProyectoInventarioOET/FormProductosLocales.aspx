@@ -180,7 +180,8 @@
         <br />
     </fieldset> 
 
-<%-- NO BORRAR	<asp:GridView ID="gridProductosDisponibles" CssClass="table table-responsive table-condensed" OnPageIndexChanging runat="server" AllowPaging="True" PageSize="5" BorderColor="Transparent">
+<%-- NO BORRAR ****Falta metodo para manejar cambios de pagina	
+            <asp:GridView ID="gridViewProductosDisponibles" CssClass="table table-responsive table-condensed" OnPageIndexChanging runat="server" AllowPaging="True" PageSize="5" BorderColor="Transparent">
 						<Columns>
 							<asp:TemplateField HeaderText="Seleccionar">
 								<ItemTemplate>
