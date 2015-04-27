@@ -1,13 +1,17 @@
-﻿using Oracle.DataAccess.Client;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
+using System.Web;
+using System.Data;
+using Oracle.DataAccess.Client; //para conectarse a la base de datos manualmente con strings
+using System.Data.SqlClient;
 
 namespace ProyectoInventarioOET.Módulo_Productos_Locales
 {
+    /*
+     * ???
+     * Comunicación con la Base de Datos.
+     */
     public class ControladoraBDProductosLocales : ControladoraBD
     {
         /*public EntidadProductoLocal consultarProductoLocal(String id)
@@ -44,6 +48,9 @@ namespace ProyectoInventarioOET.Módulo_Productos_Locales
             throw new NotImplementedException();
         }*/
 
+        /*
+         * ???
+         */
         public DataTable consultarProductosDeBodega(String idBodega)
         {
             DataTable resultado = new DataTable();
@@ -61,6 +68,9 @@ namespace ProyectoInventarioOET.Módulo_Productos_Locales
             return resultado;
         }
 
+        /*
+         * ???
+         */
         public DataTable consultarProductoDeBodega(String idBodega, String idProducto)
         {
             DataTable resultado = new DataTable();
@@ -79,6 +89,5 @@ namespace ProyectoInventarioOET.Módulo_Productos_Locales
             }
             return resultado;
         }
-
     }
 }
