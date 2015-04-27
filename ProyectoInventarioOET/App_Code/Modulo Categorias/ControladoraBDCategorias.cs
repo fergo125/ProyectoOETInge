@@ -27,12 +27,12 @@ namespace ProyectoInventarioOET.Modulo_Categorias
         public String[] insertarCategoria(EntidadCategoria categoria)
         {
             String[] res = new String[4];
-            res[4] = categoria.Nombre;
+            res[3] = categoria.Nombre;
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "INSERT INTO CAT_CATEGORIAS (CAT_CATEGORIAS,DESCRIPCION) VALUES ('"
-                + categoria.Nombre + "','" + categoria.Descripcion + ")";
+                command.CommandText = "INSERT INTO CAT_CATEGORIAS (CAT_CATEGORIAS,DESCRIPCION,Estado) VALUES ('"
+                + categoria.Nombre + "','" + categoria.Descripcion + "','" + categoria.Estado+ "')";
                 OracleDataReader reader = command.ExecuteReader();
 
                 res[0] = "success";

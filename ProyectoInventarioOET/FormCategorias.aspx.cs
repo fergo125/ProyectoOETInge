@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using ProyectoInventarioOET.Modulo_Categorias;
+using ProyectoInventarioOET.App_Code;
 
 namespace ProyectoInventarioOET
 {
@@ -17,13 +18,12 @@ namespace ProyectoInventarioOET
         enum Modo { Inicial, Consulta, Insercion, Modificacion, Consultado };
         //Atributos
         private static int modo = (int)Modo.Inicial;                    //???
-        private static int idCategoria = 0; //Sirve para estar en modo consulta???
         private static int resultadosPorPagina; //wtf?
         private static Object[][] idArray;                              //???
         private static ControladoraCategorias controladoraCategorias;   //???
         private static EntidadCategoria categoriaConsultada;            //???
         private static bool seConsulto = false;                         //???
-
+        private static ControladoraDatosGenerales controladoraDatosGenerales;
         /*
          * ???
          */
@@ -32,7 +32,7 @@ namespace ProyectoInventarioOET
             if (!IsPostBack)
             {
                 controladoraCategorias = new ControladoraCategorias();
-
+                controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
                 if (!seConsulto)
                 {
                     modo = 0;
@@ -45,6 +45,7 @@ namespace ProyectoInventarioOET
                     }
                     else
                     {
+                        cargarEstados();
                         setDatosConsultados();
                         llenarGrid();
                         seConsulto = false;
@@ -68,7 +69,7 @@ namespace ProyectoInventarioOET
                 botonConsultaCategoria.Disabled = true;
                 camposCategoria.Visible = false;
                 gridViewCategorias.Visible = true;
-                cargarDatosCategorias();
+                comboBoxEstadosActividades.Enabled = false;
             }
             else if (modo == (int)Modo.Modificacion)
             { // se desea insertar
@@ -79,6 +80,7 @@ namespace ProyectoInventarioOET
                 botonConsultaCategoria.Disabled = true;
                 camposCategoria.Visible = true;
                 gridViewCategorias.Visible = false;
+                comboBoxEstadosActividades.Enabled = false;
             }
             else if (modo == (int)Modo.Insercion)
             { //modificar
@@ -89,6 +91,7 @@ namespace ProyectoInventarioOET
                 botonConsultaCategoria.Disabled = false;
                 camposCategoria.Visible = true;
                 gridViewCategorias.Visible = false;
+                comboBoxEstadosActividades.Enabled = true;
             }
             else if (modo == (int)Modo.Inicial)
             { // eliminar
@@ -99,6 +102,7 @@ namespace ProyectoInventarioOET
                 botonConsultaCategoria.Disabled = false;
                 camposCategoria.Visible = false;
                 gridViewCategorias.Visible = false;
+                comboBoxEstadosActividades.Enabled = false;
             }
             else if (modo == (int)Modo.Consultado)
             { // eliminar
@@ -111,16 +115,9 @@ namespace ProyectoInventarioOET
                 camposCategoria.Disabled = true;
                 inputNombre.Disabled = true;
                 gridViewCategorias.Visible = true;
+                comboBoxEstadosActividades.Enabled = false;
             }
             //aplicarPermisos();// se aplican los permisos del usuario para el acceso a funcionalidades
-        }
-
-        /*
-         * ???
-         */
-        protected void cargarDatosCategorias()
-        {
-
         }
 
         /*
@@ -141,9 +138,23 @@ namespace ProyectoInventarioOET
             columna.ColumnName = "Descripción";
             tabla.Columns.Add(columna);
 
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Estado";
+            tabla.Columns.Add(columna);
+
             return tabla;
         }
-
+        protected void cargarEstados()
+        {
+            comboBoxEstadosActividades.Items.Clear();
+            comboBoxEstadosActividades.Items.Add(new ListItem("", null));
+            DataTable estados = controladoraDatosGenerales.consultarEstadosActividad();
+            foreach (DataRow fila in estados.Rows)
+            {
+                comboBoxEstadosActividades.Items.Add(new ListItem(fila[1].ToString(), fila[2].ToString()));
+            }
+        }
         /*
          * ???
          */
@@ -161,9 +172,10 @@ namespace ProyectoInventarioOET
             {
                 case "Select":
                     GridViewRow filaSeleccionada = this.gridViewCategorias.Rows[Convert.ToInt32(e.CommandArgument)];
-                    Object[] entidad = new Object[2];
+                    Object[] entidad = new Object[3];
                     entidad[0] = idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewCategorias.PageIndex * resultadosPorPagina)][0];
                     entidad[1] = idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewCategorias.PageIndex * resultadosPorPagina)][1];
+                    entidad[2] = idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewCategorias.PageIndex * resultadosPorPagina)][2];
                     categoriaConsultada = new EntidadCategoria(entidad);
                     seConsulto = true;
                     modo = 4;
@@ -254,6 +266,7 @@ namespace ProyectoInventarioOET
         protected void setDatosConsultados()
         {
             this.inputNombre.Value = categoriaConsultada.Descripcion;
+            this.comboBoxEstadosActividades.SelectedValue = Convert.ToString(categoriaConsultada.Estado);
         }
 
         /*
@@ -268,7 +281,7 @@ namespace ProyectoInventarioOET
             try
             {
                 // Cargar bodegas
-                Object[] datos = new Object[2];
+                Object[] datos = new Object[3];
                 DataTable categorias = controladoraCategorias.consultarCategorias();
 
                 if (categorias.Rows.Count > 0)
@@ -278,6 +291,7 @@ namespace ProyectoInventarioOET
                     {
                         datos[0] = fila[0].ToString();
                         datos[1] = fila[1].ToString();
+                        datos[2] = fila[2];
                         tabla.Rows.Add(datos);
                         idArray[i] = datos;
 
