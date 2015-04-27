@@ -7,47 +7,62 @@ using System.Data;
 
 namespace ProyectoInventarioOET.Modulo_Categorias
 {
+    /*
+     * ???
+     */
     public class ControladoraCategorias
     {
+        //Atributos
+        private ControladoraBDCategorias controladoraBDCategorias;  //???
 
-        private ControladoraBDCategorias controladoraBDCategorias;
-
+        /*
+         * Constructor.
+         */
         public ControladoraCategorias()
         {
             controladoraBDCategorias = new ControladoraBDCategorias();
         }
 
-
+        /*
+         * Consulta la información de una categoria particular.
+         */
         public EntidadCategoria consultarCategoria(String id)
         {
-            /*consulta la información de una categoria particular*/
             return controladoraBDCategorias.consultarCategoria(id);
         }
 
+        /*
+         * Crea una nueva categoria dado un vector con los datos de la misma.
+         */
         public String[] insertarDatos(string descripcion)
         {
-            /*crea una nueva categoria dado un vector con los datos de la misma*/
             EntidadCategoria categoria = new EntidadCategoria(descripcion);
             return controladoraBDCategorias.insertarCategoria(categoria);
         }
 
+        /*
+         * Modifica los datos de una categoria particular.
+         */
         public String[] modificarDatos(EntidadCategoria categoriaVieja, Object[] datoscategoriaNueva)
         {
-            /*modifica los datos de una categoria particular*/
             EntidadCategoria categoriaNueva = new EntidadCategoria(datoscategoriaNueva);
             return controladoraBDCategorias.modificarCategoria(categoriaVieja, categoriaNueva);
         }
 
+        /*
+         * Desactiva una categoria de la base de datos.
+         */
         public String[] desactivarcategoria(EntidadCategoria categoria)
         {
-            /*desactiva una categoria de la base de datos*/
             return controladoraBDCategorias.desactivarCategoria(categoria);
         }
 
+        /*
+         * Consulta la información de todas las categorias.
+         */
         public DataTable consultarCategorias()
         {
-            /*consulta la información de todas las categorias*/
             return controladoraBDCategorias.consultarCategorias();
         }
     }
-    }
+}
