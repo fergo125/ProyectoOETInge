@@ -16,7 +16,7 @@ namespace ProyectoInventarioOET
         enum Modo { Inicial, Consulta, Insercion, Modificacion, Consultado };
         private static int modo = (int) Modo.Inicial;
         private static Boolean seConsulto = false;
-        private const int resultadosPorPagina = 16;
+        private static int resultadosPorPagina;  //Creo que hay que modificarlo por 16
         private static Object[] idArray;
         private static EntidadProductoGlobal productoConsultado;
         private static ControladoraDatosGenerales controladoraDatosGenerales;
@@ -198,7 +198,7 @@ namespace ProyectoInventarioOET
             datos[10] = this.inputVendible.SelectedValue;
             datos[11] = this.inputPrecioColones.Value;
             datos[12] = this.inputPrecioDolares.Value;
-            datos[13] = 0; // Id que identifica se genera despues en la controladora de BD
+            datos[13] = "0"; // Id que identifica se genera despues en la controladora de BD
             return datos;
         }
 
