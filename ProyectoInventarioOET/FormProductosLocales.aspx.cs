@@ -131,7 +131,18 @@ namespace ProyectoInventarioOET
             // costo col, costo dol, min, max, creador, creado, modifica, modificado, costo ult col, costo ult dol, idproveedor ult
             if (consultaProducto.Rows.Count > 0)
             {
-                DataRow producto = consultaProducto.Rows[0];
+                DataRow productos = consultaProducto.Rows[0];
+                String[] producto = new String[consultaProducto.Columns.Count];
+
+                for (int i = 0; i < consultaProducto.Columns.Count; i++)
+                {
+                    producto[i] = productos[i].ToString();
+                    if (producto[i].Length==0)
+                    {
+                        producto[i] = "No disponible";
+                    }
+                }
+
                 inputNombre.Value = producto[0].ToString();
                 inputCodigo.Value = producto[1].ToString();
                 inputCodigoBarras.Value = producto[2].ToString();
