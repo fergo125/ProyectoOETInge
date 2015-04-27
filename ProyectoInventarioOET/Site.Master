@@ -17,7 +17,6 @@
     <link href="Content/bootstrap.css" rel="stylesheet" />
 </head>
 
-
 <body>
     <form runat="server">
         <asp:ScriptManager runat="server">

@@ -10,50 +10,59 @@ using ProyectoInventarioOET.App_Code;
 
 namespace ProyectoInventarioOET
 {
+    /*
+     * ???
+     */
     public partial class FormBodegas : System.Web.UI.Page
     {
         enum Modo { Inicial, Consulta, Insercion, Modificacion, Consultado };
-        private static int resultadosPorPagina;
-        private static EntidadBodega bodegaConsultada;
-        private static ControladoraBodegas controladoraBodegas;
-        private static ControladoraDatosGenerales controladoraDatosGenerales;
-        private static Boolean seConsulto = false;
-        private static Object[] idArray;
-        private static int modo = (int)Modo.Inicial;
+        //Atributos
+        private static int resultadosPorPagina; //wtf?
+        private static EntidadBodega bodegaConsultada;                          //???
+        private static ControladoraBodegas controladoraBodegas;                 //???
+        private static ControladoraDatosGenerales controladoraDatosGenerales;   //???
+        private static Boolean seConsulto = false;                              //???
+        private static Object[] idArray;                                        //???
+        private static int modo = (int)Modo.Inicial;                            //???
 
+        /*
+         * ???
+         */
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                
-                    controladoraBodegas = new ControladoraBodegas();
-                    controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
+                controladoraBodegas = new ControladoraBodegas();
+                controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
 
-                    if (!seConsulto)
+                if (!seConsulto)
+                {
+                    modo = (int)Modo.Inicial;
+                }
+                else
+                {
+                    if (bodegaConsultada == null)
                     {
-                        modo = (int)Modo.Inicial;
+                        mostrarMensaje("warning", "Alerta: ", "No se pudo consultar la bodega.");
                     }
-                    else{
-                        if (bodegaConsultada == null)
-                        {
-                            mostrarMensaje("warning", "Alerta: ", "No se pudo consultar la bodega.");
-                        }
-                        else
-                        {
-                            cargarEstados();
-                            cargarAnfitriones();
-                            cargarEstaciones();
-                            cargarIntenciones();
-                            setDatosConsultados();
+                    else
+                    {
+                        cargarEstados();
+                        cargarAnfitriones();
+                        cargarEstaciones();
+                        cargarIntenciones();
+                        setDatosConsultados();
 
-                            seConsulto = false;
-                        }
+                        seConsulto = false;
                     }
+                }
             }
             cambiarModo();
-            
         }
 
+        /*
+         * ???
+         */
         protected void cambiarModo()
         {
             switch (modo)
@@ -120,7 +129,9 @@ namespace ProyectoInventarioOET
             }
         }
 
-
+        /*
+         * ???
+         */
         protected void gridViewBodegas_Seleccion(object sender, GridViewCommandEventArgs e)
         {
             switch (e.CommandName) 
@@ -135,6 +146,9 @@ namespace ProyectoInventarioOET
             }
         }
 
+        /*
+         * ???
+         */
         protected void gridViewBodegas_CambioPagina(Object sender, GridViewPageEventArgs e)
         {
             llenarGrid();
@@ -142,7 +156,9 @@ namespace ProyectoInventarioOET
             this.gridViewBodegas.DataBind();
         }
 
-
+        /*
+         * ???
+         */
         protected void llenarGrid()
         {
                 DataTable tabla = tablaBodegas();
@@ -187,6 +203,9 @@ namespace ProyectoInventarioOET
                 }
         }
 
+        /*
+         * ???
+         */
         protected void vaciarGridBodegas()
         {
             DataTable tablaLimpia = null;
@@ -194,6 +213,9 @@ namespace ProyectoInventarioOET
             gridViewBodegas.DataBind();
         }
 
+        /*
+         * ???
+         */
         protected DataTable tablaBodegas()
         {
             DataTable tabla = new DataTable();
@@ -212,7 +234,9 @@ namespace ProyectoInventarioOET
             return tabla;
         }
 
-
+        /*
+         * ???
+         */
         protected void mostrarMensaje(String tipoAlerta, String alerta, String mensaje)
         {
             mensajeAlerta.Attributes["class"] = "alert alert-" + tipoAlerta + " alert-dismissable fade in";
@@ -221,7 +245,9 @@ namespace ProyectoInventarioOET
             mensajeAlerta.Visible = true;
         }
 
-
+        /*
+         * ???
+         */
         protected void botonAceptarBodega_ServerClick(object sender, EventArgs e)
         {
             Boolean operacionCorrecta = true;
@@ -251,6 +277,9 @@ namespace ProyectoInventarioOET
             }
         }
 
+        /*
+         * ???
+         */
         protected String insertar()
         {
             String codigo = "";
@@ -273,6 +302,9 @@ namespace ProyectoInventarioOET
             return codigo;
         }
 
+        /*
+         * ???
+         */
         protected Boolean modificar()
         {
             Boolean res = true;
@@ -297,6 +329,9 @@ namespace ProyectoInventarioOET
             return res;
         }
 
+        /*
+         * ???
+         */
         protected void botonAceptarModalCancelar_ServerClick(object sender, EventArgs e)
         {
             vaciarGridBodegas();
@@ -306,10 +341,16 @@ namespace ProyectoInventarioOET
             bodegaConsultada = null;
         }
 
+        /*
+         * ???
+         */
         protected void botonAceptarModalDesactivar_ServerClick(object sender, EventArgs e)
         {
         }
 
+        /*
+         * ???
+         */
         protected void botonConsultarBodega_consultarBodegas(object sender, EventArgs e)
         {
             llenarGrid();
@@ -317,7 +358,9 @@ namespace ProyectoInventarioOET
             cambiarModo();
         }
 
-
+        /*
+         * ???
+         */
         protected void consultarBodega(String id)
         {
             seConsulto = true;
@@ -334,6 +377,9 @@ namespace ProyectoInventarioOET
             cambiarModo();
         }
 
+        /*
+         * ???
+         */
         protected Object[] obtenerDatosBodega()
         {
             Object[] datos = new Object[6];
@@ -346,6 +392,9 @@ namespace ProyectoInventarioOET
             return datos;
         }
 
+        /*
+         * ???
+         */
         protected void cargarEstados()
         {
             dropdownEstado.Items.Clear();
@@ -357,6 +406,9 @@ namespace ProyectoInventarioOET
             }
         }
 
+        /*
+         * ???
+         */
         protected void cargarIntenciones()
         {
             comboBoxIntencion.Items.Clear();
@@ -368,6 +420,9 @@ namespace ProyectoInventarioOET
             }
         }
 
+        /*
+         * ???
+         */
         protected void cargarAnfitriones()
         {
             comboBoxEmpresa.Items.Clear();
@@ -379,6 +434,9 @@ namespace ProyectoInventarioOET
             }
         }
 
+        /*
+         * ???
+         */
         protected void cargarEstaciones()
         {
             comboBoxEstacion.Items.Clear();
@@ -390,6 +448,9 @@ namespace ProyectoInventarioOET
             }
         }
 
+        /*
+         * ???
+         */
         protected void setDatosConsultados()
         {
             this.inputNombre.Value = bodegaConsultada.Nombre;
@@ -399,6 +460,9 @@ namespace ProyectoInventarioOET
             this.comboBoxIntencion.SelectedValue = Convert.ToString(bodegaConsultada.IntencionUso);
         }
 
+        /*
+         * ???
+         */
         protected void limpiarCampos()
         {
             this.inputNombre.Value = "";
@@ -408,6 +472,9 @@ namespace ProyectoInventarioOET
             this.comboBoxIntencion.SelectedValue = null;
         }
 
+        /*
+         * ???
+         */
         protected void habilitarCampos(bool habilitar)
         {
             this.inputNombre.Disabled = !habilitar;
@@ -417,6 +484,9 @@ namespace ProyectoInventarioOET
             this.comboBoxIntencion.Enabled = habilitar;
         }
 
+        /*
+         * ???
+         */
         protected void botonAgregarBodega_ServerClick(object sender, EventArgs e)
         {
             modo = (int)Modo.Insercion;
@@ -428,13 +498,13 @@ namespace ProyectoInventarioOET
             cargarIntenciones();
         }
 
+        /*
+         * ???
+         */
         protected void botonModificarBodega_ServerClick(object sender, EventArgs e)
         {
             modo = (int)Modo.Modificacion;
             cambiarModo();
         }
-
-        
-
     }
 }

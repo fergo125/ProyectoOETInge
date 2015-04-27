@@ -29,13 +29,9 @@
     <h3 id="tituloAccionBodegas"></h3>
     <br />
     
-
     <div class= "row" id="bloqueFormulario" style="display:block">
         <!-- Fieldset que muestra el form para agregar una nueva bodega -->
         <fieldset id= "FieldsetBodegas" runat="server" class="fieldset">
-
-            
-
             <div class= "col-lg-3">
                 <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
                 ControlToValidate=comboBoxEmpresa
@@ -68,8 +64,6 @@
                     <input type="text" ID="inputNombre" runat="server" class= "form-control"><br>
                 </div>
             </div>
-        
-            
             <div class="col-lg-3">
              <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
                 ControlToValidate=comboBoxIntencion
@@ -81,8 +75,6 @@
                     </asp:DropDownList>
                 </div>
             </div>
-
-
             <div class="col-lg-3">
             <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
                 ControlToValidate=dropdownEstado
@@ -93,19 +85,11 @@
                     <asp:DropDownList ID="dropdownEstado" AutoPostBack="True" runat="server" CssClass="form-control">
                     </asp:DropDownList>
                 </div>
-
             </div>
-
-        
         </fieldset>
-        
-            <label for="textoObligatorioBodega" id="textoObligatorioBodega" runat="server" class="text-danger text-center">Los campos con (*) son obligatorios</label>
+        <label for="textoObligatorioBodega" id="textoObligatorioBodega" runat="server" class="text-danger text-center">Los campos con (*) son obligatorios</label>
     </div>
-
     <br />
-
-
-
 
     <div id="bloqueGrids" class="col-lg-12" style="display:block">
         <fieldset id="FieldsetGridBodegas" center="left" runat="server" class="fieldset">
@@ -136,19 +120,15 @@
         <br />
         </fieldset>        
     </div>
-    
     <div class="col-lg-12" id="bloqueBotones" style="display:block">
         <div class =" row">
             <div class="text-center">
                 <button runat="server" onserverclick="botonAceptarBodega_ServerClick" id="botonAceptarBodega" class="btn btn-success-fozkr" type="button"><i class="fa fa-pencil-square-o"></i>Enviar</button>
                 <a id="botonCancelarBodega" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cancelar</a>
-                
             </div>
         </div>
 
     </div>
-
-
 
     <!--Modal Cancelar-->
     <div class="modal fade" id="modalCancelar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -187,6 +167,14 @@
         </div>
     </div>
 
+    <!-- Javascript -->
+    <!-- Modificar tab de site master activo -->
+    <script type = "text/javascript">
+        function setCurrentTab() {
+            document.getElementById("linkFormProductos").className = "active";
+        }
+    </script>
+    <!-- ??? -->
     <script type="text/javascript">
         function showStuff(elementoATogglear, mensaje) {
             var estado = document.getElementById(elementoATogglear).style.display;
@@ -213,6 +201,4 @@
     </script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.1.47/jquery.form-validator.min.js"> </script>
     <script> $.validate(); </script>
-
-    <br /><br /><br /><br />
-    </asp:Content>
+</asp:Content>

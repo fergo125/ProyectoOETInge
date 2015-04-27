@@ -11,19 +11,24 @@ using ProyectoInventarioOET.App_Code;
 
 namespace ProyectoInventarioOET
 {
+    /*
+     * ???
+     */
     public partial class FormProductosGlobales : System.Web.UI.Page
     {
         enum Modo { Inicial, Consulta, Insercion, Modificacion, Consultado };
-        private static int modo = (int) Modo.Inicial;
-        private static Boolean seConsulto = false;
-        private static int resultadosPorPagina;  //Creo que hay que modificarlo por 16
-        private static Object[] idArray;
-        private static EntidadProductoGlobal productoConsultado;
-        private static ControladoraDatosGenerales controladoraDatosGenerales;
-        private static ControladoraProductosGlobales controladora;
-        
-        
-       
+        //Atributos
+        private static int modo = (int) Modo.Inicial;                           //???
+        private static Boolean seConsulto = false;                              //???
+        private static int resultadosPorPagina;                                 //??? Creo que hay que modificarlo por 16
+        private static Object[] idArray;                                        //???
+        private static EntidadProductoGlobal productoConsultado;                //???
+        private static ControladoraDatosGenerales controladoraDatosGenerales;   //???
+        private static ControladoraProductosGlobales controladora;              //???
+
+        /*
+         * ???
+         */
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack) 
@@ -54,6 +59,9 @@ namespace ProyectoInventarioOET
             cambiarModo(); // Al cargar la página sin importar se cambia de modo
         }
 
+        /*
+         * ???
+         */
         protected void mostrarMensaje(String tipoAlerta, String alerta, String mensaje)
         {
             mensajeAlerta.Attributes["class"] = "alert alert-" + tipoAlerta + " alert-dismissable fade in";
@@ -62,7 +70,10 @@ namespace ProyectoInventarioOET
             mensajeAlerta.Attributes.Remove("hidden");
         }
 
-        // Manejo de la lógica de la interfaz
+        /*
+         * Manejo de la lógica de la interfaz.
+         * ???
+         */
         protected void cambiarModo()
         {
             switch (modo)
@@ -117,8 +128,10 @@ namespace ProyectoInventarioOET
             }
         }
 
-
         //*****************METODOS DE LLENADO DE DROPDOWNLIST Y GENERACION DE DICCIONARIOS PARA LLENADO DE GRID ********************
+        /*
+         * ???
+         */
         protected void cargarCategorias()
         {
             inpuCategoria.Items.Clear();
@@ -129,6 +142,9 @@ namespace ProyectoInventarioOET
             }
         }
 
+        /*
+         * ???
+         */
         protected Dictionary<String, String> traduccionCategorias()
         {
             Dictionary<String, String> mapCategorias = new Dictionary<String, String>(); ;
@@ -140,12 +156,19 @@ namespace ProyectoInventarioOET
             return mapCategorias;
         }
 
+        /*
+         * ???
+         */
         protected void cargarVendible()
         {
             inputVendible.Items.Clear();
             inputVendible.Items.Add(new ListItem("Consumo interno", null));
             inputVendible.Items.Add(new ListItem("Para venta", null));   
         }
+
+        /*
+         * ???
+         */
         protected void cargarUnidades()
         {
             inputUnidades.Items.Clear();
@@ -156,6 +179,9 @@ namespace ProyectoInventarioOET
             }
         }
 
+        /*
+         * ???
+         */
         protected void cargarEstados()
         {
             inputEstado.Items.Clear();
@@ -166,6 +192,9 @@ namespace ProyectoInventarioOET
             }
         }
 
+        /*
+         * ???
+         */
         private Dictionary<string, string> traduccionEstado()
         {
             Dictionary<String, String> mapEstado = new Dictionary<String, String>(); ;
@@ -179,8 +208,8 @@ namespace ProyectoInventarioOET
 
         //***********************************************************************************
 
-        /* Método para obtener los datos del usuario
-         * 
+        /*
+         * Método para obtener los datos del usuario.
          */
         protected Object[] obtenerDatosProductosGlobales()
         {
@@ -202,8 +231,9 @@ namespace ProyectoInventarioOET
             return datos;
         }
 
-        
-
+        /*
+         * ???
+         */
         protected DataTable tablaProductosGlobales()
         {
             DataTable tabla = new DataTable();
@@ -232,6 +262,9 @@ namespace ProyectoInventarioOET
             return tabla;
         }
 
+        /*
+         * ???
+         */
         protected void vaciarGridProductosGlobales()
         {
             DataTable tablaLimpia = null;
@@ -239,6 +272,9 @@ namespace ProyectoInventarioOET
             gridViewProductosGlobales.DataBind();
         }
 
+        /*
+         * ???
+         */
         protected void llenarGrid(String query)
         {
             DataTable tabla = tablaProductosGlobales();  // Secrea el esquema de la tabla
@@ -253,7 +289,8 @@ namespace ProyectoInventarioOET
                 {
                     productosGlobales = controladora.consultarProductosGlobales(); //Se trae el resultado de todos los productos
                 }
-                else {
+                else
+                {
                     productosGlobales = controladora.consultarProductosGlobales(query); //Se trae el resultado de todos los productos
                 }
                 
@@ -302,8 +339,9 @@ namespace ProyectoInventarioOET
             }
         }
 
-        
-
+        /*
+         * ???
+         */
         protected void presentarDatos(){
             if (productoConsultado != null)
             {
@@ -322,7 +360,10 @@ namespace ProyectoInventarioOET
     
         }
 
-//************************************* METODOS DE COMUNICACION CON LA CONTROLADORA******************************* 
+        //************************************* METODOS DE COMUNICACION CON LA CONTROLADORA******************************* 
+        /*
+         * ???
+         */
         protected void consultar(String id)
         {
             seConsulto = true;
@@ -340,6 +381,9 @@ namespace ProyectoInventarioOET
             cambiarModo();
         }
 
+        /*
+         * ???
+         */
         protected String insertar()
         {
             String identificadorProducto = "";
@@ -360,6 +404,9 @@ namespace ProyectoInventarioOET
             return identificadorProducto;
         }
 
+        /*
+         * ???
+         */
         protected Boolean modificar()
         {
             Boolean res = true;
@@ -382,6 +429,9 @@ namespace ProyectoInventarioOET
 
 
         // ************************************METODOS DE INTERFAZ RUTINARIOS
+        /*
+         * ???
+         */
         protected void limpiarCampos()
         {
             this.inputNombre.Value = " ";
@@ -399,6 +449,9 @@ namespace ProyectoInventarioOET
             this.inputVendible.SelectedValue= null;
         }
 
+        /*
+         * ???
+         */
         protected void habilitarCampos(bool resp)
         {
             this.inputNombre.Disabled = !resp;
@@ -420,8 +473,8 @@ namespace ProyectoInventarioOET
         // *******************EVENTOS***********************************
 
 
-        /* Consulta de todos los productos y mostrar información parcial en el grid
-         * 
+        /* 
+         * Consulta de todos los productos y mostrar información parcial en el grid.
          */
         protected void botonConsultaProductos_ServerClick(object sender, EventArgs e)
         {
@@ -430,8 +483,8 @@ namespace ProyectoInventarioOET
             cambiarModo();
         }
 
-        /* Consulta de UN PRODUCTO EN PARTICULAR y muestra la información completa en el formulario
-         * 
+        /* 
+         * Consulta de UN PRODUCTO EN PARTICULAR y muestra la información completa en el formulario.
          */
         protected void gridViewProductosGlobales_RowCommand(object sender, GridViewCommandEventArgs e)
         {
@@ -447,8 +500,8 @@ namespace ProyectoInventarioOET
             }
         }
 
-        /*  Adición de un nuevo producto al inventario global de productos
-         * 
+        /* 
+         * Adición de un nuevo producto al inventario global de productos.
          */
         protected void botonAgregarProductos_ServerClick(object sender, EventArgs e)
         {
@@ -462,6 +515,9 @@ namespace ProyectoInventarioOET
             habilitarCampos(true);
         }
 
+        /*
+         * ???
+         */
         protected void botonModificacionProductos_ServerClick(object sender, EventArgs e)
         {
             modo = (int)Modo.Modificacion;
@@ -471,8 +527,8 @@ namespace ProyectoInventarioOET
 
         //------Lógica de los botones Enviar y Cancelar
 
-        /* Lógica del boton aceptar. Dependiendo del modo se tomarán distintas acciones acciones 
-         * 
+        /* 
+         * Lógica del boton aceptar. Dependiendo del modo se tomarán distintas acciones acciones.
          */
         protected void botonAceptarProductoGlobal_ServerClick(object sender, EventArgs e)
         {
@@ -501,6 +557,9 @@ namespace ProyectoInventarioOET
             }
         }
 
+        /*
+         * ???
+         */
         protected void gridViewProductosGlobales_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             llenarGrid(null);
@@ -508,6 +567,9 @@ namespace ProyectoInventarioOET
             this.gridViewProductosGlobales.DataBind();
         }
 
+        /*
+         * ???
+         */
         protected void botonAceptarModalCancelar_ServerClick(object sender, EventArgs e)
         {
             limpiarCampos();
@@ -516,6 +578,9 @@ namespace ProyectoInventarioOET
             cambiarModo();
         }
 
+        /*
+         * ???
+         */
         protected void botonBuscar_ServerClick(object sender, EventArgs e)
         {
             llenarGrid(this.barraDeBusqueda.Value.ToString());
@@ -523,6 +588,9 @@ namespace ProyectoInventarioOET
             cambiarModo();
         }
 
+        /*
+         * ???
+         */
         protected void botonAceptarModalDesactivar_ServerClick(object sender, EventArgs e)
         {
             // Hacer algo

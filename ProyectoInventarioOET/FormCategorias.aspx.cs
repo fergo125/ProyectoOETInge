@@ -9,22 +9,28 @@ using ProyectoInventarioOET.Modulo_Categorias;
 
 namespace ProyectoInventarioOET
 {
+    /*
+     * ???
+     */
     public partial class FormCategorias : System.Web.UI.Page
     {
         enum Modo { Inicial, Consulta, Insercion, Modificacion, Consultado };
-        private static int modo = (int)Modo.Inicial;
-        private static int idCategoria = 0; //Sirve para estar en modo consulta
-        private static int resultadosPorPagina;
-        private static Object[][] idArray;
-        private static ControladoraCategorias controladoraCategorias;
-        private static EntidadCategoria categoriaConsultada;
-        private static bool seConsulto = false;
+        //Atributos
+        private static int modo = (int)Modo.Inicial;                    //???
+        private static int idCategoria = 0; //Sirve para estar en modo consulta???
+        private static int resultadosPorPagina; //wtf?
+        private static Object[][] idArray;                              //???
+        private static ControladoraCategorias controladoraCategorias;   //???
+        private static EntidadCategoria categoriaConsultada;            //???
+        private static bool seConsulto = false;                         //???
 
+        /*
+         * ???
+         */
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-
                 controladoraCategorias = new ControladoraCategorias();
 
                 if (!seConsulto)
@@ -47,6 +53,10 @@ namespace ProyectoInventarioOET
             }
             irAModo();
         }
+
+        /*
+         * ???
+         */
         protected void irAModo()
         {
             if (modo == (int)Modo.Consulta)
@@ -101,16 +111,21 @@ namespace ProyectoInventarioOET
                 camposCategoria.Disabled = true;
                 inputNombre.Disabled = true;
                 gridViewCategorias.Visible = true;
-
             }
-
             //aplicarPermisos();// se aplican los permisos del usuario para el acceso a funcionalidades
         }
 
+        /*
+         * ???
+         */
         protected void cargarDatosCategorias()
         {
 
         }
+
+        /*
+         * ???
+         */
         protected DataTable tablaCategorias()
         {
             DataTable tabla = new DataTable();
@@ -129,11 +144,17 @@ namespace ProyectoInventarioOET
             return tabla;
         }
 
+        /*
+         * ???
+         */
         protected void botonRedireccionProductos_ServerClick(object sender, EventArgs e)
         {
             Response.Redirect("FormProductos.aspx");
         }
 
+        /*
+         * ???
+         */
         protected void gridViewCategorias_Seleccion(object sender, GridViewCommandEventArgs e)
         {
             switch (e.CommandName)
@@ -151,15 +172,25 @@ namespace ProyectoInventarioOET
             }
         }
 
+        /*
+         * ???
+         */
         protected void gridViewCategorias_CambioPagina(object sender, GridViewPageEventArgs e)
         {
 
         }
 
+        /*
+         * ???
+         */
         protected void limpiarCampos()
         {
             this.inputNombre.Value = "";
         }
+
+        /*
+         * ???
+         */
         protected void deshabilitarCampos()
         {
             this.inputNombre.Disabled = true;
@@ -168,24 +199,37 @@ namespace ProyectoInventarioOET
         {
             this.inputNombre.Disabled = cambio;
         }*/
+
+        /*
+         * ???
+         */
         protected void botonCancelarModalCancelar_ServerClick(object sender, EventArgs e)
         {
             limpiarCampos();
             deshabilitarCampos();
         }
 
+        /*
+         * ???
+         */
         protected void botonAgregarCategoria_ServerClick(object sender, EventArgs e)
         {
             modo = (int)Modo.Insercion;
             irAModo();
         }
 
+        /*
+         * ???
+         */
         protected void botonModificacionCategoria_ServerClick(object sender, EventArgs e)
         {
             modo = (int)Modo.Modificacion;
             irAModo();
         }
 
+        /*
+         * ???
+         */
         protected void botonConsultaCategoria_ServerClick(object sender, EventArgs e)
         {
             modo = (int)Modo.Consulta;
@@ -193,6 +237,9 @@ namespace ProyectoInventarioOET
             irAModo();
         }
 
+        /*
+         * ???
+         */
         protected void mostrarMensaje(String tipoAlerta, String alerta, String mensaje)
         {
             mensajeAlerta.Attributes["class"] = "alert alert-" + tipoAlerta + " alert-dismissable fade in";
@@ -200,11 +247,18 @@ namespace ProyectoInventarioOET
             labelAlerta.Text = mensaje;
             mensajeAlerta.Visible = true;
         }
+
+        /*
+         * ???
+         */
         protected void setDatosConsultados()
         {
             this.inputNombre.Value = categoriaConsultada.Descripcion;
         }
 
+        /*
+         * ???
+         */
         protected void llenarGrid()
         {
             DataTable tabla = tablaCategorias();
@@ -253,6 +307,10 @@ namespace ProyectoInventarioOET
                 mostrarMensaje("warning", "Alerta", "No hay conexión a la base de datos.");
             }
         }
+
+        /*
+         * ???
+         */
         protected void botonAceptarCategoria_ServerClick(object sender, EventArgs e)
         {
             Boolean operacionCorrecta = true;
@@ -282,6 +340,9 @@ namespace ProyectoInventarioOET
             }
         }
 
+        /*
+         * ???
+         */
         private bool modificar()
         {
             bool res = true;
@@ -304,11 +365,17 @@ namespace ProyectoInventarioOET
             
         }
 
+        /*
+         * ???
+         */
         private void habilitarCampos(bool p)
         {
             camposCategoria.Disabled = !p;
         }
 
+        /*
+         * ???
+         */
         private string insertar()
         {
 

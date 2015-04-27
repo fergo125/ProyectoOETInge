@@ -11,19 +11,25 @@ using ProyectoInventarioOET.Módulo_Productos_Locales;
 
 namespace ProyectoInventarioOET
 {
+    /*
+     * ???
+     */
     public partial class FormProductosLocales : System.Web.UI.Page
     {
-        private static ControladoraBodegas controladoraBodegas;
-        private static ControladoraDatosGenerales controladoraDatosGenerales;
-        private static ControladoraProductoLocal controladoraProductoLocal;
+        //Atributos
+        private static ControladoraBodegas controladoraBodegas;                 //???
+        private static ControladoraDatosGenerales controladoraDatosGenerales;   //???
+        private static ControladoraProductoLocal controladoraProductoLocal;     //???
+        private static int resultadosPorPagina; //wtf?
+        private static int modo = 0;                                            //???
+        private static Object[] idArray;                                        //???
+        private static int estacionSeleccionada, bodegaSeleccionada, pagina;    //???
+        private static Object[] idArray2;                                       //???
+        private static DataTable catalogoLocal, consultaProducto;               //???
 
-        private static int resultadosPorPagina;
-        private static int modo=0;
-        private static Object[] idArray;
-        private static int estacionSeleccionada, bodegaSeleccionada, pagina;
-        private static Object[] idArray2;
-        private static DataTable catalogoLocal,consultaProducto;
-
+        /*
+         * ???
+         */
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -35,6 +41,9 @@ namespace ProyectoInventarioOET
             }
             cambiarModo();
         }
+        /*
+         * ???
+         */
 
         protected void cambiarModo()
         {
@@ -67,6 +76,9 @@ namespace ProyectoInventarioOET
             }
         }
 
+        /*
+         * ???
+         */
         protected DataTable tablaCatalogoLocal()
         {
             DataTable tabla = new DataTable();
@@ -99,12 +111,20 @@ namespace ProyectoInventarioOET
 
             return tabla;
         }
+
+        /*
+         * ???
+         */
         protected void cargarCatalogoLocal()
         {
             this.gridViewCatalogoLocal.DataSource = catalogoLocal;
             this.gridViewCatalogoLocal.PageIndex = pagina;
             this.gridViewCatalogoLocal.DataBind();
         }
+
+        /*
+         * ???
+         */
         protected void cargarDatosProducto()
         {
             // nombre, codigo interno, codigo de barras, categoria, intencion, unidades metricas, estado local, existencia, impuesto, precio col, precio dol
@@ -139,6 +159,9 @@ namespace ProyectoInventarioOET
 
         }
 
+        /*
+         * ???
+         */
         protected void gridViewCatalogoLocal_Seleccion(object sender, GridViewCommandEventArgs e)
         {
             switch (e.CommandName)
@@ -155,6 +178,9 @@ namespace ProyectoInventarioOET
             }
         }
 
+        /*
+         * ???
+         */
         protected void gridViewCatalogoLocal_CambioPagina(Object sender, GridViewPageEventArgs e)
         {
             pagina = e.NewPageIndex;
@@ -162,7 +188,10 @@ namespace ProyectoInventarioOET
             //cargarCatalogoLocal();
             Response.Redirect("FormProductosLocales.aspx");
         }
-        // Carga estaciones
+
+        /*
+         * Carga estaciones, ???
+         */
         protected void DropDownListEstacion_CargaEstaciones()
         {
             DataTable estaciones = controladoraDatosGenerales.consultarEstaciones();
@@ -179,7 +208,10 @@ namespace ProyectoInventarioOET
                 }
             }
         }
-        // Seleccion de estación, se cargan las bodegas disponibles
+
+        /*
+         * Seleccion de estación, se cargan las bodegas disponibles.
+         */
         protected void DropDownListEstacion_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.DropDownListBodega.Items.Clear();
@@ -199,7 +231,10 @@ namespace ProyectoInventarioOET
             }
             modo = 0;
         }
-        //Consulta de bodega, aquí se carga la tabla
+
+        /*
+         * Consulta de bodega, aquí se carga la tabla.
+         */
         protected void botonConsultarBodega_ServerClick(object sender, EventArgs e)
         {
             if (this.DropDownListBodega.SelectedItem != null)
@@ -228,22 +263,28 @@ namespace ProyectoInventarioOET
                 this.gridViewCatalogoLocal.DataBind();
             }
         }
+
         /*// Envío de modificaciones de producto de catálogo local
         protected void botonEnviarProducto_ServerClick(object sender, EventArgs e)
         {
 
         }*/
-        // Aceptar cancelación del modal de cancelar
+
+        /*
+         * Aceptar cancelación del modal de cancelar.
+         */
         protected void botonAceptarModalCancelar_ServerClick(object sender, EventArgs e)
         {
             modo = 1;
             Response.Redirect("FormProductosLocales.aspx");
         }
-        // Desactivación confirmada
+
+        /*
+         * Desactivación confirmada.
+         */
         protected void botonAceptarModalDesactivar_ServerClick(object sender, EventArgs e)
         {
 
         }
-
     }
 }

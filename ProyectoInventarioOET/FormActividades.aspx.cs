@@ -11,25 +11,28 @@ using ProyectoInventarioOET.App_Code;
 
 namespace ProyectoInventarioOET
 {
+    /*
+     * ???
+     */
     public partial class FormActividades : System.Web.UI.Page
     {
         enum Modo { Inicial, Consulta, Insercion, Modificacion, Consultado };
-        private static int modo = (int)Modo.Inicial;
-        private static int resultadosPorPagina;
-        private static Object[] idArray;
-        private static ControladoraDatosGenerales controladoraDatosGenerales;
-        private static EntidadActividad actividadConsultada;
-        private static ControladoraActividades controladoraActividades;
-        private static Boolean seConsulto = false;
+        //Atributos
+        private static int modo = (int)Modo.Inicial;                            //???
+        private static int resultadosPorPagina; //wtf?
+        private static Object[] idArray;                                        //???
+        private static ControladoraDatosGenerales controladoraDatosGenerales;   //???
+        private static EntidadActividad actividadConsultada;                    //???
+        private static ControladoraActividades controladoraActividades;         //???
+        private static Boolean seConsulto = false;                              //???
 
-
-
+        /*
+         * ???
+         */
         protected void Page_Load(object sender, EventArgs e)
         {
-
             if (!IsPostBack)
             {
-
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
                 controladoraActividades = new ControladoraActividades();
 
@@ -52,11 +55,12 @@ namespace ProyectoInventarioOET
                 }
 
             }
-
             cambiarModo();
-
         }
 
+        /*
+         * ???
+         */
         protected void gridViewActividades_Seleccion(object sender, GridViewCommandEventArgs e)
         {
             switch (e.CommandName)
@@ -72,14 +76,19 @@ namespace ProyectoInventarioOET
             }
         }
 
+        /*
+         * ???
+         */
         protected void gridViewActividades_CambioPagina(Object sender, GridViewPageEventArgs e)
         {
             llenarGrid();
             this.gridViewActividades.PageIndex = e.NewPageIndex;
             this.gridViewActividades.DataBind();
-
         }
 
+        /*
+         * ???
+         */
         protected void llenarGrid()
         {
             DataTable tabla = tablaActividades();
@@ -138,7 +147,9 @@ namespace ProyectoInventarioOET
             }
         }
 
-
+        /*
+         * ???
+         */
         protected DataTable tablaActividades()
         {
             DataTable tabla = new DataTable();
@@ -159,11 +170,12 @@ namespace ProyectoInventarioOET
             columna.ColumnName = "Estado";
             tabla.Columns.Add(columna);
 
-
-
             return tabla;
         }
 
+        /*
+         * ???
+         */
         protected void mostrarMensaje(String tipoAlerta, String alerta, String mensaje)
         {
             mensajeAlerta.Attributes["class"] = "alert alert-" + tipoAlerta + " alert-dismissable fade in";
@@ -172,6 +184,9 @@ namespace ProyectoInventarioOET
             mensajeAlerta.Visible = true;
         }
 
+        /*
+         * ???
+         */
         protected void botonAceptarActividad_ServerClick(object sender, EventArgs e)
         {
             Boolean operacionCorrecta = true;
@@ -300,13 +315,18 @@ namespace ProyectoInventarioOET
 
         }
 
+        /*
+         * ???
+         */
         protected void botonAceptarModalCancelar_ServerClick(object sender, EventArgs e)
         {
             modo = (int)Modo.Inicial;
             cambiarModo();
-
         }
 
+        /*
+         * ???
+         */
         protected void botonConsultaActividades_ServerClick(object sender, EventArgs e)
         {
             llenarGrid();
@@ -314,23 +334,35 @@ namespace ProyectoInventarioOET
             cambiarModo();
         }
 
+        /*
+         * ???
+         */
         protected void botonAceptarModalDesactivar_ServerClick(object sender, EventArgs e)
         {
 
         }
 
+        /*
+         * ???
+         */
         protected void habilitarCampos(bool habilitar)
         {
             this.inputDescripcionActividad.Disabled = !habilitar;
             this.comboBoxEstadosActividades.Enabled = habilitar;
         }
 
+        /*
+         * ???
+         */
         protected void limpiarCampos()
         {
             this.inputDescripcionActividad.Value = "";
             this.comboBoxEstadosActividades.SelectedValue = null;
         }
 
+        /*
+         * ???
+         */
         protected void cargarEstados()
         {
             comboBoxEstadosActividades.Items.Clear();
@@ -342,7 +374,9 @@ namespace ProyectoInventarioOET
             }
         }
 
-
+        /*
+         * ???
+         */
         protected void cambiarModo()
         {
             switch (modo)
@@ -422,6 +456,9 @@ namespace ProyectoInventarioOET
             }
         }
 
+        /*
+         * ???
+         */
         protected void botonAgregarActividades_ServerClick(object sender, EventArgs e)
         {
             modo = (int)Modo.Insercion;
@@ -430,12 +467,18 @@ namespace ProyectoInventarioOET
             cargarEstados();
         }
 
+        /*
+         * ???
+         */
         protected void botonModificacionActividades_ServerClick(object sender, EventArgs e)
         {
             modo = (int)Modo.Modificacion;
             cambiarModo();
         }
 
+        /*
+         * ???
+         */
         protected void consultarActividad(String codigo)
         {
             seConsulto = true;
@@ -452,14 +495,14 @@ namespace ProyectoInventarioOET
             cambiarModo();
         }
 
+        /*
+         * ???
+         */
         protected void setDatosConsultados()
         {
             this.inputDescripcionActividad.Value = actividadConsultada.Descripcion;
             this.comboBoxEstadosActividades.SelectedValue = actividadConsultada.Estado.ToString();
             this.codigoInternoActividad.Value = actividadConsultada.Codigo;
         }
-
-
-
     }
 }
