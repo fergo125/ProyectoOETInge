@@ -15,7 +15,6 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
             DataTable resultado = new DataTable();
             EntidadProductoGlobal productoConsultado = null;
             Object[] datosConsultados = new Object[14];
-
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
@@ -65,7 +64,7 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
 
                 res[0] = "success";
                 res[1] = "Exito";
-                res[2] = "Producto Agregada";
+                res[2] = "Producto Agregado";
             }
             catch (SqlException e)
             {
@@ -104,7 +103,7 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
 
                 res[0] = "success";
                 res[1] = "Exito";
-                res[2] = "Producto Desactivado";
+                res[2] = "Producto modificado";
             }
             catch (SqlException e)
             {
@@ -162,6 +161,9 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
             return resultado;
         }
 
+        /*
+         * Método encargado de retornar los productos globales que concuerdan con la busqueda del usuario
+         */
         public DataTable consultarProductosGlobales(String query)
         {
             DataTable resultado = new DataTable();
@@ -170,7 +172,7 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
             {
                 OracleCommand command = conexionBD.CreateCommand();
                 command.CommandText = "SELECT P.INV_PRODUCTOS, P.NOMBRE, P.CODIGO, P.CAT_CATEGORIAS, P.ESTADO  "
-                + "FROM INV_PRODUCTOS P "
+                + " FROM INV_PRODUCTOS P "
                 + " WHERE P.NOMBRE LIKE " + " '" + query + "%'"
                 + " OR P.CODIGO LIKE "     + " '" + query + "%'";
                 OracleDataReader reader = command.ExecuteReader();

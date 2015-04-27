@@ -22,8 +22,8 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
         private double costoColones;
         private double costoDolares; //Calculo se hace en interfaz
         private String inv_productos; //Clave primaria es autogenerada en la BD
+        
         private String estacion; //Desde la cual fue creado el producto
-
         // Seguridad
         private String usuario;
         private DateTime fecha;

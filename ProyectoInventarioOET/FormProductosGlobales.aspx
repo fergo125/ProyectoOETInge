@@ -130,8 +130,7 @@
             <div class="col-lg-10">
                 <input id="barraDeBusqueda" class="form-control" type="search" placeholder="Ingresa una palabra o código" runat="server" >
 <%--                <span class="glyphicon glyphicon-search" runat="server"></span>--%>
-                <Button ID="botonBuscar" runat="server" Text="Enviar" onserverclick="botonBuscar_ServerClick" />
-            </div>
+                <Button ID="botonBuscar" runat="server" Text="Buscar" onserverclick="botonBuscar_ServerClick" /> Buscar</div>
         </div>
         <br/> <br/>
 
@@ -222,6 +221,25 @@ onclick        function showStuff(elementoATogglear, mensaje) {
             </div>
         </div>
     </div>
+        <!--Modal Aceptar-->
+    <div class="modal fade" id="modalDesactivar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="modalTitleDesactivar"><i class="fa fa-exclamation-triangle text-danger fa-2x"></i>Confirmar desactivación</h4>
+                </div>
+                <div class="modal-body">
+                    ¿Está seguro que desea desactivar la bodega? La modificación sería guardada permanentemente.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="botonAceptarModalDesactivar" class="btn btn-success-fozkr" runat="server" onserverclick="botonAceptarModalDesactivar_ServerClick">Aceptar</button>
+                    <button type="button" id="botonCancelarModalDesactivar" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
 </asp:Content>

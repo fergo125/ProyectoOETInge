@@ -15,16 +15,15 @@ namespace ProyectoInventarioOET
     {
         enum Modo { Inicial, Consulta, Insercion, Modificacion, Consultado };
         private static int modo = (int) Modo.Inicial;
-        private static int resultadosPorPagina;
         private static Boolean seConsulto = false;
+        private const int resultadosPorPagina = 16;
         private static Object[] idArray;
         private static EntidadProductoGlobal productoConsultado;
         private static ControladoraDatosGenerales controladoraDatosGenerales;
         private static ControladoraProductosGlobales controladora;
         
         
-        //ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
-
+       
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack) 
@@ -119,7 +118,7 @@ namespace ProyectoInventarioOET
         }
 
 
-        //*****************METODOS DE LLENADO DE DROPDOWNLIST*************************************
+        //*****************METODOS DE LLENADO DE DROPDOWNLIST Y GENERACION DE DICCIONARIOS PARA LLENADO DE GRID ********************
         protected void cargarCategorias()
         {
             inpuCategoria.Items.Clear();
@@ -140,8 +139,6 @@ namespace ProyectoInventarioOET
             }
             return mapCategorias;
         }
-
-
 
         protected void cargarVendible()
         {
@@ -524,6 +521,11 @@ namespace ProyectoInventarioOET
             llenarGrid(this.barraDeBusqueda.Value.ToString());
             modo = (int)Modo.Consulta;
             cambiarModo();
+        }
+
+        protected void botonAceptarModalDesactivar_ServerClick(object sender, EventArgs e)
+        {
+            // Hacer algo
         }
     }
 }
