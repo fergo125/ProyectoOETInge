@@ -1,10 +1,10 @@
-﻿using Oracle.DataAccess.Client;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using Oracle.DataAccess.Client; //para conectarse a la base de datos manualmente con strings
 
 namespace ProyectoInventarioOET.Módulo_Actividades
 {

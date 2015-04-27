@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using ProyectoInventarioOET.DataSetGeneralTableAdapters;
+using System.Data;
 using Oracle.DataAccess.Client; //para conectarse a la base de datos manualmente con strings
 using System.Data.SqlClient;
 

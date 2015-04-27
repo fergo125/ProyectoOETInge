@@ -2,26 +2,34 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using ProyectoInventarioOET.DataSetGeneralTableAdapters;
+using System.Data;
 using Oracle.DataAccess.Client; //para conectarse a la base de datos manualmente con strings
 using System.Data.SqlClient;
-using System.Data;
 
 namespace ProyectoInventarioOET.Modulo_Categorias
 {
+    /*
+     * ???
+     * Comunicación con la Base de Datos.
+     */
     public class ControladoraBDCategorias : ControladoraBD
     {
-
+        /*
+         * Constructor.
+         */
         public ControladoraBDCategorias()
         {
         }
+
+        /*
+         * ???
+         */
         public String[] insertarCategoria(EntidadCategoria categoria)
         {
             String[] res = new String[4];
             res[4] = categoria.Nombre;
             try
             {
-
                 OracleCommand command = conexionBD.CreateCommand();
                 command.CommandText = "INSERT INTO CAT_CATEGORIAS (CAT_CATEGORIAS,DESCRIPCION) VALUES ('"
                 + categoria.Nombre + "','" + categoria.Descripcion + ")";
@@ -40,7 +48,9 @@ namespace ProyectoInventarioOET.Modulo_Categorias
             return res;
         }
 
-
+        /*
+         * ???
+         */
         public String[] modificarCategoria(EntidadCategoria categoria, EntidadCategoria nuevaCategoria)
         {
             String[] res = new String[3];
@@ -67,15 +77,15 @@ namespace ProyectoInventarioOET.Modulo_Categorias
             return res;
         }
 
-
+        /*
+         * ???
+         */
         public String[] desactivarCategoria(EntidadCategoria categoria)
         {
             String[] res = new String[3];
             try
             {
-
                 //adaptadorCategoria.Update();
-
                 res[0] = "success";
                 res[1] = "Exito";
                 res[2] = "Categoria eliminado";
@@ -89,17 +99,18 @@ namespace ProyectoInventarioOET.Modulo_Categorias
             return res;
         }
 
+        /*
+         * ???
+         */
         public DataTable consultarCategorias()
         {
             DataTable resultado = new DataTable();
-
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
                 command.CommandText = "SELECT * FROM cat_categorias";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
-                
             }
             catch (Exception e)
             {
@@ -108,6 +119,9 @@ namespace ProyectoInventarioOET.Modulo_Categorias
             return resultado;
         }
 
+        /*
+         * ???
+         */
         public String consultarDescripcionCategoria(String idCategoria)
         {
             String res = "";
@@ -126,12 +140,14 @@ namespace ProyectoInventarioOET.Modulo_Categorias
             return res;
         }
 
+        /*
+         * ???
+         */
         public EntidadCategoria consultarCategoria(String nombre)
         {
             DataTable resultado = new DataTable();
-            EntidadCategoria categorìaConsultada = null;
+            EntidadCategoria categoriaConsultada = null;
             Object[] datosConsultados = new Object[2];
-
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
@@ -143,15 +159,13 @@ namespace ProyectoInventarioOET.Modulo_Categorias
                 {
                     datosConsultados[0] = nombre;
                     datosConsultados[1] = resultado.Rows[0][1].ToString();
-
-                    categorìaConsultada = new EntidadCategoria(datosConsultados);
-
+                    categoriaConsultada = new EntidadCategoria(datosConsultados);
                 }
             }
-            catch (Exception e) { }
-
-            return categorìaConsultada;
+            catch (Exception e)
+            {
+            }
+            return categoriaConsultada;
         }
-
     }
 }
