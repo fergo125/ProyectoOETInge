@@ -172,10 +172,6 @@ namespace ProyectoInventarioOET
         }
 
 
-
-
-
-
         // Control de elementos de la interfaz.
 
         /*

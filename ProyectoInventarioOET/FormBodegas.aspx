@@ -29,11 +29,10 @@
     <h3 id="tituloAccionBodegas"></h3>
     <br />
     
-
     <h3 id="tituloBienvenidoBodegas" runat="server">Seleccione una opción</h3>
-    
-    
       <!-- Fieldset para Bodegas -->
+
+
         <fieldset id= "FieldsetBodegas" runat="server" class="fieldset">
             <asp:ValidationSummary Font-Size="Small" CssClass="label label-danger" runat=server 
             HeaderText="Uno de los campos está vacío o con información inválida" />
@@ -75,7 +74,7 @@
                 <br />
                 <div class="form-group">
                     <label for="comboBoxEstacion" class= "control-label"> Estación*: </label>      
-                    <asp:DropDownList id="comboBoxEstacion" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
+                    <asp:DropDownList id="comboBoxEstacion" runat="server" style="max-width=75%" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
                     </asp:DropDownList>
                 </div>
             </div>
