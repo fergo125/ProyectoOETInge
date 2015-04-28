@@ -63,5 +63,12 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
             }
             return resultado;
         }
+        /*
+         * Obtiene el nombre de un usuario (texto, no llave) de un id de usuario en específico.
+         */
+        public String consultarNombreDeUsuario(String idUsuario)
+        {
+            return controladoraBDSeguridad.consultarNombreDeUsuario(idUsuario);
+        }
     }
 }

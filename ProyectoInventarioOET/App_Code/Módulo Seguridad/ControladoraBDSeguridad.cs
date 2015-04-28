@@ -65,5 +65,24 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
             }
             return null;
         }
+
+        /*
+         * Obtiene el nombre de un usuario (texto, no llave) de un id de usuario en específico.
+         */
+        public String consultarNombreDeUsuario(String idUsuario)
+        {
+            String nombre = "";
+            DataTable resultado = new DataTable();
+            OracleCommand command = conexionBD.CreateCommand();
+            command.CommandText = "SELECT NOMBRE FROM SEG_USUARIO WHERE SEG_USUARIO = '"+idUsuario+"'";
+            OracleDataReader reader = command.ExecuteReader();
+            resultado.Load(reader);
+            if (resultado.Rows.Count == 1)
+            {
+                nombre = resultado.Rows[0][0].ToString();
+            }
+            return nombre;
+        }
+
     }
 }
