@@ -421,9 +421,10 @@ namespace ProyectoInventarioOET
             }
         }
 
-        protected void checkBoxProductos_ServerClick(object sender, EventArgs e)
+        protected void checkBoxProductos_ServerClick(object sender, GridViewCommandEventArgs e)
         {
-            bool test = false;
+            //int test = Convert.ToInt32(e.CommandArgument) + (gridViewAsociarCatalogoLocal.PageIndex * gridViewAsociarCatalogoLocal.PageSize);
+            bool lel = true;
         }
 
         /*
