@@ -46,7 +46,7 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
             if (existenteEnBD)
             {
                 res[0] = "danger";
-                res[1] = "Error: ";
+                res[1] = "Error:";
                 res[2] = "Ya existe una bodega con ese nombre en la base de datos.";
             }
             else
@@ -62,14 +62,14 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
                     OracleDataReader reader = command.ExecuteReader();
 
                     res[0] = "success";
-                    res[1] = "Exito";
-                    res[2] = "Bodega Agregada";
+                    res[1] = "Éxito:";
+                    res[2] = "Bodega agregada al sistema.";
                 }
                 catch (OracleException e)
                 {
                     res[0] = "danger";
-                    res[1] = "Fallo en la operacion";
-                    res[2] = "Intente nuevamente";
+                    res[1] = "Error:";
+                    res[2] = "Bodega no agregada, intente nuevamente.";
                 }
             }
             return res;
@@ -116,16 +116,16 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
                     OracleDataReader reader = command.ExecuteReader();
                 
                     res[0] = "success";
-                    res[1] = "Exito";
-                    res[2] = "Bodega modificada";
+                    res[1] = "Éxito:";
+                    res[2] = "Bodega modificada en el sistema.";
                 }
                 catch (OracleException e)
                 {
                     if (e.Number == 2627)
                     {
                         res[0] = "danger";
-                        res[1] = "Fallo";
-                        res[2] = "Error al modificar";
+                        res[1] = "Error:";
+                        res[2] = "Bodega no modificada, intente nuevamente.";
                     }
                 }
             }
@@ -143,14 +143,14 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
             {
                 //adaptadorBodega.Update();
                 res[0] = "success";
-                res[1] = "Exito";
-                res[2] = "Bodega eliminado";
+                res[1] = "Éxito:";
+                res[2] = "Bodega desactivada en el sistema.";
             }
             catch (OracleException e)
             {
                 res[1] = "danger";
-                res[2] = "Fallo";
-                res[3] = "Error al eliminar";
+                res[2] = "Error:";
+                res[3] = "Bodega no desactivada.";
             }
             return res;
         }

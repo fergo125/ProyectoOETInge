@@ -36,14 +36,14 @@ namespace ProyectoInventarioOET.Modulo_Categorias
                 OracleDataReader reader = command.ExecuteReader();
 
                 res[0] = "success";
-                res[1] = "Exito";
-                res[2] = "Categoria Agregada";
+                res[1] = "Éxito:";
+                res[2] = "Categoría agregada al sistema.";
             }
             catch (SqlException e)
             {
                 res[0] = "danger";
-                res[1] = "Fallo en la operacion";
-                res[2] = "Intente nuevamente";
+                res[1] = "Error:";
+                res[2] = "Categoría no agregada, intente nuevamente.";
             }
             return res;
         }
@@ -62,16 +62,16 @@ namespace ProyectoInventarioOET.Modulo_Categorias
 
 
                 res[0] = "success";
-                res[1] = "Exito";
-                res[2] = "Categoria modificada";
+                res[1] = "Éxito:";
+                res[2] = "Categoria modificada en el sistema.";
             }
             catch (SqlException e)
             {
                 if (e.Number == 2627)
                 {
                     res[0] = "danger";
-                    res[1] = "Fallo";
-                    res[2] = "Error al modificar";
+                    res[1] = "Error:";
+                    res[2] = "Categoría no modificada, intente nuevamente.";
                 }
             }
             return res;
@@ -87,14 +87,14 @@ namespace ProyectoInventarioOET.Modulo_Categorias
             {
                 //adaptadorCategoria.Update();
                 res[0] = "success";
-                res[1] = "Exito";
-                res[2] = "Categoria eliminado";
+                res[1] = "Éxito:";
+                res[2] = "Categoría desactivada en el sistema.";
             }
             catch (SqlException e)
             {
                 res[1] = "danger";
-                res[2] = "Fallo";
-                res[3] = "Error al eliminar";
+                res[1] = "Error:";
+                res[3] = "Categoría no desactivada, intente nuevamente.";
             }
             return res;
         }

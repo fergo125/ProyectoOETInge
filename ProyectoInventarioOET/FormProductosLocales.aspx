@@ -3,7 +3,7 @@
     <br />
     <!-- Label para desplegar mensajes -->
     <div>
-        <div id="mensajeAlerta" runat="server" style="margin-left: 70%; visibility:hidden">
+        <div id="mensajeAlerta" runat="server" style="margin-left: 50%; visibility:hidden">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <strong>
                 <asp:Label ID="labelTipoAlerta" runat="server"></asp:Label>
@@ -17,10 +17,14 @@
         <h2 id="TituloProductosLocales" runat="server">Catálogos de productos en bodegas</h2>
         <hr />
     </div>
+
+    <!-- Botones -->
     <button runat="server" onserverclick="botonAsociarBodega_ServerClick" id="botonAsociarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" disabled="disabled" visible="false">Asociar a Catálogo</button>
     <button runat="server" id="botonModificarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" disabled="disabled" visible="false">Modificar Catálogo</button>
     <button runat="server" onserverclick="botonConsultarBodega_ServerClick" id="botonConsultarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" disabled="disabled" visible="false">Consultar Catálogo</button>
-    <br /><br /><br />
+    <br />
+    <br />
+    <br />
     <div class="row">
         <div class="col-lg-4">
             <label for="inputEstacion" class="control-label">Seleccione estación:</label>

@@ -4,12 +4,12 @@
     <br />
     <!-- Label para desplegar mensajes -->
     <div>
-        <div id="mensajeAlerta" class="alert alert-fozkr-error fade in" runat="server" Visible="false" style="margin-left:70%;">
+        <div id="mensajeAlerta" runat="server" Visible="false" style="margin-left:50%;">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <strong>
-                <asp:Label ID="labelTipoAlerta" runat="server" Text=""></asp:Label>
+                <asp:Label ID="labelTipoAlerta" runat="server"></asp:Label>
             </strong>
-            <asp:Label ID="labelAlerta" runat="server" Text=""></asp:Label>
+            <asp:Label ID="labelAlerta" runat="server"></asp:Label>
         </div>
     </div>
 
@@ -19,7 +19,7 @@
         <hr />
     </div>
 
-      <!-- Cuerpo del Form -->
+    <!-- Botones -->
     <button runat="server" onserverclick="botonAgregarBodega_ServerClick" id="botonAgregarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Nueva Bodega</button>
     <button runat="server" onserverclick="botonModificarBodega_ServerClick"  id="botonModificarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Modificar Bodega</button>
     <button runat="server" onserverclick="botonConsultarBodega_consultarBodegas" causesvalidation="false" id="botonConsultarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Consultar Bodegas</button>
