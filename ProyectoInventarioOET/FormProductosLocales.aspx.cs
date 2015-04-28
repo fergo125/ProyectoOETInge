@@ -344,6 +344,7 @@ namespace ProyectoInventarioOET
             }
         }
 
+
         /*
          * Consulta de bodega, aquí se carga la tabla.
          */
@@ -421,11 +422,7 @@ namespace ProyectoInventarioOET
             }
         }
 
-        protected void checkBoxProductos_ServerClick(object sender, GridViewCommandEventArgs e)
-        {
-            //int test = Convert.ToInt32(e.CommandArgument) + (gridViewAsociarCatalogoLocal.PageIndex * gridViewAsociarCatalogoLocal.PageSize);
-            bool lel = true;
-        }
+
 
         /*
          * Realiza la asociacion de los productos confirmados.
@@ -454,6 +451,11 @@ namespace ProyectoInventarioOET
          * Desactivación confirmada.
          */
         protected void botonAceptarModalDesactivar_ServerClick(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void checkBoxProductos_CheckedChanged(object sender, EventArgs e)
         {
 
         }
