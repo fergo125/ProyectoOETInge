@@ -131,6 +131,15 @@ namespace ProyectoInventarioOET
             this.linkFormAdministracion.Visible = !esconder;
         }
 
+        public String obtenerPermisosUsuarioLogueado(String nombreInterfaz)
+        {
+            ControladoraSeguridad cs = new ControladoraSeguridad();
+            if (usuarioLogueado != null)
+                return cs.consultarPermisosUsuario(usuarioLogueado.CodigoPerfil, nombreInterfaz);
+            else
+                return "000000";
+        }
+
         /*
          * Método no usado.
          */
