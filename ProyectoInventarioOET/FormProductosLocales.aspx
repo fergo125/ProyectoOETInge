@@ -190,7 +190,7 @@
 						<Columns>
 							<asp:TemplateField HeaderText="Seleccionar">
 								<ItemTemplate>
-									<asp:CheckBox ID="checkBoxProductos" runat="server"/>
+									<asp:CheckBox oncheckedchanged="checkBoxProductos_ServerClick" ID="checkBoxProductos" runat="server"/>
 								</ItemTemplate>
 							</asp:TemplateField>
 						</Columns>
