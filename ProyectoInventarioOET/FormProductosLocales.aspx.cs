@@ -8,6 +8,8 @@ using System.Data;
 using ProyectoInventarioOET.Módulo_Bodegas;
 using ProyectoInventarioOET.App_Code;
 using ProyectoInventarioOET.Módulo_Productos_Locales;
+using ProyectoInventarioOET.Modulo_Categorias;
+using ProyectoInventarioOET.Módulo_Seguridad;
 
 namespace ProyectoInventarioOET
 {
@@ -20,6 +22,8 @@ namespace ProyectoInventarioOET
         private static ControladoraBodegas controladoraBodegas;                 //???
         private static ControladoraDatosGenerales controladoraDatosGenerales;   //???
         private static ControladoraProductoLocal controladoraProductoLocal;     //???
+        private static ControladoraSeguridad controladoraSeguridad;             //???
+        private static ControladoraCategorias controladoraCategorias;           //???
         private static int resultadosPorPagina; //wtf?
         private static int modo = 0;                                            //???
         private static Object[] idArray;                                        //???
@@ -36,6 +40,8 @@ namespace ProyectoInventarioOET
             {
                 controladoraBodegas = new ControladoraBodegas();
                 controladoraProductoLocal = new ControladoraProductoLocal();
+                controladoraCategorias = new ControladoraCategorias();
+                controladoraSeguridad = new ControladoraSeguridad();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
                 DropDownListEstacion_CargaEstaciones();
             }
@@ -143,13 +149,30 @@ namespace ProyectoInventarioOET
                     }
                 }
 
+                DataTable unidades = controladoraDatosGenerales.consultarUnidades();
+                foreach (DataRow unidad in unidades.Rows)
+                {
+                    if (unidad[0].ToString() == producto[5])
+                    {
+                        producto[5] = unidad[1].ToString();
+                    }
+                }
+                DataTable estados = controladoraDatosGenerales.consultarEstadosActividad();
+                foreach (DataRow estado in estados.Rows)
+                {
+                    inputEstado.Items.Add(estado[1].ToString());
+                    if (estado[0].ToString() == producto[6])
+                    {
+                        inputEstado.SelectedValue.Equals(estado[1].ToString());
+                    }
+                }
+
                 inputNombre.Value = producto[0].ToString();
                 inputCodigo.Value = producto[1].ToString();
                 inputCodigoBarras.Value = producto[2].ToString();
-                inputCategoria.Value = producto[3].ToString();
+                inputCategoria.Value = controladoraCategorias.consultarCategoria(producto[3]).Descripcion;
                 inputVendible.Value = producto[4].ToString();
                 inputUnidades.Value = producto[5].ToString();
-                // ESTADO
                 inputSaldo.Value = producto[7].ToString();
                 inputImpuesto.Value = producto[8].ToString();
                 inputPrecioColones.Value = producto[9].ToString();
@@ -158,7 +181,7 @@ namespace ProyectoInventarioOET
                 inputCostoDolares.Value = producto[12].ToString();
                 inputMinimo.Value = producto[13].ToString();
                 inputMaximo.Value = producto[14].ToString();
-                inputCreador.Value = producto[15].ToString();
+                inputCreador.Value = controladoraSeguridad.consultarNombreDeUsuario(producto[15]);
                 inputCreado.Value = producto[16].ToString();
                 inputModifica.Value = producto[17].ToString();
                 inputModificado.Value = producto[18].ToString();
