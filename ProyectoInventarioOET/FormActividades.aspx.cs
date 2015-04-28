@@ -245,6 +245,7 @@ namespace ProyectoInventarioOET
                     this.botonModificacionActividades.Disabled = true;
                     this.labelTextoObligatorioActividad.Visible = false;
                     this.gridViewActividades.Visible = false;
+                    this.tituloGrid.Visible = false;
                     this.botonAceptarActividad.Visible = false;
                     this.botonCancelarActividad.Visible = false;    
                     this.codigoInternoActividad.Visible = false;
@@ -259,6 +260,7 @@ namespace ProyectoInventarioOET
                     this.FieldsetActividad.Visible = true;
                     this.labelTextoObligatorioActividad.Visible = true;
                     this.gridViewActividades.Visible = false;
+                    this.tituloGrid.Visible = false;
                     this.botonAceptarActividad.Visible = true;
                     this.botonCancelarActividad.Visible = true;  
                     this.codigoInternoActividad.Visible = false;
@@ -273,6 +275,7 @@ namespace ProyectoInventarioOET
                     this.FieldsetActividad.Visible = true;
                     this.labelTextoObligatorioActividad.Visible = true;
                     this.gridViewActividades.Visible = true;
+                    this.tituloGrid.Visible = true;
                     this.botonAceptarActividad.Visible = true;
                     this.botonCancelarActividad.Visible = true;
                     this.codigoInternoActividad.Visible = false;
@@ -289,6 +292,7 @@ namespace ProyectoInventarioOET
                     this.botonCancelarActividad.Visible = false;
                     this.botonModificacionActividades.Disabled = true;
                     this.gridViewActividades.Visible = true;
+                    this.tituloGrid.Visible = true;
                     tituloAccionActividades.InnerText = "Seleccione una actividad";
                     break;
                 case (int)Modo.Consultado://consultada una actividad
@@ -301,6 +305,7 @@ namespace ProyectoInventarioOET
                     this.botonAceptarActividad.Visible = false;
                     this.botonCancelarActividad.Visible = false;
                     this.gridViewActividades.Visible = true;
+                    this.tituloGrid.Visible = true;
                     this.codigoInternoActividad.Visible = true;
                     this.labelCodigoInterno.Visible = true;
                     this.codigoInternoActividad.Disabled = true;

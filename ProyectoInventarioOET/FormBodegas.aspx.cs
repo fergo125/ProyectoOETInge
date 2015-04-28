@@ -94,6 +94,7 @@ namespace ProyectoInventarioOET
                     break;
                 case (int)Modo.Insercion: //insertar
                     gridViewBodegas.Visible = false;
+                    tituloGrid.Visible = false;
                     FieldsetBodegas.Visible = true;
                     textoObligatorioBodega.Visible = true;
                     habilitarCampos(true);
@@ -107,6 +108,7 @@ namespace ProyectoInventarioOET
                     break;
                 case (int)Modo.Modificacion: //modificar
                     gridViewBodegas.Visible = false;
+                    tituloGrid.Visible = false;
                     FieldsetBodegas.Visible = true;
                     textoObligatorioBodega.Visible = true;
                     habilitarCampos(true);
@@ -122,6 +124,7 @@ namespace ProyectoInventarioOET
                     break;
                 case (int)Modo.Consulta://consultar
                     gridViewBodegas.Visible = true;
+                    tituloGrid.Visible = true;
                     FieldsetBodegas.Visible = false;
                     textoObligatorioBodega.Visible = false;
                     botonAgregarBodega.Disabled = false;
@@ -134,6 +137,7 @@ namespace ProyectoInventarioOET
                     break;
                 case (int)Modo.Consultado://consultado, pero con los espacios bloqueados
                     gridViewBodegas.Visible = true;
+                    tituloGrid.Visible = true;
                     FieldsetBodegas.Visible = true;
                     textoObligatorioBodega.Visible = true;
                     botonAgregarBodega.Disabled = false;
