@@ -37,7 +37,7 @@ namespace ProyectoInventarioOET
                 permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Categorias de productos");
 
                 // Esconder botones
-                esconderBotonesSegunPermisos();
+                mostrarBotonesSegunPermisos();
 
                 controladoraCategorias = new ControladoraCategorias();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
@@ -396,27 +396,27 @@ namespace ProyectoInventarioOET
             String[] datosCat = {nombre,categoriaConsultada.Nombre,comboBoxEstadosActividades.SelectedValue};
             
             if (!nombreRepetido(nombre))
+        {
+            String[] error = controladoraCategorias.modificarDatos(categoriaConsultada, datosCat);
+            if (error[0].Contains("success"))// si fue exitoso
             {
-                String[] error = controladoraCategorias.modificarDatos(categoriaConsultada, datosCat);
-                if (error[0].Contains("success"))// si fue exitoso
-                {
-                    llenarGrid();
-                    categoriaConsultada = controladoraCategorias.consultarCategoria(categoriaConsultada.Nombre);
-                    modo = (int)Modo.Consulta;
+                llenarGrid();
+                categoriaConsultada = controladoraCategorias.consultarCategoria(categoriaConsultada.Nombre);
+                modo = (int)Modo.Consulta;
                     res = "succes";
-                }
-                else
-                {
+            }
+            else
+            {
                     res = "no se puede";
-                    modo = (int)Modo.Modificacion;
-                }
+                modo = (int)Modo.Modificacion;
+            }
             }
             else
             {
 
             }
             return res;
-         
+            
         }
 
         /*
@@ -439,17 +439,17 @@ namespace ProyectoInventarioOET
             {
                 String[] error = controladoraCategorias.insertarDatos(nombre);
 
-                codigo = Convert.ToString(error[3]);
-                mostrarMensaje(error[0], error[1], error[2]);
-                if (error[0].Contains("success"))
-                {
-                    llenarGrid();
-                }
-                else
-                {
-                    codigo = "";
-                    modo = (int)Modo.Insercion;
-                }
+            codigo = Convert.ToString(error[3]);
+            mostrarMensaje(error[0], error[1], error[2]);
+            if (error[0].Contains("success"))
+            {
+                llenarGrid();
+            }
+            else
+            {
+                codigo = "";
+                modo = (int)Modo.Insercion;
+            }
             }
             return codigo;
         }
@@ -470,12 +470,12 @@ namespace ProyectoInventarioOET
             return false;
         }
 
-        protected void esconderBotonesSegunPermisos()
+        protected void mostrarBotonesSegunPermisos()
         {
-            comboBoxEstadosActividades.Enabled = (permisos[2] == '1');
-            botonModificacionCategoria.Visible = (permisos[3] == '1');
-            botonAgregarCategoria.Visible = (permisos[4] == '1');
             botonConsultaCategoria.Visible = (permisos[5] == '1');
+            botonAgregarCategoria.Visible = (permisos[4] == '1');
+            botonModificacionCategoria.Visible = (permisos[3] == '1');
+            comboBoxEstadosActividades.Enabled = (permisos[2] == '1');
         }
     }
 }

@@ -113,7 +113,7 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
                 res[1] = "Exito";
                 res[2] = "Producto modificado";
             }
-            catch (SqlException e)
+            catch (OracleException e)
             {
                 // Como la llave es generada se puede volver a intentar
                 res[0] = "danger";
