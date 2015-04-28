@@ -66,15 +66,15 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
                 OracleDataReader reader = command.ExecuteReader();
 
                 res[0] = "success";
-                res[1] = "Exito";
-                res[2] = "Producto Agregado";
+                res[1] = "Éxito:";
+                res[2] = "Producto agregado al catálogo general.";
             }
             catch (SqlException e)
             {
                 // Como la llave es generada se puede volver a intentar
                 res[0] = "danger";
-                res[1] = "Fallo en la operacion";
-                res[2] = "Intente nuevamente";
+                res[1] = "Error:";
+                res[2] = "Producto no agregado, intente nuevamente.";
             }
             return res;
         }
@@ -110,15 +110,15 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
                 OracleDataReader reader = command.ExecuteReader();
 
                 res[0] = "success";
-                res[1] = "Exito";
-                res[2] = "Producto modificado";
+                res[1] = "Éxito:";
+                res[2] = "Producto modificado en el sistema.";
             }
             catch (OracleException e)
             {
                 // Como la llave es generada se puede volver a intentar
                 res[0] = "danger";
-                res[1] = "Fallo en la operacion";
-                res[2] = "Intente nuevamente";
+                res[1] = "Error:";
+                res[2] = "Producto no modificado, intente nuevamente.";
             }
             return res;
         }
@@ -137,15 +137,15 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
                 OracleDataReader reader = command.ExecuteReader();
 
                 res[0] = "success";
-                res[1] = "Exito";
-                res[2] = "Producto Desactivado";
+                res[1] = "Éxito:";
+                res[2] = "Producto desactivado en el sistema.";
             }
             catch (SqlException e)
             {
                 // Como la llave es generada se puede volver a intentar
                 res[0] = "danger";
-                res[1] = "Fallo en la operacion";
-                res[2] = "Intente nuevamente";
+                res[1] = "Error:";
+                res[2] = "Producto no desactivado, intente nuevamente.";
             }
             return res;
         }

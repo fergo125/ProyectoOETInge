@@ -98,10 +98,10 @@ namespace ProyectoInventarioOET
             columna.ColumnName = "Nombre";
             tabla.Columns.Add(columna);
 
-            columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Código Interno";
-            tabla.Columns.Add(columna);
+            //columna = new DataColumn();
+            //columna.DataType = System.Type.GetType("System.String");
+            //columna.ColumnName = "Código Interno";
+            //tabla.Columns.Add(columna);
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
@@ -123,7 +123,8 @@ namespace ProyectoInventarioOET
             try
             {
                 // Cargar actividades
-                Object[] datos = new Object[3];
+                //Object[] datos = new Object[3];
+                Object[] datos = new Object[2];
                 DataTable actividades = controladoraActividades.consultarActividades();
 
                 if (actividades.Rows.Count > 0)
@@ -133,18 +134,30 @@ namespace ProyectoInventarioOET
                     {
                         idArray[i] = fila[0];
                         datos[0] = fila[1].ToString();
-                        datos[1] = fila[0].ToString();
+                        //datos[1] = fila[0].ToString();
+                        //if (fila[2].ToString().Equals("0"))
+                        //{
+                        //    datos[2] = "Inactivo";
+                        //}
+                        //else if (fila[2].ToString().Equals("1"))
+                        //{
+                        //    datos[2] = "Activo";
+                        //}
+                        //else
+                        //{
+                        //    datos[2] = fila[2].ToString();
+                        //}
                         if (fila[2].ToString().Equals("0"))
                         {
-                            datos[2] = "Inactivo";
+                            datos[1] = "Inactivo";
                         }
                         else if (fila[2].ToString().Equals("1"))
                         {
-                            datos[2] = "Activo";
+                            datos[1] = "Activo";
                         }
                         else
                         {
-                            datos[2] = fila[2].ToString();
+                            datos[1] = fila[2].ToString();
                         }
 
                         tabla.Rows.Add(datos);
