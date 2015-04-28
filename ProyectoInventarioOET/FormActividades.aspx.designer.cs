@@ -76,13 +76,13 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlButton botonConsultaActividades;
         
         /// <summary>
-        /// Control tituloBienvenidaActividades.
+        /// Control tituloAccionActividades.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tituloBienvenidaActividades;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tituloAccionActividades;
         
         /// <summary>
         /// Control FieldsetActividad.

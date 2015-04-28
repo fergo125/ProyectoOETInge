@@ -251,7 +251,7 @@ namespace ProyectoInventarioOET
                     this.codigoInternoActividad.Visible = false;
                     this.labelCodigoInterno.Visible = false;
                     this.codigoInternoActividad.Disabled = true;
-                    this.tituloBienvenidaActividades.Visible = true;
+                    tituloAccionActividades.InnerText = "Seleccione una opción";
                     break;
                 case (int)Modo.Insercion: //insertar
                     habilitarCampos(true);
@@ -265,7 +265,7 @@ namespace ProyectoInventarioOET
                     this.botonCancelarActividad.Visible = true;  
                     this.codigoInternoActividad.Visible = false;
                     this.labelCodigoInterno.Visible = false;
-                    this.tituloBienvenidaActividades.Visible = false;
+                    tituloAccionActividades.InnerText = "Ingrese datos";
                     break;
                 case (int)Modo.Modificacion: //modificar
                     habilitarCampos(true);
@@ -280,7 +280,7 @@ namespace ProyectoInventarioOET
                     this.botonCancelarActividad.Visible = true;
                     this.codigoInternoActividad.Visible = false;
                     this.labelCodigoInterno.Visible = false;
-                    this.tituloBienvenidaActividades.Visible = false;
+                    tituloAccionActividades.InnerText = "Cambie los datos";
                     break;
                 case (int)Modo.Consulta://consultar
                     limpiarCampos();
@@ -293,7 +293,7 @@ namespace ProyectoInventarioOET
                     this.botonModificacionActividades.Disabled = true;
                     this.gridViewActividades.Visible = true;
                     this.tituloGrid.Visible = true;
-                    this.tituloBienvenidaActividades.Visible = false;
+                    tituloAccionActividades.InnerText = "Seleccione una actividad";
                     break;
                 case (int)Modo.Consultado://consultada una actividad
                     habilitarCampos(false);
@@ -309,7 +309,7 @@ namespace ProyectoInventarioOET
                     this.codigoInternoActividad.Visible = true;
                     this.labelCodigoInterno.Visible = true;
                     this.codigoInternoActividad.Disabled = true;
-                    this.tituloBienvenidaActividades.Visible = false;
+                    tituloAccionActividades.InnerText = "Actividad seleccionada";
                     break;
                 default:
 

@@ -26,8 +26,7 @@
     <br />
     <br />
 
-    <h3 id="tituloAccionActividades"></h3>
-    <h3 id="tituloBienvenidaActividades" runat="server">Seleccione una opción</h3>
+    <h3 id="tituloAccionActividades" runat="server">Seleccione una opción</h3>
     <div class= "row" id="bloqueFormulario">
          <!-- Fieldset para Actividades -->
         <fieldset id= "FieldsetActividad" runat="server" class="fieldset">

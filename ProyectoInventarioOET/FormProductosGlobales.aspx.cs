@@ -96,6 +96,7 @@ namespace ProyectoInventarioOET
                     this.botonModificacionProductos.Disabled = true;
                     this.botonConsultaProductos.Disabled = false;
                     habilitarCampos(false);
+                    tituloAccion.InnerText = "Seleccione una opción";
                     limpiarCampos();
                     break;
                 case (int)Modo.Insercion: //insertar
@@ -106,6 +107,7 @@ namespace ProyectoInventarioOET
                     this.botonAgregarProductos.Disabled = true;
                     this.botonModificacionProductos.Disabled = true;
                     this.botonConsultaProductos.Disabled = false;
+                    tituloAccion.InnerText = "Ingrese datos";
                     break;
                 case (int)Modo.Modificacion: //modificar
                     this.bloqueGrid.Visible = false;
@@ -115,6 +117,7 @@ namespace ProyectoInventarioOET
                     this.botonAgregarProductos.Disabled = true;
                     this.botonModificacionProductos.Disabled = true;
                     this.botonConsultaProductos.Disabled = false;
+                    tituloAccion.InnerText = "Cambie los datos";
                     break;
                 case (int)Modo.Consulta:
                     this.bloqueGrid.Visible = true;
@@ -124,6 +127,7 @@ namespace ProyectoInventarioOET
                     this.botonAgregarProductos.Disabled = false;
                     this.botonModificacionProductos.Disabled = true;
                     this.botonConsultaProductos.Disabled = false;
+                    tituloAccion.InnerText = "Seleccione un producto";
                     break;
                 case (int)Modo.Consultado:
                     this.bloqueGrid.Visible = false;
@@ -134,6 +138,7 @@ namespace ProyectoInventarioOET
                     this.botonModificacionProductos.Disabled = false;
                     this.botonConsultaProductos.Disabled = false;
                     habilitarCampos(false);
+                    tituloAccion.InnerText = "Producto seleccionado";
                     break;
                 default:
                     break;
