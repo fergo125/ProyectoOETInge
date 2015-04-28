@@ -134,7 +134,7 @@
                 </div>
 <%--                <span class="glyphicon glyphicon-search" runat="server"></span>--%>
                 <div class="col-lg-2">
-                    <asp:Button ID="Button1" runat="server" Text="Buscar" CssClass="btn btn-danger-fozkr" OnClick="botonBuscar_ServerClick"/>
+                    <asp:Button ID="Button1" runat="server" Text="Buscar" CssClass="btn btn-warning-fozkr" OnClick="botonBuscar_ServerClick"/>
                 </div>
                 <%--<Button ID="botonBuscar" runat="server" Text="Buscar" onserverclick="botonBuscar_ServerClick" value="sds" title="ewrwer" name="ppp" />--%>
 
