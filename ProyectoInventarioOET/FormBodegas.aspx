@@ -7,9 +7,9 @@
         <div id="mensajeAlerta" class="alert alert-fozkr-error fade in" runat="server" Visible="false" style="margin-left:70%;">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <strong>
-                <asp:Label ID="labelTipoAlerta" runat="server" Text="Alerta! "></asp:Label>
+                <asp:Label ID="labelTipoAlerta" runat="server" Text=""></asp:Label>
             </strong>
-            <asp:Label ID="labelAlerta" runat="server" Text="Mensaje de alerta"></asp:Label>
+            <asp:Label ID="labelAlerta" runat="server" Text=""></asp:Label>
         </div>
     </div>
 
@@ -29,75 +29,117 @@
     <h3 id="tituloAccionBodegas"></h3>
     <br />
     
-    <div class= "row" id="bloqueFormulario" style="display:block">
-        <!-- Fieldset que muestra el form para agregar una nueva bodega -->
+    <!--//////////////////////////////////////////-->
+    <!--//////////////////////////////////////////-->
+    <!--//////////////////////////////////////////-->
+
+    
+      <!-- Fieldset para Bodegas -->
         <fieldset id= "FieldsetBodegas" runat="server" class="fieldset">
-            <div class= "col-lg-3">
-                <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
+            <asp:ValidationSummary CssClass="label label-danger" runat=server 
+            HeaderText="Uno de los campos está vacío o con información inválida" />
+
+                  <div class="col-lg-3">
+            <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
                 ControlToValidate=comboBoxEmpresa
-                ErrorMessage=""> 
+                ErrorMessage="">
             </asp:RequiredFieldValidator>
-                <div class="form-group col-lg-12">
-                    <label for="inputEmpresa" class="control-label">Empresa: </label>
-                    <asp:DropDownList ID="comboBoxEmpresa" AutoPostBack="True" runat="server" CssClass="form-control">
+                <br />
+                <div class="form-group">
+                    <label for="comboBoxEmpresa" class= "control-label"> Empresa: </label>      
+                    <asp:DropDownList id="comboBoxEmpresa" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
                     </asp:DropDownList>
                 </div>
             </div>
+
+            
             <div class="col-lg-3">
-                <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
+            <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
                 ControlToValidate=comboBoxEstacion
-                ErrorMessage=""> 
+                ErrorMessage="">
             </asp:RequiredFieldValidator>
-                <div class="form-group col-lg-12">
-                    <label for="inputEstacion" class="control-label">Estación: </label>
-                    <asp:DropDownList ID="comboBoxEstacion" AutoPostBack="True" runat="server" CssClass="form-control">
+                <br />
+                <div class="form-group">
+                    <label for="comboBoxEstacion" class= "control-label"> Estación: </label>      
+                    <asp:DropDownList id="comboBoxEstacion" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
                     </asp:DropDownList>
                 </div>
             </div>
-            <div class="col-lg-6">
+
+
+            <div class="col-lg-4">
                 <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
-                ControlToValidate=inputNombre
-                ErrorMessage=""> 
-            </asp:RequiredFieldValidator>
-                <div class= "form-group col-lg-12">
-                    <label for="inputNombre" class= "control-label"> Nombre: </label>      
-                    <input type="text" ID="inputNombre" runat="server" class= "form-control"><br>
-                </div>
+                    ControlToValidate=inputNombre
+                    ErrorMessage=""> 
+                </asp:RequiredFieldValidator>
+                    <br />
+                    <div class="form-group">
+                        <label for="inputNombre" class= "control-label"> Nombre: </label>      
+                        <input type="text" id= "inputNombre" runat="server" class="form-control" style="max-width:100%">
+                    </div>
             </div>
+
+
             <div class="col-lg-3">
-             <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
+            <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
                 ControlToValidate=comboBoxIntencion
-                ErrorMessage=""> 
+                ErrorMessage="">
             </asp:RequiredFieldValidator>
-                <div class="form-group col-lg-12">
-                    <label for="inputIntencion" class="control-label">Intención de uso: </label>
-                    <asp:DropDownList ID="comboBoxIntencion" AutoPostBack="True" runat="server" CssClass="form-control">
+                <br />
+                <div class="form-group">
+                    <label for="comboBoxIntencion" class= "control-label"> Intención de uso: </label>      
+                    <asp:DropDownList id="comboBoxIntencion" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
                     </asp:DropDownList>
                 </div>
             </div>
+
+
+   
+
             <div class="col-lg-3">
             <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
                 ControlToValidate=dropdownEstado
-                ErrorMessage=""> 
+                ErrorMessage="">
             </asp:RequiredFieldValidator>
-                <div class="form-group col-lg-12">
-                        <label for="inputEstado" class="control-label">Estado: </label>
-                    <asp:DropDownList ID="dropdownEstado" AutoPostBack="True" runat="server" CssClass="form-control">
+                <br />
+                <div class="form-group">
+                    <label for="dropdownEstado" class= "control-label"> Estado: </label>      
+                    <asp:DropDownList id="dropdownEstado" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
                     </asp:DropDownList>
                 </div>
             </div>
+
+            <br />
+            <div class="col-lg-5">
+            </div>
+
         </fieldset>
-        <label for="textoObligatorioBodega" id="textoObligatorioBodega" runat="server" class="text-danger text-center">Los campos con (*) son obligatorios</label>
+
+        <label id="textoObligatorioBodega" runat="server" for="textoObligatorioBodega" style="margin-left:1.30%" class="text-danger text-center">Los campos con (*) son obligatorios</label>
+
+    <div class="col-lg-12" id="bloqueBotones">
+        <div class =" row">
+            <div class="text-center">
+                <button runat="server" onserverclick="botonAceptarBodega_ServerClick" id="botonAceptarBodega" class="btn btn-success-fozkr" type="button"><i class="fa fa-pencil-square-o"></i>Enviar</button>
+                <a id="botonCancelarBodega" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cancelar</a>                
+            </div>
+        </div>
     </div>
     <br />
+    <br />
 
-    <div id="bloqueGrids" class="col-lg-12" style="display:block">
-        <fieldset id="FieldsetGridBodegas" center="left" runat="server" class="fieldset">
+
+    <!--//////////////////////////////////////////-->
+    <!--//////////////////////////////////////////-->
+    <!--//////////////////////////////////////////-->
+
+      <div id="bloqueGrid" class="col-lg-12">
+        <fieldset id="FieldsetGridBodegas" runat="server" class="fieldset">
           <!-- Gridview de consultar -->
          <div class="col-lg-12">
             <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
                 <ContentTemplate>
-                    <asp:GridView ID="gridViewBodegas" CssClass="table" OnRowCommand="gridViewBodegas_Seleccion" OnPageIndexChanging="gridViewBodegas_CambioPagina" runat="server" AllowPaging="True" PageSize="2" BorderColor="Transparent">
+                    <asp:GridView ID="gridViewBodegas" CssClass="table" OnRowCommand="gridViewBodegas_Seleccion" OnPageIndexChanging="gridViewBodegas_CambioPagina" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
                         <Columns>
                             <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Consultar">
                                 <ControlStyle CssClass="btn btn-default"></ControlStyle>
@@ -107,7 +149,7 @@
                        <PagerStyle CssClass="paging" HorizontalAlign="Center" />
                        <AlternatingRowStyle BackColor="#F8F8F8" />
                        <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
-                       <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" />
+                       <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
                   </asp:GridView>
              </ContentTemplate>
              <Triggers>
@@ -118,17 +160,11 @@
         <br />
         <br />
         <br />
-        </fieldset>        
+        </fieldset>         
     </div>
-    <div class="col-lg-12" id="bloqueBotones" style="display:block">
-        <div class =" row">
-            <div class="text-center">
-                <button runat="server" onserverclick="botonAceptarBodega_ServerClick" id="botonAceptarBodega" class="btn btn-success-fozkr" type="button"><i class="fa fa-pencil-square-o"></i>Enviar</button>
-                <a id="botonCancelarBodega" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cancelar</a>
-            </div>
-        </div>
+    
 
-    </div>
+
 
     <!--Modal Cancelar-->
     <div class="modal fade" id="modalCancelar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -167,38 +203,7 @@
         </div>
     </div>
 
-    <!-- Javascript -->
-    <!-- Modificar tab de site master activo -->
-    <script type = "text/javascript">
-        function setCurrentTab() {
-            document.getElementById("linkFormProductos").className = "active";
-        }
-    </script>
-    <!-- ??? -->
-    <script type="text/javascript">
-        function showStuff(elementoATogglear, mensaje) {
-            var estado = document.getElementById(elementoATogglear).style.display;
-            document.getElementById('tituloAccionBodegas').innerHTML = mensaje;
-            if (elementoATogglear === 'bloqueFormulario') {
-                if (estado === 'none') {
-                    document.getElementById('bloqueGrids').style.display = 'none';
-                    document.getElementById(elementoATogglear).style.display = 'block';
-                    document.getElementById('bloqueBotones').style.display = 'block';
-                } else {
-                    document.getElementById(elementoATogglear).style.display = 'none';
-                    document.getElementById('bloqueBotones').style.display = 'none';
-                }
-            } else {
-                document.getElementById('bloqueBotones').style.display = 'none';
-                if (estado === 'none') {
-                    document.getElementById(elementoATogglear).style.display = 'block';
-                    document.getElementById('bloqueFormulario').style.display = 'none';
-                } else {
-                    document.getElementById(elementoATogglear).style.display = 'none';
-                }
-            }
-        } // Final de funcion 
-    </script>
+
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.1.47/jquery.form-validator.min.js"> </script>
     <script> $.validate(); </script>
 </asp:Content>

@@ -31,7 +31,6 @@
         </div>
         <div class="col-lg-4">
             <br />
-            <br />
             <button runat="server" onserverclick="botonConsultarBodega_ServerClick" id="botonConsultarBodega" class=" btn btn-info-fozkr" type="button" style="float: left">Consultar Bodega</button>
         </div>
      </div>
@@ -42,114 +41,115 @@
             <div class= "col-lg-7">
                 <div class="form-group col-lg-12" >
                     <label for="inputNombre" class= "control-label">Nombre:</label>      
-                    <input type="text" id= "inputNombre" class="form-control" style="max-width:100%"  runat="server"><br>
+                    <input type="text" id= "inputNombre" class="form-control" style="max-width:100%"  runat="server" disabled="disabled">
                 </div>
                 <div class= "form-group col-lg-6">
                     <label for="inputCodigo" class= "control-label">Código interno:</label>      
-                    <input type="text" id= "inputCodigo" class= "form-control" style= "max-width: 100%" required runat="server"><br>
+                    <input type="text" id= "inputCodigo" class= "form-control" style= "max-width: 100%" required runat="server" disabled="disabled">
                 </div>
                 <div class="form-group col-lg-6">
                     <label for="inputCodigoBarras" class= "control-label">Código de Barras:</label>      
-                    <input type="text" id= "inputCodigoBarras" name= "inputCodigoBarras" style= "max-width: 100%" class="form-control" required runat="server"><br>
+                    <input type="text" id= "inputCodigoBarras" name= "inputCodigoBarras" style= "max-width: 100%" class="form-control" required runat="server" disabled="disabled">
                 </div>
                 <div class="form-group col-lg-6">
                     <label for="inputCategoria" class= "control-label">Categoría:</label>     
-                    <input type="text" id= "inputCategoria" runat="server" class="form-control" style="max-width:100%" AutoPostBack="true"> </input> 
+                    <input type="text" id= "inputCategoria" runat="server" class="form-control" style="max-width:100%" AutoPostBack="true" disabled="disabled"> </input> 
                 </div>
                   <div class="form-group col-lg-6">
                     <label for="inputVendible" class= "control-label">Intención de uso:</label>     
-                    <input type="text" id= "inputVendible" runat="server" class="form-control" style="max-width:100%" AutoPostBack="true"> </input> 
+                    <input type="text" id= "inputVendible" runat="server" class="form-control" style="max-width:100%" AutoPostBack="true" disabled="disabled"> </input> 
                 </div>
                 <div class="form-group col-lg-6">
                     <label for="inputUnidades" class= "control-label">Unidades métricas:</label>
-                    <input type="text" ID="inputUnidades" runat="server" class="form-control" style="max-width:100%" AutoPostBack="true"></input>
+                    <input type="text" ID="inputUnidades" runat="server" class="form-control" style="max-width:100%" AutoPostBack="true" disabled="disabled"></input>
                 </div>
                 <div class="form-group col-lg-6">
                     <label for="inputEstado" class= "control-label" >Estado:</label>
-                    <asp:DropDownList ID="inputEstado" runat="server" Cssclass="form-control" AutoPostBack="true"></asp:DropDownList>
+                    <asp:DropDownList ID="inputEstado" runat="server" Cssclass="form-control" disabled="disabled"></asp:DropDownList>
                 </div>
-                <div class= "form-group col-lg-8">
+                <div class= "form-group col-lg-6">
                     <label for="inputCreador" class= "control-label">Asociador:</label>      
-                    <input type="text" id= "inputCreador" class= "form-control" style= "max-width: 100%" required runat="server"><br>
+                    <input type="text" id= "inputCreador" class= "form-control" style= "max-width: 100%" required runat="server" disabled="disabled">
                 </div>
-                <div class="form-group col-lg-4">
+                <div class="form-group col-lg-6">
                     <label for="inputCreado" class= "control-label">Asociado:</label>      
-                    <input type="text" id= "inputCreado" style= "max-width: 100%" class="form-control" required runat="server"><br>
+                    <input type="text" id= "inputCreado" style= "max-width: 100%" class="form-control" required runat="server" disabled="disabled">
                 </div>
-                <div class= "form-group col-lg-8">
+                <div class= "form-group col-lg-6">
                     <label for="inputModifica" class= "control-label">Modificador:</label>      
-                    <input type="text" id= "inputModifica" class= "form-control" style= "max-width: 100%" required runat="server"><br>
+                    <input type="text" id= "inputModifica" class= "form-control" style= "max-width: 100%" required runat="server" disabled="disabled">
                 </div>
-                <div class="form-group col-lg-4">
+                <div class="form-group col-lg-6">
                     <label for="inputModificado" class= "control-label">Modificado:</label>      
-                    <input type="text" id= "inputModificado" style= "max-width: 100%" class="form-control" required runat="server"><br>
+                    <input type="text" id= "inputModificado" style= "max-width: 100%" class="form-control" required runat="server" disabled="disabled">
                 </div>
             </div>
-
             <%-- COLUMNA IZQUIERDA --%>
             <div class="col-lg-5">
                 <div class="row">
                     <div class="form-group col-lg-6">
                         <label for="inputSaldo" class= "control-label">Existencia global:</label>
-                        <input type="text" id="inputSaldo" class="form-control" runat="server" style= "max-width: 100%"><br>
+                        <input type="text" id="inputSaldo" class="form-control" runat="server" style= "max-width: 100%" disabled="disabled">
                     </div>
                      <div class="form-group col-lg-6">
                         <label for="inputImpuesto" class= "control-label">Impuesto:</label>
-                         <input type="text" id="inputImpuesto" class="form-control" runat="server" style= "max-width: 100%"><br>
+                         <input type="text" id="inputImpuesto" class="form-control" runat="server" style= "max-width: 100%" disabled="disabled">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-lg-6">
                         <label for="inputPrecioColones" class= "control-label">Precio (colones):</label>
-                        <input type="text" id= "inputPrecioColones" class="form-control" runat="server" style= "max-width: 100%"><br>
+                        <input type="text" id= "inputPrecioColones" class="form-control" runat="server" style= "max-width: 100%" disabled="disabled">
                     </div>
                     <div class="form-group col-lg-6">
                         <label for="inputPrecioDolares" class= "control-label">Precio (dólares):</label>
-                        <input type="text" id= "inputPrecioDolares" class="form-control" runat="server" style= "max-width: 100%" ><br>
+                        <input type="text" id= "inputPrecioDolares" class="form-control" runat="server" style= "max-width: 100%" disabled="disabled" >
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-lg-6">
                         <label for="inputCostoColones" class= "control-label">Costo (colones):</label>
-                        <input type="text" id= "inputCostoColones" class="form-control" runat="server" style= "max-width: 100%"><br>
+                        <input type="text" id= "inputCostoColones" class="form-control" runat="server" style= "max-width: 100%" disabled="disabled">
                     </div>
 
                     <div class="form-group col-lg-6">
                         <label for="inputCostoDolares" class= "control-label">Costo (dólares):</label>
-                        <input type="text" id= "inputCostoDolares" class="form-control" runat="server" style= "max-width: 100%"><br>
+                        <input type="text" id= "inputCostoDolares" class="form-control" runat="server" style= "max-width: 100%" disabled="disabled">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-lg-6">
                         <label for="inputMinimo" class= "control-label">Nivel mínimo de existencia:</label>      
-                        <input type="text" id= "inputMinimo" class="form-control" runat="server" style= "max-width: 100%"><br>
+                        <input type="text" id= "inputMinimo" class="form-control" runat="server" style= "max-width: 100%" disabled="disabled">
                     </div>
 
                     <div class="form-group col-lg-6">
                         <label for="inputMaximo" class= "control-label">Nivel máximo de existencia:</label>      
-                        <input type="text" id= "inputMaximo" class="form-control" runat="server" style= "max-width: 100%"><br>
+                        <input type="text" id= "inputMaximo" class="form-control" runat="server" style= "max-width: 100%" disabled="disabled">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-lg-6">
-                        <label for="inputCostoUltCol" class= "control-label">Último costo compra (colones):</label>      
-                        <input type="text" id= "inputCostoUltCol" class="form-control" runat="server" style= "max-width: 100%"><br>
+                        <label for="inputCostoUltCol" class= "control-label">Último costo compra (col):</label>      
+                        <input type="text" id= "inputCostoUltCol" class="form-control" runat="server" style= "max-width: 100%" disabled="disabled">
                     </div>
 
                     <div class="form-group col-lg-6">
-                        <label for="inputCostoUltDol" class= "control-label">Último costo compra (dólares):</label>      
-                        <input type="text" id= "inputCostoUltDol" class="form-control" runat="server" style= "max-width: 100%"><br>
+                        <label for="inputCostoUltDol" class= "control-label">Último costo compra (dól):</label>      
+                        <input type="text" id= "inputCostoUltDol" class="form-control" runat="server" style= "max-width: 100%" disabled="disabled">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-lg-12">
                         <label for="inputProveedorUlt" class="control-label">Último proveedor:</label>
-                        <input type="text" id="inputProveedorUlt" class="form-control" runat="server" style="max-width: 100%" /><br /><br />
+                        <input type="text" id="inputProveedorUlt" class="form-control" runat="server" style="max-width: 100%" disabled="disabled" />
                     </div>
                 </div>
             </div>
         <br />
         </fieldset>
+            <br />
+            <br />
 
     <!-- Fieldset que muestra los productos de la bodega local elegida -->
     <fieldset id= "FieldsetCatalogoLocal" center="left" runat="server" class="fieldset" visible="false">

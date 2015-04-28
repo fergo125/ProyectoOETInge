@@ -24,14 +24,21 @@ namespace ProyectoInventarioOET
         private static Boolean seConsulto = false;                              //???
         private static Object[] idArray;                                        //???
         private static int modo = (int)Modo.Inicial;                            //???
+        private static bool mensajeMostrado = false;
 
         /*
          * ???
          */
         protected void Page_Load(object sender, EventArgs e)
         {
+            mensajeAlerta.Visible = false;
+          
             if (!IsPostBack)
             {
+                
+                    
+                    labelAlerta.Text = "";
+               
                 controladoraBodegas = new ControladoraBodegas();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
 
@@ -117,6 +124,7 @@ namespace ProyectoInventarioOET
                     FieldsetBodegas.Visible = true;
                     textoObligatorioBodega.Visible = true;
                     botonAgregarBodega.Disabled = false;
+                    botonModificarBodega.Disabled = false;
                     botonConsultarBodega.Disabled = false;
                     botonAceptarBodega.Visible = false;
                     botonCancelarBodega.Visible = false;
@@ -138,7 +146,8 @@ namespace ProyectoInventarioOET
             {
                 case "Select":
                     GridViewRow filaSeleccionada = this.gridViewBodegas.Rows[Convert.ToInt32(e.CommandArgument)];
-                    String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewBodegas.PageIndex * resultadosPorPagina)]);
+                    //String codigo = filaSeleccionada.Cells[0].Text.ToString();
+                    String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewBodegas.PageIndex * this.gridViewBodegas.PageSize)]);
                     consultarBodega(codigo);
                     modo = (int)Modo.Consultado;
                     Response.Redirect("FormBodegas.aspx");
@@ -192,6 +201,7 @@ namespace ProyectoInventarioOET
                         datos[0] = "-";
                         datos[1] = "-";
                         tabla.Rows.Add(datos);
+                        mostrarMensaje("warning", "Atención: ", "No existen bodegas en la base de datos.");
                     }
 
                     this.gridViewBodegas.DataSource = tabla;
@@ -239,6 +249,7 @@ namespace ProyectoInventarioOET
          */
         protected void mostrarMensaje(String tipoAlerta, String alerta, String mensaje)
         {
+
             mensajeAlerta.Attributes["class"] = "alert alert-" + tipoAlerta + " alert-dismissable fade in";
             labelTipoAlerta.Text = alerta + " ";
             labelAlerta.Text = mensaje;
