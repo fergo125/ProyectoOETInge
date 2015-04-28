@@ -62,13 +62,13 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
                     OracleDataReader reader = command.ExecuteReader();
 
                     res[0] = "success";
-                    res[1] = "Exito";
+                    res[1] = "Éxito: ";
                     res[2] = "Bodega Agregada";
                 }
                 catch (OracleException e)
                 {
                     res[0] = "danger";
-                    res[1] = "Fallo en la operacion";
+                    res[1] = "Fallo: ";
                     res[2] = "Intente nuevamente";
                 }
             }
@@ -116,7 +116,7 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
                     OracleDataReader reader = command.ExecuteReader();
                 
                     res[0] = "success";
-                    res[1] = "Exito";
+                    res[1] = "Éxito: ";
                     res[2] = "Bodega modificada";
                 }
                 catch (OracleException e)
@@ -124,7 +124,7 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
                     if (e.Number == 2627)
                     {
                         res[0] = "danger";
-                        res[1] = "Fallo";
+                        res[1] = "Fallo: ";
                         res[2] = "Error al modificar";
                     }
                 }
@@ -143,13 +143,13 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
             {
                 //adaptadorBodega.Update();
                 res[0] = "success";
-                res[1] = "Exito";
+                res[1] = "Éxito: ";
                 res[2] = "Bodega eliminado";
             }
             catch (OracleException e)
             {
                 res[1] = "danger";
-                res[2] = "Fallo";
+                res[2] = "Fallo: ";
                 res[3] = "Error al eliminar";
             }
             return res;

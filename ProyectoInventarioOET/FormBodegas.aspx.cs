@@ -535,7 +535,7 @@ namespace ProyectoInventarioOET
             this.inputNombre.Disabled = !habilitar;
             this.comboBoxEmpresa.Enabled = habilitar;
             this.comboBoxEstacion.Enabled = habilitar;
-            this.dropdownEstado.Enabled = (permisos[2] == '1');
+            this.dropdownEstado.Enabled = habilitar && (permisos[2] == '1');
             this.comboBoxIntencion.Enabled = habilitar;
         }
 
