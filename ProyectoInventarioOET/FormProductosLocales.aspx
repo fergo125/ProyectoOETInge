@@ -17,10 +17,10 @@
         <h2 id="TituloProductosLocales" runat="server">Catálogos de productos en bodegas</h2>
         <hr />
     </div>
-    <button runat="server" id="botonAsociarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" disabled="disabled" visible="false">Asociar a Catálogo</button>
+    <button runat="server" onserverclick="botonAsociarBodega_ServerClick" id="botonAsociarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" disabled="disabled" visible="false">Asociar a Catálogo</button>
     <button runat="server" id="botonModificarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" disabled="disabled" visible="false">Modificar Catálogo</button>
     <button runat="server" onserverclick="botonConsultarBodega_ServerClick" id="botonConsultarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" disabled="disabled" visible="false">Consultar Catálogo</button>
-    <br /><br />
+    <br /><br /><br />
     <div class="row">
         <div class="col-lg-4">
             <label for="inputEstacion" class="control-label">Seleccione estación:</label>
@@ -186,7 +186,7 @@
          <div class="col-lg-12">
             <asp:UpdatePanel ID="UpdatePanelAsociar" runat="server">
                 <ContentTemplate>
-                    <asp:GridView ID="gridViewAsociarCatalogoLocal" CssClass="table" OnPageIndexChanging="gridViewAsociarCatalogoLocal_CambioPagina" runat="server" AllowPaging="True" PageSize="16" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                    <asp:GridView ID="gridViewAsociarCatalogoLocal" CssClass="table" OnPageIndexChanging="gridViewAsociarCatalogoLocal_CambioPagina" runat="server" AllowPaging="True" PageSize="10" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
 						<Columns>
 							<asp:TemplateField HeaderText="Seleccionar">
 								<ItemTemplate>
@@ -207,6 +207,8 @@
           </asp:UpdatePanel>
        </div>
         <br />
+        <br />
+        <button runat="server" id="botonAsociarProductos" onserverclick="botonAsociarProductos_ServerClick" class=" btn btn-info-fozkr" type="button" style="float: left">Enviar</button>
         <br />
         <br />
     </fieldset>
