@@ -79,6 +79,7 @@ namespace ProyectoInventarioOET
                 camposCategoria.Visible = false;
                 camposCategoria.Disabled = true;
                 gridViewCategorias.Visible = true;
+                tituloGrid.Visible = true;
                 comboBoxEstadosActividades.Enabled = false;
                 tituloAccion.InnerText = "Seleccione una opción";
                 cargarEstados();
@@ -95,6 +96,7 @@ namespace ProyectoInventarioOET
                 camposCategoria.Visible = true;
                 inputNombre.Disabled = false;
                 gridViewCategorias.Visible = false;
+                tituloGrid.Visible = false;
                 comboBoxEstadosActividades.Enabled = (permisos[2] == '1');
                 tituloAccion.InnerText = "Cambie los datos";
             }
@@ -109,6 +111,7 @@ namespace ProyectoInventarioOET
                 inputNombre.Disabled = false;
                 inputNombre.Visible = true;
                 gridViewCategorias.Visible = false;
+                tituloGrid.Visible = false;
                 comboBoxEstadosActividades.Enabled = true;
                 comboBoxEstadosActividades.Visible = true;
                 tituloAccion.InnerText = "Ingrese datos";
@@ -125,6 +128,7 @@ namespace ProyectoInventarioOET
                 camposCategoria.Visible = false;
                 inputNombre.Visible = false;
                 gridViewCategorias.Visible = false;
+                tituloGrid.Visible = false;
                 inputNombre.Visible = false;
                 comboBoxEstadosActividades.Visible = false;
                 tituloAccion.InnerText = "Seleccione una categoria";
@@ -140,6 +144,7 @@ namespace ProyectoInventarioOET
                 camposCategoria.Disabled = true;
                 inputNombre.Disabled = true;
                 gridViewCategorias.Visible = true;
+                tituloGrid.Visible = true;
                 comboBoxEstadosActividades.Enabled = false;
                 tituloAccion.InnerText = "Categoria seleccionada";
             }

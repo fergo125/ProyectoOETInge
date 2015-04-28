@@ -53,20 +53,20 @@
     </fieldset>
     </div>
          <div class="col-lg-12" id="bloqueGrid">
-
-        <strong><div ID="UpdatePanelPruebas" tabindex="" class="control-label" style="text-align:center;font-size:larger;margin-bottom:5px; background-color: #C0C0C0;">Catálogo de categorias</div></strong>
+             
 <%--  <label for="UpdatePanelPruebas" class= "control-label" > Catálogo global de categorias </label> OnRowCommand="gridViewCategorias_Seleccion" OnPageIndexChanging="gridViewCategorias_CambioPagina"--%>
+       <strong><div ID="tituloGrid" runat="server" visible="false" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Catálogo de categorías</div></strong>
         <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
             <ContentTemplate>
                 <asp:GridView ID="gridViewCategorias" CssClass="table able-responsive table-condensed" runat="server" OnRowCommand="gridViewCategorias_Seleccion" OnPageIndexChanging="gridViewCategorias_CambioPagina" AllowPaging="True" PageSize="16" BorderColor="Transparent" Visible ="false">
                     <Columns>
-                        <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn-default" CommandName="Select" Text="Consultar">
-                            <ControlStyle CssClass="btn-default disabled"></ControlStyle>
+                        <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Consultar">
+                            <ControlStyle CssClass="btn btn-default"></ControlStyle>
                         </asp:ButtonField>
                    </Columns>
                    <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
                    <PagerStyle CssClass="paging" HorizontalAlign="Center" />
-                   <AlternatingRowStyle BackColor="#EBEBEB" />
+                   <AlternatingRowStyle BackColor="#F8F8F8" />
                    <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
                    <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" />
               </asp:GridView>

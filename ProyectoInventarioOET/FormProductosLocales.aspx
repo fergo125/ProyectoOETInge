@@ -154,7 +154,7 @@
     <fieldset id= "FieldsetCatalogoLocal" center="left" runat="server" class="fieldset" visible="false">
         <!-- Gridview de productos -->
          <div class="col-lg-12">
-            <strong><div ID="UpdatePanelPruebas" tabindex="" class="control-label" style="text-align:center;font-size:larger;margin-bottom:5px; background-color: #C0C0C0;">Catálogo de productos en bodega</div></strong>
+            <strong><div ID="UpdatePanelPruebas" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Catálogo de productos en bodega</div></strong>
             <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
                 <ContentTemplate>
                     <asp:GridView ID="gridViewCatalogoLocal" CssClass="table" OnRowCommand="gridViewCatalogoLocal_Seleccion" OnPageIndexChanging="gridViewCatalogoLocal_CambioPagina" runat="server" AllowPaging="True" PageSize="16" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
