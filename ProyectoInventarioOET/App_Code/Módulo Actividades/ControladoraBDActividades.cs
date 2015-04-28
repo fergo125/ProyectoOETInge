@@ -61,7 +61,7 @@ namespace ProyectoInventarioOET.Módulo_Actividades
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT * FROM CAT_ACTIVIDAD WHERE  CAT_ACTIVIDAD = '" + nombre + "'";
+                command.CommandText = "SELECT * FROM CAT_ACTIVIDAD WHERE  DESCRIPCION = '" + nombre + "'";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
 
