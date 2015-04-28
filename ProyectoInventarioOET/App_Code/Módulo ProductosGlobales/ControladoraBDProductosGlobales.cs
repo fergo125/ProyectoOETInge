@@ -50,7 +50,7 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
             {
                 DataTable resultado = new DataTable();
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "INSERT INTO INV_PRODUCTOS (NOMBRE, CODIGO, CODIGO_BARRAS, CAT_CATEGORIAS, INTENCION, CAT_UNIDADES, ESTADO,  "
+                String aux =  "INSERT INTO INV_PRODUCTOS (NOMBRE, CODIGO, CODIGO_BARRAS, CAT_CATEGORIAS, INTENCION, CAT_UNIDADES, ESTADO,  "
                 + " SALDO, IMPUESTO, PRECIO_C, PRECIO_D, COSTO_COLONES, COSTO_DOLARES, INV_PRODUCTOS ) VALUES ('"
                 + productoGlobal.Nombre + "','" + productoGlobal.Codigo + "','"
                 + productoGlobal.CodigoDeBarras + "','" + productoGlobal.Categoria + "','"
@@ -60,6 +60,8 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
                 + productoGlobal.PrecioDolares + "','" + productoGlobal.CostoColones + "','"
                 + productoGlobal.CostoDolares + "','" + generarID() + "');";
 
+
+                command.CommandText = aux; 
                 OracleDataReader reader = command.ExecuteReader();
 
                 res[0] = "success";
