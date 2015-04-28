@@ -484,7 +484,7 @@ namespace ProyectoInventarioOET
             this.inputSaldo.Disabled = true;
             this.inputUnidades.Enabled = resp;
             this.inpuCategoria.Enabled = resp;
-            this.inputEstado.Enabled = (permisos[2] == '1');
+            this.inputEstado.Enabled = resp && (permisos[2] == '1');
             this.inputVendible.Enabled = resp;
         }
         //*******************************************************************************
