@@ -20,7 +20,7 @@
 
 
     <!-- Cuerpo del Form -->
-    <button runat="server" onserverclick="botonAgregarCategoria_ServerClick"  id="botonAgregarCategoria" class=" btn btn-info-fozkr" type="button" style="float: left"><i></i> Nueva Categoria</button>
+    <button runat="server" onserverclick="botonAgregarCategoria_ServerClick"  id="botonAgregarCategoria"  class=" btn btn-info-fozkr" type="button" style="float: left"><i></i> Nueva Categoria</button>
     <button runat="server" onserverclick="botonModificacionCategoria_ServerClick" id="botonModificacionCategoria" class=" btn btn-info-fozkr" type="button" style="float: left"><i></i> Modificar Categoria </button>
     <button runat="server" onserverclick="botonConsultaCategoria_ServerClick" id="botonConsultaCategoria"  class=" btn btn-info-fozkr" type="button" style="float: left"><i></i>Consulta de Categorias </button>
 
