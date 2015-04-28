@@ -16,10 +16,10 @@ namespace ProyectoInventarioOET
      */
     public partial class FormActividades : System.Web.UI.Page
     {
-        enum Modo { Inicial, Consulta, Insercion, Modificacion, Consultado };
+        enum Modo { Inicial, Consulta, Insercion, Modificacion, Consultado }; // Sirve para controlar los modos de la interfaz
         //Atributos
-        private static int modo = (int)Modo.Inicial;                            // Establece el modo inicial de la pantalla.
-        private static Object[] idArray;                                        // Usado en consultas de actividades
+        private static int modo = (int)Modo.Inicial;                            // Almacena el modo actual de la interfaz
+        private static Object[] idArray;                                        // Almacena identificadores de actividadesefe
         private static ControladoraDatosGenerales controladoraDatosGenerales;   // Obtiene datos generales (estados)
         private static EntidadActividad actividadConsultada;                    // Almacena la actividad que se consultó (o acaba de agregar o modificar)
         private static ControladoraActividades controladoraActividades;         // Comunica con la base de datos.
@@ -183,7 +183,7 @@ namespace ProyectoInventarioOET
         // Control de elementos de la interfaz.
 
         /*
-         * Muestra el mensaje que da el resultado de las transacciones que se efectuan.
+         * Muestra el mensaje que da el resultado de las transacciones que se efectúan.
          */
         protected void mostrarMensaje(String tipoAlerta, String alerta, String mensaje)
         {
