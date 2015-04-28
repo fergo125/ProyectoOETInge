@@ -9,13 +9,14 @@ using Oracle.DataAccess.Client; //para conectarse a la base de datos manualmente
 namespace ProyectoInventarioOET.Módulo_Actividades
 {
     /*
-     * ???
+     * 
      * Comunicación con la Base de Datos.
      */
     class ControladoraBDActividades : ControladoraBD
     {
         /*
-         * ???
+         * Método para obtener la información de una actividad como una EntidadActividad 
+         * a partir del código de esta.
          */
         public EntidadActividad consultarActividad(String codigo)
         {
@@ -48,7 +49,8 @@ namespace ProyectoInventarioOET.Módulo_Actividades
         }
 
         /*
-         * ???
+         * Obtiene la información de una actividad como una EntidadActividad 
+         * a partir del nombre de esta.
          */
         public EntidadActividad consultarActividadPorNombre(String nombre)
         {
@@ -81,7 +83,9 @@ namespace ProyectoInventarioOET.Módulo_Actividades
         }
 
         /*
-         * ???
+         * Método para insertar una actividad en la base de datos a partir 
+         * de una EntidadActividad y retornando un vector de hileras con el resultado
+         * de la transacción.
          */
         public string[] insertarActividad(EntidadActividad actividad)
         {
@@ -113,7 +117,9 @@ namespace ProyectoInventarioOET.Módulo_Actividades
         }
 
         /*
-         * ???
+         * Modifica una actividad recibiendo la información nueva en 
+         * una EntidadActividad y retornando un vector de hileras con el resultado
+         * de la transacción.
          */
         public string[] modificarActividad(EntidadActividad actividad, EntidadActividad nuevaActividad)
         {
@@ -141,7 +147,7 @@ namespace ProyectoInventarioOET.Módulo_Actividades
         }
 
         /*
-         * ???
+         * Método que desactiva una actividad a partir de la EntidadActividad.
          */
         public string[] desactivarActividad(EntidadActividad actividad)
         {
@@ -165,7 +171,8 @@ namespace ProyectoInventarioOET.Módulo_Actividades
         }
 
         /*
-         * ???
+         * Retorna una estructura DataTable con la información de las actividades
+         * almacenadas en la base de datos.
          */
         public DataTable consultarActividades()
         {

@@ -12,23 +12,24 @@ using ProyectoInventarioOET.App_Code;
 namespace ProyectoInventarioOET
 {
     /*
-     * ???
+     * Controla las operaciones en la interfaz y comunica con la controladora.
      */
     public partial class FormActividades : System.Web.UI.Page
     {
         enum Modo { Inicial, Consulta, Insercion, Modificacion, Consultado };
         //Atributos
-        private static int modo = (int)Modo.Inicial;                            //???
-        private static int resultadosPorPagina; //wtf?
-        private static Object[] idArray;                                        //???
-        private static ControladoraDatosGenerales controladoraDatosGenerales;   //???
-        private static EntidadActividad actividadConsultada;                    //???
-        private static ControladoraActividades controladoraActividades;         //???
-        private static Boolean seConsulto = false;                              //???
-        private static String permisos = "000000";                              //???
+        private static int modo = (int)Modo.Inicial;                            // Establece el modo inicial de la pantalla.
+        private static Object[] idArray;                                        // Usado en consultas de actividades
+        private static ControladoraDatosGenerales controladoraDatosGenerales;   // Obtiene datos generales (estados)
+        private static EntidadActividad actividadConsultada;                    // Almacena la actividad que se consultó (o acaba de agregar o modificar)
+        private static ControladoraActividades controladoraActividades;         // Comunica con la base de datos.
+        private static Boolean seConsulto = false;                              // Bandera para saber si hubo consulta de una actividad.
+        private static String permisos = "000000";                              // Permisos utilizados para el control de
+                                                                                // seguridad.
 
         /*
-         * ???
+         * Maneja las acciones que se ejecutan cuando se carga la página, establecer el modo de operación, 
+         * cargar elementos de la interfaz, gestión de seguridad.
          */
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -61,35 +62,52 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Pide a la controladora consultar la información de una actividad a partir del código de esta.
          */
-        protected void gridViewActividades_Seleccion(object sender, GridViewCommandEventArgs e)
+        protected void consultarActividad(String codigo)
         {
-            switch (e.CommandName)
+            seConsulto = true;
+            try
             {
-                case "Select":
-                    GridViewRow filaSeleccionada = this.gridViewActividades.Rows[Convert.ToInt32(e.CommandArgument)];
-                    //String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewActividades.PageIndex * resultadosPorPagina)]);
-                    String codigo = filaSeleccionada.Cells[2].Text.ToString();
-                    consultarActividad(codigo);
-                    modo = (int)Modo.Consultado;
-                    Response.Redirect("FormActividades.aspx");
-                    break;
+                actividadConsultada = controladoraActividades.consultarActividad(codigo);
+                modo = (int)Modo.Consulta;
             }
+            catch
+            {
+                actividadConsultada = null;
+                modo = (int)Modo.Inicial;
+            }
+            cambiarModo();
         }
 
         /*
-         * ???
+         * Construye la tabla que se va a utilizar para mostrar la información de las actividades.
          */
-        protected void gridViewActividades_CambioPagina(Object sender, GridViewPageEventArgs e)
+        protected DataTable tablaActividades()
         {
-            llenarGrid();
-            this.gridViewActividades.PageIndex = e.NewPageIndex;
-            this.gridViewActividades.DataBind();
+            DataTable tabla = new DataTable();
+            DataColumn columna;
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Nombre";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Código Interno";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Estado";
+            tabla.Columns.Add(columna);
+
+            return tabla;
         }
 
         /*
-         * ???
+         * Llena la tabla con las actividades almacenadas en la base de datos.
          */
         protected void llenarGrid()
         {
@@ -132,6 +150,7 @@ namespace ProyectoInventarioOET
                         i++;
                     }
                 }
+                    // No hay actividades almacenadas.
                 else
                 {
                     datos[0] = "-";
@@ -149,34 +168,15 @@ namespace ProyectoInventarioOET
             }
         }
 
-        /*
-         * ???
-         */
-        protected DataTable tablaActividades()
-        {
-            DataTable tabla = new DataTable();
-            DataColumn columna;
 
-            columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Nombre";
-            tabla.Columns.Add(columna);
 
-            columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Código Interno";
-            tabla.Columns.Add(columna);
 
-            columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Estado";
-            tabla.Columns.Add(columna);
 
-            return tabla;
-        }
+
+        // Control de elementos de la interfaz.
 
         /*
-         * ???
+         * Muestra el mensaje que da el resultado de las transacciones que se efectuan.
          */
         protected void mostrarMensaje(String tipoAlerta, String alerta, String mensaje)
         {
@@ -187,7 +187,186 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Habilita los campos de la interfaz para una inserción/modificación.
+         */
+        protected void habilitarCampos(bool habilitar)
+        {
+            this.inputDescripcionActividad.Disabled = !habilitar;
+            this.comboBoxEstadosActividades.Enabled = habilitar;
+        }
+
+        /*
+         * Remueve la información de los campos de la interfaz.
+         */
+        protected void limpiarCampos()
+        {
+            this.inputDescripcionActividad.Value = "";
+            this.comboBoxEstadosActividades.SelectedValue = null;
+        }
+
+        /*
+         * Carga los posibles estados para una actividad en el 'comboBox' establecido para esto.
+         */
+        protected void cargarEstados()
+        {
+            comboBoxEstadosActividades.Items.Clear();
+            comboBoxEstadosActividades.Items.Add(new ListItem("", null));
+            DataTable estados = controladoraDatosGenerales.consultarEstadosActividad();
+            foreach (DataRow fila in estados.Rows)
+            {
+                comboBoxEstadosActividades.Items.Add(new ListItem(fila[1].ToString(), fila[2].ToString()));
+            }
+        }
+
+        /*
+         * Pone la información de la actividad consultada en los campos correspondientes.
+         */
+        protected void setDatosConsultados()
+        {
+            this.inputDescripcionActividad.Value = actividadConsultada.Descripcion;
+            this.comboBoxEstadosActividades.SelectedValue = actividadConsultada.Estado.ToString();
+            this.codigoInternoActividad.Value = actividadConsultada.Codigo;
+        }
+
+        /*
+         * Cambia el modo de la pantalla activando/desactivando o mostrando/ocultando elementos de acuerdo con la 
+         * acción que se va a realizar.
+         */
+        protected void cambiarModo()
+        {
+            switch (modo)
+            {
+                case (int)Modo.Inicial:
+                    limpiarCampos();
+                    habilitarCampos(false);
+                    this.FieldsetActividad.Visible = false;
+                    this.botonAgregarActividades.Disabled = false;
+                    this.botonModificacionActividades.Disabled = true;
+                    this.labelTextoObligatorioActividad.Visible = false;
+                    this.gridViewActividades.Visible = false;
+                    this.botonAceptarActividad.Visible = false;
+                    this.botonCancelarActividad.Visible = false;    
+                    this.codigoInternoActividad.Visible = false;
+                    this.labelCodigoInterno.Visible = false;
+                    this.codigoInternoActividad.Disabled = true;
+                    this.tituloBienvenidaActividades.Visible = true;
+                    break;
+                case (int)Modo.Insercion: //insertar
+                    habilitarCampos(true);
+                    this.botonAgregarActividades.Disabled = true;
+                    this.botonModificacionActividades.Disabled = true;
+                    this.FieldsetActividad.Visible = true;
+                    this.labelTextoObligatorioActividad.Visible = true;
+                    this.gridViewActividades.Visible = false;
+                    this.botonAceptarActividad.Visible = true;
+                    this.botonCancelarActividad.Visible = true;  
+                    this.codigoInternoActividad.Visible = false;
+                    this.labelCodigoInterno.Visible = false;
+                    this.tituloBienvenidaActividades.Visible = false;
+                    break;
+                case (int)Modo.Modificacion: //modificar
+                    habilitarCampos(true);
+                    llenarGrid();
+                    this.botonAgregarActividades.Disabled = true;
+                    this.botonModificacionActividades.Disabled = true;
+                    this.FieldsetActividad.Visible = true;
+                    this.labelTextoObligatorioActividad.Visible = true;
+                    this.gridViewActividades.Visible = true;
+                    this.botonAceptarActividad.Visible = true;
+                    this.botonCancelarActividad.Visible = true;
+                    this.codigoInternoActividad.Visible = false;
+                    this.labelCodigoInterno.Visible = false;
+                    this.tituloBienvenidaActividades.Visible = false;
+                    break;
+                case (int)Modo.Consulta://consultar
+                    limpiarCampos();
+                    habilitarCampos(false);
+                    this.botonAgregarActividades.Disabled = false;
+                    this.FieldsetActividad.Visible = false;
+                    this.labelTextoObligatorioActividad.Visible = false;
+                    this.botonAceptarActividad.Visible = false;
+                    this.botonCancelarActividad.Visible = false;
+                    this.botonModificacionActividades.Disabled = true;
+                    this.gridViewActividades.Visible = true;
+                    this.tituloBienvenidaActividades.Visible = false;
+                    break;
+                case (int)Modo.Consultado://consultada una actividad
+                    habilitarCampos(false);
+                    llenarGrid();
+                    this.FieldsetActividad.Visible = true;
+                    this.botonAgregarActividades.Disabled = false;
+                    this.botonModificacionActividades.Disabled = false;
+                    this.labelTextoObligatorioActividad.Visible = false;
+                    this.botonAceptarActividad.Visible = false;
+                    this.botonCancelarActividad.Visible = false;
+                    this.gridViewActividades.Visible = true;
+                    this.codigoInternoActividad.Visible = true;
+                    this.labelCodigoInterno.Visible = true;
+                    this.codigoInternoActividad.Disabled = true;
+                    this.tituloBienvenidaActividades.Visible = false;
+                    break;
+                default:
+
+                    break;
+            }
+        }
+
+
+
+
+
+        // Control de eventos que son desencadenados desde la interfaz.
+
+        /*
+         * Maneja el evento de presionar el botón para agregar una actividad, cambiando el modo de la pantalla.
+         */
+        protected void botonAgregarActividades_ServerClick(object sender, EventArgs e)
+        {
+            modo = (int)Modo.Insercion;
+            cambiarModo();
+            limpiarCampos();
+            cargarEstados();
+        }
+
+        /*
+         * Maneja el evento de presionar el botón para modificar una actividad, cambiando el modo de la pantalla.
+         */
+        protected void botonModificacionActividades_ServerClick(object sender, EventArgs e)
+        {
+            modo = (int)Modo.Modificacion;
+            cambiarModo();
+        }
+
+        /*
+         * Regresa la interfaz a modo inicial en caso de darse una cancelación de una acción (inserción o modificación).
+         */
+        protected void botonAceptarModalCancelar_ServerClick(object sender, EventArgs e)
+        {
+            modo = (int)Modo.Inicial;
+            cambiarModo();
+        }
+
+        /*
+         * Maneja el evento al presionar el botón de consultas, mostrando la tabla de actividades.
+         */
+        protected void botonConsultaActividades_ServerClick(object sender, EventArgs e)
+        {
+            llenarGrid();
+            modo = (int)Modo.Consulta;
+            cambiarModo();
+        }
+
+        /*
+         * Responde al evento de confirmar una desactivación.
+         */
+        protected void botonAceptarModalDesactivar_ServerClick(object sender, EventArgs e)
+        {
+
+        }
+
+        /*
+         * Inicia la inserción o modificación de una actividad al haberse presionado el botón de Aceptar en el formulario,
+         * chequea que no haya repetición en el nombre de la actividad con respecto a alguna almacenada en la base de datos.
          */
         protected void botonAceptarActividad_ServerClick(object sender, EventArgs e)
         {
@@ -312,199 +491,39 @@ namespace ProyectoInventarioOET
                 if (operacionCorrecta)
                 {
                     cambiarModo();
-                }	
+                }
             }
 
         }
 
         /*
-         * ???
+         * Se dispara cuando se selecciona una actividad para consultar su información.
          */
-        protected void botonAceptarModalCancelar_ServerClick(object sender, EventArgs e)
+        protected void gridViewActividades_Seleccion(object sender, GridViewCommandEventArgs e)
         {
-            modo = (int)Modo.Inicial;
-            cambiarModo();
+            switch (e.CommandName)
+            {
+                case "Select":
+                    GridViewRow filaSeleccionada = this.gridViewActividades.Rows[Convert.ToInt32(e.CommandArgument)];
+                    //String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewActividades.PageIndex * resultadosPorPagina)]);
+                    String codigo = filaSeleccionada.Cells[2].Text.ToString();
+                    consultarActividad(codigo);
+                    modo = (int)Modo.Consultado;
+                    Response.Redirect("FormActividades.aspx");
+                    break;
+            }
         }
 
         /*
-         * ???
+         * Evento que maneja el cambio de página en la tabla de actividades.
          */
-        protected void botonConsultaActividades_ServerClick(object sender, EventArgs e)
+        protected void gridViewActividades_CambioPagina(Object sender, GridViewPageEventArgs e)
         {
             llenarGrid();
-            modo = (int)Modo.Consulta;
-            cambiarModo();
+            this.gridViewActividades.PageIndex = e.NewPageIndex;
+            this.gridViewActividades.DataBind();
         }
 
-        /*
-         * ???
-         */
-        protected void botonAceptarModalDesactivar_ServerClick(object sender, EventArgs e)
-        {
 
-        }
-
-        /*
-         * ???
-         */
-        protected void habilitarCampos(bool habilitar)
-        {
-            this.inputDescripcionActividad.Disabled = !habilitar;
-            this.comboBoxEstadosActividades.Enabled = habilitar;
-        }
-
-        /*
-         * ???
-         */
-        protected void limpiarCampos()
-        {
-            this.inputDescripcionActividad.Value = "";
-            this.comboBoxEstadosActividades.SelectedValue = null;
-        }
-
-        /*
-         * ???
-         */
-        protected void cargarEstados()
-        {
-            comboBoxEstadosActividades.Items.Clear();
-            comboBoxEstadosActividades.Items.Add(new ListItem("", null));
-            DataTable estados = controladoraDatosGenerales.consultarEstadosActividad();
-            foreach (DataRow fila in estados.Rows)
-            {
-                comboBoxEstadosActividades.Items.Add(new ListItem(fila[1].ToString(), fila[2].ToString()));
-            }
-        }
-
-        /*
-         * ???
-         */
-        protected void cambiarModo()
-        {
-            switch (modo)
-            {
-                case (int)Modo.Inicial:
-                    limpiarCampos();
-                    habilitarCampos(false);
-                    this.FieldsetActividad.Visible = false;
-                    this.botonAgregarActividades.Disabled = false;
-                    this.botonModificacionActividades.Disabled = true;
-                    this.labelTextoObligatorioActividad.Visible = false;
-                    this.gridViewActividades.Visible = false;
-                    this.botonAceptarActividad.Visible = false;
-                    this.botonCancelarActividad.Visible = false;    
-                    this.codigoInternoActividad.Visible = false;
-                    this.labelCodigoInterno.Visible = false;
-                    this.codigoInternoActividad.Disabled = true;
-                    this.tituloBienvenidaActividades.Visible = true;
-                    break;
-                case (int)Modo.Insercion: //insertar
-                    habilitarCampos(true);
-                    this.botonAgregarActividades.Disabled = true;
-                    this.botonModificacionActividades.Disabled = true;
-                    this.FieldsetActividad.Visible = true;
-                    this.labelTextoObligatorioActividad.Visible = true;
-                    this.gridViewActividades.Visible = false;
-                    this.botonAceptarActividad.Visible = true;
-                    this.botonCancelarActividad.Visible = true;  
-                    this.codigoInternoActividad.Visible = false;
-                    this.labelCodigoInterno.Visible = false;
-                    this.tituloBienvenidaActividades.Visible = false;
-                    break;
-                case (int)Modo.Modificacion: //modificar
-                    habilitarCampos(true);
-                    llenarGrid();
-                    this.botonAgregarActividades.Disabled = true;
-                    this.botonModificacionActividades.Disabled = true;
-                    this.FieldsetActividad.Visible = true;
-                    this.labelTextoObligatorioActividad.Visible = true;
-                    this.gridViewActividades.Visible = true;
-                    this.botonAceptarActividad.Visible = true;
-                    this.botonCancelarActividad.Visible = true;
-                    this.codigoInternoActividad.Visible = false;
-                    this.labelCodigoInterno.Visible = false;
-                    this.tituloBienvenidaActividades.Visible = false;
-                    break;
-                case (int)Modo.Consulta://consultar
-                    limpiarCampos();
-                    habilitarCampos(false);
-                    this.botonAgregarActividades.Disabled = false;
-                    this.FieldsetActividad.Visible = false;
-                    this.labelTextoObligatorioActividad.Visible = false;
-                    this.botonAceptarActividad.Visible = false;
-                    this.botonCancelarActividad.Visible = false;
-                    this.botonModificacionActividades.Disabled = true;
-                    this.gridViewActividades.Visible = true;
-                    this.tituloBienvenidaActividades.Visible = false;
-                    break;
-                case (int)Modo.Consultado://consultada una actividad
-                    habilitarCampos(false);
-                    llenarGrid();
-                    this.FieldsetActividad.Visible = true;
-                    this.botonAgregarActividades.Disabled = false;
-                    this.botonModificacionActividades.Disabled = false;
-                    this.labelTextoObligatorioActividad.Visible = false;
-                    this.botonAceptarActividad.Visible = false;
-                    this.botonCancelarActividad.Visible = false;
-                    this.gridViewActividades.Visible = true;
-                    this.codigoInternoActividad.Visible = true;
-                    this.labelCodigoInterno.Visible = true;
-                    this.codigoInternoActividad.Disabled = true;
-                    this.tituloBienvenidaActividades.Visible = false;
-                    break;
-                default:
-
-                    break;
-            }
-        }
-
-        /*
-         * ???
-         */
-        protected void botonAgregarActividades_ServerClick(object sender, EventArgs e)
-        {
-            modo = (int)Modo.Insercion;
-            cambiarModo();
-            limpiarCampos();
-            cargarEstados();
-        }
-
-        /*
-         * ???
-         */
-        protected void botonModificacionActividades_ServerClick(object sender, EventArgs e)
-        {
-            modo = (int)Modo.Modificacion;
-            cambiarModo();
-        }
-
-        /*
-         * ???
-         */
-        protected void consultarActividad(String codigo)
-        {
-            seConsulto = true;
-            try
-            {
-                actividadConsultada = controladoraActividades.consultarActividad(codigo);
-                modo = (int)Modo.Consulta;
-            }
-            catch
-            {
-                actividadConsultada = null;
-                modo = (int)Modo.Inicial;
-            }
-            cambiarModo();
-        }
-
-        /*
-         * ???
-         */
-        protected void setDatosConsultados()
-        {
-            this.inputDescripcionActividad.Value = actividadConsultada.Descripcion;
-            this.comboBoxEstadosActividades.SelectedValue = actividadConsultada.Estado.ToString();
-            this.codigoInternoActividad.Value = actividadConsultada.Codigo;
-        }
     }
 }

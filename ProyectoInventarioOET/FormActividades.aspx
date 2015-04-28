@@ -22,7 +22,7 @@
     <!-- Cuerpo del Form -->
     <button runat="server" onserverclick="botonAgregarActividades_ServerClick" id="botonAgregarActividades" class=" btn btn-info-fozkr" type="button" style="float: left" >Nueva Actividad</button>
     <button runat="server" onserverclick="botonModificacionActividades_ServerClick" causesvalidation="false"  id="botonModificacionActividades" class=" btn btn-info-fozkr" type="button" style="float: left">Modificar Actividad</button>
-    <button runat="server" onserverclick="botonConsultaActividades_ServerClick" causesvalidation="false"  id="botonConsultaActividades" class=" btn btn-info-fozkr" type="button" style="float: left">Consultar Actividades</button>
+    <button runat="server" onserverclick="botonConsultaActividades_ServerClick" causesvalidation="false"  id="botonConsultaActividades" class=" btn btn-info-fozkr" type="button" style="float: left">Consulta de Actividades</button>
     <br />
     <br />
 
@@ -82,10 +82,10 @@
     </div>
     <br />
     <br />
-     <%--style="display:none"--%>
+
     <div id="bloqueGrid" class="col-lg-12">
         <fieldset id="FieldsetGridActividades" runat="server" class="fieldset">
-          <!-- Gridview de consultar -->
+          <!-- Gridview de consultas -->
          <div class="col-lg-12">
             <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
                 <ContentTemplate>
