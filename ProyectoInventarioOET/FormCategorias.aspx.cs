@@ -24,6 +24,9 @@ namespace ProyectoInventarioOET
         private static EntidadCategoria categoriaConsultada;            //???
         private static bool seConsulto = false;                         //???
         private static ControladoraDatosGenerales controladoraDatosGenerales;
+        private static String permisos = "000000";                              // Permisos utilizados para el control de
+                                                                                // seguridad.
+
         /*
          * ???
          */
@@ -31,6 +34,14 @@ namespace ProyectoInventarioOET
         {
             if (!IsPostBack)
             {
+                permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Categorias de productos");
+
+                // Esconder botones
+                // Deshabilitar
+                botonModificacionCategoria.Visible = (permisos[3] == '1');
+                botonAgregarCategoria.Visible = (permisos[4] == '1');
+                botonConsultaCategoria.Visible = (permisos[5] == '1');
+
                 controladoraCategorias = new ControladoraCategorias();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
                 if (!seConsulto)
