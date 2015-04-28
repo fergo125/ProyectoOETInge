@@ -41,7 +41,7 @@ namespace ProyectoInventarioOET
                 permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Gestion de actividades");
 
                 // Esconder botones
-                // Deshabilitar
+                comboBoxEstadosActividades.Enabled = (permisos[2] == '1');
                 botonModificacionActividades.Visible = (permisos[3] == '1');
                 botonAgregarActividades.Visible = (permisos[4] == '1');
                 botonConsultaActividades.Visible = (permisos[5] == '1');
@@ -199,7 +199,7 @@ namespace ProyectoInventarioOET
         protected void habilitarCampos(bool habilitar)
         {
             this.inputDescripcionActividad.Disabled = !habilitar;
-            this.comboBoxEstadosActividades.Enabled = habilitar;
+            comboBoxEstadosActividades.Enabled = (permisos[2] == '1');
         }
 
         /*

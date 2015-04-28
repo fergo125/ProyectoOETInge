@@ -37,7 +37,7 @@ namespace ProyectoInventarioOET
                 permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Categorias de productos");
 
                 // Esconder botones
-                // Deshabilitar
+                comboBoxEstadosActividades.Enabled = (permisos[2] == '1');
                 botonModificacionCategoria.Visible = (permisos[3] == '1');
                 botonAgregarCategoria.Visible = (permisos[4] == '1');
                 botonConsultaCategoria.Visible = (permisos[5] == '1');
@@ -96,7 +96,7 @@ namespace ProyectoInventarioOET
                 camposCategoria.Visible = true;
                 inputNombre.Disabled = false;
                 gridViewCategorias.Visible = false;
-                comboBoxEstadosActividades.Enabled = true;
+                comboBoxEstadosActividades.Enabled = (permisos[2] == '1');
             }
             else if (modo == (int)Modo.Insercion)
             {
@@ -108,7 +108,7 @@ namespace ProyectoInventarioOET
                 camposCategoria.Visible = true;
                 inputNombre.Disabled = false;
                 gridViewCategorias.Visible = false;
-                comboBoxEstadosActividades.Enabled = true;
+                comboBoxEstadosActividades.Enabled = (permisos[2] == '1');
                 cargarEstados();
                 limpiarCampos();
             }
