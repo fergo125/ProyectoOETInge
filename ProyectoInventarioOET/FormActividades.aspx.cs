@@ -41,10 +41,7 @@ namespace ProyectoInventarioOET
                 permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Gestion de actividades");
 
                 // Esconder botones
-                comboBoxEstadosActividades.Enabled = (permisos[2] == '1');
-                botonModificacionActividades.Visible = (permisos[3] == '1');
-                botonAgregarActividades.Visible = (permisos[4] == '1');
-                botonConsultaActividades.Visible = (permisos[5] == '1');
+                esconderBotonesSegunPermisos();
 
                 if (!seConsulto)
                 {
@@ -476,6 +473,12 @@ namespace ProyectoInventarioOET
             this.gridViewActividades.DataBind();
         }
 
-
+        protected void esconderBotonesSegunPermisos()
+        {
+            comboBoxEstadosActividades.Enabled = (permisos[2] == '1');
+            botonModificacionActividades.Visible = (permisos[3] == '1');
+            botonAgregarActividades.Visible = (permisos[4] == '1');
+            botonConsultaActividades.Visible = (permisos[5] == '1');
+        }
     }
 }
