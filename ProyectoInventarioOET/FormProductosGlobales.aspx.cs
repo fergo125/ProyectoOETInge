@@ -434,15 +434,15 @@ namespace ProyectoInventarioOET
          */
         protected void limpiarCampos()
         {
-            this.inputNombre.Value = " ";
-            this.inputCodigo.Value = " ";
-            this.inputCodigoBarras.Value = " ";
-            this.inputCostoColones.Value = " ";
-            this.inputCostoDolares.Value = " ";
-            this.inputPrecioColones.Value = " ";
-            this.inputPrecioDolares.Value = " ";
-            this.inputImpuesto.Value = " ";
-            this.inputSaldo.Value = " ";
+            this.inputNombre.Value = "";
+            this.inputCodigo.Value = "";
+            this.inputCodigoBarras.Value = "";
+            this.inputCostoColones.Value = "";
+            this.inputCostoDolares.Value = "";
+            this.inputPrecioColones.Value = "";
+            this.inputPrecioDolares.Value = "";
+            this.inputImpuesto.Value = "";
+            this.inputSaldo.Value = "";
             this.inputUnidades.SelectedValue = null;
             this.inpuCategoria.SelectedValue = null;
             this.inputEstado.SelectedValue = null;
@@ -457,8 +457,8 @@ namespace ProyectoInventarioOET
             this.inputNombre.Disabled = !resp;
             this.inputCodigo.Disabled = !resp;
             this.inputCodigoBarras.Disabled = !resp;
-            this.inputCostoColones.Disabled = !resp;
-            this.inputCostoDolares.Disabled = !resp;
+            this.inputCostoColones.Disabled = true;
+            this.inputCostoDolares.Disabled = true;
             this.inputPrecioColones.Disabled = !resp;
             this.inputPrecioDolares.Disabled = !resp;
             this.inputImpuesto.Disabled = !resp;
