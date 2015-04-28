@@ -97,6 +97,8 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
                                     + "SET IMPUESTO = " + productoGlobalNuevo.Impuesto + " , "
                                     + "SET INTENCION = '" + productoGlobalNuevo.Intencion + "' , "
                                     + "SET NOMBRE = '" + productoGlobalNuevo.Nombre + "' , "
+                                    + "SET PRECIO_C = " + productoGlobalNuevo.PrecioColones + " , "
+                                    + "SET PRECIO_D= " + productoGlobalNuevo.PrecioDolares + " , "
                                     + "SET CAT_UNIDADES = '" + productoGlobalNuevo.Unidades + "' "
                                     + "WHERE INV_PRODUCTOS = '" + productoGlobalViejo.Inv_Productos + "' ";
 
