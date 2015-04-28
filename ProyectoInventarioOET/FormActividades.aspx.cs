@@ -25,6 +25,7 @@ namespace ProyectoInventarioOET
         private static EntidadActividad actividadConsultada;                    //???
         private static ControladoraActividades controladoraActividades;         //???
         private static Boolean seConsulto = false;                              //???
+        private static String permisos = "000000";                              //???
 
         /*
          * ???
@@ -35,6 +36,7 @@ namespace ProyectoInventarioOET
             {
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
                 controladoraActividades = new ControladoraActividades();
+                permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Gestion de actividades");
 
                 if (!seConsulto)
                 {

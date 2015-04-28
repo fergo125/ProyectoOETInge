@@ -32,6 +32,11 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
             return controladoraBDSeguridad.consultarUsuario(nombre, password);
         }
 
+        public String consultarPermisosUsuario(String codigoPerfil, String interfaz)
+        {
+            return controladoraBDSeguridad.consultarPermisosUsuario(codigoPerfil, interfaz);
+        }
+
         /*
          * Encripta un string en el formato de almacenamiento de la base de datos.
          */
