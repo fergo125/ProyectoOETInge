@@ -30,6 +30,7 @@ namespace ProyectoInventarioOET
         private static int estacionSeleccionada, bodegaSeleccionada, pagina;    //???
         private static Object[] idArray2;                                       //???
         private static DataTable catalogoLocal, consultaProducto;               //???
+        private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
 
         /*
          * ???
@@ -44,13 +45,27 @@ namespace ProyectoInventarioOET
                 controladoraSeguridad = new ControladoraSeguridad();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
                 DropDownListEstacion_CargaEstaciones();
+                //Seguridad
+                permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Gestion de bodegas");
+                mostrarBotonesSegunPermisos();
             }
             cambiarModo();
         }
+
+        /*
+         * 
+         */
+        protected void mostrarBotonesSegunPermisos()
+        {
+            botonConsultarBodega.Visible = (permisos[5] == '1');
+            botonAsociarBodega.Visible = (permisos[4] == '1');
+            botonModificarBodega.Visible = (permisos[3] == '1');
+            inputEstado.Enabled = (permisos[2] == '1');
+        }
+
         /*
          * ???
          */
-
         protected void cambiarModo()
         {
             switch (modo)
