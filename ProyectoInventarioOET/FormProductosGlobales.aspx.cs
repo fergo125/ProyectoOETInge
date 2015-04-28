@@ -127,7 +127,7 @@ namespace ProyectoInventarioOET
                     this.botonAgregarProductos.Disabled = false;
                     this.botonModificacionProductos.Disabled = true;
                     this.botonConsultaProductos.Disabled = false;
-                    tituloAccion.InnerText = "Seleccione una categoria";
+                    tituloAccion.InnerText = "Seleccione un producto";
                     break;
                 case (int)Modo.Consultado:
                     this.bloqueGrid.Visible = false;
@@ -138,7 +138,7 @@ namespace ProyectoInventarioOET
                     this.botonModificacionProductos.Disabled = false;
                     this.botonConsultaProductos.Disabled = false;
                     habilitarCampos(false);
-                    tituloAccion.InnerText = "Categoria seleccionada";
+                    tituloAccion.InnerText = "Producto seleccionado";
                     break;
                 default:
                     break;
