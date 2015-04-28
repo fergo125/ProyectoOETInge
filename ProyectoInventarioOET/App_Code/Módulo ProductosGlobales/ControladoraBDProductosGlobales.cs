@@ -45,20 +45,20 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
         public string[] insertarProductoGlobal(EntidadProductoGlobal productoGlobal)
         {
             String[] res = new String[4];
-            res[3] = productoGlobal.Codigo.ToString();
+            res[3] = generarID();
             try
             {
                 DataTable resultado = new DataTable();
                 OracleCommand command = conexionBD.CreateCommand();
-                String aux =  "INSERT INTO INV_PRODUCTOS (NOMBRE, CODIGO, CODIGO_BARRAS, CAT_CATEGORIAS, INTENCION, CAT_UNIDADES, ESTADO,  "
-                + " SALDO, IMPUESTO, PRECIO_C, PRECIO_D, COSTO_COLONES, COSTO_DOLARES, INV_PRODUCTOS ) VALUES ('"
-                + productoGlobal.Nombre + "','" + productoGlobal.Codigo + "','"
-                + productoGlobal.CodigoDeBarras + "','" + productoGlobal.Categoria + "','"
-                + productoGlobal.Intencion + "','" + productoGlobal.Unidades + "','"
-                + productoGlobal.Estado + "','" + productoGlobal.Existencia + "','"
-                + productoGlobal.Impuesto + "','" + productoGlobal.PrecioColones + "','"
-                + productoGlobal.PrecioDolares + "','" + productoGlobal.CostoColones + "','"
-                + productoGlobal.CostoDolares + "','" + generarID() + "');";
+                String aux =  "INSERT INTO INV_PRODUCTOS ( NOMBRE, CODIGO, CODIGO_BARRAS, CAT_CATEGORIAS, INTENCION, CAT_UNIDADES, ESTADO,  "
+                + "SALDO, IMPUESTO, PRECIO_C, PRECIO_D, COSTO_COLONES , COSTO_DOLARES , INV_PRODUCTOS ) VALUES ( '"
+                + productoGlobal.Nombre + "' , '" + productoGlobal.Codigo + "' , '"
+                + productoGlobal.CodigoDeBarras + "' , '" + productoGlobal.Categoria + "' , '"
+                + productoGlobal.Intencion + "' , '" + productoGlobal.Unidades + "' , "
+                + (short) productoGlobal.Estado + " , " + productoGlobal.Existencia + " , "
+                + productoGlobal.Impuesto + " , " + productoGlobal.PrecioColones + " , "
+                + productoGlobal.PrecioDolares + " , " + productoGlobal.CostoColones + " , "
+                + productoGlobal.CostoDolares + " , '" + res[3] + "' ) ";
 
 
                 command.CommandText = aux; 

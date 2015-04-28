@@ -492,7 +492,7 @@ namespace ProyectoInventarioOET
             {
                 case "Select":
                     GridViewRow filaSeleccionada = this.gridViewProductosGlobales.Rows[Convert.ToInt32(e.CommandArgument)];
-                    String identificador = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewProductosGlobales.PageIndex * resultadosPorPagina)]);
+                    String identificador = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewProductosGlobales.PageIndex * this.gridViewProductosGlobales.PageSize)]);
                     consultar(identificador);
                     modo = (int)Modo.Consultado;
                     Response.Redirect("FormProductosGlobales.aspx"); //Se hace un PostBack
