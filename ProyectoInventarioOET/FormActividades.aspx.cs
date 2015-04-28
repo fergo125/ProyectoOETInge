@@ -42,9 +42,9 @@ namespace ProyectoInventarioOET
 
                 // Esconder botones
                 // Deshabilitar
-                //botonModificacionActividades.Visible = (permisos[3] == '1');
-                //botonAgregarActividades.Visible = (permisos[4] == '1');
-                //botonConsultaActividades.Visible = (permisos[5] == '1');
+                botonModificacionActividades.Visible = (permisos[3] == '1');
+                botonAgregarActividades.Visible = (permisos[4] == '1');
+                botonConsultaActividades.Visible = (permisos[5] == '1');
 
                 if (!seConsulto)
                 {
