@@ -216,7 +216,7 @@ namespace ProyectoInventarioOET
          */
         protected Object[] obtenerDatosProductosGlobales()
         {
-            Object[] datos = new Object[14];
+            Object[] datos = new Object[16];
             datos[0] = this.inputCodigo.Value;
             datos[1] = this.inputCodigoBarras.Value;
             datos[2] = this.inputNombre.Value;
@@ -231,6 +231,8 @@ namespace ProyectoInventarioOET
             datos[11] = this.inputPrecioColones.Value;
             datos[12] = this.inputPrecioDolares.Value;
             datos[13] = "0"; // Id que identifica se genera despues en la controladora de BD
+            datos[14] = (this.Master as SiteMaster).Usuario.Codigo;
+            datos[15] = DateTime.Now;
             return datos;
         }
 
