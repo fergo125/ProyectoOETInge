@@ -17,7 +17,10 @@
         <h2 id="TituloProductosLocales" runat="server">Catálogos de productos en bodegas</h2>
         <hr />
     </div>
-    <br />
+    <button runat="server" id="botonAsociarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" disabled="disabled">Asociar a Catálogo</button>
+    <button runat="server" id="botonModificarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" disabled="disabled">Modificar Catálogo</button>
+    <button runat="server" onserverclick="botonConsultarBodega_ServerClick" id="botonConsultarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" disabled="disabled">Consultar Catálogo</button>
+    <br /><br />
     <div class="row">
         <div class="col-lg-4">
             <label for="inputEstacion" class="control-label">Seleccione estación:</label>
@@ -26,12 +29,8 @@
         </div>
         <div class="col-lg-4">
             <label for="inputBodega" class="control-label">Seleccione bodega:</label>
-            <asp:DropDownList ID="DropDownListBodega" runat="server" CssClass="form-control">
+            <asp:DropDownList ID="DropDownListBodega" runat="server" CssClass="form-control" OnSelectedIndexChanged="DropDownListBodega_SelectedIndexChanged" AutoPostBack="true">
             </asp:DropDownList>
-        </div>
-        <div class="col-lg-4">
-            <br />
-            <button runat="server" onserverclick="botonConsultarBodega_ServerClick" id="botonConsultarBodega" class=" btn btn-info-fozkr" type="button" style="float: left">Consultar Bodega</button>
         </div>
      </div>
     <br />
