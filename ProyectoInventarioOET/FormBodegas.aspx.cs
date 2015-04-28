@@ -40,7 +40,9 @@ namespace ProyectoInventarioOET
                
                 controladoraBodegas = new ControladoraBodegas();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
-                permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Gestion de actividades");
+                //Seguridad
+                permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Gestion de bodegas");
+                mostrarBotonesSegunPermisos();
 
                 if (!seConsulto)
                 {
@@ -140,7 +142,7 @@ namespace ProyectoInventarioOET
         /*
          * 
          */
-        protected void esconderBotonesSegunPermisos()
+        protected void mostrarBotonesSegunPermisos()
         {
             botonConsultarBodega.Visible = (permisos[5] == '1');
             botonAgregarBodega.Visible = (permisos[4] == '1');
