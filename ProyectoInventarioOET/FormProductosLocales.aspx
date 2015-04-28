@@ -157,17 +157,17 @@
          <div class="col-lg-12">
             <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
                 <ContentTemplate>
-                    <asp:GridView ID="gridViewCatalogoLocal" CssClass="table table-responsive table-condensed" OnRowCommand="gridViewCatalogoLocal_Seleccion" OnPageIndexChanging="gridViewCatalogoLocal_CambioPagina" runat="server" AllowPaging="True" PageSize="16" BorderColor="Transparent">
+                    <asp:GridView ID="gridViewCatalogoLocal" CssClass="table" OnRowCommand="gridViewCatalogoLocal_Seleccion" OnPageIndexChanging="gridViewCatalogoLocal_CambioPagina" runat="server" AllowPaging="True" PageSize="16" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
                         <Columns>
-                            <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn-default" CommandName="Select" Text="Consultar">
-                                <ControlStyle CssClass="btn-default disabled"></ControlStyle>
+                            <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Consultar">
+                                <ControlStyle CssClass="btn btn-default"></ControlStyle>
                             </asp:ButtonField>
                        </Columns>
                        <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
                        <PagerStyle CssClass="paging" HorizontalAlign="Center" />
-                       <AlternatingRowStyle BackColor="#EBEBEB" />
+                       <AlternatingRowStyle BackColor="#F8F8F8" />
                        <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
-                       <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" />
+                       <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
                   </asp:GridView>
              </ContentTemplate>
              <Triggers>

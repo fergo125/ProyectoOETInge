@@ -86,6 +86,8 @@ namespace ProyectoInventarioOET
                     this.botonAgregarProductos.Disabled = false;
                     this.botonModificacionProductos.Disabled = true;
                     this.botonConsultaProductos.Disabled = false;
+                    habilitarCampos(false);
+                    limpiarCampos();
                     break;
                 case (int)Modo.Insercion: //insertar
                     this.bloqueGrid.Visible = false;
@@ -201,7 +203,7 @@ namespace ProyectoInventarioOET
             DataTable estados = controladoraDatosGenerales.consultarEstadosActividad();
             foreach (DataRow fila in estados.Rows)
             {
-                mapEstado.Add(fila[0].ToString(), fila[1].ToString());
+                mapEstado.Add(fila[2].ToString(), fila[1].ToString());
             }
             return mapEstado;
         }
@@ -462,7 +464,7 @@ namespace ProyectoInventarioOET
             this.inputPrecioColones.Disabled = !resp;
             this.inputPrecioDolares.Disabled = !resp;
             this.inputImpuesto.Disabled = !resp;
-            this.inputSaldo.Disabled = !resp;
+            this.inputSaldo.Disabled = true;
             this.inputUnidades.Enabled = resp;
             this.inpuCategoria.Enabled = resp;
             this.inputEstado.Enabled = resp;
@@ -481,6 +483,7 @@ namespace ProyectoInventarioOET
             llenarGrid(null);
             modo = (int)Modo.Consulta;
             cambiarModo();
+            habilitarCampos(false);
         }
 
         /* 
