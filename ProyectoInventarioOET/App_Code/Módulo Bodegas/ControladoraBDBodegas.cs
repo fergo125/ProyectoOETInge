@@ -80,30 +80,56 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
          */
         public String[] modificarBodega(EntidadBodega bodega, EntidadBodega nuevaBodega)
         {
-            String[] res = new String[3];
-            try
+            bool existenteEnBD = false;
+            DataTable bodegas = consultarBodegas();
+            if (bodegas.Rows.Count > 0)
             {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "UPDATE CAT_BODEGA SET DESCRIPCION = '" + nuevaBodega.Nombre + "',ANFITRIONA = '"
-                    + nuevaBodega.Anfitriona + "',ESTACION = '" + nuevaBodega.Estacion + "',ESTADO = " + (short)nuevaBodega.Estado + ", CAT_INTENCIONUSO = "
-                    + (short)nuevaBodega.IntencionUso + " WHERE DESCRIPCION = '"
-                    + bodega.Nombre + "' AND ANFITRIONA = '" + bodega.Anfitriona + "' AND ESTACION = '" 
-                    + bodega.Estacion + "' AND ESTADO = " + bodega.Estado + " AND CAT_INTENCIONUSO = " + bodega.IntencionUso;
-                OracleDataReader reader = command.ExecuteReader();
-                
-                res[0] = "success";
-                res[1] = "Exito";
-                res[2] = "Bodega modificada";
-            }
-            catch (SqlException e)
-            {
-                if (e.Number == 2627)
+                existenteEnBD = false;
+                foreach (DataRow fila in bodegas.Rows)
                 {
-                    res[0] = "danger";
-                    res[1] = "Fallo";
-                    res[2] = "Error al modificar";
+                    if(fila[1].Equals(nuevaBodega.Nombre))
+                    {
+                        existenteEnBD = true;
+                    }
                 }
             }
+
+            String[] res = new String[4];
+            res[3] = bodega.Codigo;
+
+            if ((existenteEnBD)&&(nuevaBodega.Nombre!=bodega.Nombre))
+            {
+                res[0] = "danger";
+                res[1] = "Error: ";
+                res[2] = "Ya existe una bodega con ese nombre en la base de datos.";
+            }
+            else
+            {
+               try
+                {
+                    OracleCommand command = conexionBD.CreateCommand();
+                    command.CommandText = "UPDATE CAT_BODEGA SET DESCRIPCION = '" + nuevaBodega.Nombre + "',ANFITRIONA = '"
+                        + nuevaBodega.Anfitriona + "',ESTACION = '" + nuevaBodega.Estacion + "',ESTADO = " + (short)nuevaBodega.Estado + ", CAT_INTENCIONUSO = "
+                        + (short)nuevaBodega.IntencionUso + " WHERE DESCRIPCION = '"
+                        + bodega.Nombre + "' AND ANFITRIONA = '" + bodega.Anfitriona + "' AND ESTACION = '" 
+                        + bodega.Estacion + "' AND ESTADO = " + bodega.Estado + " AND CAT_INTENCIONUSO = " + bodega.IntencionUso;
+                    OracleDataReader reader = command.ExecuteReader();
+                
+                    res[0] = "success";
+                    res[1] = "Exito";
+                    res[2] = "Bodega modificada";
+                }
+                catch (SqlException e)
+                {
+                    if (e.Number == 2627)
+                    {
+                        res[0] = "danger";
+                        res[1] = "Fallo";
+                        res[2] = "Error al modificar";
+                    }
+                }
+            }
+                
             return res;
         }
 

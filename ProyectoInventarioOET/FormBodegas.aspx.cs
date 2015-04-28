@@ -31,8 +31,14 @@ namespace ProyectoInventarioOET
          */
         protected void Page_Load(object sender, EventArgs e)
         {
+            mensajeAlerta.Visible = false;
+          
             if (!IsPostBack)
             {
+                
+                    
+                    labelAlerta.Text = "";
+               
                 controladoraBodegas = new ControladoraBodegas();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
 
@@ -78,7 +84,6 @@ namespace ProyectoInventarioOET
                     botonCancelarBodega.Visible = false;
                     botonConsultarBodega.Disabled = false;
                     habilitarCampos(false);
-                    mensajeAlerta.Visible = false;
                     break;
                 case (int)Modo.Insercion: //insertar
                     gridViewBodegas.Visible = false;
@@ -90,7 +95,6 @@ namespace ProyectoInventarioOET
                     botonConsultarBodega.Disabled = false;
                     botonAceptarBodega.Visible = true;
                     botonCancelarBodega.Visible = true;
-                    mensajeAlerta.Visible = false;
                     break;
                 case (int)Modo.Modificacion: //modificar
                     gridViewBodegas.Visible = false;
@@ -103,7 +107,6 @@ namespace ProyectoInventarioOET
                     botonConsultarBodega.Disabled = false;
                     botonAceptarBodega.Visible = true;
                     botonCancelarBodega.Visible = true;
-                    mensajeAlerta.Visible = false;
 
                     break;
                 case (int)Modo.Consulta://consultar
@@ -114,7 +117,6 @@ namespace ProyectoInventarioOET
                     botonConsultarBodega.Disabled = true;
                     botonAceptarBodega.Visible = false;
                     botonCancelarBodega.Visible = false;
-                    mensajeAlerta.Visible = false;
                     habilitarCampos(false);
                     break;
                 case (int)Modo.Consultado://consultado, pero con los espacios bloqueados
@@ -122,10 +124,10 @@ namespace ProyectoInventarioOET
                     FieldsetBodegas.Visible = true;
                     textoObligatorioBodega.Visible = true;
                     botonAgregarBodega.Disabled = false;
+                    botonModificarBodega.Disabled = false;
                     botonConsultarBodega.Disabled = false;
                     botonAceptarBodega.Visible = false;
                     botonCancelarBodega.Visible = false;
-                    mensajeAlerta.Visible = false;
                     habilitarCampos(false);
                     llenarGrid();
                     break;
@@ -199,6 +201,7 @@ namespace ProyectoInventarioOET
                         datos[0] = "-";
                         datos[1] = "-";
                         tabla.Rows.Add(datos);
+                        mostrarMensaje("warning", "Atención: ", "No existen bodegas en la base de datos.");
                     }
 
                     this.gridViewBodegas.DataSource = tabla;
@@ -246,6 +249,7 @@ namespace ProyectoInventarioOET
          */
         protected void mostrarMensaje(String tipoAlerta, String alerta, String mensaje)
         {
+
             mensajeAlerta.Attributes["class"] = "alert alert-" + tipoAlerta + " alert-dismissable fade in";
             labelTipoAlerta.Text = alerta + " ";
             labelAlerta.Text = mensaje;
