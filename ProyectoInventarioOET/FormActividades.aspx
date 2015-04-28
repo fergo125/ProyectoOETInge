@@ -20,9 +20,9 @@
     </div>
 
     <!-- Cuerpo del Form -->
-    <button runat="server" onserverclick="botonAgregarActividades_ServerClick" id="botonAgregarActividades" class=" btn btn-info-fozkr" type="button" style="float: left" >Nueva Actividad</button>
-    <button runat="server" onserverclick="botonModificacionActividades_ServerClick" causesvalidation="false"  id="botonModificacionActividades" class=" btn btn-info-fozkr" type="button" style="float: left">Modificar Actividad</button>
-    <button runat="server" onserverclick="botonConsultaActividades_ServerClick" causesvalidation="false"  id="botonConsultaActividades" class=" btn btn-info-fozkr" type="button" style="float: left">Consulta de Actividades</button>
+    <button runat="server" onserverclick="botonAgregarActividades_ServerClick" id="botonAgregarActividades" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false">Nueva Actividad</button>
+    <button runat="server" onserverclick="botonModificacionActividades_ServerClick" causesvalidation="false"  id="botonModificacionActividades" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false">Modificar Actividad</button>
+    <button runat="server" onserverclick="botonConsultaActividades_ServerClick" causesvalidation="false"  id="botonConsultaActividades" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false">Consulta de Actividades</button>
     <br />
     <br />
 
