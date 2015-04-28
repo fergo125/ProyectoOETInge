@@ -24,8 +24,7 @@ namespace ProyectoInventarioOET
         private static EntidadActividad actividadConsultada;                    // Almacena la actividad que se consultó (o acaba de agregar o modificar)
         private static ControladoraActividades controladoraActividades;         // Comunica con la base de datos.
         private static Boolean seConsulto = false;                              // Bandera para saber si hubo consulta de una actividad.
-        private static String permisos = "000000";                              // Permisos utilizados para el control de
-                                                                                // seguridad.
+        private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
 
         /*
          * Maneja las acciones que se ejecutan cuando se carga la página, establecer el modo de operación, 
