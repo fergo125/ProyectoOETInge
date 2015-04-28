@@ -208,7 +208,7 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
         }
 
         /*
-         * ???
+         * Consulta y devuelve las bodegas que pertenecen a una estacion en especifico.
          */
         public DataTable consultarBodegasDeEstacion(String codigo)
         {
@@ -237,6 +237,25 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
             {
                 OracleCommand command = conexionBD.CreateCommand();
                 command.CommandText = "SELECT * FROM CAT_INTENCIONUSO";
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
+            }
+            catch (Exception e)
+            {
+                resultado = null;
+            }
+            return resultado;
+        }
+        /*
+         * Obtiene la informacion de los productos que no pertenecen a la bodega especificada
+         */
+        public DataTable consultarProductosAsociables(String idBodega)
+        {
+            DataTable resultado=new DataTable();
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "SELECT INV_PRODUCTOS.NOMBRE,INV_PRODUCTOS.CODIGO,INV_PRODUCTOS.CAT_CATEGORIAS,INV_PRODUCTOS.INTENCION FROM INV_PRODUCTOS WHERE INV_PRODUCTOS.INV_PRODUCTOS NOT IN (SELECT INV_BODEGA_PRODUCTOS.INV_PRODUCTOS FROM INV_BODEGA_PRODUCTOS WHERE INV_BODEGA_PRODUCTOS.INV_BODEGA = '"+idBodega+"')";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
             }

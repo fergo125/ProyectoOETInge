@@ -17,10 +17,10 @@
         <h2 id="TituloProductosLocales" runat="server">Catálogos de productos en bodegas</h2>
         <hr />
     </div>
-    <button runat="server" id="botonAsociarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" disabled="disabled">Asociar a Catálogo</button>
+    <button runat="server" onserverclick="botonAsociarBodega_ServerClick" id="botonAsociarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" disabled="disabled">Asociar a Catálogo</button>
     <button runat="server" id="botonModificarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" disabled="disabled">Modificar Catálogo</button>
     <button runat="server" onserverclick="botonConsultarBodega_ServerClick" id="botonConsultarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" disabled="disabled">Consultar Catálogo</button>
-    <br /><br />
+    <br /><br /><br />
     <div class="row">
         <div class="col-lg-4">
             <label for="inputEstacion" class="control-label">Seleccione estación:</label>
@@ -178,6 +178,37 @@
         <br />
         <br />
     </fieldset> 
+
+    <!-- Fieldset que muestra los productos que se pueden asociar a la bodega local elegida -->
+    <fieldset id="FieldsetAsociarCatalogoLocal" center="left" runat="server" class="fieldset" visible="false">
+        <!-- Gridview de productos -->
+         <div class="col-lg-12">
+            <asp:UpdatePanel ID="UpdatePanelAsociar" runat="server">
+                <ContentTemplate>
+                    <asp:GridView ID="gridViewAsociarCatalogoLocal" CssClass="table" OnPageIndexChanging="gridViewCatalogoLocal_CambioPagina" runat="server" AllowPaging="True" PageSize="16" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                        <Columns>
+                            <asp:TemplateField HeaderText="Seleccionar">
+								<ItemTemplate>
+									<asp:CheckBox ID="checkBoxProductos" runat="server"/>
+								</ItemTemplate>
+							</asp:TemplateField>
+                       </Columns>
+                       <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
+                       <PagerStyle CssClass="paging" HorizontalAlign="Center" />
+                       <AlternatingRowStyle BackColor="#F8F8F8" />
+                       <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
+                       <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
+                  </asp:GridView>
+             </ContentTemplate>
+             <Triggers>
+                <asp:AsyncPostBackTrigger ControlID="gridViewAsociarCatalogoLocal" EventName="RowCommand" />
+             </Triggers>
+          </asp:UpdatePanel>
+       </div>
+        <br />
+        <br />
+        <br />
+    </fieldset>
 
 <%-- NO BORRAR ****Falta metodo para manejar cambios de pagina	
             <asp:GridView ID="gridViewProductosDisponibles" CssClass="table table-responsive table-condensed" OnPageIndexChanging runat="server" AllowPaging="True" PageSize="5" BorderColor="Transparent">

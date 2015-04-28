@@ -32,7 +32,7 @@ namespace ProyectoInventarioOET
         private static DataTable catalogoLocal, consultaProducto;               //???
 
         /*
-         * ???
+         * Cuando se accede la pagina inicializa los controladores si es la primera vez, sino solo realiza el cambio de modo.
          */
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -48,7 +48,7 @@ namespace ProyectoInventarioOET
             cambiarModo();
         }
         /*
-         * ???
+         * Realiza los cambios de modo que determinan que se puede ver y que no.
          */
 
         protected void cambiarModo()
@@ -83,7 +83,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Cargas las columnas del catalogo local de la bodega.
          */
         protected DataTable tablaCatalogoLocal()
         {
@@ -117,9 +117,39 @@ namespace ProyectoInventarioOET
 
             return tabla;
         }
+        /*
+         * Cargas las columnas del catalogo local de la bodega.
+         */
+        protected DataTable tablaAsociacion()
+        {
+            DataTable tabla = new DataTable();
+            DataColumn columna;
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Nombre";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Código Interno";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Categoría";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Intención";
+            tabla.Columns.Add(columna);
+
+            return tabla;
+        }
 
         /*
-         * ???
+         * Recarga el catalogo local que se tiene actualmente en memoria en el grid.
          */
         protected void cargarCatalogoLocal()
         {
@@ -129,12 +159,10 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Carga los datos del producto consultado en los textos.
          */
         protected void cargarDatosProducto()
         {
-            // nombre, codigo interno, codigo de barras, categoria, intencion, unidades metricas, estado local, existencia, impuesto, precio col, precio dol
-            // costo col, costo dol, min, max, creador, creado, modifica, modificado, costo ult col, costo ult dol, idproveedor ult
             if (consultaProducto.Rows.Count > 0)
             {
                 DataRow productos = consultaProducto.Rows[0];
@@ -194,7 +222,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Realiza la consulta del producto seleccionado en la tabla de catalogo local.
          */
         protected void gridViewCatalogoLocal_Seleccion(object sender, GridViewCommandEventArgs e)
         {
@@ -202,7 +230,6 @@ namespace ProyectoInventarioOET
             {
                 case "Select":
                     GridViewRow filaSeleccionada = this.gridViewCatalogoLocal.Rows[Convert.ToInt32(e.CommandArgument)];
-                    //int id = Convert.ToInt32(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewCatalogoLocal.PageIndex * resultadosPorPagina)]);
                     String codigo = filaSeleccionada.Cells[2].Text.ToString();
                     String idBodega = idArray2[bodegaSeleccionada].ToString();
                     consultaProducto = controladoraProductoLocal.consultarProductoDeBodega(idBodega, codigo);
@@ -213,18 +240,17 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Realiza el cambio de pagina adentro del grid
          */
         protected void gridViewCatalogoLocal_CambioPagina(Object sender, GridViewPageEventArgs e)
         {
             pagina = e.NewPageIndex;
             modo = 1;
-            //cargarCatalogoLocal();
             Response.Redirect("FormProductosLocales.aspx");
         }
 
         /*
-         * Carga estaciones, ???
+         * Carga estaciones las estaciones disponibles en la base de datos
          */
         protected void DropDownListEstacion_CargaEstaciones()
         {
@@ -272,7 +298,17 @@ namespace ProyectoInventarioOET
             }
             modo = 0;
         }
-
+        /*
+         * Seleccion de bodega, se habilitan las opciones de consulta y asociacion. 
+         */
+        protected void DropDownListBodega_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.DropDownListBodega.SelectedItem != null)
+            {
+                botonConsultarBodega.Disabled = false;
+                botonAsociarBodega.Disabled = false;
+            }
+        }
 
         /*
          * Consulta de bodega, aquí se carga la tabla.
@@ -305,6 +341,38 @@ namespace ProyectoInventarioOET
                 this.gridViewCatalogoLocal.DataBind();
             }
         }
+        /*
+         * Consulta de productos no asociados a la bodega seleccionada, se carga la tabla.
+         */
+        protected void botonAsociarBodega_ServerClick(object sender, EventArgs e)
+        {
+            if (this.DropDownListBodega.SelectedItem != null)
+            {
+                bodegaSeleccionada = this.DropDownListBodega.SelectedIndex;
+                pagina = 0;
+                String idBodega = idArray2[bodegaSeleccionada].ToString();
+                catalogoLocal = tablaAsociacion();
+                DataTable productos = controladoraBodegas.consultarProductosAsociables(idBodega);
+                if (productos != null) { 
+                    if (productos.Rows.Count > 0)
+                    {
+                        Object[] datos = new Object[4];
+                        int i;
+                        foreach (DataRow producto in productos.Rows)
+                        {
+                            for (i = 0; i < 4; i++)
+                            {
+                                datos[i] = producto[i];
+                            }
+                            catalogoLocal.Rows.Add(datos);
+                        }
+                    }
+                    this.gridViewAsociarCatalogoLocal.DataSource = catalogoLocal;
+                    this.gridViewAsociarCatalogoLocal.PageIndex = pagina;
+                    this.gridViewAsociarCatalogoLocal.DataBind();
+                }
+            }
+        }
 
         /*// Envío de modificaciones de producto de catálogo local
         protected void botonEnviarProducto_ServerClick(object sender, EventArgs e)
@@ -327,15 +395,6 @@ namespace ProyectoInventarioOET
         protected void botonAceptarModalDesactivar_ServerClick(object sender, EventArgs e)
         {
 
-        }
-
-        protected void DropDownListBodega_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (this.DropDownListBodega.SelectedItem != null)
-            {
-                botonConsultarBodega.Disabled = false;
-                botonAsociarBodega.Disabled = false;
-            }
         }
 
         //NO BORRAR    
