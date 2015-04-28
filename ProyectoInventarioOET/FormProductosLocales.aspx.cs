@@ -24,12 +24,12 @@ namespace ProyectoInventarioOET
         private static ControladoraProductoLocal controladoraProductoLocal;     //???
         private static ControladoraSeguridad controladoraSeguridad;             //???
         private static ControladoraCategorias controladoraCategorias;           //???
-        private static int resultadosPorPagina; //wtf?
         private static int modo = 0;                                            //???
         private static Object[] idArray;                                        //???
         private static int estacionSeleccionada, bodegaSeleccionada, pagina;    //???
         private static Object[] idArray2;                                       //???
         private static DataTable catalogoLocal, consultaProducto;               //???
+        private static Boolean gridCatalogoLocal = false;                       //Cambia dependiendo de si se muestra el grid del catalogo local, o del catalogo de asociacion
 
         /*
          * Cuando se accede la pagina inicializa los controladores si es la primera vez, sino solo realiza el cambio de modo.
@@ -57,10 +57,10 @@ namespace ProyectoInventarioOET
             {
                 case 0:
                     FieldsetCatalogoLocal.Visible = false;
+                    FieldsetAsociarCatalogoLocal.Visible = false;
                     FieldsetProductos.Visible = false;
                     break;
                 case 1: // consultar catálogo
-                    FieldsetCatalogoLocal.Visible = true;
                     FieldsetProductos.Visible = false;
                     DropDownListEstacion.SelectedIndex = estacionSeleccionada;
                     DropDownListEstacion_SelectedIndexChanged(DropDownListEstacion,null);
@@ -153,9 +153,18 @@ namespace ProyectoInventarioOET
          */
         protected void cargarCatalogoLocal()
         {
-            this.gridViewCatalogoLocal.DataSource = catalogoLocal;
-            this.gridViewCatalogoLocal.PageIndex = pagina;
-            this.gridViewCatalogoLocal.DataBind();
+            if (gridCatalogoLocal)
+            {
+                FieldsetCatalogoLocal.Visible = true;
+                this.gridViewCatalogoLocal.DataSource = catalogoLocal;
+                this.gridViewCatalogoLocal.PageIndex = pagina;
+                this.gridViewCatalogoLocal.DataBind();
+            }else{
+                FieldsetAsociarCatalogoLocal.Visible = true;
+                this.gridViewAsociarCatalogoLocal.DataSource = catalogoLocal;
+                this.gridViewAsociarCatalogoLocal.PageIndex = pagina;
+                this.gridViewAsociarCatalogoLocal.DataBind();
+            }
         }
 
         /*
@@ -240,9 +249,15 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * Realiza el cambio de pagina adentro del grid
+         * Realiza el cambio de pagina adentro de los grids
          */
         protected void gridViewCatalogoLocal_CambioPagina(Object sender, GridViewPageEventArgs e)
+        {
+            pagina = e.NewPageIndex;
+            modo = 1;
+            Response.Redirect("FormProductosLocales.aspx");
+        }
+        protected void gridViewAsociarCatalogoLocal_CambioPagina(Object sender, GridViewPageEventArgs e)
         {
             pagina = e.NewPageIndex;
             modo = 1;
@@ -315,6 +330,7 @@ namespace ProyectoInventarioOET
          */
         protected void botonConsultarBodega_ServerClick(object sender, EventArgs e)
         {
+            gridCatalogoLocal = true;
             if (this.DropDownListBodega.SelectedItem != null)
             {
                 bodegaSeleccionada = this.DropDownListBodega.SelectedIndex;
@@ -346,10 +362,12 @@ namespace ProyectoInventarioOET
          */
         protected void botonAsociarBodega_ServerClick(object sender, EventArgs e)
         {
+            gridCatalogoLocal = false;
             if (this.DropDownListBodega.SelectedItem != null)
             {
                 bodegaSeleccionada = this.DropDownListBodega.SelectedIndex;
                 pagina = 0;
+                FieldsetAsociarCatalogoLocal.Visible = true;
                 String idBodega = idArray2[bodegaSeleccionada].ToString();
                 catalogoLocal = tablaAsociacion();
                 DataTable productos = controladoraBodegas.consultarProductosAsociables(idBodega);
@@ -364,6 +382,7 @@ namespace ProyectoInventarioOET
                             {
                                 datos[i] = producto[i];
                             }
+                            datos[2] = controladoraCategorias.consultarCategoria(producto[2].ToString()).Descripcion;
                             catalogoLocal.Rows.Add(datos);
                         }
                     }

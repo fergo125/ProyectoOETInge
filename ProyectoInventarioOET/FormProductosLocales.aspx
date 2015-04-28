@@ -185,7 +185,7 @@
          <div class="col-lg-12">
             <asp:UpdatePanel ID="UpdatePanelAsociar" runat="server">
                 <ContentTemplate>
-                    <asp:GridView ID="gridViewAsociarCatalogoLocal" CssClass="table" OnPageIndexChanging="gridViewCatalogoLocal_CambioPagina" runat="server" AllowPaging="True" PageSize="16" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                    <asp:GridView ID="gridViewAsociarCatalogoLocal" CssClass="table" OnPageIndexChanging="gridViewAsociarCatalogoLocal_CambioPagina" runat="server" AllowPaging="True" PageSize="16" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
                         <Columns>
                             <asp:TemplateField HeaderText="Seleccionar">
 								<ItemTemplate>
@@ -209,22 +209,6 @@
         <br />
         <br />
     </fieldset>
-
-<%-- NO BORRAR ****Falta metodo para manejar cambios de pagina	
-            <asp:GridView ID="gridViewProductosDisponibles" CssClass="table table-responsive table-condensed" OnPageIndexChanging runat="server" AllowPaging="True" PageSize="5" BorderColor="Transparent">
-						<Columns>
-							<asp:TemplateField HeaderText="Seleccionar">
-								<ItemTemplate>
-									<asp:CheckBox ID="checkBoxProductos" runat="server"/>
-								</ItemTemplate>
-							</asp:TemplateField>
-						</Columns>
-					<HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" />
-					<PagerStyle CssClass="paging" HorizontalAlign="Center" />
-					<RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
-					<AlternatingRowStyle BackColor="#EBEBEB" />
-					<SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
-			</asp:GridView>	--%>	
 
     <!--Modal Cancelar-->
     <div class="modal fade" id="modalCancelar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
