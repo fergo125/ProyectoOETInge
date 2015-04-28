@@ -86,21 +86,24 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
             {
                 DataTable resultado = new DataTable();
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "UPDATE INV_PRODUCTOS "
-                                    + "SET ESTADO = " + productoGlobalNuevo.Categoria.ToString()
-                                    + "SET ESTADO = " + productoGlobalNuevo.Codigo.ToString()
-                                    + "SET ESTADO = " + productoGlobalNuevo.CodigoDeBarras.ToString()
-                                    + "SET ESTADO = " + productoGlobalNuevo.CostoColones.ToString()
-                                    + "SET ESTADO = " + productoGlobalNuevo.CostoDolares.ToString()
-                                    + "SET ESTADO = " + productoGlobalNuevo.Estado.ToString()
-                                    + "SET ESTADO = " + productoGlobalNuevo.Existencia.ToString()
-                                    + "SET ESTADO = " + productoGlobalNuevo.Impuesto.ToString()
-                                    + "SET ESTADO = " + productoGlobalNuevo.Intencion.ToString()
-                                    + "SET ESTADO = " + productoGlobalNuevo.Nombre.ToString()
-                                    + "SET ESTADO = " + productoGlobalNuevo.PrecioColones.ToString()
-                                    + "SET ESTADO = " + productoGlobalNuevo.PrecioDolares.ToString()
-                                    + "SET ESTADO = " + productoGlobalNuevo.Unidades.ToString()
+                String aux =        "UPDATE INV_PRODUCTOS "
+                                    + "SET CAT_CATEGORIA = '" + productoGlobalNuevo.Categoria.ToString() + "' , "
+                                    + "SET CODIGO = '" + productoGlobalNuevo.Codigo.ToString() + "' , "
+                                    + "SET CODIGO_BARRAS = '" + productoGlobalNuevo.CodigoDeBarras.ToString() + "' , "
+                                    + "SET COSTO_COLONES = " + productoGlobalNuevo.CostoColones.ToString() + " , "
+                                    + "SET COSTO_DOLARES = " + productoGlobalNuevo.CostoDolares.ToString() +  " , "
+                                    + "SET ESTADO = " + productoGlobalNuevo.Estado.ToString() + " , "
+                                    + "SET SALDO = " + productoGlobalNuevo.Existencia.ToString() + " , "
+                                    + "SET IMPUESTO = " + productoGlobalNuevo.Impuesto.ToString() + " , "
+                                    + "SET INTENCION = '" + productoGlobalNuevo.Intencion.ToString() + "' , "
+                                    + "SET NOMBRE = '" + productoGlobalNuevo.Nombre.ToString() + "' , "
+                                    + "SET PRECIO_COLONES = " + productoGlobalNuevo.PrecioColones.ToString() + " , "
+                                    + "SET PRECIO_DOLARES = " + productoGlobalNuevo.PrecioDolares.ToString() + " , "
+                                    + "SET CAT_UNIDADES = '" + productoGlobalNuevo.Unidades.ToString() + "' "
                                     + "WHERE INV_PRODUCTOS = " + productoGlobalViejo.Inv_Productos;
+
+
+                command.CommandText = aux;
                 OracleDataReader reader = command.ExecuteReader();
 
                 res[0] = "success";
