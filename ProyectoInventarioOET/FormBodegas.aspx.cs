@@ -24,6 +24,7 @@ namespace ProyectoInventarioOET
         private static Boolean seConsulto = false;                              //???
         private static Object[] idArray;                                        //???
         private static int modo = (int)Modo.Inicial;                            //???
+        private static bool mensajeMostrado = false;
 
         /*
          * ???
@@ -77,6 +78,7 @@ namespace ProyectoInventarioOET
                     botonCancelarBodega.Visible = false;
                     botonConsultarBodega.Disabled = false;
                     habilitarCampos(false);
+                    mensajeAlerta.Visible = false;
                     break;
                 case (int)Modo.Insercion: //insertar
                     gridViewBodegas.Visible = false;
@@ -88,6 +90,7 @@ namespace ProyectoInventarioOET
                     botonConsultarBodega.Disabled = false;
                     botonAceptarBodega.Visible = true;
                     botonCancelarBodega.Visible = true;
+                    mensajeAlerta.Visible = false;
                     break;
                 case (int)Modo.Modificacion: //modificar
                     gridViewBodegas.Visible = false;
@@ -100,6 +103,7 @@ namespace ProyectoInventarioOET
                     botonConsultarBodega.Disabled = false;
                     botonAceptarBodega.Visible = true;
                     botonCancelarBodega.Visible = true;
+                    mensajeAlerta.Visible = false;
 
                     break;
                 case (int)Modo.Consulta://consultar
@@ -110,6 +114,7 @@ namespace ProyectoInventarioOET
                     botonConsultarBodega.Disabled = true;
                     botonAceptarBodega.Visible = false;
                     botonCancelarBodega.Visible = false;
+                    mensajeAlerta.Visible = false;
                     habilitarCampos(false);
                     break;
                 case (int)Modo.Consultado://consultado, pero con los espacios bloqueados
@@ -120,6 +125,7 @@ namespace ProyectoInventarioOET
                     botonConsultarBodega.Disabled = false;
                     botonAceptarBodega.Visible = false;
                     botonCancelarBodega.Visible = false;
+                    mensajeAlerta.Visible = false;
                     habilitarCampos(false);
                     llenarGrid();
                     break;
