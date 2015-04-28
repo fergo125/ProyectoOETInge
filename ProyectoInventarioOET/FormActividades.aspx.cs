@@ -408,8 +408,6 @@ namespace ProyectoInventarioOET
                 {
                     mostrarMensaje("warning", "Alerta", "El nombre de la actividad corresponde a una existente, por favor ingrese otro nombre.");
                     operacionCorrecta = false;
-
-
                 }
             }
             else if (modo == (int)Modo.Modificacion)
@@ -441,11 +439,11 @@ namespace ProyectoInventarioOET
                     mostrarMensaje("warning", "Alerta", "El nombre de la actividad corresponde a una existente, por favor ingrese otro nombre.");
                     operacionCorrecta = false;
                 }
+            }
 
-                if (operacionCorrecta)
-                {
-                    cambiarModo();
-                }
+            if (operacionCorrecta)
+            {
+                cambiarModo();
             }
 
         }

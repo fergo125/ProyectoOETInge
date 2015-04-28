@@ -61,7 +61,7 @@
             </div>
 
             <div class="form-group col-lg-6">
-                <label for="inputUnidades" class= "control-label">Unidades metricas:</label>
+                <label for="inputUnidades" class= "control-label">Unidades métricas:</label>
                 <asp:DropDownList ID="inputUnidades" runat="server" Cssclass="form-control" ></asp:DropDownList>
             </div>
 
