@@ -25,16 +25,23 @@ namespace ProyectoInventarioOET
         private static EntidadProductoGlobal productoConsultado;                //???
         private static ControladoraDatosGenerales controladoraDatosGenerales;   //???
         private static ControladoraProductosGlobales controladora;              //???
+        private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
 
         /*
          * ???
          */
         protected void Page_Load(object sender, EventArgs e)
         {
+            mensajeAlerta.Visible = false;
             if (!IsPostBack) 
             {
                 controladora = new ControladoraProductosGlobales();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
+                permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Catalogo general de productos");
+
+                // Esconder botones
+                mostrarBotonesSegunPermisos();
+
                 if (!seConsulto)
                 {
                     modo = (int)Modo.Inicial;
@@ -67,7 +74,7 @@ namespace ProyectoInventarioOET
             mensajeAlerta.Attributes["class"] = "alert alert-" + tipoAlerta + " alert-dismissable fade in";
             labelTipoAlerta.Text = alerta + " ";
             labelAlerta.Text = mensaje;
-            mensajeAlerta.Attributes.Remove("hidden");
+            mensajeAlerta.Visible = true;
         }
 
         /*
@@ -86,6 +93,8 @@ namespace ProyectoInventarioOET
                     this.botonAgregarProductos.Disabled = false;
                     this.botonModificacionProductos.Disabled = true;
                     this.botonConsultaProductos.Disabled = false;
+                    habilitarCampos(false);
+                    limpiarCampos();
                     break;
                 case (int)Modo.Insercion: //insertar
                     this.bloqueGrid.Visible = false;
@@ -122,6 +131,7 @@ namespace ProyectoInventarioOET
                     this.botonAgregarProductos.Disabled = false;
                     this.botonModificacionProductos.Disabled = false;
                     this.botonConsultaProductos.Disabled = false;
+                    habilitarCampos(false);
                     break;
                 default:
                     break;
@@ -201,7 +211,7 @@ namespace ProyectoInventarioOET
             DataTable estados = controladoraDatosGenerales.consultarEstadosActividad();
             foreach (DataRow fila in estados.Rows)
             {
-                mapEstado.Add(fila[0].ToString(), fila[1].ToString());
+                mapEstado.Add(fila[2].ToString(), fila[1].ToString());
             }
             return mapEstado;
         }
@@ -213,7 +223,7 @@ namespace ProyectoInventarioOET
          */
         protected Object[] obtenerDatosProductosGlobales()
         {
-            Object[] datos = new Object[14];
+            Object[] datos = new Object[16];
             datos[0] = this.inputCodigo.Value;
             datos[1] = this.inputCodigoBarras.Value;
             datos[2] = this.inputNombre.Value;
@@ -228,6 +238,8 @@ namespace ProyectoInventarioOET
             datos[11] = this.inputPrecioColones.Value;
             datos[12] = this.inputPrecioDolares.Value;
             datos[13] = "0"; // Id que identifica se genera despues en la controladora de BD
+            datos[14] = (this.Master as SiteMaster).Usuario.Codigo;
+            datos[15] = DateTime.Now;
             return datos;
         }
 
@@ -462,10 +474,10 @@ namespace ProyectoInventarioOET
             this.inputPrecioColones.Disabled = !resp;
             this.inputPrecioDolares.Disabled = !resp;
             this.inputImpuesto.Disabled = !resp;
-            this.inputSaldo.Disabled = !resp;
+            this.inputSaldo.Disabled = true;
             this.inputUnidades.Enabled = resp;
             this.inpuCategoria.Enabled = resp;
-            this.inputEstado.Enabled = resp;
+            this.inputEstado.Enabled = (permisos[2] == '1');
             this.inputVendible.Enabled = resp;
         }
         //*******************************************************************************
@@ -481,6 +493,7 @@ namespace ProyectoInventarioOET
             llenarGrid(null);
             modo = (int)Modo.Consulta;
             cambiarModo();
+            habilitarCampos(false);
         }
 
         /* 
@@ -498,6 +511,7 @@ namespace ProyectoInventarioOET
                     Response.Redirect("FormProductosGlobales.aspx"); //Se hace un PostBack
                     break;
             }
+            
         }
 
         /* 
@@ -594,6 +608,14 @@ namespace ProyectoInventarioOET
         protected void botonAceptarModalDesactivar_ServerClick(object sender, EventArgs e)
         {
             // Hacer algo
+        }
+
+        protected void mostrarBotonesSegunPermisos()
+        {
+            botonConsultaProductos.Visible = (permisos[5] == '1');
+            botonAgregarProductos.Visible = (permisos[4] == '1');
+            botonModificacionProductos.Visible = (permisos[3] == '1');
+            inputEstado.Enabled = (permisos[2] == '1');
         }
     }
 }
