@@ -60,13 +60,13 @@
             <ContentTemplate>
                 <asp:GridView ID="gridViewCategorias" CssClass="table able-responsive table-condensed" runat="server" OnRowCommand="gridViewCategorias_Seleccion" OnPageIndexChanging="gridViewCategorias_CambioPagina" AllowPaging="True" PageSize="16" BorderColor="Transparent" Visible ="false">
                     <Columns>
-                        <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn-default" CommandName="Select" Text="Consultar">
-                            <ControlStyle CssClass="btn-default disabled"></ControlStyle>
+                        <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Consultar">
+                            <ControlStyle CssClass="btn btn-default"></ControlStyle>
                         </asp:ButtonField>
                    </Columns>
                    <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
                    <PagerStyle CssClass="paging" HorizontalAlign="Center" />
-                   <AlternatingRowStyle BackColor="#EBEBEB" />
+                   <AlternatingRowStyle BackColor="#F8F8F8" />
                    <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
                    <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" />
               </asp:GridView>

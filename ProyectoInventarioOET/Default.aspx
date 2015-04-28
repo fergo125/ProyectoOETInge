@@ -16,7 +16,7 @@
                 Todas las tareas relacionadas con el inventario de su bodega pueden encontrarse en esta sección.
             </p>
             <p>
-                <a class="btn btn-default" href="~/">Ir a Inventarios</a>
+                <%--<a class="btn btn-default" href="~/">Ir a Inventarios</a>--%>
             </p>
         </div>
         <div class="col-md-4">
@@ -25,7 +25,7 @@
                 Cree nuevas facturas rápidamente en un ambiente ágil para el usuario, busque productos, aplique descuentos, y no se preocupe por aspectos como el tipo de cambio o la información que ya debería de generarse automáticamente.
             </p>
             <p>
-                <a class="btn btn-default" href="~/FormVentas">Ir a Ventas</a>
+                <%--<a class="btn btn-default" href="~/FormVentas">Ir a Ventas</a>--%>
             </p>
         </div>
         <div class="col-md-4">
@@ -35,7 +35,7 @@
                 Toda la contabilidad del sistema comprimida en un sólo lugar.
             </p>
             <p>
-                <a class="btn btn-default" href="~/">Ir a Reportes </a>
+                <%--<a class="btn btn-default" href="~/">Ir a Reportes </a>--%>
             </p>
         </div>
     </div>
