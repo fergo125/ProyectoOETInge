@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Bodegas" Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="FormBodegas.aspx.cs" Inherits="ProyectoInventarioOET.FormBodegas" %>
+﻿<%@ Page Title="Bodegas" EnableEventValidation="false" Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="FormBodegas.aspx.cs" Inherits="ProyectoInventarioOET.FormBodegas" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
     <br />
@@ -34,11 +34,9 @@
 
 
         <fieldset id= "FieldsetBodegas" runat="server" class="fieldset">
-            <asp:ValidationSummary Font-Size="Small" CssClass="label label-danger" runat=server 
-            HeaderText="Uno de los campos está vacío o con información inválida" />
+          
 
-
-                  <div class="col-lg-3">
+                  <div class="col-lg-4">
                 <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
                     ControlToValidate=inputNombre
                     ErrorMessage=""> 
@@ -52,7 +50,7 @@
 
 
 
-                  <div class="col-lg-3">
+                  <div class="col-lg-4">
             <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
                 ControlToValidate=comboBoxEmpresa
                 ErrorMessage="">
@@ -82,7 +80,7 @@
 
 
 
-            <div class="col-lg-3">
+            <div class="col-lg-4">
             <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
                 ControlToValidate=comboBoxIntencion
                 ErrorMessage="">
@@ -98,7 +96,7 @@
 
    
 
-            <div class="col-lg-3">
+            <div class="col-lg-4">
             <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
                 ControlToValidate=dropdownEstado
                 ErrorMessage="">
@@ -112,12 +110,48 @@
             </div>
 
             <br />
-            <div class="col-lg-5">
+            <div class="col-lg-4">
             </div>
 
         </fieldset>
 
         <label id="textoObligatorioBodega" runat="server" for="textoObligatorioBodega" style="margin-left:1.30%" class="text-danger text-center">Los campos con (*) son obligatorios</label>
+
+    <br />
+      
+            
+    
+        <fieldset id= "Fieldset1" runat="server" class="fieldset">
+            <asp:ValidationSummary Font-Size="Small" CssClass="label label-danger" runat=server 
+            HeaderText="Uno de los campos está vacío o con información inválida" />
+
+
+          
+            <br />
+            <div class="col-lg-5">
+            </div>
+
+        </fieldset>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <div class="col-lg-12" id="bloqueBotones">
         <div class =" row">
