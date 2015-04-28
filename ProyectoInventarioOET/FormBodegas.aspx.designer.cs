@@ -76,13 +76,13 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlButton botonConsultarBodega;
         
         /// <summary>
-        /// Control tituloBienvenidoBodegas.
+        /// Control tituloAccionBodegas.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tituloBienvenidoBodegas;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tituloAccionBodegas;
         
         /// <summary>
         /// Control FieldsetBodegas.

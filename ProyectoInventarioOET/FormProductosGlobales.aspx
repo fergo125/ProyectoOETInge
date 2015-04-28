@@ -142,7 +142,7 @@
 <%--        </div>--%>
         <br/> <br/>
 
-       <label for="UpdatePanelPruebas" class= "control-label" >Catálogo general de Productos</label>
+       <strong><div ID="UpdatePanelPruebas" tabindex="" class="control-label" style="text-align:center;font-size:larger;margin-bottom:5px; background-color: #C0C0C0;">Catálogo global de productos</div></strong>
        <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
            <ContentTemplate>
                 <asp:GridView ID="gridViewProductosGlobales" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewProductosGlobales_RowCommand" OnPageIndexChanging="gridViewProductosGlobales_PageIndexChanging" runat="server" AllowPaging="true" PageSize="16" BorderColor="Transparent">

@@ -80,6 +80,7 @@ namespace ProyectoInventarioOET
                 camposCategoria.Disabled = true;
                 gridViewCategorias.Visible = true;
                 comboBoxEstadosActividades.Enabled = false;
+                tituloAccion.InnerText = "Seleccione una opción";
                 cargarEstados();
 
 
@@ -95,6 +96,7 @@ namespace ProyectoInventarioOET
                 inputNombre.Disabled = false;
                 gridViewCategorias.Visible = false;
                 comboBoxEstadosActividades.Enabled = (permisos[2] == '1');
+                tituloAccion.InnerText = "Cambie los datos";
             }
             else if (modo == (int)Modo.Insercion)
             {
@@ -109,6 +111,7 @@ namespace ProyectoInventarioOET
                 gridViewCategorias.Visible = false;
                 comboBoxEstadosActividades.Enabled = true;
                 comboBoxEstadosActividades.Visible = true;
+                tituloAccion.InnerText = "Ingrese datos";
                 cargarEstados();
 
             }
@@ -124,6 +127,7 @@ namespace ProyectoInventarioOET
                 gridViewCategorias.Visible = false;
                 inputNombre.Visible = false;
                 comboBoxEstadosActividades.Visible = false;
+                tituloAccion.InnerText = "Seleccione una categoria";
             }
             else if (modo == (int)Modo.Consultado)
             { 
@@ -137,7 +141,7 @@ namespace ProyectoInventarioOET
                 inputNombre.Disabled = true;
                 gridViewCategorias.Visible = true;
                 comboBoxEstadosActividades.Enabled = false;
-
+                tituloAccion.InnerText = "Categoria seleccionada";
             }
             //aplicarPermisos();// se aplican los permisos del usuario para el acceso a funcionalidades
         }
@@ -217,7 +221,8 @@ namespace ProyectoInventarioOET
         protected void limpiarCampos()
         {
             this.inputNombre.Value = "";
-            this.comboBoxEstadosActividades.SelectedIndex = 0;
+            if (comboBoxEstadosActividades.DataSource != null && (comboBoxEstadosActividades.DataSource as DataTable).Rows.Count > 0)
+                this.comboBoxEstadosActividades.SelectedIndex = 0;
         }
 
         /*

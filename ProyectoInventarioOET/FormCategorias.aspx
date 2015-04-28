@@ -28,7 +28,7 @@
     <br />
     <br />
 
-    <h3 id="tituloAccion">Seleccione una opción</h3>
+    <h3 id="tituloAccion" runat="server"> Consulta de Categorias </h3>
      <!-- Grid de Consulta de categorias -->
       <!-- Gridview de consultar -->
 
@@ -54,6 +54,7 @@
     </div>
          <div class="col-lg-12" id="bloqueGrid">
 
+        <strong><div ID="UpdatePanelPruebas" tabindex="" class="control-label" style="text-align:center;font-size:larger;margin-bottom:5px; background-color: #C0C0C0;">Catálogo de categorias</div></strong>
 <%--  <label for="UpdatePanelPruebas" class= "control-label" > Catálogo global de categorias </label> OnRowCommand="gridViewCategorias_Seleccion" OnPageIndexChanging="gridViewCategorias_CambioPagina"--%>
         <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
             <ContentTemplate>
