@@ -337,7 +337,7 @@ namespace ProyectoInventarioOET
          */
         protected void botonAceptarCategoria_ServerClick(object sender, EventArgs e)
         {
-            Boolean operacionCorrecta = true;
+            String codigoModificado ="";
             String codigoInsertado = "";
 
             if (modo == 2)
@@ -346,7 +346,7 @@ namespace ProyectoInventarioOET
 
                 if (codigoInsertado != "")
                 {
-                    operacionCorrecta = true;
+                    codigoModificado = "";
                     categoriaConsultada = controladoraCategorias.consultarCategoria(codigoInsertado);
                     modo = (int)Modo.Consultado;
                     seConsulto = true;
@@ -355,21 +355,24 @@ namespace ProyectoInventarioOET
                     setDatosConsultados();
 
                 }
+                if(codigoInsertado == "repetido"){
+                    mostrarMensaje("warning", "Alerta", "La categoria insertada ya existe");
+                }
                 else
                 {
-                    operacionCorrecta = false;
+                    codigoModificado = "";
                     mostrarMensaje("Warning", "Alerta", "No se pudo agregar la categoria");
                 }
             }
             else if (modo == 3)
             {
-                operacionCorrecta = modificar();
-                if(operacionCorrecta)
+                codigoModificado = modificar();
+                if(codigoModificado == "")
                     mostrarMensaje("success", "Exito", "Categoria Modificada");
                 else
                     mostrarMensaje("Warning", "Alerta", "No se pudo Modificar");
             }
-            if (operacionCorrecta)
+            if (codigoModificado == "")
             {
                 irAModo();
             }
@@ -378,26 +381,34 @@ namespace ProyectoInventarioOET
         /*
          * ???
          */
-        private bool modificar()
+        private String modificar()
         {
-            bool res = true;
-            String[] datosCat = {inputNombre.Value,categoriaConsultada.Nombre,comboBoxEstadosActividades.SelectedValue};
-            String[] error = controladoraCategorias.modificarDatos(categoriaConsultada, datosCat);
-            mostrarMensaje(error[0], error[1], error[2]);
-
-            if (error[0].Contains("success"))// si fue exitoso
+            String res = "";
+            String nombre= inputNombre.Value;
+            String[] datosCat = {nombre,categoriaConsultada.Nombre,comboBoxEstadosActividades.SelectedValue};
+            
+            if (!nombreRepetido(nombre))
             {
-                llenarGrid();
-                categoriaConsultada = controladoraCategorias.consultarCategoria(categoriaConsultada.Nombre);
-                modo = (int)Modo.Consulta;
+                String[] error = controladoraCategorias.modificarDatos(categoriaConsultada, datosCat);
+                if (error[0].Contains("success"))// si fue exitoso
+                {
+                    llenarGrid();
+                    categoriaConsultada = controladoraCategorias.consultarCategoria(categoriaConsultada.Nombre);
+                    modo = (int)Modo.Consulta;
+                    res = "succes";
+                }
+                else
+                {
+                    res = "no se puede";
+                    modo = (int)Modo.Modificacion;
+                }
             }
             else
             {
-                res = false;
-                modo = (int)Modo.Modificacion;
+
             }
             return res;
-            
+         
         }
 
         /*
@@ -415,21 +426,23 @@ namespace ProyectoInventarioOET
         {
 
             String codigo = "";
-
-            String[] error = controladoraCategorias.insertarDatos(inputNombre.Value.ToString());
-
-            codigo = Convert.ToString(error[3]);
-            mostrarMensaje(error[0], error[1], error[2]);
-            if (error[0].Contains("success"))
+            String nombre = inputNombre.Value.ToString();
+            if (!nombreRepetido(nombre))
             {
-                llenarGrid();
-            }
-            else
-            {
-                codigo = "";
-                modo = (int)Modo.Insercion;
-            }
+                String[] error = controladoraCategorias.insertarDatos(nombre);
 
+                codigo = Convert.ToString(error[3]);
+                mostrarMensaje(error[0], error[1], error[2]);
+                if (error[0].Contains("success"))
+                {
+                    llenarGrid();
+                }
+                else
+                {
+                    codigo = "";
+                    modo = (int)Modo.Insercion;
+                }
+            }
             return codigo;
         }
         protected void botonAceptarModalCancelar_ServerClick(object sender, EventArgs e)
@@ -443,7 +456,8 @@ namespace ProyectoInventarioOET
         {
             for (int i = 0; i < idArray.Length; ++i )
             {
-                if(String.Compare(idArray[i,1],nombre))
+                if (String.Compare(idArray[i, 1].ToString(), nombre) == 0)
+                    return true;
             }
             return false;
         }
