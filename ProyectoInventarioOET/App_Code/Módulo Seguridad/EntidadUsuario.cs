@@ -19,6 +19,7 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
         private String anfitriona;          //???
         private String nombre;              //???
         private String perfil;              //???
+        private String codigoPerfil;       //???
         private DateTime fechaCreacion;     //???
         private int estado;                 //???
 
@@ -126,6 +127,15 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
         {
             get { return perfil; }
             set { perfil = value; }
+        }
+        
+        /*
+         * ???
+         */
+        public String CodigoPerfil
+        {
+            get { return codigoPerfil; }
+            set { codigoPerfil = value; }
         }
     }
 }
