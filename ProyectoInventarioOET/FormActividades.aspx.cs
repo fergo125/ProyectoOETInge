@@ -39,6 +39,11 @@ namespace ProyectoInventarioOET
                 controladoraActividades = new ControladoraActividades();
                 permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Gestion de actividades");
 
+                // Esconder botones
+                botonModificacionActividades.Disabled = !(permisos[3] == 1);
+                botonAgregarActividades.Disabled = !(permisos[4] == 1);
+                botonConsultaActividades.Disabled = !(permisos[5] == 1);
+
                 if (!seConsulto)
                 {
                     modo = (int)Modo.Inicial;
