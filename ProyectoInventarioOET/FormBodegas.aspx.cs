@@ -144,7 +144,8 @@ namespace ProyectoInventarioOET
             {
                 case "Select":
                     GridViewRow filaSeleccionada = this.gridViewBodegas.Rows[Convert.ToInt32(e.CommandArgument)];
-                    String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewBodegas.PageIndex * resultadosPorPagina)]);
+                    //String codigo = filaSeleccionada.Cells[0].Text.ToString();
+                    String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewBodegas.PageIndex * this.gridViewBodegas.PageSize)]);
                     consultarBodega(codigo);
                     modo = (int)Modo.Consultado;
                     Response.Redirect("FormBodegas.aspx");
