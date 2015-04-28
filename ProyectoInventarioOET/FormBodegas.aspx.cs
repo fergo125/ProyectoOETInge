@@ -87,7 +87,7 @@ namespace ProyectoInventarioOET
                     botonModificarBodega.Disabled = true;
                     botonAceptarBodega.Visible = false;
                     botonCancelarBodega.Visible = false;
-                    tituloBienvenidoBodegas.Visible = true;
+                    tituloAccionBodegas.InnerText = "Seleccione una opción";
                     textoObligatorioBodega.Visible = false;
                     botonConsultarBodega.Disabled = false;
                     habilitarCampos(false);
@@ -102,7 +102,7 @@ namespace ProyectoInventarioOET
                     botonConsultarBodega.Disabled = false;
                     botonAceptarBodega.Visible = true;
                     textoObligatorioBodega.Visible = true;
-                    tituloBienvenidoBodegas.Visible = false;
+                    tituloAccionBodegas.InnerText = "Ingrese datos";
                     botonCancelarBodega.Visible = true;
                     break;
                 case (int)Modo.Modificacion: //modificar
@@ -116,7 +116,7 @@ namespace ProyectoInventarioOET
                     botonConsultarBodega.Disabled = false;
                     botonAceptarBodega.Visible = true;
                     textoObligatorioBodega.Visible = true;
-                    tituloBienvenidoBodegas.Visible = false;
+                    tituloAccionBodegas.InnerText = "Cambie los datos";
                     botonCancelarBodega.Visible = true;
 
                     break;
@@ -127,7 +127,7 @@ namespace ProyectoInventarioOET
                     botonAgregarBodega.Disabled = false;
                     botonConsultarBodega.Disabled = true;
                     botonAceptarBodega.Visible = false;
-                    tituloBienvenidoBodegas.Visible = false;
+                    tituloAccionBodegas.InnerText = "Seleccione una bodega";
                     textoObligatorioBodega.Visible = false;
                     botonCancelarBodega.Visible = false;
                     habilitarCampos(false);
@@ -140,7 +140,7 @@ namespace ProyectoInventarioOET
                     botonModificarBodega.Disabled = false;
                     botonConsultarBodega.Disabled = false;
                     botonAceptarBodega.Visible = false;
-                    tituloBienvenidoBodegas.Visible = false;
+                    tituloAccionBodegas.InnerText = "Bodega seleccionada";
                     textoObligatorioBodega.Visible = false;
                     botonCancelarBodega.Visible = false;
                     habilitarCampos(false);

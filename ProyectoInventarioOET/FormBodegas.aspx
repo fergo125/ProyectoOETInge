@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Bodegas" Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="FormBodegas.aspx.cs" Inherits="ProyectoInventarioOET.FormBodegas" %>
+﻿<%@ Page Title="Bodegas" Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="FormBodegas.aspx.cs" Inherits="ProyectoInventarioOET.FormBodegas" EnableEventValidation="false" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
     <br />
@@ -26,10 +26,8 @@
     <br />
     <br />
     
-    <h3 id="tituloAccionBodegas"></h3>
-    <br />
     
-    <h3 id="tituloBienvenidoBodegas" runat="server">Seleccione una opción</h3>
+    <h3 id="tituloAccionBodegas" runat="server">Seleccione una opción</h3>
       <!-- Fieldset para Bodegas -->
 
 
