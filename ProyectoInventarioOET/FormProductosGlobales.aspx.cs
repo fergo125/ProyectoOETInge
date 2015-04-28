@@ -25,6 +25,7 @@ namespace ProyectoInventarioOET
         private static EntidadProductoGlobal productoConsultado;                //???
         private static ControladoraDatosGenerales controladoraDatosGenerales;   //???
         private static ControladoraProductosGlobales controladora;              //???
+        private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
 
         /*
          * ???
@@ -36,6 +37,11 @@ namespace ProyectoInventarioOET
             {
                 controladora = new ControladoraProductosGlobales();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
+                permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Catalogo general de productos");
+
+                // Esconder botones
+                mostrarBotonesSegunPermisos();
+
                 if (!seConsulto)
                 {
                     modo = (int)Modo.Inicial;
@@ -471,7 +477,7 @@ namespace ProyectoInventarioOET
             this.inputSaldo.Disabled = true;
             this.inputUnidades.Enabled = resp;
             this.inpuCategoria.Enabled = resp;
-            this.inputEstado.Enabled = resp;
+            this.inputEstado.Enabled = (permisos[2] == '1');
             this.inputVendible.Enabled = resp;
         }
         //*******************************************************************************
@@ -602,6 +608,14 @@ namespace ProyectoInventarioOET
         protected void botonAceptarModalDesactivar_ServerClick(object sender, EventArgs e)
         {
             // Hacer algo
+        }
+
+        protected void mostrarBotonesSegunPermisos()
+        {
+            botonConsultaProductos.Visible = (permisos[5] == '1');
+            botonAgregarProductos.Visible = (permisos[4] == '1');
+            botonModificacionProductos.Visible = (permisos[3] == '1');
+            inputEstado.Enabled = (permisos[2] == '1');
         }
     }
 }
