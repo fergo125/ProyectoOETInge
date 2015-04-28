@@ -37,7 +37,7 @@ namespace ProyectoInventarioOET
                 permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Categorias de productos");
 
                 // Esconder botones
-                esconderBotonesSegunPermisos();
+                mostrarBotonesSegunPermisos();
 
                 controladoraCategorias = new ControladoraCategorias();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
@@ -470,12 +470,12 @@ namespace ProyectoInventarioOET
             return false;
         }
 
-        protected void esconderBotonesSegunPermisos()
+        protected void mostrarBotonesSegunPermisos()
         {
-            comboBoxEstadosActividades.Enabled = (permisos[2] == '1');
-            botonModificacionCategoria.Visible = (permisos[3] == '1');
-            botonAgregarCategoria.Visible = (permisos[4] == '1');
             botonConsultaCategoria.Visible = (permisos[5] == '1');
+            botonAgregarCategoria.Visible = (permisos[4] == '1');
+            botonModificacionCategoria.Visible = (permisos[3] == '1');
+            comboBoxEstadosActividades.Enabled = (permisos[2] == '1');
         }
     }
 }
