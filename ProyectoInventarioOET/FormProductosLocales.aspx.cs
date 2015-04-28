@@ -410,6 +410,13 @@ namespace ProyectoInventarioOET
                 }
             }
         }
+        /*
+         * Realiza la asociacion de los productos confirmados.
+         */
+        protected void botonAsociarProductos_ServerClick(object sender, EventArgs e)
+        {
+
+        }
 
         /*// Envío de modificaciones de producto de catálogo local
         protected void botonEnviarProducto_ServerClick(object sender, EventArgs e)
