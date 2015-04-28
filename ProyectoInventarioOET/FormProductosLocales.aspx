@@ -194,7 +194,7 @@
 						<Columns>
 							<asp:TemplateField HeaderText="Seleccionar">
 								<ItemTemplate>
-									<asp:CheckBox oncheckedchanged="checkBoxProductos_ServerClick" ID="checkBoxProductos" runat="server" AutoPostBack="true"/>
+									<asp:CheckBox OnCheckedChanged="checkBoxProductos_CheckedChanged" ID="checkBoxProductos" runat="server" AutoPostBack="true"/>
 								</ItemTemplate>
 							</asp:TemplateField>
 						</Columns>
