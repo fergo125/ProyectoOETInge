@@ -289,7 +289,7 @@ namespace ProyectoInventarioOET
                     this.botonCancelarActividad.Visible = false;
                     this.botonModificacionActividades.Disabled = true;
                     this.gridViewActividades.Visible = true;
-                    tituloAccionActividades.InnerText = "Seleccione una actividades";
+                    tituloAccionActividades.InnerText = "Seleccione una actividad";
                     break;
                 case (int)Modo.Consultado://consultada una actividad
                     habilitarCampos(false);
