@@ -85,8 +85,7 @@
     <div id="bloqueGrid" class="col-lg-12">
         <fieldset id="FieldsetGridActividades" runat="server" class="fieldset">
           <!-- Gridview de consultas -->
-         <div class="col-lg-12">
-            <strong><div ID="UpdatePanelPruebas" tabindex="" class="control-label" style="text-align:center;font-size:larger;margin-bottom:5px; background-color: #C0C0C0;">Catálogo de actividades</div></strong>
+         <div class="col-lg-12"><strong><div ID="tituloGrid" runat="server" visible="false" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Catálogo de actividades</div></strong>
             <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
                 <ContentTemplate>
                     <asp:GridView ID="gridViewActividades" CssClass="table" OnRowCommand="gridViewActividades_Seleccion" OnPageIndexChanging="gridViewActividades_CambioPagina" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
