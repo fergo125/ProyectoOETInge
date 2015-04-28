@@ -136,28 +136,6 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
         /*
          * ???
          */
-        public String[] desactivarBodega(EntidadBodega bodega)
-        {
-            String[] res = new String[3];
-            try
-            {
-                //adaptadorBodega.Update();
-                res[0] = "success";
-                res[1] = "Éxito:";
-                res[2] = "Bodega desactivada en el sistema.";
-            }
-            catch (OracleException e)
-            {
-                res[1] = "danger";
-                res[2] = "Error:";
-                res[3] = "Bodega no desactivada.";
-            }
-            return res;
-        }
-
-        /*
-         * ???
-         */
         public DataTable consultarBodegas()
         {
             DataTable resultado = new DataTable();
