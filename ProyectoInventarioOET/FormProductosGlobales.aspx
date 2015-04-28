@@ -61,7 +61,7 @@
             </div>
 
             <div class="form-group col-lg-6">
-                <label for="inputUnidades" class= "control-label">Unidades:</label>
+                <label for="inputUnidades" class= "control-label">Unidades metricas:</label>
                 <asp:DropDownList ID="inputUnidades" runat="server" Cssclass="form-control" ></asp:DropDownList>
             </div>
 
@@ -179,7 +179,7 @@
 
    
     <script type="text/javascript">
-onclick        function showStuff(elementoATogglear, mensaje) {
+       function showStuff(elementoATogglear, mensaje) {
             //var estado = document.getElementById(elementoATogglear).style.display;
             //document.getElementById('tituloAccion').innerHTML = mensaje;
             //if (elementoATogglear === 'bloqueFormulario') {

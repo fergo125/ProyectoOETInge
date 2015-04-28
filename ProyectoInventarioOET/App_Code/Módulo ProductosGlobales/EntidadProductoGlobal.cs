@@ -33,13 +33,13 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
             this.codigo = datos[0].ToString();
             this.codigoDeBarras = datos[1].ToString();
             this.nombre = datos[2].ToString();
-            this.costoColones = Convert.ToDouble(datos[3].ToString());
+            this.costoColones = datos[3].ToString()!=""?Convert.ToDouble(datos[3].ToString()):0;
             this.categoria = datos[4].ToString(); // es string
             this.unidades = datos[5].ToString();
-            this.existencia = Convert.ToDouble(datos[6].ToString());
-            this.estado = Convert.ToInt32(datos[7].ToString());
-            this.costoDolares = Convert.ToDouble(datos[8].ToString());
-            this.impuesto = Convert.ToInt32(datos[9].ToString());
+            this.existencia = datos[6].ToString()!=""?Convert.ToDouble(datos[6].ToString()):0;
+            this.estado = datos[7].ToString()!=""?Convert.ToInt32(datos[7].ToString()):0;
+            this.costoDolares = datos[8].ToString() != "" ? Convert.ToDouble(datos[8].ToString()) : 0;
+            this.impuesto = datos[9].ToString()!=""?Convert.ToInt32(datos[9].ToString()):0;
             this.intencion = datos[10].ToString();
             this.precioColones = datos[11].ToString()!=""?Convert.ToDouble(datos[11].ToString()):0;
             this.precioDolares = datos[12].ToString() != "" ? Convert.ToDouble(datos[12].ToString()) : 0;
