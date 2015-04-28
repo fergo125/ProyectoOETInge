@@ -72,5 +72,12 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
         {
             return controladoraBDBodegas.consultarBodegasDeEstacion(codigo);
         }
+        /*
+         * Obtiene la informacion de los productos que no pertenecen a la bodega especificada
+         */
+        public DataTable consultarProductosAsociables(String idBodega)
+        {
+            return controladoraBDBodegas.consultarProductosAsociables(idBodega);
+        }
     }
 }

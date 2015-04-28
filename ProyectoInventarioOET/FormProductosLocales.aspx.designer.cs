@@ -328,6 +328,33 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.GridView gridViewCatalogoLocal;
         
         /// <summary>
+        /// Control FieldsetAsociarCatalogoLocal.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetAsociarCatalogoLocal;
+        
+        /// <summary>
+        /// Control UpdatePanelAsociar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanelAsociar;
+        
+        /// <summary>
+        /// Control gridViewAsociarCatalogoLocal.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gridViewAsociarCatalogoLocal;
+        
+        /// <summary>
         /// Control botonAceptarModalCancelar.
         /// </summary>
         /// <remarks>

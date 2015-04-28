@@ -180,8 +180,13 @@
         <br />
     </fieldset> 
 
-<%-- NO BORRAR ****Falta metodo para manejar cambios de pagina	
-            <asp:GridView ID="gridViewProductosDisponibles" CssClass="table table-responsive table-condensed" OnPageIndexChanging runat="server" AllowPaging="True" PageSize="5" BorderColor="Transparent">
+    <!-- Fieldset que muestra los productos que se pueden asociar a la bodega local elegida -->
+    <fieldset id="FieldsetAsociarCatalogoLocal" center="left" runat="server" class="fieldset" visible="false">
+        <!-- Gridview de productos -->
+         <div class="col-lg-12">
+            <asp:UpdatePanel ID="UpdatePanelAsociar" runat="server">
+                <ContentTemplate>
+                    <asp:GridView ID="gridViewAsociarCatalogoLocal" CssClass="table" OnPageIndexChanging="gridViewAsociarCatalogoLocal_CambioPagina" runat="server" AllowPaging="True" PageSize="16" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
 						<Columns>
 							<asp:TemplateField HeaderText="Seleccionar">
 								<ItemTemplate>
@@ -189,12 +194,22 @@
 								</ItemTemplate>
 							</asp:TemplateField>
 						</Columns>
-					<HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" />
+                       <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
 					<PagerStyle CssClass="paging" HorizontalAlign="Center" />
-					<RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
-					<AlternatingRowStyle BackColor="#EBEBEB" />
+                       <AlternatingRowStyle BackColor="#F8F8F8" />
 					<SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
-			</asp:GridView>	--%>	
+                       <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
+                  </asp:GridView>
+             </ContentTemplate>
+             <Triggers>
+                <asp:AsyncPostBackTrigger ControlID="gridViewAsociarCatalogoLocal" EventName="RowCommand" />
+             </Triggers>
+          </asp:UpdatePanel>
+       </div>
+        <br />
+        <br />
+        <br />
+    </fieldset>
 
     <!--Modal Cancelar-->
     <div class="modal fade" id="modalCancelar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
