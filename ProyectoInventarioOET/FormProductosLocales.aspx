@@ -206,9 +206,15 @@
              </Triggers>
           </asp:UpdatePanel>
        </div>
+      <div class="col-lg-12" id="bloqueBotones" runat="server">
+        <div class =" row">
+            <div class="text-center">
+                <button runat="server" onserverclick="botonAsociarProductos_ServerClick" id="botonAsociarProductos" class="btn btn-success-fozkr" type="button">Enviar</button>
+                <a id="botonCancelarProductoGlobal" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server">Cancelar</a>
+            </div>
+        </div>
+    </div>
         <br />
-        <br />
-        <button runat="server" id="botonAsociarProductos" onserverclick="botonAsociarProductos_ServerClick" class=" btn btn-info-fozkr" type="button" style="float: left">Enviar</button>
         <br />
         <br />
     </fieldset>

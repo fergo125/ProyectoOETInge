@@ -429,7 +429,7 @@ namespace ProyectoInventarioOET
          */
         protected void botonAceptarModalCancelar_ServerClick(object sender, EventArgs e)
         {
-            modo = 1;
+            modo = 0;
             Response.Redirect("FormProductosLocales.aspx");
         }
 
