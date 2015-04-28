@@ -41,10 +41,10 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
                     datosConsultados[i] = resultado.Rows[0][i].ToString();
                 }
                 usuario = new EntidadUsuario(datosConsultados);
+                String[] perfil = consultarPerfilUsuario(usuario.Codigo);
+                usuario.Perfil = perfil[0];
+                usuario.CodigoPerfil = perfil[1];
             }
-            String[] perfil = consultarPerfilUsuario(usuario.Codigo);
-            usuario.Perfil = perfil[0];
-            usuario.CodigoPerfil = perfil[1];
 
 
             return usuario;
