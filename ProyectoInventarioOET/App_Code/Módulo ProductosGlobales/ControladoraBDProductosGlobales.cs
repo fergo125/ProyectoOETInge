@@ -87,20 +87,18 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
                 DataTable resultado = new DataTable();
                 OracleCommand command = conexionBD.CreateCommand();
                 String aux =        "UPDATE INV_PRODUCTOS "
-                                    + "SET CAT_CATEGORIA = '" + productoGlobalNuevo.Categoria.ToString() + "' , "
-                                    + "SET CODIGO = '" + productoGlobalNuevo.Codigo.ToString() + "' , "
-                                    + "SET CODIGO_BARRAS = '" + productoGlobalNuevo.CodigoDeBarras.ToString() + "' , "
-                                    + "SET COSTO_COLONES = " + productoGlobalNuevo.CostoColones.ToString() + " , "
-                                    + "SET COSTO_DOLARES = " + productoGlobalNuevo.CostoDolares.ToString() +  " , "
-                                    + "SET ESTADO = " + productoGlobalNuevo.Estado.ToString() + " , "
-                                    + "SET SALDO = " + productoGlobalNuevo.Existencia.ToString() + " , "
-                                    + "SET IMPUESTO = " + productoGlobalNuevo.Impuesto.ToString() + " , "
-                                    + "SET INTENCION = '" + productoGlobalNuevo.Intencion.ToString() + "' , "
-                                    + "SET NOMBRE = '" + productoGlobalNuevo.Nombre.ToString() + "' , "
-                                    + "SET PRECIO_COLONES = " + productoGlobalNuevo.PrecioColones.ToString() + " , "
-                                    + "SET PRECIO_DOLARES = " + productoGlobalNuevo.PrecioDolares.ToString() + " , "
-                                    + "SET CAT_UNIDADES = '" + productoGlobalNuevo.Unidades.ToString() + "' "
-                                    + "WHERE INV_PRODUCTOS = " + productoGlobalViejo.Inv_Productos;
+                                    + "SET CAT_CATEGORIAS = '" + productoGlobalNuevo.Categoria + "' , "
+                                    + "SET CODIGO = '" + productoGlobalNuevo.Codigo + "' , "
+                                    + "SET CODIGO_BARRAS = '" + productoGlobalNuevo.CodigoDeBarras + "' , "
+                                    + "SET COSTO_COLONES = " + productoGlobalNuevo.CostoColones + " , "
+                                    + "SET COSTO_DOLARES = " + productoGlobalNuevo.CostoDolares +  " , "
+                                    + "SET ESTADO = " + productoGlobalNuevo.Estado + " , "
+                                    + "SET SALDO = " + productoGlobalNuevo.Existencia + " , "
+                                    + "SET IMPUESTO = " + productoGlobalNuevo.Impuesto + " , "
+                                    + "SET INTENCION = '" + productoGlobalNuevo.Intencion + "' , "
+                                    + "SET NOMBRE = '" + productoGlobalNuevo.Nombre + "' , "
+                                    + "SET CAT_UNIDADES = '" + productoGlobalNuevo.Unidades + "' "
+                                    + "WHERE INV_PRODUCTOS = '" + productoGlobalViejo.Inv_Productos + "' ";
 
 
                 command.CommandText = aux;
