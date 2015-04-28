@@ -45,6 +45,9 @@ namespace ProyectoInventarioOET
                 controladoraSeguridad = new ControladoraSeguridad();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
                 DropDownListEstacion_CargaEstaciones();
+                if (permisos == "000000")
+                    Response.Redirect("~/ErrorPages/404.html");
+
                 //Seguridad
                 permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Gestion de bodegas");
                 mostrarBotonesSegunPermisos();

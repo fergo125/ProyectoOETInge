@@ -38,6 +38,8 @@ namespace ProyectoInventarioOET
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
                 controladoraActividades = new ControladoraActividades();
                 permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Gestion de actividades");
+                if (permisos == "000000")
+                    Response.Redirect("~/ErrorPages/404.html");
 
                 // Esconder botones
                 mostrarBotonesSegunPermisos();

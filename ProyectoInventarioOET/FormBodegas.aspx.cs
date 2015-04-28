@@ -43,6 +43,8 @@ namespace ProyectoInventarioOET
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
                 //Seguridad
                 permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Gestion de bodegas");
+                if (permisos == "000000")
+                    Response.Redirect("~/ErrorPages/404.html");
                 mostrarBotonesSegunPermisos();
 
                 if (!seConsulto)
