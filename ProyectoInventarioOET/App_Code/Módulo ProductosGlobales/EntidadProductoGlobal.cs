@@ -44,8 +44,11 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
             this.precioColones = datos[11].ToString()!=""?Convert.ToDouble(datos[11].ToString()):0;
             this.precioDolares = datos[12].ToString() != "" ? Convert.ToDouble(datos[12].ToString()) : 0;
             this.inv_productos = datos[13].ToString(); //Clave primaria es autogenerada en la BD
-            this.usuario = datos[14].ToString();
-            this.fecha = Convert.ToDateTime(datos[15].ToString());
+            if( datos.Count() > 13 )
+            {
+                this.usuario = datos[14].ToString();
+                this.fecha = Convert.ToDateTime(datos[15].ToString());
+            }
         }
 
         public String Nombre 
