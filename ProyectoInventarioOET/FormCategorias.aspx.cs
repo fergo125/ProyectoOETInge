@@ -24,6 +24,8 @@ namespace ProyectoInventarioOET
         private static EntidadCategoria categoriaConsultada;            //???
         private static bool seConsulto = false;                         //???
         private static ControladoraDatosGenerales controladoraDatosGenerales;
+        private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
+
         /*
          * ???
          */
@@ -33,6 +35,13 @@ namespace ProyectoInventarioOET
             {
                 controladoraCategorias = new ControladoraCategorias();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
+                permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Gestion de actividades");
+                if (permisos == "000000")
+                    Response.Redirect("~/ErrorPages/404.html");
+
+                // Esconder botones
+                mostrarBotonesSegunPermisos();
+
                 if (!seConsulto)
                 {
                     modo = 0;
@@ -85,7 +94,7 @@ namespace ProyectoInventarioOET
                 camposCategoria.Visible = true;
                 inputNombre.Disabled = false;
                 gridViewCategorias.Visible = false;
-                comboBoxEstadosActividades.Enabled = true;
+                comboBoxEstadosActividades.Enabled = (permisos[2] == '1');
             }
             else if (modo == (int)Modo.Insercion)
             {
@@ -484,6 +493,14 @@ namespace ProyectoInventarioOET
                     return true;
             }
             return false;
+        }
+
+        protected void mostrarBotonesSegunPermisos()
+        {
+            botonConsultaCategoria.Visible = (permisos[5] == '1');
+            botonAgregarCategoria.Visible = (permisos[4] == '1');
+            botonModificacionCategoria.Visible = (permisos[3] == '1');
+            comboBoxEstadosActividades.Enabled = (permisos[2] == '1');
         }
     }
 }
