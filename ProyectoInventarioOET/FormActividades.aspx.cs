@@ -16,10 +16,10 @@ namespace ProyectoInventarioOET
      */
     public partial class FormActividades : System.Web.UI.Page
     {
-        enum Modo { Inicial, Consulta, Insercion, Modificacion, Consultado };
+        enum Modo { Inicial, Consulta, Insercion, Modificacion, Consultado }; // Sirve para controlar los modos de la interfaz
         //Atributos
-        private static int modo = (int)Modo.Inicial;                            // Establece el modo inicial de la pantalla.
-        private static Object[] idArray;                                        // Usado en consultas de actividades
+        private static int modo = (int)Modo.Inicial;                            // Almacena el modo actual de la interfaz
+        private static Object[] idArray;                                        // Almacena identificadores de actividadesefe
         private static ControladoraDatosGenerales controladoraDatosGenerales;   // Obtiene datos generales (estados)
         private static EntidadActividad actividadConsultada;                    // Almacena la actividad que se consultó (o acaba de agregar o modificar)
         private static ControladoraActividades controladoraActividades;         // Comunica con la base de datos.
@@ -38,9 +38,11 @@ namespace ProyectoInventarioOET
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
                 controladoraActividades = new ControladoraActividades();
                 permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Gestion de actividades");
+                if (permisos == "000000")
+                    Response.Redirect("~/ErrorPages/404.html");
 
                 // Esconder botones
-                esconderBotonesSegunPermisos();
+                mostrarBotonesSegunPermisos();
 
                 if (!seConsulto)
                 {
@@ -172,14 +174,10 @@ namespace ProyectoInventarioOET
         }
 
 
-
-
-
-
         // Control de elementos de la interfaz.
 
         /*
-         * Muestra el mensaje que da el resultado de las transacciones que se efectuan.
+         * Muestra el mensaje que da el resultado de las transacciones que se efectúan.
          */
         protected void mostrarMensaje(String tipoAlerta, String alerta, String mensaje)
         {
@@ -472,12 +470,12 @@ namespace ProyectoInventarioOET
             this.gridViewActividades.DataBind();
         }
 
-        protected void esconderBotonesSegunPermisos()
+        protected void mostrarBotonesSegunPermisos()
         {
-            comboBoxEstadosActividades.Enabled = (permisos[2] == '1');
-            botonModificacionActividades.Visible = (permisos[3] == '1');
-            botonAgregarActividades.Visible = (permisos[4] == '1');
             botonConsultaActividades.Visible = (permisos[5] == '1');
+            botonAgregarActividades.Visible = (permisos[4] == '1');
+            botonModificacionActividades.Visible = (permisos[3] == '1');
+            comboBoxEstadosActividades.Enabled = (permisos[2] == '1');
         }
     }
 }

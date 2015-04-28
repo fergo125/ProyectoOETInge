@@ -29,7 +29,8 @@ namespace ProyectoInventarioOET
         private static int estacionSeleccionada, bodegaSeleccionada, pagina;    //???
         private static Object[] idArray2;                                       //???
         private static DataTable catalogoLocal, consultaProducto;               //???
-        private static Boolean gridCatalogoLocal = false;                       //Cambia dependiendo de si se muestra el grid del catalogo local, o del catalogo de asociacion
+        private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
+        private static Boolean gridCatalogoLocal = false;  
 
         /*
          * Cuando se accede la pagina inicializa los controladores si es la primera vez, sino solo realiza el cambio de modo.
@@ -44,13 +45,30 @@ namespace ProyectoInventarioOET
                 controladoraSeguridad = new ControladoraSeguridad();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
                 DropDownListEstacion_CargaEstaciones();
+
+                //Seguridad
+                permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Catalogos de productos en bodegas");
+                if (permisos == "000000")
+                    Response.Redirect("~/ErrorPages/404.html");
+                mostrarBotonesSegunPermisos();
             }
             cambiarModo();
         }
+
+        /*
+         * 
+         */
+        protected void mostrarBotonesSegunPermisos()
+        {
+            botonConsultarBodega.Visible = (permisos[5] == '1');
+            botonAsociarBodega.Visible = (permisos[4] == '1');
+            botonModificarBodega.Visible = (permisos[3] == '1');
+            inputEstado.Enabled = (permisos[2] == '1');
+        }
+
         /*
          * Realiza los cambios de modo que determinan que se puede ver y que no.
          */
-
         protected void cambiarModo()
         {
             switch (modo)
@@ -156,9 +174,9 @@ namespace ProyectoInventarioOET
             if (gridCatalogoLocal)
             {
                 FieldsetCatalogoLocal.Visible = true;
-                this.gridViewCatalogoLocal.DataSource = catalogoLocal;
-                this.gridViewCatalogoLocal.PageIndex = pagina;
-                this.gridViewCatalogoLocal.DataBind();
+            this.gridViewCatalogoLocal.DataSource = catalogoLocal;
+            this.gridViewCatalogoLocal.PageIndex = pagina;
+            this.gridViewCatalogoLocal.DataBind();
             }else{
                 FieldsetAsociarCatalogoLocal.Visible = true;
                 this.gridViewAsociarCatalogoLocal.DataSource = catalogoLocal;

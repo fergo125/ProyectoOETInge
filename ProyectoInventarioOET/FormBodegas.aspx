@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Bodegas" Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="FormBodegas.aspx.cs" Inherits="ProyectoInventarioOET.FormBodegas" %>
+﻿<%@ Page Title="Bodegas" EnableEventValidation="false" Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="FormBodegas.aspx.cs" Inherits="ProyectoInventarioOET.FormBodegas" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
     <br />
@@ -20,74 +20,73 @@
     </div>
 
       <!-- Cuerpo del Form -->
-    <button runat="server" onserverclick="botonAgregarBodega_ServerClick" id="botonAgregarBodega" class=" btn btn-info-fozkr" type="button" style="float: left"><i></i>Nueva Bodega</button>
-    <button runat="server" onserverclick="botonModificarBodega_ServerClick"  id="botonModificarBodega" class=" btn btn-info-fozkr" type="button" style="float: left"><i></i>Modificar Bodega</button>
-    <button runat="server" onserverclick="botonConsultarBodega_consultarBodegas" causesvalidation="false" id="botonConsultarBodega" class=" btn btn-info-fozkr" type="button" style="float: left"><i></i>Consultar Bodegas</button>
+    <button runat="server" onserverclick="botonAgregarBodega_ServerClick" id="botonAgregarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Nueva Bodega</button>
+    <button runat="server" onserverclick="botonModificarBodega_ServerClick"  id="botonModificarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Modificar Bodega</button>
+    <button runat="server" onserverclick="botonConsultarBodega_consultarBodegas" causesvalidation="false" id="botonConsultarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Consultar Bodegas</button>
     <br />
     <br />
     
     <h3 id="tituloAccionBodegas"></h3>
-    <br />
     
-    <!--//////////////////////////////////////////-->
-    <!--//////////////////////////////////////////-->
-    <!--//////////////////////////////////////////-->
-
-    
+    <h3 id="tituloBienvenidoBodegas" runat="server">Seleccione una opción</h3>
       <!-- Fieldset para Bodegas -->
+
+
         <fieldset id= "FieldsetBodegas" runat="server" class="fieldset">
-            <asp:ValidationSummary CssClass="label label-danger" runat=server 
-            HeaderText="Uno de los campos está vacío o con información inválida" />
+          
 
-                  <div class="col-lg-3">
-            <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
-                ControlToValidate=comboBoxEmpresa
-                ErrorMessage="">
-            </asp:RequiredFieldValidator>
-                <br />
-                <div class="form-group">
-                    <label for="comboBoxEmpresa" class= "control-label"> Empresa: </label>      
-                    <asp:DropDownList id="comboBoxEmpresa" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
-                    </asp:DropDownList>
-                </div>
-            </div>
-
-            
-            <div class="col-lg-3">
-            <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
-                ControlToValidate=comboBoxEstacion
-                ErrorMessage="">
-            </asp:RequiredFieldValidator>
-                <br />
-                <div class="form-group">
-                    <label for="comboBoxEstacion" class= "control-label"> Estación: </label>      
-                    <asp:DropDownList id="comboBoxEstacion" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
-                    </asp:DropDownList>
-                </div>
-            </div>
-
-
-            <div class="col-lg-4">
+                  <div class="col-lg-4">
                 <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
                     ControlToValidate=inputNombre
                     ErrorMessage=""> 
                 </asp:RequiredFieldValidator>
                     <br />
                     <div class="form-group">
-                        <label for="inputNombre" class= "control-label"> Nombre: </label>      
+                        <label for="inputNombre" class= "control-label"> Nombre*: </label>      
                         <input type="text" id= "inputNombre" runat="server" class="form-control" style="max-width:100%">
                     </div>
             </div>
 
 
-            <div class="col-lg-3">
+
+                  <div class="col-lg-4">
+            <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
+                ControlToValidate=comboBoxEmpresa
+                ErrorMessage="">
+            </asp:RequiredFieldValidator>
+                <br />
+                <div class="form-group">
+                    <label for="comboBoxEmpresa" class= "control-label"> Empresa*: </label>      
+                    <asp:DropDownList id="comboBoxEmpresa" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
+                    </asp:DropDownList>
+                </div>
+            </div>
+
+            
+            <div class="col-lg-4">
+            <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
+                ControlToValidate=comboBoxEstacion
+                ErrorMessage="">
+            </asp:RequiredFieldValidator>
+                <br />
+                <div class="form-group">
+                    <label for="comboBoxEstacion" class= "control-label"> Estación*: </label>      
+                    <asp:DropDownList id="comboBoxEstacion" runat="server" style="max-width=75%" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
+                    </asp:DropDownList>
+                </div>
+            </div>
+
+
+
+
+            <div class="col-lg-4">
             <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
                 ControlToValidate=comboBoxIntencion
                 ErrorMessage="">
             </asp:RequiredFieldValidator>
                 <br />
                 <div class="form-group">
-                    <label for="comboBoxIntencion" class= "control-label"> Intención de uso: </label>      
+                    <label for="comboBoxIntencion" class= "control-label"> Intención de uso*: </label>      
                     <asp:DropDownList id="comboBoxIntencion" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
                     </asp:DropDownList>
                 </div>
@@ -96,26 +95,62 @@
 
    
 
-            <div class="col-lg-3">
+            <div class="col-lg-4">
             <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
                 ControlToValidate=dropdownEstado
                 ErrorMessage="">
             </asp:RequiredFieldValidator>
                 <br />
                 <div class="form-group">
-                    <label for="dropdownEstado" class= "control-label"> Estado: </label>      
+                    <label for="dropdownEstado" class= "control-label"> Estado*: </label>      
                     <asp:DropDownList id="dropdownEstado" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
                     </asp:DropDownList>
                 </div>
             </div>
 
             <br />
-            <div class="col-lg-5">
+            <div class="col-lg-4">
             </div>
 
         </fieldset>
 
         <label id="textoObligatorioBodega" runat="server" for="textoObligatorioBodega" style="margin-left:1.30%" class="text-danger text-center">Los campos con (*) son obligatorios</label>
+
+    <br />
+      
+            
+    
+        <fieldset id= "Fieldset1" runat="server" class="fieldset">
+            <asp:ValidationSummary Font-Size="Small" CssClass="label label-danger" runat=server 
+            HeaderText="Uno de los campos está vacío o con información inválida" />
+
+
+          
+            <br />
+            <div class="col-lg-5">
+            </div>
+
+        </fieldset>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <div class="col-lg-12" id="bloqueBotones">
         <div class =" row">
@@ -127,11 +162,6 @@
     </div>
     <br />
     <br />
-
-
-    <!--//////////////////////////////////////////-->
-    <!--//////////////////////////////////////////-->
-    <!--//////////////////////////////////////////-->
 
       <div id="bloqueGrid" class="col-lg-12">
         <fieldset id="FieldsetGridBodegas" runat="server" class="fieldset">
@@ -157,9 +187,6 @@
              </Triggers>
           </asp:UpdatePanel>
        </div>
-        <br />
-        <br />
-        <br />
         </fieldset>         
     </div>
     

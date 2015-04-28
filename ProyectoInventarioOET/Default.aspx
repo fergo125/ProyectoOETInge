@@ -5,7 +5,7 @@
     <div class="jumbotron">
         <h1>Sistema de Inventarios OET</h1>
         <p class="lead">Este sistema permite realizar diversas labores, como facturación, mantenimiento de inventario, generación de reportes contables, e incluso tareas administrativas.</p>
-        <p><a href="~/FormLogin" class="btn btn-primary btn-large">Iniciar sesión</a></p>
+        <p><a href="~/FormLogin.aspx" class="btn btn-primary btn-large">Iniciar sesión</a></p>
     </div>
 
     <div class="row">

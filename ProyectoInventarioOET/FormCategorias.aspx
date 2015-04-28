@@ -14,24 +14,23 @@
 
     <!-- Título del Form -->
     <div>
-        <h2 id="TituloCategorias" runat="server"> Categorías </h2>
+        <h2 id="TituloCategorias" runat="server">Categorías de productos</h2>
         <hr />
     </div>
 
 
     <!-- Cuerpo del Form -->
-    <button runat="server" onserverclick="botonAgregarCategoria_ServerClick"  id="botonAgregarCategoria" class=" btn btn-info-fozkr" type="button" style="float: left"><i></i> Nueva Categoria</button>
-    <button runat="server" onserverclick="botonModificacionCategoria_ServerClick" id="botonModificacionCategoria" class=" btn btn-info-fozkr" type="button" style="float: left"><i></i> Modificar Categoria </button>
-    <button runat="server" onserverclick="botonConsultaCategoria_ServerClick" id="botonConsultaCategoria"  class=" btn btn-info-fozkr" type="button" style="float: left"><i></i>Consulta de Categorias </button>
+    <button runat="server" onserverclick="botonAgregarCategoria_ServerClick"  id="botonAgregarCategoria"  class=" btn btn-info-fozkr" type="button" style="float: left" visible="false">Nueva Categoría</button>
+    <button runat="server" onserverclick="botonModificacionCategoria_ServerClick" id="botonModificacionCategoria" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false">Modificar Categoría</button>
+    <button runat="server" onserverclick="botonConsultaCategoria_ServerClick" id="botonConsultaCategoria"  class=" btn btn-info-fozkr" type="button" style="float: left" visible="false">Consultar Categorías</button>
 
 
     <br />
     <br />
 
-    <h3 id="tituloAccion"> Consulta de Categorias </h3>
+    <h3 id="tituloAccion">Seleccione una opción</h3>
      <!-- Grid de Consulta de categorias -->
       <!-- Gridview de consultar -->
-    <br/>
 
 
 

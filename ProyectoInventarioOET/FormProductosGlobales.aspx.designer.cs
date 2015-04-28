@@ -67,6 +67,15 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlButton botonConsultaProductos;
         
         /// <summary>
+        /// Control tituloAccion.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tituloAccion;
+        
+        /// <summary>
         /// Control bloqueFormulario.
         /// </summary>
         /// <remarks>

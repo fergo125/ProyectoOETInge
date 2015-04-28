@@ -24,8 +24,7 @@ namespace ProyectoInventarioOET
         private static EntidadCategoria categoriaConsultada;            //???
         private static bool seConsulto = false;                         //???
         private static ControladoraDatosGenerales controladoraDatosGenerales;
-        private static String permisos = "000000";                              // Permisos utilizados para el control de
-                                                                                // seguridad.
+        private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
 
         /*
          * ???
@@ -34,13 +33,15 @@ namespace ProyectoInventarioOET
         {
             if (!IsPostBack)
             {
-                permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Categorias de productos");
-
-                // Esconder botones
-                esconderBotonesSegunPermisos();
-
                 controladoraCategorias = new ControladoraCategorias();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
+                permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Gestion de actividades");
+                if (permisos == "000000")
+                    Response.Redirect("~/ErrorPages/404.html");
+
+                // Esconder botones
+                mostrarBotonesSegunPermisos();
+
                 if (!seConsulto)
                 {
                     modo = 0;
@@ -80,7 +81,7 @@ namespace ProyectoInventarioOET
                 gridViewCategorias.Visible = true;
                 comboBoxEstadosActividades.Enabled = false;
                 cargarEstados();
-                limpiarCampos();
+
 
             }
             else if (modo == (int)Modo.Modificacion)
@@ -104,10 +105,12 @@ namespace ProyectoInventarioOET
                 botonConsultaCategoria.Disabled = false;
                 camposCategoria.Visible = true;
                 inputNombre.Disabled = false;
+                inputNombre.Visible = true;
                 gridViewCategorias.Visible = false;
-                comboBoxEstadosActividades.Enabled = (permisos[2] == '1');
+                comboBoxEstadosActividades.Enabled = true;
+                comboBoxEstadosActividades.Visible = true;
                 cargarEstados();
-                limpiarCampos();
+
             }
             else if (modo == (int)Modo.Inicial)
             { 
@@ -244,6 +247,8 @@ namespace ProyectoInventarioOET
         protected void botonAgregarCategoria_ServerClick(object sender, EventArgs e)
         {
             modo = (int)Modo.Insercion;
+            limpiarCampos();
+            llenarGrid();
             irAModo();
         }
 
@@ -262,6 +267,7 @@ namespace ProyectoInventarioOET
         protected void botonConsultaCategoria_ServerClick(object sender, EventArgs e)
         {
             modo = (int)Modo.Consulta;
+            //limpiarCampos();
             llenarGrid();
             irAModo();
         }
@@ -329,10 +335,7 @@ namespace ProyectoInventarioOET
 
                 this.gridViewCategorias.DataSource = tabla;
                 this.gridViewCategorias.DataBind();
-                if (categoriaConsultada != null)
-                {
-                    GridViewRow filaSeleccionada = this.gridViewCategorias.Rows[indiceNuevaCategoria];
-                }
+    
             }
             catch (Exception e)
             {
@@ -347,16 +350,16 @@ namespace ProyectoInventarioOET
         {
             String codigoModificado ="";
             String codigoInsertado = "";
+            bool operacionCorrecta = true;
 
             if (modo == 2)
             {
                 codigoInsertado = insertar();
 
-                if (codigoInsertado != "")
+                if (codigoInsertado == "success")
                 {
-                    codigoModificado = "";
-                    categoriaConsultada = controladoraCategorias.consultarCategoria(codigoInsertado);
                     modo = (int)Modo.Consultado;
+                    //comboBoxEstadosActividades.SelectedValue = categoriaConsultada.Estado;
                     seConsulto = true;
                     mostrarMensaje("success", "Exito", "Categoria Agregada");
                     cargarEstados();
@@ -365,25 +368,45 @@ namespace ProyectoInventarioOET
                 }
                 if(codigoInsertado == "repetido"){
                     mostrarMensaje("warning", "Alerta", "La categoria insertada ya existe");
+                    operacionCorrecta = false;
                 }
-                else
+                if (codigoInsertado == "")
                 {
                     codigoModificado = "";
                     mostrarMensaje("Warning", "Alerta", "No se pudo agregar la categoria");
+                    operacionCorrecta = false;
                 }
             }
             else if (modo == 3)
             {
                 codigoModificado = modificar();
-                if(codigoModificado == "")
+
+                if (codigoModificado == "success")
+                {
+                    modo = (int)Modo.Consultado;
+                    seConsulto = true;
                     mostrarMensaje("success", "Exito", "Categoria Modificada");
-                else
-                    mostrarMensaje("Warning", "Alerta", "No se pudo Modificar");
+                    cargarEstados();
+                    setDatosConsultados();
+
+                }
+                if (codigoModificado == "repetido")
+                {
+                    mostrarMensaje("warning", "Alerta", "La categoria modificada ya existe");
+                    operacionCorrecta = false;
+                }
+                if (codigoModificado == "")
+                {
+                    codigoModificado = "";
+                    mostrarMensaje("Warning", "Alerta", "No se pudo modficar");
+                    operacionCorrecta = false;
+                }
             }
-            if (codigoModificado == "")
+            /*
+            if (operacionCorrecta)
             {
                 irAModo();
-            }
+            }*/
         }
 
         /*
@@ -392,29 +415,27 @@ namespace ProyectoInventarioOET
         private String modificar()
         {
             String res = "";
-            String nombre= inputNombre.Value;
+            String nombre= this.inputNombre.Value;
             String[] datosCat = {nombre,categoriaConsultada.Nombre,comboBoxEstadosActividades.SelectedValue};
             
-            if (!nombreRepetido(nombre))
-            {
+            //if (!nombreRepetido(nombre))
+           // {
                 String[] error = controladoraCategorias.modificarDatos(categoriaConsultada, datosCat);
                 if (error[0].Contains("success"))// si fue exitoso
                 {
                     llenarGrid();
-                    categoriaConsultada = controladoraCategorias.consultarCategoria(categoriaConsultada.Nombre);
-                    modo = (int)Modo.Consulta;
-                    res = "succes";
+                    res = "success";
                 }
                 else
                 {
-                    res = "no se puede";
+                    res = "";
                     modo = (int)Modo.Modificacion;
                 }
-            }
-            else
-            {
-
-            }
+            //}
+            //else
+           // {
+               // res = "repetido";
+            //}
             return res;
          
         }
@@ -434,16 +455,18 @@ namespace ProyectoInventarioOET
         {
 
             String codigo = "";
-            String nombre = inputNombre.Value.ToString();
+            String res = "";
+            String nombre = this.inputNombre.Value.ToString();
             if (!nombreRepetido(nombre))
             {
                 String[] error = controladoraCategorias.insertarDatos(nombre);
 
                 codigo = Convert.ToString(error[3]);
-                mostrarMensaje(error[0], error[1], error[2]);
+                categoriaConsultada = controladoraCategorias.consultarCategoria(codigo);
                 if (error[0].Contains("success"))
                 {
                     llenarGrid();
+                    res = "success";
                 }
                 else
                 {
@@ -451,7 +474,9 @@ namespace ProyectoInventarioOET
                     modo = (int)Modo.Insercion;
                 }
             }
-            return codigo;
+            else
+                res = "repetido";
+            return res;
         }
         protected void botonAceptarModalCancelar_ServerClick(object sender, EventArgs e)
         {
@@ -462,20 +487,20 @@ namespace ProyectoInventarioOET
         }
         private bool nombreRepetido(String nombre)
         {
-            for (int i = 0; i < idArray.Length; ++i )
+            for (int i = 0; i < idArray.Length/3; ++i )
             {
-                if (String.Compare(idArray[i, 1].ToString(), nombre) == 0)
+                if (String.Equals(idArray[i, 1].ToString(), nombre))
                     return true;
             }
             return false;
         }
 
-        protected void esconderBotonesSegunPermisos()
+        protected void mostrarBotonesSegunPermisos()
         {
-            comboBoxEstadosActividades.Enabled = (permisos[2] == '1');
-            botonModificacionCategoria.Visible = (permisos[3] == '1');
-            botonAgregarCategoria.Visible = (permisos[4] == '1');
             botonConsultaCategoria.Visible = (permisos[5] == '1');
+            botonAgregarCategoria.Visible = (permisos[4] == '1');
+            botonModificacionCategoria.Visible = (permisos[3] == '1');
+            comboBoxEstadosActividades.Enabled = (permisos[2] == '1');
         }
     }
 }

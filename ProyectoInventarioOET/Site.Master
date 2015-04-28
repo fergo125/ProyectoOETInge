@@ -55,8 +55,8 @@
                                 Productos<span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a runat="server" href="~/FormProductosGlobales">Catálogo general de productos</a></li>
-                                <li><a runat="server" href="~/FormCategorias">Categorías de productos</a></li>
+                                <li id="linkFormProductos1" visible="false" runat="server"><a runat="server" href="~/FormProductosGlobales">Catálogo general de productos</a></li>
+                                <li id="linkFormProductos2" visible="false" runat="server"><a runat="server" href="~/FormCategorias">Categorías de productos</a></li>
                             </ul>
                         </li>
                         <%-- Bodegas --%>
@@ -65,9 +65,9 @@
                                 Bodegas<span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a runat="server" href="~/FormProductosLocales">Catálogos de productos en bodegas</a></li>
-                                <li><a runat="server" href="~/FormBodegas">Gestión de bodegas</a></li>
-                                <li><a runat="server" href="~/FormActividades">Gestión de actividades</a></li>
+                                <li id="linkFormBodegas1" visible="false" runat="server"><a runat="server" href="~/FormProductosLocales">Catálogos de productos en bodegas</a></li>
+                                <li id="linkFormBodegas2" visible="false" runat="server"><a runat="server" href="~/FormBodegas">Gestión de bodegas</a></li>
+                                <li id="linkFormBodegas3" visible="false" runat="server"><a runat="server" href="~/FormActividades">Gestión de actividades</a></li>
                             </ul>
                         </li>
                         <%-- Inventario --%>
@@ -76,9 +76,9 @@
                                 Inventario<span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a runat="server" href="~/FormContact">Entradas de inventario</a></li>
-                                <li><a runat="server" href="~/FormContact">Movimientos de inventario</a></li>
-                                <li><a runat="server" href="~/FormContact">Ajustes de inventario</a></li>
+                                <li id="linkFormInventario1" visible="false" runat="server"><a runat="server" href="~/FormContact">Entradas de inventario</a></li>
+                                <li id="linkFormInventario2" visible="false" runat="server"><a runat="server" href="~/FormContact">Movimientos de inventario</a></li>
+                                <li id="linkFormInventario3" visible="false" runat="server"><a runat="server" href="~/FormContact">Ajustes de inventario</a></li>
                             </ul>
                         </li>
                         <%-- Ventas --%>
@@ -91,8 +91,8 @@
                                 Administración<span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a runat="server" href="~/FormContact">Reportes</a></li>
-                                <li><a runat="server" href="~/FormContact">Seguridad</a></li>
+                                <li id="linkFormAdministracion1" visible="false" runat="server"><a runat="server" href="~/FormContact">Reportes</a></li>
+                                <li id="linkFormAdministracion2" visible="false" runat="server"><a runat="server" href="~/FormContact">Seguridad</a></li>
                             </ul>
                         </li>
                     </ul>

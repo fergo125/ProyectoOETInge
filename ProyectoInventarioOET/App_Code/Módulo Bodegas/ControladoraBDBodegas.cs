@@ -65,7 +65,7 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
                     res[1] = "Exito";
                     res[2] = "Bodega Agregada";
                 }
-                catch (SqlException e)
+                catch (OracleException e)
                 {
                     res[0] = "danger";
                     res[1] = "Fallo en la operacion";
@@ -119,7 +119,7 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
                     res[1] = "Exito";
                     res[2] = "Bodega modificada";
                 }
-                catch (SqlException e)
+                catch (OracleException e)
                 {
                     if (e.Number == 2627)
                     {
@@ -146,7 +146,7 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
                 res[1] = "Exito";
                 res[2] = "Bodega eliminado";
             }
-            catch (SqlException e)
+            catch (OracleException e)
             {
                 res[1] = "danger";
                 res[2] = "Fallo";
@@ -164,11 +164,11 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT C.CAT_BODEGA,C.DESCRIPCION,C.ANFITRIONA,D.NOMBRE,C.ESTADO FROM cat_bodega C, estacion D WHERE C.ESTACION = D.ID";
+                command.CommandText = "SELECT C.CAT_BODEGA,C.DESCRIPCION,C.ANFITRIONA,D.NOMBRE,E.DESCRIPCION, F.NOMBRE FROM cat_bodega C, estacion D, cat_estados E, cat_intencionuso F WHERE C.ESTACION = D.ID AND E.CAT_ESTADO = C.ESTADO AND C.CAT_INTENCIONUSO = F.CAT_INTENCIONUSO";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
             }
-            catch (Exception e)
+            catch (OracleException e)
             {
                 resultado = null;
             }
@@ -201,7 +201,7 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
                     bodegaConsultada = new EntidadBodega(datosConsultados);
                 }
             }
-            catch (Exception e)
+            catch (OracleException e)
             {
             }
             return bodegaConsultada;
@@ -220,7 +220,7 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
             }
-            catch (Exception e)
+            catch (OracleException e)
             {
                 resultado = null;
             }
@@ -240,7 +240,7 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
             }
-            catch (Exception e)
+            catch (OracleException e)
             {
                 resultado = null;
             }

@@ -51,14 +51,15 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
                 DataTable resultado = new DataTable();
                 OracleCommand command = conexionBD.CreateCommand();
                 String aux =  "INSERT INTO INV_PRODUCTOS ( NOMBRE, CODIGO, CODIGO_BARRAS, CAT_CATEGORIAS, INTENCION, CAT_UNIDADES, ESTADO,  "
-                + "SALDO, IMPUESTO, PRECIO_C, PRECIO_D, COSTO_COLONES , COSTO_DOLARES , INV_PRODUCTOS ) VALUES ( '"
+                + "SALDO, IMPUESTO, PRECIO_C, PRECIO_D, COSTO_COLONES , COSTO_DOLARES , INV_PRODUCTOS, CREA, CREADO ) VALUES ( '"
                 + productoGlobal.Nombre + "' , '" + productoGlobal.Codigo + "' , '"
                 + productoGlobal.CodigoDeBarras + "' , '" + productoGlobal.Categoria + "' , '"
                 + productoGlobal.Intencion + "' , '" + productoGlobal.Unidades + "' , "
                 + (short) productoGlobal.Estado + " , " + productoGlobal.Existencia + " , "
                 + productoGlobal.Impuesto + " , " + productoGlobal.PrecioColones + " , "
                 + productoGlobal.PrecioDolares + " , " + productoGlobal.CostoColones + " , "
-                + productoGlobal.CostoDolares + " , '" + res[3] + "' ) ";
+                + productoGlobal.CostoDolares + " , '" + res[3] + "' , '" + productoGlobal.Usuario +
+                "' , TO_DATE('" + productoGlobal.Fecha.ToString("MM/dd/yyyy HH:mm:ss") + "', 'mm/dd/yyyy hh24:mi:ss') ) ";
 
 
                 command.CommandText = aux; 
@@ -99,7 +100,9 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
                                     + " NOMBRE = '" + productoGlobalNuevo.Nombre + "' , "
                                     + " PRECIO_C = " + productoGlobalNuevo.PrecioColones + " , "
                                     + " PRECIO_D= " + productoGlobalNuevo.PrecioDolares + " , "
-                                    + " CAT_UNIDADES = '" + productoGlobalNuevo.Unidades + "' "
+                                    + " CAT_UNIDADES = '" + productoGlobalNuevo.Unidades + " , "
+                                    + " MODIFICA = '" + productoGlobalNuevo.Usuario + " , "
+                                    + " MODIFICADO = 'TO_DATE('" + productoGlobalNuevo.Fecha.ToString("MM/dd/yyyy HH:mm:ss") + "', 'mm/dd/yyyy hh24:mi:ss') )' "
                                     + "WHERE INV_PRODUCTOS = '" + productoGlobalViejo.Inv_Productos + "' ";
 
 
@@ -110,7 +113,7 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
                 res[1] = "Exito";
                 res[2] = "Producto modificado";
             }
-            catch (SqlException e)
+            catch (OracleException e)
             {
                 // Como la llave es generada se puede volver a intentar
                 res[0] = "danger";

@@ -27,6 +27,7 @@ namespace ProyectoInventarioOET
         private static bool mensajeMostrado = false; //wtf?
         private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
 
+
         /*
          * ???
          */
@@ -36,11 +37,15 @@ namespace ProyectoInventarioOET
           
             if (!IsPostBack)
             {
-                labelAlerta.Text = "";
+                    labelAlerta.Text = "";
                
                 controladoraBodegas = new ControladoraBodegas();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
-                permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Gestion de actividades");
+                //Seguridad
+                permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Gestion de bodegas");
+                if (permisos == "000000")
+                    Response.Redirect("~/ErrorPages/404.html");
+                mostrarBotonesSegunPermisos();
 
                 if (!seConsulto)
                 {
@@ -82,6 +87,8 @@ namespace ProyectoInventarioOET
                     botonModificarBodega.Disabled = true;
                     botonAceptarBodega.Visible = false;
                     botonCancelarBodega.Visible = false;
+                    tituloBienvenidoBodegas.Visible = true;
+                    textoObligatorioBodega.Visible = false;
                     botonConsultarBodega.Disabled = false;
                     habilitarCampos(false);
                     break;
@@ -94,6 +101,8 @@ namespace ProyectoInventarioOET
                     botonModificarBodega.Disabled = true;
                     botonConsultarBodega.Disabled = false;
                     botonAceptarBodega.Visible = true;
+                    textoObligatorioBodega.Visible = true;
+                    tituloBienvenidoBodegas.Visible = false;
                     botonCancelarBodega.Visible = true;
                     break;
                 case (int)Modo.Modificacion: //modificar
@@ -106,6 +115,8 @@ namespace ProyectoInventarioOET
                     botonModificarBodega.Disabled = true;
                     botonConsultarBodega.Disabled = false;
                     botonAceptarBodega.Visible = true;
+                    textoObligatorioBodega.Visible = true;
+                    tituloBienvenidoBodegas.Visible = false;
                     botonCancelarBodega.Visible = true;
 
                     break;
@@ -116,6 +127,8 @@ namespace ProyectoInventarioOET
                     botonAgregarBodega.Disabled = false;
                     botonConsultarBodega.Disabled = true;
                     botonAceptarBodega.Visible = false;
+                    tituloBienvenidoBodegas.Visible = false;
+                    textoObligatorioBodega.Visible = false;
                     botonCancelarBodega.Visible = false;
                     habilitarCampos(false);
                     break;
@@ -127,6 +140,8 @@ namespace ProyectoInventarioOET
                     botonModificarBodega.Disabled = false;
                     botonConsultarBodega.Disabled = false;
                     botonAceptarBodega.Visible = false;
+                    tituloBienvenidoBodegas.Visible = false;
+                    textoObligatorioBodega.Visible = false;
                     botonCancelarBodega.Visible = false;
                     habilitarCampos(false);
                     llenarGrid();
@@ -140,7 +155,7 @@ namespace ProyectoInventarioOET
         /*
          * 
          */
-        protected void esconderBotonesSegunPermisos()
+        protected void mostrarBotonesSegunPermisos()
         {
             botonConsultarBodega.Visible = (permisos[5] == '1');
             botonAgregarBodega.Visible = (permisos[4] == '1');
@@ -188,7 +203,7 @@ namespace ProyectoInventarioOET
                 try
                 {
                     // Cargar bodegas
-                    Object[] datos = new Object[2];
+                    Object[] datos = new Object[4];
                     DataTable bodegas = controladoraBodegas.consultarBodegas();
 
                     if (bodegas.Rows.Count > 0)
@@ -199,6 +214,8 @@ namespace ProyectoInventarioOET
                             idArray[i] = fila[0];
                             datos[0] = fila[1].ToString();
                             datos[1] = fila[3].ToString();
+                            datos[2] = fila[4].ToString();
+                            datos[3] = fila[5].ToString();
                             tabla.Rows.Add(datos);
                             if (bodegaConsultada != null && (fila[0].Equals(bodegaConsultada.Codigo)))
                             {
@@ -211,6 +228,8 @@ namespace ProyectoInventarioOET
                     {
                         datos[0] = "-";
                         datos[1] = "-";
+                        datos[2] = "-";
+                        datos[3] = "-";
                         tabla.Rows.Add(datos);
                         mostrarMensaje("warning", "Atención: ", "No existen bodegas en la base de datos.");
                     }
@@ -250,6 +269,16 @@ namespace ProyectoInventarioOET
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
             columna.ColumnName = "Estación";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Estado";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Intención de uso";
             tabla.Columns.Add(columna);
 
             return tabla;

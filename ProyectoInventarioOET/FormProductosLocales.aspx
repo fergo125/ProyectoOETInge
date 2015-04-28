@@ -17,10 +17,10 @@
         <h2 id="TituloProductosLocales" runat="server">Catálogos de productos en bodegas</h2>
         <hr />
     </div>
-    <button runat="server" onserverclick="botonAsociarBodega_ServerClick" id="botonAsociarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" disabled="disabled">Asociar a Catálogo</button>
-    <button runat="server" id="botonModificarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" disabled="disabled">Modificar Catálogo</button>
-    <button runat="server" onserverclick="botonConsultarBodega_ServerClick" id="botonConsultarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" disabled="disabled">Consultar Catálogo</button>
-    <br /><br /><br />
+    <button runat="server" id="botonAsociarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" disabled="disabled" visible="false">Asociar a Catálogo</button>
+    <button runat="server" id="botonModificarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" disabled="disabled" visible="false">Modificar Catálogo</button>
+    <button runat="server" onserverclick="botonConsultarBodega_ServerClick" id="botonConsultarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" disabled="disabled" visible="false">Consultar Catálogo</button>
+    <br /><br />
     <div class="row">
         <div class="col-lg-4">
             <label for="inputEstacion" class="control-label">Seleccione estación:</label>
@@ -186,17 +186,17 @@
             <asp:UpdatePanel ID="UpdatePanelAsociar" runat="server">
                 <ContentTemplate>
                     <asp:GridView ID="gridViewAsociarCatalogoLocal" CssClass="table" OnPageIndexChanging="gridViewAsociarCatalogoLocal_CambioPagina" runat="server" AllowPaging="True" PageSize="16" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
-                        <Columns>
-                            <asp:TemplateField HeaderText="Seleccionar">
+						<Columns>
+							<asp:TemplateField HeaderText="Seleccionar">
 								<ItemTemplate>
 									<asp:CheckBox ID="checkBoxProductos" runat="server"/>
 								</ItemTemplate>
 							</asp:TemplateField>
-                       </Columns>
+						</Columns>
                        <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
-                       <PagerStyle CssClass="paging" HorizontalAlign="Center" />
+					<PagerStyle CssClass="paging" HorizontalAlign="Center" />
                        <AlternatingRowStyle BackColor="#F8F8F8" />
-                       <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
+					<SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
                        <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
                   </asp:GridView>
              </ContentTemplate>
@@ -246,5 +246,4 @@
             </div>
         </div>
     </div>
-
 </asp:Content>
