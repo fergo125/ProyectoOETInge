@@ -19,7 +19,7 @@ namespace ProyectoInventarioOET
         //Atributos
         private static int modo = (int)Modo.Inicial;                    //???
         private static int resultadosPorPagina; //wtf?
-        private static Object[][] idArray;                              //???
+        private static Object[,] idArray;                              //???
         private static ControladoraCategorias controladoraCategorias;   //???
         private static EntidadCategoria categoriaConsultada;            //???
         private static bool seConsulto = false;                         //???
@@ -61,54 +61,61 @@ namespace ProyectoInventarioOET
         protected void irAModo()
         {
             if (modo == (int)Modo.Consulta)
-            { // el modo 0 se usa para resetear la interfaz
+            { 
                 bloqueBotones.Visible = false;
                 bloqueBotones.Disabled = true;
                 botonModificacionCategoria.Disabled = true;
                 botonAgregarCategoria.Disabled = false;
                 botonConsultaCategoria.Disabled = true;
                 camposCategoria.Visible = false;
+                camposCategoria.Disabled = true;
                 gridViewCategorias.Visible = true;
                 comboBoxEstadosActividades.Enabled = false;
-                
+                cargarEstados();
+                limpiarCampos();
 
             }
             else if (modo == (int)Modo.Modificacion)
-            { // se desea insertar
-                bloqueBotones.Visible = true;
-                bloqueBotones.Disabled = false;
-                botonModificacionCategoria.Disabled = true;
-                botonAgregarCategoria.Disabled = false;
-                botonConsultaCategoria.Disabled = true;
-                camposCategoria.Visible = true;
-                gridViewCategorias.Visible = false;
-                comboBoxEstadosActividades.Enabled = false;
-            }
-            else if (modo == (int)Modo.Insercion)
-            { //modificar
+            { 
                 bloqueBotones.Visible = true;
                 bloqueBotones.Disabled = false;
                 botonModificacionCategoria.Disabled = true;
                 botonAgregarCategoria.Disabled = false;
                 botonConsultaCategoria.Disabled = false;
                 camposCategoria.Visible = true;
+                inputNombre.Disabled = false;
+                gridViewCategorias.Visible = false;
+                comboBoxEstadosActividades.Enabled = true;
+            }
+            else if (modo == (int)Modo.Insercion)
+            {
+                bloqueBotones.Visible = true;
+                bloqueBotones.Disabled = false;
+                botonModificacionCategoria.Disabled = true;
+                botonAgregarCategoria.Disabled = false;
+                botonConsultaCategoria.Disabled = false;
+                camposCategoria.Visible = true;
+                inputNombre.Disabled = false;
                 gridViewCategorias.Visible = false;
                 comboBoxEstadosActividades.Enabled = true;
                 cargarEstados();
+                limpiarCampos();
             }
             else if (modo == (int)Modo.Inicial)
-            { // eliminar
+            { 
                 bloqueBotones.Visible = false;
                 bloqueBotones.Disabled = true;
                 botonModificacionCategoria.Disabled = true;
                 botonAgregarCategoria.Disabled = false;
                 botonConsultaCategoria.Disabled = false;
                 camposCategoria.Visible = false;
+                inputNombre.Visible = false;
                 gridViewCategorias.Visible = false;
-                comboBoxEstadosActividades.Enabled = false;
+                inputNombre.Visible = false;
+                comboBoxEstadosActividades.Visible = false;
             }
             else if (modo == (int)Modo.Consultado)
-            { // eliminar
+            { 
                 bloqueBotones.Visible = false;
                 bloqueBotones.Disabled = true;
                 botonModificacionCategoria.Disabled = false;
@@ -172,9 +179,9 @@ namespace ProyectoInventarioOET
                 case "Select":
                     GridViewRow filaSeleccionada = this.gridViewCategorias.Rows[Convert.ToInt32(e.CommandArgument)];
                     Object[] entidad = new Object[3];
-                    entidad[0] = idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewCategorias.PageIndex * resultadosPorPagina)][0];
-                    entidad[1] = idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewCategorias.PageIndex * resultadosPorPagina)][1];
-                    entidad[2] = idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewCategorias.PageIndex * resultadosPorPagina)][2];
+                    entidad[0] = idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewCategorias.PageIndex * gridViewCategorias.PageSize),0];
+                    entidad[1] = idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewCategorias.PageIndex * gridViewCategorias.PageSize), 1];
+                    entidad[2] = idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewCategorias.PageIndex * gridViewCategorias.PageSize), 2];
                     categoriaConsultada = new EntidadCategoria(entidad);
                     seConsulto = true;
                     modo = 4;
@@ -188,7 +195,9 @@ namespace ProyectoInventarioOET
          */
         protected void gridViewCategorias_CambioPagina(object sender, GridViewPageEventArgs e)
         {
-
+            llenarGrid();
+            this.gridViewCategorias.PageIndex = e.NewPageIndex;
+            this.gridViewCategorias.DataBind();
         }
 
         /*
@@ -197,6 +206,7 @@ namespace ProyectoInventarioOET
         protected void limpiarCampos()
         {
             this.inputNombre.Value = "";
+            this.comboBoxEstadosActividades.SelectedIndex = 0;
         }
 
         /*
@@ -285,15 +295,15 @@ namespace ProyectoInventarioOET
 
                 if (categorias.Rows.Count > 0)
                 {
-                    idArray = new Object[categorias.Rows.Count][];
+                    idArray = new Object[categorias.Rows.Count,3];
                     foreach (DataRow fila in categorias.Rows)
                     {
-                        datos[0] = fila[0].ToString();
-                        datos[1] = fila[1].ToString();
-                        datos[2] = fila[2];
+                        idArray[i,0] = datos[0] = fila[0].ToString();
+                        idArray[i,1] = datos[1] = fila[1].ToString();
+                        idArray[i, 2] = datos[2] = fila[2];
                         Object[] datos2 = new Object[2] { datos[1], Convert.ToInt16(datos[2].ToString()) == 1 ? "Activo" : "inactivo" };
                         tabla.Rows.Add(datos2);
-                        idArray[i] = datos;
+                        
 
                         if (categoriaConsultada != null && (fila[0].Equals(categoriaConsultada.Nombre)))
                         {
@@ -371,7 +381,7 @@ namespace ProyectoInventarioOET
         private bool modificar()
         {
             bool res = true;
-            String[] datosCat = new String[3]{inputNombre.Value,categoriaConsultada.Nombre,"1"};
+            String[] datosCat = {inputNombre.Value,categoriaConsultada.Nombre,comboBoxEstadosActividades.SelectedValue};
             String[] error = controladoraCategorias.modificarDatos(categoriaConsultada, datosCat);
             mostrarMensaje(error[0], error[1], error[2]);
 
@@ -421,6 +431,13 @@ namespace ProyectoInventarioOET
             }
 
             return codigo;
+        }
+        protected void botonAceptarModalCancelar_ServerClick(object sender, EventArgs e)
+        {
+            modo = (int)Modo.Inicial;
+            limpiarCampos();
+            categoriaConsultada = null;
+            irAModo();
         }
     }
 }

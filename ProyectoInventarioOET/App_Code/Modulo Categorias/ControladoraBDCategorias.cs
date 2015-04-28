@@ -57,7 +57,7 @@ namespace ProyectoInventarioOET.Modulo_Categorias
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "UPDATE CAT_CATEGORIAS SET CAT_CATEGORIAS = '" + nuevaCategoria.Nombre+ "', DESCRIPCION = '" + nuevaCategoria.Descripcion;
+                command.CommandText = "UPDATE CAT_CATEGORIAS SET DESCRIPCION = '" + nuevaCategoria.Nombre+ "', estado = " + (short)nuevaCategoria.Estado  + " WHERE CAT_CATEGORIAs = '" + categoria.Nombre + "'";
                 OracleDataReader reader = command.ExecuteReader();
 
 

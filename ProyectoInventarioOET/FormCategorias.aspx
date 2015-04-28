@@ -3,7 +3,7 @@
     <br />
     <!-- Label para desplegar mensajes -->
     <div>
-        <div id="mensajeAlerta" class="alert alert-fozkr-error fade in" runat="server" style="margin-left: 70%;">
+        <div id="mensajeAlerta" class="alert alert-fozkr-error fade in" runat="server" style="margin-left: 70%;" visible="false">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <strong>
                 <asp:Label ID="labelTipoAlerta" runat="server" Text="Alerta! "></asp:Label>
@@ -45,13 +45,10 @@
             <div class="form-group" id="camposCategoria" visible="false" runat="server">
                 <label for="inputNombre" class= "control-label"> Descripcion*: </label>      
                 <input type="text" id= "inputNombre" class="form-control" required runat="server" ><br>
+                 <label for="comboBoxEstadosActividades" class= "control-label"> Estado: </label>  
                 <asp:DropDownList id="comboBoxEstadosActividades" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
                     </asp:DropDownList>
             </div>
-
-          
-
-            <label class="text-danger text-center">Los campos con (*) son obligatorios</label>
         </div>
 
     </fieldset>
@@ -107,9 +104,9 @@
                     ¿Está seguro que desea cancelar los cambios? Perdería todos los datos no guardados.
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="botonAceptarModalCancelar" class="btn btn-success-fozkr" runat="server" > Aceptar</button>
+                    <button type="button" id="botonAceptarModalCancelar" class="btn btn-success-fozkr" onserverclick="botonCancelarModalCancelar_ServerClick" runat="server" > Aceptar</button>
                     <!--onserverclick="botonCancelarModalCancelar_ServerClick" --> 
-                    <button type="button" id="botonCancelarModalCancelar" class="btn btn-danger-fozkr" onserverclick="botonCancelarModalCancelar_ServerClick" data-dismiss="modal" runat="server" >Cancelar</button>                   
+                    <button type="button" id="botonCancelarModalCancelar" class="btn btn-danger-fozkr"  data-dismiss="modal" runat="server" >Cancelar</button>                   
                 </div>
             </div>
         </div>
