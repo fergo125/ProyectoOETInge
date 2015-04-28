@@ -24,8 +24,7 @@ namespace ProyectoInventarioOET
         private static EntidadActividad actividadConsultada;                    // Almacena la actividad que se consultó (o acaba de agregar o modificar)
         private static ControladoraActividades controladoraActividades;         // Comunica con la base de datos.
         private static Boolean seConsulto = false;                              // Bandera para saber si hubo consulta de una actividad.
-        private static String permisos = "000000";                              // Permisos utilizados para el control de
-                                                                                // seguridad.
+        private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
 
         /*
          * Maneja las acciones que se ejecutan cuando se carga la página, establecer el modo de operación, 
@@ -41,10 +40,7 @@ namespace ProyectoInventarioOET
                 permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Gestion de actividades");
 
                 // Esconder botones
-                // Deshabilitar
-                botonModificacionActividades.Visible = (permisos[3] == '1');
-                botonAgregarActividades.Visible = (permisos[4] == '1');
-                botonConsultaActividades.Visible = (permisos[5] == '1');
+                esconderBotonesSegunPermisos();
 
                 if (!seConsulto)
                 {
@@ -199,7 +195,7 @@ namespace ProyectoInventarioOET
         protected void habilitarCampos(bool habilitar)
         {
             this.inputDescripcionActividad.Disabled = !habilitar;
-            this.comboBoxEstadosActividades.Enabled = habilitar;
+            comboBoxEstadosActividades.Enabled = (permisos[2] == '1');
         }
 
         /*
@@ -408,8 +404,6 @@ namespace ProyectoInventarioOET
                 {
                     mostrarMensaje("warning", "Alerta", "El nombre de la actividad corresponde a una existente, por favor ingrese otro nombre.");
                     operacionCorrecta = false;
-
-
                 }
             }
             else if (modo == (int)Modo.Modificacion)
@@ -441,11 +435,11 @@ namespace ProyectoInventarioOET
                     mostrarMensaje("warning", "Alerta", "El nombre de la actividad corresponde a una existente, por favor ingrese otro nombre.");
                     operacionCorrecta = false;
                 }
+            }
 
-                if (operacionCorrecta)
-                {
-                    cambiarModo();
-                }
+            if (operacionCorrecta)
+            {
+                cambiarModo();
             }
 
         }
@@ -478,6 +472,12 @@ namespace ProyectoInventarioOET
             this.gridViewActividades.DataBind();
         }
 
-
+        protected void esconderBotonesSegunPermisos()
+        {
+            comboBoxEstadosActividades.Enabled = (permisos[2] == '1');
+            botonModificacionActividades.Visible = (permisos[3] == '1');
+            botonAgregarActividades.Visible = (permisos[4] == '1');
+            botonConsultaActividades.Visible = (permisos[5] == '1');
+        }
     }
 }

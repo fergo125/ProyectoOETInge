@@ -24,7 +24,8 @@ namespace ProyectoInventarioOET
         private static Boolean seConsulto = false;                              //???
         private static Object[] idArray;                                        //???
         private static int modo = (int)Modo.Inicial;                            //???
-        private static bool mensajeMostrado = false;
+        private static bool mensajeMostrado = false; //wtf?
+        private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
 
         /*
          * ???
@@ -35,12 +36,11 @@ namespace ProyectoInventarioOET
           
             if (!IsPostBack)
             {
-                
-                    
-                    labelAlerta.Text = "";
+                labelAlerta.Text = "";
                
                 controladoraBodegas = new ControladoraBodegas();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
+                permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Gestion de actividades");
 
                 if (!seConsulto)
                 {
@@ -135,6 +135,17 @@ namespace ProyectoInventarioOET
                     // Algo salio mal
                     break;
             }
+        }
+
+        /*
+         * 
+         */
+        protected void esconderBotonesSegunPermisos()
+        {
+            botonConsultarBodega.Visible = (permisos[5] == '1');
+            botonAgregarBodega.Visible = (permisos[4] == '1');
+            botonModificarBodega.Visible = (permisos[3] == '1');
+            dropdownEstado.Enabled = (permisos[2] == '1');
         }
 
         /*
@@ -491,7 +502,7 @@ namespace ProyectoInventarioOET
             this.inputNombre.Disabled = !habilitar;
             this.comboBoxEmpresa.Enabled = habilitar;
             this.comboBoxEstacion.Enabled = habilitar;
-            this.dropdownEstado.Enabled = habilitar;
+            this.dropdownEstado.Enabled = (permisos[2] == '1');
             this.comboBoxIntencion.Enabled = habilitar;
         }
 

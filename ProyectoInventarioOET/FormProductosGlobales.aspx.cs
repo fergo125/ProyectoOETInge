@@ -31,6 +31,7 @@ namespace ProyectoInventarioOET
          */
         protected void Page_Load(object sender, EventArgs e)
         {
+            mensajeAlerta.Visible = false;
             if (!IsPostBack) 
             {
                 controladora = new ControladoraProductosGlobales();
@@ -67,7 +68,7 @@ namespace ProyectoInventarioOET
             mensajeAlerta.Attributes["class"] = "alert alert-" + tipoAlerta + " alert-dismissable fade in";
             labelTipoAlerta.Text = alerta + " ";
             labelAlerta.Text = mensaje;
-            mensajeAlerta.Attributes.Remove("hidden");
+            mensajeAlerta.Visible = true;
         }
 
         /*
@@ -124,6 +125,7 @@ namespace ProyectoInventarioOET
                     this.botonAgregarProductos.Disabled = false;
                     this.botonModificacionProductos.Disabled = false;
                     this.botonConsultaProductos.Disabled = false;
+                    habilitarCampos(false);
                     break;
                 default:
                     break;
@@ -501,6 +503,7 @@ namespace ProyectoInventarioOET
                     Response.Redirect("FormProductosGlobales.aspx"); //Se hace un PostBack
                     break;
             }
+            
         }
 
         /* 
