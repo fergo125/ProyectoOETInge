@@ -100,9 +100,9 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
                                     + " NOMBRE = '" + productoGlobalNuevo.Nombre + "' , "
                                     + " PRECIO_C = " + productoGlobalNuevo.PrecioColones + " , "
                                     + " PRECIO_D= " + productoGlobalNuevo.PrecioDolares + " , "
-                                    + " CAT_UNIDADES = '" + productoGlobalNuevo.Unidades + " , "
-                                    + " MODIFICA = '" + productoGlobalNuevo.Usuario + " , "
-                                    + " MODIFICADO = 'TO_DATE('" + productoGlobalNuevo.Fecha.ToString("MM/dd/yyyy HH:mm:ss") + "', 'mm/dd/yyyy hh24:mi:ss') )' "
+                                    + " CAT_UNIDADES = '" + productoGlobalNuevo.Unidades + "' , "
+                                    + " MODIFICA = '" + productoGlobalNuevo.Usuario + "' , "
+                                    + " MODIFICADO = TO_DATE('" + productoGlobalNuevo.Fecha.ToString("MM/dd/yyyy HH:mm:ss") + "', 'mm/dd/yyyy hh24:mi:ss') "
                                     + "WHERE INV_PRODUCTOS = '" + productoGlobalViejo.Inv_Productos + "' ";
 
 
