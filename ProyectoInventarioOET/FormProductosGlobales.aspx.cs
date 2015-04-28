@@ -124,6 +124,7 @@ namespace ProyectoInventarioOET
                     this.botonAgregarProductos.Disabled = false;
                     this.botonModificacionProductos.Disabled = false;
                     this.botonConsultaProductos.Disabled = false;
+                    habilitarCampos(false);
                     break;
                 default:
                     break;
@@ -501,6 +502,7 @@ namespace ProyectoInventarioOET
                     Response.Redirect("FormProductosGlobales.aspx"); //Se hace un PostBack
                     break;
             }
+            
         }
 
         /* 
