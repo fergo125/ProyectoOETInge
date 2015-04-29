@@ -33,7 +33,6 @@
     <fieldset id= "FieldsetProductos" class="fieldset">
         <br />
 
-        <asp:ValidationSummary CssClass="label label-warning" runat=server HeaderText="Uno de los campos está vacío o con información inválida" />
 
         <div class= "col-lg-7">
             <div class="form-group col-lg-12" >
@@ -170,6 +169,20 @@
          </Triggers>
       </asp:UpdatePanel>
    </div>
+
+
+        
+        <fieldset id= "Fieldset1" runat="server" class="fieldset">
+            <asp:ValidationSummary Font-Size="Small" CssClass="label label-danger" runat=server 
+            HeaderText="Uno de los campos está vacío o con información inválida" />
+
+
+          
+            <br />
+            <div class="col-lg-5">
+            </div>
+
+        </fieldset>
 
 
 

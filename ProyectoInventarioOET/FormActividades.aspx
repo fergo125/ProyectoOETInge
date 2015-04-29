@@ -30,8 +30,7 @@
     <div class= "row" id="bloqueFormulario">
          <!-- Fieldset para Actividades -->
         <fieldset id= "FieldsetActividad" runat="server" class="fieldset">
-            <asp:ValidationSummary CssClass="label label-warning" runat=server 
-            HeaderText="Uno de los campos está vacío o con información inválida" />
+
             <div class="col-lg-5">
                 <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
                     ControlToValidate=inputDescripcionActividad
@@ -62,6 +61,20 @@
         </fieldset>
 
         <label id="labelTextoObligatorioActividad" runat="server" for="textoObligatorioActividad" style="margin-left:1.30%" class="text-danger text-center">Los campos con (*) son obligatorios</label>
+
+            
+        <fieldset id= "Fieldset1" runat="server" class="fieldset">
+            <asp:ValidationSummary Font-Size="Small" CssClass="label label-danger" runat=server 
+            HeaderText="Uno de los campos está vacío o con información inválida" />
+
+
+          
+            <br />
+            <div class="col-lg-5">
+            </div>
+
+        </fieldset>
+
 
     </div>
     <div class="col-lg-12" id="bloqueBotones">
