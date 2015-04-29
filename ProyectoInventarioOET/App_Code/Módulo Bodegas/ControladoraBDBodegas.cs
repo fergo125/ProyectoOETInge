@@ -136,35 +136,13 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
         /*
          * ???
          */
-        public String[] desactivarBodega(EntidadBodega bodega)
-        {
-            String[] res = new String[3];
-            try
-            {
-                //adaptadorBodega.Update();
-                res[0] = "success";
-                res[1] = "Éxito:";
-                res[2] = "Bodega desactivada en el sistema.";
-            }
-            catch (OracleException e)
-            {
-                res[1] = "danger";
-                res[2] = "Error:";
-                res[3] = "Bodega no desactivada.";
-            }
-            return res;
-        }
-
-        /*
-         * ???
-         */
         public DataTable consultarBodegas()
         {
             DataTable resultado = new DataTable();
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT C.CAT_BODEGA,C.DESCRIPCION,C.ANFITRIONA,D.NOMBRE,E.DESCRIPCION, F.NOMBRE FROM cat_bodega C, estacion D, cat_estados E, cat_intencionuso F WHERE C.ESTACION = D.ID AND E.CAT_ESTADO = C.ESTADO AND C.CAT_INTENCIONUSO = F.CAT_INTENCIONUSO";
+                command.CommandText = "SELECT C.CAT_BODEGA,C.DESCRIPCION,C.ANFITRIONA,D.NOMBRE,E.DESCRIPCION, F.NOMBRE FROM cat_bodega C, estacion D, cat_estados E, cat_intencionuso F WHERE C.ESTACION = D.ID AND E.VALOR = C.ESTADO AND C.CAT_INTENCIONUSO = F.CAT_INTENCIONUSO";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
             }
