@@ -206,7 +206,7 @@ namespace ProyectoInventarioOET
         protected void habilitarCampos(bool habilitar)
         {
             this.inputDescripcionActividad.Disabled = !habilitar;
-            comboBoxEstadosActividades.Enabled = (permisos[2] == '1');
+            comboBoxEstadosActividades.Enabled = habilitar && (permisos[2] == '1');
         }
 
         /*
@@ -239,7 +239,6 @@ namespace ProyectoInventarioOET
         {
             this.inputDescripcionActividad.Value = actividadConsultada.Descripcion;
             this.comboBoxEstadosActividades.SelectedValue = actividadConsultada.Estado.ToString();
-            this.codigoInternoActividad.Value = actividadConsultada.Codigo;
         }
 
         /*
@@ -260,10 +259,7 @@ namespace ProyectoInventarioOET
                     this.gridViewActividades.Visible = false;
                     this.tituloGrid.Visible = false;
                     this.botonAceptarActividad.Visible = false;
-                    this.botonCancelarActividad.Visible = false;    
-                    this.codigoInternoActividad.Visible = false;
-                    this.labelCodigoInterno.Visible = false;
-                    this.codigoInternoActividad.Disabled = true;
+                    this.botonCancelarActividad.Visible = false;   
                     tituloAccionActividades.InnerText = "Seleccione una opción";
                     break;
                 case (int)Modo.Insercion: //insertar
@@ -276,8 +272,6 @@ namespace ProyectoInventarioOET
                     this.tituloGrid.Visible = false;
                     this.botonAceptarActividad.Visible = true;
                     this.botonCancelarActividad.Visible = true;  
-                    this.codigoInternoActividad.Visible = false;
-                    this.labelCodigoInterno.Visible = false;
                     tituloAccionActividades.InnerText = "Ingrese datos";
                     break;
                 case (int)Modo.Modificacion: //modificar
@@ -291,8 +285,6 @@ namespace ProyectoInventarioOET
                     this.tituloGrid.Visible = true;
                     this.botonAceptarActividad.Visible = true;
                     this.botonCancelarActividad.Visible = true;
-                    this.codigoInternoActividad.Visible = false;
-                    this.labelCodigoInterno.Visible = false;
                     tituloAccionActividades.InnerText = "Cambie los datos";
                     break;
                 case (int)Modo.Consulta://consultar
@@ -319,9 +311,6 @@ namespace ProyectoInventarioOET
                     this.botonCancelarActividad.Visible = false;
                     this.gridViewActividades.Visible = true;
                     this.tituloGrid.Visible = true;
-                    this.codigoInternoActividad.Visible = true;
-                    this.labelCodigoInterno.Visible = true;
-                    this.codigoInternoActividad.Disabled = true;
                     tituloAccionActividades.InnerText = "Actividad seleccionada";
                     break;
                 default:
@@ -428,7 +417,7 @@ namespace ProyectoInventarioOET
                 String nombreNuevo = this.inputDescripcionActividad.Value.ToString();
                 EntidadActividad repetida = controladoraActividades.consultarActividadPorNombre(nombreNuevo);
 
-                if (repetida == null)
+                if (repetida == null || nombreNuevo == actividadConsultada.Descripcion)
                 {
                     resultado = controladoraActividades.modificarDatos(actividadConsultada, nombreNuevo, Int32.Parse(this.comboBoxEstadosActividades.SelectedValue.ToString()));
 
@@ -469,8 +458,8 @@ namespace ProyectoInventarioOET
             {
                 case "Select":
                     GridViewRow filaSeleccionada = this.gridViewActividades.Rows[Convert.ToInt32(e.CommandArgument)];
-                    //String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewActividades.PageIndex * resultadosPorPagina)]);
-                    String codigo = filaSeleccionada.Cells[2].Text.ToString();
+                    String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewActividades.PageIndex)]);
+                    //String codigo = filaSeleccionada.Cells[2].Text.ToString();
                     consultarActividad(codigo);
                     modo = (int)Modo.Consultado;
                     Response.Redirect("FormActividades.aspx");

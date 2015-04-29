@@ -32,7 +32,7 @@
         <fieldset id= "FieldsetActividad" runat="server" class="fieldset">
             <asp:ValidationSummary CssClass="label label-warning" runat=server 
             HeaderText="Uno de los campos está vacío o con información inválida" />
-            <div class="col-lg-4">
+            <div class="col-lg-5">
                 <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
                     ControlToValidate=inputDescripcionActividad
                     ErrorMessage=""> 
@@ -44,7 +44,7 @@
                     </div>
             </div>
 
-            <div class="col-lg-3">
+            <div class="col-lg-5">
             <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
                 ControlToValidate=comboBoxEstadosActividades
                 ErrorMessage="">
@@ -58,12 +58,6 @@
             </div>
 
             <br />
-            <div class="col-lg-5">
-                <div class="form-group">
-                    <label for="inputCodigoActividad" id="labelCodigoInterno" runat="server" class= "control-label"> Código Interno: </label>      
-                    <input type="text" id= "codigoInternoActividad" runat="server" class="form-control"><br>
-                </div>
-            </div>
 
         </fieldset>
 
