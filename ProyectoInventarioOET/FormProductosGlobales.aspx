@@ -33,15 +33,19 @@
     <fieldset id= "FieldsetProductos" class="fieldset">
         <br />
 
-        <div class= "col-lg-7">
+        <asp:ValidationSummary CssClass="label label-warning" runat=server HeaderText="Uno de los campos está vacío o con información inválida" />
 
+        <div class= "col-lg-7">
             <div class="form-group col-lg-12" >
-                <label for="inputNombre" class= "control-label">Nombre:</label>      
+                    <asp:RequiredFieldValidator CssClass="label label-danger" runat=server ControlToValidate=inputNombre ErrorMessage=""> 
+                </asp:RequiredFieldValidator>
+                <label for="inputNombre" class= "control-label">Nombre*:</label>      
                 <input type="text" id= "inputNombre" class="form-control" style="max-width:100%"  runat="server"><br>
             </div>
          
             <div class= "form-group col-lg-6">
-                <label for="inputCodigo" class= "control-label">Código:</label>      
+                    <asp:RequiredFieldValidator CssClass="label label-danger" runat=server ControlToValidate=inputCodigo ErrorMessage=""> </asp:RequiredFieldValidator>
+                <label for="inputCodigo" class= "control-label">Código*:</label>      
                 <input type="text" id= "inputCodigo" class= "form-control" style= "max-width: 100%" required runat="server"><br>
             </div>
             
@@ -85,18 +89,21 @@
             </div>
 
              <div class="form-group col-lg-6">
+                <asp:RequiredFieldValidator CssClass="label label-danger" runat=server ControlToValidate=inputImpuesto ErrorMessage=""> </asp:RequiredFieldValidator>
                 <label for="inputImpuesto" class= "control-label">Impuesto:</label>
-                 <input type="text" id= "inputImpuesto" class="form-control" style="max-width:100%" runat="server"><br>
+                 <input type="text" id= "inputImpuesto" class="form-control" style="max-width:100%" runat="server" pattern="[0-9]{2}" title="Porcentaje entre 0% a 99%"><br>
             </div>
             </div>
             
             <div class="row">
             <div class="form-group col-lg-6">
+<%--                <asp:RequiredFieldValidator CssClass="label label-danger" runat=server ControlToValidate=inputPrecioColones ErrorMessage=""> </asp:RequiredFieldValidator>--%>
                 <label for="inputPrecioColones" class= "control-label">Precio (colones):</label>      
                 <input type="text" id= "inputPrecioColones" class="form-control" runat="server" style= "max-width: 100%"><br>
             </div>
 
             <div class="form-group col-lg-6">
+<%--                <asp:RequiredFieldValidator CssClass="label label-danger" runat=server ControlToValidate=inputPrecioDolares ErrorMessage=""> </asp:RequiredFieldValidator>--%>
                 <label for="inputPrecioDolares" class= "control-label">Precio (dólares):</label>      
                 <input type="text" id= "inputPrecioDolares" class="form-control" runat="server" style= "max-width: 100%" ><br>
             </div>
