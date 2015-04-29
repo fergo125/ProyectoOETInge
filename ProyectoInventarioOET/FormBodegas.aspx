@@ -132,25 +132,6 @@
         </fieldset>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <div class="col-lg-12" id="bloqueBotones">
         <div class =" row">
             <div class="text-center">
@@ -190,7 +171,6 @@
         </fieldset>         
     </div>
     
-
 
 
     <!--Modal Cancelar-->
