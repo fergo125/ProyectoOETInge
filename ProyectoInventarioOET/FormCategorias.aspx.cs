@@ -333,7 +333,7 @@ namespace ProyectoInventarioOET
                         idArray[i,0] = datos[0] = fila[0].ToString();
                         idArray[i,1] = datos[1] = fila[1].ToString();
                         idArray[i, 2] = datos[2] = fila[2];
-                        Object[] datos2 = new Object[2] { datos[1], Convert.ToInt16(datos[2].ToString()) == 1 ? "Activo" : "inactivo" };
+                        Object[] datos2 = new Object[2] { datos[1], Convert.ToInt16(datos[2].ToString()) == 1 ? "Activo" : "Inactivo" };
                         tabla.Rows.Add(datos2);
                         
 
@@ -357,7 +357,7 @@ namespace ProyectoInventarioOET
             }
             catch (Exception e)
             {
-                mostrarMensaje("warning", "Alerta", "No hay conexión a la base de datos.");
+                mostrarMensaje("warning", "Alerta:", "No hay conexión a la base de datos.");
             }
         }
 
@@ -379,19 +379,19 @@ namespace ProyectoInventarioOET
                     //modo = (int)Modo.Consultado;
                     //comboBoxEstadosActividades.SelectedValue = categoriaConsultada.Estado;
                     seConsulto = true;
-                    mostrarMensaje("success", "Exito", "Categoria Agregada");
+                    mostrarMensaje("success", "Éxito:", "Categoría agregada al sistema.");
                     cargarEstados();
                     //setDatosConsultados();
 
                 }
                 if(codigoInsertado == "repetido"){
-                    mostrarMensaje("warning", "Alerta", "La categoria insertada ya existe");
+                    mostrarMensaje("warning", "Error:", "La categoría insertada ya existe en el sistema.");
                     operacionCorrecta = false;
                 }
                 if (codigoInsertado == "")
                 {
                     codigoModificado = "";
-                    mostrarMensaje("Warning", "Alerta", "No se pudo agregar la categoria");
+                    mostrarMensaje("Warning", "Error:", "Categoría no agregada, intente nuevamente.");
                     operacionCorrecta = false;
                 }
             }
@@ -403,20 +403,20 @@ namespace ProyectoInventarioOET
                 {
                     modo = (int)Modo.Consultado;
                     seConsulto = true;
-                    mostrarMensaje("success", "Exito", "Categoria Modificada");
+                    mostrarMensaje("success", "Éxito:", "Categoria modificada en el sistema.");
                     cargarEstados();
                     setDatosConsultados();
 
                 }
                 if (codigoModificado == "repetido")
                 {
-                    mostrarMensaje("warning", "Alerta", "La categoria modificada ya existe");
+                    mostrarMensaje("warning", "Error:", "La categoría modificada ya existe en el sistema.");
                     operacionCorrecta = false;
                 }
                 if (codigoModificado == "")
                 {
                     codigoModificado = "";
-                    mostrarMensaje("Warning", "Alerta", "No se pudo modficar");
+                    mostrarMensaje("Warning", "Error:", "Categoría no modificada, intente nuevamente.");
                     operacionCorrecta = false;
                 }
             }

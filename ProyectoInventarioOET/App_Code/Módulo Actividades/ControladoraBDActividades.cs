@@ -104,14 +104,14 @@ namespace ProyectoInventarioOET.Módulo_Actividades
 
                 res[0] = "success";
                 res[1] = "Éxito";
-                res[2] = "Actividad Agregada";
+                res[2] = "Actividad agregada al sistema.";
             }
             catch (SqlException e)
             {
                 // Como la llave es generada se puede volver a intentar
                 res[0] = "danger";
-                res[1] = "Fallo en la operacion";
-                res[2] = "Intente nuevamente";
+                res[1] = "Error";
+                res[2] = "Actividad no agregada, intente nuevamente.";
             }
             return res;
         }
@@ -132,15 +132,15 @@ namespace ProyectoInventarioOET.Módulo_Actividades
                 OracleDataReader reader = command.ExecuteReader();
                 res[0] = "success";
                 res[1] = "Éxito";
-                res[2] = "Actividad modificada";
+                res[2] = "Actividad modificada en el sistema.";
             }
             catch (SqlException e)
             {
                 if (e.Number == 2627)
                 {
                     res[0] = "danger";
-                    res[1] = "Fallo";
-                    res[2] = "Error al modificar";
+                    res[1] = "Error";
+                    res[2] = "Actividad no modificada.";
                 }
             }
             return res;
@@ -159,13 +159,13 @@ namespace ProyectoInventarioOET.Módulo_Actividades
 
                 res[0] = "success";
                 res[1] = "Éxito";
-                res[2] = "Bodega eliminado";
+                res[2] = "Actividad desactivada en el sistema.";
             }
             catch (SqlException e)
             {
                 res[1] = "danger";
-                res[2] = "Fallo";
-                res[3] = "Error al eliminar";
+                res[1] = "Error";
+                res[3] = "Actividad no desactivada.";
             }
             return res;
         }

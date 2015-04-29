@@ -30,7 +30,8 @@ namespace ProyectoInventarioOET
         private static Object[] idArray2;                                       //???
         private static DataTable catalogoLocal, consultaProducto;               //???
         private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
-        private static Boolean gridCatalogoLocal = false;  
+        private static Boolean gridCatalogoLocal = false;
+        private static bool[] asociados;
 
         /*
          * Cuando se accede la pagina inicializa los controladores si es la primera vez, sino solo realiza el cambio de modo.
@@ -174,14 +175,21 @@ namespace ProyectoInventarioOET
             if (gridCatalogoLocal)
             {
                 FieldsetCatalogoLocal.Visible = true;
-            this.gridViewCatalogoLocal.DataSource = catalogoLocal;
-            this.gridViewCatalogoLocal.PageIndex = pagina;
-            this.gridViewCatalogoLocal.DataBind();
+                this.gridViewCatalogoLocal.DataSource = catalogoLocal;
+                this.gridViewCatalogoLocal.PageIndex = pagina;
+                this.gridViewCatalogoLocal.DataBind();
             }else{
                 FieldsetAsociarCatalogoLocal.Visible = true;
                 this.gridViewAsociarCatalogoLocal.DataSource = catalogoLocal;
                 this.gridViewAsociarCatalogoLocal.PageIndex = pagina;
                 this.gridViewAsociarCatalogoLocal.DataBind();
+                int pos = gridViewAsociarCatalogoLocal.PageSize * gridViewAsociarCatalogoLocal.PageIndex;
+                for (int i = 0; i < gridViewAsociarCatalogoLocal.PageSize; i++)
+                {
+                    GridViewRow fila = gridViewAsociarCatalogoLocal.Rows[i];
+                    ((CheckBox)fila.FindControl("checkBoxProductos")).Checked = asociados[pos];
+                    pos++;
+                }
             }
         }
 
@@ -277,6 +285,21 @@ namespace ProyectoInventarioOET
         }
         protected void gridViewAsociarCatalogoLocal_CambioPagina(Object sender, GridViewPageEventArgs e)
         {
+            int pos = gridViewAsociarCatalogoLocal.PageSize * gridViewAsociarCatalogoLocal.PageIndex;
+            for (int i = 0; i < gridViewAsociarCatalogoLocal.PageSize; i++)
+            {
+                GridViewRow fila = gridViewAsociarCatalogoLocal.Rows[i];
+                bool estaSeleccionadoProducto = ((CheckBox)fila.FindControl("checkBoxProductos")).Checked;
+                if (estaSeleccionadoProducto)
+                {
+                    asociados[pos] = true;
+                }
+                else
+                {
+                    asociados[pos] = false;
+                }
+                pos++;
+            }
             pagina = e.NewPageIndex;
             modo = 1;
             Response.Redirect("FormProductosLocales.aspx");
@@ -343,6 +366,7 @@ namespace ProyectoInventarioOET
             }
         }
 
+
         /*
          * Consulta de bodega, aquí se carga la tabla.
          */
@@ -359,6 +383,11 @@ namespace ProyectoInventarioOET
                 DataTable productos = controladoraProductoLocal.consultarProductosDeBodega(idBodega);
                 if (productos.Rows.Count > 0)
                 {
+                    asociados = new bool[productos.Rows.Count];
+                    for (int x = 0; x < productos.Rows.Count; x++)
+                    {
+                        asociados[x]=false;
+                    }
                     Object[] datos = new Object[5];
                     int i;
                     foreach (DataRow producto in productos.Rows)
@@ -392,6 +421,7 @@ namespace ProyectoInventarioOET
                 if (productos != null) { 
                     if (productos.Rows.Count > 0)
                     {
+                        asociados = new bool[productos.Rows.Count];
                         Object[] datos = new Object[4];
                         int i;
                         foreach (DataRow producto in productos.Rows)
@@ -400,7 +430,11 @@ namespace ProyectoInventarioOET
                             {
                                 datos[i] = producto[i];
                             }
-                            datos[2] = controladoraCategorias.consultarCategoria(producto[2].ToString()).Descripcion;
+                            try
+                            {
+                                datos[2] = controladoraCategorias.consultarCategoria(producto[2].ToString()).Descripcion;
+                            }
+                            catch (NullReferenceException excepcion) { datos[2] = ""; }
                             catalogoLocal.Rows.Add(datos);
                         }
                     }
@@ -410,6 +444,9 @@ namespace ProyectoInventarioOET
                 }
             }
         }
+
+
+
         /*
          * Realiza la asociacion de los productos confirmados.
          */
@@ -429,7 +466,7 @@ namespace ProyectoInventarioOET
          */
         protected void botonAceptarModalCancelar_ServerClick(object sender, EventArgs e)
         {
-            modo = 1;
+            modo = 0;
             Response.Redirect("FormProductosLocales.aspx");
         }
 

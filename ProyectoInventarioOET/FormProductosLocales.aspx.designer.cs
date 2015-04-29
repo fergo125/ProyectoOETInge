@@ -355,6 +355,15 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.GridView gridViewAsociarCatalogoLocal;
         
         /// <summary>
+        /// Control bloqueBotones.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl bloqueBotones;
+        
+        /// <summary>
         /// Control botonAsociarProductos.
         /// </summary>
         /// <remarks>
@@ -362,6 +371,15 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlButton botonAsociarProductos;
+        
+        /// <summary>
+        /// Control botonCancelarProductoGlobal.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor botonCancelarProductoGlobal;
         
         /// <summary>
         /// Control botonAceptarModalCancelar.

@@ -4,12 +4,12 @@
     <br />
     <!-- Label para desplegar mensajes -->
     <div>
-        <div id="mensajeAlerta" class="alert alert-fozkr-error fade in" runat="server" visible =" false" style="margin-left: 70%;">
+        <div id="mensajeAlerta" runat="server" visible =" false" style="margin-left: 50%;">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <strong>
-                <asp:Label ID="labelTipoAlerta" runat="server" Text="Alerta! "></asp:Label>
+                <asp:Label ID="labelTipoAlerta" runat="server"></asp:Label>
             </strong>
-            <asp:Label ID="labelAlerta" runat="server" Text="Mensaje de alerta"></asp:Label>
+            <asp:Label ID="labelAlerta" runat="server"></asp:Label>
         </div>
     </div>
 
@@ -19,7 +19,7 @@
         <hr />
     </div>
 
-    <!-- Cuerpo del Form -->
+    <!-- Botones -->
     <button runat="server" onserverclick="botonAgregarActividades_ServerClick" id="botonAgregarActividades" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false">Nueva Actividad</button>
     <button runat="server" onserverclick="botonModificacionActividades_ServerClick" causesvalidation="false"  id="botonModificacionActividades" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false">Modificar Actividad</button>
     <button runat="server" onserverclick="botonConsultaActividades_ServerClick" causesvalidation="false"  id="botonConsultaActividades" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false">Consultar Actividades</button>
@@ -32,7 +32,7 @@
         <fieldset id= "FieldsetActividad" runat="server" class="fieldset">
             <asp:ValidationSummary CssClass="label label-warning" runat=server 
             HeaderText="Uno de los campos está vacío o con información inválida" />
-            <div class="col-lg-4">
+            <div class="col-lg-5">
                 <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
                     ControlToValidate=inputDescripcionActividad
                     ErrorMessage=""> 
@@ -44,7 +44,7 @@
                     </div>
             </div>
 
-            <div class="col-lg-3">
+            <div class="col-lg-5">
             <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
                 ControlToValidate=comboBoxEstadosActividades
                 ErrorMessage="">
@@ -58,12 +58,6 @@
             </div>
 
             <br />
-            <div class="col-lg-5">
-                <div class="form-group">
-                    <label for="inputCodigoActividad" id="labelCodigoInterno" runat="server" class= "control-label"> Código Interno: </label>      
-                    <input type="text" id= "codigoInternoActividad" runat="server" class="form-control"><br>
-                </div>
-            </div>
 
         </fieldset>
 

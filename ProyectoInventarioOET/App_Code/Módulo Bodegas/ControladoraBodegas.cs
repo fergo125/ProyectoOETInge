@@ -50,14 +50,6 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
         }
 
         /*
-         * Desactiva una bodega de la base de datos.
-         */
-        public String[] desactivarBodega(EntidadBodega bodega)
-        {
-            return controladoraBDBodegas.desactivarBodega(bodega);
-        }
-
-        /*
          * Consulta la información de todas las bodegas.
          */
         public DataTable consultarBodegas()
