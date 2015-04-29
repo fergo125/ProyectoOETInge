@@ -24,8 +24,7 @@ namespace ProyectoInventarioOET
         private static EntidadActividad actividadConsultada;                    // Almacena la actividad que se consultó (o acaba de agregar o modificar)
         private static ControladoraActividades controladoraActividades;         // Comunica con la base de datos.
         private static Boolean seConsulto = false;                              // Bandera para saber si hubo consulta de una actividad.
-        private static String permisos = "000000";                              // Permisos utilizados para el control de
-                                                                                // seguridad.
+        private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
 
         /*
          * Maneja las acciones que se ejecutan cuando se carga la página, establecer el modo de operación, 
@@ -33,6 +32,7 @@ namespace ProyectoInventarioOET
          */
         protected void Page_Load(object sender, EventArgs e)
         {
+            mensajeAlerta.Visible = false;
             if (!IsPostBack)
             {
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
@@ -40,9 +40,7 @@ namespace ProyectoInventarioOET
                 permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Gestion de actividades");
 
                 // Esconder botones
-                botonModificacionActividades.Disabled = !(permisos[3] == 1);
-                botonAgregarActividades.Disabled = !(permisos[4] == 1);
-                botonConsultaActividades.Disabled = !(permisos[5] == 1);
+                esconderBotonesSegunPermisos();
 
                 if (!seConsulto)
                 {
@@ -197,7 +195,7 @@ namespace ProyectoInventarioOET
         protected void habilitarCampos(bool habilitar)
         {
             this.inputDescripcionActividad.Disabled = !habilitar;
-            this.comboBoxEstadosActividades.Enabled = habilitar;
+            comboBoxEstadosActividades.Enabled = (permisos[2] == '1');
         }
 
         /*
@@ -381,26 +379,10 @@ namespace ProyectoInventarioOET
 
             if (modo == (int)Modo.Insercion)
             {
-                //resultado = controladoraActividades.insertarDatos(this.inputDescripcionActividad.Value.ToString(), Int32.Parse(this.comboBoxEstadosActividades.SelectedValue.ToString()));
-                //codigoInsertado = resultado[3];
-
-                //if (codigoInsertado != "")
-                //{
-                //    operacionCorrecta = true;
-                //    actividadConsultada = controladoraActividades.consultarActividad(codigoInsertado);
-                //    modo = (int)Modo.Consultado;
-                //    habilitarCampos(false);
-                //    mostrarMensaje(resultado[0], resultado[1], resultado[2]);
-                //}
-                //else
-                //    operacionCorrecta = false;
-
-                //setDatosConsultados();
-
                 String nombreNuevo = this.inputDescripcionActividad.Value.ToString();
                 EntidadActividad repetida = controladoraActividades.consultarActividadPorNombre(nombreNuevo);
 
-                if (repetida != null || !repetida.Codigo.Equals(""))
+                if (repetida == null )
                 {
                     resultado = controladoraActividades.insertarDatos(nombreNuevo, Int32.Parse(this.comboBoxEstadosActividades.SelectedValue.ToString()));
                     codigoInsertado = resultado[3];
@@ -422,56 +404,19 @@ namespace ProyectoInventarioOET
                 {
                     mostrarMensaje("warning", "Alerta", "El nombre de la actividad corresponde a una existente, por favor ingrese otro nombre.");
                     operacionCorrecta = false;
-
-
                 }
             }
             else if (modo == (int)Modo.Modificacion)
             {
 
-
-                //String nombreNuevo = this.inputDescripcionActividad.Value.ToString();
-                //EntidadActividad repetida = controladoraActividades.consultarActividadPorNombre(nombreNuevo);
-
-                //if (repetida != null || !repetida.Codigo.Equals(""))
-                //{
-                //    resultado = controladoraActividades.modificarDatos(actividadConsultada, nombreNuevo, Int32.Parse(this.comboBoxEstadosActividades.SelectedValue.ToString()));
-
-                //    if (codigoInsertado != "" && resultado[1] == "Éxito")
-                //    {
-                //        codigoInsertado = actividadConsultada.Codigo;
-                //        operacionCorrecta = true;
-                //        actividadConsultada = controladoraActividades.consultarActividad(codigoInsertado);
-                //        modo = (int)Modo.Consultado;
-                //        habilitarCampos(false);
-                //        mostrarMensaje(resultado[0], resultado[1], resultado[2]);
-                //    }
-                //    else
-                //        operacionCorrecta = false;
-
-                //    setDatosConsultados();
-                //}
-                //else
-                //{
-                //    mostrarMensaje("warning", "Alerta", "El nombre de la actividad corresponde a una existente, por favor ingrese otro nombre.");
-                //    operacionCorrecta = false;
-
-
-                //}
-
-                //if (operacionCorrecta)
-                //{
-                //    cambiarModo();
-                //}
-
                 String nombreNuevo = this.inputDescripcionActividad.Value.ToString();
                 EntidadActividad repetida = controladoraActividades.consultarActividadPorNombre(nombreNuevo);
 
-                if (repetida != null || !repetida.Codigo.Equals(""))
+                if (repetida == null)
                 {
                     resultado = controladoraActividades.modificarDatos(actividadConsultada, nombreNuevo, Int32.Parse(this.comboBoxEstadosActividades.SelectedValue.ToString()));
 
-                    if (codigoInsertado != "" && resultado[1] == "Éxito")
+                    if (resultado[1] == "Éxito")
                     {
                         codigoInsertado = actividadConsultada.Codigo;
                         operacionCorrecta = true;
@@ -489,14 +434,12 @@ namespace ProyectoInventarioOET
                 {
                     mostrarMensaje("warning", "Alerta", "El nombre de la actividad corresponde a una existente, por favor ingrese otro nombre.");
                     operacionCorrecta = false;
-
-
                 }
+            }
 
-                if (operacionCorrecta)
-                {
-                    cambiarModo();
-                }
+            if (operacionCorrecta)
+            {
+                cambiarModo();
             }
 
         }
@@ -529,6 +472,12 @@ namespace ProyectoInventarioOET
             this.gridViewActividades.DataBind();
         }
 
-
+        protected void esconderBotonesSegunPermisos()
+        {
+            comboBoxEstadosActividades.Enabled = (permisos[2] == '1');
+            botonModificacionActividades.Visible = (permisos[3] == '1');
+            botonAgregarActividades.Visible = (permisos[4] == '1');
+            botonConsultaActividades.Visible = (permisos[5] == '1');
+        }
     }
 }

@@ -112,6 +112,7 @@ namespace ProyectoInventarioOET
         {
             usuarioLogueado = null;
             esconderLinks(true);
+            Response.Redirect("Default.aspx");
         }
 
         /*

@@ -262,9 +262,17 @@ namespace ProyectoInventarioOET
                     this.DropDownListBodega.Items.Add(new ListItem(fila[1].ToString()));
                     i++;
                 }
+                botonConsultarBodega.Disabled = false;
+                botonAsociarBodega.Disabled = false;
+            }
+            else
+            {
+                botonConsultarBodega.Disabled = true;
+                botonAsociarBodega.Disabled = true;
             }
             modo = 0;
         }
+
 
         /*
          * Consulta de bodega, aquí se carga la tabla.
@@ -319,6 +327,15 @@ namespace ProyectoInventarioOET
         protected void botonAceptarModalDesactivar_ServerClick(object sender, EventArgs e)
         {
 
+        }
+
+        protected void DropDownListBodega_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.DropDownListBodega.SelectedItem != null)
+            {
+                botonConsultarBodega.Disabled = false;
+                botonAsociarBodega.Disabled = false;
+            }
         }
 
         //NO BORRAR    

@@ -4,15 +4,14 @@
     <br />
     <!-- Label para desplegar mensajes -->
     <div>
-        <div id="mensajeAlerta" runat="server" style="margin-left: 70%; visibility:hidden">
+        <div id="mensajeAlerta" class="alert alert-fozkr-error fade in" runat="server" Visible="false" style="margin-left:70%;">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <strong>
-                <asp:Label ID="labelTipoAlerta" runat="server"></asp:Label>
+                <asp:Label ID="labelTipoAlerta" runat="server" Text=""></asp:Label>
             </strong>
-            <asp:Label ID="labelAlerta" runat="server"></asp:Label>
+            <asp:Label ID="labelAlerta" runat="server" Text=""></asp:Label>
         </div>
     </div>
-
     <!-- Título del Form -->
     <div>
         <h2 runat="server"> Catálogo general de productos </h2>
@@ -61,7 +60,7 @@
             </div>
 
             <div class="form-group col-lg-6">
-                <label for="inputUnidades" class= "control-label">Unidades:</label>
+                <label for="inputUnidades" class= "control-label">Unidades métricas:</label>
                 <asp:DropDownList ID="inputUnidades" runat="server" Cssclass="form-control" ></asp:DropDownList>
             </div>
 
@@ -179,7 +178,7 @@
 
    
     <script type="text/javascript">
-onclick        function showStuff(elementoATogglear, mensaje) {
+       function showStuff(elementoATogglear, mensaje) {
             //var estado = document.getElementById(elementoATogglear).style.display;
             //document.getElementById('tituloAccion').innerHTML = mensaje;
             //if (elementoATogglear === 'bloqueFormulario') {

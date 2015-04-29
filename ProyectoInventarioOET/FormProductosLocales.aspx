@@ -17,7 +17,10 @@
         <h2 id="TituloProductosLocales" runat="server">Catálogos de productos en bodegas</h2>
         <hr />
     </div>
-    <br />
+    <button runat="server" id="botonAsociarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" disabled="disabled">Asociar a Catálogo</button>
+    <button runat="server" id="botonModificarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" disabled="disabled">Modificar Catálogo</button>
+    <button runat="server" onserverclick="botonConsultarBodega_ServerClick" id="botonConsultarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" disabled="disabled">Consultar Catálogo</button>
+    <br /><br />
     <div class="row">
         <div class="col-lg-4">
             <label for="inputEstacion" class="control-label">Seleccione estación:</label>
@@ -26,12 +29,8 @@
         </div>
         <div class="col-lg-4">
             <label for="inputBodega" class="control-label">Seleccione bodega:</label>
-            <asp:DropDownList ID="DropDownListBodega" runat="server" CssClass="form-control">
+            <asp:DropDownList ID="DropDownListBodega" runat="server" CssClass="form-control" OnSelectedIndexChanged="DropDownListBodega_SelectedIndexChanged" AutoPostBack="true">
             </asp:DropDownList>
-        </div>
-        <div class="col-lg-4">
-            <br />
-            <button runat="server" onserverclick="botonConsultarBodega_ServerClick" id="botonConsultarBodega" class=" btn btn-info-fozkr" type="button" style="float: left">Consultar Bodega</button>
         </div>
      </div>
     <br />
@@ -157,17 +156,17 @@
          <div class="col-lg-12">
             <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
                 <ContentTemplate>
-                    <asp:GridView ID="gridViewCatalogoLocal" CssClass="table table-responsive table-condensed" OnRowCommand="gridViewCatalogoLocal_Seleccion" OnPageIndexChanging="gridViewCatalogoLocal_CambioPagina" runat="server" AllowPaging="True" PageSize="16" BorderColor="Transparent">
+                    <asp:GridView ID="gridViewCatalogoLocal" CssClass="table" OnRowCommand="gridViewCatalogoLocal_Seleccion" OnPageIndexChanging="gridViewCatalogoLocal_CambioPagina" runat="server" AllowPaging="True" PageSize="16" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
                         <Columns>
-                            <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn-default" CommandName="Select" Text="Consultar">
-                                <ControlStyle CssClass="btn-default disabled"></ControlStyle>
+                            <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Consultar">
+                                <ControlStyle CssClass="btn btn-default"></ControlStyle>
                             </asp:ButtonField>
                        </Columns>
                        <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
                        <PagerStyle CssClass="paging" HorizontalAlign="Center" />
-                       <AlternatingRowStyle BackColor="#EBEBEB" />
+                       <AlternatingRowStyle BackColor="#F8F8F8" />
                        <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
-                       <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" />
+                       <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
                   </asp:GridView>
              </ContentTemplate>
              <Triggers>

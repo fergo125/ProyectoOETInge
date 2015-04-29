@@ -24,6 +24,9 @@ namespace ProyectoInventarioOET
         private static EntidadCategoria categoriaConsultada;            //???
         private static bool seConsulto = false;                         //???
         private static ControladoraDatosGenerales controladoraDatosGenerales;
+        private static String permisos = "000000";                              // Permisos utilizados para el control de
+                                                                                // seguridad.
+
         /*
          * ???
          */
@@ -31,6 +34,11 @@ namespace ProyectoInventarioOET
         {
             if (!IsPostBack)
             {
+                permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Categorias de productos");
+
+                // Esconder botones
+                esconderBotonesSegunPermisos();
+
                 controladoraCategorias = new ControladoraCategorias();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
                 if (!seConsulto)
@@ -85,7 +93,7 @@ namespace ProyectoInventarioOET
                 camposCategoria.Visible = true;
                 inputNombre.Disabled = false;
                 gridViewCategorias.Visible = false;
-                comboBoxEstadosActividades.Enabled = true;
+                comboBoxEstadosActividades.Enabled = (permisos[2] == '1');
             }
             else if (modo == (int)Modo.Insercion)
             {
@@ -97,7 +105,7 @@ namespace ProyectoInventarioOET
                 camposCategoria.Visible = true;
                 inputNombre.Disabled = false;
                 gridViewCategorias.Visible = false;
-                comboBoxEstadosActividades.Enabled = true;
+                comboBoxEstadosActividades.Enabled = (permisos[2] == '1');
                 cargarEstados();
                 limpiarCampos();
             }
@@ -337,7 +345,7 @@ namespace ProyectoInventarioOET
          */
         protected void botonAceptarCategoria_ServerClick(object sender, EventArgs e)
         {
-            Boolean operacionCorrecta = true;
+            String codigoModificado ="";
             String codigoInsertado = "";
 
             if (modo == 2)
@@ -346,7 +354,7 @@ namespace ProyectoInventarioOET
 
                 if (codigoInsertado != "")
                 {
-                    operacionCorrecta = true;
+                    codigoModificado = "";
                     categoriaConsultada = controladoraCategorias.consultarCategoria(codigoInsertado);
                     modo = (int)Modo.Consultado;
                     seConsulto = true;
@@ -355,21 +363,24 @@ namespace ProyectoInventarioOET
                     setDatosConsultados();
 
                 }
+                if(codigoInsertado == "repetido"){
+                    mostrarMensaje("warning", "Alerta", "La categoria insertada ya existe");
+                }
                 else
                 {
-                    operacionCorrecta = false;
+                    codigoModificado = "";
                     mostrarMensaje("Warning", "Alerta", "No se pudo agregar la categoria");
                 }
             }
             else if (modo == 3)
             {
-                operacionCorrecta = modificar();
-                if(operacionCorrecta)
+                codigoModificado = modificar();
+                if(codigoModificado == "")
                     mostrarMensaje("success", "Exito", "Categoria Modificada");
                 else
                     mostrarMensaje("Warning", "Alerta", "No se pudo Modificar");
             }
-            if (operacionCorrecta)
+            if (codigoModificado == "")
             {
                 irAModo();
             }
@@ -378,23 +389,31 @@ namespace ProyectoInventarioOET
         /*
          * ???
          */
-        private bool modificar()
+        private String modificar()
         {
-            bool res = true;
-            String[] datosCat = {inputNombre.Value,categoriaConsultada.Nombre,comboBoxEstadosActividades.SelectedValue};
+            String res = "";
+            String nombre= inputNombre.Value;
+            String[] datosCat = {nombre,categoriaConsultada.Nombre,comboBoxEstadosActividades.SelectedValue};
+            
+            if (!nombreRepetido(nombre))
+        {
             String[] error = controladoraCategorias.modificarDatos(categoriaConsultada, datosCat);
-            mostrarMensaje(error[0], error[1], error[2]);
-
             if (error[0].Contains("success"))// si fue exitoso
             {
                 llenarGrid();
                 categoriaConsultada = controladoraCategorias.consultarCategoria(categoriaConsultada.Nombre);
                 modo = (int)Modo.Consulta;
+                    res = "succes";
             }
             else
             {
-                res = false;
+                    res = "no se puede";
                 modo = (int)Modo.Modificacion;
+            }
+            }
+            else
+            {
+
             }
             return res;
             
@@ -415,8 +434,10 @@ namespace ProyectoInventarioOET
         {
 
             String codigo = "";
-
-            String[] error = controladoraCategorias.insertarDatos(inputNombre.Value.ToString());
+            String nombre = inputNombre.Value.ToString();
+            if (!nombreRepetido(nombre))
+            {
+                String[] error = controladoraCategorias.insertarDatos(nombre);
 
             codigo = Convert.ToString(error[3]);
             mostrarMensaje(error[0], error[1], error[2]);
@@ -429,7 +450,7 @@ namespace ProyectoInventarioOET
                 codigo = "";
                 modo = (int)Modo.Insercion;
             }
-
+            }
             return codigo;
         }
         protected void botonAceptarModalCancelar_ServerClick(object sender, EventArgs e)
@@ -441,11 +462,20 @@ namespace ProyectoInventarioOET
         }
         private bool nombreRepetido(String nombre)
         {
-          /*  for (int i = 0; i < idArray.Length; ++i )
+            for (int i = 0; i < idArray.Length; ++i )
             {
-                if(String.Compare(idArray[i,1],nombre))
-            }*/
+                if (String.Compare(idArray[i, 1].ToString(), nombre) == 0)
+                    return true;
+            }
             return false;
+        }
+
+        protected void esconderBotonesSegunPermisos()
+        {
+            comboBoxEstadosActividades.Enabled = (permisos[2] == '1');
+            botonModificacionCategoria.Visible = (permisos[3] == '1');
+            botonAgregarCategoria.Visible = (permisos[4] == '1');
+            botonConsultaCategoria.Visible = (permisos[5] == '1');
         }
     }
 }
