@@ -15,19 +15,18 @@
 
     <!-- Título del Form -->
     <div>
-        <h2 id="TituloActividades" runat="server">Actividades</h2>
+        <h2 id="TituloActividades" runat="server">Gestión de Actividades</h2>
         <hr />
     </div>
 
     <!-- Cuerpo del Form -->
     <button runat="server" onserverclick="botonAgregarActividades_ServerClick" id="botonAgregarActividades" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false">Nueva Actividad</button>
     <button runat="server" onserverclick="botonModificacionActividades_ServerClick" causesvalidation="false"  id="botonModificacionActividades" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false">Modificar Actividad</button>
-    <button runat="server" onserverclick="botonConsultaActividades_ServerClick" causesvalidation="false"  id="botonConsultaActividades" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false">Consulta de Actividades</button>
+    <button runat="server" onserverclick="botonConsultaActividades_ServerClick" causesvalidation="false"  id="botonConsultaActividades" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false">Consultar Actividades</button>
     <br />
     <br />
 
     <h3 id="tituloAccionActividades"></h3>
-    <br />
     <h3 id="tituloBienvenidaActividades" runat="server">Seleccione una opción</h3>
     <div class= "row" id="bloqueFormulario">
          <!-- Fieldset para Actividades -->
@@ -107,9 +106,6 @@
              </Triggers>
           </asp:UpdatePanel>
        </div>
-        <br />
-        <br />
-        <br />
         </fieldset>        
     </div>
     

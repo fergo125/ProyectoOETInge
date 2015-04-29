@@ -121,15 +121,26 @@ namespace ProyectoInventarioOET
          */
         protected void esconderLinks(bool esconder)
         {
-            //TODO pesonalizar cuáles links serán visibles para cada perfil
             this.linkIniciarSesion.Visible = esconder;
             this.linkNombreUsuarioLogueado.Visible = !esconder;
             this.linkCerrarSesion.Visible = !esconder;
-            this.linkFormProductos.Visible = !esconder;
+
+            //TODO arreglar esto para que no sea hard coded***
+            this.linkFormProductos.Visible = (!esconder && (usuarioLogueado.Perfil=="Administrador global" || usuarioLogueado.Perfil=="Administrador local"));
+                this.linkFormProductos1.Visible = (!esconder && (usuarioLogueado.Perfil=="Administrador global" || usuarioLogueado.Perfil=="Administrador local"));
+                this.linkFormProductos2.Visible = (!esconder && (usuarioLogueado.Perfil=="Administrador global" || usuarioLogueado.Perfil=="Administrador local"));
             this.linkFormBodegas.Visible = !esconder;
-            this.linkFormInventario.Visible = !esconder;
+                this.linkFormBodegas1.Visible = !esconder;
+                this.linkFormBodegas2.Visible = (!esconder && (usuarioLogueado.Perfil=="Administrador global" || usuarioLogueado.Perfil=="Administrador local"));
+                this.linkFormBodegas3.Visible = !esconder;
+            this.linkFormInventario.Visible = (!esconder && (usuarioLogueado.Perfil=="Administrador global" || usuarioLogueado.Perfil=="Administrador local" || usuarioLogueado.Perfil=="Supervisor"));
+                this.linkFormInventario1.Visible = (!esconder && (usuarioLogueado.Perfil=="Administrador global" || usuarioLogueado.Perfil=="Administrador local" || usuarioLogueado.Perfil=="Supervisor"));
+                this.linkFormInventario2.Visible = (!esconder && (usuarioLogueado.Perfil=="Administrador global" || usuarioLogueado.Perfil=="Administrador local" || usuarioLogueado.Perfil=="Supervisor"));
+                this.linkFormInventario3.Visible = (!esconder && (usuarioLogueado.Perfil=="Administrador global" || usuarioLogueado.Perfil=="Administrador local" || usuarioLogueado.Perfil=="Supervisor"));
             this.linkFormVentas.Visible = !esconder;
-            this.linkFormAdministracion.Visible = !esconder;
+            this.linkFormAdministracion.Visible = (!esconder && (usuarioLogueado.Perfil=="Administrador global" || usuarioLogueado.Perfil=="Administrador local" || usuarioLogueado.Perfil=="Supervisor"));
+                this.linkFormAdministracion1.Visible = (!esconder && (usuarioLogueado.Perfil=="Administrador global" || usuarioLogueado.Perfil=="Administrador local" || usuarioLogueado.Perfil=="Supervisor"));
+                this.linkFormAdministracion2.Visible = (!esconder && (usuarioLogueado.Perfil == "Administrador global" || usuarioLogueado.Perfil == "Administrador local"));
         }
 
         public String obtenerPermisosUsuarioLogueado(String nombreInterfaz)

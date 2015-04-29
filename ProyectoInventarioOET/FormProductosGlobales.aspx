@@ -14,7 +14,7 @@
     </div>
     <!-- Título del Form -->
     <div>
-        <h2 runat="server"> Catálogo general de productos </h2>
+        <h2 runat="server">Catálogo general de productos</h2>
         <hr />
     </div>
 
@@ -25,7 +25,8 @@
 
     <br />
     <br />
-
+    
+    <h3 id="tituloAccion" runat="server">Seleccione una opción</h3>
     <!-- Fieldset que muestra el form para agregar un nuevo producto -->
     <div class= "row" id="bloqueFormulario" runat="server">
 <%--    <h3 id="tituloAccion"> Consulta de productos </h3>--%>
@@ -246,7 +247,5 @@
             </div>
         </div>
     </div>
-
-
 
 </asp:Content>

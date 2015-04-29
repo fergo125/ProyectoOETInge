@@ -53,7 +53,7 @@ namespace ProyectoInventarioOET
         protected void mostrarMensaje()
         {
             mensajeAlerta.Attributes["class"] = "alert alert-danger alert-dismissable fade in";
-            labelTipoAlerta.Text = "Error";
+            labelTipoAlerta.Text = "Error:";
             labelAlerta.Text = "Nombre de usuario o contraseña inválidos";
             mensajeAlerta.Visible = true;
         }

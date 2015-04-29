@@ -27,7 +27,6 @@
     <br />
     
     <h3 id="tituloAccionBodegas"></h3>
-    <br />
     
     <h3 id="tituloBienvenidoBodegas" runat="server">Seleccione una opción</h3>
       <!-- Fieldset para Bodegas -->
@@ -154,9 +153,6 @@
              </Triggers>
           </asp:UpdatePanel>
        </div>
-        <br />
-        <br />
-        <br />
         </fieldset>         
     </div>
     
