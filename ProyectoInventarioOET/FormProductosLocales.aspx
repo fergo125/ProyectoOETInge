@@ -20,7 +20,7 @@
 
     <!-- Botones -->
     <button runat="server" onserverclick="botonAsociarBodega_ServerClick" id="botonAsociarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" disabled="disabled" visible="false">Asociar a Catálogo</button>
-    <button runat="server" id="botonModificarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" disabled="disabled" visible="false">Modificar Catálogo</button>
+    <button runat="server" onserverclick="botonModificarProductoLocal_ServerClick" id="botonModificarProductoLocal" class=" btn btn-info-fozkr" type="button" style="float: left" disabled="disabled" visible="false">Modificar Producto</button>
     <button runat="server" onserverclick="botonConsultarBodega_ServerClick" id="botonConsultarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" disabled="disabled" visible="false">Consultar Catálogo</button>
     <br />
     <br />
@@ -68,7 +68,7 @@
                 </div>
                 <div class="form-group col-lg-6">
                     <label for="inputEstado" class= "control-label" >Estado:</label>
-                    <asp:DropDownList ID="inputEstado" runat="server" Cssclass="form-control" disabled="disabled"></asp:DropDownList>
+                    <asp:DropDownList ID="inputEstado" runat="server" Cssclass="form-control" enabled="false"></asp:DropDownList>
                 </div>
                 <div class= "form-group col-lg-6">
                     <label for="inputCreador" class= "control-label">Asociador:</label>      
