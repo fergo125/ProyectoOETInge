@@ -89,5 +89,36 @@ namespace ProyectoInventarioOET.Módulo_Productos_Locales
             }
             return resultado;
         }
+
+        public string[] asociarProductos(String idBodega,String idProducto,String idUsuario)
+        {
+            String[] res = new String[4];
+            res[3] = generarID();
+            try
+            {
+                DataTable resultado = new DataTable();
+                OracleCommand command = conexionBD.CreateCommand();
+                String aux = "INSERT INTO INV_BODEGA_PRODUCTOS ( INV_BODEGA_PRODUCTOS,CAT_BODEGA, INV_PRODUCTOS,CREA,CREADO,ESTADO ) VALUES ( ' "
+                + generarID() + "' , '" + idBodega + "' , '"
+                + idProducto + "' , '" + idUsuario + "' , '"
+                + DateTime.Now.ToString("dd:MM:yy hh:mm:ss") +"' , 'Activo')";
+
+                command.CommandText = aux;
+                OracleDataReader reader = command.ExecuteReader();
+
+                res[0] = "success";
+                res[1] = "Éxito:";
+                res[2] = "Producto agregado al catálogo general.";
+            }
+            catch (SqlException e)
+            {
+                // Como la llave es generada se puede volver a intentar
+                res[0] = "danger";
+                res[1] = "Error:";
+                res[2] = "Producto no agregado, intente nuevamente.";
+            }
+            return res;
+        }
+
     }
 }

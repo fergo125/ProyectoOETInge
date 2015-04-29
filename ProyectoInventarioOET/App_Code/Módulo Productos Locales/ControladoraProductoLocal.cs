@@ -39,6 +39,10 @@ namespace ProyectoInventarioOET.Módulo_Productos_Locales
             return controladoraBD.consultarProductoDeBodega(idBodega, idProducto);
         }
 
+        public string[] asociarProductos(String idBodega, String idProducto, String idUsuario)
+        {
+            return controladoraBD.asociarProductos(idBodega,idProducto,idUsuario);
+        }
 
         /*public EntidadProductoLocal consultarProductoLocal(String id)
         {
