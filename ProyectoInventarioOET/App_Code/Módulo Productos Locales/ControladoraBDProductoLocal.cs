@@ -101,7 +101,7 @@ namespace ProyectoInventarioOET.Módulo_Productos_Locales
                 String aux = "INSERT INTO INV_BODEGA_PRODUCTOS ( INV_BODEGA_PRODUCTOS,CAT_BODEGA, INV_PRODUCTOS,CREA,CREADO,ESTADO ) VALUES ( ' "
                 + generarID() + "' , '" + idBodega + "' , '"
                 + idProducto + "' , '" + idUsuario + "' , '"
-                + DateTime.Now.ToString("dd:MM:yy hh:mm:ss") +"' , 'Activo')";
+                + DateTime.Now.ToString("dd:MMM:yy") +"' , 1)";
 
                 command.CommandText = aux;
                 OracleDataReader reader = command.ExecuteReader();
