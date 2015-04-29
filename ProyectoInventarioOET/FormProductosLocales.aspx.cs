@@ -453,11 +453,11 @@ namespace ProyectoInventarioOET
                         asociados = new bool[productos.Rows.Count];
                         idProductos = new String[productos.Rows.Count];
                         Object[] datos = new Object[4];
-                        int i;
+                        int j=0;
                         foreach (DataRow producto in productos.Rows)
                         {
-                            idProductos[4] = producto[4].ToString();
-                            for (i = 0; i < 4; i++)
+                            idProductos[j] = producto[4].ToString();
+                            for (int i = 0; i < 4; i++)
                             {
                                 datos[i] = producto[i];
                             }
@@ -467,6 +467,7 @@ namespace ProyectoInventarioOET
                             }
                             catch (NullReferenceException excepcion) { datos[2] = ""; }
                             catalogoLocal.Rows.Add(datos);
+                            ++j;
                         }
                     }
                     this.gridViewAsociarCatalogoLocal.DataSource = catalogoLocal;
@@ -482,6 +483,7 @@ namespace ProyectoInventarioOET
          * Realiza la asociacion de los productos confirmados.
          */
         protected void botonAsociarProductos_ServerClick(object sender, EventArgs e)
+        
         {
             if (modo == 3)
             {
