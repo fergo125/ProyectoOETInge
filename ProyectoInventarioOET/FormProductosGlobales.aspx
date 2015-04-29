@@ -21,7 +21,7 @@
     <!-- Botones -->
     <button runat="server" onserverclick="botonAgregarProductos_ServerClick" id="botonAgregarProductos" class=" btn btn-info-fozkr" type="button" style="float: left">Nuevo Producto</button>
     <button runat="server" onserverclick="botonModificacionProductos_ServerClick" id="botonModificacionProductos" class=" btn btn-info-fozkr" type="button" style="float: left">Modificar Producto</button>
-    <button runat="server" id="botonConsultaProductos" onserverclick="botonConsultaProductos_ServerClick" class=" btn btn-info-fozkr" type="button" style="float: left">Consultar Productos</button>
+    <button runat="server" id="botonConsultaProductos" causesvalidation="false" onserverclick="botonConsultaProductos_ServerClick" class=" btn btn-info-fozkr" type="button" style="float: left">Consultar Productos</button>
 
     <br />
     <br />
