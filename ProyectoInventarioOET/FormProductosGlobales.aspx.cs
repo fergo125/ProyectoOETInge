@@ -571,6 +571,7 @@ namespace ProyectoInventarioOET
             else if (modo == (int)Modo.Modificacion) // Caso modificación
             {
                 operacionCorrecta = modificar();
+                modo = (int)Modo.Consultado;
             }
             if (operacionCorrecta)
             {
