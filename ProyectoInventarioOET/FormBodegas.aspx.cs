@@ -26,7 +26,7 @@ namespace ProyectoInventarioOET
         private static int modo = (int)Modo.Inicial;                            //???
         private static bool mensajeMostrado = false; //wtf?
         private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
-        private static int modo = (int)Modo.Inicial;    
+
 
         /*
          * ???
