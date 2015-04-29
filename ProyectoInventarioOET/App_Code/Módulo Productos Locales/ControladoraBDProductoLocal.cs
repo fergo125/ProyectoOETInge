@@ -79,7 +79,7 @@ namespace ProyectoInventarioOET.Módulo_Productos_Locales
                 OracleCommand command = conexionBD.CreateCommand();
                 // nombre, codigo interno, codigo de barras, categoria, intencion, unidades metricas, estado local, existencia, impuesto, precio col, precio dol
                 // costo col, costo dol, min, max, creador, creado, modifica, modificado, costo ult col, costo ult dol, idproveedor ult
-                command.CommandText = "SELECT INV_PRODUCTOS.NOMBRE,INV_PRODUCTOS.CODIGO,INV_PRODUCTOS.CODIGO_BARRAS,INV_PRODUCTOS.CAT_CATEGORIAS,INV_PRODUCTOS.INTENCION,INV_PRODUCTOS.CAT_UNIDADES,INV_BODEGA_PRODUCTOS.ESTADO,INV_BODEGA_PRODUCTOS.SALDO,INV_PRODUCTOS.IMPUESTO,INV_PRODUCTOS.PRECIO_C,INV_PRODUCTOS.PRECIO_D,INV_BODEGA_PRODUCTOS.COSTO_COLONES,INV_BODEGA_PRODUCTOS.COSTO_DOLARES,INV_BODEGA_PRODUCTOS.MINIMO,INV_BODEGA_PRODUCTOS.MAXIMO,INV_BODEGA_PRODUCTOS.CREA,INV_BODEGA_PRODUCTOS.CREADO,INV_BODEGA_PRODUCTOS.MODIFICA,INV_BODEGA_PRODUCTOS.MODIFICADO,INV_BODEGA_PRODUCTOS.COSTO_ULTIMA_COMPRA_C,INV_BODEGA_PRODUCTOS.COSTO_ULTIMA_COMPRA_D,INV_BODEGA_PRODUCTOS.IDPROVEEDOR_UC FROM INV_BODEGA_PRODUCTOS,INV_PRODUCTOS WHERE INV_BODEGA_PRODUCTOS.INV_PRODUCTOS = INV_PRODUCTOS.INV_PRODUCTOS AND INV_BODEGA_PRODUCTOS.CAT_BODEGA = '" + idBodega + "' AND INV_PRODUCTOS.CODIGO = '" + idProducto + "'";
+                command.CommandText = "SELECT INV_PRODUCTOS.NOMBRE,INV_PRODUCTOS.CODIGO,INV_PRODUCTOS.CODIGO_BARRAS,INV_PRODUCTOS.CAT_CATEGORIAS,INV_PRODUCTOS.INTENCION,INV_PRODUCTOS.CAT_UNIDADES,INV_BODEGA_PRODUCTOS.ESTADO,INV_BODEGA_PRODUCTOS.SALDO,INV_PRODUCTOS.IMPUESTO,INV_PRODUCTOS.PRECIO_C,INV_PRODUCTOS.PRECIO_D,INV_BODEGA_PRODUCTOS.COSTO_COLONES,INV_BODEGA_PRODUCTOS.COSTO_DOLARES,INV_BODEGA_PRODUCTOS.MINIMO,INV_BODEGA_PRODUCTOS.MAXIMO,INV_BODEGA_PRODUCTOS.CREA,INV_BODEGA_PRODUCTOS.CREADO,INV_BODEGA_PRODUCTOS.MODIFICA,INV_BODEGA_PRODUCTOS.MODIFICADO,INV_BODEGA_PRODUCTOS.COSTO_ULTIMA_COMPRA_C,INV_BODEGA_PRODUCTOS.COSTO_ULTIMA_COMPRA_D,INV_BODEGA_PRODUCTOS.IDPROVEEDOR_UC,INV_BODEGA_PRODUCTOS.INV_BODEGA_PRODUCTOS FROM INV_BODEGA_PRODUCTOS,INV_PRODUCTOS WHERE INV_BODEGA_PRODUCTOS.INV_PRODUCTOS = INV_PRODUCTOS.INV_PRODUCTOS AND INV_BODEGA_PRODUCTOS.CAT_BODEGA = '" + idBodega + "' AND INV_PRODUCTOS.CODIGO = '" + idProducto + "'";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
             }
@@ -88,6 +88,30 @@ namespace ProyectoInventarioOET.Módulo_Productos_Locales
                 resultado = null;
             }
             return resultado;
+        }
+
+        public string[] modificarProductoLocal(String idBodegaProductos, int estado)
+        {
+            DataTable resultado = new DataTable();
+            String[] res = new String[3];
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "UPDATE INV_BODEGA_PRODUCTOS SET ESTADO = " + estado + " WHERE INV_BODEGA_PRODUCTOS = '" + idBodegaProductos + "'";
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
+                res[0] = "success";
+                res[1] = "Éxito:";
+                res[2] = "Producto modificado localmente.";
+            }
+            catch (Exception e)
+            {
+                res[0] = "danger";
+                res[1] = "Error:";
+                res[2] = "Producto no modificado, intente nuevamente.";
+            }
+            return res;
+
         }
 
         public string[] asociarProductos(String idBodega,String idProducto,String idUsuario)

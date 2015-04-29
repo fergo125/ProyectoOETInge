@@ -44,6 +44,20 @@ namespace ProyectoInventarioOET.Módulo_Productos_Locales
             return controladoraBD.asociarProductos(idBodega,idProducto,idUsuario);
         }
 
+        public string[] modificarProductoLocal(String idBodegaProductos, String est)
+        {
+            int estado;
+            if(est.Equals("Activo"))
+            {
+                estado=1;
+            }
+            else
+            {
+                estado=0;
+            }
+            return controladoraBD.modificarProductoLocal(idBodegaProductos, estado);
+        }
+
         /*public EntidadProductoLocal consultarProductoLocal(String id)
         {
             productoActual = controladoraBD.consultarProductoLocal(id);
