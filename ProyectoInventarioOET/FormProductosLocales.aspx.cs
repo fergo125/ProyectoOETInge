@@ -63,8 +63,8 @@ namespace ProyectoInventarioOET
         {
             botonConsultarBodega.Visible = (permisos[5] == '1');
             botonAsociarBodega.Visible = (permisos[4] == '1');
-            botonModificarBodega.Visible = (permisos[3] == '1');
-            inputEstado.Enabled = (permisos[2] == '1');
+            botonModificarProductoLocal.Visible = (permisos[3] == '1');
+            //inputEstado.Enabled = (permisos[2] == '1');
         }
 
         /*
@@ -94,6 +94,19 @@ namespace ProyectoInventarioOET
                     DropDownListBodega.SelectedIndex = bodegaSeleccionada;
                     cargarCatalogoLocal();
                     cargarDatosProducto();
+                    botonModificarProductoLocal.Disabled = false; //added***
+                    break;
+                case 3: //desactivar ***
+                    FieldsetCatalogoLocal.Visible = true;
+                    FieldsetProductos.Visible = true;
+                    DropDownListEstacion.SelectedIndex = estacionSeleccionada;
+                    DropDownListEstacion_SelectedIndexChanged(DropDownListEstacion, null);
+                    DropDownListBodega.SelectedIndex = bodegaSeleccionada;
+                    cargarCatalogoLocal();
+                    cargarDatosProducto();
+                    botonAsociarBodega.Disabled = true;
+                    botonModificarProductoLocal.Disabled = true;
+                    inputEstado.Enabled = true && (permisos[2] == '1');
                     break;
                 default:
                     // Algo salio mal
@@ -265,6 +278,15 @@ namespace ProyectoInventarioOET
                     Response.Redirect("FormProductosLocales.aspx");
                     break;
             }
+        }
+
+        /*
+         * 
+         */
+        protected void botonModificarProductoLocal_ServerClick(object sender, EventArgs e)
+        {
+            modo = 3;
+            Response.Redirect("FormProductosLocales.aspx");
         }
 
         /*

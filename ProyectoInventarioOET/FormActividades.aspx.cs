@@ -206,7 +206,7 @@ namespace ProyectoInventarioOET
         protected void habilitarCampos(bool habilitar)
         {
             this.inputDescripcionActividad.Disabled = !habilitar;
-            comboBoxEstadosActividades.Enabled = (permisos[2] == '1');
+            comboBoxEstadosActividades.Enabled = habilitar && (permisos[2] == '1');
         }
 
         /*
