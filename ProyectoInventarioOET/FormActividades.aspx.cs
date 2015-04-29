@@ -417,7 +417,7 @@ namespace ProyectoInventarioOET
                 String nombreNuevo = this.inputDescripcionActividad.Value.ToString();
                 EntidadActividad repetida = controladoraActividades.consultarActividadPorNombre(nombreNuevo);
 
-                if (repetida == null)
+                if (repetida == null || nombreNuevo == actividadConsultada.Descripcion)
                 {
                     resultado = controladoraActividades.modificarDatos(actividadConsultada, nombreNuevo, Int32.Parse(this.comboBoxEstadosActividades.SelectedValue.ToString()));
 

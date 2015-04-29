@@ -34,9 +34,9 @@ namespace ProyectoInventarioOET.Modulo_Categorias
         /*
          * Crea una nueva categoria dado un vector con los datos de la misma.
          */
-        public String[] insertarDatos(string descripcion)
+        public String[] insertarDatos(string descripcion,string estado)
         {
-            EntidadCategoria categoria = new EntidadCategoria(descripcion);
+            EntidadCategoria categoria = new EntidadCategoria(descripcion, estado);
             return controladoraBDCategorias.insertarCategoria(categoria);
         }
 

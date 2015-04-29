@@ -34,6 +34,12 @@ namespace ProyectoInventarioOET.Modulo_Categorias
             this.nombre = autogenerarCodigo();
             this.estado = 1;
         }
+        public EntidadCategoria(String descripcion, String estado)
+        {
+            this.descripcion = descripcion;
+            this.nombre = autogenerarCodigo();
+            this.estado = Convert.ToInt32(estado);
+        }
 
         /*
          * ???

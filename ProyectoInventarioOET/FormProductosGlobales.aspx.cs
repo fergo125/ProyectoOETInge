@@ -133,7 +133,7 @@ namespace ProyectoInventarioOET
                     this.bloqueGrid.Visible = false;
                     this.gridViewProductosGlobales.Visible = false;
                     this.bloqueFormulario.Visible = true;
-                    this.bloqueBotones.Visible = true;
+                    this.bloqueBotones.Visible = false;
                     this.botonAgregarProductos.Disabled = false;
                     this.botonModificacionProductos.Disabled = false;
                     this.botonConsultaProductos.Disabled = false;
@@ -348,7 +348,7 @@ namespace ProyectoInventarioOET
                 this.gridViewProductosGlobales.DataBind();
                  if (productoConsultado != null)
                  {
-                     GridViewRow filaSeleccionada = this.gridViewProductosGlobales.Rows[indiceNuevoProductoGlobal];
+                     //GridViewRow filaSeleccionada = this.gridViewProductosGlobales.Rows[indiceNuevoProductoGlobal];
                  }
             }
 
@@ -614,7 +614,8 @@ namespace ProyectoInventarioOET
          */
         protected void botonAceptarModalDesactivar_ServerClick(object sender, EventArgs e)
         {
-            // Hacer algo
+            modo = (int)Modo.Inicial;
+            cambiarModo();
         }
 
         protected void mostrarBotonesSegunPermisos()

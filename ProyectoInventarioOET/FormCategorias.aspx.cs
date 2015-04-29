@@ -81,8 +81,9 @@ namespace ProyectoInventarioOET
                 gridViewCategorias.Visible = true;
                 tituloGrid.Visible = true;
                 comboBoxEstadosActividades.Enabled = false;
+                textoObligatorioBodega.Visible = false;
                 tituloAccion.InnerText = "Seleccione una opción";
-                cargarEstados();
+
 
 
             }
@@ -98,6 +99,7 @@ namespace ProyectoInventarioOET
                 gridViewCategorias.Visible = false;
                 tituloGrid.Visible = false;
                 comboBoxEstadosActividades.Enabled = (permisos[2] == '1');
+                textoObligatorioBodega.Visible = true;
                 tituloAccion.InnerText = "Cambie los datos";
             }
             else if (modo == (int)Modo.Insercion)
@@ -114,8 +116,9 @@ namespace ProyectoInventarioOET
                 tituloGrid.Visible = false;
                 comboBoxEstadosActividades.Enabled = true;
                 comboBoxEstadosActividades.Visible = true;
+                textoObligatorioBodega.Visible = true;
                 tituloAccion.InnerText = "Ingrese datos";
-                cargarEstados();
+
 
             }
             else if (modo == (int)Modo.Inicial)
@@ -131,6 +134,7 @@ namespace ProyectoInventarioOET
                 tituloGrid.Visible = false;
                 inputNombre.Visible = false;
                 comboBoxEstadosActividades.Visible = false;
+                textoObligatorioBodega.Visible = false;
                 tituloAccion.InnerText = "Seleccione una categoria";
             }
             else if (modo == (int)Modo.Consultado)
@@ -146,6 +150,7 @@ namespace ProyectoInventarioOET
                 gridViewCategorias.Visible = true;
                 tituloGrid.Visible = true;
                 comboBoxEstadosActividades.Enabled = false;
+                textoObligatorioBodega.Visible = false;
                 tituloAccion.InnerText = "Categoria seleccionada";
             }
             //aplicarPermisos();// se aplican los permisos del usuario para el acceso a funcionalidades
@@ -257,9 +262,11 @@ namespace ProyectoInventarioOET
         protected void botonAgregarCategoria_ServerClick(object sender, EventArgs e)
         {
             modo = (int)Modo.Insercion;
-            limpiarCampos();
+          
             llenarGrid();
             irAModo();
+            limpiarCampos();
+            cargarEstados();
         }
 
         /*
@@ -279,6 +286,7 @@ namespace ProyectoInventarioOET
             modo = (int)Modo.Consulta;
             //limpiarCampos();
             llenarGrid();
+            cargarEstados();
             irAModo();
         }
 
@@ -368,12 +376,12 @@ namespace ProyectoInventarioOET
 
                 if (codigoInsertado == "success")
                 {
-                    modo = (int)Modo.Consultado;
+                    //modo = (int)Modo.Consultado;
                     //comboBoxEstadosActividades.SelectedValue = categoriaConsultada.Estado;
                     seConsulto = true;
                     mostrarMensaje("success", "Éxito:", "Categoría agregada al sistema.");
                     cargarEstados();
-                    setDatosConsultados();
+                    //setDatosConsultados();
 
                 }
                 if(codigoInsertado == "repetido"){
@@ -467,9 +475,10 @@ namespace ProyectoInventarioOET
             String codigo = "";
             String res = "";
             String nombre = this.inputNombre.Value.ToString();
-            if (!nombreRepetido(nombre))
-            {
-                String[] error = controladoraCategorias.insertarDatos(nombre);
+            String estado = comboBoxEstadosActividades.SelectedValue;
+            if (!nombreRepetido(nombre)){
+            
+                String[] error = controladoraCategorias.insertarDatos(nombre,estado);
 
                 codigo = Convert.ToString(error[3]);
                 categoriaConsultada = controladoraCategorias.consultarCategoria(codigo);

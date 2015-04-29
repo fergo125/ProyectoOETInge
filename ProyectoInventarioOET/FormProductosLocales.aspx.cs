@@ -188,14 +188,21 @@ namespace ProyectoInventarioOET
             if (gridCatalogoLocal)
             {
                 FieldsetCatalogoLocal.Visible = true;
-            this.gridViewCatalogoLocal.DataSource = catalogoLocal;
-            this.gridViewCatalogoLocal.PageIndex = pagina;
-            this.gridViewCatalogoLocal.DataBind();
+                this.gridViewCatalogoLocal.DataSource = catalogoLocal;
+                this.gridViewCatalogoLocal.PageIndex = pagina;
+                this.gridViewCatalogoLocal.DataBind();
             }else{
                 FieldsetAsociarCatalogoLocal.Visible = true;
                 this.gridViewAsociarCatalogoLocal.DataSource = catalogoLocal;
                 this.gridViewAsociarCatalogoLocal.PageIndex = pagina;
                 this.gridViewAsociarCatalogoLocal.DataBind();
+                int pos = gridViewAsociarCatalogoLocal.PageSize * gridViewAsociarCatalogoLocal.PageIndex;
+                for (int i = 0; i < gridViewAsociarCatalogoLocal.PageSize; i++)
+                {
+                    GridViewRow fila = gridViewAsociarCatalogoLocal.Rows[i];
+                    ((CheckBox)fila.FindControl("checkBoxProductos")).Checked = asociados[pos];
+                    pos++;
+                }
             }
         }
 
@@ -300,6 +307,21 @@ namespace ProyectoInventarioOET
         }
         protected void gridViewAsociarCatalogoLocal_CambioPagina(Object sender, GridViewPageEventArgs e)
         {
+            int pos = gridViewAsociarCatalogoLocal.PageSize * gridViewAsociarCatalogoLocal.PageIndex;
+            for (int i = 0; i < gridViewAsociarCatalogoLocal.PageSize; i++)
+            {
+                GridViewRow fila = gridViewAsociarCatalogoLocal.Rows[i];
+                bool estaSeleccionadoProducto = ((CheckBox)fila.FindControl("checkBoxProductos")).Checked;
+                if (estaSeleccionadoProducto)
+                {
+                    asociados[pos] = true;
+                }
+                else
+                {
+                    asociados[pos] = false;
+                }
+                pos++;
+            }
             pagina = e.NewPageIndex;
             modo = 1;
             Response.Redirect("FormProductosLocales.aspx");
@@ -421,6 +443,7 @@ namespace ProyectoInventarioOET
                 if (productos != null) { 
                     if (productos.Rows.Count > 0)
                     {
+                        asociados = new bool[productos.Rows.Count];
                         Object[] datos = new Object[4];
                         int i;
                         foreach (DataRow producto in productos.Rows)
@@ -473,11 +496,6 @@ namespace ProyectoInventarioOET
          * Desactivación confirmada.
          */
         protected void botonAceptarModalDesactivar_ServerClick(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void checkBoxProductos_CheckedChanged(object sender, EventArgs e)
         {
 
         }
