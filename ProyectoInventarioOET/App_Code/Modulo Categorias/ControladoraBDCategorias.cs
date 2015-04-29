@@ -6,7 +6,7 @@ using System.Data;
 using Oracle.DataAccess.Client; //para conectarse a la base de datos manualmente con strings
 using System.Data.SqlClient;
 
-namespace ProyectoInventarioOET.Modulo_Categorias
+namespace ProyectoInventarioOET.Modulo_Categorias 
 {
     /*
      * ???
@@ -32,7 +32,7 @@ namespace ProyectoInventarioOET.Modulo_Categorias
             {
                 OracleCommand command = conexionBD.CreateCommand();
                 command.CommandText = "INSERT INTO CAT_CATEGORIAS (CAT_CATEGORIAS,DESCRIPCION,Estado) VALUES ('"
-                + categoria.Nombre + "','" + categoria.Descripcion + "','" + categoria.Estado+ "')";
+                + generarID() + "','" + categoria.Descripcion + "','" + categoria.Estado+ "')";
                 OracleDataReader reader = command.ExecuteReader();
 
                 res[0] = "success";
