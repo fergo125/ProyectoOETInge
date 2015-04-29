@@ -29,15 +29,29 @@
     <h3 id="tituloAccionBodegas"></h3>
     <br />
     
-    <!--//////////////////////////////////////////-->
-    <!--//////////////////////////////////////////-->
-    <!--//////////////////////////////////////////-->
 
+    <h3 id="tituloBienvenidoBodegas" runat="server">Seleccione una opción</h3>
+    
     
       <!-- Fieldset para Bodegas -->
         <fieldset id= "FieldsetBodegas" runat="server" class="fieldset">
-            <asp:ValidationSummary CssClass="label label-danger" runat=server 
+            <asp:ValidationSummary Font-Size="Small" CssClass="label label-danger" runat=server 
             HeaderText="Uno de los campos está vacío o con información inválida" />
+
+
+                  <div class="col-lg-3">
+                <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
+                    ControlToValidate=inputNombre
+                    ErrorMessage=""> 
+                </asp:RequiredFieldValidator>
+                    <br />
+                    <div class="form-group">
+                        <label for="inputNombre" class= "control-label"> Nombre*: </label>      
+                        <input type="text" id= "inputNombre" runat="server" class="form-control" style="max-width:100%">
+                    </div>
+            </div>
+
+
 
                   <div class="col-lg-3">
             <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
@@ -46,38 +60,27 @@
             </asp:RequiredFieldValidator>
                 <br />
                 <div class="form-group">
-                    <label for="comboBoxEmpresa" class= "control-label"> Empresa: </label>      
+                    <label for="comboBoxEmpresa" class= "control-label"> Empresa*: </label>      
                     <asp:DropDownList id="comboBoxEmpresa" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
                     </asp:DropDownList>
                 </div>
             </div>
 
             
-            <div class="col-lg-3">
+            <div class="col-lg-4">
             <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
                 ControlToValidate=comboBoxEstacion
                 ErrorMessage="">
             </asp:RequiredFieldValidator>
                 <br />
                 <div class="form-group">
-                    <label for="comboBoxEstacion" class= "control-label"> Estación: </label>      
+                    <label for="comboBoxEstacion" class= "control-label"> Estación*: </label>      
                     <asp:DropDownList id="comboBoxEstacion" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
                     </asp:DropDownList>
                 </div>
             </div>
 
 
-            <div class="col-lg-4">
-                <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
-                    ControlToValidate=inputNombre
-                    ErrorMessage=""> 
-                </asp:RequiredFieldValidator>
-                    <br />
-                    <div class="form-group">
-                        <label for="inputNombre" class= "control-label"> Nombre: </label>      
-                        <input type="text" id= "inputNombre" runat="server" class="form-control" style="max-width:100%">
-                    </div>
-            </div>
 
 
             <div class="col-lg-3">
@@ -87,7 +90,7 @@
             </asp:RequiredFieldValidator>
                 <br />
                 <div class="form-group">
-                    <label for="comboBoxIntencion" class= "control-label"> Intención de uso: </label>      
+                    <label for="comboBoxIntencion" class= "control-label"> Intención de uso*: </label>      
                     <asp:DropDownList id="comboBoxIntencion" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
                     </asp:DropDownList>
                 </div>
@@ -103,7 +106,7 @@
             </asp:RequiredFieldValidator>
                 <br />
                 <div class="form-group">
-                    <label for="dropdownEstado" class= "control-label"> Estado: </label>      
+                    <label for="dropdownEstado" class= "control-label"> Estado*: </label>      
                     <asp:DropDownList id="dropdownEstado" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
                     </asp:DropDownList>
                 </div>
@@ -127,11 +130,6 @@
     </div>
     <br />
     <br />
-
-
-    <!--//////////////////////////////////////////-->
-    <!--//////////////////////////////////////////-->
-    <!--//////////////////////////////////////////-->
 
       <div id="bloqueGrid" class="col-lg-12">
         <fieldset id="FieldsetGridBodegas" runat="server" class="fieldset">

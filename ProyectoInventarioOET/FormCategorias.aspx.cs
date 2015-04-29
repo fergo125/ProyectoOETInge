@@ -441,10 +441,10 @@ namespace ProyectoInventarioOET
         }
         private bool nombreRepetido(String nombre)
         {
-            for (int i = 0; i < idArray.Length; ++i )
+          /*  for (int i = 0; i < idArray.Length; ++i )
             {
                 if(String.Compare(idArray[i,1],nombre))
-            }
+            }*/
             return false;
         }
     }
