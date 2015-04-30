@@ -8,8 +8,19 @@ using System.Text;
 
 namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
 {
+   
+    /* Controladora de bases de datos de productos globales, utilizada por la controladora de productos globales.
+     * Se comunica directamente con la base de datos y provee los datos pedidos. 
+     * Ofrece la comunicación entre la Controladora de productos globales y la base de datos.
+     * Es una sub-clase de la controladoraBD que permite la conexión con la BD y la generación de códigos
+     */
     public class ControladoraBDProductosGlobales : ControladoraBD
     {
+
+        /*
+        * Método que retorna la entidad de un producto global específico, mediante la 
+         * ejecución de un comando SQL mediante el cliente de Oracle
+        */
         public EntidadProductoGlobal consultarProductoGlobal(String id)
         {
             DataTable resultado = new DataTable();
@@ -42,9 +53,14 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
             return productoConsultado;
         }
 
+        /*
+        * Método que inserta un producto global específico, previamente encapsulado en la entidad 
+        * correspondiente, mediante la ejecución de un comando SQL mediante el cliente de Oracle
+        */
+
         public string[] insertarProductoGlobal(EntidadProductoGlobal productoGlobal)
         {
-            String[] res = new String[4];
+            String[] res = new String[4]; // Vector que contiene la información sobre el resultado de la transacción en la base de datos
             res[3] = generarID();
             try
             {
@@ -79,9 +95,13 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
             return res;
         }
 
+        /*
+        * Método encargado de modificar los datos de un producto global específico(en forma de entidad) con los nuevos 
+        * datos ingresados por el usuario mediante el envío de un comando SQL a Oracle 
+        */
         public string[] modificarProductoGlobal(EntidadProductoGlobal productoGlobalViejo, EntidadProductoGlobal productoGlobalNuevo)
         {
-            String[] res = new String[4];
+            String[] res = new String[4]; // Vector que contiene la información sobre el resultado de la transacción en la base de datos
             res[3] = productoGlobalViejo.Inv_Productos.ToString();
             try
             {
@@ -122,11 +142,14 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
             }
             return res;
         }
-
+        /*
+         * Método encargado de desactivar un producto global (en forma de entidad) 
+         * mediante el envío de un comando SQL a Oracle 
+         */
         public string[] desactivarProductoGlobal(EntidadProductoGlobal productoGlobal)
         {
             String[] res = new String[4];
-            res[3] = productoGlobal.Codigo.ToString();
+            res[3] = productoGlobal.Codigo.ToString(); // Vector que contiene la información sobre el resultado de la transacción en la base de datos
             try
             {
                 DataTable resultado = new DataTable();
@@ -150,6 +173,11 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
             return res;
         }
 
+        /*
+         * Método encargado de retornar la información más relevante de todos productos globales 
+         * mediante el envío de un comando SQL a Oracle 
+         */
+
         public DataTable consultarProductosGlobales()
         {
             DataTable resultado = new DataTable();
@@ -170,7 +198,8 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
         }
 
         /*
-         * Método encargado de retornar los productos globales que concuerdan con la busqueda del usuario
+         * Método encargado de retornar la información más relevante de los productos globales que concuerdan con la busqueda del
+         * usuario mediante el envío de un comando SQL a Oracle 
          */
         public DataTable consultarProductosGlobales(String query)
         {
