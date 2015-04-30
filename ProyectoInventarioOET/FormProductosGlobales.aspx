@@ -2,7 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">   
     <br />
-    <!-- Label para desplegar mensajes -->
+    <!-- Label para desplegar mensajes de éxito o fracaso con respecto a operaciones en la base de datos-->
     <div>
         <div id="mensajeAlerta" runat="server" Visible="false" style="margin-left:50%;">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -12,13 +12,14 @@
             <asp:Label ID="labelAlerta" runat="server"></asp:Label>
         </div>
     </div>
+
     <!-- Título del Form -->
     <div>
         <h2 runat="server">Catálogo general de productos</h2>
         <hr />
     </div>
 
-    <!-- Botones -->
+    <!-- Botones principales que permiten las funciones de insertar, modificar y consultar -->
     <button runat="server" onserverclick="botonAgregarProductos_ServerClick" id="botonAgregarProductos" class=" btn btn-info-fozkr" type="button" style="float: left">Nuevo Producto</button>
     <button runat="server" onserverclick="botonModificacionProductos_ServerClick" id="botonModificacionProductos" class=" btn btn-info-fozkr" type="button" style="float: left">Modificar Producto</button>
     <button runat="server" id="botonConsultaProductos" causesvalidation="false" onserverclick="botonConsultaProductos_ServerClick" class=" btn btn-info-fozkr" type="button" style="float: left">Consultar Productos</button>
@@ -33,7 +34,7 @@
     <fieldset id= "FieldsetProductos" class="fieldset">
         <br />
 
-
+<%--        COLUMNA IZQUIERDA: Contiene datos referentes a datos generales de los productos globales--%>
         <div class= "col-lg-7">
             <div class="form-group col-lg-12" >
                     <asp:RequiredFieldValidator CssClass="label label-danger" runat=server ControlToValidate=inputNombre ErrorMessage=""> 
@@ -77,7 +78,7 @@
         </div>
 
 
-<%--        COLUMNA IZQUIERDA--%>
+<%--        COLUMNA DERECHA: Contiene datos financieros de los productos globales--%>
 
         <div class="col-lg-5">
            
