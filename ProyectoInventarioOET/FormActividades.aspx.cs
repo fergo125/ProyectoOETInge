@@ -86,7 +86,7 @@ namespace ProyectoInventarioOET
             try
             {
                 // Cargar actividades
-                Object[] datos = new Object[2];
+                Object[] datos = new Object[1];
                 DataTable actividades = controladoraActividades.consultarActividades();
 
                 if (actividades.Rows.Count > 0)
@@ -107,7 +107,6 @@ namespace ProyectoInventarioOET
                 else
                 {
                     datos[0] = "-";
-                    datos[1] = "-";
                     tabla.Rows.Add(datos);
                 }
 
@@ -171,6 +170,7 @@ namespace ProyectoInventarioOET
             else if (modo == (int)Modo.Modificacion)
             {
                 //operacionCorrecta = modificar();
+                //resultado = controladoraActividades.modificarDatos();
             }
             if (operacionCorrecta)
             {
@@ -238,12 +238,16 @@ namespace ProyectoInventarioOET
                     this.botonAgregarActividades.Disabled = true;
                     this.botonModificacionActividades.Disabled = true;
                     this.gridViewActividades.Visible = false;///********************
+                    this.botonAceptarActividad.Visible = true;///******************
+                    this.botonCancelarActividad.Visible = true;///******************   
                     break;
                 case (int)Modo.Modificacion: //modificar
                     habilitarCampos(true);
                     this.botonAgregarActividades.Disabled = true;
                     this.botonModificacionActividades.Disabled = true;
                     this.gridViewActividades.Visible = false;///********************
+                    this.botonAceptarActividad.Visible = true;///******************
+                    this.botonCancelarActividad.Visible = true;///******************  
                     break;
                 case (int)Modo.Consulta://consultar
                     limpiarCampos();
@@ -296,6 +300,13 @@ namespace ProyectoInventarioOET
         {
             this.inputDescripcionActividad.Value = actividadConsultada.Descripcion;
             this.comboBoxEstadosActividades.SelectedValue = actividadConsultada.Estado.ToString();
+        }
+
+        protected void botonModificacionActividades_ServerClick(object sender, EventArgs e)
+        {
+            modo = (int)Modo.Modificacion;
+            cambiarModo();
+            cargarEstados();
         }
 
     }
