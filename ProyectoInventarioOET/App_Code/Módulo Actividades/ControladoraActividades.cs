@@ -24,11 +24,11 @@ namespace ProyectoInventarioOET.Módulo_Actividades
             return controladoraBDActividades.consultarActividad(codigo);
         }
 
-        public String[] insertarDatos(String codigo, String descripcion, int estado)
+        public String[] insertarDatos(String descripcion, int estado)
         {
             /*crea una nueva actividad dado un vector con los datos de la misma*/
             Object[] datosActividad = new Object[3];
-            datosActividad[0] = codigo;
+            datosActividad[0] = DateTime.Now.ToString("h:mm:ss");
             datosActividad[1] = descripcion;
             datosActividad[2] = estado;
 
