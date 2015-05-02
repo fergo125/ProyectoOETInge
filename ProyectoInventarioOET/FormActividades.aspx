@@ -49,7 +49,8 @@
                     </div>
                 </div>
         </fieldset>
-        <label for="textoObligatorioActividad" class="text-danger text-center">Los campos con (*) son obligatorios</label>
+        <label id="labelTextoObligatorioActividad" runat="server" for="textoObligatorioActividad" class="text-danger text-center">Los campos con (*) son obligatorios</label>
+
 
     </div>
     <div class="col-lg-12" id="bloqueBotones">
