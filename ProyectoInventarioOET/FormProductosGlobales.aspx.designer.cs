@@ -148,13 +148,13 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.UpdatePanel UpdatePanelPruebas;
         
         /// <summary>
-        /// Control gridViewBodegas.
+        /// Control gridViewProductosGlobales.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gridViewBodegas;
+        protected global::System.Web.UI.WebControls.GridView gridViewProductosGlobales;
         
         /// <summary>
         /// Control botonAceptarProducto.
