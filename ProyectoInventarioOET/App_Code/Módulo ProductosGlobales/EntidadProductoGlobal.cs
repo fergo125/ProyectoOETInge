@@ -17,6 +17,7 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
         private int estado;
         private double costoColones;
         private double costoDolares; //Calculo se hace en interfaz
+        private String inv_productos; //Clave primaria es autogenerada en la BD
 
         public EntidadProductoGlobal (Object[] datos)
         {
@@ -85,12 +86,20 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
             set { costoDolares = value; }
         }
 
+        public String Inv_Productos
+        {
+            get { return inv_productos; }
+            set { inv_productos = value; }
+        }
+
         private String autogenerarCodigo()
         {
             //here's where the magic happens
             //in the meanwhile...
             return "";
         }
+
+
 
     }
 }

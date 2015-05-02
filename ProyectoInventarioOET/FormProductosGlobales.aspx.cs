@@ -5,18 +5,20 @@ using System.Web;
 using System.Data;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using ProyectoInventarioOET.App_Code;
 
 namespace ProyectoInventarioOET
 {
     public partial class FormProductosGlobales : System.Web.UI.Page
     {
-        enum Modo { Inicial,  Consulta, Insercion, Modificacion};
+        enum Modo { Inicial, Consulta, Insercion, Modificacion, Consultado };
         private static int modo = (int) Modo.Inicial;
         private static int idProducto = 0; //Sirve para estar en modo consulta
         private static int idRequerimiento = 0;
         private static int idCriterio = 0;
         private static int resultadosPorPagina;
         private static Object[] idArray;
+        private static ControladoraDatosGenerales controladoraDatosGenerales;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -209,7 +211,53 @@ namespace ProyectoInventarioOET
         {
         }
 
+        protected void cambiarModo()
+        {
+            switch (modo)
+            {///Probar si aun se pueden mostrar los campos con el JS********************
+                case (int)Modo.Inicial:
+                    limpiarCampos();
+                    this.botonAgregarProductos.Disabled = false;
+                    this.botonModificacionProductos.Disabled = true;
+                    habilitarCampos(false);
+                    //this.gridViewActividades.Visible = false;///********************
+                    this.botonAceptarProducto.Visible = false;///******************
+                    this.botonCancelarProducto.Visible = false;///******************                                                                
+                    break;
+                case (int)Modo.Insercion: //insertar
+                    habilitarCampos(true);
+                    this.botonAgregarProductos.Disabled = true;
+                    this.botonModificacionProductos.Disabled = true;
+                    //this.gridViewActividades.Visible = false;///********************
+                    break;
+                case (int)Modo.Modificacion: //modificar
+                    habilitarCampos(true);
+                    this.botonAgregarProductos.Disabled = true;
+                    this.botonModificacionProductos.Disabled = true;
+                    //this.gridViewActividades.Visible = false;///********************
+                    break;
+                case (int)Modo.Consulta://consultar
+                    limpiarCampos();
+                    habilitarCampos(false);
+                    this.botonAceptarProducto.Visible = false;///******************
+                    this.botonCancelarProducto.Visible = false;///******************
+                    this.botonModificacionProductos.Disabled = true;//**********************
+                    //this.gridViewActividades.Visible = true;///********************
+                    break;
+                case (int)Modo.Consultado://consultada una actividad
+                    habilitarCampos(false);
+                    this.botonAgregarProductos.Disabled = true;
+                    this.botonModificacionProductos.Disabled = false;
+                    this.botonAceptarProducto.Visible = false;///******************
+                    this.botonCancelarProducto.Visible = false;///****************** 
+                    //this.gridViewActividades.Visible = false;///********************///
 
+                    break;
+                default:
+
+                    break;
+            }
+        }
 
 
         /* METODOS DE INTERFAZ RUTINARIOS
@@ -222,31 +270,48 @@ namespace ProyectoInventarioOET
             this.inputCodigoBarras.Value = "";
         }
 
-        protected void deshabilitarCampos() 
+        protected void habilitarCampos(bool resp)
         {
-            this.inputNombre.Disabled = true;
-            this.inputCodigo.Disabled = true;
-            this.inputCodigoBarras.Disabled = true;
-            this.inputUnidades.Enabled = false;
-            this.inpuCategoria.Enabled = false;
-            this.inputEstado.Enabled = false; 
-        }
-
-        protected void habilitarCampos()
-        {
-            this.inputNombre.Disabled = false;
-            this.inputCodigo.Disabled = false;
-            this.inputCodigoBarras.Disabled = false;
-            this.inputUnidades.Enabled = true;
-            this.inpuCategoria.Enabled = true;
-            this.inputEstado.Enabled = true;
+            this.inputNombre.Disabled = !resp;
+            this.inputCodigo.Disabled = !resp;
+            this.inputCodigoBarras.Disabled = !resp;
+            this.inputUnidades.Enabled = resp;
+            this.inpuCategoria.Enabled = resp;
+            this.inputEstado.Enabled = resp;
         }
 
 
         protected void botonCancelarModalCancelar_ServerClick(object sender, EventArgs e)
         {
             limpiarCampos();
-            deshabilitarCampos();
+        }
+
+        protected void botonAgregarProductos_ServerClick(object sender, EventArgs e)
+        {
+            modo = (int)Modo.Insercion;
+            cambiarModo();
+            limpiarCampos();
+            //cargarEstados();
+        }
+
+        protected void botonModificacionProductos_ServerClick(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void botonConsultaProductos_ServerClick(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void gridViewProductosGlobales_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+
+        }
+
+        protected void gridViewProductosGlobales_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+
         }
 
 

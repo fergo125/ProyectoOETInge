@@ -2895,12 +2895,147 @@ namespace ProyectoInventarioOET.DataSetGeneralTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::Oracle.ManagedDataAccess.Client.OracleCommand[1];
+            this._commandCollection = new global::Oracle.ManagedDataAccess.Client.OracleCommand[4];
             this._commandCollection[0] = new global::Oracle.ManagedDataAccess.Client.OracleCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT CAT_BODEGA, DESCRIPCION, ANFITRIONA, ESTACION, ESTADO FROM GRUPO02.CAT_BOD" +
                 "EGA";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[1] = new global::Oracle.ManagedDataAccess.Client.OracleCommand();
+            this._commandCollection[1].Connection = this.Connection;
+            this._commandCollection[1].CommandText = "SELECT CAT_BODEGA, DESCRIPCION, ANFITRIONA, ESTACION, ESTADO FROM GRUPO02.CAT_BOD" +
+                "EGA WHERE CAT_BODEGA = :CAT_BODEGA";
+            this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
+            global::Oracle.ManagedDataAccess.Client.OracleParameter param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
+            param.ParameterName = ":CAT_BODEGA";
+            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
+            param.Size = 30;
+            param.IsNullable = true;
+            param.SourceColumn = "CAT_BODEGA";
+            this._commandCollection[1].Parameters.Add(param);
+            this._commandCollection[2] = new global::Oracle.ManagedDataAccess.Client.OracleCommand();
+            this._commandCollection[2].Connection = this.Connection;
+            this._commandCollection[2].CommandText = "INSERT INTO \"GRUPO02\".\"CAT_BODEGA\" (\"CAT_BODEGA\", \"DESCRIPCION\", \"ANFITRIONA\", \"E" +
+                "STACION\", \"ESTADO\") VALUES (:CAT_BODEGA, :DESCRIPCION, :ANFITRIONA, :ESTACION, :" +
+                "ESTADO)";
+            this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
+            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
+            param.ParameterName = ":CAT_BODEGA";
+            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
+            param.Size = 30;
+            param.IsNullable = true;
+            param.SourceColumn = "CAT_BODEGA";
+            this._commandCollection[2].Parameters.Add(param);
+            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
+            param.ParameterName = ":DESCRIPCION";
+            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
+            param.Size = 1000;
+            param.IsNullable = true;
+            param.SourceColumn = "DESCRIPCION";
+            this._commandCollection[2].Parameters.Add(param);
+            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
+            param.ParameterName = ":ANFITRIONA";
+            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
+            param.Size = 30;
+            param.IsNullable = true;
+            param.SourceColumn = "ANFITRIONA";
+            this._commandCollection[2].Parameters.Add(param);
+            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
+            param.ParameterName = ":ESTACION";
+            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
+            param.Size = 30;
+            param.IsNullable = true;
+            param.SourceColumn = "ESTACION";
+            this._commandCollection[2].Parameters.Add(param);
+            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
+            param.ParameterName = ":ESTADO";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Decimal;
+            param.Size = 22;
+            param.IsNullable = true;
+            param.SourceColumn = "ESTADO";
+            this._commandCollection[2].Parameters.Add(param);
+            this._commandCollection[3] = new global::Oracle.ManagedDataAccess.Client.OracleCommand();
+            this._commandCollection[3].Connection = this.Connection;
+            this._commandCollection[3].CommandText = @"UPDATE ""GRUPO02"".""CAT_BODEGA"" SET ""CAT_BODEGA"" = :CAT_BODEGA, ""DESCRIPCION"" = :DESCRIPCION, ""ANFITRIONA"" = :ANFITRIONA, ""ESTACION"" = :ESTACION, ""ESTADO"" = :ESTADO WHERE ((""CAT_BODEGA"" = :Original_CAT_BODEGA) AND (""DESCRIPCION"" = :Original_DESCRIPCION) AND (""ANFITRIONA"" = :Original_ANFITRIONA) AND (""ESTACION"" = :Original_ESTACION) AND (""ESTADO"" = :Original_ESTADO))";
+            this._commandCollection[3].CommandType = global::System.Data.CommandType.Text;
+            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
+            param.ParameterName = ":CAT_BODEGA";
+            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
+            param.Size = 30;
+            param.IsNullable = true;
+            param.SourceColumn = "CAT_BODEGA";
+            this._commandCollection[3].Parameters.Add(param);
+            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
+            param.ParameterName = ":DESCRIPCION";
+            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
+            param.Size = 1000;
+            param.IsNullable = true;
+            param.SourceColumn = "DESCRIPCION";
+            this._commandCollection[3].Parameters.Add(param);
+            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
+            param.ParameterName = ":ANFITRIONA";
+            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
+            param.Size = 30;
+            param.IsNullable = true;
+            param.SourceColumn = "ANFITRIONA";
+            this._commandCollection[3].Parameters.Add(param);
+            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
+            param.ParameterName = ":ESTACION";
+            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
+            param.Size = 30;
+            param.IsNullable = true;
+            param.SourceColumn = "ESTACION";
+            this._commandCollection[3].Parameters.Add(param);
+            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
+            param.ParameterName = ":ESTADO";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Decimal;
+            param.Size = 22;
+            param.IsNullable = true;
+            param.SourceColumn = "ESTADO";
+            this._commandCollection[3].Parameters.Add(param);
+            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
+            param.ParameterName = ":Original_CAT_BODEGA";
+            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
+            param.Size = 30;
+            param.IsNullable = true;
+            param.SourceColumn = "CAT_BODEGA";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._commandCollection[3].Parameters.Add(param);
+            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
+            param.ParameterName = ":Original_DESCRIPCION";
+            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
+            param.Size = 1000;
+            param.IsNullable = true;
+            param.SourceColumn = "DESCRIPCION";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._commandCollection[3].Parameters.Add(param);
+            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
+            param.ParameterName = ":Original_ANFITRIONA";
+            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
+            param.Size = 30;
+            param.IsNullable = true;
+            param.SourceColumn = "ANFITRIONA";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._commandCollection[3].Parameters.Add(param);
+            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
+            param.ParameterName = ":Original_ESTACION";
+            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
+            param.Size = 30;
+            param.IsNullable = true;
+            param.SourceColumn = "ESTACION";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._commandCollection[3].Parameters.Add(param);
+            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
+            param.ParameterName = ":Original_ESTADO";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Decimal;
+            param.Size = 22;
+            param.IsNullable = true;
+            param.SourceColumn = "ESTADO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._commandCollection[3].Parameters.Add(param);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2922,6 +3057,23 @@ namespace ProyectoInventarioOET.DataSetGeneralTableAdapters {
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
         public virtual DataSetGeneral.CAT_BODEGADataTable GetData() {
             this.Adapter.SelectCommand = this.CommandCollection[0];
+            DataSetGeneral.CAT_BODEGADataTable dataTable = new DataSetGeneral.CAT_BODEGADataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
+        public virtual DataSetGeneral.CAT_BODEGADataTable consultarFilaBodega(string CAT_BODEGA) {
+            this.Adapter.SelectCommand = this.CommandCollection[1];
+            if ((CAT_BODEGA == null)) {
+                throw new global::System.ArgumentNullException("CAT_BODEGA");
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[0].Value = ((string)(CAT_BODEGA));
+            }
             DataSetGeneral.CAT_BODEGADataTable dataTable = new DataSetGeneral.CAT_BODEGADataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
@@ -3097,6 +3249,142 @@ namespace ProyectoInventarioOET.DataSetGeneralTableAdapters {
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
         public virtual int Update(string DESCRIPCION, string ANFITRIONA, string ESTACION, global::System.Nullable<short> ESTADO, string Original_CAT_BODEGA) {
             return this.Update(Original_CAT_BODEGA, DESCRIPCION, ANFITRIONA, ESTACION, ESTADO, Original_CAT_BODEGA);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, false)]
+        public virtual int Insert1(string CAT_BODEGA, string DESCRIPCION, string ANFITRIONA, string ESTACION, global::System.Nullable<decimal> ESTADO) {
+            global::Oracle.ManagedDataAccess.Client.OracleCommand command = this.CommandCollection[2];
+            if ((CAT_BODEGA == null)) {
+                throw new global::System.ArgumentNullException("CAT_BODEGA");
+            }
+            else {
+                command.Parameters[0].Value = ((string)(CAT_BODEGA));
+            }
+            if ((DESCRIPCION == null)) {
+                command.Parameters[1].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[1].Value = ((string)(DESCRIPCION));
+            }
+            if ((ANFITRIONA == null)) {
+                command.Parameters[2].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[2].Value = ((string)(ANFITRIONA));
+            }
+            if ((ESTACION == null)) {
+                command.Parameters[3].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[3].Value = ((string)(ESTACION));
+            }
+            if ((ESTADO.HasValue == true)) {
+                command.Parameters[4].Value = ((decimal)(ESTADO.Value));
+            }
+            else {
+                command.Parameters[4].Value = global::System.DBNull.Value;
+            }
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            int returnValue;
+            try {
+                returnValue = command.ExecuteNonQuery();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
+        public virtual int Modificar(string CAT_BODEGA, string DESCRIPCION, string ANFITRIONA, string ESTACION, global::System.Nullable<decimal> ESTADO, string Original_CAT_BODEGA, string Original_DESCRIPCION, string Original_ANFITRIONA, string Original_ESTACION, global::System.Nullable<decimal> Original_ESTADO) {
+            global::Oracle.ManagedDataAccess.Client.OracleCommand command = this.CommandCollection[3];
+            if ((CAT_BODEGA == null)) {
+                throw new global::System.ArgumentNullException("CAT_BODEGA");
+            }
+            else {
+                command.Parameters[0].Value = ((string)(CAT_BODEGA));
+            }
+            if ((DESCRIPCION == null)) {
+                command.Parameters[1].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[1].Value = ((string)(DESCRIPCION));
+            }
+            if ((ANFITRIONA == null)) {
+                command.Parameters[2].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[2].Value = ((string)(ANFITRIONA));
+            }
+            if ((ESTACION == null)) {
+                command.Parameters[3].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[3].Value = ((string)(ESTACION));
+            }
+            if ((ESTADO.HasValue == true)) {
+                command.Parameters[4].Value = ((decimal)(ESTADO.Value));
+            }
+            else {
+                command.Parameters[4].Value = global::System.DBNull.Value;
+            }
+            if ((Original_CAT_BODEGA == null)) {
+                throw new global::System.ArgumentNullException("Original_CAT_BODEGA");
+            }
+            else {
+                command.Parameters[5].Value = ((string)(Original_CAT_BODEGA));
+            }
+            if ((Original_DESCRIPCION == null)) {
+                command.Parameters[6].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[6].Value = ((string)(Original_DESCRIPCION));
+            }
+            if ((Original_ANFITRIONA == null)) {
+                command.Parameters[7].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[7].Value = ((string)(Original_ANFITRIONA));
+            }
+            if ((Original_ESTACION == null)) {
+                command.Parameters[8].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[8].Value = ((string)(Original_ESTACION));
+            }
+            if ((Original_ESTADO.HasValue == true)) {
+                command.Parameters[9].Value = ((decimal)(Original_ESTADO.Value));
+            }
+            else {
+                command.Parameters[9].Value = global::System.DBNull.Value;
+            }
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            int returnValue;
+            try {
+                returnValue = command.ExecuteNonQuery();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            return returnValue;
         }
     }
     
