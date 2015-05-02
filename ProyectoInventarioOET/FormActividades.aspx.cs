@@ -169,8 +169,20 @@ namespace ProyectoInventarioOET
             }
             else if (modo == (int)Modo.Modificacion)
             {
-                //operacionCorrecta = modificar();
+
                 resultado = controladoraActividades.modificarDatos(actividadConsultada, this.inputDescripcionActividad.Value.ToString(), Int32.Parse(this.comboBoxEstadosActividades.SelectedValue.ToString()));
+
+                if (resultado[1] == "Exito")
+                {
+                    codigoInsertado = actividadConsultada.Codigo;
+                    operacionCorrecta = true;
+                    actividadConsultada = controladoraActividades.consultarActividad(codigoInsertado);
+                    modo = (int)Modo.Consultado;
+                    habilitarCampos(false);
+                    mostrarMensaje(resultado[0], resultado[1], resultado[2]);
+                }
+                else
+                    operacionCorrecta = false;
             }
             if (operacionCorrecta)
             {
