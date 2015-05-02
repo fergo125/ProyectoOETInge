@@ -11,7 +11,7 @@ namespace ProyectoInventarioOET
 {
     public partial class FormCategorias : System.Web.UI.Page
     {
-        enum Modo { Inicial, Consulta, Insercion, Modificacion };
+        enum Modo { Inicial, Consulta, Insercion, Modificacion, Consultado };
         private static int modo = (int)Modo.Inicial;
         private static int idCategoria = 0; //Sirve para estar en modo consulta
         private static int resultadosPorPagina;
@@ -26,7 +26,6 @@ namespace ProyectoInventarioOET
             {
                 
                     controladoraCategorias = new ControladoraCategorias();
-                    //controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
 
                     if (!seConsulto)
                     {
@@ -51,41 +50,43 @@ namespace ProyectoInventarioOET
         {
             if (modo == (int)Modo.Consulta)
             { // el modo 0 se usa para resetear la interfaz
-                botonAceptar.Disabled = true;
-                botonCancelar.Disabled = true;
-                botonAceptar.Visible = true;
-                botonCancelar.Visible = true;
+                bloqueBotones.Visible = true;
+                bloqueBotones.Disabled = true;
                 botonModificacionCategoria.Disabled = true;
                 botonAgregarCategoria.Disabled = false;
-                camposCategoria.Visible = true;
                 botonConsultaCategoria.Disabled = true;
-                habilitarCampos(true);
+                camposCategoria.Visible = false;
+                gridViewCategorias.Visible = true;
             }
             else if (modo == (int)Modo.Modificacion)
             { // se desea insertar
-                botonAceptar.Disabled = false;
-                botonCancelar.Disabled = false;
+                bloqueBotones.Visible = true;
+                bloqueBotones.Disabled = false;
                 botonModificacionCategoria.Disabled = true;
-                botonAgregarCategoria.Disabled = true;
+                botonAgregarCategoria.Disabled = false;
                 botonConsultaCategoria.Disabled = true;
+                camposCategoria.Visible = true;
+                gridViewCategorias.Visible = false;
             }
             else if (modo == (int)Modo.Insercion)
             { //modificar
-                botonAceptar.Disabled = false;
-                botonCancelar.Disabled = false;
-                botonModificacionCategoria.Disabled = true;
-                botonAgregarCategoria.Disabled = true;
-                botonConsultaCategoria.Disabled = false;
-                habilitarCampos(false);
-            }
-            else if (modo == (int)Modo.Inicial)
-            { // eliminar
-                botonAceptar.Disabled = true;
-                botonCancelar.Disabled = true;
+                bloqueBotones.Visible = true;
+                bloqueBotones.Disabled = false;
                 botonModificacionCategoria.Disabled = true;
                 botonAgregarCategoria.Disabled = false;
                 botonConsultaCategoria.Disabled = false;
-                habilitarCampos(true);
+                camposCategoria.Visible = true;
+                gridViewCategorias.Visible = false;
+            }
+            else if (modo == (int)Modo.Inicial)
+            { // eliminar
+                bloqueBotones.Visible = false;
+                bloqueBotones.Disabled = true;
+                botonModificacionCategoria.Disabled = true;
+                botonAgregarCategoria.Disabled = false;
+                botonConsultaCategoria.Disabled = false;
+                camposCategoria.Visible = false;
+                gridViewCategorias.Visible = false;
             }
 
             //aplicarPermisos();// se aplican los permisos del usuario para el acceso a funcionalidades
@@ -154,10 +155,10 @@ namespace ProyectoInventarioOET
         {
             this.inputNombre.Disabled = true;
         }
-        protected void habilitarCampos(bool cambio)
+        /*protected void habilitarCampos(bool cambio)
         {
             this.inputNombre.Disabled = cambio;
-        }
+        }*/
         protected void botonCancelarModalCancelar_ServerClick(object sender, EventArgs e)
         {
             limpiarCampos();
@@ -167,16 +168,20 @@ namespace ProyectoInventarioOET
         protected void botonAgregarCategoria_ServerClick(object sender, EventArgs e)
         {
             modo = (int)Modo.Insercion;
+            irAModo();
         }
 
         protected void botonModificacionCategoria_ServerClick(object sender, EventArgs e)
         {
             modo = (int)Modo.Modificacion;
+            irAModo();
         }
 
         protected void botonConsultaCategoria_ServerClick(object sender, EventArgs e)
         {
             modo = (int)Modo.Consulta;
+            testGrid();
+            irAModo();
         }
 
         protected void mostrarMensaje(String tipoAlerta, String alerta, String mensaje)
@@ -189,6 +194,53 @@ namespace ProyectoInventarioOET
         protected void setDatosConsultados()
         {
             this.inputNombre.Value = categoriaConsultada.Descripcion;
+        }
+        protected void llenarGrid()
+        {
+            DataTable tabla = tablaCategorias();
+            int indiceNuevaBodega = -1;
+            int i = 0;
+
+            try
+            {
+                // Cargar bodegas
+                Object[] datos = new Object[2];
+                DataTable bodegas = controladoraCategorias.consultarCategorias();
+
+                if (bodegas.Rows.Count > 0)
+                {
+                    idArray = new Object[bodegas.Rows.Count];
+                    foreach (DataRow fila in bodegas.Rows)
+                    {
+                        idArray[i] = fila[0];
+                        datos[0] = fila[1].ToString();
+                        datos[1] = fila[3].ToString();
+                        tabla.Rows.Add(datos);
+                        if (categoriaConsultada != null && (fila[0].Equals(categoriaConsultada.Nombre)))
+                        {
+                            indiceNuevaBodega = i;
+                        }
+                        i++;
+                    }
+                }
+                else
+                {
+                    datos[0] = "-";
+                    datos[1] = "-";
+                    tabla.Rows.Add(datos);
+                }
+
+                this.gridViewBodegas.DataSource = tabla;
+                this.gridViewBodegas.DataBind();
+                if (bodegaConsultada != null)
+                {
+                    GridViewRow filaSeleccionada = this.gridViewBodegas.Rows[indiceNuevaBodega];
+                }
+            }
+            catch (Exception e)
+            {
+                mostrarMensaje("warning", "Alerta", "No hay conexión a la base de datos.");
+            }
         }
     }
 

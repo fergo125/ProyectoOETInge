@@ -1,16 +1,5 @@
 ﻿<%@ Page Title="Categorías" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="FormCategorias.aspx.cs" Inherits="ProyectoInventarioOET.FormCategorias" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <!--script type="text/javascript">
-        function showStuff(id) {
-            var estado = document.getElementById(id).style.display;
-            if (estado === 'none') {
-                document.getElementById(id).style.display = 'block'; //Color 7BC134
-            } else {
-                document.getElementById(id).style.display = 'none';
-            }
-        }
-    </!--script>
-
     <br />
     <!-- Label para desplegar mensajes -->
     <div>
@@ -40,6 +29,33 @@
     <br />
 
     <h3 id="tituloAccion"> Consulta de Categorias </h3>
+     <!-- Grid de Consulta de categorias -->
+      <!-- Gridview de consultar -->
+    <br/>
+
+     <div class="col-lg-12" id="bloqueGrid">
+
+<%--        <label for="UpdatePanelPruebas" class= "control-label" > Catálogo global de categorias </label> OnRowCommand="gridViewCategorias_Seleccion" OnPageIndexChanging="gridViewCategorias_CambioPagina"--%>
+        <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
+            <ContentTemplate>
+                <asp:GridView ID="gridViewCategorias" CssClass="table able-responsive table-condensed" runat="server" OnRowCommand="gridViewCategorias_Seleccion" OnPageIndexChanging="gridViewCategorias_CambioPagina" AllowPaging="True" PageSize="16" BorderColor="Transparent" Visible ="false">
+                    <Columns>
+                        <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn-default" CommandName="Select" Text="Consultar">
+                            <ControlStyle CssClass="btn-default disabled"></ControlStyle>
+                        </asp:ButtonField>
+                   </Columns>
+                   <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
+                   <PagerStyle CssClass="paging" HorizontalAlign="Center" />
+                   <AlternatingRowStyle BackColor="#EBEBEB" />
+                   <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
+                   <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" />
+              </asp:GridView>
+         </ContentTemplate>
+         <Triggers>
+            <asp:AsyncPostBackTrigger ControlID="gridViewCategorias" EventName="RowCommand" />
+         </Triggers>
+      </asp:UpdatePanel>
+   </div>
 
     <!-- Fieldset que muestra el form para agregar un nuevo categoria -->
     <div class= "row" id="bloqueFormulario" >
@@ -61,70 +77,13 @@
     </fieldset>
     </div>
 
-
-     <!-- Grid de Consulta de categorias -->
-      <!-- Gridview de consultar -->
-    <br/>
-
-     <div class="col-lg-12" id="bloqueGrid">
-
-<%--        <label for="UpdatePanelPruebas" class= "control-label" > Catálogo global de categorias </label> OnRowCommand="gridViewCategorias_Seleccion" OnPageIndexChanging="gridViewCategorias_CambioPagina"--%>
-        <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
-            <ContentTemplate>
-                <asp:GridView ID="gridViewCategorias" CssClass="table able-responsive table-condensed" runat="server" OnRowCommand="gridViewCategorias_Seleccion" OnPageIndexChanging="gridViewCategorias_CambioPagina" AllowPaging="True" PageSize="16" BorderColor="Transparent">
-                    <Columns>
-                        <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn-default" CommandName="Select" Text="Consultar">
-                            <ControlStyle CssClass="btn-default disabled"></ControlStyle>
-                        </asp:ButtonField>
-                   </Columns>
-                   <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
-                   <PagerStyle CssClass="paging" HorizontalAlign="Center" />
-                   <AlternatingRowStyle BackColor="#EBEBEB" />
-                   <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
-                   <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" />
-              </asp:GridView>
-         </ContentTemplate>
-         <Triggers>
-            <asp:AsyncPostBackTrigger ControlID="gridViewCategorias" EventName="RowCommand" />
-         </Triggers>
-      </asp:UpdatePanel>
-   </div>
-
-
-
 <%--    Botones de aceptar y cancelar acción--%> 
-    <div class= "row" id="bloqueBotones" visible="false">
+    <div class= "row" id="bloqueBotones" visible="true" runat="server">
         <div class="text-center">
             <button id="botonAceptar" class="btn btn-success-fozkr" type="button" runat="server"> Aceptar </button>
             <a id="botonCancelar" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cancelar</a>
         </div>
     </div>
-
-   
-    <!--script type="text/javascript">
-        function showStuff(elementoATogglear, mensaje) {
-            var estado = document.getElementById(elementoATogglear).style.display;
-            document.getElementById('tituloAccion').innerHTML = mensaje;
-            if (elementoATogglear === 'bloqueFormulario') {
-                if (estado === 'none') {
-                    document.getElementById('bloqueGrid').style.display = 'none';
-                    document.getElementById(elementoATogglear).style.display = 'block';
-                    document.getElementById('bloqueBotones').style.display = 'block';
-                } else {
-                    document.getElementById(elementoATogglear).style.display = 'none';
-                    document.getElementById('bloqueBotones').style.display = 'none';
-                }
-            } else {
-                document.getElementById('bloqueBotones').style.display = 'none';
-                if (estado === 'none') {
-                    document.getElementById(elementoATogglear).style.display = 'block';
-                    document.getElementById('bloqueFormulario').style.display = 'none';
-                } else {
-                    document.getElementById(elementoATogglear).style.display = 'none';
-                }
-            }
-        } // Final de funcion 
-    </!--script>
 
     <!-- Javascript -->
     <!-- Modificar tab de site master activo -->

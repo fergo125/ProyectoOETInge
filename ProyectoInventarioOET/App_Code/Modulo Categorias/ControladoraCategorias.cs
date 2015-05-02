@@ -44,7 +44,7 @@ namespace ProyectoInventarioOET.Modulo_Categorias
             return controladoraBDCategorias.desactivarCategoria(categoria);
         }
 
-        public DataTable consultarcategorias()
+        public DataTable consultarCategorias()
         {
             /*consulta la información de todas las categorias*/
             return controladoraBDCategorias.consultarCategorias();
