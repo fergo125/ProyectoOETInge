@@ -21,7 +21,7 @@
 
     <!-- Cuerpo del Form -->
     <button runat="server" onserverclick="botonAgregarActividades_ServerClick" id="botonAgregarActividades" class=" btn btn-info-fozkr" type="button" style="float: left" > Nueva Actividad</button>
-    <button runat="server" onserverclick="botonModificacionActividades_ServerClick" id="botonModificacionActividades" class=" btn btn-info-fozkr" type="button" style="float: left"><i></i> Modificar Actividad </button>
+    <button runat="server" onserverclick="botonModificacionActividades_ServerClick" causesvalidation="false"  id="botonModificacionActividades" class=" btn btn-info-fozkr" type="button" style="float: left"><i></i> Modificar Actividad </button>
     <button runat="server" onserverclick="botonConsultaActividades_ServerClick" causesvalidation="false"  id="botonConsultaActividades" class=" btn btn-info-fozkr" type="button" style="float: left"><i></i>Consulta de Actividades </button>
     <br />
     <br />
@@ -41,7 +41,7 @@
                 </asp:RequiredFieldValidator>
                     <br />
                     <div class="form-group">
-                        <label for="inputDescripcionActividad" class= "control-label"> Nombre*: </label>      
+                        <label for="inputDescripcionActividad" class= "control-label"> Nombre:* </label>      
                         <input type="text" id= "inputDescripcionActividad" runat="server" class="form-control">
                     </div>
             </div>
@@ -53,7 +53,7 @@
             </asp:RequiredFieldValidator>
                 <br />
                 <div class="form-group">
-                    <label for="inputEstadoActividad" class= "control-label"> Estado*: </label>      
+                    <label for="inputEstadoActividad" class= "control-label"> Estado:* </label>      
                     <asp:DropDownList id="comboBoxEstadosActividades" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
                     </asp:DropDownList>
                 </div>
