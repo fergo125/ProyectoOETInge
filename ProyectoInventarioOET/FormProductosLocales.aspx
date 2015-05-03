@@ -1,26 +1,38 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="FormProductosLocales.aspx.cs" Inherits="ProyectoInventarioOET.FormProductosLocales" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-
     <br />
+    <!-- Label para desplegar mensajes -->
+    <div>
+        <div id="mensajeAlerta" class="alert alert-fozkr-error fade in" runat="server" style="margin-left: 70%; visibility:hidden">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <strong>
+                <asp:Label ID="labelTipoAlerta" runat="server" Text="Alerta! "></asp:Label>
+            </strong>
+            <asp:Label ID="labelAlerta" runat="server" Text="Mensaje de alerta"></asp:Label>
+        </div>
+    </div>
+
     <!-- Título del Form -->
     <div>
-        <h2 id="TituloProductosLocales" runat="server">Catálogo Local</h2>
+        <h2 id="TituloProductosLocales" runat="server">Catálogos de productos en bodegas</h2>
         <hr />
     </div>
     <br />
     <div class="row">
         <div class="col-lg-4">
-            <label for="inputEstacion" class="control-label">Seleccione estación: </label>
+            <label for="inputEstacion" class="control-label">Seleccione estación:</label>
             <asp:DropDownList ID="DropDownListEstacion" runat="server" CssClass="form-control" OnSelectedIndexChanged="DropDownListEstacion_SelectedIndexChanged" AutoPostBack="true">
             </asp:DropDownList>
         </div>
         <div class="col-lg-4">
-            <label for="inputBodega" class="control-label">Seleccione bodega: </label>
+            <label for="inputBodega" class="control-label">Seleccione bodega:</label>
             <asp:DropDownList ID="DropDownListBodega" runat="server" CssClass="form-control">
             </asp:DropDownList>
         </div>
-        <div class="col-lg-4"><br /><br />
-            <button runat="server" onserverclick="botonConsultarBodega_ServerClick" id="botonConsultarBodega" class=" btn btn-info" type="button" style="float: left" >Consultar Bodega</button>
+        <div class="col-lg-4">
+            <br />
+            <br />
+            <button runat="server" onserverclick="botonConsultarBodega_ServerClick" id="botonConsultarBodega" class=" btn btn-info-fozkr" type="button" style="float: left">Consultar Bodega</button>
         </div>
      </div>
     <br />

@@ -20,9 +20,9 @@
     </div>
 
     <!-- Cuerpo del Form -->
-    <button runat="server" onserverclick="botonAgregarActividades_ServerClick" id="botonAgregarActividades" class=" btn btn-info" type="button" style="float: left" > Nueva Actividad</button>
-    <button runat="server" onserverclick="botonModificacionActividades_ServerClick" id="botonModificacionActividades" class=" btn btn-info" type="button" style="float: left"><i></i> Modificar Actividad </button>
-    <button runat="server" onserverclick="botonConsultaActividades_ServerClick"  id="botonConsultaActividades" class=" btn btn-info" type="button" style="float: left"><i></i>Consulta de Actividades </button>
+    <button runat="server" onserverclick="botonAgregarActividades_ServerClick" id="botonAgregarActividades" class=" btn btn-info-fozkr" type="button" style="float: left" > Nueva Actividad</button>
+    <button runat="server" onserverclick="botonModificacionActividades_ServerClick" id="botonModificacionActividades" class=" btn btn-info-fozkr" type="button" style="float: left"><i></i> Modificar Actividad </button>
+    <button runat="server" onserverclick="botonConsultaActividades_ServerClick"  id="botonConsultaActividades" class=" btn btn-info-fozkr" type="button" style="float: left"><i></i>Consulta de Actividades </button>
     <br />
     <br />
 
@@ -90,8 +90,8 @@
                 <ContentTemplate>
                     <asp:GridView ID="gridViewActividades" CssClass="table table-responsive table-condensed" OnRowCommand="gridViewActividades_Seleccion" OnPageIndexChanging="gridViewActividades_CambioPagina" runat="server" AllowPaging="True" PageSize="2" BorderColor="Transparent">
                         <Columns>
-                            <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-info" CommandName="Select" Text="Consultar">
-                                <ControlStyle CssClass="btn btn-info"></ControlStyle>
+                            <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-info-fozkr" CommandName="Select" Text="Consultar">
+                                <ControlStyle CssClass="btn btn-info-fozkr"></ControlStyle>
                             </asp:ButtonField>
                        </Columns>
                        <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
