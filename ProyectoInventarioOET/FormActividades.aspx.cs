@@ -283,6 +283,7 @@ namespace ProyectoInventarioOET
                     this.codigoInternoActividad.Visible = false;
                     this.labelCodigoInterno.Visible = false;
                     this.codigoInternoActividad.Disabled = true;
+                    this.tituloBienvenidaActividades.Visible = true;
                     break;
                 case (int)Modo.Insercion: //insertar
                     habilitarCampos(true);
@@ -295,6 +296,7 @@ namespace ProyectoInventarioOET
                     this.botonCancelarActividad.Visible = true;  
                     this.codigoInternoActividad.Visible = false;
                     this.labelCodigoInterno.Visible = false;
+                    this.tituloBienvenidaActividades.Visible = false;
                     break;
                 case (int)Modo.Modificacion: //modificar
                     habilitarCampos(true);
@@ -307,6 +309,7 @@ namespace ProyectoInventarioOET
                     this.botonCancelarActividad.Visible = true;
                     this.codigoInternoActividad.Visible = false;
                     this.labelCodigoInterno.Visible = false;
+                    this.tituloBienvenidaActividades.Visible = false;
                     break;
                 case (int)Modo.Consulta://consultar
                     limpiarCampos();
@@ -318,6 +321,7 @@ namespace ProyectoInventarioOET
                     this.botonCancelarActividad.Visible = false;
                     this.botonModificacionActividades.Disabled = true;
                     this.gridViewActividades.Visible = true;
+                    this.tituloBienvenidaActividades.Visible = false;
                     break;
                 case (int)Modo.Consultado://consultada una actividad
                     habilitarCampos(false);
@@ -331,6 +335,7 @@ namespace ProyectoInventarioOET
                     this.codigoInternoActividad.Visible = true;
                     this.labelCodigoInterno.Visible = true;
                     this.codigoInternoActividad.Disabled = true;
+                    this.tituloBienvenidaActividades.Visible = false;
                     break;
                 default:
 
