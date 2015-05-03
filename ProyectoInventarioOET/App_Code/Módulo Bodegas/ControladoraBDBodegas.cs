@@ -28,9 +28,9 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
             {
                
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "INSERT INTO CAT_BODEGA (CAT_BODEGA,DESCRIPCION,ANFITRIONA,ESTACION,ESTADO) VALUES ('"
+                command.CommandText = "INSERT INTO CAT_BODEGA (CAT_BODEGA,DESCRIPCION,ANFITRIONA,ESTACION,ESTADO,CAT_INTENCIONUSO) VALUES ('"
                 + bodega.Codigo + "','" + bodega.Nombre + "','" + bodega.Anfitriona + "','"
-                + bodega.Estacion + "'," + (short)bodega.Estado + ")";
+                + bodega.Estacion + "'," + (short)bodega.Estado + ","+ bodega.IntencionUso +")";
                 OracleDataReader reader = command.ExecuteReader();
                 
                 res[0] = "success";
@@ -54,9 +54,10 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
             {
                 OracleCommand command = conexionBD.CreateCommand();
                 command.CommandText = "UPDATE CAT_BODEGA SET DESCRIPCION = '" + nuevaBodega.Nombre + "',ANFITRIONA = '"
-                    + nuevaBodega.Anfitriona + "',ESTACION = '" + nuevaBodega.Estacion + "',ESTADO = " + (short)nuevaBodega.Estado + " WHERE DESCRIPCION = '"
+                    + nuevaBodega.Anfitriona + "',ESTACION = '" + nuevaBodega.Estacion + "',ESTADO = " + (short)nuevaBodega.Estado + ", CAT_INTENCIONUSO = "
+                    + (short)nuevaBodega.IntencionUso + " WHERE DESCRIPCION = '"
                     + bodega.Nombre + "' AND ANFITRIONA = '" + bodega.Anfitriona + "' AND ESTACION = '" 
-                    + bodega.Estacion + "' AND ESTADO = " + bodega.Estado;
+                    + bodega.Estacion + "' AND ESTADO = " + bodega.Estado + " AND CAT_INTENCIONUSO = " + bodega.IntencionUso;
                 OracleDataReader reader = command.ExecuteReader();
                 
                 
@@ -122,7 +123,7 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
         {
             DataTable resultado = new DataTable();
             EntidadBodega bodegaConsultada = null; 
-            Object[] datosConsultados = new Object[5]; 
+            Object[] datosConsultados = new Object[6]; 
 
             try
             {
@@ -134,7 +135,7 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
                 if (resultado.Rows.Count == 1)
                 {
                     datosConsultados[0] = codigo;
-                    for (int i = 1; i < 5; i++)
+                    for (int i = 1; i < 6; i++)
                     {
                         datosConsultados[i] = resultado.Rows[0][i].ToString();
                     }
@@ -155,6 +156,23 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
             {
                 OracleCommand command = conexionBD.CreateCommand();
                 command.CommandText = "SELECT * FROM CAT_BODEGA WHERE CAT_BODEGA.ESTACION = '"+codigo+"'";
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
+            }
+            catch (Exception e)
+            {
+                resultado = null;
+            }
+            return resultado;
+        }
+
+        public DataTable consultarIntenciones()
+        {
+            DataTable resultado = new DataTable();
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "SELECT * FROM CAT_INTENCIONUSO";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
             }
