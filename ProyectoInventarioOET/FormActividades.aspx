@@ -32,25 +32,45 @@
     <div class= "row" id="bloqueFormulario">
          <!-- Fieldset para Actividades -->
         <fieldset id= "FieldsetActividad" runat="server" class="fieldset">
-    
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <label for="inputDescripcionActividad" class= "control-label"> Descripción: </label>      
-                        <input type="text" id= "inputDescripcionActividad" runat="server" class="form-control"><br>
-                    </div>
+    <asp:ValidationSummary CssClass="label label-warning" runat=server 
+    HeaderText="Uno de los campos está vacío o con información inválida" />
+            <div class="col-lg-4">
+            <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
+                ControlToValidate=inputDescripcionActividad
+                ErrorMessage=""> 
+            </asp:RequiredFieldValidator>
+                <br />
+                <div class="form-group">
+                    <label for="inputDescripcionActividad" class= "control-label"> Nombre*: </label>      
+                    <input type="text" id= "inputDescripcionActividad" runat="server" class="form-control required">
 
                 </div>
+            </div>
 
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <label for="inputEstadoActividad" class= "control-label"> Estado: </label>      
-                        <asp:DropDownList id="comboBoxEstadosActividades" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
-                        </asp:DropDownList>
-                    </div>
+            <div class="col-lg-3">
+            <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
+                ControlToValidate=comboBoxEstadosActividades
+                ErrorMessage="">
+            </asp:RequiredFieldValidator>
+                <br />
+                <div class="form-group">
+                    <label for="inputEstadoActividad" class= "control-label"> Estado*: </label>      
+                    <asp:DropDownList id="comboBoxEstadosActividades" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
+                    </asp:DropDownList>
                 </div>
+            </div>
+
+            <br />
+            <div class="col-lg-5">
+                <div class="form-group">
+                    <label for="inputCodigoActividad" id="labelCodigoInterno" runat="server" class= "control-label"> Código Interno: </label>      
+                    <input type="text" id= "codigoInternoActividad" runat="server" class="form-control"><br>
+                </div>
+            </div>
+
         </fieldset>
-        <label id="labelTextoObligatorioActividad" runat="server" for="textoObligatorioActividad" class="text-danger text-center">Los campos con (*) son obligatorios</label>
 
+        <label id="labelTextoObligatorioActividad" runat="server" for="textoObligatorioActividad" style="margin-left:1.30%" class="text-danger text-center">Los campos con (*) son obligatorios</label>
 
     </div>
     <div class="col-lg-12" id="bloqueBotones">
@@ -68,7 +88,7 @@
          <div class="col-lg-12">
             <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
                 <ContentTemplate>
-                    <asp:GridView ID="gridViewActividades" CssClass="table table-responsive table-condensed" OnRowCommand="gridViewActividades_Seleccion" OnPageIndexChanging="gridViewActividades_CambioPagina" runat="server" AllowPaging="True" PageSize="16" BorderColor="Transparent">
+                    <asp:GridView ID="gridViewActividades" CssClass="table table-responsive table-condensed" OnRowCommand="gridViewActividades_Seleccion" OnPageIndexChanging="gridViewActividades_CambioPagina" runat="server" AllowPaging="True" PageSize="2" BorderColor="Transparent">
                         <Columns>
                             <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-info" CommandName="Select" Text="Consultar">
                                 <ControlStyle CssClass="btn btn-info"></ControlStyle>
@@ -157,6 +177,5 @@
     </script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.1.47/jquery.form-validator.min.js"> </script>
     <script> $.validate(); </script>
-
 
 </asp:Content>
