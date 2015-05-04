@@ -49,7 +49,7 @@ namespace ProyectoInventarioOET.Módulo_Productos_Locales
         }*/
 
         /*
-         * ???
+         * Consulta los productos que pertenecen a una bodega en específico.
          */
         public DataTable consultarProductosDeBodega(String idBodega)
         {
@@ -69,7 +69,7 @@ namespace ProyectoInventarioOET.Módulo_Productos_Locales
         }
 
         /*
-         * ???
+         * Consulta un producto en específico perteneciente a la bodega especificada. 
          */
         public DataTable consultarProductoDeBodega(String idBodega, String idProducto)
         {
@@ -90,6 +90,9 @@ namespace ProyectoInventarioOET.Módulo_Productos_Locales
             return resultado;
         }
 
+        /*
+         * Modifica el estado de un producto en específico.
+         */
         public string[] modificarProductoLocal(String idBodegaProductos, int estado)
         {
             DataTable resultado = new DataTable();
@@ -113,7 +116,9 @@ namespace ProyectoInventarioOET.Módulo_Productos_Locales
             return res;
 
         }
-
+        /*
+         * Asocia el producto especificado con la bodega especificada. 
+         */
         public string[] asociarProductos(String idBodega,String idProducto,String idUsuario)
         {
             String[] res = new String[4];

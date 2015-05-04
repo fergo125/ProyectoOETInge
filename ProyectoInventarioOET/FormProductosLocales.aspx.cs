@@ -19,16 +19,16 @@ namespace ProyectoInventarioOET
     public partial class FormProductosLocales : System.Web.UI.Page
     {
         //Atributos
-        private static ControladoraBodegas controladoraBodegas;                 //???
-        private static ControladoraDatosGenerales controladoraDatosGenerales;   //???
-        private static ControladoraProductoLocal controladoraProductoLocal;     //???
-        private static ControladoraSeguridad controladoraSeguridad;             //???
-        private static ControladoraCategorias controladoraCategorias;           //???
-        private static int modo = 0;                                            //???
-        private static Object[] idArray;                                        //???
-        private static int estacionSeleccionada, bodegaSeleccionada, pagina;    //???
-        private static Object[] idArray2;                                       //???
-        private static DataTable catalogoLocal, consultaProducto;               //???
+        private static ControladoraBodegas controladoraBodegas;                 // Controladora de bodegas
+        private static ControladoraDatosGenerales controladoraDatosGenerales;   // Controladora de datos generales
+        private static ControladoraProductoLocal controladoraProductoLocal;     // Controladora de productos locales
+        private static ControladoraSeguridad controladoraSeguridad;             // Controladora de seguridad
+        private static ControladoraCategorias controladoraCategorias;           // Controladora de categorías
+        private static int modo = 0;                                            // Modo actual de la página
+        private static Object[] idArray;                                        // Arreglo de id's de estaciones
+        private static int estacionSeleccionada, bodegaSeleccionada, pagina;    // Variables que almacenan la estación seleccionada, la bodega seleccionada y la página actual del grid
+        private static Object[] idArray2;                                       // Arreglo de id's de bodegas
+        private static DataTable catalogoLocal, consultaProducto;               // Tablas de datos que almacenan los productos del catálogo local y los datos del producto consultado
         private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
         private static Boolean gridCatalogoLocal = false;
         private static bool[] asociados;
@@ -58,7 +58,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * 
+         *  Decide que botones mostrar según los permisos del usuario.
          */
         protected void mostrarBotonesSegunPermisos()
         {
@@ -181,7 +181,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * Recarga el catalogo local que se tiene actualmente en memoria en el grid.
+         * Recarga el catálogo local que se tiene actualmente en memoria en el grid.
          */
         protected void cargarCatalogoLocal()
         {
@@ -289,7 +289,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * 
+         * El botón entra a modo de modificación de productos locales, oculta el grid del catálogo local.
          */
         protected void botonModificarProductoLocal_ServerClick(object sender, EventArgs e)
         {
@@ -299,7 +299,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * Realiza el cambio de pagina adentro de los grids
+         * Realiza el cambio de pagina adentro de los grids.
          */
         protected void gridViewCatalogoLocal_CambioPagina(Object sender, GridViewPageEventArgs e)
         {
@@ -330,7 +330,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * Carga estaciones las estaciones disponibles en la base de datos
+         * Carga estaciones las estaciones disponibles en la base de datos.
          */
         protected void DropDownListEstacion_CargaEstaciones()
         {
@@ -350,7 +350,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * Seleccion de estación, se cargan las bodegas disponibles.
+         * Selección de estación, se cargan las bodegas disponibles.
          */
         protected void DropDownListEstacion_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -383,7 +383,7 @@ namespace ProyectoInventarioOET
             
         }
         /*
-         * Seleccion de bodega, se habilitan las opciones de consulta y asociacion. 
+         * Selección de bodega, se habilitan las opciones de consulta y asociacion. 
          */
         protected void DropDownListBodega_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -480,7 +480,7 @@ namespace ProyectoInventarioOET
 
 
         /*
-         * Realiza la asociacion de los productos confirmados.
+         * Realiza la asociación de los productos confirmados.
          */
         protected void botonAsociarProductos_ServerClick(object sender, EventArgs e)
         

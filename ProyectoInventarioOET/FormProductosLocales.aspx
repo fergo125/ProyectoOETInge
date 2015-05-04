@@ -18,13 +18,14 @@
         <hr />
     </div>
 
-    <!-- Botones -->
+    <!-- Botones de acción -->
     <button runat="server" onserverclick="botonAsociarBodega_ServerClick" id="botonAsociarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" disabled="disabled" visible="false">Asociar a Catálogo</button>
     <button runat="server" onserverclick="botonModificarProductoLocal_ServerClick" id="botonModificarProductoLocal" class=" btn btn-info-fozkr" type="button" style="float: left" disabled="disabled" visible="false">Modificar Producto</button>
     <button runat="server" onserverclick="botonConsultarBodega_ServerClick" id="botonConsultarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" disabled="disabled" visible="false">Consultar Catálogo</button>
     <br />
     <br />
     <br />
+    <!-- DropDown Lists que cargan las estaciones disponibles y las bodegas pertenecientes a la estación seleccionada -->
     <div class="row">
         <div class="col-lg-4">
             <label for="inputEstacion" class="control-label">Seleccione estación:</label>
@@ -39,7 +40,7 @@
      </div>
     <br />
 
-    <!-- Fieldset para consultar y modificar productos -->
+    <!-- Fieldset para consultar y modificar productos, aquí se cargan los datos consultados -->
     <fieldset id= "FieldsetProductos" class="fieldset" runat="server">
             <div class= "col-lg-7">
                 <div class="form-group col-lg-12" >
@@ -156,7 +157,7 @@
 
     <!-- Fieldset que muestra los productos de la bodega local elegida -->
     <fieldset id= "FieldsetCatalogoLocal" center="left" runat="server" class="fieldset" visible="false">
-        <!-- Gridview de productos -->
+        <!-- Gridview de productos de bodega elegida -->
          <div class="col-lg-12">
             <strong><div ID="UpdatePanelPruebas" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Catálogo de productos en bodega</div></strong>
             <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
@@ -212,6 +213,7 @@
        </div>
     </fieldset>
 
+    <!-- Fieldset de botones que se muestran debajo del grid cuando se asocian productos -->
     <fieldset id="FieldsetBloqueBotones" center="left" runat="server" class="fieldset" visible="false">
          <div class="col-lg-12" id="bloqueBotones" runat="server">
             <div class =" row">
