@@ -1,5 +1,9 @@
--- Actualizacion de base de datos
+-- Sprint1.sql
+-- Cambios efectuados en la base de datos durante el sprint 1
+-- Realizados por Leonardo Villalobos Arias
 
+
+-- Modulo Productos
 -- Agregar nuevos atributos a producto
 ALTER TABLE INV_PRODUCTOS
   ADD
@@ -10,7 +14,7 @@ ALTER TABLE INV_PRODUCTOS
   );
 
 
-
+-- Modulo Bodega
 -- Agregar nuevos atributos a bodega
 ALTER TABLE CAT_BODEGA
   ADD
@@ -36,16 +40,23 @@ ALTER TABLE INV_BODEGA_PRODUCTOS
     ESTADO NUMBER(2);
     
 
+-- Modulo Seguridad
 -- Seguridad de base de datos
 CREATE TABLE SEG_PERMISOS
 (
   SEG_PERMISO VARCHAR2(30) PRIMARY KEY,
   SEG_PERFIL  VARCHAR2(30),
   INTERFAZ    VARCHAR2(45),
-  PERMISOS    CHAR(6)      -- 0 o 1 unicamente
+  PERMISOS    CHAR(6)      -- Formato XXXXXX, X = 0, 1
   -- Auxiliar, Auxiliar, Desactivar, Modificar, Insertar, Consultar
+  -- Permiso en 0 significa que no tiene ese permiso, en 1 significa que si lo tiene
+  -- Por ejemplo, si el perfil Supervisor tiene para la interfaz de Bodegas los permisos 001001
+    -- entonces el Supervisor puede consultar que bodegas existen y desactivar bodegas
+	-- pero no puede insertar nuevas bodegas y modificar los datos de las ya existentes
+  -- Se dejan 2 bits auxiliares en caso de ser necesarios
 );
 
+-- Listado de permisos por perfil e interfaz de las interfaces del primer sprint
 INSERT ALL
 -- Administrador global
   INTO SEG_PERMISOS VALUES('27042015180000000000', 'CYCLO105062012115352292015','Catalogo general de productos', '111111')
@@ -76,6 +87,7 @@ SELECT * FROM dual;
 SELECT * FROM SEG_PERMISOS;
 
 -- Usuarios de prueba
+-- Estos solo durante el periodo de pruebas, no introducir en version final
 INSERT INTO SEG_USUARIO VALUES('1', 'oscar', 'pass', '28-APR-15', 'Administrador global de prueba', 'SII014548761600.7018216447', '01', 'Oscar Esquivel', 1);
 INSERT INTO SEG_USUARIO VALUES('2', 'leo', 'pass', '28-APR-15', 'Administrador local de prueba', 'SII014548761600.7018216447', '01', 'Leonardo Villalobos', 1);
 INSERT INTO SEG_USUARIO VALUES('3', 'carlos', 'pass', '28-APR-15', 'Supervisor de prueba', 'SII014548761600.7018216447', '01', 'Carlos Sanabria', 1);
