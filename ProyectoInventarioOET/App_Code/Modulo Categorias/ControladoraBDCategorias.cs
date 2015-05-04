@@ -9,7 +9,6 @@ using System.Data.SqlClient;
 namespace ProyectoInventarioOET.Modulo_Categorias 
 {
     /*
-     * ???
      * Comunicación con la Base de Datos.
      */
     public class ControladoraBDCategorias : ControladoraBD
@@ -22,7 +21,7 @@ namespace ProyectoInventarioOET.Modulo_Categorias
         }
 
         /*
-         * ???
+         * Metodo que recibe una entidad categoria y la inserta en la BD
          */
         public String[] insertarCategoria(EntidadCategoria categoria)
         {
@@ -49,7 +48,7 @@ namespace ProyectoInventarioOET.Modulo_Categorias
         }
 
         /*
-         * ???
+         * Metodo que recibe una categoria original y la modificada para meterla en la BD
          */
         public String[] modificarCategoria(EntidadCategoria categoria, EntidadCategoria nuevaCategoria)
         {
@@ -78,7 +77,7 @@ namespace ProyectoInventarioOET.Modulo_Categorias
         }
 
         /*
-         * ???
+         * Metodo que recibe una entidad categoria para desactivarla
          */
         public String[] desactivarCategoria(EntidadCategoria categoria)
         {
@@ -100,7 +99,7 @@ namespace ProyectoInventarioOET.Modulo_Categorias
         }
 
         /*
-         * ???
+         * Metodo que devuelve un datatable con los datos de todas las categorias existentes
          */
         public DataTable consultarCategorias()
         {
@@ -120,7 +119,7 @@ namespace ProyectoInventarioOET.Modulo_Categorias
         }
 
         /*
-         * ???
+         * Metodo que recibe el id de una categoria y devuelve el nombre
          */
         public String consultarDescripcionCategoria(String idCategoria)
         {
@@ -141,7 +140,7 @@ namespace ProyectoInventarioOET.Modulo_Categorias
         }
 
         /*
-         * ???
+         * Metodo que recibe el nombre de una categoria y devuelve sus datos
          */
         public EntidadCategoria consultarCategoria(String nombre)
         {

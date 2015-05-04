@@ -11,12 +11,12 @@ namespace ProyectoInventarioOET.Modulo_Categorias
     public class EntidadCategoria
     {
         //Atributos
-        private String nombre;                  //???
-        private String descripcion;             //???
-        private int estado;                     //???
+        private String nombre;                  //Identificador de la categoria en la base de datos
+        private String descripcion;             //El nombre propiamente de la categoria
+        private int estado;                     //Indica si la categoria esta activa o no en la base de datos
 
         /*
-         * Constructor.
+         * Recibe todos los datos para crear una entidad de una categoria nueva
          */
         public EntidadCategoria(Object[] datos)
         {
@@ -26,7 +26,7 @@ namespace ProyectoInventarioOET.Modulo_Categorias
         }
 
         /*
-         * Constructor.
+         * Recibe unicamente una descripcion, se usa unicamente para cuando se va a agregar una categoria nueva
          */
         public EntidadCategoria(String descripcion)
         {
@@ -42,7 +42,7 @@ namespace ProyectoInventarioOET.Modulo_Categorias
         }
 
         /*
-         * ???
+         * Método para obtener y establecer el nombre de la entidad.
          */
         public String Nombre
         {
@@ -51,20 +51,25 @@ namespace ProyectoInventarioOET.Modulo_Categorias
         }
 
         /*
-         * ???
+         * Método para obtener y establecer la descripcion de la entidad.
          */
         public String Descripcion
         {
             get { return descripcion; }
             set { descripcion = value; }
         }
+        /*
+         * Método para obtener y establecer el estde la entidad.
+         */
         public int Estado
         {
             get { return estado; }
             set { estado = value; }
         }
-
-        //TODO: eliminar este método.
+        
+        /*
+         * Método para generar un nuevo codigo para una categoria nueva.
+         */
         public string autogenerarCodigo()
         {
 

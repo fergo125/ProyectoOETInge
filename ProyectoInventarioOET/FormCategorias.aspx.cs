@@ -15,19 +15,19 @@ namespace ProyectoInventarioOET
      */
     public partial class FormCategorias : System.Web.UI.Page
     {
-        enum Modo { Inicial, Consulta, Insercion, Modificacion, Consultado };
+        enum Modo { Inicial, Consulta, Insercion, Modificacion, Consultado }; //Sirve para controlar los modos de la interfaz
         //Atributos
-        private static int modo = (int)Modo.Inicial;                    //???
-        private static int resultadosPorPagina; //wtf?
-        private static Object[,] idArray;                              //???
-        private static ControladoraCategorias controladoraCategorias;   //???
-        private static EntidadCategoria categoriaConsultada;            //???
-        private static bool seConsulto = false;                         //???
+        private static int modo = (int)Modo.Inicial;                    //Almacena el modo actual de la interfaz
+        private static Object[,] idArray;                              //Almacena los datos de todas las categorias almacenadas 
+        private static ControladoraCategorias controladoraCategorias;   //Comunica a la interfaz con la base de datos.
+        private static EntidadCategoria categoriaConsultada;            //La categoria que se consulto actualmente
+        private static bool seConsulto = false;                         // Me dice si hay una entidad consultada
         private static ControladoraDatosGenerales controladoraDatosGenerales;
-        private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
+        private static String permisos = "000000";                       // Permisos utilizados para el control de seguridad.
 
         /*
-         * ???
+         * Maneja las acciones que se ejecutan cuando se carga la página, establecer el modo de operación, 
+         * cargar elementos de la interfaz, gestión de seguridad.
          */
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -65,7 +65,8 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Cambia el modo de la pantalla activando/desactivando o mostrando/ocultando elementos de acuerdo con la 
+         * acción que se va a realizar.
          */
         protected void irAModo()
         {
@@ -156,8 +157,9 @@ namespace ProyectoInventarioOET
             //aplicarPermisos();// se aplican los permisos del usuario para el acceso a funcionalidades
         }
 
+
         /*
-         * ???
+         * Construye la tabla que se va a utilizar para mostrar la información de las categorias.
          */
         protected DataTable tablaCategorias()
         {
@@ -187,7 +189,7 @@ namespace ProyectoInventarioOET
             }
         }
         /*
-         * ???
+         * boton que redirecciona a la interfaz de productos.
          */
         protected void botonRedireccionProductos_ServerClick(object sender, EventArgs e)
         {
@@ -195,7 +197,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Evento que maneja el cambio de página en la tabla de categorias.
          */
         protected void gridViewCategorias_Seleccion(object sender, GridViewCommandEventArgs e)
         {
@@ -216,8 +218,8 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
-         */
+        * Evento que maneja el cambio de página en la tabla de categorias.
+        */
         protected void gridViewCategorias_CambioPagina(object sender, GridViewPageEventArgs e)
         {
             llenarGrid();
@@ -226,7 +228,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Metodo que limpia los campos de los campos de la interfaz
          */
         protected void limpiarCampos()
         {
@@ -236,7 +238,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Deshabilita los campos de la interfaza
          */
         protected void deshabilitarCampos()
         {
@@ -247,8 +249,9 @@ namespace ProyectoInventarioOET
             this.inputNombre.Disabled = cambio;
         }*/
 
+
         /*
-         * ???
+         * Regresa la interfaz a modo inicial en caso de darse una cancelación de una acción (inserción o modificación).
          */
         protected void botonCancelarModalCancelar_ServerClick(object sender, EventArgs e)
         {
@@ -257,7 +260,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Maneja el evento de presionar el botón para agregar una actividad, cambiando el modo de la pantalla.
          */
         protected void botonAgregarCategoria_ServerClick(object sender, EventArgs e)
         {
@@ -270,7 +273,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Maneja el evento de presionar el botón para modificar una categoria, cambiando el modo de la pantalla.
          */
         protected void botonModificacionCategoria_ServerClick(object sender, EventArgs e)
         {
@@ -279,7 +282,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Maneja el evento de presionar el botón para consultar una categoria, cambiando el modo de la pantalla.
          */
         protected void botonConsultaCategoria_ServerClick(object sender, EventArgs e)
         {
@@ -291,8 +294,8 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
-         */
+          * Muestra el mensaje que da el resultado de las transacciones que se efectúan.
+          */
         protected void mostrarMensaje(String tipoAlerta, String alerta, String mensaje)
         {
             mensajeAlerta.Attributes["class"] = "alert alert-" + tipoAlerta + " alert-dismissable fade in";
@@ -302,7 +305,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Pone la información de la categoria consultada en los campos correspondientes.
          */
         protected void setDatosConsultados()
         {
@@ -311,7 +314,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Llena la tabla con las categorias almacenadas en la base de datos.
          */
         protected void llenarGrid()
         {
@@ -362,7 +365,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Metodo para el evento de click de boton aceptar.
          */
         protected void botonAceptarCategoria_ServerClick(object sender, EventArgs e)
         {
@@ -428,7 +431,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Metodo que controla el modificar en 
          */
         private String modificar()
         {
@@ -459,7 +462,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Metodo que habilita los campos de la interfaz
          */
         private void habilitarCampos(bool p)
         {
@@ -467,7 +470,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * metodo que controla el insertar en la interfaz
          */
         private string insertar()
         {
@@ -497,6 +500,9 @@ namespace ProyectoInventarioOET
                 res = "repetido";
             return res;
         }
+        /*
+         *Metodo que controla el aceptar en el modal
+         */
         protected void botonAceptarModalCancelar_ServerClick(object sender, EventArgs e)
         {
             modo = (int)Modo.Inicial;
@@ -504,6 +510,9 @@ namespace ProyectoInventarioOET
             categoriaConsultada = null;
             irAModo();
         }
+        /*
+         * Metodo que chequea si el nombre nuevo que se va a ingresar esta repetido.
+         */
         private bool nombreRepetido(String nombre)
         {
             for (int i = 0; i < idArray.Length/3; ++i )
@@ -513,7 +522,9 @@ namespace ProyectoInventarioOET
             }
             return false;
         }
-
+        /*
+         * Metodo que administra los permisos en la interfaz.
+         */
         protected void mostrarBotonesSegunPermisos()
         {
             botonConsultaCategoria.Visible = (permisos[5] == '1');
