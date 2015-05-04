@@ -12,8 +12,8 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
     public class ControladoraSeguridad
     {
         //Atributos
-        private ControladoraBDSeguridad controladoraBDSeguridad;    //???
-        private String llaveEncriptacion = "SISTEOTS";              //???
+        private ControladoraBDSeguridad controladoraBDSeguridad;    // Entidad de controladora de base de datos, usada para acceder a base de datos
+        private String llaveEncriptacion = "SISTEOTS";              // Contraseña con la que se encripta un String
 
         /*
          * Constructor.
@@ -39,6 +39,7 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
 
         /*
          * Encripta un string en el formato de almacenamiento de la base de datos.
+         * No funcional
          */
         public String encriptarTexto(String s)
         {
@@ -55,6 +56,7 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
 
         /*
          * Desencripta un string en el formato de almacenamiento de la base de datos.
+         * No funcional
          */
         public String desencriptarText(String s)
         {

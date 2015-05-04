@@ -23,16 +23,21 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
 
         /*
          * Busca un usuario con un nombre y un password específicos.
+         * Utilizado para inicio de sesión.
          */
         public EntidadUsuario consultarUsuario(String nombre, String password)
         {
             DataTable resultado = new DataTable();
             EntidadUsuario usuario = null;
 
+            // Comandos de SQL para acceder a la base de datos
             OracleCommand command = conexionBD.CreateCommand();
             command.CommandText = "SELECT * FROM SEG_USUARIO WHERE USUARIO = '" + nombre + "' AND CLAVE = '" + password + "'";
+                // Importante, modificar para que solo use cuentas activas
             OracleDataReader reader = command.ExecuteReader();
             resultado.Load(reader);
+
+            // Si encuentro una única cuenta
             if(resultado.Rows.Count == 1)
             {
                 Object[] datosConsultados = new Object[9];
@@ -45,11 +50,12 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
                 usuario.Perfil = perfil[0];
                 usuario.CodigoPerfil = perfil[1];
             }
-
-
             return usuario;
         }
 
+        /*
+         * Dado un código de perfil y el nombre de una interfaz, cargo los permisos de ese usuario en esa interfaz
+         */
         public String consultarPermisosUsuario(String codigoPerfil, String interfaz)
         {
             DataTable resultado = new DataTable();

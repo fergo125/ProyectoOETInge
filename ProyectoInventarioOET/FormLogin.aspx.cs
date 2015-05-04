@@ -9,15 +9,17 @@ using ProyectoInventarioOET.Módulo_Seguridad;
 namespace ProyectoInventarioOET
 {
     /*
-     * ???
+     * Código de funcionamiento de la interfaz de login.
+     * Controla las operaciones en la interfaz y comunica con la controladora de seguridad.
      */
     public partial class FormLogin : System.Web.UI.Page
     {
         //Atributos
-        static ControladoraSeguridad controladora;
+        static ControladoraSeguridad controladora; // Controladora para obtener datos de usuario
 
         /*
-         * ???
+         * Maneja las acciones que se ejecutan cuando se carga la página
+         * En este caso, unicamente crea la controladora
          */
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -28,27 +30,31 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Maneja el trámite de inicio de sesión una vez el usuario introduce sus datos
          */
         protected void iniciarSesion(object sender, EventArgs e)
         {
+            // Consulta al usuario
             EntidadUsuario usuario = controladora.consultarUsuario(UserName.Text, Password.Text);
+
             if(usuario != null)
             {
-                // Asignar a global
+                // Si me retorna un usuario valido
+
+                // Hacer el usuario logueado visible a todas los modulos
                 (this.Master as SiteMaster).Usuario = usuario;
                 // Redirigir a pagina principal
                 Response.Redirect("Default.aspx");
             }
             else
             {
-                // Mostrar mensaje
+                // Si no me retorna un usuario valido, advertir
                 mostrarMensaje();
             }
         }
 
         /*
-         * ???
+         * Muestra un mensaje de advertencia, en caso de usuario/contraseña incorrectos
          */
         protected void mostrarMensaje()
         {

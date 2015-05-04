@@ -35,7 +35,7 @@ namespace ProyectoInventarioOET.App_Code
         }
 
         /*
-         * ???
+         * Lee de la base de datos el tipo de cambio actual, de compra y de venta, del dolar con respecto al colon
          */
         public DataTable consultarTipoCambio()
         {

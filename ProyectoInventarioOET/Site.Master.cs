@@ -143,6 +143,10 @@ namespace ProyectoInventarioOET
                 this.linkFormAdministracion2.Visible = (!esconder && (usuarioLogueado.Perfil == "Administrador global" || usuarioLogueado.Perfil == "Administrador local"));
         }
 
+        /*
+         * Método para obtener permisos del usuario logueado
+         * Se hace para tener un único punto de acceso a esto desde cada Interfaz
+         */
         public String obtenerPermisosUsuarioLogueado(String nombreInterfaz)
         {
             ControladoraSeguridad cs = new ControladoraSeguridad();

@@ -13,8 +13,9 @@ namespace ProyectoInventarioOET
     public abstract class ControladoraBD
     {
         //Atributos
-        protected static OracleConnection conexionBD;   //atributo estático compartido por todas las ControladorasBD para conectarse
-        protected static int consecutivo;               //???
+        protected static OracleConnection conexionBD;   // Atributo estático compartido por todas las ControladorasBD para conectarse
+        protected static int consecutivo;               // Contador de # de transacciones ocurridas de inserción de tuplas a la base de datos
+                                                        // Entre 000 y 999
 
         /*
          * Constructor, crea y abre la conexión sólo la primera vez que es necesario.
