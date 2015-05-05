@@ -130,7 +130,10 @@
             </div>
 
         </fieldset>
+    <!-- Fin del fieldset-->
 
+
+    <!-- Botones de aceptar y cancelar-->
 
     <div class="col-lg-12" id="bloqueBotones">
         <div class =" row">
@@ -142,7 +145,13 @@
     </div>
     <br />
     <br />
+    
+    <!-- Fin del bloque de botones-->
 
+
+
+    
+    <!--Grid ddonde se despliega lo de consultar-->
       <div id="bloqueGrid" class="col-lg-12">
         <fieldset id="FieldsetGridBodegas" runat="server" class="fieldset">
           <!-- Gridview de consultar -->
@@ -171,6 +180,7 @@
         </fieldset>         
     </div>
     
+    <!--Final del grid donde se despliega lo de consultar-->
 
 
     <!--Modal Cancelar-->
@@ -191,6 +201,7 @@
             </div>
         </div>
     </div>
+
     <!--Modal Aceptar-->
     <div class="modal fade" id="modalDesactivar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
