@@ -6,7 +6,7 @@ using Oracle.DataAccess.Client; //para conectarse a la base de datos manualmente
 
 namespace ProyectoInventarioOET
 {
-    /*
+    /*   
      * Clase no instanciable usada sólo para heredar el código necesario para conectarse a la base de datos.
      */
     public abstract class ControladoraBD
