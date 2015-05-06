@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%: Page.Title %> - Mi aplicación ASP.NET</title>
+    <title><%: Page.Title %> - SIOET</title>
 
     <asp:PlaceHolder runat="server">
         <%: Scripts.Render("~/bundles/modernizr") %>
@@ -17,13 +17,12 @@
     <link href="Content/bootstrap.css" rel="stylesheet" />
 </head>
 
-
 <body>
     <form runat="server">
         <asp:ScriptManager runat="server">
             <Scripts>
-                <%--To learn more about bundling scripts in ScriptManager see http://go.microsoft.com/fwlink/?LinkID=301884 --%>
-                <%--Framework Scripts--%>
+                <%-- To learn more about bundling scripts in ScriptManager see http://go.microsoft.com/fwlink/?LinkID=301884  --%>
+                <%-- Framework Scripts --%>
                 <asp:ScriptReference Name="MsAjaxBundle" />
                 <asp:ScriptReference Name="jquery" />
                 <asp:ScriptReference Name="bootstrap" />
@@ -37,80 +36,81 @@
                 <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
                 <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />
                 <asp:ScriptReference Name="WebFormsBundle" />
-                <%--Site Scripts--%>
+                <%-- Site Scripts --%>
             </Scripts>
         </asp:ScriptManager>
 
-        <%--Background image--%>
+        <%-- Background image --%>
         <div class="header page-header-fozkr">
             <img alt="" src="App_Resources/LogoOET.png"/>
         </div>
-        <%--Navigation bar--%>
+        <%-- Navigation bar --%>
         <div class="navbar navbar-fozkr navbar">
             <div class="container">
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-brand">
-                        <%--Productos--%>
-                        <li id="linkFormProductos" class="dropdown">
+                        <%-- Productos --%>
+                        <li id="linkFormProductos" runat="server" class="dropdown" visible="false">
                             <a runat="server" class="dropdown-toggle" data-toggle="dropdown" href="#">
                                 Productos<span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a runat="server" href="~/FormProductosGlobales">Catálogo global de productos</a></li>
-                                <li><a runat="server" href="~/FormCategorias">Categorías de productos</a></li>
+                                <li id="linkFormProductos1" visible="false" runat="server"><a runat="server" href="~/FormProductosGlobales">Catálogo general de productos</a></li>
+                                <li id="linkFormProductos2" visible="false" runat="server"><a runat="server" href="~/FormCategorias">Categorías de productos</a></li>
                             </ul>
                         </li>
-                        <%--Bodegas--%>
-                        <li id="linkFormBodegas" class="dropdown">
+                        <%-- Bodegas --%>
+                        <li id="linkFormBodegas" runat="server" class="dropdown" visible="false">
                             <a runat="server" class="dropdown-toggle" data-toggle="dropdown" href="#">
                                 Bodegas<span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a runat="server" href="~/FormProductosLocales">Catálogo local de productos</a></li>
-                                <li><a runat="server" href="~/FormBodegas">Gestión de bodegas</a></li>
-                                <li><a runat="server" href="~/FormActividades">Gestión de actividades</a></li>
+                                <li id="linkFormBodegas1" visible="false" runat="server"><a runat="server" href="~/FormProductosLocales">Catálogos de productos en bodegas</a></li>
+                                <li id="linkFormBodegas2" visible="false" runat="server"><a runat="server" href="~/FormBodegas">Gestión de bodegas</a></li>
+                                <li id="linkFormBodegas3" visible="false" runat="server"><a runat="server" href="~/FormActividades">Gestión de actividades</a></li>
                             </ul>
                         </li>
-                        <%--Inventario--%>
-                        <li id="linkFormInventario" class="dropdown">
+                        <%-- Inventario --%>
+                        <li id="linkFormInventario" runat="server" class="dropdown" visible="false">
                             <a runat="server" class="dropdown-toggle" data-toggle="dropdown" href="#">
                                 Inventario<span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a runat="server" href="~/FormContact">Entradas de inventario</a></li>
-                                <li><a runat="server" href="~/FormContact">Movimientos de inventario</a></li>
-                                <li><a runat="server" href="~/FormContact">Ajustes de inventario</a></li>
+                                <li id="linkFormInventario1" visible="false" runat="server"><a runat="server" href="~/FormContact">Entradas de inventario</a></li>
+                                <li id="linkFormInventario2" visible="false" runat="server"><a runat="server" href="~/FormContact">Movimientos de inventario</a></li>
+                                <li id="linkFormInventario3" visible="false" runat="server"><a runat="server" href="~/FormContact">Ajustes de inventario</a></li>
                             </ul>
                         </li>
-                        <%--Ventas--%>
-                        <li id="linkFormVentas"><a runat="server" href="~/FormVentas">Ventas</a></li>
-                        <%--Administración--%>
-                        <li id="linkFormAdministracion" class="dropdown">
+                        <%-- Ventas --%>
+                        <li id="linkFormVentas" runat="server" visible="false">
+                            <a runat="server" href="~/FormVentas">Ventas</a>
+                        </li>
+                        <%-- Administración --%>
+                        <li id="linkFormAdministracion" runat="server" class="dropdown" visible="false">
                             <a runat="server" class="dropdown-toggle" data-toggle="dropdown" href="#">
                                 Administración<span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a runat="server" href="~/FormContact">Reportes</a></li>
-                                <li><a runat="server" href="~/FormContact">Seguridad</a></li>
+                                <li id="linkFormAdministracion1" visible="false" runat="server"><a runat="server" href="~/FormContact">Reportes</a></li>
+                                <li id="linkFormAdministracion2" visible="false" runat="server"><a runat="server" href="~/FormContact">Seguridad</a></li>
                             </ul>
                         </li>
                     </ul>
-                    <asp:LoginView runat="server" ViewStateMode="Disabled">
+                    <%-- Login --%>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a runat="server" id="linkIniciarSesion" href="~/FormLogin">Iniciar sesión</a></li>
+                        <li><a runat="server" id="linkNombreUsuarioLogueado" href="~/" visible="false" title="Datos personales"></a></li>
+                        <li onclick="cerrarSesion"><a runat="server" id="linkCerrarSesion" onServerClick="cerrarSesion" href="~/FormLogin" visible="false">Cerrar sesión</a></li>
+                    </ul>
+                    <%--<asp:LoginView runat="server" ViewStateMode="Disabled">
                         <AnonymousTemplate>
-                            <ul class="nav navbar-nav navbar-right">
-                                <%--<li><a runat="server" href="~/Account/Register">Registrarse</a></li>--%>
-                                <li><a runat="server" href="~/FormLogin">Iniciar sesión</a></li>
-                            </ul>
                         </AnonymousTemplate>
                         <LoggedInTemplate>
-                            <ul class="nav navbar-nav navbar-right">
-                                <li><a runat="server" href="~/Account/Manage" title="Manage your account">Hello, <%: Context.User.Identity.GetUserName()  %> !</a></li>
-                                <li>
-                                    <asp:LoginStatus runat="server" LogoutAction="Redirect" LogoutText="Cerrar sesión" LogoutPageUrl="~/" OnLoggingOut="Unnamed_LoggingOut" />
-                                </li>
-                            </ul>
+                            <li>
+                                <asp:LoginStatus runat="server" LogoutAction="Redirect" LogoutText="Cerrar sesión" LogoutPageUrl="~/" OnLoggingOut="Unnamed_LoggingOut" />
+                            </li>
                         </LoggedInTemplate>
-                    </asp:LoginView>
+                    </asp:LoginView>--%>
                 </div>
             </div>
         </div>
@@ -119,7 +119,7 @@
             </asp:ContentPlaceHolder>
             <hr />
             <footer>
-                <p>&copy; <%: DateTime.Now.Year %> - Organización de Estudios Tropicales</p>
+                <p>&copy; <%: DateTime.Now.Year %> - Organización para Estudios Tropicales</p>
             </footer>
         </div>
     </form>

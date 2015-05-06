@@ -8,40 +8,40 @@ using Oracle.DataAccess.Client; //para conectarse a la base de datos manualmente
 namespace ProyectoInventarioOET.App_Code
 {
     /*
-     * Controladora del conjunto de datos de los estados del sistema.
+     * Controladora del conjunto de datos de las aspectos generales del sistema.
+     * Tablas muy pequeñas como para implementar una controladora propia.
      * Comunicación con la Base de Datos.
      */
-    public class ControladoraBDEstados : ControladoraBD
+    public class ControladoraBDGeneral : ControladoraBD
     {
         /*
          * Constructor.
          */
-        public ControladoraBDEstados()
+        public ControladoraBDGeneral()
         {
         }
 
         /*
-         * Método que retorna una tabla con la información de los posibles estados para las entidades dentro del sistema.
+         * Retorna el impuesto de venta
          */
-        public DataTable consultarEstados()
+        public int consultarImpuesto()
         {
             DataTable resultado = new DataTable();
             OracleCommand command = conexionBD.CreateCommand();
-            command.CommandText = "SELECT * FROM CAT_ESTADOS";
+            command.CommandText = "SELECT * FROM GEN_GENERAL WHERE ROWNUM = 1";
             OracleDataReader reader = command.ExecuteReader();
             resultado.Load(reader);
-            return resultado;
+            return Convert.ToInt32(resultado.Rows[0][0]);
         }
 
         /*
-         * Método que retorna una tabla con la información de un subgrupo de los posibles estados para las entidades dentro del sistema,
-         * por ahora sólo "Activo" e "Inactivo".
+         * Lee de la base de datos el tipo de cambio actual, de compra y de venta, del dolar con respecto al colon
          */
-        public DataTable consultarEstadosActividad()
+        public DataTable consultarTipoCambio()
         {
             DataTable resultado = new DataTable();
             OracleCommand command = conexionBD.CreateCommand();
-            command.CommandText = "SELECT * FROM CAT_ESTADOS WHERE VALOR < 2";
+            command.CommandText = "SELECT * FROM(SELECT COMPRA, VENTA FROM TIPOCAMBIO ORDER BY ORDEN DESC) WHERE ROWNUM = 1";
             OracleDataReader reader = command.ExecuteReader();
             resultado.Load(reader);
             return resultado;

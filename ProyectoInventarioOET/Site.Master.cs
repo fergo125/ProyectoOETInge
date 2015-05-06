@@ -6,15 +6,26 @@ using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using ProyectoInventarioOET.Módulo_Seguridad;
 
 namespace ProyectoInventarioOET
 {
+    /* 
+     * Clase SiteMaster, presente en toda página, contiene toda la página y presenta la barra de navegación junto con el pie de página.
+     * Al ser omnipresente se le asocia el identificar al usuario que está conectado y usando el sistema, por lo que se relaciona
+     * estrechamente con las labores de seguridad.
+     */
     public partial class SiteMaster : MasterPage
     {
-        private const string AntiXsrfTokenKey = "__AntiXsrfToken";
-        private const string AntiXsrfUserNameKey = "__AntiXsrfUserName";
-        private string _antiXsrfTokenValue;
+        //Atributos
+        private const string AntiXsrfTokenKey = "__AntiXsrfToken";          //Tokens usados para protección contra ataques XSRF
+        private const string AntiXsrfUserNameKey = "__AntiXsrfUserName";    //Tokens usados para protección contra ataques XSRF
+        private string _antiXsrfTokenValue;                                 //Tokens usados para protección contra ataques XSRF
+        private static EntidadUsuario usuarioLogueado;              //Instancia que almacena la información del usuario conectado
 
+        /*
+         * Código de inicialización, aparentemente se ejecuta sólo una vez.
+         */
         protected void Page_Init(object sender, EventArgs e)
         {
             // El código siguiente ayuda a proteger frente a ataques XSRF
@@ -43,10 +54,12 @@ namespace ProyectoInventarioOET
                 }
                 Response.Cookies.Set(responseCookie);
             }
-
             Page.PreLoad += master_Page_PreLoad;
         }
 
+        /*
+         * Pre carga del SiteMaster, maneja los tokens.
+         */
         protected void master_Page_PreLoad(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -66,15 +79,89 @@ namespace ProyectoInventarioOET
             }
         }
 
+        /*
+         * Método Page_Load del SiteMaster, por ahora se encarga de mostrar los elementos correctos al usuario dependiendo de
+         * si está conectado o no.
+         */
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if(usuarioLogueado != null)
+            {
+                this.linkNombreUsuarioLogueado.InnerText = usuarioLogueado.Nombre + " (" + usuarioLogueado.Perfil + ")";
+                this.linkIniciarSesion.Visible = false;
+                this.linkNombreUsuarioLogueado.Visible = true;
+                this.linkCerrarSesion.Visible = true;
+                esconderLinks(false);
+            }
         }
 
+        /*
+         * Setter y getter para el atributo de usuarioLogueado.
+         */
+        public EntidadUsuario Usuario
+        {
+            get { return usuarioLogueado; }
+            set { usuarioLogueado = value; }
+        }
+
+        /*
+         * Para simular el cierre de sesión esconde todos los elementos y borra el usuario que estaba conectado antes.
+         * Muestra de nuevo el enlace para iniciar sesión.
+         */
+        protected void cerrarSesion(object sender, EventArgs e)
+        {
+            usuarioLogueado = null;
+            esconderLinks(true);
+            Response.Redirect("Default.aspx");
+        }
+
+        /*
+         * Usado cuando se inicia o cierra sesión, al iniciar sesión vuelve a todos los links visibles excepto al de iniciar sesión,
+         * al cerrar sesión los esconde, excepto el de iniciar sesión, el cual muestra.
+         */
+        protected void esconderLinks(bool esconder)
+        {
+            this.linkIniciarSesion.Visible = esconder;
+            this.linkNombreUsuarioLogueado.Visible = !esconder;
+            this.linkCerrarSesion.Visible = !esconder;
+
+            //TODO arreglar esto para que no sea hard coded***
+            this.linkFormProductos.Visible = (!esconder && (usuarioLogueado.Perfil=="Administrador global" || usuarioLogueado.Perfil=="Administrador local"));
+                this.linkFormProductos1.Visible = (!esconder && (usuarioLogueado.Perfil=="Administrador global" || usuarioLogueado.Perfil=="Administrador local"));
+                this.linkFormProductos2.Visible = (!esconder && (usuarioLogueado.Perfil=="Administrador global" || usuarioLogueado.Perfil=="Administrador local"));
+            this.linkFormBodegas.Visible = !esconder;
+                this.linkFormBodegas1.Visible = !esconder;
+                this.linkFormBodegas2.Visible = (!esconder && (usuarioLogueado.Perfil=="Administrador global" || usuarioLogueado.Perfil=="Administrador local"));
+                this.linkFormBodegas3.Visible = !esconder;
+            this.linkFormInventario.Visible = (!esconder && (usuarioLogueado.Perfil=="Administrador global" || usuarioLogueado.Perfil=="Administrador local" || usuarioLogueado.Perfil=="Supervisor"));
+                this.linkFormInventario1.Visible = (!esconder && (usuarioLogueado.Perfil=="Administrador global" || usuarioLogueado.Perfil=="Administrador local" || usuarioLogueado.Perfil=="Supervisor"));
+                this.linkFormInventario2.Visible = (!esconder && (usuarioLogueado.Perfil=="Administrador global" || usuarioLogueado.Perfil=="Administrador local" || usuarioLogueado.Perfil=="Supervisor"));
+                this.linkFormInventario3.Visible = (!esconder && (usuarioLogueado.Perfil=="Administrador global" || usuarioLogueado.Perfil=="Administrador local" || usuarioLogueado.Perfil=="Supervisor"));
+            this.linkFormVentas.Visible = !esconder;
+            this.linkFormAdministracion.Visible = (!esconder && (usuarioLogueado.Perfil=="Administrador global" || usuarioLogueado.Perfil=="Administrador local" || usuarioLogueado.Perfil=="Supervisor"));
+                this.linkFormAdministracion1.Visible = (!esconder && (usuarioLogueado.Perfil=="Administrador global" || usuarioLogueado.Perfil=="Administrador local" || usuarioLogueado.Perfil=="Supervisor"));
+                this.linkFormAdministracion2.Visible = (!esconder && (usuarioLogueado.Perfil == "Administrador global" || usuarioLogueado.Perfil == "Administrador local"));
+        }
+
+        /*
+         * Método para obtener permisos del usuario logueado
+         * Se hace para tener un único punto de acceso a esto desde cada Interfaz
+         */
+        public String obtenerPermisosUsuarioLogueado(String nombreInterfaz)
+        {
+            ControladoraSeguridad cs = new ControladoraSeguridad();
+            if (usuarioLogueado != null)
+                return cs.consultarPermisosUsuario(usuarioLogueado.CodigoPerfil, nombreInterfaz);
+            else
+                return "000000";
+        }
+
+        /*
+         * Método no usado.
+         */
         protected void Unnamed_LoggingOut(object sender, LoginCancelEventArgs e)
         {
             Context.GetOwinContext().Authentication.SignOut();
         }
     }
-
 }

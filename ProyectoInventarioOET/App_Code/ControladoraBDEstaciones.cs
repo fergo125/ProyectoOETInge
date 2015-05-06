@@ -3,24 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data;
-using ProyectoInventarioOET.DataSetGeneralTableAdapters;
 using Oracle.DataAccess.Client; //para conectarse a la base de datos manualmente con strings
 
-/*
- * Controladora del conjunto de datos de las estaciones del sistema.
- * Comunicación con la Base de Datos.
- */
 namespace ProyectoInventarioOET.App_Code
 {
+    /*
+     * Controladora del conjunto de datos de las estaciones del sistema.
+     * Comunicación con la Base de Datos.
+     */
     public class ControladoraBDEstaciones : ControladoraBD
     {
-        ESTACIONTableAdapter adaptadorEstaciones;
-
+        /*
+         * Constructor.
+         */
         public ControladoraBDEstaciones()
         {
-            adaptadorEstaciones = new ESTACIONTableAdapter();
         }
 
+        /*
+         * Método que retorna una tabla con la información de las estaciones de la OET.
+         */
         public DataTable consultarEstaciones()
         {
             DataTable resultado = new DataTable();

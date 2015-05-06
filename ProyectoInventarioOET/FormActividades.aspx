@@ -4,80 +4,107 @@
     <br />
     <!-- Label para desplegar mensajes -->
     <div>
-        <div id="mensajeAlerta" class="alert alert-fozkr-error fade in" runat="server" style="margin-left: 70%;">
+        <div id="mensajeAlerta" runat="server" visible =" false" style="margin-left: 50%;">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <strong>
-                <asp:Label ID="labelTipoAlerta" runat="server" Text="Alerta! "></asp:Label>
+                <asp:Label ID="labelTipoAlerta" runat="server"></asp:Label>
             </strong>
-            <asp:Label ID="labelAlerta" runat="server" Text="Mensaje de alerta"></asp:Label>
+            <asp:Label ID="labelAlerta" runat="server"></asp:Label>
         </div>
     </div>
 
     <!-- Título del Form -->
     <div>
-        <h2 id="TituloActividades" runat="server">Actividades</h2>
+        <h2 id="TituloActividades" runat="server">Gestión de Actividades</h2>
         <hr />
     </div>
 
-    <!-- Cuerpo del Form -->
-    <button runat="server" onclick="showStuff('bloqueFormulario', 'Nueva actividad');" onserverclick="botonAgregarActividades_ServerClick" id="botonAgregarActividades" class=" btn btn-info" type="button" style="float: left" > Nueva Actividad</button>
-    <button runat="server" onclick="showStuff('bloqueFormulario', 'Modificar actividad');" id="botonModificacionActividades" class=" btn btn-info" type="button" style="float: left"><i></i> Modificar Actividad </button>
-    <button runat="server" onserverclick="botonConsultaActividades_ServerClick" onclick="showStuff('bloqueGrid', 'Consulta de actividades');"  id="botonConsultaActividades" class=" btn btn-info" type="button" style="float: left"><i></i>Consulta de Actividades </button>
+    <!-- Botones -->
+    <button runat="server" onserverclick="botonAgregarActividades_ServerClick" id="botonAgregarActividades" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false">Nueva Actividad</button>
+    <button runat="server" onserverclick="botonModificacionActividades_ServerClick" causesvalidation="false"  id="botonModificacionActividades" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false">Modificar Actividad</button>
+    <button runat="server" onserverclick="botonConsultaActividades_ServerClick" causesvalidation="false"  id="botonConsultaActividades" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false">Consultar Actividades</button>
     <br />
     <br />
 
-    <h3 id="tituloAccionActividades"></h3>
-    <br />
-
+    <h3 id="tituloAccionActividades" runat="server">Seleccione una opción</h3>
     <div class= "row" id="bloqueFormulario">
          <!-- Fieldset para Actividades -->
         <fieldset id= "FieldsetActividad" runat="server" class="fieldset">
-    
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <label for="inputDescripcionActividad" class= "control-label"> Descripción: </label>      
-                        <input type="text" id= "inputDescripcionActividad" runat="server" class="form-control"><br>
-                    </div>
 
-                </div>
-
-                <div class="col-lg-4">
+            <div class="col-lg-5">
+                <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
+                    ControlToValidate=inputDescripcionActividad
+                    ErrorMessage=""> 
+                </asp:RequiredFieldValidator>
+                    <br />
                     <div class="form-group">
-                        <label for="inputEstadoActividad" class= "control-label"> Estado: </label>      
-                        <asp:DropDownList id="comboBoxEstadosActividades" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
-                        </asp:DropDownList>
+                        <label for="inputDescripcionActividad" class= "control-label"> Nombre:* </label>      
+                        <input type="text" id= "inputDescripcionActividad" runat="server" class="form-control" style="max-width:100%">
                     </div>
+            </div>
+
+            <div class="col-lg-5">
+            <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
+                ControlToValidate=comboBoxEstadosActividades
+                ErrorMessage="">
+            </asp:RequiredFieldValidator>
+                <br />
+                <div class="form-group">
+                    <label for="inputEstadoActividad" class= "control-label"> Estado:* </label>      
+                    <asp:DropDownList id="comboBoxEstadosActividades" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
+                    </asp:DropDownList>
                 </div>
+            </div>
+
+            <br />
+
         </fieldset>
-        <label for="textoObligatorioActividad" class="text-danger text-center">Los campos con (*) son obligatorios</label>
+
+        <label id="labelTextoObligatorioActividad" runat="server" for="textoObligatorioActividad" style="margin-left:1.30%" class="text-danger text-center">Los campos con (*) son obligatorios</label>
+
+            
+        <fieldset id= "Fieldset1" runat="server" class="fieldset">
+            <asp:ValidationSummary Font-Size="Small" CssClass="label label-danger" runat=server 
+            HeaderText="Uno de los campos está vacío o con información inválida" />
+
+
+          
+            <br />
+            <div class="col-lg-5">
+            </div>
+
+        </fieldset>
+
 
     </div>
     <div class="col-lg-12" id="bloqueBotones">
         <div class =" row">
             <div class="text-center">
-                <button runat="server" onserverclick="botonAceptarActividad_ServerClick" id="botonAceptarActividad" class="btn btn-success-fozkr" type="button"><i class="fa fa-pencil-square-o"></i>Aceptar</button>
+                <button runat="server" onserverclick="botonAceptarActividad_ServerClick" id="botonAceptarActividad" class="btn btn-success-fozkr" type="button"><i class="fa fa-pencil-square-o"></i>Enviar</button>
                 <a id="botonCancelarActividad" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cancelar</a>                
             </div>
         </div>
     </div>
+    <br />
+    <br />
 
-    <div id="bloqueGrid" class="col-lg-12" style="display:none">
+    <div id="bloqueGrid" class="col-lg-12">
         <fieldset id="FieldsetGridActividades" runat="server" class="fieldset">
-          <!-- Gridview de consultar -->
-         <div class="col-lg-12">
+          <!-- Gridview de consultas -->
+         <div class="col-lg-12"><strong><div ID="tituloGrid" runat="server" visible="false" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Catálogo de actividades</div></strong>
             <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
                 <ContentTemplate>
-                    <asp:GridView ID="gridViewActividades" CssClass="table table-responsive table-condensed" OnRowCommand="gridViewActividades_Seleccion" OnPageIndexChanging="gridViewActividades_CambioPagina" runat="server" AllowPaging="True" PageSize="16" BorderColor="Transparent">
+                    <asp:GridView ID="gridViewActividades" CssClass="table" OnRowCommand="gridViewActividades_Seleccion" OnPageIndexChanging="gridViewActividades_CambioPagina" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
                         <Columns>
-                            <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn-default" CommandName="Select" Text="Consultar">
-                                <ControlStyle CssClass="btn-default disabled"></ControlStyle>
+                            <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Consultar">
+                                <ControlStyle CssClass="btn btn-default"></ControlStyle>
                             </asp:ButtonField>
                        </Columns>
                        <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
                        <PagerStyle CssClass="paging" HorizontalAlign="Center" />
-                       <AlternatingRowStyle BackColor="#EBEBEB" />
+                       <AlternatingRowStyle BackColor="#F8F8F8" />
                        <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
-                       <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" />
+                       <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
                   </asp:GridView>
              </ContentTemplate>
              <Triggers>
@@ -85,9 +112,6 @@
              </Triggers>
           </asp:UpdatePanel>
        </div>
-        <br />
-        <br />
-        <br />
         </fieldset>        
     </div>
     
@@ -104,15 +128,15 @@
                     ¿Está seguro que desea cancelar los cambios? Perdería todos los datos no guardados.
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="botonAceptarModalCancelar" class="btn btn-success-fozkr" runat="server" onserverclick="botonAceptarModalCancelar_ServerClick" >Aceptar</button>
-                    <button type="button" id="botonCancelarModalCancelar" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
+                    <button type="button" id="botonAceptarModalCancelar" causesvalidation="false" class="btn btn-success-fozkr" runat="server" onserverclick="botonAceptarModalCancelar_ServerClick" >Aceptar</button>
+                    <button type="button" id="botonCancelarModalCancelar" causesvalidation="false" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
                 </div>
             </div>
         </div>
     </div>
 
     <!--Modal Desactivar-->
-    <div class="modal fade" id="modalDesactivar" tabindex="-1" role="dialog" aria-labelledby="modalDesactivarLabel" aria-hidden="true">
+    <div class="modal fade" id="modalDesactivar" runat="server" tabindex="-1" role="dialog" aria-labelledby="modalDesactivarLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -156,6 +180,5 @@
     </script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.1.47/jquery.form-validator.min.js"> </script>
     <script> $.validate(); </script>
-
 
 </asp:Content>

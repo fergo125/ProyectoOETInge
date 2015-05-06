@@ -1,10 +1,10 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="FormLogin.aspx.cs" Inherits="ProyectoInventarioOET.FormLogin" %>
+﻿<%@ Page Title="Inicio de Sesión" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="FormLogin.aspx.cs" Inherits="ProyectoInventarioOET.FormLogin" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
     <br />
     <!-- Label para desplegar mensajes -->
     <div>
-        <div id="mensajeAlerta" class="alert alert-fozkr-error fade in" runat="server" style="margin-left:70%;" visible="false">
+        <div id="mensajeAlerta" runat="server" style="margin-left:70%;" visible="false">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <strong>
                 <asp:Label ID="labelTipoAlerta" runat="server" Text="Alerta! "></asp:Label>
@@ -31,6 +31,7 @@
                             <asp:Literal runat="server" ID="FailureText" />
                         </p>
                     </asp:PlaceHolder>
+                    <!-- Campos de ingreso de datos -->
                     <div class="form-group">
                         <asp:Label runat="server" AssociatedControlID="UserName" CssClass="col-md-4 control-label">Nombre de usuario:</asp:Label>
                         <div class="col-md-8">

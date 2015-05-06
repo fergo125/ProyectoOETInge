@@ -4,30 +4,43 @@ using System.Linq;
 using System.Web;
 using System.Data;
 
-/*
- * Controladora de Seguridad
- * Encargada de las funciones de seguridad del sistema
- * También encripta/desencripta contraseñas
- */
 namespace ProyectoInventarioOET.Módulo_Seguridad
 {
+    /*
+     * Controladora de Seguridad, encargada de las funciones de seguridad del sistema, también encripta/desencripta contraseñas.
+     */
     public class ControladoraSeguridad
     {
-        private ControladoraBDSeguridad controladoraBDSeguridad;
-        private String llaveEncriptacion = "SISTEOTS";
+        //Atributos
+        private ControladoraBDSeguridad controladoraBDSeguridad;    // Entidad de controladora de base de datos, usada para acceder a base de datos
+        private String llaveEncriptacion = "SISTEOTS";              // Contraseña con la que se encripta un String
 
+        /*
+         * Constructor.
+         */
         public ControladoraSeguridad()
         {
             controladoraBDSeguridad = new ControladoraBDSeguridad();
         }
 
-        // Busca un usuario con un nombre y una password específicos
+        /*
+         * Busca un usuario con un nombre y una password específicos.
+         */
         public EntidadUsuario consultarUsuario(String nombre, String password)
         {
+            // Encriptar password aqui***
             return controladoraBDSeguridad.consultarUsuario(nombre, password);
         }
 
-        // Encripta un string en el formato de almacenamiento de la base de datos
+        public String consultarPermisosUsuario(String codigoPerfil, String interfaz)
+        {
+            return controladoraBDSeguridad.consultarPermisosUsuario(codigoPerfil, interfaz);
+        }
+
+        /*
+         * Encripta un string en el formato de almacenamiento de la base de datos.
+         * No funcional
+         */
         public String encriptarTexto(String s)
         {
             String resultado = "";
@@ -41,7 +54,10 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
             return resultado;
         }
 
-        // Desencripta un string en el formato de almacenamiento de la base de datos
+        /*
+         * Desencripta un string en el formato de almacenamiento de la base de datos.
+         * No funcional
+         */
         public String desencriptarText(String s)
         {
             String resultado = "";
@@ -53,6 +69,13 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
                 resultado += letra;
             }
             return resultado;
+        }
+        /*
+         * Obtiene el nombre de un usuario (texto, no llave) de un id de usuario en específico.
+         */
+        public String consultarNombreDeUsuario(String idUsuario)
+        {
+            return controladoraBDSeguridad.consultarNombreDeUsuario(idUsuario);
         }
     }
 }

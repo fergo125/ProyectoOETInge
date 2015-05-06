@@ -76,6 +76,15 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlButton botonConsultaActividades;
         
         /// <summary>
+        /// Control tituloAccionActividades.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tituloAccionActividades;
+        
+        /// <summary>
         /// Control FieldsetActividad.
         /// </summary>
         /// <remarks>
@@ -101,6 +110,24 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList comboBoxEstadosActividades;
+        
+        /// <summary>
+        /// Control labelTextoObligatorioActividad.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl labelTextoObligatorioActividad;
+        
+        /// <summary>
+        /// Control Fieldset1.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Fieldset1;
         
         /// <summary>
         /// Control botonAceptarActividad.
@@ -130,6 +157,15 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetGridActividades;
         
         /// <summary>
+        /// Control tituloGrid.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tituloGrid;
+        
+        /// <summary>
         /// Control UpdatePanelPruebas.
         /// </summary>
         /// <remarks>
@@ -155,6 +191,15 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlButton botonAceptarModalCancelar;
+        
+        /// <summary>
+        /// Control modalDesactivar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl modalDesactivar;
         
         /// <summary>
         /// Control botonAceptarModalDesactivar.

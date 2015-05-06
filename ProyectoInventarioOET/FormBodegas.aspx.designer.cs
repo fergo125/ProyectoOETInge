@@ -76,6 +76,15 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlButton botonConsultarBodega;
         
         /// <summary>
+        /// Control tituloAccionBodegas.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tituloAccionBodegas;
+        
+        /// <summary>
         /// Control FieldsetBodegas.
         /// </summary>
         /// <remarks>
@@ -83,6 +92,15 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetBodegas;
+        
+        /// <summary>
+        /// Control inputNombre.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText inputNombre;
         
         /// <summary>
         /// Control comboBoxEmpresa.
@@ -103,13 +121,13 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.DropDownList comboBoxEstacion;
         
         /// <summary>
-        /// Control inputNombre.
+        /// Control comboBoxIntencion.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText inputNombre;
+        protected global::System.Web.UI.WebControls.DropDownList comboBoxIntencion;
         
         /// <summary>
         /// Control dropdownEstado.
@@ -119,6 +137,24 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList dropdownEstado;
+        
+        /// <summary>
+        /// Control textoObligatorioBodega.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl textoObligatorioBodega;
+        
+        /// <summary>
+        /// Control Fieldset1.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Fieldset1;
         
         /// <summary>
         /// Control botonAceptarBodega.
@@ -146,6 +182,15 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetGridBodegas;
+        
+        /// <summary>
+        /// Control tituloGrid.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tituloGrid;
         
         /// <summary>
         /// Control UpdatePanelPruebas.

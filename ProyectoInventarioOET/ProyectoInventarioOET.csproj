@@ -150,6 +150,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ErrorPages\404.html" />
     <Content Include="FormAbout.aspx" />
     <Content Include="Account\Login.aspx" />
     <Content Include="Account\Manage.aspx" />
@@ -271,14 +272,24 @@
     <Compile Include="App_Code\ControladoraBDAnfitrionas.cs" />
     <Compile Include="App_Code\ControladoraBDEstaciones.cs" />
     <Compile Include="App_Code\ControladoraBDEstados.cs" />
+    <Compile Include="App_Code\ControladoraBDGeneral.cs" />
     <Compile Include="App_Code\ControladoraBDUnidades.cs" />
     <Compile Include="App_Code\ControladoraDatosGenerales.cs" />
+    <Compile Include="App_Code\Modulo Categorias\ControladoraBDCategorias.cs" />
+    <Compile Include="App_Code\Modulo Categorias\EntidadCategorias.cs" />
+    <Compile Include="App_Code\Modulo Categorias\ControladoraCategorias.cs" />
     <Compile Include="App_Code\Módulo Actividades\ControladoraActividades.cs" />
     <Compile Include="App_Code\Módulo Actividades\ControladoraBDActividades.cs" />
     <Compile Include="App_Code\Módulo Actividades\EntidadActividad.cs" />
     <Compile Include="App_Code\Módulo Bodegas\EntidadBodega.cs" />
     <Compile Include="App_Code\Módulo Bodegas\ControladoraBodegas.cs" />
     <Compile Include="App_Code\Módulo Bodegas\ControladoraBDBodegas.cs" />
+    <Compile Include="App_Code\Módulo Productos Locales\ControladoraBDProductoLocal.cs" />
+    <Compile Include="App_Code\Módulo Productos Locales\ControladoraProductoLocal.cs" />
+    <Compile Include="App_Code\Módulo Productos Locales\EntidadProductoLocal.cs" />
+    <Compile Include="App_Code\Módulo ProductosGlobales\ControladoraBDProductosGlobales.cs" />
+    <Compile Include="App_Code\Módulo ProductosGlobales\ControladoraProductosGlobales.cs" />
+    <Compile Include="App_Code\Módulo ProductosGlobales\EntidadProductoGlobal.cs" />
     <Compile Include="App_Code\Módulo Seguridad\ControladoraSeguridad.cs" />
     <Compile Include="App_Code\Módulo Seguridad\EntidadUsuario.cs" />
     <Compile Include="App_Code\Módulo Seguridad\ControladoraBDSeguridad.cs" />

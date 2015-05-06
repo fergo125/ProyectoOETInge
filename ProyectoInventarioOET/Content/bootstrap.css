@@ -1435,12 +1435,12 @@ th {
 .table tfoot > tr > td {
   padding: 8px;
   line-height: 1.428571429;
-  vertical-align: top;
+  vertical-align: middle;
   border-top: 1px solid #dddddd;
 }
 
 .table thead > tr > th {
-  vertical-align: bottom;
+  vertical-align: middle;
   border-bottom: 2px solid #dddddd;
 }
 
@@ -2017,7 +2017,7 @@ textarea.input-lg {
   padding: 6px 12px;
   margin-bottom: 0;
   margin-right: 5px; /*added*/
-  margin-top: -7px; /*added*/
+  margin-top: 0px; /*added*/
   font-size: 14px;
   font-weight: normal;
   line-height: 1.428571429;
@@ -7180,6 +7180,6 @@ fieldset[disabled] .btn-info-fozkr:active,
 .btn-info-fozkr.disabled.active,
 .btn-info-fozkr[disabled].active,
 fieldset[disabled] .btn-info-fozkr.active {
-  background-color: #99c565;
-  border-color: #99c565;
+  background-color: #DE7954;
+  border-color: #DE7954;
 }
