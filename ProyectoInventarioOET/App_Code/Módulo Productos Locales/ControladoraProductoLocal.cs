@@ -7,7 +7,7 @@ using System.Data;
 namespace ProyectoInventarioOET.Módulo_Productos_Locales
 {
     /*
-     * ???
+     * Clase de controladora de productos
      */
     public class ControladoraProductoLocal
     {
@@ -24,7 +24,7 @@ namespace ProyectoInventarioOET.Módulo_Productos_Locales
         }
 
         /*
-         * ???
+         * Consulta los productos que pertenecen a un idBodega específico
          */
         public DataTable consultarProductosDeBodega(String idBodega)
         {
@@ -32,67 +32,35 @@ namespace ProyectoInventarioOET.Módulo_Productos_Locales
         }
 
         /*
-         * ???
+         * Consulta los datos de un producto específico perteneciente a una bodega.
          */
         public DataTable consultarProductoDeBodega(String idBodega, String idProducto)
         {
             return controladoraBD.consultarProductoDeBodega(idBodega, idProducto);
         }
-
-
-        /*public EntidadProductoLocal consultarProductoLocal(String id)
-        {
-            productoActual = controladoraBD.consultarProductoLocal(id);
-            return productoActual;
-        }
-
-        public String[] insertarDatos(String nombre, String categoria, String unidades, String codigo, String codigoDeBarras, String estacion,
-            int estado, double costoColones, double costoDolares)
-        {
-            Object[] datosProductoLocal = new Object[9];
-            datosProductoLocal[0] = nombre;
-            datosProductoLocal[1] = categoria;
-            datosProductoLocal[2] = unidades;
-            datosProductoLocal[3] = codigo;
-            datosProductoLocal[4] = codigoDeBarras;
-            datosProductoLocal[5] = estacion;
-            datosProductoLocal[6] = estado;
-            datosProductoLocal[7] = costoColones;
-            datosProductoLocal[8] = costoColones;
-            EntidadProductoLocal productoLocal = new EntidadProductoLocal(datosProductoLocal);
-            return controladoraBD.insertarProductoLocal(productoLocal);
-        }
-
-        public String[] modificarDatos(EntidadProductoLocal productoLocalViejo, String nombreModificado, String categoriaModificado, String unidadesModificado, String codigoModificado,
-            String codigoDeBarrasModificado, String estacionModificado, int estadoModificado, double costoColonesModificado, double costoDolaresModificado)
-        {
-            Object[] datosProductoLocalModificado = new Object[9];
-            datosProductoLocalModificado[0] = nombreModificado;
-            datosProductoLocalModificado[1] = categoriaModificado;
-            datosProductoLocalModificado[2] = unidadesModificado;
-            datosProductoLocalModificado[3] = codigoModificado;
-            datosProductoLocalModificado[4] = codigoDeBarrasModificado;
-            datosProductoLocalModificado[5] = estacionModificado;
-            datosProductoLocalModificado[6] = estadoModificado;
-            datosProductoLocalModificado[7] = costoColonesModificado;
-            datosProductoLocalModificado[8] = costoColonesModificado;
-            EntidadProductoLocal productoLocalModificado = new EntidadProductoLocal(datosProductoLocalModificado);
-            return controladoraBD.modificarProductoLocal(productoLocalViejo, productoLocalModificado);
-        }*/
         /*
-        public String[] desactivarProductoLocal(EntidadProductoLocal productoLocal)
-        {
-            /*desactiva una bodega de la base de datos
-            return controladoraBD.desactivarProductoGlobal(productoLocal);
-        }
-
-        /*
-         * Método para cargar el grid
+         *  Realiza la asociación de un producto a una bodega en específico. 
          */
-        /*public DataTable consultarProductosLocales()
+        public string[] asociarProductos(String idBodega, String idProducto, String idUsuario)
         {
-            /*consulta la información de todas los productos globales
-            return ControladoraBDProductosLocales.consultarProductosLocales();
-        }*/
+            return controladoraBD.asociarProductos(idBodega,idProducto,idUsuario);
+        }
+        /*
+         * Realiza la modificación de un producto en una bodega específica, modificando su estado. 
+         */
+        public string[] modificarProductoLocal(String idBodegaProductos, String est)
+        {
+            int estado;
+            if(est.Equals("Activo"))
+            {
+                estado=1;
+            }
+            else
+            {
+                estado=0;
+            }
+            return controladoraBD.modificarProductoLocal(idBodegaProductos, estado);
+        }
+
     }
 }

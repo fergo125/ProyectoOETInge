@@ -8,7 +8,7 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
     /*
      * ???
      */
-    public class EntidadBodega
+    public class EntidadBodega : ControladoraBD
     {
         //Atributos
         private String codigo;          //???
@@ -81,7 +81,7 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
         {
             //here's where the magic happens
             //in the meanwhile...
-            return DateTime.Now.ToString("h:mm:ss"); ;
+            return generarID();
         }
 
         /*

@@ -50,14 +50,6 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
         }
 
         /*
-         * Desactiva una bodega de la base de datos.
-         */
-        public String[] desactivarBodega(EntidadBodega bodega)
-        {
-            return controladoraBDBodegas.desactivarBodega(bodega);
-        }
-
-        /*
          * Consulta la información de todas las bodegas.
          */
         public DataTable consultarBodegas()
@@ -71,6 +63,13 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
         public DataTable consultarBodegasDeEstacion(String codigo)
         {
             return controladoraBDBodegas.consultarBodegasDeEstacion(codigo);
+        }
+        /*
+         * Obtiene la informacion de los productos que no pertenecen a la bodega especificada
+         */
+        public DataTable consultarProductosAsociables(String idBodega)
+        {
+            return controladoraBDBodegas.consultarProductosAsociables(idBodega);
         }
     }
 }

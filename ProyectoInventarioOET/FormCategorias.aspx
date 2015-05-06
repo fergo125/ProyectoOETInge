@@ -3,50 +3,98 @@
     <br />
     <!-- Label para desplegar mensajes -->
     <div>
-        <div id="mensajeAlerta" class="alert alert-fozkr-error fade in" runat="server" style="margin-left: 70%;">
+        <div id="mensajeAlerta" runat="server" style="margin-left: 50%;" visible="false">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <strong>
-                <asp:Label ID="labelTipoAlerta" runat="server" Text="Alerta! "></asp:Label>
+                <asp:Label ID="labelTipoAlerta" runat="server"></asp:Label>
             </strong>
-            <asp:Label ID="labelAlerta" runat="server" Text="Mensaje de alerta"></asp:Label>
+            <asp:Label ID="labelAlerta" runat="server"></asp:Label>
         </div>
     </div>
 
     <!-- Título del Form -->
     <div>
-        <h2 id="TituloCategorias" runat="server"> Categorías </h2>
+        <h2 id="TituloCategorias" runat="server">Categorías de productos</h2>
         <hr />
     </div>
 
 
-    <!-- Cuerpo del Form -->
-    <button runat="server" onserverclick="botonAgregarCategoria_ServerClick"  id="botonAgregarCategoria" class=" btn btn-info-fozkr" type="button" style="float: left"><i></i> Nueva Categoria</button>
-    <button runat="server" onserverclick="botonModificacionCategoria_ServerClick" id="botonModificacionCategoria" class=" btn btn-info-fozkr" type="button" style="float: left"><i></i> Modificar Categoria </button>
-    <button runat="server" onserverclick="botonConsultaCategoria_ServerClick" id="botonConsultaCategoria"  class=" btn btn-info-fozkr" type="button" style="float: left"><i></i>Consulta de Categorias </button>
+    <!-- Botones -->
+    <button runat="server" onserverclick="botonAgregarCategoria_ServerClick"  id="botonAgregarCategoria"  class=" btn btn-info-fozkr" type="button" style="float: left" visible="false">Nueva Categoría</button>
+    <button runat="server" onserverclick="botonModificacionCategoria_ServerClick" id="botonModificacionCategoria" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false">Modificar Categoría</button>
+    <button runat="server" causesvalidation="false" onserverclick="botonConsultaCategoria_ServerClick" id="botonConsultaCategoria"  class=" btn btn-info-fozkr" type="button" style="float: left" visible="false">Consultar Categorías</button>
 
 
     <br />
     <br />
 
-    <h3 id="tituloAccion"> Consulta de Categorias </h3>
+    <h3 id="tituloAccion" runat="server"> Consulta de Categorias </h3>
      <!-- Grid de Consulta de categorias -->
       <!-- Gridview de consultar -->
-    <br/>
 
-     <div class="col-lg-12" id="bloqueGrid">
 
-<%--        <label for="UpdatePanelPruebas" class= "control-label" > Catálogo global de categorias </label> OnRowCommand="gridViewCategorias_Seleccion" OnPageIndexChanging="gridViewCategorias_CambioPagina"--%>
+
+    <!-- Fieldset que muestra el form para agregar un nuevo categoria -->
+    <div class= "row" id="bloqueFormulario" >
+    <fieldset id= "FieldsetCategorias" class="fieldset">
+        <br />
+
+        
+
+            <div class="form-group" id="camposCategoria" visible="false" runat="server">
+                <div class= "col-lg-6">
+
+
+                 <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
+                 ControlToValidate=inputNombre
+                 ErrorMessage=""> 
+                </asp:RequiredFieldValidator>
+
+
+                <label for="inputNombre" class= "control-label"> Descripcion*: </label>      
+                <input type="text" id= "inputNombre" class="form-control" required runat="server" style="max-width: 100%" ><br>
+                </div>
+
+
+                <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
+                 ControlToValidate=comboBoxEstadosActividades
+                 ErrorMessage=""> 
+                </asp:RequiredFieldValidator>
+                <div class= "col-lg-6">
+                     <label for="comboBoxEstadosActividades" class= "control-label"> Estado: </label>  
+                <asp:DropDownList id="comboBoxEstadosActividades" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control" >
+                    </asp:DropDownList>
+                </div>
+            </div>
+    </fieldset>
+        <label id="textoObligatorioBodega" runat="server" for="textoObligatorioBodega" style="margin-left:1.30%" class="text-danger text-center">Los campos con (*) son obligatorios</label>
+          <fieldset id= "Fieldset1" runat="server" class="fieldset">
+            <asp:ValidationSummary Font-Size="Small" CssClass="label label-danger" runat=server 
+            HeaderText="Uno de los campos está vacío o con información inválida" />
+
+
+          
+            <br />
+            <div class="col-lg-5">
+            </div>
+
+        </fieldset>
+    </div>
+         <div class="col-lg-12" id="bloqueGrid" style ="padding-top:50px">
+             
+<%--  <label for="UpdatePanelPruebas" class= "control-label" > Catálogo global de categorias </label> OnRowCommand="gridViewCategorias_Seleccion" OnPageIndexChanging="gridViewCategorias_CambioPagina"--%>
+       <strong><div ID="tituloGrid" runat="server" visible="false" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Catálogo de categorías</div></strong>
         <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
             <ContentTemplate>
                 <asp:GridView ID="gridViewCategorias" CssClass="table able-responsive table-condensed" runat="server" OnRowCommand="gridViewCategorias_Seleccion" OnPageIndexChanging="gridViewCategorias_CambioPagina" AllowPaging="True" PageSize="16" BorderColor="Transparent" Visible ="false">
                     <Columns>
-                        <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn-default" CommandName="Select" Text="Consultar">
-                            <ControlStyle CssClass="btn-default disabled"></ControlStyle>
+                        <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Consultar">
+                            <ControlStyle CssClass="btn btn-default"></ControlStyle>
                         </asp:ButtonField>
                    </Columns>
                    <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
                    <PagerStyle CssClass="paging" HorizontalAlign="Center" />
-                   <AlternatingRowStyle BackColor="#EBEBEB" />
+                   <AlternatingRowStyle BackColor="#F8F8F8" />
                    <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
                    <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" />
               </asp:GridView>
@@ -56,31 +104,10 @@
          </Triggers>
       </asp:UpdatePanel>
    </div>
-
-    <!-- Fieldset que muestra el form para agregar un nuevo categoria -->
-    <div class= "row" id="bloqueFormulario" >
-    <fieldset id= "FieldsetCategorias" class="fieldset">
-        <br />
-
-        <div class= "col-lg-5">
-
-            <div class="form-group" id="camposCategoria" visible="false" runat="server">
-                <label for="inputNombre" class= "control-label"> Descripcion*: </label>      
-                <input type="text" id= "inputNombre" class="form-control" required runat="server" ><br>
-            </div>
-
-          
-
-            <label class="text-danger text-center">Los campos con (*) son obligatorios</label>
-        </div>
-
-    </fieldset>
-    </div>
-
 <%--    Botones de aceptar y cancelar acción--%> 
     <div class= "row" id="bloqueBotones" visible="true" runat="server">
         <div class="text-center">
-            <button id="botonAceptar" class="btn btn-success-fozkr" type="button" runat="server" > Aceptar </button>
+            <button id="botonAceptar" class="btn btn-success-fozkr" type="button" runat="server" onserverclick="botonAceptarCategoria_ServerClick" > Enviar </button>
             <a id="botonCancelar" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cancelar</a>
         </div>
     </div>
@@ -105,9 +132,9 @@
                     ¿Está seguro que desea cancelar los cambios? Perdería todos los datos no guardados.
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="botonAceptarModalCancelar" class="btn btn-success-fozkr" runat="server"> Aceptar</button>
+                    <button type="button" id="botonAceptarModalCancelar" class="btn btn-success-fozkr" onserverclick="botonCancelarModalCancelar_ServerClick" runat="server" > Aceptar</button>
                     <!--onserverclick="botonCancelarModalCancelar_ServerClick" --> 
-                    <button type="button" id="botonCancelarModalCancelar" class="btn btn-danger-fozkr" onserverclick="botonCancelarModalCancelar_ServerClick" data-dismiss="modal" runat="server" >Cancelar</button>                   
+                    <button type="button" id="botonCancelarModalCancelar" class="btn btn-danger-fozkr"  data-dismiss="modal" runat="server" >Cancelar</button>                   
                 </div>
             </div>
         </div>

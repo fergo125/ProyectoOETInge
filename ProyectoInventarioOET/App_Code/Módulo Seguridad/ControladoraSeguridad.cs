@@ -12,8 +12,8 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
     public class ControladoraSeguridad
     {
         //Atributos
-        private ControladoraBDSeguridad controladoraBDSeguridad;    //???
-        private String llaveEncriptacion = "SISTEOTS";              //???
+        private ControladoraBDSeguridad controladoraBDSeguridad;    // Entidad de controladora de base de datos, usada para acceder a base de datos
+        private String llaveEncriptacion = "SISTEOTS";              // Contraseña con la que se encripta un String
 
         /*
          * Constructor.
@@ -32,8 +32,14 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
             return controladoraBDSeguridad.consultarUsuario(nombre, password);
         }
 
+        public String consultarPermisosUsuario(String codigoPerfil, String interfaz)
+        {
+            return controladoraBDSeguridad.consultarPermisosUsuario(codigoPerfil, interfaz);
+        }
+
         /*
          * Encripta un string en el formato de almacenamiento de la base de datos.
+         * No funcional
          */
         public String encriptarTexto(String s)
         {
@@ -50,6 +56,7 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
 
         /*
          * Desencripta un string en el formato de almacenamiento de la base de datos.
+         * No funcional
          */
         public String desencriptarText(String s)
         {
@@ -62,6 +69,13 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
                 resultado += letra;
             }
             return resultado;
+        }
+        /*
+         * Obtiene el nombre de un usuario (texto, no llave) de un id de usuario en específico.
+         */
+        public String consultarNombreDeUsuario(String idUsuario)
+        {
+            return controladoraBDSeguridad.consultarNombreDeUsuario(idUsuario);
         }
     }
 }

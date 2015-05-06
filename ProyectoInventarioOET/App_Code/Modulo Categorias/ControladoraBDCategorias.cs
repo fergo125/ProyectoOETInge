@@ -6,10 +6,9 @@ using System.Data;
 using Oracle.DataAccess.Client; //para conectarse a la base de datos manualmente con strings
 using System.Data.SqlClient;
 
-namespace ProyectoInventarioOET.Modulo_Categorias
+namespace ProyectoInventarioOET.Modulo_Categorias 
 {
     /*
-     * ???
      * Comunicación con la Base de Datos.
      */
     public class ControladoraBDCategorias : ControladoraBD
@@ -22,34 +21,34 @@ namespace ProyectoInventarioOET.Modulo_Categorias
         }
 
         /*
-         * ???
+         * Metodo que recibe una entidad categoria y la inserta en la BD
          */
         public String[] insertarCategoria(EntidadCategoria categoria)
         {
             String[] res = new String[4];
-            res[4] = categoria.Nombre;
+            res[3] = categoria.Nombre;
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "INSERT INTO CAT_CATEGORIAS (CAT_CATEGORIAS,DESCRIPCION) VALUES ('"
-                + categoria.Nombre + "','" + categoria.Descripcion + ")";
+                command.CommandText = "INSERT INTO CAT_CATEGORIAS (CAT_CATEGORIAS,DESCRIPCION,Estado) VALUES ('"
+                + generarID() + "','" + categoria.Descripcion + "','" + categoria.Estado+ "')";
                 OracleDataReader reader = command.ExecuteReader();
 
                 res[0] = "success";
-                res[1] = "Exito";
-                res[2] = "Categoria Agregada";
+                res[1] = "Éxito:";
+                res[2] = "Categoría agregada al sistema.";
             }
             catch (SqlException e)
             {
                 res[0] = "danger";
-                res[1] = "Fallo en la operacion";
-                res[2] = "Intente nuevamente";
+                res[1] = "Error:";
+                res[2] = "Categoría no agregada, intente nuevamente.";
             }
             return res;
         }
 
         /*
-         * ???
+         * Metodo que recibe una categoria original y la modificada para meterla en la BD
          */
         public String[] modificarCategoria(EntidadCategoria categoria, EntidadCategoria nuevaCategoria)
         {
@@ -57,28 +56,28 @@ namespace ProyectoInventarioOET.Modulo_Categorias
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "UPDATE CAT_CATEGORIAS SET CAT_CATEGORIAS = '" + nuevaCategoria.Nombre+ "', DESCRIPCION = '" + nuevaCategoria.Descripcion;
+                command.CommandText = "UPDATE CAT_CATEGORIAS SET DESCRIPCION = '" + nuevaCategoria.Nombre+ "', estado = " + (short)nuevaCategoria.Estado  + " WHERE CAT_CATEGORIAs = '" + categoria.Nombre + "'";
                 OracleDataReader reader = command.ExecuteReader();
 
 
                 res[0] = "success";
-                res[1] = "Exito";
-                res[2] = "Categoria modificada";
+                res[1] = "Éxito:";
+                res[2] = "Categoria modificada en el sistema.";
             }
             catch (SqlException e)
             {
                 if (e.Number == 2627)
                 {
                     res[0] = "danger";
-                    res[1] = "Fallo";
-                    res[2] = "Error al modificar";
+                    res[1] = "Error:";
+                    res[2] = "Categoría no modificada, intente nuevamente.";
                 }
             }
             return res;
         }
 
         /*
-         * ???
+         * Metodo que recibe una entidad categoria para desactivarla
          */
         public String[] desactivarCategoria(EntidadCategoria categoria)
         {
@@ -87,20 +86,20 @@ namespace ProyectoInventarioOET.Modulo_Categorias
             {
                 //adaptadorCategoria.Update();
                 res[0] = "success";
-                res[1] = "Exito";
-                res[2] = "Categoria eliminado";
+                res[1] = "Éxito:";
+                res[2] = "Categoría desactivada en el sistema.";
             }
             catch (SqlException e)
             {
                 res[1] = "danger";
-                res[2] = "Fallo";
-                res[3] = "Error al eliminar";
+                res[1] = "Error:";
+                res[3] = "Categoría no desactivada, intente nuevamente.";
             }
             return res;
         }
 
         /*
-         * ???
+         * Metodo que devuelve un datatable con los datos de todas las categorias existentes
          */
         public DataTable consultarCategorias()
         {
@@ -120,7 +119,7 @@ namespace ProyectoInventarioOET.Modulo_Categorias
         }
 
         /*
-         * ???
+         * Metodo que recibe el id de una categoria y devuelve el nombre
          */
         public String consultarDescripcionCategoria(String idCategoria)
         {
@@ -141,13 +140,13 @@ namespace ProyectoInventarioOET.Modulo_Categorias
         }
 
         /*
-         * ???
+         * Metodo que recibe el nombre de una categoria y devuelve sus datos
          */
         public EntidadCategoria consultarCategoria(String nombre)
         {
             DataTable resultado = new DataTable();
             EntidadCategoria categoriaConsultada = null;
-            Object[] datosConsultados = new Object[2];
+            Object[] datosConsultados = new Object[3];
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
@@ -159,6 +158,7 @@ namespace ProyectoInventarioOET.Modulo_Categorias
                 {
                     datosConsultados[0] = nombre;
                     datosConsultados[1] = resultado.Rows[0][1].ToString();
+                    datosConsultados[2] = Convert.ToInt32(resultado.Rows[0][2].ToString());
                     categoriaConsultada = new EntidadCategoria(datosConsultados);
                 }
             }

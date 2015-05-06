@@ -24,16 +24,28 @@ namespace ProyectoInventarioOET
         private static Boolean seConsulto = false;                              //???
         private static Object[] idArray;                                        //???
         private static int modo = (int)Modo.Inicial;                            //???
+        private static bool mensajeMostrado = false; //wtf?
+        private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
+
 
         /*
          * ???
          */
         protected void Page_Load(object sender, EventArgs e)
         {
+            mensajeAlerta.Visible = false;
+          
             if (!IsPostBack)
             {
+                    labelAlerta.Text = "";
+               
                 controladoraBodegas = new ControladoraBodegas();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
+                //Seguridad
+                permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Gestion de bodegas");
+                if (permisos == "000000")
+                    Response.Redirect("~/ErrorPages/404.html");
+                mostrarBotonesSegunPermisos();
 
                 if (!seConsulto)
                 {
@@ -75,11 +87,14 @@ namespace ProyectoInventarioOET
                     botonModificarBodega.Disabled = true;
                     botonAceptarBodega.Visible = false;
                     botonCancelarBodega.Visible = false;
+                    tituloAccionBodegas.InnerText = "Seleccione una opción";
+                    textoObligatorioBodega.Visible = false;
                     botonConsultarBodega.Disabled = false;
                     habilitarCampos(false);
                     break;
                 case (int)Modo.Insercion: //insertar
                     gridViewBodegas.Visible = false;
+                    tituloGrid.Visible = false;
                     FieldsetBodegas.Visible = true;
                     textoObligatorioBodega.Visible = true;
                     habilitarCampos(true);
@@ -87,10 +102,13 @@ namespace ProyectoInventarioOET
                     botonModificarBodega.Disabled = true;
                     botonConsultarBodega.Disabled = false;
                     botonAceptarBodega.Visible = true;
+                    textoObligatorioBodega.Visible = true;
+                    tituloAccionBodegas.InnerText = "Ingrese datos";
                     botonCancelarBodega.Visible = true;
                     break;
                 case (int)Modo.Modificacion: //modificar
                     gridViewBodegas.Visible = false;
+                    tituloGrid.Visible = false;
                     FieldsetBodegas.Visible = true;
                     textoObligatorioBodega.Visible = true;
                     habilitarCampos(true);
@@ -99,26 +117,35 @@ namespace ProyectoInventarioOET
                     botonModificarBodega.Disabled = true;
                     botonConsultarBodega.Disabled = false;
                     botonAceptarBodega.Visible = true;
+                    textoObligatorioBodega.Visible = true;
+                    tituloAccionBodegas.InnerText = "Cambie los datos";
                     botonCancelarBodega.Visible = true;
 
                     break;
                 case (int)Modo.Consulta://consultar
                     gridViewBodegas.Visible = true;
+                    tituloGrid.Visible = true;
                     FieldsetBodegas.Visible = false;
                     textoObligatorioBodega.Visible = false;
                     botonAgregarBodega.Disabled = false;
                     botonConsultarBodega.Disabled = true;
                     botonAceptarBodega.Visible = false;
+                    tituloAccionBodegas.InnerText = "Seleccione una bodega";
+                    textoObligatorioBodega.Visible = false;
                     botonCancelarBodega.Visible = false;
                     habilitarCampos(false);
                     break;
                 case (int)Modo.Consultado://consultado, pero con los espacios bloqueados
                     gridViewBodegas.Visible = true;
+                    tituloGrid.Visible = true;
                     FieldsetBodegas.Visible = true;
                     textoObligatorioBodega.Visible = true;
                     botonAgregarBodega.Disabled = false;
+                    botonModificarBodega.Disabled = false;
                     botonConsultarBodega.Disabled = false;
                     botonAceptarBodega.Visible = false;
+                    tituloAccionBodegas.InnerText = "Bodega seleccionada";
+                    textoObligatorioBodega.Visible = false;
                     botonCancelarBodega.Visible = false;
                     habilitarCampos(false);
                     llenarGrid();
@@ -130,6 +157,17 @@ namespace ProyectoInventarioOET
         }
 
         /*
+         * 
+         */
+        protected void mostrarBotonesSegunPermisos()
+        {
+            botonConsultarBodega.Visible = (permisos[5] == '1');
+            botonAgregarBodega.Visible = (permisos[4] == '1');
+            botonModificarBodega.Visible = (permisos[3] == '1');
+            dropdownEstado.Enabled = (permisos[2] == '1');
+        }
+
+        /*
          * ???
          */
         protected void gridViewBodegas_Seleccion(object sender, GridViewCommandEventArgs e)
@@ -138,7 +176,8 @@ namespace ProyectoInventarioOET
             {
                 case "Select":
                     GridViewRow filaSeleccionada = this.gridViewBodegas.Rows[Convert.ToInt32(e.CommandArgument)];
-                    String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewBodegas.PageIndex * resultadosPorPagina)]);
+                    //String codigo = filaSeleccionada.Cells[0].Text.ToString();
+                    String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewBodegas.PageIndex * this.gridViewBodegas.PageSize)]);
                     consultarBodega(codigo);
                     modo = (int)Modo.Consultado;
                     Response.Redirect("FormBodegas.aspx");
@@ -168,7 +207,7 @@ namespace ProyectoInventarioOET
                 try
                 {
                     // Cargar bodegas
-                    Object[] datos = new Object[2];
+                    Object[] datos = new Object[4];
                     DataTable bodegas = controladoraBodegas.consultarBodegas();
 
                     if (bodegas.Rows.Count > 0)
@@ -179,6 +218,8 @@ namespace ProyectoInventarioOET
                             idArray[i] = fila[0];
                             datos[0] = fila[1].ToString();
                             datos[1] = fila[3].ToString();
+                            datos[2] = fila[4].ToString();
+                            datos[3] = fila[5].ToString();
                             tabla.Rows.Add(datos);
                             if (bodegaConsultada != null && (fila[0].Equals(bodegaConsultada.Codigo)))
                             {
@@ -191,7 +232,10 @@ namespace ProyectoInventarioOET
                     {
                         datos[0] = "-";
                         datos[1] = "-";
+                        datos[2] = "-";
+                        datos[3] = "-";
                         tabla.Rows.Add(datos);
+                        mostrarMensaje("warning", "Atención: ", "No existen bodegas en la base de datos.");
                     }
 
                     this.gridViewBodegas.DataSource = tabla;
@@ -231,6 +275,16 @@ namespace ProyectoInventarioOET
             columna.ColumnName = "Estación";
             tabla.Columns.Add(columna);
 
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Estado";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Intención de uso";
+            tabla.Columns.Add(columna);
+
             return tabla;
         }
 
@@ -239,6 +293,7 @@ namespace ProyectoInventarioOET
          */
         protected void mostrarMensaje(String tipoAlerta, String alerta, String mensaje)
         {
+
             mensajeAlerta.Attributes["class"] = "alert alert-" + tipoAlerta + " alert-dismissable fade in";
             labelTipoAlerta.Text = alerta + " ";
             labelAlerta.Text = mensaje;
@@ -480,7 +535,7 @@ namespace ProyectoInventarioOET
             this.inputNombre.Disabled = !habilitar;
             this.comboBoxEmpresa.Enabled = habilitar;
             this.comboBoxEstacion.Enabled = habilitar;
-            this.dropdownEstado.Enabled = habilitar;
+            this.dropdownEstado.Enabled = habilitar && (permisos[2] == '1');
             this.comboBoxIntencion.Enabled = habilitar;
         }
 

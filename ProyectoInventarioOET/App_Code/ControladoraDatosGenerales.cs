@@ -71,7 +71,7 @@ namespace ProyectoInventarioOET.App_Code
         }
 
         /*
-         * ???
+         * Retorna la lista de estados posibles
          */
         public DataTable consultarEstados()
         {
@@ -87,7 +87,7 @@ namespace ProyectoInventarioOET.App_Code
         }
 
         /*
-         * ???
+         * Retorna la lista completa de unidades métricas que puede tener un producto
          */
         public DataTable consultarUnidades()
         {
@@ -95,7 +95,7 @@ namespace ProyectoInventarioOET.App_Code
         }
 
         /*
-         * ???
+         * Retorna la lista de estaciones de la OET
          */
         public DataTable consultarEstaciones()
         {
@@ -103,7 +103,7 @@ namespace ProyectoInventarioOET.App_Code
         }
 
         /*
-         * ???
+         * Retorna la lista de compañías con que utilizan el sistema
          */
         public DataTable consultarAnfitriones()
         {
@@ -111,7 +111,8 @@ namespace ProyectoInventarioOET.App_Code
         }
 
         /*
-         * ???
+         * Retorna la lista de intenciones de uso de una bodega
+         * Intenciones de uso siendo si esta es una bodega de un punto de venta, o de almacenamiento
          */
         public DataTable consultarIntenciones()
         {
@@ -119,7 +120,7 @@ namespace ProyectoInventarioOET.App_Code
         }
 
         /*
-         * ???
+         * Traduce el codigo interno de un estado a su nombre
          */
         public String traduccionEstado(int valor)
         {
@@ -127,7 +128,7 @@ namespace ProyectoInventarioOET.App_Code
         }
 
         /*
-         * ???
+         * Retorna el impuesto de ventas actual
          */
         public int impuestoVentas()
         {
@@ -135,7 +136,7 @@ namespace ProyectoInventarioOET.App_Code
         }
 
         /*
-         * ???
+         * Retorna el precio de compra del dolar
          */
         public int dolarCompra()
         {
@@ -143,7 +144,7 @@ namespace ProyectoInventarioOET.App_Code
         }
 
         /*
-         * ???
+         * Retorna el precio de venta del dolar
          */
         public int dolarVenta()
         {

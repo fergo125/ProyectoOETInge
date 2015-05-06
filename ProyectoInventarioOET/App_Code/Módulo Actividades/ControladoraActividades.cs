@@ -7,12 +7,13 @@ using System.Data;
 namespace ProyectoInventarioOET.Módulo_Actividades
 {
     /*
-     * ???
+     * Comunicación entre la Controladora de Base de Datos y la que maneja las operaciones de la interfaz.
      */
     public class ControladoraActividades
     {
         //Atributos
-        private ControladoraBDActividades controladoraBDActividades;    //???
+        private ControladoraBDActividades controladoraBDActividades;    // Instancia de la controladora de base
+                                                                        // de datos para realizar operaciones allí.
 
         /*
          * Constructor.
@@ -75,7 +76,7 @@ namespace ProyectoInventarioOET.Módulo_Actividades
         }
 
         /*
-         * Consulta la información de todas las bodegas
+         * Consulta la información de todas las actividades
          */
         public DataTable consultarActividades()
         {

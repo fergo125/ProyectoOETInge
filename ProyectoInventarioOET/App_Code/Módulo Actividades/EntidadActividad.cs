@@ -11,9 +11,9 @@ namespace ProyectoInventarioOET.Módulo_Actividades
     public class EntidadActividad
     {
         //Atributos
-        private String codigo;          //???
-        private String descripcion;     //???
-        private int estado;             //???
+        private String codigo;          // Código interno identificador de cada Actividad
+        private String descripcion;     // Descripción de la actividad
+        private int estado;             // Estado de la actividad: activo o inactivo.
 
         /*
          * Constructor.
@@ -26,7 +26,7 @@ namespace ProyectoInventarioOET.Módulo_Actividades
         }
 
         /*
-         * ???
+         * Método para obtener y establecer el código de la entidad.
          */
         public String Codigo
         {
@@ -35,7 +35,7 @@ namespace ProyectoInventarioOET.Módulo_Actividades
         }
 
         /*
-         * ???
+         * Método para obtener y establecer la descripción de la entidad.
          */
         public String Descripcion
         {
@@ -44,21 +44,12 @@ namespace ProyectoInventarioOET.Módulo_Actividades
         }
 
         /*
-         * ???
+         * Método para obtener y establecer el estado de la entidad.
          */
         public int Estado
         {
             get { return estado; }
             set { estado = value; }
         }
-
-        //TODO: eliminar este método.
-        private String autogenerarCodigo()
-        {
-            //here's where the magic happens
-            //in the meanwhile...
-            return DateTime.Now.ToString("h:mm:ss");
-        }
-
     }
 }

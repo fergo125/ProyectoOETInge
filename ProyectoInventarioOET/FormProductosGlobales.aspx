@@ -2,9 +2,9 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">   
     <br />
-    <!-- Label para desplegar mensajes -->
+    <!-- Label para desplegar mensajes de éxito o fracaso con respecto a operaciones en la base de datos-->
     <div>
-        <div id="mensajeAlerta" runat="server" style="margin-left: 70%; visibility:hidden">
+        <div id="mensajeAlerta" runat="server" Visible="false" style="margin-left:50%;">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <strong>
                 <asp:Label ID="labelTipoAlerta" runat="server"></asp:Label>
@@ -15,33 +15,37 @@
 
     <!-- Título del Form -->
     <div>
-        <h2 runat="server"> Catálogo general de productos </h2>
+        <h2 runat="server">Catálogo general de productos</h2>
         <hr />
     </div>
 
-    <!-- Cuerpo del Form -->
+    <!-- Botones principales que permiten las funciones de insertar, modificar y consultar -->
     <button runat="server" onserverclick="botonAgregarProductos_ServerClick" id="botonAgregarProductos" class=" btn btn-info-fozkr" type="button" style="float: left">Nuevo Producto</button>
     <button runat="server" onserverclick="botonModificacionProductos_ServerClick" id="botonModificacionProductos" class=" btn btn-info-fozkr" type="button" style="float: left">Modificar Producto</button>
-    <button runat="server" id="botonConsultaProductos" onserverclick="botonConsultaProductos_ServerClick" class=" btn btn-info-fozkr" type="button" style="float: left">Consultar Productos</button>
+    <button runat="server" id="botonConsultaProductos" causesvalidation="false" onserverclick="botonConsultaProductos_ServerClick" class=" btn btn-info-fozkr" type="button" style="float: left">Consultar Productos</button>
 
     <br />
     <br />
-
+    
+    <h3 id="tituloAccion" runat="server">Seleccione una opción</h3>
     <!-- Fieldset que muestra el form para agregar un nuevo producto -->
     <div class= "row" id="bloqueFormulario" runat="server">
 <%--    <h3 id="tituloAccion"> Consulta de productos </h3>--%>
     <fieldset id= "FieldsetProductos" class="fieldset">
         <br />
 
+<%--        COLUMNA IZQUIERDA: Contiene datos referentes a datos generales de los productos globales--%>
         <div class= "col-lg-7">
-
             <div class="form-group col-lg-12" >
-                <label for="inputNombre" class= "control-label">Nombre:</label>      
+                    <asp:RequiredFieldValidator CssClass="label label-danger" runat=server ControlToValidate=inputNombre ErrorMessage=""> 
+                </asp:RequiredFieldValidator>
+                <label for="inputNombre" class= "control-label">Nombre*:</label>      
                 <input type="text" id= "inputNombre" class="form-control" style="max-width:100%"  runat="server"><br>
             </div>
          
             <div class= "form-group col-lg-6">
-                <label for="inputCodigo" class= "control-label">Código:</label>      
+                    <asp:RequiredFieldValidator CssClass="label label-danger" runat=server ControlToValidate=inputCodigo ErrorMessage=""> </asp:RequiredFieldValidator>
+                <label for="inputCodigo" class= "control-label">Código*:</label>      
                 <input type="text" id= "inputCodigo" class= "form-control" style= "max-width: 100%" required runat="server"><br>
             </div>
             
@@ -52,16 +56,16 @@
 
             <div class="form-group col-lg-6">
                 <label for="inputCategoria" class= "control-label">Categoría:</label>     
-                <asp:DropDownList id= "inpuCategoria" runat="server" CssClass="form-control" > </asp:DropDownList> 
+                <asp:DropDownList id= "inpuCategoria" runat="server" CssClass="form-control" ></asp:DropDownList> 
             </div>
 
               <div class="form-group col-lg-6">
                 <label for="inputVendible" class= "control-label">Intención de uso:</label>     
-                <asp:DropDownList id= "inputVendible" runat="server" CssClass="form-control"> </asp:DropDownList> 
+                <asp:DropDownList id= "inputVendible" runat="server" CssClass="form-control"></asp:DropDownList> 
             </div>
 
             <div class="form-group col-lg-6">
-                <label for="inputUnidades" class= "control-label">Unidades:</label>
+                <label for="inputUnidades" class= "control-label">Unidades métricas:</label>
                 <asp:DropDownList ID="inputUnidades" runat="server" Cssclass="form-control" ></asp:DropDownList>
             </div>
 
@@ -74,7 +78,7 @@
         </div>
 
 
-<%--        COLUMNA IZQUIERDA--%>
+<%--        COLUMNA DERECHA: Contiene datos financieros de los productos globales--%>
 
         <div class="col-lg-5">
            
@@ -85,18 +89,21 @@
             </div>
 
              <div class="form-group col-lg-6">
+                <asp:RequiredFieldValidator CssClass="label label-danger" runat=server ControlToValidate=inputImpuesto ErrorMessage=""> </asp:RequiredFieldValidator>
                 <label for="inputImpuesto" class= "control-label">Impuesto:</label>
-                 <input type="text" id= "inputImpuesto" class="form-control" style="max-width:100%" runat="server"><br>
+                 <input type="text" id= "inputImpuesto" class="form-control" style="max-width:100%" runat="server" pattern="[0-9]{2}" title="Porcentaje entre 0% a 99%"><br>
             </div>
             </div>
             
             <div class="row">
             <div class="form-group col-lg-6">
+<%--                <asp:RequiredFieldValidator CssClass="label label-danger" runat=server ControlToValidate=inputPrecioColones ErrorMessage=""> </asp:RequiredFieldValidator>--%>
                 <label for="inputPrecioColones" class= "control-label">Precio (colones):</label>      
                 <input type="text" id= "inputPrecioColones" class="form-control" runat="server" style= "max-width: 100%"><br>
             </div>
 
             <div class="form-group col-lg-6">
+<%--                <asp:RequiredFieldValidator CssClass="label label-danger" runat=server ControlToValidate=inputPrecioDolares ErrorMessage=""> </asp:RequiredFieldValidator>--%>
                 <label for="inputPrecioDolares" class= "control-label">Precio (dólares):</label>      
                 <input type="text" id= "inputPrecioDolares" class="form-control" runat="server" style= "max-width: 100%" ><br>
             </div>
@@ -126,15 +133,23 @@
      <div class="col-lg-12" id="bloqueGrid" runat="server">
        
          <div class="row">
-            <label class= "col-lg-2">Buscar producto:</label>
-            <div class="col-lg-10">
-                <input id="barraDeBusqueda" class="form-control" type="search" placeholder="Ingresa una palabra o código" runat="server" >
-<%--                <span class="glyphicon glyphicon-search" runat="server"></span>--%>
-                <Button ID="botonBuscar" runat="server" Text="Buscar" onserverclick="botonBuscar_ServerClick" /> Buscar</div>
+            <label class= "col-lg-12">Buscar producto:</label>
         </div>
+            <div class="row">
+                <div class="col-lg-9">
+                    <input id="barraDeBusqueda" class="form-control" type="search" placeholder="Ingresa una palabra o código" runat="server" >
+                </div>
+<%--                <span class="glyphicon glyphicon-search" runat="server"></span>--%>
+                <div class="col-lg-2">
+                    <asp:Button ID="Button1" runat="server" Text="Buscar" CssClass="btn btn-warning-fozkr" OnClick="botonBuscar_ServerClick"/>
+                </div>
+                <%--<Button ID="botonBuscar" runat="server" Text="Buscar" onserverclick="botonBuscar_ServerClick" value="sds" title="ewrwer" name="ppp" />--%>
+
+            </div>
+<%--        </div>--%>
         <br/> <br/>
 
-       <label for="UpdatePanelPruebas" class= "control-label" >Catálogo general de Productos</label>
+       <strong><div ID="UpdatePanelPruebas" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Catálogo global de productos</div></strong>
        <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
            <ContentTemplate>
                 <asp:GridView ID="gridViewProductosGlobales" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewProductosGlobales_RowCommand" OnPageIndexChanging="gridViewProductosGlobales_PageIndexChanging" runat="server" AllowPaging="true" PageSize="16" BorderColor="Transparent">
@@ -157,6 +172,20 @@
    </div>
 
 
+        
+        <fieldset id= "Fieldset1" runat="server" class="fieldset">
+            <asp:ValidationSummary Font-Size="Small" CssClass="label label-danger" runat=server 
+            HeaderText="Uno de los campos está vacío o con información inválida" />
+
+
+          
+            <br />
+            <div class="col-lg-5">
+            </div>
+
+        </fieldset>
+
+
 
 <%--    Botones de aceptar y cancelar acción--%> 
     <div class="col-lg-12" id="bloqueBotones" runat="server">
@@ -171,7 +200,7 @@
 
    
     <script type="text/javascript">
-onclick        function showStuff(elementoATogglear, mensaje) {
+       function showStuff(elementoATogglear, mensaje) {
             //var estado = document.getElementById(elementoATogglear).style.display;
             //document.getElementById('tituloAccion').innerHTML = mensaje;
             //if (elementoATogglear === 'bloqueFormulario') {
@@ -239,7 +268,5 @@ onclick        function showStuff(elementoATogglear, mensaje) {
             </div>
         </div>
     </div>
-
-
 
 </asp:Content>

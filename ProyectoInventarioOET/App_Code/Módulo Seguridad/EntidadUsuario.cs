@@ -11,19 +11,21 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
     public class EntidadUsuario
     {
         //Atributos
-        private String codigo;              //???
-        private String usuario;             //???
-        private String clave;               //???
-        private String descripcion;         //???
-        private String idEstacion;          //???
-        private String anfitriona;          //???
-        private String nombre;              //???
-        private String perfil;              //???
-        private DateTime fechaCreacion;     //???
-        private int estado;                 //???
+        private String codigo;              // Codigo interno de la base de datos
+        private String usuario;             // Nombre de usuario, utilizado para iniciar sesión
+        private String clave;               // Contraseña de seguridad, para inicio de sesión y cambios de perfil
+        private String descripcion;         // Rol (Opcional) de una persona dentro de la OET
+        private String idEstacion;          // Estación en la que trabaja, importante si es de permisos limitados
+        private String anfitriona;          // Compañía para la que trabaja, importante si es de permisos limitados
+        private String nombre;              // Nombre real de la persona
+        private String perfil;              // Perfil de permisos de la persona
+        private String codigoPerfil;        // Codigo interno de dicho perfil
+        private DateTime fechaCreacion;     // Fecha en la que el usuario fue creado
+        private int estado;                 // Estado de la cuenta, una cuenta desactivada no debería poder utilizarse
 
         /*
-         * Constructor.
+         * Constructor de la clase
+         * Este método toma datos y los encapsula en la Entidad Usuario
          */
         public EntidadUsuario(Object[] datos)
         {
@@ -39,7 +41,9 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
         }
 
         /*
-         * ???
+         * Métodos de acceso a datos
+         * Permiten obtener o manipular los atributos encapsulados en Entidad Usuario
+         * Cada método se refiere al atributo del mismo nombre
          */
         public String Codigo
         {
@@ -47,85 +51,66 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
             set { codigo = value; }
         }
 
-        /*
-         * ???
-         */
         public String Usuario
         {
             get { return usuario; }
             set { usuario = value; }
         }
 
-        /*
-         * ???
-         */
         public String Clave
         {
             get { return clave; }
             set { clave = value; }
         }
 
-        /*
-         * ???
-         */
         public DateTime FechaCreacion
         {
             get { return fechaCreacion; }
             set { fechaCreacion = value; }
         }
 
-        /*
-         * ???
-         */
         public String Descripcion
         {
             get { return descripcion; }
             set { descripcion = value; }
         }
 
-        /*
-         * ???
-         */
         public String IdEstacion
         {
             get { return idEstacion; }
             set { idEstacion = value; }
         }
 
-        /*
-         * ???
-         */
         public String Anfitriona
         {
             get { return anfitriona; }
             set { anfitriona = value; }
         }
 
-        /*
-         * ???
-         */
         public String Nombre
         {
             get { return nombre; }
             set { nombre = value; }
         }
 
-        /*
-         * ???
-         */
         public int Estado
         {
             get { return estado; }
             set { estado = value; }
         }
 
-        /*
-         * ???
-         */
         public String Perfil
         {
             get { return perfil; }
             set { perfil = value; }
         }
+        
+        public String CodigoPerfil
+        {
+            get { return codigoPerfil; }
+            set { codigoPerfil = value; }
+        }
+
+        // Fin de metodos de acceso a datos
     }
 }

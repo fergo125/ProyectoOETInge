@@ -12,29 +12,38 @@ using ProyectoInventarioOET.App_Code;
 namespace ProyectoInventarioOET
 {
     /*
-     * ???
+     * Controla las operaciones en la interfaz y comunica con la controladora.
      */
     public partial class FormProductosGlobales : System.Web.UI.Page
     {
-        enum Modo { Inicial, Consulta, Insercion, Modificacion, Consultado };
+        enum Modo { Inicial, Consulta, Insercion, Modificacion, Consultado }; // Sirve para controlar los modos de la interfaz
         //Atributos
-        private static int modo = (int) Modo.Inicial;                           //???
-        private static Boolean seConsulto = false;                              //???
-        private static int resultadosPorPagina;                                 //??? Creo que hay que modificarlo por 16
-        private static Object[] idArray;                                        //???
-        private static EntidadProductoGlobal productoConsultado;                //???
-        private static ControladoraDatosGenerales controladoraDatosGenerales;   //???
-        private static ControladoraProductosGlobales controladora;              //???
+        private static int modo = (int)Modo.Inicial;                            // Almacena el modo actual de la interfaz
+        private static Boolean seConsulto = false;                              // Bandera para saber si hubo consulta de una actividad.
+        private static Object[] idArray;                                        // Contiene los ids de los productos del grid para ser consultados especificamente
+        private static EntidadProductoGlobal productoConsultado;                // Almacena una entidad/producto consultado
+        private static ControladoraDatosGenerales controladoraDatosGenerales;   // Controladora para obtener datos generales
+        private static ControladoraProductosGlobales controladora;              // Controladora para obtener datos y manejar lógica de negocio.
+        private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
 
         /*
-         * ???
+         * Maneja las acciones que se ejecutan cuando se carga la página, establecer el modo de operación, 
+         * cargar elementos de la interfaz, gestión de seguridad.
          */
         protected void Page_Load(object sender, EventArgs e)
         {
+            mensajeAlerta.Visible = false;
             if (!IsPostBack) 
             {
                 controladora = new ControladoraProductosGlobales();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
+                permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Catalogo general de productos");
+                if (permisos == "000000")
+                    Response.Redirect("~/ErrorPages/404.html");
+
+                // Esconder botones
+                mostrarBotonesSegunPermisos();
+
                 if (!seConsulto)
                 {
                     modo = (int)Modo.Inicial;
@@ -60,24 +69,36 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Muestra el mensaje que da el resultado de las transacciones que se efectúan.
          */
         protected void mostrarMensaje(String tipoAlerta, String alerta, String mensaje)
         {
             mensajeAlerta.Attributes["class"] = "alert alert-" + tipoAlerta + " alert-dismissable fade in";
             labelTipoAlerta.Text = alerta + " ";
             labelAlerta.Text = mensaje;
-            mensajeAlerta.Attributes.Remove("hidden");
+            mensajeAlerta.Visible = true;
         }
 
         /*
-         * Manejo de la lógica de la interfaz.
-         * ???
+         * Cambia el modo de la pantalla activando/desactivando o mostrando/ocultando elementos de acuerdo con los
+         * permisos del usuario
+         */
+        protected void mostrarBotonesSegunPermisos()
+        {
+            botonConsultaProductos.Visible = (permisos[5] == '1');
+            botonAgregarProductos.Visible = (permisos[4] == '1');
+            botonModificacionProductos.Visible = (permisos[3] == '1');
+            inputEstado.Enabled = (permisos[2] == '1');
+        }
+
+        /*
+         * Cambia el modo de la pantalla activando/desactivando o mostrando/ocultando elementos de acuerdo con la 
+         * acción que se va a realizar.
          */
         protected void cambiarModo()
         {
             switch (modo)
-            {///Probar si aun se pueden mostrar los campos con el JS********************
+            {
                 case (int)Modo.Inicial:
                     this.bloqueGrid.Visible = false;
                     this.gridViewProductosGlobales.Visible = false;
@@ -86,6 +107,9 @@ namespace ProyectoInventarioOET
                     this.botonAgregarProductos.Disabled = false;
                     this.botonModificacionProductos.Disabled = true;
                     this.botonConsultaProductos.Disabled = false;
+                    habilitarCampos(false);
+                    tituloAccion.InnerText = "Seleccione una opción";
+                    limpiarCampos();
                     break;
                 case (int)Modo.Insercion: //insertar
                     this.bloqueGrid.Visible = false;
@@ -95,6 +119,7 @@ namespace ProyectoInventarioOET
                     this.botonAgregarProductos.Disabled = true;
                     this.botonModificacionProductos.Disabled = true;
                     this.botonConsultaProductos.Disabled = false;
+                    tituloAccion.InnerText = "Ingrese datos";
                     break;
                 case (int)Modo.Modificacion: //modificar
                     this.bloqueGrid.Visible = false;
@@ -104,6 +129,7 @@ namespace ProyectoInventarioOET
                     this.botonAgregarProductos.Disabled = true;
                     this.botonModificacionProductos.Disabled = true;
                     this.botonConsultaProductos.Disabled = false;
+                    tituloAccion.InnerText = "Cambie los datos";
                     break;
                 case (int)Modo.Consulta:
                     this.bloqueGrid.Visible = true;
@@ -113,15 +139,18 @@ namespace ProyectoInventarioOET
                     this.botonAgregarProductos.Disabled = false;
                     this.botonModificacionProductos.Disabled = true;
                     this.botonConsultaProductos.Disabled = false;
+                    tituloAccion.InnerText = "Seleccione un producto";
                     break;
                 case (int)Modo.Consultado:
                     this.bloqueGrid.Visible = false;
                     this.gridViewProductosGlobales.Visible = false;
                     this.bloqueFormulario.Visible = true;
-                    this.bloqueBotones.Visible = true;
+                    this.bloqueBotones.Visible = false;
                     this.botonAgregarProductos.Disabled = false;
                     this.botonModificacionProductos.Disabled = false;
                     this.botonConsultaProductos.Disabled = false;
+                    habilitarCampos(false);
+                    tituloAccion.InnerText = "Producto seleccionado";
                     break;
                 default:
                     break;
@@ -129,9 +158,11 @@ namespace ProyectoInventarioOET
         }
 
         //*****************METODOS DE LLENADO DE DROPDOWNLIST Y GENERACION DE DICCIONARIOS PARA LLENADO DE GRID ********************
+
+
         /*
-         * ???
-         */
+        * Carga las posibles categorías para un producto en el 'comboBox' establecido para esto.
+        */
         protected void cargarCategorias()
         {
             inpuCategoria.Items.Clear();
@@ -143,12 +174,13 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
-         */
+        * Guarda en memoria tanto el nombre y el id de la categoría para mostrar el nombre de la categoría en el grid  
+        * en lugar de su id 
+        */
         protected Dictionary<String, String> traduccionCategorias()
         {
             Dictionary<String, String> mapCategorias = new Dictionary<String, String>(); ;
-            DataTable categorias = controladora.consultarCategorias(); // Hacer un llamado al metodo de Fernando
+            DataTable categorias = controladora.consultarCategorias(); 
             foreach (DataRow fila in categorias.Rows)
             {
                 mapCategorias.Add(fila[0].ToString(), fila[1].ToString());
@@ -157,8 +189,8 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
-         */
+        * Carga las posibles intenciones de uso para un producto en el 'comboBox' establecido para esto.
+        */
         protected void cargarVendible()
         {
             inputVendible.Items.Clear();
@@ -167,8 +199,8 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
-         */
+        * Carga las posibles unidades para un producto en el 'comboBox' establecido para esto.
+        */
         protected void cargarUnidades()
         {
             inputUnidades.Items.Clear();
@@ -180,8 +212,8 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
-         */
+        * Carga las posibles estados para un producto en el 'comboBox' establecido para esto.
+        */
         protected void cargarEstados()
         {
             inputEstado.Items.Clear();
@@ -193,27 +225,29 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
-         */
+        * Guarda en memoria tanto el nombre y el id del estado para mostrar el nombre de la categoría en el grid  
+        * en lugar de su id 
+        */
         private Dictionary<string, string> traduccionEstado()
         {
             Dictionary<String, String> mapEstado = new Dictionary<String, String>(); ;
             DataTable estados = controladoraDatosGenerales.consultarEstadosActividad();
             foreach (DataRow fila in estados.Rows)
             {
-                mapEstado.Add(fila[0].ToString(), fila[1].ToString());
+                mapEstado.Add(fila[2].ToString(), fila[1].ToString());
             }
             return mapEstado;
         }
 
-        //***********************************************************************************
+        //*****************FIN DE METODOS DE LLENADO DE DROPDOWNLIST Y GENERACION DE DICCIONARIOS PARA LLENADO DE GRID ********************
+
 
         /*
          * Método para obtener los datos del usuario.
          */
         protected Object[] obtenerDatosProductosGlobales()
         {
-            Object[] datos = new Object[14];
+            Object[] datos = new Object[16];
             datos[0] = this.inputCodigo.Value;
             datos[1] = this.inputCodigoBarras.Value;
             datos[2] = this.inputNombre.Value;
@@ -228,12 +262,15 @@ namespace ProyectoInventarioOET
             datos[11] = this.inputPrecioColones.Value;
             datos[12] = this.inputPrecioDolares.Value;
             datos[13] = "0"; // Id que identifica se genera despues en la controladora de BD
+            datos[14] = (this.Master as SiteMaster).Usuario.Codigo;
+            datos[15] = DateTime.Now;
             return datos;
         }
 
+
         /*
-         * ???
-         */
+        * Construye la tabla que se va a utilizar para mostrar la información de los productos globales.
+        */
         protected DataTable tablaProductosGlobales()
         {
             DataTable tabla = new DataTable();
@@ -263,7 +300,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Método que se encarga de limpiar el grid
          */
         protected void vaciarGridProductosGlobales()
         {
@@ -273,8 +310,8 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
-         */
+        * Llena la tabla/grid con los productos globales almacenadas en la base de datos.
+        */
         protected void llenarGrid(String query)
         {
             DataTable tabla = tablaProductosGlobales();  // Secrea el esquema de la tabla
@@ -329,7 +366,7 @@ namespace ProyectoInventarioOET
                 this.gridViewProductosGlobales.DataBind();
                  if (productoConsultado != null)
                  {
-                     GridViewRow filaSeleccionada = this.gridViewProductosGlobales.Rows[indiceNuevoProductoGlobal];
+                     //GridViewRow filaSeleccionada = this.gridViewProductosGlobales.Rows[indiceNuevoProductoGlobal];
                  }
             }
 
@@ -340,7 +377,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Presenta la información del producto consultado en los campos correspondientes.
          */
         protected void presentarDatos(){
             if (productoConsultado != null)
@@ -361,8 +398,9 @@ namespace ProyectoInventarioOET
         }
 
         //************************************* METODOS DE COMUNICACION CON LA CONTROLADORA******************************* 
+        
         /*
-         * ???
+         * Pide a la controladora consultar la información de un producto específico a partir de su código.
          */
         protected void consultar(String id)
         {
@@ -382,8 +420,8 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
-         */
+        *  Pide a la controladora insertar un nuevo producto con la información ingresada por el usuario.
+        */
         protected String insertar()
         {
             String identificadorProducto = "";
@@ -404,9 +442,11 @@ namespace ProyectoInventarioOET
             return identificadorProducto;
         }
 
+
+
         /*
-         * ???
-         */
+        *  Pide a la controladora modificar del producto consultado con la nueva información ingresada por el usuario.
+        */
         protected Boolean modificar()
         {
             Boolean res = true;
@@ -427,22 +467,25 @@ namespace ProyectoInventarioOET
             return res;
         }
 
+        //************************************* FIN DE METODOS DE COMUNICACION CON LA CONTROLADORA******************************* 
 
-        // ************************************METODOS DE INTERFAZ RUTINARIOS
+
+        // ************************************METODOS DE INTERFAZ RUTINARIOS *******************************
+        
         /*
-         * ???
-         */
+        * Remueve la información de los campos de la interfaz.
+        */
         protected void limpiarCampos()
         {
-            this.inputNombre.Value = " ";
-            this.inputCodigo.Value = " ";
-            this.inputCodigoBarras.Value = " ";
-            this.inputCostoColones.Value = " ";
-            this.inputCostoDolares.Value = " ";
-            this.inputPrecioColones.Value = " ";
-            this.inputPrecioDolares.Value = " ";
-            this.inputImpuesto.Value = " ";
-            this.inputSaldo.Value = " ";
+            this.inputNombre.Value = "";
+            this.inputCodigo.Value = "";
+            this.inputCodigoBarras.Value = "";
+            this.inputCostoColones.Value = "";
+            this.inputCostoDolares.Value = "";
+            this.inputPrecioColones.Value = "";
+            this.inputPrecioDolares.Value = "";
+            this.inputImpuesto.Value = "";
+            this.inputSaldo.Value = "";
             this.inputUnidades.SelectedValue = null;
             this.inpuCategoria.SelectedValue = null;
             this.inputEstado.SelectedValue = null;
@@ -450,22 +493,22 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Habilita los campos de la interfaz para una inserción/modificación.
          */
         protected void habilitarCampos(bool resp)
         {
             this.inputNombre.Disabled = !resp;
             this.inputCodigo.Disabled = !resp;
             this.inputCodigoBarras.Disabled = !resp;
-            this.inputCostoColones.Disabled = !resp;
-            this.inputCostoDolares.Disabled = !resp;
+            this.inputCostoColones.Disabled = true;
+            this.inputCostoDolares.Disabled = true;
             this.inputPrecioColones.Disabled = !resp;
             this.inputPrecioDolares.Disabled = !resp;
             this.inputImpuesto.Disabled = !resp;
-            this.inputSaldo.Disabled = !resp;
+            this.inputSaldo.Disabled = true;
             this.inputUnidades.Enabled = resp;
             this.inpuCategoria.Enabled = resp;
-            this.inputEstado.Enabled = resp;
+            this.inputEstado.Enabled = resp && (permisos[2] == '1');
             this.inputVendible.Enabled = resp;
         }
         //*******************************************************************************
@@ -481,10 +524,11 @@ namespace ProyectoInventarioOET
             llenarGrid(null);
             modo = (int)Modo.Consulta;
             cambiarModo();
+            habilitarCampos(false);
         }
 
         /* 
-         * Consulta de UN PRODUCTO EN PARTICULAR y muestra la información completa en el formulario.
+         * Consulta de un producto en particular y muestra la información completa en el formulario.
          */
         protected void gridViewProductosGlobales_RowCommand(object sender, GridViewCommandEventArgs e)
         {
@@ -492,16 +536,17 @@ namespace ProyectoInventarioOET
             {
                 case "Select":
                     GridViewRow filaSeleccionada = this.gridViewProductosGlobales.Rows[Convert.ToInt32(e.CommandArgument)];
-                    String identificador = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewProductosGlobales.PageIndex * resultadosPorPagina)]);
+                    String identificador = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewProductosGlobales.PageIndex * this.gridViewProductosGlobales.PageSize)]);
                     consultar(identificador);
                     modo = (int)Modo.Consultado;
                     Response.Redirect("FormProductosGlobales.aspx"); //Se hace un PostBack
                     break;
             }
+            
         }
 
         /* 
-         * Adición de un nuevo producto al inventario global de productos.
+         * Permite preparar la interfaz para la adición de un nuevo producto al inventario global de productos.
          */
         protected void botonAgregarProductos_ServerClick(object sender, EventArgs e)
         {
@@ -515,8 +560,8 @@ namespace ProyectoInventarioOET
             habilitarCampos(true);
         }
 
-        /*
-         * ???
+        /* 
+         * Permite preparar la interfaz para la modificación de producto consultado al inventario global de productos.
          */
         protected void botonModificacionProductos_ServerClick(object sender, EventArgs e)
         {
@@ -528,7 +573,7 @@ namespace ProyectoInventarioOET
         //------Lógica de los botones Enviar y Cancelar
 
         /* 
-         * Lógica del boton aceptar. Dependiendo del modo se tomarán distintas acciones acciones.
+         * Lógica del boton aceptar. Dependiendo del modo se tomarán distintas acciones.
          */
         protected void botonAceptarProductoGlobal_ServerClick(object sender, EventArgs e)
         {
@@ -550,6 +595,7 @@ namespace ProyectoInventarioOET
             else if (modo == (int)Modo.Modificacion) // Caso modificación
             {
                 operacionCorrecta = modificar();
+                modo = (int)Modo.Consultado;
             }
             if (operacionCorrecta)
             {
@@ -558,7 +604,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Permite mostrar la página seleccionada en el grid con los datos parciales de los productos globales
          */
         protected void gridViewProductosGlobales_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
@@ -567,8 +613,9 @@ namespace ProyectoInventarioOET
             this.gridViewProductosGlobales.DataBind();
         }
 
+        
         /*
-         * ???
+         * Descarta los cambios hechos por el usuario y deja la interfaz en modo inicial para la siguiente acción
          */
         protected void botonAceptarModalCancelar_ServerClick(object sender, EventArgs e)
         {
@@ -579,7 +626,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Permite hacer una busqueda de productos con código u nombre similar al criterio ingresado por el usuario
          */
         protected void botonBuscar_ServerClick(object sender, EventArgs e)
         {
@@ -589,11 +636,15 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Permite controlar la desactivactivación de un producto
+         * Probablemente se eliminará en las siguientes iteraciones
          */
         protected void botonAceptarModalDesactivar_ServerClick(object sender, EventArgs e)
         {
-            // Hacer algo
+            modo = (int)Modo.Inicial;
+            cambiarModo();
         }
+
+
     }
 }

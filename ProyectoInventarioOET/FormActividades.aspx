@@ -4,37 +4,34 @@
     <br />
     <!-- Label para desplegar mensajes -->
     <div>
-        <div id="mensajeAlerta" class="alert alert-fozkr-error fade in" runat="server" visible =" false" style="margin-left: 70%;">
+        <div id="mensajeAlerta" runat="server" visible =" false" style="margin-left: 50%;">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <strong>
-                <asp:Label ID="labelTipoAlerta" runat="server" Text="Alerta! "></asp:Label>
+                <asp:Label ID="labelTipoAlerta" runat="server"></asp:Label>
             </strong>
-            <asp:Label ID="labelAlerta" runat="server" Text="Mensaje de alerta"></asp:Label>
+            <asp:Label ID="labelAlerta" runat="server"></asp:Label>
         </div>
     </div>
 
     <!-- Título del Form -->
     <div>
-        <h2 id="TituloActividades" runat="server">Actividades</h2>
+        <h2 id="TituloActividades" runat="server">Gestión de Actividades</h2>
         <hr />
     </div>
 
-    <!-- Cuerpo del Form -->
-    <button runat="server" onserverclick="botonAgregarActividades_ServerClick" id="botonAgregarActividades" class=" btn btn-info-fozkr" type="button" style="float: left" > Nueva Actividad</button>
-    <button runat="server" onserverclick="botonModificacionActividades_ServerClick" causesvalidation="false"  id="botonModificacionActividades" class=" btn btn-info-fozkr" type="button" style="float: left"><i></i> Modificar Actividad </button>
-    <button runat="server" onserverclick="botonConsultaActividades_ServerClick" causesvalidation="false"  id="botonConsultaActividades" class=" btn btn-info-fozkr" type="button" style="float: left"><i></i>Consulta de Actividades </button>
+    <!-- Botones -->
+    <button runat="server" onserverclick="botonAgregarActividades_ServerClick" id="botonAgregarActividades" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false">Nueva Actividad</button>
+    <button runat="server" onserverclick="botonModificacionActividades_ServerClick" causesvalidation="false"  id="botonModificacionActividades" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false">Modificar Actividad</button>
+    <button runat="server" onserverclick="botonConsultaActividades_ServerClick" causesvalidation="false"  id="botonConsultaActividades" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false">Consultar Actividades</button>
     <br />
     <br />
 
-    <h3 id="tituloAccionActividades"></h3>
-    <br />
-    <h3 id="tituloBienvenidaActividades" runat="server">Seleccione una opción.</h3>
+    <h3 id="tituloAccionActividades" runat="server">Seleccione una opción</h3>
     <div class= "row" id="bloqueFormulario">
          <!-- Fieldset para Actividades -->
         <fieldset id= "FieldsetActividad" runat="server" class="fieldset">
-            <asp:ValidationSummary CssClass="label label-warning" runat=server 
-            HeaderText="Uno de los campos está vacío o con información inválida" />
-            <div class="col-lg-4">
+
+            <div class="col-lg-5">
                 <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
                     ControlToValidate=inputDescripcionActividad
                     ErrorMessage=""> 
@@ -46,7 +43,7 @@
                     </div>
             </div>
 
-            <div class="col-lg-3">
+            <div class="col-lg-5">
             <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
                 ControlToValidate=comboBoxEstadosActividades
                 ErrorMessage="">
@@ -60,46 +57,54 @@
             </div>
 
             <br />
-            <div class="col-lg-5">
-                <div class="form-group">
-                    <label for="inputCodigoActividad" id="labelCodigoInterno" runat="server" class= "control-label"> Código Interno: </label>      
-                    <input type="text" id= "codigoInternoActividad" runat="server" class="form-control"><br>
-                </div>
-            </div>
 
         </fieldset>
 
         <label id="labelTextoObligatorioActividad" runat="server" for="textoObligatorioActividad" style="margin-left:1.30%" class="text-danger text-center">Los campos con (*) son obligatorios</label>
 
+            
+        <fieldset id= "Fieldset1" runat="server" class="fieldset">
+            <asp:ValidationSummary Font-Size="Small" CssClass="label label-danger" runat=server 
+            HeaderText="Uno de los campos está vacío o con información inválida" />
+
+
+          
+            <br />
+            <div class="col-lg-5">
+            </div>
+
+        </fieldset>
+
+
     </div>
     <div class="col-lg-12" id="bloqueBotones">
         <div class =" row">
             <div class="text-center">
-                <button runat="server" onserverclick="botonAceptarActividad_ServerClick" id="botonAceptarActividad" class="btn btn-success-fozkr" type="button"><i class="fa fa-pencil-square-o"></i>Aceptar</button>
+                <button runat="server" onserverclick="botonAceptarActividad_ServerClick" id="botonAceptarActividad" class="btn btn-success-fozkr" type="button"><i class="fa fa-pencil-square-o"></i>Enviar</button>
                 <a id="botonCancelarActividad" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cancelar</a>                
             </div>
         </div>
     </div>
     <br />
     <br />
-     <%--style="display:none"--%>
+
     <div id="bloqueGrid" class="col-lg-12">
         <fieldset id="FieldsetGridActividades" runat="server" class="fieldset">
-          <!-- Gridview de consultar -->
-         <div class="col-lg-12">
+          <!-- Gridview de consultas -->
+         <div class="col-lg-12"><strong><div ID="tituloGrid" runat="server" visible="false" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Catálogo de actividades</div></strong>
             <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
                 <ContentTemplate>
-                    <asp:GridView ID="gridViewActividades" CssClass="table table-responsive table-condensed" OnRowCommand="gridViewActividades_Seleccion" OnPageIndexChanging="gridViewActividades_CambioPagina" runat="server" AllowPaging="True" PageSize="5" BorderColor="Transparent">
+                    <asp:GridView ID="gridViewActividades" CssClass="table" OnRowCommand="gridViewActividades_Seleccion" OnPageIndexChanging="gridViewActividades_CambioPagina" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
                         <Columns>
-                            <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-info-fozkr" CommandName="Select" Text="Consultar">
-                                <ControlStyle CssClass="btn btn-info-fozkr"></ControlStyle>
+                            <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Consultar">
+                                <ControlStyle CssClass="btn btn-default"></ControlStyle>
                             </asp:ButtonField>
                        </Columns>
                        <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
                        <PagerStyle CssClass="paging" HorizontalAlign="Center" />
-                       <AlternatingRowStyle BackColor="#EBEBEB" />
+                       <AlternatingRowStyle BackColor="#F8F8F8" />
                        <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
-                       <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" />
+                       <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
                   </asp:GridView>
              </ContentTemplate>
              <Triggers>
@@ -107,9 +112,6 @@
              </Triggers>
           </asp:UpdatePanel>
        </div>
-        <br />
-        <br />
-        <br />
         </fieldset>        
     </div>
     
