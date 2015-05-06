@@ -83,8 +83,9 @@ namespace ProyectoInventarioOET
                 tituloGrid.Visible = true;
                 comboBoxEstadosActividades.Enabled = false;
                 textoObligatorioBodega.Visible = false;
+                mensajeAlerta.Visible = false;
                 tituloAccion.InnerText = "Seleccione una opción";
-
+                
 
 
             }
@@ -102,6 +103,7 @@ namespace ProyectoInventarioOET
                 comboBoxEstadosActividades.Enabled = (permisos[2] == '1');
                 textoObligatorioBodega.Visible = true;
                 tituloAccion.InnerText = "Cambie los datos";
+                mensajeAlerta.Visible = false;
             }
             else if (modo == (int)Modo.Insercion)
             {
@@ -119,6 +121,7 @@ namespace ProyectoInventarioOET
                 comboBoxEstadosActividades.Visible = true;
                 textoObligatorioBodega.Visible = true;
                 tituloAccion.InnerText = "Ingrese datos";
+                mensajeAlerta.Visible = false;
 
 
             }
@@ -137,6 +140,7 @@ namespace ProyectoInventarioOET
                 comboBoxEstadosActividades.Visible = false;
                 textoObligatorioBodega.Visible = false;
                 tituloAccion.InnerText = "Seleccione una categoria";
+                mensajeAlerta.Visible = false;
             }
             else if (modo == (int)Modo.Consultado)
             { 
@@ -153,6 +157,7 @@ namespace ProyectoInventarioOET
                 comboBoxEstadosActividades.Enabled = false;
                 textoObligatorioBodega.Visible = false;
                 tituloAccion.InnerText = "Categoria seleccionada";
+                mensajeAlerta.Visible = false;
             }
             //aplicarPermisos();// se aplican los permisos del usuario para el acceso a funcionalidades
         }
@@ -233,8 +238,7 @@ namespace ProyectoInventarioOET
         protected void limpiarCampos()
         {
             this.inputNombre.Value = "";
-            if (comboBoxEstadosActividades.DataSource != null && (comboBoxEstadosActividades.DataSource as DataTable).Rows.Count > 0)
-                this.comboBoxEstadosActividades.SelectedIndex = 0;
+            comboBoxEstadosActividades.SelectedValue = null;
         }
 
         /*
@@ -255,8 +259,6 @@ namespace ProyectoInventarioOET
          */
         protected void botonCancelarModalCancelar_ServerClick(object sender, EventArgs e)
         {
-            limpiarCampos();
-            deshabilitarCampos();
         }
 
         /*
@@ -508,7 +510,9 @@ namespace ProyectoInventarioOET
             modo = (int)Modo.Inicial;
             limpiarCampos();
             categoriaConsultada = null;
+            seConsulto = false;
             irAModo();
+
         }
         /*
          * Metodo que chequea si el nombre nuevo que se va a ingresar esta repetido.
