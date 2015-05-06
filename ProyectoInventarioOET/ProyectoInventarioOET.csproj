@@ -175,17 +175,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Account\Web.config" />
     <Content Include="FormBodegas.aspx" />
-    <Content Include="DataSetGeneral.xsc">
-      <DependentUpon>DataSetGeneral.xsd</DependentUpon>
-    </Content>
-    <None Include="DataSetGeneral.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>DataSetGeneral.Designer.cs</LastGenOutput>
-    </None>
-    <Content Include="DataSetGeneral.xss">
-      <DependentUpon>DataSetGeneral.xsd</DependentUpon>
-    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -295,11 +284,6 @@
     <Compile Include="App_Code\Módulo Seguridad\ControladoraBDSeguridad.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Code\ControladoraBD.cs" />
-    <Compile Include="DataSetGeneral.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DataSetGeneral.xsd</DependentUpon>
-    </Compile>
     <Compile Include="FormAbout.aspx.cs">
       <DependentUpon>FormAbout.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
