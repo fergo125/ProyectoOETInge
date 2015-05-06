@@ -24,6 +24,7 @@ namespace ProyectoInventarioOET.App_Code
         private DataTable estaciones;                                           //Estaciones de la OET existentes
         private DataTable unidades;                                             //Posibles unidades métricas para los productos
         private DataTable estados;                                              //Posibles estados para todas las entidades del sistema
+        private DataTable booleanos;                                            // Para construir dropdownlist booleanos
         private int tipoCambioCompra;                                           //Tipo de cambio colones a dólares
         private int tipoCambioVenta;                                            //Tipo de cambio dólares a colones
         private int impuesto;                                                   //Impuesto de venta (13%)
@@ -66,6 +67,13 @@ namespace ProyectoInventarioOET.App_Code
             DataTable tipoCambio = controladoraGeneral.consultarTipoCambio();
             tipoCambioCompra = Convert.ToInt32(tipoCambio.Rows[0][0]);
             tipoCambioVenta = Convert.ToInt32(tipoCambio.Rows[0][1]);
+
+            // Crear la tabla de booleanos
+            booleanos = new DataTable();
+            booleanos.Columns.Add("Valor", typeof(int));
+            booleanos.Columns.Add("Representacion",typeof(String));
+            booleanos.Rows.Add(0,"No");
+            booleanos.Rows.Add(1,"Si");
 
             //TODO: borrar las instancias de controladorasBD aquí si ya no se volverán a utilizar
         }
@@ -117,6 +125,11 @@ namespace ProyectoInventarioOET.App_Code
         public DataTable consultarIntenciones()
         {
             return intenciones;
+        }
+
+        public DataTable consultarBooleanos()
+        {
+            return booleanos;
         }
 
         /*
