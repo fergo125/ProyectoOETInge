@@ -16,5 +16,22 @@ namespace ProyectoInventarioOET
         {
 
         }
+
+        protected void gridViewEntradas_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+
+        }
+
+        protected void gridViewEntradas_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+
+        }
+
+        protected void gridViewSeleccionarProductos_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+
+        }
+
+
     }
 }
