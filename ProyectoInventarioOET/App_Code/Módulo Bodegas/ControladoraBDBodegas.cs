@@ -139,10 +139,24 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
         public DataTable consultarBodegas()
         {
             DataTable resultado = new DataTable();
-            try
+            
+            /*Modificar para recibir como parametros*/
+            String idUsuario="";
+            String rol="";
+            try 
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT C.CAT_BODEGA,C.DESCRIPCION,C.ANFITRIONA,D.NOMBRE,E.DESCRIPCION, F.NOMBRE FROM cat_bodega C, estacion D, cat_estados E, cat_intencionuso F WHERE C.ESTACION = D.ID AND E.VALOR = C.ESTADO AND C.CAT_INTENCIONUSO = F.CAT_INTENCIONUSO";
+                if (rol.Equals("Administrador local"))
+                {
+                    command.CommandText = "SELECT C.CAT_BODEGA,C.DESCRIPCION,C.ANFITRIONA,D.NOMBRE,E.DESCRIPCION,"
+                    + "F.NOMBRE FROM cat_bodega C, estacion D, cat_estados E, cat_intencionuso F WHERE C.ESTACION = "
+                    + "D.ID AND E.VALOR = C.ESTADO AND C.CAT_INTENCIONUSO = F.CAT_INTENCIONUSO AND C.CAT_BODEGA IN "
+                    + "(SELECT CAT_BODEGA FROM SEG_USUARIO_BODEGA WHERE SEG_USUARIO = '" + idUsuario + "')";
+                }
+                else
+                {
+                    command.CommandText = "SELECT C.CAT_BODEGA,C.DESCRIPCION,C.ANFITRIONA,D.NOMBRE,E.DESCRIPCION, F.NOMBRE FROM cat_bodega C, estacion D, cat_estados E, cat_intencionuso F WHERE C.ESTACION = D.ID AND E.VALOR = C.ESTADO AND C.CAT_INTENCIONUSO = F.CAT_INTENCIONUSO";
+                }
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
             }
@@ -243,5 +257,7 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
             }
             return resultado;
         }
+
+      
     }
 }
