@@ -137,14 +137,14 @@ namespace ProyectoInventarioOET.Módulo_Productos_Locales
 
                 res[0] = "success";
                 res[1] = "Éxito:";
-                res[2] = "Producto agregado al catálogo general.";
+                res[2] = "Producto/s asociado/s al catálogo local.";
             }
             catch (SqlException e)
             {
                 // Como la llave es generada se puede volver a intentar
                 res[0] = "danger";
                 res[1] = "Error:";
-                res[2] = "Producto no agregado, intente nuevamente.";
+                res[2] = "Producto/s no asociado, intente nuevamente.";
             }
             return res;
         }

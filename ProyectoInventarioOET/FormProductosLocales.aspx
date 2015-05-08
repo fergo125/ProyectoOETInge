@@ -3,7 +3,7 @@
     <br />
     <!-- Label para desplegar mensajes -->
     <div>
-        <div id="mensajeAlerta" runat="server" style="margin-left: 50%; visibility:hidden">
+        <div id="mensajeAlerta" runat="server" Visible="false" style="margin-left:50%;">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <strong>
                 <asp:Label ID="labelTipoAlerta" runat="server"></asp:Label>
