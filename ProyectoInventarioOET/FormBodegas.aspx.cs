@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using ProyectoInventarioOET.Módulo_Bodegas;
+using ProyectoInventarioOET.Módulo_Seguridad;
 using ProyectoInventarioOET.App_Code;
 
 namespace ProyectoInventarioOET
@@ -208,7 +209,12 @@ namespace ProyectoInventarioOET
                 {
                     // Cargar bodegas
                     Object[] datos = new Object[4];
-                    DataTable bodegas = controladoraBodegas.consultarBodegas();
+
+
+                    EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
+                    String idUsuario = usuarioActual.Codigo;
+                    String rol = usuarioActual.Perfil;
+                    DataTable bodegas = controladoraBodegas.consultarBodegas(idUsuario,rol);
 
                     if (bodegas.Rows.Count > 0)
                     {

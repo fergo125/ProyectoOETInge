@@ -163,5 +163,5 @@ namespace ProyectoInventarioOET.App_Code
         {
             return tipoCambioVenta;
         }
-    }
+    } 
 }

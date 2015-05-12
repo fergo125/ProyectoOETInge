@@ -13,7 +13,7 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
     public class ControladoraBodegas
     {
         //Atributos
-        private ControladoraBDBodegas controladoraBDBodegas;    //???
+        private ControladoraBDBodegas controladoraBDBodegas;    
 
         /*
          * Constructor.
@@ -52,7 +52,7 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
         /*
          * Consulta la información de todas las bodegas.
          */
-        public DataTable consultarBodegas()
+        public DataTable consultarBodegas(String idUsuario, String rol)
         {
             return controladoraBDBodegas.consultarBodegas();
         }
@@ -71,5 +71,6 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
         {
             return controladoraBDBodegas.consultarProductosAsociables(idBodega);
         }
+
     }
 }
