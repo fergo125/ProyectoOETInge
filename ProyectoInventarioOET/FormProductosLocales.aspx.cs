@@ -33,6 +33,7 @@ namespace ProyectoInventarioOET
         private static Boolean gridCatalogoLocal = false;
         private static bool[] asociados;
         private static String[] idProductos;
+        private static bool mensajeAlertaVisible = false;
 
         /*
          * Cuando se accede la pagina inicializa los controladores si es la primera vez, sino solo realiza el cambio de modo.
@@ -111,6 +112,11 @@ namespace ProyectoInventarioOET
                 default:
                     // Algo salio mal
                     break;
+            }
+            if (mensajeAlertaVisible == true)
+            {
+                mensajeAlertaVisible = false;
+                mensajeAlerta.Visible = true;
             }
         }
 
@@ -529,6 +535,7 @@ namespace ProyectoInventarioOET
             labelTipoAlerta.Text = alerta + " ";
             labelAlerta.Text = mensaje;
             mensajeAlerta.Visible = true;
+            mensajeAlertaVisible = true;
         }
 
         /*// Envío de modificaciones de producto de catálogo local
