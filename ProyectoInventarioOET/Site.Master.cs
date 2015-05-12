@@ -156,6 +156,8 @@ namespace ProyectoInventarioOET
                 return "000000";
         }
 
+
+
         /*
          * Método no usado.
          */

@@ -111,5 +111,7 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
             return nombre;
         }
 
+       
+
     }
 }

@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using ProyectoInventarioOET.Módulo_Bodegas;
+using ProyectoInventarioOET.Módulo_Seguridad;
 using ProyectoInventarioOET.App_Code;
 
 namespace ProyectoInventarioOET
@@ -208,7 +209,12 @@ namespace ProyectoInventarioOET
                 {
                     // Cargar bodegas
                     Object[] datos = new Object[4];
-                    DataTable bodegas = controladoraBodegas.consultarBodegas();
+
+
+                    EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
+                    String idUsuario = usuarioActual.Codigo;
+                    String rol = usuarioActual.Perfil;
+                    DataTable bodegas = controladoraBodegas.consultarBodegas(idUsuario,rol);
 
                     if (bodegas.Rows.Count > 0)
                     {
@@ -339,8 +345,10 @@ namespace ProyectoInventarioOET
         {
             String codigo = "";
             Object[] bodega = obtenerDatosBodega();
-
-            String[] error = controladoraBodegas.insertarDatos(bodega);
+            EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
+            String idUsuario = usuarioActual.Codigo;
+            String rol = usuarioActual.Perfil;
+            String[] error = controladoraBodegas.insertarDatos(bodega,idUsuario,rol);
 
             codigo = Convert.ToString(error[3]);
             mostrarMensaje(error[0], error[1], error[2]);
@@ -367,7 +375,10 @@ namespace ProyectoInventarioOET
             Object[] bodega = obtenerDatosBodega();
             String id = bodegaConsultada.Codigo;
             bodega[0] = id;
-            String[] error = controladoraBodegas.modificarDatos(bodegaConsultada, bodega);
+            EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
+            String idUsuario = usuarioActual.Codigo;
+            String rol = usuarioActual.Perfil;
+            String[] error = controladoraBodegas.modificarDatos(bodegaConsultada, bodega,idUsuario,rol);
             mostrarMensaje(error[0], error[1], error[2]);
 
             if (error[0].Contains("success"))// si fue exitoso
