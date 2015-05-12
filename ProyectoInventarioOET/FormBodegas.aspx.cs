@@ -345,8 +345,10 @@ namespace ProyectoInventarioOET
         {
             String codigo = "";
             Object[] bodega = obtenerDatosBodega();
-
-            String[] error = controladoraBodegas.insertarDatos(bodega);
+            EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
+            String idUsuario = usuarioActual.Codigo;
+            String rol = usuarioActual.Perfil;
+            String[] error = controladoraBodegas.insertarDatos(bodega,idUsuario,rol);
 
             codigo = Convert.ToString(error[3]);
             mostrarMensaje(error[0], error[1], error[2]);
@@ -373,7 +375,10 @@ namespace ProyectoInventarioOET
             Object[] bodega = obtenerDatosBodega();
             String id = bodegaConsultada.Codigo;
             bodega[0] = id;
-            String[] error = controladoraBodegas.modificarDatos(bodegaConsultada, bodega);
+            EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
+            String idUsuario = usuarioActual.Codigo;
+            String rol = usuarioActual.Perfil;
+            String[] error = controladoraBodegas.modificarDatos(bodegaConsultada, bodega,idUsuario,rol);
             mostrarMensaje(error[0], error[1], error[2]);
 
             if (error[0].Contains("success"))// si fue exitoso

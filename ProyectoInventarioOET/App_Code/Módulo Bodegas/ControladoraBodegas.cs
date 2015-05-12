@@ -34,19 +34,19 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
         /*
          * Crea una nueva bodega dado un vector con los datos de la misma.
          */
-        public String[] insertarDatos(Object[] datosBodega)
+        public String[] insertarDatos(Object[] datosBodega, String idUsuario, String rol)
         {
             EntidadBodega bodega = new EntidadBodega(datosBodega);
-            return controladoraBDBodegas.insertarBodega(bodega);
+            return controladoraBDBodegas.insertarBodega(bodega, idUsuario, rol);
         }
 
         /*
          * Modifica los datos de una bodega particular.
          */
-        public String[] modificarDatos(EntidadBodega bodegaVieja, Object[] datosBodegaNueva)
+        public String[] modificarDatos(EntidadBodega bodegaVieja, Object[] datosBodegaNueva, String idUsuario, String rol)
         {
             EntidadBodega bodegaNueva = new EntidadBodega(datosBodegaNueva);
-            return controladoraBDBodegas.modificarBodega(bodegaVieja, bodegaNueva);
+            return controladoraBDBodegas.modificarBodega(bodegaVieja, bodegaNueva, idUsuario, rol);
         }
 
         /*
@@ -54,7 +54,7 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
          */
         public DataTable consultarBodegas(String idUsuario, String rol)
         {
-            return controladoraBDBodegas.consultarBodegas();
+            return controladoraBDBodegas.consultarBodegas(idUsuario,rol);
         }
 
         /*

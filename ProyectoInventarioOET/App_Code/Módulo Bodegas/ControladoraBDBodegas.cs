@@ -24,10 +24,10 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
         /*
          * ???
          */
-        public String[] insertarBodega(EntidadBodega bodega)
+        public String[] insertarBodega(EntidadBodega bodega, String idUsuario, String rol)
         {
             bool existenteEnBD = false;
-            DataTable bodegas = consultarBodegas();
+            DataTable bodegas = consultarBodegas(idUsuario, rol);
             if (bodegas.Rows.Count > 0)
             {
                 existenteEnBD = false;
@@ -78,10 +78,10 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
         /*
          * ???
          */
-        public String[] modificarBodega(EntidadBodega bodega, EntidadBodega nuevaBodega)
+        public String[] modificarBodega(EntidadBodega bodega, EntidadBodega nuevaBodega, String idUsuario, String rol)
         {
             bool existenteEnBD = false;
-            DataTable bodegas = consultarBodegas();
+            DataTable bodegas = consultarBodegas(idUsuario,rol);
             if (bodegas.Rows.Count > 0)
             {
                 existenteEnBD = false;
@@ -136,13 +136,11 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
         /*
          * ???
          */
-        public DataTable consultarBodegas()
+        public DataTable consultarBodegas(String idUsuario, String rol)
         {
             DataTable resultado = new DataTable();
             
             /*Modificar para recibir como parametros*/
-            String idUsuario="";
-            String rol="";
             try 
             {
                 OracleCommand command = conexionBD.CreateCommand();
