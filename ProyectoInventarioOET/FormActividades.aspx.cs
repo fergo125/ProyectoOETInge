@@ -19,7 +19,7 @@ namespace ProyectoInventarioOET
         enum Modo { Inicial, Consulta, Insercion, Modificacion, Consultado }; // Sirve para controlar los modos de la interfaz
         //Atributos
         private static int modo = (int)Modo.Inicial;                            // Almacena el modo actual de la interfaz
-        private static Object[] idArray;                                        // Almacena identificadores de actividadesefe
+        private static Object[] idArray;                                        // Almacena identificadores de actividades
         private static ControladoraDatosGenerales controladoraDatosGenerales;   // Obtiene datos generales (estados)
         private static EntidadActividad actividadConsultada;                    // Almacena la actividad que se consultó (o acaba de agregar o modificar)
         private static ControladoraActividades controladoraActividades;         // Comunica con la base de datos.
