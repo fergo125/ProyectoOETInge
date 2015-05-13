@@ -33,7 +33,6 @@ namespace ProyectoInventarioOET
         private static Boolean gridCatalogoLocal = false;
         private static bool[] asociados;
         private static String[] idProductos;
-        private static bool mensajeAlertaVisible = false;
 
         /*
          * Cuando se accede la pagina inicializa los controladores si es la primera vez, sino solo realiza el cambio de modo.
@@ -112,11 +111,6 @@ namespace ProyectoInventarioOET
                 default:
                     // Algo salio mal
                     break;
-            }
-            if (mensajeAlertaVisible == true)
-            {
-                mensajeAlertaVisible = false;
-                mensajeAlerta.Visible = true;
             }
         }
 
@@ -406,6 +400,7 @@ namespace ProyectoInventarioOET
          */
         protected void botonConsultarBodega_ServerClick(object sender, EventArgs e)
         {
+            mensajeAlerta.Visible = false;
             gridCatalogoLocal = true;
             if (this.DropDownListBodega.SelectedItem != null)
             {
@@ -443,6 +438,7 @@ namespace ProyectoInventarioOET
          */
         protected void botonAsociarBodega_ServerClick(object sender, EventArgs e)
         {
+            mensajeAlerta.Visible = false;
             gridCatalogoLocal = false;
             if (this.DropDownListBodega.SelectedItem != null)
             {
@@ -516,13 +512,17 @@ namespace ProyectoInventarioOET
                     pos++;
                 }
                 String idBodega = idArray2[bodegaSeleccionada].ToString();
-                for (int i = 0; i < catalogoLocal.Rows.Count; i++)
+                String[] res = new String[3];
+                res[0] = "go";
+                for (int i = 0; i < catalogoLocal.Rows.Count && !res[0].Equals("danger"); i++)
                 {
                     if(asociados[i])
                     {
-                       controladoraProductoLocal.asociarProductos(idBodega,idProductos[i], (this.Master as SiteMaster).Usuario.Codigo);
+                       res = controladoraProductoLocal.asociarProductos(idBodega,idProductos[i], (this.Master as SiteMaster).Usuario.Codigo);
                     }
                 }
+                mostrarMensaje(res[0], res[1], res[2]);
+                FieldsetBloqueBotones.Visible = false;
             }
         }
 
@@ -535,7 +535,6 @@ namespace ProyectoInventarioOET
             labelTipoAlerta.Text = alerta + " ";
             labelAlerta.Text = mensaje;
             mensajeAlerta.Visible = true;
-            mensajeAlertaVisible = true;
         }
 
         /*// Envío de modificaciones de producto de catálogo local
