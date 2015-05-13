@@ -137,7 +137,7 @@ namespace ProyectoInventarioOET.Módulo_Productos_Locales
 
                 res[0] = "success";
                 res[1] = "Éxito:";
-                res[2] = "Producto/s asociado/s al catálogo local.";
+                res[2] = "Producto/s asociado/s al catálogo de bodega.";
             }
             catch (SqlException e)
             {
