@@ -235,6 +235,7 @@ namespace ProyectoInventarioOET
                     }
                 }
                 DataTable estados = controladoraDatosGenerales.consultarEstadosActividad();
+                inputEstado.Items.Clear();
                 foreach (DataRow estado in estados.Rows)
                 {
                     inputEstado.Items.Add(estado[1].ToString());
@@ -490,7 +491,9 @@ namespace ProyectoInventarioOET
             if (modo == 3)
             {
                 String[] res = new String[3];
-                res = controladoraProductoLocal.modificarProductoLocal(consultaProducto.Rows[0][22].ToString(),inputEstado.Text);
+                int test = inputEstado.SelectedIndex;
+                int count = inputEstado.Items.Count;
+                res = controladoraProductoLocal.modificarProductoLocal(consultaProducto.Rows[0][22].ToString(),inputEstado.SelectedItem.ToString());
                 mostrarMensaje(res[0], res[1], res[2]);
                 modo = 2;
                 Response.Redirect("FormProductosLocales.aspx");
