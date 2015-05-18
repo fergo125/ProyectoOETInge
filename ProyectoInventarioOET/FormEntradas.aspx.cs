@@ -119,8 +119,8 @@ namespace ProyectoInventarioOET
                 }
                 
 
-                this.gridViewEntradas.DataSource = tabla;
-                this.gridViewEntradas.DataBind();
+                this.gridViewFacturas.DataSource = tabla;
+                this.gridViewFacturas.DataBind();
             }
             catch (Exception e)
             {
@@ -128,17 +128,13 @@ namespace ProyectoInventarioOET
             }
         }
 
-        protected void gridViewEntradas_RowCommand(object sender, GridViewCommandEventArgs e)
+
+        protected void gridViewFacturas_RowCommand(object sender, GridViewCommandEventArgs e)
         {
 
         }
 
-        protected void gridViewEntradas_PageIndexChanging(object sender, GridViewPageEventArgs e)
-        {
-
-        }
-
-        protected void gridViewSeleccionarProductos_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        protected void gridViewFacturas_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
 
         }
