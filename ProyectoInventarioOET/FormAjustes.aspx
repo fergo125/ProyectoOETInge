@@ -32,15 +32,23 @@
      
     
     <!-- Fieldset para Bodegas -->
-    <fieldset id= "FieldsetBodegas" runat="server" class="fieldset">
-    
+    <fieldset id= "FieldsetAjustes" runat="server" class="fieldset">
+        <div class="col-lg-4">
+            <label for="outputBodega" class= "control-label"> Bodega actual: </label>      
+            <input type="text" id="outputBodega" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
+            <button runat="server" onserverclick="botonAceptarAjustes_ServerClick" id="botonAgregar" class="btn btn-success-fozkr" type="button"><i class="fa fa-plus"></i>Agregar Producto</button>
+        </div>
+        <div class="col-lg-4">
+            <label for="dropdownTipo" class= "control-label"> Tipo de Ajuste*: </label>      
+            <asp:DropDownList id="dropdownTipo" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control"></asp:DropDownList>
+        </div>
     </fieldset>
     <!-- Fin del fieldset-->
 
 
     <!-- Botones de aceptar y cancelar-->
     <div class="col-lg-12" id="bloqueBotones">
-        <div class =" row">
+        <div class ="row">
             <div class="text-center">
                 <button runat="server" onserverclick="botonAceptarAjustes_ServerClick" id="botonAceptarAjustes" class="btn btn-success-fozkr" type="button"><i class="fa fa-pencil-square-o"></i>Enviar</button>
                 <a id="botonCancelarAjustes" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cancelar</a>                
