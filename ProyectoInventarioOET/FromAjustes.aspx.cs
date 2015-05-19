@@ -4,11 +4,22 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using ProyectoInventarioOET.App_Code;
+using ProyectoInventarioOET.App_Code.Módulo_Ajustes;
+
 
 namespace ProyectoInventarioOET
 {
     public partial class FromAjustes : System.Web.UI.Page
     {
+
+        // Hace el llamado para cargar las estaciones
+        private static ControladoraDatosGenerales controladoraDatosGenerales;   // Controladora de datos generales
+        private static ControladoraAjustes controladoraAjustes;   // Controladora de datos generales
+
+
+        // DataTable bodegas = controladoraBodegas.consultarBodegasDeEstacion(idEstacion);
+
         /*
          * Método llamado cada vez que se carga la página.
          */
