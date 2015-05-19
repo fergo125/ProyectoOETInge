@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Ajustes" EnableEventValidation="false" Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="FromAjustes.aspx.cs" Inherits="ProyectoInventarioOET.FromAjustes" %>
+﻿<%@ Page Title="Ajustes" EnableEventValidation="false" Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="FormAjustes.aspx.cs" Inherits="ProyectoInventarioOET.FormAjustes" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
@@ -27,6 +27,7 @@
     <br />
     <br />
 
+    <!-- Titulo dinamico de la pagina -->
     <h3 id="tituloAccionAjustes" runat="server">Seleccione una opción</h3>
      
     
@@ -51,6 +52,37 @@
     <br />
     <br />
 
+
+    <!-- Grid de consultas -->
+      <div id="bloqueGrid" class="col-lg-12">
+        <fieldset id="FieldsetGridAjustes" runat="server" class="fieldset">
+          <!-- Gridview de consultar -->
+         <div class="col-lg-12">
+            <strong><div ID="tituloGrid" runat="server" visible="false" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Ajustes en Bodega</div></strong>
+            <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
+                <ContentTemplate>
+                    <asp:GridView ID="gridViewAjustes" CssClass="table" OnRowCommand="gridViewAjustes_Seleccion" OnPageIndexChanging="gridViewAjustes_CambioPagina" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                        <Columns>
+                            <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Consultar">
+                                <ControlStyle CssClass="btn btn-default"></ControlStyle>
+                            </asp:ButtonField>
+                       </Columns>
+                       <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
+                       <PagerStyle CssClass="paging" HorizontalAlign="Center" />
+                       <AlternatingRowStyle BackColor="#F8F8F8" />
+                       <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
+                       <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
+                  </asp:GridView>
+             </ContentTemplate>
+             <Triggers>
+                <asp:AsyncPostBackTrigger ControlID="gridViewAjustes" EventName="RowCommand" />
+             </Triggers>
+          </asp:UpdatePanel>
+       </div>
+        </fieldset>         
+    </div>
+    
+    <!-- Fin Grid de consultas -->
 
     <!-- Modal Cancelar -->
     <div class="modal fade" id="modalCancelar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

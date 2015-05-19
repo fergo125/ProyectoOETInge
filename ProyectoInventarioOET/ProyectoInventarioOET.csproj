@@ -231,7 +231,7 @@
     <Content Include="FormProductosGlobales.aspx" />
     <Content Include="FormProductosLocales.aspx" />
     <Content Include="FormVentas.aspx" />
-    <Content Include="FromAjustes.aspx" />
+    <Content Include="FormAjustes.aspx" />
     <Content Include="packages.config" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -422,12 +422,12 @@
     <Compile Include="FormVentas.aspx.designer.cs">
       <DependentUpon>FormVentas.aspx</DependentUpon>
     </Compile>
-    <Compile Include="FromAjustes.aspx.cs">
-      <DependentUpon>FromAjustes.aspx</DependentUpon>
+    <Compile Include="FormAjustes.aspx.cs">
+      <DependentUpon>FormAjustes.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="FromAjustes.aspx.designer.cs">
-      <DependentUpon>FromAjustes.aspx</DependentUpon>
+    <Compile Include="FormAjustes.aspx.designer.cs">
+      <DependentUpon>FormAjustes.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
