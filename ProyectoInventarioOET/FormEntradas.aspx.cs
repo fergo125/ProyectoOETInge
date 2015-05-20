@@ -139,6 +139,16 @@ namespace ProyectoInventarioOET
 
         }
 
+        protected void gridDetalleFactura_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+
+        }
+
+        protected void gridDetalleFactura_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+
+        }
+
 
 
 
