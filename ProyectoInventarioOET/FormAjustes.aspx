@@ -1,8 +1,7 @@
 ﻿<%@ Page Title="Ajustes" EnableEventValidation="false" Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="FormAjustes.aspx.cs" Inherits="ProyectoInventarioOET.FormAjustes" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-
-    <br />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
     <!-- Label para desplegar mensajes -->
     <div>
@@ -22,19 +21,20 @@
     </div>
 
     <!-- Botones -->
-    <button runat="server" onserverclick="botonRealizarAjuste_ServerClick" id="botonRealizarAjuste" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Realizar Ajuste</button>
-    <button runat="server" onserverclick="botonConsultarAjustes_ServerClick"  id="botonConsultarAjustes" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Consultar Ajustes</button>
+    <button runat="server" onserverclick="botonRealizarAjuste_ServerClick" id="botonRealizarAjuste" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false"><i class="fa fa-pencil"></i> Realizar Ajuste</button>
+    <button runat="server" onserverclick="botonConsultarAjustes_ServerClick"  id="botonConsultarAjustes" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false"><i class="fa fa-bars"></i> Consultar Ajustes</button>
+    <br />
 
     <!-- Titulo dinamico de la pagina -->
     <h3 id="tituloAccionAjustes" runat="server">Seleccione una opción</h3>
-     <br />
+    <br />
     
     <!-- Fieldset para Bodegas -->
     <fieldset id= "FieldsetAjustes" runat="server" class="fieldset">
         <div class="col-lg-6">
             <label for="outputBodega" class= "control-label"> Bodega actual: </label>      
             <input type="text" id="outputBodega" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
-            <button runat="server" onserverclick="botonAceptarAjustes_ServerClick" id="botonAgregar" class="btn btn-success-fozkr" type="button"><i class="fa fa-plus"></i>Agregar Producto</button>
+            <button runat="server" onserverclick="botonAceptarAjustes_ServerClick" id="botonAgregar" class="btn btn-success-fozkr" type="button"><i class="fa fa-plus"></i> Agregar Producto</button>
         </div>
         <div class="col-lg-6">
             <label for="dropdownTipo" class= "control-label"> Tipo de Ajuste*: </label>      
@@ -43,13 +43,46 @@
     </fieldset>
     <!-- Fin del fieldset-->
 
+    <br />
+    
+    <!-- Grid de productos a ajustar -->
+    <div id="bloqueGridProductos" class="col-lg-12">
+        <fieldset id="Fieldset2" runat="server" class="fieldset">
+            <!-- Gridview de consultar -->
+            <div class="col-lg-12">
+                <strong><div ID="Div1" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Productos a Cambiar</div></strong>
+                <asp:UpdatePanel ID="UpdatePanel2" runat="server">
+                    <ContentTemplate>
+                        <asp:GridView ID="gridViewProductos" CssClass="table" OnRowCommand="gridViewProductos_Seleccion" runat="server" AllowPaging="False" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                            <Columns>
+                                <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Quitar">
+                                    <ControlStyle CssClass="btn btn-default"></ControlStyle>
+                                </asp:ButtonField>
+                            </Columns>
+                            <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
+                            <PagerStyle CssClass="paging" HorizontalAlign="Center" />
+                            <AlternatingRowStyle BackColor="#F8F8F8" />
+                            <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
+                            <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
+                        </asp:GridView>
+                    </ContentTemplate>
+                    <Triggers>
+                        <asp:AsyncPostBackTrigger ControlID="gridViewProductos" EventName="RowCommand" />
+                    </Triggers>
+                </asp:UpdatePanel>
+            </div>
+        </fieldset>         
+    </div>
+    <!-- Fin Grid de productos a ajustar -->
+
+    <br />
 
     <!-- Botones de aceptar y cancelar-->
     <div class="col-lg-12" id="bloqueBotones">
         <div class ="row">
             <div class="text-center">
-                <button runat="server" onserverclick="botonAceptarAjustes_ServerClick" id="botonAceptarAjustes" class="btn btn-success-fozkr" type="button"><i class="fa fa-pencil-square-o"></i>Enviar</button>
-                <a id="botonCancelarAjustes" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cancelar</a>                
+                <button runat="server" onserverclick="botonAceptarAjustes_ServerClick" id="botonAceptarAjustes" class="btn btn-success-fozkr" type="button"><i class="fa fa-pencil-square-o"></i> Guardar</button>
+                <a id="botonCancelarAjustes" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i> Cancelar</a>                
             </div>
         </div>
     </div>
@@ -57,6 +90,9 @@
 
     <br />
     <br />
+
+
+
 
 
     <!-- Grid de consultas -->
