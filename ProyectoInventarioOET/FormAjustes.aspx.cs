@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -10,7 +11,7 @@ using ProyectoInventarioOET.App_Code.Módulo_Ajustes;
 
 namespace ProyectoInventarioOET
 {
-    public partial class FromAjustes : System.Web.UI.Page
+    public partial class FormAjustes : System.Web.UI.Page
     {
 
         // Hace el llamado para cargar las estaciones
@@ -43,6 +44,38 @@ namespace ProyectoInventarioOET
         {
 
         }
+
+        /*
+         * Método que maneja la selección de un ajuste en el grid de consultar.
+         */
+        protected void gridViewAjustes_Seleccion(object sender, GridViewCommandEventArgs e)
+        {
+            /*
+            switch (e.CommandName)
+            {
+                case "Select":
+                    GridViewRow filaSeleccionada = this.gridViewAjustes.Rows[Convert.ToInt32(e.CommandArgument)];
+                    //String codigo = filaSeleccionada.Cells[0].Text.ToString();
+                    String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewBodegas.PageIndex * this.gridViewBodegas.PageSize)]);
+                    consultarBodega(codigo);
+                    modo = (int)Modo.Consultado;
+                    Response.Redirect("FormBodegas.aspx");
+                    break;
+            }*/
+        }
+
+        /*
+         * Método que maneja el cambio de páginas en el grid de consultar
+         */
+        protected void gridViewAjustes_CambioPagina(Object sender, GridViewPageEventArgs e)
+        {
+            /*
+            llenarGrid();
+            this.gridViewAjustes.PageIndex = e.NewPageIndex;
+            this.gridViewAjustes.DataBind();
+            */
+        }
+
 
         /*
          * Este método confirma inserción de ajustes.
