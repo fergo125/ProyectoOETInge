@@ -24,21 +24,19 @@
     <!-- Botones -->
     <button runat="server" onserverclick="botonRealizarAjuste_ServerClick" id="botonRealizarAjuste" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Realizar Ajuste</button>
     <button runat="server" onserverclick="botonConsultarAjustes_ServerClick"  id="botonConsultarAjustes" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Consultar Ajustes</button>
-    <br />
-    <br />
 
     <!-- Titulo dinamico de la pagina -->
     <h3 id="tituloAccionAjustes" runat="server">Seleccione una opción</h3>
-     
+     <br />
     
     <!-- Fieldset para Bodegas -->
     <fieldset id= "FieldsetAjustes" runat="server" class="fieldset">
-        <div class="col-lg-4">
+        <div class="col-lg-6">
             <label for="outputBodega" class= "control-label"> Bodega actual: </label>      
             <input type="text" id="outputBodega" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
             <button runat="server" onserverclick="botonAceptarAjustes_ServerClick" id="botonAgregar" class="btn btn-success-fozkr" type="button"><i class="fa fa-plus"></i>Agregar Producto</button>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-6">
             <label for="dropdownTipo" class= "control-label"> Tipo de Ajuste*: </label>      
             <asp:DropDownList id="dropdownTipo" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control"></asp:DropDownList>
         </div>
