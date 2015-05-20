@@ -69,7 +69,7 @@
                 </div>
                 <div class="form-group col-lg-6">
                     <label for="inputEstado" class= "control-label" >Estado:</label>
-                    <asp:DropDownList ID="inputEstado" runat="server" Cssclass="form-control" enabled="false"></asp:DropDownList>
+                    <asp:DropDownList ID="inputEstado" runat="server" Cssclass="form-control" enabled="false" OnSelectedIndexChanged="inputEstado_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
                 </div>
                 <div class= "form-group col-lg-6">
                     <label for="inputCreador" class= "control-label">Asociador:</label>      

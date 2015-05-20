@@ -33,7 +33,7 @@ namespace ProyectoInventarioOET
         private static Boolean gridCatalogoLocal = false;
         private static bool[] asociados;
         private static String[] idProductos;
-
+        private static String estadoProducto;
         /*
          * Cuando se accede la pagina inicializa los controladores si es la primera vez, sino solo realiza el cambio de modo.
          */
@@ -235,6 +235,7 @@ namespace ProyectoInventarioOET
                     }
                 }
                 DataTable estados = controladoraDatosGenerales.consultarEstadosActividad();
+                estadoProducto = inputEstado.SelectedValue;
                 inputEstado.Items.Clear();
                 foreach (DataRow estado in estados.Rows)
                 {
@@ -491,9 +492,8 @@ namespace ProyectoInventarioOET
             if (modo == 3)
             {
                 String[] res = new String[3];
-                int test = inputEstado.SelectedIndex;
-                int count = inputEstado.Items.Count;
-                res = controladoraProductoLocal.modificarProductoLocal(consultaProducto.Rows[0][22].ToString(),inputEstado.SelectedItem.ToString());
+                String test3 = estadoProducto;
+                res = controladoraProductoLocal.modificarProductoLocal(consultaProducto.Rows[0][22].ToString(), estadoProducto);
                 mostrarMensaje(res[0], res[1], res[2]);
                 modo = 2;
                 Response.Redirect("FormProductosLocales.aspx");
@@ -560,6 +560,14 @@ namespace ProyectoInventarioOET
          */
         protected void botonAceptarModalDesactivar_ServerClick(object sender, EventArgs e)
         {
+        }
+
+        /*
+         * 
+         */
+        protected void inputEstado_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            inputEstado.SelectedValue = estadoProducto;
         }
 
     }
