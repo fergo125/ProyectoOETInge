@@ -76,6 +76,25 @@ namespace ProyectoInventarioOET
             */
         }
 
+        /*
+         * Método que maneja la selección de un ajuste en el grid de productos.
+         */
+        protected void gridViewProductos_Seleccion(object sender, GridViewCommandEventArgs e)
+        {
+            /*
+            switch (e.CommandName)
+            {
+                case "Select":
+                    GridViewRow filaSeleccionada = this.gridViewAjustes.Rows[Convert.ToInt32(e.CommandArgument)];
+                    //String codigo = filaSeleccionada.Cells[0].Text.ToString();
+                    String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewBodegas.PageIndex * this.gridViewBodegas.PageSize)]);
+                    consultarBodega(codigo);
+                    modo = (int)Modo.Consultado;
+                    Response.Redirect("FormBodegas.aspx");
+                    break;
+            }*/
+        }
+
 
         /*
          * Este método confirma inserción de ajustes.
