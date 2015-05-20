@@ -31,9 +31,10 @@ namespace ProyectoInventarioOET
         private static DataTable catalogoLocal, consultaProducto;               // Tablas de datos que almacenan los productos del catálogo local y los datos del producto consultado
         private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
         private static Boolean gridCatalogoLocal = false;
-        private static bool[] asociados;
-        private static String[] idProductos;
-        private static String estadoProducto;
+        private static bool[] asociados;                                        // Almacena cuales productos se han seleccionado para asociacion
+        private static String[] idProductos;                                    // Almacena los ids de productos
+        private static String estadoProducto;                                   // Almacena el estado actual de un producto consultado
+        private static bool consultado = false;                                 // Almacena si se acaba de consultar un producto
         /*
          * Cuando se accede la pagina inicializa los controladores si es la primera vez, sino solo realiza el cambio de modo.
          */
@@ -243,6 +244,7 @@ namespace ProyectoInventarioOET
                     if (estado[2].ToString() == producto[6])
                     {
                         inputEstado.SelectedValue = estado[1].ToString();
+                        if (consultado) { consultado = false; estadoProducto = estado[1].ToString();}
                     }
                 }
 
@@ -284,6 +286,7 @@ namespace ProyectoInventarioOET
                     String codigo = filaSeleccionada.Cells[2].Text.ToString();
                     String idBodega = idArray2[bodegaSeleccionada].ToString();
                     consultaProducto = controladoraProductoLocal.consultarProductoDeBodega(idBodega, codigo);
+                    consultado = true;
                     modo=2;
                     Response.Redirect("FormProductosLocales.aspx");
                     break;
@@ -492,7 +495,6 @@ namespace ProyectoInventarioOET
             if (modo == 3)
             {
                 String[] res = new String[3];
-                String test3 = estadoProducto;
                 res = controladoraProductoLocal.modificarProductoLocal(consultaProducto.Rows[0][22].ToString(), estadoProducto);
                 mostrarMensaje(res[0], res[1], res[2]);
                 modo = 2;
