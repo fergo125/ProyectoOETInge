@@ -139,12 +139,32 @@ namespace ProyectoInventarioOET
 
         }
 
-        protected void gridDetalleFactura_RowCommand(object sender, GridViewCommandEventArgs e)
+        protected void gridDetalleFactura_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
 
         }
 
-        protected void gridDetalleFactura_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        protected void gridViewProductoBuscado_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+
+        }
+
+        protected void gridViewProductoBuscado_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+
+        }
+
+        protected void botonBuscar_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void gridViewEntradas_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+
+        }
+
+        protected void gridViewEntradas_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
 
         }
