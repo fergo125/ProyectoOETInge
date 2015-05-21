@@ -26,8 +26,39 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * Construye la tabla que se va a utilizar para mostrar la información de las actividades.
+         * Construye la tabla que se va a utilizar para mostrar la información de las Entradas.
          */
+        protected DataTable tablaEntradas()
+        {
+            DataTable tabla = new DataTable();
+            DataColumn columna;
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Factura";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Proveeduria";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Total";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Detallada";
+            tabla.Columns.Add(columna);
+
+            return tabla;
+        }
+
+        /*
+ * Construye la tabla que se va a utilizar para mostrar la información de las Entradas.
+ */
         protected DataTable tablaFacturas()
         {
             DataTable tabla = new DataTable();
@@ -38,10 +69,67 @@ namespace ProyectoInventarioOET
             columna.ColumnName = "Factura";
             tabla.Columns.Add(columna);
 
-            //columna = new DataColumn();
-            //columna.DataType = System.Type.GetType("System.String");
-            //columna.ColumnName = "Código Interno";
-            //tabla.Columns.Add(columna);
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Proveeduria";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Total";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Detallada";
+            tabla.Columns.Add(columna);
+
+            return tabla;
+        }
+
+        /*
+         * Construye la tabla que se va a utilizar para mostrar la información de las Entradas.
+         */
+        protected DataTable tablaFacturaDetallada()
+        {
+            DataTable tabla = new DataTable();
+            DataColumn columna;
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Factura";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Proveeduria";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Total";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Detallada";
+            tabla.Columns.Add(columna);
+
+            return tabla;
+        }
+
+        /*
+         * Construye la tabla que se va a utilizar para mostrar la información de las Entradas.
+         */
+        protected DataTable tablaResultadosBusqueda()
+        {
+            DataTable tabla = new DataTable();
+            DataColumn columna;
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Factura";
+            tabla.Columns.Add(columna);
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");

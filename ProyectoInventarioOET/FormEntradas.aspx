@@ -148,39 +148,39 @@
         </fieldset>        
     </div>
 
-         <div class="row">
-            <label class= "col-lg-12">Buscar producto:</label>
-        </div>
         <div class="row">
-            <div class="col-lg-9">
-                <input id="barraDeBusqueda" class="form-control" type="search" placeholder="Ingresa una palabra o código" runat="server" >
-            </div>
-            <div class="col-lg-2">
-                <asp:Button ID="botonBuscar" runat="server" Text="Buscar" CssClass="btn btn-warning-fozkr" OnClick="botonBuscar_Click"/>
-            </div>
-
+        <label class= "col-lg-12">Buscar producto:</label>
+    </div>
+    <div class="row">
+        <div class="col-lg-9">
+            <input id="barraDeBusqueda" class="form-control" type="search" placeholder="Ingresa una palabra o código" runat="server" >
+        </div>
+        <div class="col-lg-2">
+            <asp:Button ID="botonBuscar" runat="server" Text="Buscar" CssClass="btn btn-warning-fozkr" OnClick="botonBuscar_Click"/>
         </div>
 
-        <strong><div ID="UpdatePanelResultados" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Resultados de Búsqueda</div></strong>
-        <asp:UpdatePanel ID="UpdatePanelResultadosBusqueda" runat="server">
-            <ContentTemplate>
-                <asp:GridView ID="gridViewProductoBuscado" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewProductoBuscado_RowCommand" OnPageIndexChanging="gridViewProductoBuscado_PageIndexChanging" runat="server" AllowPaging="true" PageSize="16" BorderColor="Transparent">
-                    <Columns>
-                        <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Seleccionar">
-                            <ControlStyle CssClass="btn btn-default"></ControlStyle>
-                        </asp:ButtonField>
-                    </Columns>
-                    <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
-                    <PagerStyle CssClass="paging" HorizontalAlign="Center" />
-                    <AlternatingRowStyle BackColor="#EBEBEB" />
-                    <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
-                    <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" />
-                </asp:GridView>
-            </ContentTemplate>
-            <Triggers>
-            <asp:AsyncPostBackTrigger ControlID="gridViewProductoBuscado" EventName="RowCommand" />
-            </Triggers>
-        </asp:UpdatePanel>
+    </div>
+
+    <strong><div ID="UpdatePanelResultados" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Resultados de Búsqueda</div></strong>
+    <asp:UpdatePanel ID="UpdatePanelResultadosBusqueda" runat="server">
+        <ContentTemplate>
+            <asp:GridView ID="gridViewProductoBuscado" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewProductoBuscado_RowCommand" OnPageIndexChanging="gridViewProductoBuscado_PageIndexChanging" runat="server" AllowPaging="true" PageSize="16" BorderColor="Transparent">
+                <Columns>
+                    <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Seleccionar">
+                        <ControlStyle CssClass="btn btn-default"></ControlStyle>
+                    </asp:ButtonField>
+                </Columns>
+                <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
+                <PagerStyle CssClass="paging" HorizontalAlign="Center" />
+                <AlternatingRowStyle BackColor="#EBEBEB" />
+                <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
+                <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" />
+            </asp:GridView>
+        </ContentTemplate>
+        <Triggers>
+        <asp:AsyncPostBackTrigger ControlID="gridViewProductoBuscado" EventName="RowCommand" />
+        </Triggers>
+    </asp:UpdatePanel>
     
 
 </asp:Content>
