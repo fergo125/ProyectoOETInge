@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Oracle.DataAccess.Client; //para conectarse a la base de datos manualmente con strings
+using Oracle.DataAccess.Client; //para conectarse a la base de datos manualmente con strings 
 
 namespace ProyectoInventarioOET
 {
