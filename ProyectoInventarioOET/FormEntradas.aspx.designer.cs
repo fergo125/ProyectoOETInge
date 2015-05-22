@@ -58,15 +58,6 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlButton botonAgregarEntradas;
         
         /// <summary>
-        /// botonEntradaExtraordinaria control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonEntradaExtraordinaria;
-        
-        /// <summary>
         /// botonConsultaEntradas control.
         /// </summary>
         /// <remarks>
@@ -83,6 +74,42 @@ namespace ProyectoInventarioOET {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl tituloAccionEntradas;
+        
+        /// <summary>
+        /// FieldsetGridEntradas control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetGridEntradas;
+        
+        /// <summary>
+        /// Div2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Div2;
+        
+        /// <summary>
+        /// UpdatePanelEntradas control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanelEntradas;
+        
+        /// <summary>
+        /// gridViewEntradas control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gridViewEntradas;
         
         /// <summary>
         /// FieldsetGridFacturas control.
@@ -103,13 +130,13 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl tituloGrid;
         
         /// <summary>
-        /// UpdatePanelPruebas control.
+        /// UpdatePanelFacturas control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanelPruebas;
+        protected global::System.Web.UI.UpdatePanel UpdatePanelFacturas;
         
         /// <summary>
         /// gridViewFacturas control.
@@ -121,6 +148,24 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.GridView gridViewFacturas;
         
         /// <summary>
+        /// fieldsetEncabezadoFactura control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl fieldsetEncabezadoFactura;
+        
+        /// <summary>
+        /// camposEncabezadoFactura control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl camposEncabezadoFactura;
+        
+        /// <summary>
         /// outputFactura control.
         /// </summary>
         /// <remarks>
@@ -128,15 +173,6 @@ namespace ProyectoInventarioOET {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl outputFactura;
-        
-        /// <summary>
-        /// outputProveeduria control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl outputProveeduria;
         
         /// <summary>
         /// outputFechaPago control.
@@ -191,5 +227,86 @@ namespace ProyectoInventarioOET {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl outputTotal;
+        
+        /// <summary>
+        /// outputImpuestos control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl outputImpuestos;
+        
+        /// <summary>
+        /// fieldsetGridDetalleFactura control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl fieldsetGridDetalleFactura;
+        
+        /// <summary>
+        /// Div1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Div1;
+        
+        /// <summary>
+        /// UpdatePanelDetalleFactura control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanelDetalleFactura;
+        
+        /// <summary>
+        /// gridDetalleFactura control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gridDetalleFactura;
+        
+        /// <summary>
+        /// barraDeBusqueda control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputGenericControl barraDeBusqueda;
+        
+        /// <summary>
+        /// botonBuscar control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button botonBuscar;
+        
+        /// <summary>
+        /// UpdatePanelResultadosBusqueda control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanelResultadosBusqueda;
+        
+        /// <summary>
+        /// gridViewProductoBuscado control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gridViewProductoBuscado;
     }
 }

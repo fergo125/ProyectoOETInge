@@ -341,6 +341,10 @@
     <Compile Include="App_Code\Módulo Bodegas\EntidadBodega.cs" />
     <Compile Include="App_Code\Módulo Bodegas\ControladoraBodegas.cs" />
     <Compile Include="App_Code\Módulo Bodegas\ControladoraBDBodegas.cs" />
+    <Content Include="App_Code\Módulo Entradas\ControladoraBDEntradas.cs" />
+    <Content Include="App_Code\Módulo Entradas\ControladoraEntradas.cs" />
+    <Content Include="App_Code\Módulo Entradas\EntidadEntrada.cs" />
+    <Content Include="App_Code\Módulo Entradas\EntidadFactura.cs" />
     <Compile Include="App_Code\Módulo Productos Locales\ControladoraBDProductoLocal.cs" />
     <Compile Include="App_Code\Módulo Productos Locales\ControladoraProductoLocal.cs" />
     <Compile Include="App_Code\Módulo Productos Locales\EntidadProductoLocal.cs" />
@@ -467,7 +471,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Code\Módulo Entradas\" />
     <Folder Include="App_Data\" />
     <Folder Include="App_Resources\" />
   </ItemGroup>
