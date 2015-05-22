@@ -23,6 +23,7 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
         */
         public EntidadProductoGlobal consultarProductoGlobal(String id)
         {
+            String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
             EntidadProductoGlobal productoConsultado = null;
             Object[] datosConsultados = new Object[14];
@@ -30,8 +31,8 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
             {
                 OracleCommand command = conexionBD.CreateCommand();
                 command.CommandText = "SELECT P.CODIGO, P.CODIGO_BARRAS, P.NOMBRE, P.COSTO_COLONES, P.CAT_CATEGORIAS, P.CAT_UNIDADES, P.SALDO, "
-                +                     "P.ESTADO, P.COSTO_DOLARES, P.IMPUESTO, P.INTENCION, P.PRECIO_C, P.PRECIO_D, P.INV_PRODUCTOS "
-                +                     "FROM INV_PRODUCTOS P WHERE INV_PRODUCTOS = '" + id + "'";
+                    + "P.ESTADO, P.COSTO_DOLARES, P.IMPUESTO, P.INTENCION, P.PRECIO_C, P.PRECIO_D, P.INV_PRODUCTOS "
+                    + "FROM " + esquema + "INV_PRODUCTOS P WHERE INV_PRODUCTOS = '" + id + "'";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
 
@@ -60,13 +61,14 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
 
         public string[] insertarProductoGlobal(EntidadProductoGlobal productoGlobal)
         {
+            String esquema = "Inventarios.";
             String[] res = new String[4]; // Vector que contiene la información sobre el resultado de la transacción en la base de datos
             res[3] = generarID();
             try
             {
                 DataTable resultado = new DataTable();
                 OracleCommand command = conexionBD.CreateCommand();
-                String aux =  "INSERT INTO INV_PRODUCTOS ( NOMBRE, CODIGO, CODIGO_BARRAS, CAT_CATEGORIAS, INTENCION, CAT_UNIDADES, ESTADO,  "
+                String aux = "INSERT INTO " + esquema + "INV_PRODUCTOS ( NOMBRE, CODIGO, CODIGO_BARRAS, CAT_CATEGORIAS, INTENCION, CAT_UNIDADES, ESTADO,  "
                 + "SALDO, IMPUESTO, PRECIO_C, PRECIO_D, COSTO_COLONES , COSTO_DOLARES , INV_PRODUCTOS, CREA, CREADO ) VALUES ( '"
                 + productoGlobal.Nombre + "' , '" + productoGlobal.Codigo + "' , '"
                 + productoGlobal.CodigoDeBarras + "' , '" + productoGlobal.Categoria + "' , '"
@@ -101,13 +103,14 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
         */
         public string[] modificarProductoGlobal(EntidadProductoGlobal productoGlobalViejo, EntidadProductoGlobal productoGlobalNuevo)
         {
+            String esquema = "Inventarios.";
             String[] res = new String[4]; // Vector que contiene la información sobre el resultado de la transacción en la base de datos
             res[3] = productoGlobalViejo.Inv_Productos.ToString();
             try
             {
                 DataTable resultado = new DataTable();
                 OracleCommand command = conexionBD.CreateCommand();
-                String aux =        "UPDATE INV_PRODUCTOS "
+                String aux = "UPDATE " + esquema + "INV_PRODUCTOS "
                                     + "SET CAT_CATEGORIAS = '" + productoGlobalNuevo.Categoria + "' , "
                                     + " CODIGO = '" + productoGlobalNuevo.Codigo + "' , "
                                     + " CODIGO_BARRAS = '" + productoGlobalNuevo.CodigoDeBarras + "' , "
@@ -148,13 +151,14 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
          */
         public string[] desactivarProductoGlobal(EntidadProductoGlobal productoGlobal)
         {
+            String esquema = "Inventarios.";
             String[] res = new String[4];
             res[3] = productoGlobal.Codigo.ToString(); // Vector que contiene la información sobre el resultado de la transacción en la base de datos
             try
             {
                 DataTable resultado = new DataTable();
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText =   "UPDATE INV_PRODUCTOS "
+                command.CommandText = "UPDATE " + esquema + "INV_PRODUCTOS "
                                       + "SET ESTADO = " + productoGlobal.Estado.ToString()
                                       + "WHERE INV_PRODUCTOS = " + productoGlobal.Inv_Productos;
                 OracleDataReader reader = command.ExecuteReader();
@@ -180,13 +184,14 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
 
         public DataTable consultarProductosGlobales()
         {
+            String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
 
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText =   "SELECT P.INV_PRODUCTOS, P.NOMBRE, P.CODIGO, P.CAT_CATEGORIAS, P.ESTADO  "  
-                +                       "FROM INV_PRODUCTOS P";
+                command.CommandText =   "SELECT P.INV_PRODUCTOS, P.NOMBRE, P.CODIGO, P.CAT_CATEGORIAS, P.ESTADO  "
+                   + "FROM " + esquema + "INV_PRODUCTOS P";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
             }
@@ -203,13 +208,14 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
          */
         public DataTable consultarProductosGlobales(String query)
         {
+            String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
 
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
                 command.CommandText = "SELECT P.INV_PRODUCTOS, P.NOMBRE, P.CODIGO, P.CAT_CATEGORIAS, P.ESTADO  "
-                + " FROM INV_PRODUCTOS P "
+                + " FROM " + esquema + "INV_PRODUCTOS P "
                 + " WHERE P.NOMBRE LIKE " + " '" + query + "%'"
                 + " OR P.CODIGO LIKE "     + " '" + query + "%'";
                 OracleDataReader reader = command.ExecuteReader();
@@ -221,6 +227,5 @@ namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
             }
             return resultado;
         }
-
     }
 }
