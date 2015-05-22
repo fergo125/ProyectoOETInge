@@ -22,6 +22,8 @@ namespace ProyectoInventarioOET
         private static Object[] idArrayAjustes;                                 // Array de llaves que no se muestran en el grid de consultas
         private static Object[] idArrayProductos;                               // Array de llaves que no se muestran en el grid de productos
         private static Object[] idArrayAgregarProductos;                        // Array de llaves que no se muestran en el grid de agregar productos
+        private static DataTable tablaAgregarProductos;                         // Tabla en memoria de los productos agregables
+        private static DataTable tablaProductos;                                // Tabla en memoria de los productos agregados
         private static int modo = (int)Modo.Inicial;                            // Modo actual de interfaz
         private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
         private static ControladoraDatosGenerales controladoraDatosGenerales;   // Controladora de datos generales
@@ -288,6 +290,7 @@ namespace ProyectoInventarioOET
 
                 this.gridViewAgregarProductos.DataSource = tabla;
                 this.gridViewAgregarProductos.DataBind();
+                tablaAgregarProductos = tabla;
             }
             catch (Exception e)
             {
@@ -314,6 +317,7 @@ namespace ProyectoInventarioOET
             gridViewProductos.DataBind();
 
             idArrayProductos = null;
+            tablaProductos = tablaProducto();
         }
 
         /*
@@ -486,7 +490,7 @@ namespace ProyectoInventarioOET
                     String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewBodegas.PageIndex * this.gridViewBodegas.PageSize)]);
                     consultarBodega(codigo);
                     modo = (int)Modo.Consultado;
-                    Response.Redirect("FormBodegas.aspx");
+                    Response.Redirect("FormAjustes.aspx");
                     break;
             }*/
         }
@@ -499,11 +503,26 @@ namespace ProyectoInventarioOET
             switch (e.CommandName)
             {
                 case "Select":
-                    GridViewRow filaSeleccionada = this.gridViewAjustes.Rows[Convert.ToInt32(e.CommandArgument)];
-                    
+                    DataRow seleccionada = tablaAgregarProductos.Rows[Convert.ToInt32(e.CommandArgument) + (this.gridViewAgregarProductos.PageIndex * this.gridViewAgregarProductos.PageSize)];
 
+                    // Sacamos datos pertinentes del producto
+                    Object[] datos = new Object[4];
+                    datos[0] = seleccionada["Nombre"];
+                    datos[1] = seleccionada["Codigo"];
+                    datos[2] = seleccionada["Cantidad Actual"];
+                    datos[3] = 0;
 
-                    Response.Redirect("FormBodegas.aspx");
+                    // Agregar nueva tupla a tabla
+                    tablaProductos.Rows.Add(datos);
+                    gridViewProductos.DataSource = tablaProductos;
+                    gridViewProductos.DataBind();
+
+                    // Eliminar vieja tupla de grid
+                    tablaAgregarProductos.Rows[Convert.ToInt32(e.CommandArgument) + (this.gridViewAgregarProductos.PageIndex * this.gridViewAgregarProductos.PageSize)].Delete();
+                    gridViewAgregarProductos.DataSource = tablaAgregarProductos;
+                    gridViewAgregarProductos.DataBind();
+
+                    Response.Redirect("FormAjustes.aspx");
                     break;
             }
         }
