@@ -26,9 +26,10 @@ namespace ProyectoInventarioOET.App_Code
          */
         public DataTable consultarAnfitriones()
         {
+            String esquema = "Reservas.";
             DataTable resultado = new DataTable();
             OracleCommand command = conexionBD.CreateCommand();
-            command.CommandText = "SELECT * FROM ANFITRIONA";
+            command.CommandText = "SELECT * FROM " + esquema + "ANFITRIONA";
             OracleDataReader reader = command.ExecuteReader();
             resultado.Load(reader);
             return resultado;

@@ -27,12 +27,13 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
          */
         public EntidadUsuario consultarUsuario(String nombre, String password)
         {
+            String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
             EntidadUsuario usuario = null;
 
             // Comandos de SQL para acceder a la base de datos
             OracleCommand command = conexionBD.CreateCommand();
-            command.CommandText = "SELECT * FROM SEG_USUARIO WHERE USUARIO = '" + nombre + "' AND CLAVE = '" + password + "'";
+            command.CommandText = "SELECT * FROM " + esquema + "SEG_USUARIO WHERE USUARIO = '" + nombre + "' AND CLAVE = '" + password + "'";
                 // Importante, modificar para que solo use cuentas activas
             OracleDataReader reader = command.ExecuteReader();
             resultado.Load(reader);
@@ -58,10 +59,11 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
          */
         public String consultarPermisosUsuario(String codigoPerfil, String interfaz)
         {
+            String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
 
             OracleCommand command = conexionBD.CreateCommand();
-            command.CommandText = "SELECT PERMISOS FROM SEG_PERMISOS WHERE SEG_PERFIL = '" + codigoPerfil + "' AND INTERFAZ = '" + interfaz + "'";
+            command.CommandText = "SELECT PERMISOS FROM " + esquema + "SEG_PERMISOS WHERE SEG_PERFIL = '" + codigoPerfil + "' AND INTERFAZ = '" + interfaz + "'";
             OracleDataReader reader = command.ExecuteReader();
             resultado.Load(reader);
             if (resultado.Rows.Count == 1)
@@ -77,10 +79,11 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
          */
         public String[] consultarPerfilUsuario(String codigoUsuario)
         {
+            String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
 
             OracleCommand command = conexionBD.CreateCommand();
-            command.CommandText = "SELECT NOMBRE, SEG_PERFIL FROM SEG_PERFIL WHERE (SEG_PERFIL = (SELECT SEG_PERFIL FROM SEG_PERFIL_USUARIO WHERE SEG_USUARIO = '" + codigoUsuario + "'))";
+            command.CommandText = "SELECT NOMBRE, SEG_PERFIL FROM " + esquema + "SEG_PERFIL WHERE (SEG_PERFIL = (SELECT SEG_PERFIL FROM SEG_PERFIL_USUARIO WHERE SEG_USUARIO = '" + codigoUsuario + "'))";
             OracleDataReader reader = command.ExecuteReader();
             resultado.Load(reader);
             if(resultado.Rows.Count == 1)
@@ -98,10 +101,11 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
          */
         public String consultarNombreDeUsuario(String idUsuario)
         {
+            String esquema = "Inventarios.";
             String nombre = "";
             DataTable resultado = new DataTable();
             OracleCommand command = conexionBD.CreateCommand();
-            command.CommandText = "SELECT NOMBRE FROM SEG_USUARIO WHERE SEG_USUARIO = '"+idUsuario+"'";
+            command.CommandText = "SELECT NOMBRE FROM " + esquema + "SEG_USUARIO WHERE SEG_USUARIO = '" + idUsuario + "'";
             OracleDataReader reader = command.ExecuteReader();
             resultado.Load(reader);
             if (resultado.Rows.Count == 1)
@@ -110,8 +114,5 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
             }
             return nombre;
         }
-
-       
-
     }
 }

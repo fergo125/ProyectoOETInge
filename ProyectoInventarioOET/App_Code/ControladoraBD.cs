@@ -25,7 +25,7 @@ namespace ProyectoInventarioOET
             if (conexionBD == null)
             {
                 conexionBD = new OracleConnection();
-                conexionBD.ConnectionString = "Data Source=10.1.4.93;User ID=grupo02;Password=blacjof7"; //en el futuro se podría leer esta string desde un archivo
+                conexionBD.ConnectionString = "Data Source=10.1.4.93;User ID=inventarios;Password=inventarios"; //en el futuro se podría leer esta string desde un archivo
                 conexionBD.Open();
             }
         }
