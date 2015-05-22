@@ -25,13 +25,12 @@ namespace ProyectoInventarioOET.Modulo_Categorias
          */
         public String[] insertarCategoria(EntidadCategoria categoria)
         {
-            String esquema = "Inventarios.";
             String[] res = new String[4];
             res[3] = categoria.Nombre;
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "INSERT INTO " + esquema + "CAT_CATEGORIAS (CAT_CATEGORIAS,DESCRIPCION,Estado) VALUES ('"
+                command.CommandText = "INSERT INTO CAT_CATEGORIAS (CAT_CATEGORIAS,DESCRIPCION,Estado) VALUES ('"
                 + generarID() + "','" + categoria.Descripcion + "','" + categoria.Estado+ "')";
                 OracleDataReader reader = command.ExecuteReader();
 
@@ -53,12 +52,11 @@ namespace ProyectoInventarioOET.Modulo_Categorias
          */
         public String[] modificarCategoria(EntidadCategoria categoria, EntidadCategoria nuevaCategoria)
         {
-            String esquema = "Inventarios.";
             String[] res = new String[3];
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "UPDATE " + esquema + "CAT_CATEGORIAS SET DESCRIPCION = '" + nuevaCategoria.Nombre + "', estado = " + (short)nuevaCategoria.Estado + " WHERE CAT_CATEGORIAS = '" + categoria.Nombre + "'";
+                command.CommandText = "UPDATE CAT_CATEGORIAS SET DESCRIPCION = '" + nuevaCategoria.Nombre+ "', estado = " + (short)nuevaCategoria.Estado  + " WHERE CAT_CATEGORIAs = '" + categoria.Nombre + "'";
                 OracleDataReader reader = command.ExecuteReader();
 
 
@@ -105,12 +103,11 @@ namespace ProyectoInventarioOET.Modulo_Categorias
          */
         public DataTable consultarCategorias()
         {
-            String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT * FROM " + esquema + "CAT_CATEGORIAS";
+                command.CommandText = "SELECT * FROM cat_categorias";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
             }
@@ -126,13 +123,12 @@ namespace ProyectoInventarioOET.Modulo_Categorias
          */
         public String consultarDescripcionCategoria(String idCategoria)
         {
-            String esquema = "Inventarios.";
             String res = "";
             DataTable resultado = new DataTable();
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT C.DESCRIPCION FROM " + esquema + "CAT_BODEGA C WHERE C.NOMBRE = '" + idCategoria + "'";
+                command.CommandText = "SELECT C.DESCRIPCION FROM cat_bodega C WHERE C.NOMBRE = '" + idCategoria + "'";
                 OracleDataReader reader = command.ExecuteReader();
                 res = resultado.Rows[0][0].ToString();
             }
@@ -148,14 +144,13 @@ namespace ProyectoInventarioOET.Modulo_Categorias
          */
         public EntidadCategoria consultarCategoria(String nombre)
         {
-            String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
             EntidadCategoria categoriaConsultada = null;
             Object[] datosConsultados = new Object[3];
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT * FROM " + esquema + "CAT_CATEGORIAS WHERE CAT_CATEGORIAS = '" + nombre + "'";
+                command.CommandText = "SELECT * FROM CAT_CATEGORIAS WHERE  CAT_CATEGORIAS = '" + nombre + "'";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
 

@@ -26,10 +26,9 @@ namespace ProyectoInventarioOET.App_Code
          */
         public DataTable consultarUnidades()
         {
-            String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
             OracleCommand command = conexionBD.CreateCommand();
-            command.CommandText = "SELECT * FROM " + esquema + "CAT_UNIDADES";
+            command.CommandText = "SELECT * FROM CAT_UNIDADES";
             OracleDataReader reader = command.ExecuteReader();
             resultado.Load(reader);
             return resultado;
