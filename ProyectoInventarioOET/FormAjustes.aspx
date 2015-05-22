@@ -103,7 +103,7 @@
                 <strong><div ID="tituloGridConsulta" runat="server" visible="false" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Ajustes en Bodega</div></strong>
                 <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
                     <ContentTemplate>
-                        <asp:GridView ID="gridViewAjustes" CssClass="table" OnRowCommand="gridViewAjustes_Seleccion" OnPageIndexChanging="gridViewAjustes_CambioPagina" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                        <asp:GridView ID="gridViewAjustes" CssClass="table" OnRowCommand="gridViewAjustes_Seleccion" OnPageIndexChanging="gridViewAjustes_CambioPagina" runat="server" AllowPaging="True" PageSize="15" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
                             <Columns>
                                 <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Consultar">
                                     <ControlStyle CssClass="btn btn-default"></ControlStyle>
@@ -164,7 +164,7 @@
                                 <strong><div ID="Div1" runat="server" visible="false" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Productos en Bodega</div></strong>
                                 <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                                     <ContentTemplate>
-                                        <asp:GridView ID="gridViewAgregarProductos" CssClass="table" OnRowCommand="gridViewAgregarProductos_Seleccion" OnPageIndexChanging="gridViewAgregarProductos_CambioPagina" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                                        <asp:GridView ID="gridViewAgregarProductos" CssClass="table" OnRowCommand="gridViewAgregarProductos_Seleccion" OnPageIndexChanging="gridViewAgregarProductos_CambioPagina" runat="server" AllowPaging="True" PageSize="10" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
                                             <Columns>
                                                 <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Agregar">
                                                     <ControlStyle CssClass="btn btn-default"></ControlStyle>
