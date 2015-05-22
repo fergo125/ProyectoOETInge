@@ -4,3 +4,9 @@ C:\Users\b22410\Desktop\Repo\ProyectoInventarioOET\bin\ProyectoInventarioOET.pdb
 C:\Users\b22410\Desktop\Repo\ProyectoInventarioOET\obj\Debug\ProyectoInventarioOET.csprojResolveAssemblyReference.cache
 C:\Users\b22410\Desktop\Repo\ProyectoInventarioOET\obj\Debug\ProyectoInventarioOET.dll
 C:\Users\b22410\Desktop\Repo\ProyectoInventarioOET\obj\Debug\ProyectoInventarioOET.pdb
+C:\Users\a75952\Documents\GitHub\ProyectoOETInge\ProyectoInventarioOET\obj\Debug\ProyectoInventarioOET.csprojResolveAssemblyReference.cache
+C:\Users\a75952\Documents\GitHub\ProyectoOETInge\ProyectoInventarioOET\bin\ProyectoInventarioOET.dll.config
+C:\Users\a75952\Documents\GitHub\ProyectoOETInge\ProyectoInventarioOET\bin\ProyectoInventarioOET.dll
+C:\Users\a75952\Documents\GitHub\ProyectoOETInge\ProyectoInventarioOET\bin\ProyectoInventarioOET.pdb
+C:\Users\a75952\Documents\GitHub\ProyectoOETInge\ProyectoInventarioOET\obj\Debug\ProyectoInventarioOET.dll
+C:\Users\a75952\Documents\GitHub\ProyectoOETInge\ProyectoInventarioOET\obj\Debug\ProyectoInventarioOET.pdb
