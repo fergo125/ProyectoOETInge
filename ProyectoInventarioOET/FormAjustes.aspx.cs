@@ -7,6 +7,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using ProyectoInventarioOET.App_Code;
 using ProyectoInventarioOET.App_Code.Módulo_Ajustes;
+using ProyectoInventarioOET.Módulo_Seguridad;
 
 
 namespace ProyectoInventarioOET
@@ -196,37 +197,30 @@ namespace ProyectoInventarioOET
          */
         protected void llenarGridAgregarProductos()
         {
-            /*
+            
             DataTable tabla = tablaAgregarProducto();
-            int indiceNuevaBodega = -1;
             int i = 0;
 
             try
             {
                 // Cargar bodegas
-                Object[] datos = new Object[4];
+                Object[] datos = new Object[5];
 
 
-                EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
-                String idUsuario = usuarioActual.Codigo;
-                String rol = usuarioActual.Perfil;
-                DataTable bodegas = controladoraBodegas.consultarBodegas(idUsuario, rol);
+                DataTable productos = controladoraAjustes.consultarProductosDeBodega("Bodega Actual");
 
-                if (bodegas.Rows.Count > 0)
+                if (productos.Rows.Count > 0)
                 {
-                    idArray = new Object[bodegas.Rows.Count];
-                    foreach (DataRow fila in bodegas.Rows)
+                    idArray = new Object[productos.Rows.Count];
+                    foreach (DataRow fila in productos.Rows)
                     {
-                        idArray[i] = fila[0];
-                        datos[0] = fila[1].ToString();
-                        datos[1] = fila[3].ToString();
-                        datos[2] = fila[4].ToString();
-                        datos[3] = fila[5].ToString();
+                        idArray[i] = fila[1];
+                        datos[0] = fila[0].ToString();
+                        datos[1] = fila[1].ToString();
+                        datos[2] = Convert.ToInt32(fila[2].ToString());
+                        datos[3] = Convert.ToInt32(fila[3].ToString());
+                        datos[4] = Convert.ToInt32(fila[4].ToString());
                         tabla.Rows.Add(datos);
-                        if (bodegaConsultada != null && (fila[0].Equals(bodegaConsultada.Codigo)))
-                        {
-                            indiceNuevaBodega = i;
-                        }
                         i++;
                     }
                 }
@@ -234,20 +228,21 @@ namespace ProyectoInventarioOET
                 {
                     datos[0] = "-";
                     datos[1] = "-";
-                    datos[2] = "-";
-                    datos[3] = "-";
+                    datos[2] = "0";
+                    datos[3] = "0";
+                    datos[4] = "0";
                     tabla.Rows.Add(datos);
                     mostrarMensaje("warning", "Atención: ", "No existen productos en la bodega actual.");
                 }
 
-                this.gridAgregarProductos.DataSource = tabla;
-                this.gridAgregarProductos.DataBind();
+                this.gridViewAgregarProductos.DataSource = tabla;
+                this.gridViewAgregarProductos.DataBind();
             }
             catch (Exception e)
             {
                 mostrarMensaje("warning", "Alerta", "No hay conexión a la base de datos.");
             }
-            */
+            
         }
 
         /*
@@ -350,6 +345,7 @@ namespace ProyectoInventarioOET
         {
             modo = (int)Modo.Insercion;
             cambiarModo();
+            llenarGridAgregarProductos();
             // Creo que falta cargar cosas
         }
 
@@ -477,8 +473,8 @@ namespace ProyectoInventarioOET
         protected void gridViewAgregarProductos_CambioPagina(Object sender, GridViewPageEventArgs e)
         {
             llenarGridAgregarProductos();
-            this.gridAgregarProductos.PageIndex = e.NewPageIndex;
-            this.gridAgregarProductos.DataBind();
+            this.gridViewAgregarProductos.PageIndex = e.NewPageIndex;
+            this.gridViewAgregarProductos.DataBind();
         }
     }
 }
