@@ -172,11 +172,82 @@ namespace ProyectoInventarioOET
         }
 
         /*
+         * Actualiza el contenido del mensaje y lo hace visible
+         */
+        protected void mostrarMensaje(String tipoAlerta, String alerta, String mensaje)
+        {
+
+            mensajeAlerta.Attributes["class"] = "alert alert-" + tipoAlerta + " alert-dismissable fade in";
+            labelTipoAlerta.Text = alerta + " ";
+            labelAlerta.Text = mensaje;
+            mensajeAlerta.Visible = true;
+        }
+
+        /*
          * Viaja a la base de datos y obtiene los datos de consulta
          */
         protected void llenarGrid()
         {
             // Por implementar
+        }
+
+        /*
+         * Carga datos del grid de productos agregables
+         */
+        protected void llenarGridAgregarProductos()
+        {
+            /*
+            DataTable tabla = tablaAgregarProducto();
+            int indiceNuevaBodega = -1;
+            int i = 0;
+
+            try
+            {
+                // Cargar bodegas
+                Object[] datos = new Object[4];
+
+
+                EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
+                String idUsuario = usuarioActual.Codigo;
+                String rol = usuarioActual.Perfil;
+                DataTable bodegas = controladoraBodegas.consultarBodegas(idUsuario, rol);
+
+                if (bodegas.Rows.Count > 0)
+                {
+                    idArray = new Object[bodegas.Rows.Count];
+                    foreach (DataRow fila in bodegas.Rows)
+                    {
+                        idArray[i] = fila[0];
+                        datos[0] = fila[1].ToString();
+                        datos[1] = fila[3].ToString();
+                        datos[2] = fila[4].ToString();
+                        datos[3] = fila[5].ToString();
+                        tabla.Rows.Add(datos);
+                        if (bodegaConsultada != null && (fila[0].Equals(bodegaConsultada.Codigo)))
+                        {
+                            indiceNuevaBodega = i;
+                        }
+                        i++;
+                    }
+                }
+                else
+                {
+                    datos[0] = "-";
+                    datos[1] = "-";
+                    datos[2] = "-";
+                    datos[3] = "-";
+                    tabla.Rows.Add(datos);
+                    mostrarMensaje("warning", "Atención: ", "No existen productos en la bodega actual.");
+                }
+
+                this.gridAgregarProductos.DataSource = tabla;
+                this.gridAgregarProductos.DataBind();
+            }
+            catch (Exception e)
+            {
+                mostrarMensaje("warning", "Alerta", "No hay conexión a la base de datos.");
+            }
+            */
         }
 
         /*
@@ -231,6 +302,42 @@ namespace ProyectoInventarioOET
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.Int32");
             columna.ColumnName = "Ajuste";
+            tabla.Columns.Add(columna);
+
+            return tabla;
+        }
+
+        /*
+         * Crea una datatable en el formato del grid de agregar productos
+         */
+        protected DataTable tablaAgregarProducto()
+        {
+            DataTable tabla = new DataTable();
+            DataColumn columna;
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Nombre";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Codigo";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.Int32");
+            columna.ColumnName = "Cantidad Actual";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.Int32");
+            columna.ColumnName = "Minimo";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.Int32");
+            columna.ColumnName = "Maximo";
             tabla.Columns.Add(columna);
 
             return tabla;
@@ -326,6 +433,25 @@ namespace ProyectoInventarioOET
             }*/
         }
 
+        /*
+         * Método que maneja la selección de un ajuste en el grid de agregar productos.
+         */
+        protected void gridViewAgregarProductos_Seleccion(object sender, GridViewCommandEventArgs e)
+        {
+            /*
+            switch (e.CommandName)
+            {
+                case "Select":
+                    GridViewRow filaSeleccionada = this.gridViewAjustes.Rows[Convert.ToInt32(e.CommandArgument)];
+                    //String codigo = filaSeleccionada.Cells[0].Text.ToString();
+                    String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewBodegas.PageIndex * this.gridViewBodegas.PageSize)]);
+                    consultarBodega(codigo);
+                    modo = (int)Modo.Consultado;
+                    Response.Redirect("FormBodegas.aspx");
+                    break;
+            }*/
+        }
+
 
         /*
          * Este método confirma inserción de ajustes.
@@ -346,6 +472,13 @@ namespace ProyectoInventarioOET
             cambiarModo();
             limpiarCampos();
             //ajusteConsultado = null;
+        }
+
+        protected void gridViewAgregarProductos_CambioPagina(Object sender, GridViewPageEventArgs e)
+        {
+            llenarGridAgregarProductos();
+            this.gridAgregarProductos.PageIndex = e.NewPageIndex;
+            this.gridAgregarProductos.DataBind();
         }
     }
 }

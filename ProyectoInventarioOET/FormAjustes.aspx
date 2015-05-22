@@ -96,31 +96,31 @@
 
 
     <!-- Grid de consultas -->
-      <div id="bloqueGrid" class="col-lg-12">
+    <div id="bloqueGridAjustes" class="col-lg-12">
         <fieldset id="FieldsetGridAjustes" runat="server" class="fieldset">
-          <!-- Gridview de consultar -->
-         <div class="col-lg-12">
-            <strong><div ID="tituloGridConsulta" runat="server" visible="false" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Ajustes en Bodega</div></strong>
-            <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
-                <ContentTemplate>
-                    <asp:GridView ID="gridViewAjustes" CssClass="table" OnRowCommand="gridViewAjustes_Seleccion" OnPageIndexChanging="gridViewAjustes_CambioPagina" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
-                        <Columns>
-                            <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Consultar">
-                                <ControlStyle CssClass="btn btn-default"></ControlStyle>
-                            </asp:ButtonField>
-                       </Columns>
-                       <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
-                       <PagerStyle CssClass="paging" HorizontalAlign="Center" />
-                       <AlternatingRowStyle BackColor="#F8F8F8" />
-                       <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
-                       <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
-                  </asp:GridView>
-             </ContentTemplate>
-             <Triggers>
-                <asp:AsyncPostBackTrigger ControlID="gridViewAjustes" EventName="RowCommand" />
-             </Triggers>
-          </asp:UpdatePanel>
-       </div>
+            <!-- Gridview de consultar -->
+            <div class="col-lg-12">
+                <strong><div ID="tituloGridConsulta" runat="server" visible="false" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Ajustes en Bodega</div></strong>
+                <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
+                    <ContentTemplate>
+                        <asp:GridView ID="gridViewAjustes" CssClass="table" OnRowCommand="gridViewAjustes_Seleccion" OnPageIndexChanging="gridViewAjustes_CambioPagina" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                            <Columns>
+                                <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Consultar">
+                                    <ControlStyle CssClass="btn btn-default"></ControlStyle>
+                                </asp:ButtonField>
+                            </Columns>
+                            <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
+                            <PagerStyle CssClass="paging" HorizontalAlign="Center" />
+                            <AlternatingRowStyle BackColor="#F8F8F8" />
+                            <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
+                            <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
+                        </asp:GridView>
+                    </ContentTemplate>
+                    <Triggers>
+                        <asp:AsyncPostBackTrigger ControlID="gridViewAjustes" EventName="RowCommand" />
+                    </Triggers>
+                </asp:UpdatePanel>
+            </div>
         </fieldset>         
     </div>
     
@@ -156,7 +156,34 @@
                     <h4 class="modal-title" id="modalTitle2"><i class="fa fa-plus fa-lg"></i> Agregar un producto</h4>
                 </div>
                 <div class="modal-body">
-                    Grid
+                    <!-- Grid de consultas -->
+                    <div id="bloqueGridAgregarProductos" class="col-lg-12">
+                        <fieldset id="Fieldset3" runat="server" class="fieldset">
+                            <!-- Gridview de consultar -->
+                            <div class="col-lg-12">
+                                <strong><div ID="Div1" runat="server" visible="false" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Productos en Bodega</div></strong>
+                                <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                                    <ContentTemplate>
+                                        <asp:GridView ID="gridAgregarProductos" CssClass="table" OnRowCommand="gridViewAgregarProductos_Seleccion" OnPageIndexChanging="gridViewAgregarProductos_CambioPagina" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                                            <Columns>
+                                                <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Agregar">
+                                                    <ControlStyle CssClass="btn btn-default"></ControlStyle>
+                                                </asp:ButtonField>
+                                            </Columns>
+                                            <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
+                                            <PagerStyle CssClass="paging" HorizontalAlign="Center" />
+                                            <AlternatingRowStyle BackColor="#F8F8F8" />
+                                            <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
+                                            <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
+                                        </asp:GridView>
+                                    </ContentTemplate>
+                                    <Triggers>
+                                        <asp:AsyncPostBackTrigger ControlID="gridViewAgregarProductos" EventName="RowCommand" />
+                                    </Triggers>
+                                </asp:UpdatePanel>
+                            </div>
+                        </fieldset>         
+                    </div>
                 </div>
             </div>
         </div>
