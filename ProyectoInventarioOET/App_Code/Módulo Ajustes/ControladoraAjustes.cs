@@ -44,6 +44,9 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
             return controladoraBD.tiposAjuste();
         }
 
+        public DataTable consultarAjustes() {
+            return controladoraBD.consultarAjustes();
+        }
 
     }
 }
