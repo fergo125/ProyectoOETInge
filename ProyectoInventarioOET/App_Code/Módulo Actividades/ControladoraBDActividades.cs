@@ -20,6 +20,7 @@ namespace ProyectoInventarioOET.Módulo_Actividades
          */
         public EntidadActividad consultarActividad(String codigo)
         {
+            String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
             EntidadActividad actividadConsultada = null;
             Object[] datosConsultados = new Object[3];
@@ -27,7 +28,7 @@ namespace ProyectoInventarioOET.Módulo_Actividades
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT * FROM CAT_ACTIVIDAD WHERE  CAT_ACTIVIDAD = '" + codigo + "'";
+                command.CommandText = "SELECT * FROM " + esquema + "CAT_ACTIVIDAD WHERE CAT_ACTIVIDAD = '" + codigo + "'";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
 
@@ -54,6 +55,7 @@ namespace ProyectoInventarioOET.Módulo_Actividades
          */
         public EntidadActividad consultarActividadPorNombre(String nombre)
         {
+            String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
             EntidadActividad actividadConsultada = null;
             Object[] datosConsultados = new Object[3];
@@ -61,7 +63,7 @@ namespace ProyectoInventarioOET.Módulo_Actividades
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT * FROM CAT_ACTIVIDAD WHERE  DESCRIPCION = '" + nombre + "'";
+                command.CommandText = "SELECT * FROM " + esquema + "CAT_ACTIVIDAD WHERE DESCRIPCION = '" + nombre + "'";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
 
@@ -89,6 +91,7 @@ namespace ProyectoInventarioOET.Módulo_Actividades
          */
         public string[] insertarActividad(EntidadActividad actividad)
         {
+            String esquema = "Inventarios.";
             String[] res = new String[4];
             actividad.Codigo = generarID();
             res[3] = actividad.Codigo.ToString();
@@ -96,9 +99,9 @@ namespace ProyectoInventarioOET.Módulo_Actividades
             {
                 DataTable resultado = new DataTable();
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "INSERT INTO CAT_ACTIVIDAD (CAT_ACTIVIDAD,DESCRIPCION,ESTADO) VALUES ('"
-                + actividad.Codigo + "','" + actividad.Descripcion + "','"
-                + (short)actividad.Estado + "')";
+                command.CommandText = "INSERT INTO " + esquema + "CAT_ACTIVIDAD (CAT_ACTIVIDAD,DESCRIPCION,ESTADO) VALUES ('"
+                    + actividad.Codigo + "','" + actividad.Descripcion + "','"
+                    + (short)actividad.Estado + "')";
                 OracleDataReader reader = command.ExecuteReader();
 
 
@@ -123,11 +126,12 @@ namespace ProyectoInventarioOET.Módulo_Actividades
          */
         public string[] modificarActividad(EntidadActividad actividad, EntidadActividad nuevaActividad)
         {
+            String esquema = "Inventarios.";
             String[] res = new String[3];
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "UPDATE CAT_ACTIVIDAD SET DESCRIPCION = '" + nuevaActividad.Descripcion 
+                command.CommandText = "UPDATE " + esquema + "CAT_ACTIVIDAD SET DESCRIPCION = '" + nuevaActividad.Descripcion 
                     + "',ESTADO = '" + (short)nuevaActividad.Estado + "' WHERE DESCRIPCION = '" + actividad.Descripcion + "' AND ESTADO = " + actividad.Estado;
                 OracleDataReader reader = command.ExecuteReader();
                 res[0] = "success";
@@ -176,11 +180,12 @@ namespace ProyectoInventarioOET.Módulo_Actividades
          */
         public DataTable consultarActividades()
         {
+            String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT * FROM CAT_ACTIVIDAD";
+                command.CommandText = "SELECT * FROM " + esquema + "CAT_ACTIVIDAD";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
             }

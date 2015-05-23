@@ -25,9 +25,10 @@ namespace ProyectoInventarioOET.App_Code
          */
         public DataTable consultarEstados()
         {
+            String esquema = "Tesoreria.";
             DataTable resultado = new DataTable();
             OracleCommand command = conexionBD.CreateCommand();
-            command.CommandText = "SELECT * FROM CAT_ESTADOS";
+            command.CommandText = "SELECT * FROM " + esquema + "CAT_ESTADOS";
             OracleDataReader reader = command.ExecuteReader();
             resultado.Load(reader);
             return resultado;
@@ -39,9 +40,10 @@ namespace ProyectoInventarioOET.App_Code
          */
         public DataTable consultarEstadosActividad()
         {
+            String esquema = "Tesoreria.";
             DataTable resultado = new DataTable();
             OracleCommand command = conexionBD.CreateCommand();
-            command.CommandText = "SELECT * FROM CAT_ESTADOS WHERE VALOR < 2";
+            command.CommandText = "SELECT * FROM " + esquema + "CAT_ESTADOS WHERE VALOR < 2";
             OracleDataReader reader = command.ExecuteReader();
             resultado.Load(reader);
             return resultado;

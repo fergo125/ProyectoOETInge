@@ -418,13 +418,13 @@ namespace ProyectoInventarioOET
                     {
                         asociados[x]=false;
                     }
-                    Object[] datos = new Object[5];
+                    Object[] datos = new Object[5];  
                     int i;
                     foreach (DataRow producto in productos.Rows)
                     {
-                        for (i = 0; i < 5; i++)
+                        for (i = 0; i < 5; i++)  
                         {
-                            datos[i] = producto[i];
+                            datos[i] = producto[i+1];  //Cambio Carlos
                         }
                             catalogoLocal.Rows.Add(datos);
                     }

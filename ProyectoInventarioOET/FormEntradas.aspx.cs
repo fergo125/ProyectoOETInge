@@ -38,8 +38,9 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * Construye la tabla que se va a utilizar para mostrar la información de las Entradas.
+         * Construye la tabla que se va a utilizar para mostrar la información de las actividades.
          */
+<<<<<<< HEAD
         protected DataTable tablaEntradas()
         {
             DataTable tabla = new DataTable();
@@ -71,6 +72,8 @@ namespace ProyectoInventarioOET
         /*
  * Construye la tabla que se va a utilizar para mostrar la información de las Facturas.
  */
+=======
+>>>>>>> origin/master
         protected DataTable tablaFacturas()
         {
             DataTable tabla = new DataTable();
@@ -81,6 +84,7 @@ namespace ProyectoInventarioOET
             columna.ColumnName = "Factura";
             tabla.Columns.Add(columna);
 
+<<<<<<< HEAD
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
             columna.ColumnName = "Orden de Compra";
@@ -137,6 +141,12 @@ namespace ProyectoInventarioOET
             columna.DataType = System.Type.GetType("System.String");
             columna.ColumnName = "Nombre";
             tabla.Columns.Add(columna);
+=======
+            //columna = new DataColumn();
+            //columna.DataType = System.Type.GetType("System.String");
+            //columna.ColumnName = "Código Interno";
+            //tabla.Columns.Add(columna);
+>>>>>>> origin/master
 
             return tabla;
         }
@@ -344,6 +354,7 @@ namespace ProyectoInventarioOET
 
         }
 
+<<<<<<< HEAD
         protected void botonAgregarEntradas_ServerClick(object sender, EventArgs e)
         {
             FielsetBuscarFactura.Visible = true;
@@ -400,6 +411,8 @@ namespace ProyectoInventarioOET
 
         }
 
+=======
+>>>>>>> origin/master
 
 
 
