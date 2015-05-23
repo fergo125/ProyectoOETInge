@@ -48,9 +48,31 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
             return controladoraBD.consultarAjustes(idBodega);
         }
 
-        public DataTable consultarAjuste(String idAjuste)
+        public EntidadAjustes consultarAjuste(String idAjuste)
         {
-            return controladoraBD.consultarAjuste(idAjuste);
+            
+            Object[] datos = new Object[4];
+            DataTable[] respuesta = controladoraBD.consultarAjuste(idAjuste);
+            foreach (DataRow fila in respuesta[0].Rows) {  //Solo seria una fila
+                datos[0] = fila[0].ToString();
+                datos[1] = fila[1].ToString();
+                datos[2] = fila[2];  // Es la fecha
+                datos[3] = fila[3].ToString(); // Es la bodega
+            }
+
+            EntidadAjustes consultada = new EntidadAjustes(datos);
+
+            Object[] datosProductos = new Object[4];
+            foreach (DataRow fila in respuesta[1].Rows) // Varias filas que corresponden a los productos
+            {  //Solo seria una fila
+                datosProductos[0] = fila[0].ToString();
+                datosProductos[1] = fila[1].ToString();
+                datosProductos[2] = fila[2];  // Es la fecha
+                datosProductos[3] = fila[3].ToString();
+            }            
+            
+            return consultada;
+            //EntidadAjustes respuesta =    
         }
 
     }

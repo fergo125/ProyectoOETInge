@@ -10,23 +10,28 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
     public class EntidadAjustes
     {
 
-        private String idAjuste;
-        private String idTipoAjuste;
-        private DateTime fecha; //Ver entidad producto globaldsd
-        private String usuario;
+        private String idTipoAjuste; 
+        private DateTime fecha;
+        private String usuario; 
+        private String idUsuario;
+        private String idBodega;  //
         private List<EntidadDetalles> detalles = new List<EntidadDetalles>();
 
-        public EntidadAjustes(Object[] datos, DataTable datosProductos)
+        //public EntidadAjustes(Object[] datos, DataTable datosProductos)
+        public EntidadAjustes(Object[] datos)
         {
             detalles = new List<EntidadDetalles>();
-            this.idAjuste = datos[0].ToString();
-            this.idTipoAjuste = datos[1].ToString();
-            if (datos.Count() > 2)
+            this.idTipoAjuste = datos[0].ToString(); 
+            this.fecha = Convert.ToDateTime(datos[1]);
+            this.usuario = datos[2].ToString(); 
+            this.idUsuario = datos[3].ToString();
+            this.idBodega =  datos[4].ToString();  //
+            if (datos.Count() > 3)
             {
-                this.usuario = datos[2].ToString();
-                this.fecha = Convert.ToDateTime(datos[3].ToString());
+                this.usuario = datos[3].ToString();
+                this.fecha = Convert.ToDateTime(datos[4].ToString());
             }
-            agregarDetalle(datosProductos);
+            //agregarDetalle(datosProductos);
 
         }
 
@@ -40,11 +45,6 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
         }
 
 
-        public String IdAjuste
-        {
-            get { return idAjuste; }
-            set { idAjuste = value; }
-        }
 
 
         public String IdTipoAjuste
@@ -53,17 +53,31 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
             set { IdTipoAjuste = value; }
         }
 
+        public DateTime Fecha
+        {
+            get { return fecha; }
+            set { fecha = value; }
+        }
+
         public String Usuario
         {
             get { return usuario; }
             set { usuario = value; }
         }
 
-        public DateTime Fecha
+        public String IdUsuario
         {
-            get { return fecha; }
-            set { fecha = value; }
+            get { return idUsuario; }
+            set { idUsuario = value; }
         }
+
+        public String IdBodega
+        {
+            get { return idBodega; }
+            set { idBodega = value; }
+        }
+
+
 
         public List<EntidadDetalles> Detalles
         {

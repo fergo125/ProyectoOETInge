@@ -219,6 +219,7 @@
     <Content Include="Account\Register.aspx" />
     <Content Include="Account\RegisterExternalLogin.aspx" />
     <Content Include="FormActividades.aspx" />
+    <Content Include="FormBodegaLocal.aspx" />
     <Content Include="FormCategorias.aspx" />
     <Content Include="FormContact.aspx" />
     <Content Include="Content\bootstrap.css" />
@@ -367,6 +368,13 @@
     </Compile>
     <Compile Include="FormActividades.aspx.designer.cs">
       <DependentUpon>FormActividades.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FormBodegaLocal.aspx.cs">
+      <DependentUpon>FormBodegaLocal.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormBodegaLocal.aspx.designer.cs">
+      <DependentUpon>FormBodegaLocal.aspx</DependentUpon>
     </Compile>
     <Compile Include="FormCategorias.aspx.cs">
       <DependentUpon>FormCategorias.aspx</DependentUpon>
