@@ -344,6 +344,8 @@
     <Compile Include="App_Code\Módulo Bodegas\ControladoraBDBodegas.cs" />
     <Compile Include="App_Code\Módulo Entradas\ControladoraBDEntradas.cs" />
     <Compile Include="App_Code\Módulo Entradas\ControladoraEntradas.cs" />
+    <Content Include="App_Code\Módulo Entradas\EntidadEntrada.cs" />
+    <Content Include="App_Code\Módulo Entradas\EntidadFactura.cs" />
     <Compile Include="App_Code\Módulo Productos Locales\ControladoraBDProductoLocal.cs" />
     <Compile Include="App_Code\Módulo Productos Locales\ControladoraProductoLocal.cs" />
     <Compile Include="App_Code\Módulo Productos Locales\EntidadProductoLocal.cs" />
