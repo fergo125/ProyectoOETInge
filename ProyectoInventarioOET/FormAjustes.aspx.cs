@@ -216,7 +216,7 @@ namespace ProyectoInventarioOET
                 // Cargar bodegas
                 Object[] datos = new Object[3];
 
-                DataTable ajustes = controladoraAjustes.consultarAjustes();
+                DataTable ajustes = controladoraAjustes.consultarAjustes("leo envie una bodega");
 
                 if (ajustes.Rows.Count > 0)
                 {

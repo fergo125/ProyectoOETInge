@@ -44,8 +44,13 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
             return controladoraBD.tiposAjuste();
         }
 
-        public DataTable consultarAjustes() {
-            return controladoraBD.consultarAjustes();
+        public DataTable consultarAjustes(String idBodega) {
+            return controladoraBD.consultarAjustes(idBodega);
+        }
+
+        public DataTable consultarAjuste(String idAjuste)
+        {
+            return controladoraBD.consultarAjuste(idAjuste);
         }
 
     }
