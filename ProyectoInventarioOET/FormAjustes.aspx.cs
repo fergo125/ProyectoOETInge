@@ -165,7 +165,20 @@ namespace ProyectoInventarioOET
             this.dropdownTipo.SelectedValue = ajusteConsultado.IdTipoAjuste;
             this.outputUsuario.Value = ajusteConsultado.Usuario;
             this.outputFecha.Value = ajusteConsultado.Fecha.ToString();
-            // agregar manejo grid
+
+            // Manejo grid
+            DataTable tabla = tablaProductoConsulta();
+            Object[] datos = new Object[3];
+            foreach( EntidadDetalles elemento in ajusteConsultado.Detalles )
+            {
+                datos[0] = elemento.NombreProducto;
+                datos[1] = elemento.Codigo;
+                datos[2] = elemento.Cambio;
+                tabla.Rows.Add(datos);
+            }
+
+            gridViewProductos.DataSource = tabla;
+            gridViewProductos.DataBind();
         }
 
 
@@ -379,6 +392,32 @@ namespace ProyectoInventarioOET
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.Int32");
             columna.ColumnName = "Ajuste";
+            tabla.Columns.Add(columna);
+
+            return tabla;
+        }
+
+        /*
+         * Crea una datatable en el formato del grid de productos en ajustes, cuando son consultados
+         */
+        protected DataTable tablaProductoConsulta()
+        {
+            DataTable tabla = new DataTable();
+            DataColumn columna;
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Nombre";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Codigo";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.Int32");
+            columna.ColumnName = "Ajuste de cambio";
             tabla.Columns.Add(columna);
 
             return tabla;
