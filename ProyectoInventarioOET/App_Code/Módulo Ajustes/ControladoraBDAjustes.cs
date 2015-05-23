@@ -44,10 +44,10 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
                 // Interfaz ocupa 3 cosas TipoMovimiento(Descripcion), Fecha, Usuario(Encargado)
                 // Yo agrego el ID de ajustes para la consulta individual
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT AJ.ID_AJUSTES, M.DESCRIPCION, AJ.FECHA, U.USUARIO"
-                   + "FROM " + esquema + "AJUSTES AJ, " + esquema + "SEG_USUARIO U" + esquema + "CAT_TIPO_MOVIMIENTO M"
-                   + "WHERE AJ.USUARIO_BODEGA = U.SEG_USUARIO "
-                   + "AND AJ.CAT_TIPO_MOVIMIENTO = M.CAT_TIPO_MOVIMIENTO;";
+                command.CommandText = "SELECT AJ.ID_AJUSTES, M.DESCRIPCION, AJ.FECHA, U.NOMBRE"
+                   + " FROM " + esquema + "AJUSTES AJ, " + esquema + "SEG_USUARIO U, " + esquema + "CAT_TIPO_MOVIMIENTO M"
+                   + " WHERE AJ.USUARIO_BODEGA = U.SEG_USUARIO "
+                   + "AND AJ.CAT_TIPO_MOVIMIENTO = M.CAT_TIPO_MOVIMIENTO";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
             }
