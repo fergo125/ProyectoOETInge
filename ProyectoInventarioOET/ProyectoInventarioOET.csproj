@@ -337,6 +337,7 @@
     <Compile Include="App_Code\Módulo Ajustes\ControladoraAjustes.cs" />
     <Compile Include="App_Code\Módulo Ajustes\ControladoraBDAjustes.cs" />
     <Compile Include="App_Code\Módulo Ajustes\EntidadAjustes.cs" />
+    <Compile Include="App_Code\Módulo Ajustes\EntidadDetalles.cs" />
     <Compile Include="App_Code\Módulo Bodegas\EntidadBodega.cs" />
     <Compile Include="App_Code\Módulo Bodegas\ControladoraBodegas.cs" />
     <Compile Include="App_Code\Módulo Bodegas\ControladoraBDBodegas.cs" />
