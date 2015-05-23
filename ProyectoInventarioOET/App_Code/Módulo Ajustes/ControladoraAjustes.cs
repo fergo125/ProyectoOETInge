@@ -48,6 +48,10 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
             return controladoraBD.consultarAjustes(idBodega);
         }
 
+        public String[] insertarAjuste(EntidadAjustes nueva) {
+            return controladoraBD.insertarAjuste(nueva);
+        }
+
         public EntidadAjustes consultarAjuste(String idAjuste)
         {
             
@@ -71,7 +75,13 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
                 datosProductos[2] = fila[2];  // Es la fecha
                 datosProductos[3] = fila[3].ToString();
                 consultada.agregarDetalle(datosProductos);
-            }   
+            }
+
+            //consultada.IdBodega = "PITAN129012015101713605001";
+            //consultada.IdUsuario = "3";
+            //consultada.Notas = "PRUEBADEINSERCIONALOMACHO";
+
+            //controladoraBD.insertarAjuste(consultada);
             return consultada;
         }
 

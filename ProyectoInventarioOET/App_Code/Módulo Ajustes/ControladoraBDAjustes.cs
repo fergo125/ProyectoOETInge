@@ -120,15 +120,15 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
                 {
                     OracleCommand command = conexionBD.CreateCommand();
                     command.CommandText = "INSERT INTO " + esquema + 
-                                           "AJUSTE (idAjuste, tipoAjuste, fecha, usuario) VALUES ('"
-                                            + res[3] + "','" + ajuste.IdTipoAjuste + "','" + ajuste.Fecha + "','"
-                                            + ajuste.Usuario + "' )";
+                                           "AJUSTES (ID_AJUSTES, CAT_TIPO_MOVIMIENTO, FECHA, USUARIO_BODEGA, IDBODEGA, NOTAS) VALUES ('"
+                                            + res[3] + "','" + ajuste.IdTipoAjuste + "','" + DateTime.Now.ToString("dd:MMM:yy") + "' , '"
+                                            + ajuste.IdUsuario  + "','" + ajuste.IdBodega + "' , '" + ajuste.Notas + "' )";
                     OracleDataReader reader = command.ExecuteReader();
                     
-                    foreach(EntidadDetalles detallesProducto in  ajuste.Detalles  ){ // Por cada producto meterlo en el detalles ajustes
-                        insertarDetalle(res[3], detallesProducto);
-                        //Hacer el cambio
-                    }
+                    //foreach(EntidadDetalles detallesProducto in  ajuste.Detalles  ){ // Por cada producto meterlo en el detalles ajustes
+                    //    insertarDetalle(res[3], detallesProducto);
+                    //    //Hacer el cambio
+                    //}
 
                     res[0] = "success";
                     res[1] = "Éxito:";

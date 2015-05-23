@@ -117,3 +117,21 @@ UPDATE SEG_PERFIL SET CODIGO=1 WHERE NOMBRE='Administrador global';
 UPDATE SEG_PERFIL SET CODIGO=2 WHERE NOMBRE='Administrador local';
 UPDATE SEG_PERFIL SET CODIGO=3 WHERE NOMBRE='Supervisor';
 UPDATE SEG_PERFIL SET CODIGO=4 WHERE NOMBRE='Vendedor';
+
+
+---Creación de tabla para Ajustes
+create table  AJUSTES(
+	id_ajustes              varchar2(30),
+	cat_tipo_movimiento     varchar2(30),
+	fecha                   date,
+	usuario_bodega          varchar2(30),
+	idBodega                varchar2(30),
+	notas                   varchar2(30)
+);
+ 
+create table DETALLES_AJUSTES (
+	id_ajustes                  varchar2(30),
+	inv_bodega_productos        varchar2(30),
+	cambio                      number(15,2)
+);
+

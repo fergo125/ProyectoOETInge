@@ -27,9 +27,10 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
             this.usuario = datos[2].ToString(); 
             this.idUsuario = datos[3].ToString();
             this.notas = datos[4].ToString();
-            if (datos.Count() > 5)
+            if (datos.Count() > 6)
             {
-                this.idBodega = datos[5].ToString();  
+                this.idBodega = datos[5].ToString();
+                this.idUsuario = datos[6].ToString();
             }
         }
 
