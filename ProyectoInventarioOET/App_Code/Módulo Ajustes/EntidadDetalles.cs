@@ -15,7 +15,7 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
             {
                 this.idAjuste = idAjuste;
                 this.idProductoBodega = idProductoBodega;
-                this.cambio = cambio;
+                this.cambio = cambio; //
             }
 
             public String IdAjuste

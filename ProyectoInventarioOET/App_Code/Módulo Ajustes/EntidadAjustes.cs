@@ -12,7 +12,7 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
 
         private String idAjuste;
         private String idTipoAjuste;
-        private DateTime fecha; //Ver entidad producto global
+        private DateTime fecha; //Ver entidad producto globaldsd
         private String usuario;
         private List<EntidadDetalles> detalles = new List<EntidadDetalles>();
 
