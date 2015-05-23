@@ -51,13 +51,14 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
         public EntidadAjustes consultarAjuste(String idAjuste)
         {
             
-            Object[] datos = new Object[4];
+            Object[] datos = new Object[5];
             DataTable[] respuesta = controladoraBD.consultarAjuste(idAjuste);
             foreach (DataRow fila in respuesta[0].Rows) {  //Solo seria una fila
                 datos[0] = fila[0].ToString();
                 datos[1] = fila[1].ToString();
                 datos[2] = fila[2];  // Es la fecha
                 datos[3] = fila[3].ToString(); // Es la bodega
+                datos[4] = fila[4].ToString();
             }
 
             EntidadAjustes consultada = new EntidadAjustes(datos);

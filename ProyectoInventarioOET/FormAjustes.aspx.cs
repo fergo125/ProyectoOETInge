@@ -165,6 +165,7 @@ namespace ProyectoInventarioOET
             this.dropdownTipo.SelectedValue = ajusteConsultado.IdTipoAjuste;
             this.outputUsuario.Value = ajusteConsultado.Usuario;
             this.outputFecha.Value = ajusteConsultado.Fecha.ToString();
+            this.TextArea1.Value = ajusteConsultado.Notas;
 
             // Manejo grid
             DataTable tabla = tablaProductoConsulta();

@@ -49,7 +49,7 @@
             </div>
         </div>
         <div class="col-lg-12">
-            <textarea id="TextArea1" cols="20" rows="2"></textarea>
+            <textarea id="TextArea1" cols="20" rows="2" runat="server"></textarea>
         </div>
     </fieldset>
     <!-- Fin del fieldset-->

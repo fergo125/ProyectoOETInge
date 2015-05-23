@@ -14,6 +14,7 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
         private DateTime fecha;
         private String usuario; 
         private String idUsuario;
+        private String notas;
         private String idBodega; 
         private List<EntidadDetalles> detalles = new List<EntidadDetalles>();
 
@@ -25,9 +26,10 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
             this.fecha = Convert.ToDateTime(datos[1]);
             this.usuario = datos[2].ToString(); 
             this.idUsuario = datos[3].ToString();
-            if (datos.Count() > 4)
+            this.notas = datos[4].ToString();
+            if (datos.Count() > 5)
             {
-                this.idBodega = datos[4].ToString();  
+                this.idBodega = datos[5].ToString();  
             }
         }
 
@@ -70,7 +72,11 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
             set { idBodega = value; }
         }
 
-
+        public String Notas
+        {
+            get { return notas; }
+            set { notas = value; }
+        }
 
         public List<EntidadDetalles> Detalles
         {
