@@ -84,3 +84,21 @@ FROM inv_bodega_productos
 where inv_productos = 'PITAN130012015092529441001';
 
 
+-- Creación de Tabla para modulo de Entradas
+CREATE TABLE CAT_ENTRADAS
+(
+  CAT_BODEGA      VARCHAR2(30)    PRIMARY KEY,
+  FACTURA         VARCHAR2(30),   -- No se sabe
+  SEG_USUARIO     VARCHAR2(30),
+  SEG_BODEGA      VARCHAR2(30),
+  FECHA           DATE
+);
+
+CREATE TABLE CAT_ENTRADAS_PRODUCTOS
+(
+  CAT_ENTRADAS_PRODUCTOS    VARCHAR2(30)    PRIMARY KEY,
+  CAT_ENTRADAS              VARCHAR2(30),
+  CAT_PRODUCTOS             VARCHAR2(30),
+  CANTIDAD                  NUMBER(10),
+  PRECIO_UNITARIO           NUMBER(10)
+);
