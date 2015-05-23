@@ -60,10 +60,10 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
         }
 
 
-        public DataTable consultarAjuste(String idAjuste)
+        public DataTable[] consultarAjuste(String idAjuste)
         {
             String esquema = "Inventarios.";
-            DataTable resultado = new DataTable();
+            DataTable[] resultado = new DataTable[2];
 
             try
             {
@@ -74,8 +74,11 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
                    + " AND AJ.CAT_TIPO_MOVIMIENTO = M.CAT_TIPO_MOVIMIENTO"
                    + " AND AJ.ID_AJUSTES = '" + idAjuste + "' ";
                 OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
-                DataTable aux = consultarDetalles(idAjuste);
+                resultado[0] = new DataTable();
+                resultado[0].Load(reader);
+                resultado[1] = consultarDetalles(idAjuste);
+                int x = 9;
+                x = 8;
             }
             catch (Exception e)
             {
@@ -92,7 +95,7 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT P.NOMBRE, P.CODIGO, D.CAMBIO"
+                command.CommandText = "SELECT P.NOMBRE, P.CODIGO, D.CAMBIO, B.INV_BODEGA_PRODUCTOS "
                    + " FROM " + esquema + "DETALLES_AJUSTES D, " + esquema + "INV_BODEGA_PRODUCTOS B, " + esquema + "INV_PRODUCTOS P "
                    + " WHERE D.ID_AJUSTES = '" + idAjuste + "' "
                    + " AND D.INV_BODEGA_PRODUCTOS = B.INV_BODEGA_PRODUCTOS "

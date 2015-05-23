@@ -14,7 +14,7 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
         private DateTime fecha;
         private String usuario; 
         private String idUsuario;
-        private String idBodega;  //
+        private String idBodega; 
         private List<EntidadDetalles> detalles = new List<EntidadDetalles>();
 
         //public EntidadAjustes(Object[] datos, DataTable datosProductos)
@@ -28,19 +28,13 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
             if (datos.Count() > 4)
             {
                 this.idBodega = datos[4].ToString();  
-                this.fecha = Convert.ToDateTime(datos[4].ToString());
             }
-            //agregarDetalle(datosProductos);
-
         }
 
         // Decirle a leo que los nuevos productos vienen en un datatable
-        public void agregarDetalle(DataTable datosProductos) {
-            EntidadDetalles nuevo;
-            foreach (DataRow row in datosProductos.Rows) {
-                nuevo = new EntidadDetalles(row[0].ToString(), row[1].ToString(), Double.Parse(row[2].ToString()));
-                detalles.Add(nuevo);
-            }
+        public void agregarDetalle(Object[] datosProductos) {
+            EntidadDetalles nuevo = new EntidadDetalles(datosProductos);
+            detalles.Add(nuevo);
         }
 
 
