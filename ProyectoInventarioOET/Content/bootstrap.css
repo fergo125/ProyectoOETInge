@@ -6832,6 +6832,11 @@ td.visible-print {
   }
 }
 
+
+
+
+
+
 /*
     My CSS custom stuff. Fozkr.
 */
@@ -7003,7 +7008,8 @@ td.visible-print {
 
 /*Used for most of the dropdownlists.*/
 .input-fozkr-dropdownlist {
-    width: 150px;
+    /*width: 150px;*/
+    max-width: 75%;
 }
 
 /*Used for the quantity inputs in billing, TODO needs more work.*/
