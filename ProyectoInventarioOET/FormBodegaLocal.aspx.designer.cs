@@ -10,7 +10,7 @@
 namespace ProyectoInventarioOET {
     
     
-    public partial class FormLogin {
+    public partial class FormBodegaLocal {
         
         /// <summary>
         /// Control mensajeAlerta.
@@ -40,48 +40,30 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.Label labelAlerta;
         
         /// <summary>
-        /// Control TituloLogin.
+        /// Control TituloBodegaLocal.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl TituloLogin;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl TituloBodegaLocal;
         
         /// <summary>
-        /// Control ErrorMessage.
+        /// Control FieldsetBodegas.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder ErrorMessage;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetBodegas;
         
         /// <summary>
-        /// Control FailureText.
+        /// Control DropDownListBodega.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal FailureText;
-        
-        /// <summary>
-        /// Control UserName.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox UserName;
-        
-        /// <summary>
-        /// Control Password.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Password;
+        protected global::System.Web.UI.WebControls.DropDownList DropDownListBodega;
     }
 }
