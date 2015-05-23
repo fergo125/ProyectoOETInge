@@ -10,12 +10,10 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
     public class EntidadAjustes
     {
 
-        private String idAjuste;  //Descripcion
-        private String idTipoAjuste;  //Descripcion
-        private DateTime fecha; //Ver entidad producto globaldsd
-        private String usuario; //Nombre de la persona
-        private String idUsuario; //Nombre de la persona
-        private String Bodega;  //Bodega
+        private String idTipoAjuste; 
+        private DateTime fecha;
+        private String usuario; 
+        private String idUsuario;
         private String idBodega; 
         private List<EntidadDetalles> detalles = new List<EntidadDetalles>();
 
@@ -23,41 +21,35 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
         public EntidadAjustes(Object[] datos)
         {
             detalles = new List<EntidadDetalles>();
-            this.idAjuste = datos[0].ToString();
-            this.idTipoAjuste = datos[1].ToString();
-            this.idBodega = datos[2].ToString();
-
-
-            if (datos.Count() > 3)
+            this.idTipoAjuste = datos[0].ToString(); 
+            this.fecha = Convert.ToDateTime(datos[1]);
+            this.usuario = datos[2].ToString(); 
+            this.idUsuario = datos[3].ToString();
+            if (datos.Count() > 4)
             {
-                this.usuario = datos[3].ToString();
-                this.fecha = Convert.ToDateTime(datos[4].ToString());
+                this.idBodega = datos[4].ToString();  
             }
-            //agregarDetalle(datosProductos);
-
         }
 
         // Decirle a leo que los nuevos productos vienen en un datatable
-        public void agregarDetalle(DataTable datosProductos) {
-            EntidadDetalles nuevo;
-            foreach (DataRow row in datosProductos.Rows) {
-                nuevo = new EntidadDetalles(row[0].ToString(), row[1].ToString(), Double.Parse(row[2].ToString()));
-                detalles.Add(nuevo);
-            }
+        public void agregarDetalle(Object[] datosProductos) {
+            EntidadDetalles nuevo = new EntidadDetalles(datosProductos);
+            detalles.Add(nuevo);
         }
 
 
-        public String IdAjuste
-        {
-            get { return idAjuste; }
-            set { idAjuste = value; }
-        }
 
 
         public String IdTipoAjuste
         {
-            get { return IdTipoAjuste; }
-            set { IdTipoAjuste = value; }
+            get { return idTipoAjuste; }
+            set { idTipoAjuste = value; }
+        }
+
+        public DateTime Fecha
+        {
+            get { return fecha; }
+            set { fecha = value; }
         }
 
         public String Usuario
@@ -66,17 +58,19 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
             set { usuario = value; }
         }
 
+        public String IdUsuario
+        {
+            get { return idUsuario; }
+            set { idUsuario = value; }
+        }
+
         public String IdBodega
         {
             get { return idBodega; }
             set { idBodega = value; }
         }
 
-        public DateTime Fecha
-        {
-            get { return fecha; }
-            set { fecha = value; }
-        }
+
 
         public List<EntidadDetalles> Detalles
         {

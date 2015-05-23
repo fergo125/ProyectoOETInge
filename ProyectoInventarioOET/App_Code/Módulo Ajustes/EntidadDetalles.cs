@@ -7,28 +7,31 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
 {
     public class EntidadDetalles
     {
-        private String idAjuste;
-        private String idProductoBodega;
+        
+        private String nombreProducto;
+        private String codigo;
         private double cambio;
+        private String idProductoBodega;
 
-            public EntidadDetalles (String idAjuste, String idProductoBodega, double cambio)
+            public EntidadDetalles (Object[] datos)
             {
-                this.idAjuste = idAjuste;
-                this.idProductoBodega = idProductoBodega;
-                this.cambio = cambio; //
-            }
-
-            public String IdAjuste
-            {
-                get { return idAjuste; }
-                set { idAjuste = value; }
+                this.nombreProducto = datos[0].ToString();
+                this.codigo = datos[1].ToString();
+                this.cambio = Double.Parse(datos[2].ToString());
+                this.idProductoBodega = datos[3].ToString();                
             }
 
 
-            public String IdProductoBodega
+            public String NombreProducto
             {
-                get { return idProductoBodega; }
-                set { idProductoBodega = value; }
+                get { return nombreProducto; }
+                set { nombreProducto = value; }
+            }
+
+            public String Codigo
+            {
+                get { return codigo; }
+                set { codigo = value; }
             }
 
             public double Cambio
@@ -37,8 +40,11 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
                 set { cambio = value; }
             }
 
-
-
+            public String IdProductoBodega
+            {
+                get { return idProductoBodega; }
+                set { idProductoBodega = value; }
+            }
 
     }
 }

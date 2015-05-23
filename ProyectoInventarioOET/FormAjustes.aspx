@@ -3,6 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
+    <br />
     <!-- Label para desplegar mensajes -->
     <div>
         <div id="mensajeAlerta" runat="server" Visible="false" style="margin-left:50%;">
@@ -24,6 +25,7 @@
     <button runat="server" onserverclick="botonRealizarAjuste_ServerClick" id="botonRealizarAjuste" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true"><i class="fa fa-pencil"></i> Realizar Ajuste</button>
     <button runat="server" onserverclick="botonConsultarAjustes_ServerClick"  id="botonConsultarAjustes" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true"><i class="fa fa-bars"></i> Consultar Ajustes</button>
     <br />
+    <br />
 
     <!-- Titulo dinamico de la pagina -->
     <h3 id="tituloAccionAjustes" runat="server">Seleccione una opción</h3>
@@ -31,18 +33,23 @@
     
     <!-- Fieldset para Bodegas -->
     <fieldset id= "FieldsetAjustes" runat="server" class="fieldset">
-        <div class="col-lg-6">
-            <label for="outputBodega" class= "control-label"> Bodega actual: </label>      
-            <input type="text" id="outputBodega" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
-            <label for="outputUsuario" class= "control-label"> Usuario responsable: </label>      
-            <input type="text" id="outputUsuario" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
-            <a id="botonAgregar" runat="server" href="#modalAgregarProducto" class="btn btn-success-fozkr" data-toggle="modal" role="button"><i class="fa fa-plus"></i> Agregar Producto</a>
+        <div class="row">
+            <div class="col-lg-6">
+                <label for="outputBodega" class= "control-label"> Bodega actual: </label>      
+                <input type="text" id="outputBodega" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
+                <label for="outputUsuario" class= "control-label"> Usuario responsable: </label>      
+                <input type="text" id="outputUsuario" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
+                <a id="botonAgregar" runat="server" href="#modalAgregarProducto" class="btn btn-success-fozkr" data-toggle="modal" role="button"><i class="fa fa-plus"></i> Agregar Producto</a>
+            </div>
+            <div class="col-lg-6">
+                <label for="dropdownTipo" class= "control-label"> Tipo de Ajuste*: </label>      
+                <asp:DropDownList id="dropdownTipo" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control"></asp:DropDownList><br>
+                <label for="outputFecha" class= "control-label"> Fecha de creacion: </label>      
+                <input type="text" id="outputFecha" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
+            </div>
         </div>
-        <div class="col-lg-6">
-            <label for="dropdownTipo" class= "control-label"> Tipo de Ajuste*: </label>      
-            <asp:DropDownList id="dropdownTipo" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control"></asp:DropDownList><br>
-            <label for="outputFecha" class= "control-label"> Fecha de creacion: </label>      
-            <input type="text" id="outputFecha" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
+        <div class="col-lg-12">
+            <textarea id="TextArea1" cols="20" rows="2"></textarea>
         </div>
     </fieldset>
     <!-- Fin del fieldset-->
