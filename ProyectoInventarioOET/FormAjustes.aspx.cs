@@ -67,10 +67,7 @@ namespace ProyectoInventarioOET
                     }
                     else
                     {
-                        cargarEstados();
-                        cargarAnfitriones();
-                        cargarEstaciones();
-                        cargarIntenciones();
+                        cargarTipos();
                         setDatosConsultados();
 
                         seConsulto = false;
@@ -413,6 +410,21 @@ namespace ProyectoInventarioOET
             return tabla;
         }
 
+
+        /*
+         * Este metodo carga los tipos de movimiento en
+         */
+        protected void cargarTipos()
+        {
+            dropdownTipo.Items.Clear();
+            DataTable tipos = controladoraAjustes.tiposAjuste();
+            foreach (DataRow fila in tipos.Rows)
+            {
+                dropdownTipo.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
+            }
+        }
+
+
         /*
          * Esto pasa la interfaz al modo de crear ajustes.
          */
@@ -422,6 +434,7 @@ namespace ProyectoInventarioOET
             cambiarModo();
             llenarGridAgregarProductos();
             vaciarGridProductos();
+            cargarTipos();
             // Creo que falta cargar cosas
         }
 
