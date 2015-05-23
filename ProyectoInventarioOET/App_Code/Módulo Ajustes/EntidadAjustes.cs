@@ -10,24 +10,22 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
     public class EntidadAjustes
     {
 
-        private String idAjuste;  //Descripcion
-        private String idTipoAjuste;  //Descripcion
-        private DateTime fecha; //Ver entidad producto globaldsd
-        private String usuario; //Nombre de la persona
-        private String idUsuario; //Nombre de la persona
-        private String Bodega;  //Bodega
-        private String idBodega; 
+        private String idTipoAjuste; 
+        private DateTime fecha;
+        private String usuario; 
+        private String idUsuario;
+        private String idBodega;  //
         private List<EntidadDetalles> detalles = new List<EntidadDetalles>();
 
         //public EntidadAjustes(Object[] datos, DataTable datosProductos)
         public EntidadAjustes(Object[] datos)
         {
             detalles = new List<EntidadDetalles>();
-            this.idAjuste = datos[0].ToString();
-            this.idTipoAjuste = datos[1].ToString();
-            this.idBodega = datos[2].ToString();
-
-
+            this.idTipoAjuste = datos[0].ToString(); 
+            this.fecha = Convert.ToDateTime(datos[1]);
+            this.usuario = datos[2].ToString(); 
+            this.idUsuario = datos[3].ToString();
+            this.idBodega =  datos[4].ToString();  //
             if (datos.Count() > 3)
             {
                 this.usuario = datos[3].ToString();
@@ -47,11 +45,6 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
         }
 
 
-        public String IdAjuste
-        {
-            get { return idAjuste; }
-            set { idAjuste = value; }
-        }
 
 
         public String IdTipoAjuste
@@ -60,10 +53,22 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
             set { IdTipoAjuste = value; }
         }
 
+        public DateTime Fecha
+        {
+            get { return fecha; }
+            set { fecha = value; }
+        }
+
         public String Usuario
         {
             get { return usuario; }
             set { usuario = value; }
+        }
+
+        public String IdUsuario
+        {
+            get { return idUsuario; }
+            set { idUsuario = value; }
         }
 
         public String IdBodega
@@ -72,11 +77,7 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
             set { idBodega = value; }
         }
 
-        public DateTime Fecha
-        {
-            get { return fecha; }
-            set { fecha = value; }
-        }
+
 
         public List<EntidadDetalles> Detalles
         {
