@@ -43,8 +43,8 @@ namespace ProyectoInventarioOET
 
                 // Hacer el usuario logueado visible a todas los modulos
                 (this.Master as SiteMaster).Usuario = usuario;
-                // Redirigir a pagina principal
-                Response.Redirect("Default.aspx");
+                // Redirigir a pagina de seleccion de bodega
+                Response.Redirect("FormLoginBodega.aspx");
             }
             else
             {
