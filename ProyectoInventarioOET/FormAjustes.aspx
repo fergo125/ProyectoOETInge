@@ -34,7 +34,7 @@
         <div class="col-lg-6">
             <label for="outputBodega" class= "control-label"> Bodega actual: </label>      
             <input type="text" id="outputBodega" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
-            <a runat="server" href="#modalAgregarProducto" id="botonAgregar" class="btn btn-success-fozkr" data-toggle="modal" role="button"><i class="fa fa-plus"></i> Agregar Producto</a>
+            <a id="botonAgregar" runat="server" href="#modalAgregarProducto" class="btn btn-success-fozkr" data-toggle="modal" role="button"><i class="fa fa-plus"></i> Agregar Producto</a>
         </div>
         <div class="col-lg-6">
             <label for="dropdownTipo" class= "control-label"> Tipo de Ajuste*: </label>      
@@ -173,7 +173,6 @@
                                             <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
                                             <PagerStyle CssClass="paging" HorizontalAlign="Center" />
                                             <AlternatingRowStyle BackColor="#F8F8F8" />
-                                            <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
                                             <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
                                         </asp:GridView>
                                     </ContentTemplate>

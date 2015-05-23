@@ -522,7 +522,7 @@ namespace ProyectoInventarioOET
                     gridViewAgregarProductos.DataSource = tablaAgregarProductos;
                     gridViewAgregarProductos.DataBind();
 
-                    Response.Redirect("FormAjustes.aspx");
+                    //Response.Redirect("FormAjustes.aspx");
                     break;
             }
         }
