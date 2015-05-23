@@ -28,6 +28,7 @@ namespace ProyectoInventarioOET
         private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
         private static ControladoraDatosGenerales controladoraDatosGenerales;   // Controladora de datos generales
         private static ControladoraAjustes controladoraAjustes;                 // Controladora del modulo ajustes
+        private static EntidadAjustes ajusteConsultado;                         // El ajuste mostrado en pantalla
 
 
         // DataTable bodegas = controladoraBodegas.consultarBodegasDeEstacion(idEstacion);
@@ -159,6 +160,18 @@ namespace ProyectoInventarioOET
         }
 
         /*
+         * Toma la entidad consultada y carga su información en la interfaz
+         */
+        protected void setDatosConsultados()
+        {
+            this.dropdownTipo.SelectedValue = ajusteConsultado.IdTipoAjuste;
+            this.outputFecha.Value = ajusteConsultado.Usuario;
+            this.outputFecha.Value = ajusteConsultado.Fecha.ToString();
+            // agregar manejo grid
+        }
+
+
+        /*
          * Limpia los campos editables
          */
         protected void limpiarCampos()
@@ -202,7 +215,7 @@ namespace ProyectoInventarioOET
                 // Cargar bodegas
                 Object[] datos = new Object[3];
 
-                DataTable ajustes = controladoraAjustes.consultarAjustes("leo envie una bodega");
+                DataTable ajustes = controladoraAjustes.consultarAjustes("PITAN129012015101713605001");
 
                 if (ajustes.Rows.Count > 0)
                 {
@@ -434,6 +447,9 @@ namespace ProyectoInventarioOET
             llenarGridAgregarProductos();
             vaciarGridProductos();
             cargarTipos();
+            // Mostrar nombre de usuario logueado, mientras...
+            outputUsuario.Value = "Emrakul, the Aeons Torn";
+            outputFecha.Value = DateTime.Now.ToString();
             // Creo que falta cargar cosas
         }
 
@@ -458,22 +474,40 @@ namespace ProyectoInventarioOET
         }
 
         /*
+         * Método auxiliar que viaja a la base de datos y maneja la consulta de ajustes
+         */
+        protected void consultarAjuste(String id)
+        {
+            seConsulto = true;
+            try
+            {
+                //ajusteConsultado = controladoraAjustes.consultarAjuste(id);
+                modo = (int)Modo.Consulta;
+            }
+            catch
+            {
+                ajusteConsultado = null;
+                modo = (int)Modo.Inicial;
+            }
+            cambiarModo();
+        }
+
+        /*
          * Método que maneja la selección de un ajuste en el grid de consultar.
          */
         protected void gridViewAjustes_Seleccion(object sender, GridViewCommandEventArgs e)
         {
-            /*
             switch (e.CommandName)
             {
                 case "Select":
                     GridViewRow filaSeleccionada = this.gridViewAjustes.Rows[Convert.ToInt32(e.CommandArgument)];
                     //String codigo = filaSeleccionada.Cells[0].Text.ToString();
-                    String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewBodegas.PageIndex * this.gridViewBodegas.PageSize)]);
-                    consultarBodega(codigo);
+                    String codigo = Convert.ToString(idArrayAjustes[Convert.ToInt32(e.CommandArgument) + (this.gridViewAjustes.PageIndex * this.gridViewAjustes.PageSize)]);
+                    consultarAjuste(codigo);
                     modo = (int)Modo.Consultado;
                     Response.Redirect("FormBodegas.aspx");
                     break;
-            }*/
+            }
         }
 
         /*
@@ -481,11 +515,9 @@ namespace ProyectoInventarioOET
          */
         protected void gridViewAjustes_CambioPagina(Object sender, GridViewPageEventArgs e)
         {
-            /*
             llenarGrid();
             this.gridViewAjustes.PageIndex = e.NewPageIndex;
             this.gridViewAjustes.DataBind();
-            */
         }
 
         /*
