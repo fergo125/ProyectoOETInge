@@ -121,31 +121,31 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl bloqueFormulario;
         
         /// <summary>
-        /// Control DropDownListConsultaEstacion.
+        /// Control dropDownListConsultaEstacion.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownListConsultaEstacion;
+        protected global::System.Web.UI.WebControls.DropDownList dropDownListConsultaEstacion;
         
         /// <summary>
-        /// Control DropDownListConsultaBodega.
+        /// Control dropDownListConsultaBodega.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownListConsultaBodega;
+        protected global::System.Web.UI.WebControls.DropDownList dropDownListConsultaBodega;
         
         /// <summary>
-        /// Control DropDownListConsultaVendedor.
+        /// Control dropDownListConsultaVendedor.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownListConsultaVendedor;
+        protected global::System.Web.UI.WebControls.DropDownList dropDownListConsultaVendedor;
         
         /// <summary>
         /// Control botonEjecutarConsulta.

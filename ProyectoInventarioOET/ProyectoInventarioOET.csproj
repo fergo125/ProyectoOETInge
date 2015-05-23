@@ -329,9 +329,9 @@
     <Compile Include="App_Code\ControladoraBDGeneral.cs" />
     <Compile Include="App_Code\ControladoraBDUnidades.cs" />
     <Compile Include="App_Code\ControladoraDatosGenerales.cs" />
-    <Compile Include="App_Code\Modulo Categorias\ControladoraBDCategorias.cs" />
-    <Compile Include="App_Code\Modulo Categorias\EntidadCategorias.cs" />
-    <Compile Include="App_Code\Modulo Categorias\ControladoraCategorias.cs" />
+    <Compile Include="App_Code\Módulo Categorías\ControladoraBDCategorias.cs" />
+    <Compile Include="App_Code\Módulo Categorías\EntidadCategorias.cs" />
+    <Compile Include="App_Code\Módulo Categorías\ControladoraCategorias.cs" />
     <Compile Include="App_Code\Módulo Actividades\ControladoraActividades.cs" />
     <Compile Include="App_Code\Módulo Actividades\ControladoraBDActividades.cs" />
     <Compile Include="App_Code\Módulo Actividades\EntidadActividad.cs" />

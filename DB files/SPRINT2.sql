@@ -102,3 +102,18 @@ CREATE TABLE CAT_ENTRADAS_PRODUCTOS
   CANTIDAD                  NUMBER(10),
   PRECIO_UNITARIO           NUMBER(10)
 );
+
+--Asignación de códigos internos únicos para cada perfil para que el sistema
+--sea menos hard-coded y se puedan modificar los nombres de los perfiles sin
+--afectar la funcionalidad. No se elimina lo hard-coded por completo, los
+--códigos de cada perfil seguirán en el código fuente.
+--Se agregarán de esta manera: 1,2,3,4.
+ALTER TABLE SEG_PERFIL
+  ADD
+    (
+      CODIGO  NUMBER(15,2)
+    );
+UPDATE SEG_PERFIL SET CODIGO=1 WHERE NOMBRE='Administrador global';
+UPDATE SEG_PERFIL SET CODIGO=2 WHERE NOMBRE='Administrador local';
+UPDATE SEG_PERFIL SET CODIGO=3 WHERE NOMBRE='Supervisor';
+UPDATE SEG_PERFIL SET CODIGO=4 WHERE NOMBRE='Vendedor';

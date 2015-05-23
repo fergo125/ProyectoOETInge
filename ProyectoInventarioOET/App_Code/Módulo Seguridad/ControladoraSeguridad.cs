@@ -28,7 +28,7 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
          */
         public EntidadUsuario consultarUsuario(String nombre, String password)
         {
-            // Encriptar password aqui***
+            //TODO: Encriptar password aqui***
             return controladoraBDSeguridad.consultarUsuario(nombre, password);
         }
 

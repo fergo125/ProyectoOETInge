@@ -90,7 +90,7 @@ namespace ProyectoInventarioOET
                 this.linkNombreUsuarioLogueado.InnerText = usuarioLogueado.Nombre + " (" + usuarioLogueado.Perfil + ")";
                 this.linkIniciarSesion.Visible = false;
                 this.linkNombreUsuarioLogueado.Visible = true;
-                this.linkCerrarSesion.Visible = true;
+                this.linkCambiarSesion.Visible = true;
                 esconderLinks(false);
             }
         }
@@ -116,6 +116,13 @@ namespace ProyectoInventarioOET
         }
 
         /*
+         * ???
+         */
+        protected void cambiarSesion(object sender, EventArgs e)
+        {
+        }
+
+        /*
          * Usado cuando se inicia o cierra sesión, al iniciar sesión vuelve a todos los links visibles excepto al de iniciar sesión,
          * al cerrar sesión los esconde, excepto el de iniciar sesión, el cual muestra.
          */
@@ -123,7 +130,7 @@ namespace ProyectoInventarioOET
         {
             this.linkIniciarSesion.Visible = esconder;
             this.linkNombreUsuarioLogueado.Visible = !esconder;
-            this.linkCerrarSesion.Visible = !esconder;
+            this.linkCambiarSesion.Visible = !esconder;
 
             //TODO arreglar esto para que no sea hard coded***
             this.linkFormProductos.Visible = (!esconder && (usuarioLogueado.Perfil=="Administrador global" || usuarioLogueado.Perfil=="Administrador local"));

@@ -38,15 +38,15 @@
             <div class="col-lg-12">
                 <div class="form-group col-lg-3">
                     <label for="ConsultaEstacion" class="control-label">Estacion:</label>    
-                    <asp:DropDownList ID="DropDownListConsultaEstacion" runat="server" class="form-control"></asp:DropDownList>
+                    <asp:DropDownList ID="dropDownListConsultaEstacion" runat="server" class="form-control"></asp:DropDownList>
                 </div>
                 <div class="form-group col-lg-3">
                     <label for="ConsultaEstacion" class="control-label">Bodega:</label>    
-                    <asp:DropDownList ID="DropDownListConsultaBodega" runat="server" class="form-control"></asp:DropDownList>
+                    <asp:DropDownList ID="dropDownListConsultaBodega" runat="server" class="form-control"></asp:DropDownList>
                 </div>
                 <div class="form-group col-lg-3">
                     <label for="ConsultaEstacion" class="control-label">Vendedor:</label>    
-                    <asp:DropDownList ID="DropDownListConsultaVendedor" runat="server" class="form-control"></asp:DropDownList>
+                    <asp:DropDownList ID="dropDownListConsultaVendedor" runat="server" class="form-control"></asp:DropDownList>
                 </div>
                 <div class="form-group col-lg-3">
                     <button runat="server" onserverclick="clickBotonEjecutarConsulta" id="botonEjecutarConsulta" class="btn btn-info-fozkr" type="button" style="float:left; margin-top:9%;">
@@ -60,7 +60,7 @@
     <br />
 
     <!-- Panel con el grid de consultar facturas (se mantiene aparte para poder esconder los campos de consulta grupal y mostrar los de consulta individual, sin tocar el grid) -->
-    <asp:Panel ID="PanelGridConsultas" runat="server" Visible="true">
+    <asp:Panel ID="PanelGridConsultas" runat="server" Visible="false">
         <strong><div ID="tituloGrid" runat="server" tabindex="" class="control-label" style="text-align:center; font-size:larger; background-color: #C0C0C0;">Facturas en el sistema</div></strong>
             <asp:UpdatePanel ID="UpdatePanelFacturas" runat="server">
                 <ContentTemplate>

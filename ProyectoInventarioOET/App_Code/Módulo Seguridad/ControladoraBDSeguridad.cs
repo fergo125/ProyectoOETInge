@@ -83,7 +83,7 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
             DataTable resultado = new DataTable();
 
             OracleCommand command = conexionBD.CreateCommand();
-            command.CommandText = "SELECT NOMBRE, SEG_PERFIL FROM " + esquema + "SEG_PERFIL WHERE (SEG_PERFIL = (SELECT SEG_PERFIL FROM SEG_PERFIL_USUARIO WHERE SEG_USUARIO = '" + codigoUsuario + "'))";
+            command.CommandText = "SELECT NOMBRE, CODIGO FROM " + esquema + "SEG_PERFIL WHERE (SEG_PERFIL = (SELECT SEG_PERFIL FROM SEG_PERFIL_USUARIO WHERE SEG_USUARIO = '" + codigoUsuario + "'))";
             OracleDataReader reader = command.ExecuteReader();
             resultado.Load(reader);
             if(resultado.Rows.Count == 1)
