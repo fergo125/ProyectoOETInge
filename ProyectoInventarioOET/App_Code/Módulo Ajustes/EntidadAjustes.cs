@@ -27,7 +27,7 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
             this.idUsuario = datos[3].ToString();
             if (datos.Count() > 4)
             {
-                this.idBodega = datos[4].ToString();  //
+                this.idBodega = datos[4].ToString();  
                 this.fecha = Convert.ToDateTime(datos[4].ToString());
             }
             //agregarDetalle(datosProductos);
