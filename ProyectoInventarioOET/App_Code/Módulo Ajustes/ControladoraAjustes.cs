@@ -64,15 +64,14 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
 
             Object[] datosProductos = new Object[4];
             foreach (DataRow fila in respuesta[1].Rows) // Varias filas que corresponden a los productos
-            {  //Solo seria una fila
+            {  
                 datosProductos[0] = fila[0].ToString();
                 datosProductos[1] = fila[1].ToString();
                 datosProductos[2] = fila[2];  // Es la fecha
                 datosProductos[3] = fila[3].ToString();
-            }            
-            
+                consultada.agregarDetalle(datosProductos);
+            }   
             return consultada;
-            //EntidadAjustes respuesta =    
         }
 
     }

@@ -55,16 +55,15 @@ namespace ProyectoInventarioOET
                 mostrarBotonesSegunPermisos();
                 */
 
-                /*
                 if (!seConsulto)
                 {
                     modo = (int)Modo.Inicial;
                 }
                 else
                 {
-                    if (bodegaConsultada == null)
+                    if (ajusteConsultado == null)
                     {
-                        mostrarMensaje("warning", "Alerta: ", "No se pudo consultar la bodega.");
+                        mostrarMensaje("warning", "Alerta: ", "No se pudo consultar el ajuste.");
                     }
                     else
                     {
@@ -74,7 +73,6 @@ namespace ProyectoInventarioOET
                         seConsulto = false;
                     }
                 }
-                */
             }
             cambiarModo();
 
@@ -165,9 +163,22 @@ namespace ProyectoInventarioOET
         protected void setDatosConsultados()
         {
             this.dropdownTipo.SelectedValue = ajusteConsultado.IdTipoAjuste;
-            this.outputFecha.Value = ajusteConsultado.Usuario;
+            this.outputUsuario.Value = ajusteConsultado.Usuario;
             this.outputFecha.Value = ajusteConsultado.Fecha.ToString();
-            // agregar manejo grid
+
+            // Manejo grid
+            DataTable tabla = tablaProductoConsulta();
+            Object[] datos = new Object[3];
+            foreach( EntidadDetalles elemento in ajusteConsultado.Detalles )
+            {
+                datos[0] = elemento.NombreProducto;
+                datos[1] = elemento.Codigo;
+                datos[2] = elemento.Cambio;
+                tabla.Rows.Add(datos);
+            }
+
+            gridViewProductos.DataSource = tabla;
+            gridViewProductos.DataBind();
         }
 
 
@@ -387,6 +398,32 @@ namespace ProyectoInventarioOET
         }
 
         /*
+         * Crea una datatable en el formato del grid de productos en ajustes, cuando son consultados
+         */
+        protected DataTable tablaProductoConsulta()
+        {
+            DataTable tabla = new DataTable();
+            DataColumn columna;
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Nombre";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Codigo";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.Int32");
+            columna.ColumnName = "Ajuste de cambio";
+            tabla.Columns.Add(columna);
+
+            return tabla;
+        }
+
+        /*
          * Crea una datatable en el formato del grid de agregar productos
          */
         protected DataTable tablaAgregarProducto()
@@ -481,7 +518,7 @@ namespace ProyectoInventarioOET
             seConsulto = true;
             try
             {
-                //ajusteConsultado = controladoraAjustes.consultarAjuste(id);
+                ajusteConsultado = controladoraAjustes.consultarAjuste(id);
                 modo = (int)Modo.Consulta;
             }
             catch
@@ -505,7 +542,7 @@ namespace ProyectoInventarioOET
                     String codigo = Convert.ToString(idArrayAjustes[Convert.ToInt32(e.CommandArgument) + (this.gridViewAjustes.PageIndex * this.gridViewAjustes.PageSize)]);
                     consultarAjuste(codigo);
                     modo = (int)Modo.Consultado;
-                    Response.Redirect("FormBodegas.aspx");
+                    Response.Redirect("FormAjustes.aspx");
                     break;
             }
         }

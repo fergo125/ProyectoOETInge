@@ -69,5 +69,19 @@ namespace ProyectoInventarioOET
                     mostrarMensaje("warning", "Alerta", "No hay conexión a la base de datos.");
                 }
         }
+
+        // Guarda la bodega seleccionada para utiliza localmente
+        protected void EnviarBodegaLocal_Click(object sender, EventArgs e)
+        {
+            if (idArray != null)
+            {
+                (this.Master as SiteMaster).LlaveBodegaSesion = idArray[DropDownListBodega.SelectedIndex].ToString();
+                (this.Master as SiteMaster).NombreBodegaSesion = DropDownListBodega.SelectedValue.ToString();
+            }
+            Response.Redirect("Default.aspx");
+        }
+
+
+
     }
 }

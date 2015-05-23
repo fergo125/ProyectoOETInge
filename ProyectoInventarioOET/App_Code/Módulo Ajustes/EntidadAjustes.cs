@@ -14,7 +14,7 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
         private DateTime fecha;
         private String usuario; 
         private String idUsuario;
-        private String idBodega;  //
+        private String idBodega; 
         private List<EntidadDetalles> detalles = new List<EntidadDetalles>();
 
         //public EntidadAjustes(Object[] datos, DataTable datosProductos)
@@ -25,23 +25,16 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
             this.fecha = Convert.ToDateTime(datos[1]);
             this.usuario = datos[2].ToString(); 
             this.idUsuario = datos[3].ToString();
-            this.idBodega =  datos[4].ToString();  //
-            if (datos.Count() > 3)
+            if (datos.Count() > 4)
             {
-                this.usuario = datos[3].ToString();
-                this.fecha = Convert.ToDateTime(datos[4].ToString());
+                this.idBodega = datos[4].ToString();  
             }
-            //agregarDetalle(datosProductos);
-
         }
 
         // Decirle a leo que los nuevos productos vienen en un datatable
-        public void agregarDetalle(DataTable datosProductos) {
-            EntidadDetalles nuevo;
-            foreach (DataRow row in datosProductos.Rows) {
-                nuevo = new EntidadDetalles(row[0].ToString(), row[1].ToString(), Double.Parse(row[2].ToString()));
-                detalles.Add(nuevo);
-            }
+        public void agregarDetalle(Object[] datosProductos) {
+            EntidadDetalles nuevo = new EntidadDetalles(datosProductos);
+            detalles.Add(nuevo);
         }
 
 
@@ -49,8 +42,8 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
 
         public String IdTipoAjuste
         {
-            get { return IdTipoAjuste; }
-            set { IdTipoAjuste = value; }
+            get { return idTipoAjuste; }
+            set { idTipoAjuste = value; }
         }
 
         public DateTime Fecha
