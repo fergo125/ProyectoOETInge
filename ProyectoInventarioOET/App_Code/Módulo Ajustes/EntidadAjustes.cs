@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Data;
 
 namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
 {
@@ -9,18 +10,17 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
     public class EntidadAjustes
     {
 
-
         private class DetalleAjuste
         {
             private String idAjuste;
             private String idProductoBodega;
             private double cambio;
 
-            public DetalleAjuste(Object[] datos)
+            public DetalleAjuste(String idAjuste, String idProductoBodega, double cambio)
             {
-                this.idAjuste = datos[0].ToString();
-                this.idProductoBodega = datos[1].ToString();
-                this.cambio = Double.Parse(datos[2].ToString());
+                this.idAjuste = idAjuste;
+                this.idProductoBodega = idProductoBodega;
+                this.cambio = cambio;
             }
 
             public String IdAjuste
@@ -41,8 +41,6 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
                 get { return cambio; }
                 set { cambio = value; }
             }
-
-
         }   //Final de clase
 
 
@@ -50,9 +48,9 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
         private String idTipoAjuste;
         private DateTime fecha; //Ver entidad producto global
         private String usuario;
-        private List<DetalleAjuste> detalles =  new List<DetalleAjuste>(); 
+        private List<DetalleAjuste> detalles =  new List<DetalleAjuste>();
 
-        public EntidadAjustes (Object[] datos)
+        public EntidadAjustes(Object[] datos, DataTable datosProductos)
         {
             detalles =  new List<DetalleAjuste>();
             this.idAjuste = datos[0].ToString();
@@ -62,15 +60,44 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
                 this.usuario = datos[2].ToString();
                 this.fecha = Convert.ToDateTime(datos[3].ToString());
             }
+            agregarDetalle(datosProductos);
 
         }
 
-
-        public void agregarDetalle(Object[] datos) {
-            DetalleAjuste nuevo = new DetalleAjuste(datos);
-            detalles.Add(nuevo);
+        // Decirle a leo que los nuevos productos vienen en un datatable
+        public void agregarDetalle(DataTable datosProductos) {
+            DetalleAjuste nuevo;
+            foreach (DataRow row in datosProductos.Rows) {
+                nuevo = new DetalleAjuste(row[0].ToString(), row[1].ToString(), Double.Parse(row[2].ToString()));
+                detalles.Add(nuevo);
+            }
         }
 
+
+        public String IdAjuste
+        {
+            get { return idAjuste; }
+            set { idAjuste = value; }
+        }
+
+
+        public String IdTipoAjuste
+        {
+            get { return IdTipoAjuste; }
+            set { IdTipoAjuste = value; }
+        }
+
+        public String Usuario
+        {
+            get { return usuario; }
+            set { usuario = value; }
+        }
+
+        public DateTime Fecha
+        {
+            get { return fecha; }
+            set { fecha = value; }
+        }
 
 
 

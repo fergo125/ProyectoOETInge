@@ -14,6 +14,11 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
 
         // Las estaciones se cargan desde la 
 
+        private ControladoraBDAjustes controladoraBD;
+
+        public ControladoraAjustes() {
+            controladoraBD = new ControladoraBDAjustes();
+        }
         
         //Metodo que trae las Bodegas de una estacion
         // Es llamado en el evento del dropdown list de estacion
@@ -34,7 +39,10 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
             return controladoraProductoLocal.consultarProductosDeBodega(idBodega);
         }
 
-
+        public DataTable tiposAjuste()
+        {
+            return controladoraBD.tiposAjuste();
+        }
 
 
     }
