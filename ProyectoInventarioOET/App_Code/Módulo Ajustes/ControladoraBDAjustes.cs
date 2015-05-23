@@ -33,6 +33,31 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
             return resultado;
         }
 
+
+        public DataTable consultarAjustes()
+        {
+            String esquema = "Inventarios.";
+            DataTable resultado = new DataTable();
+
+            try
+            {
+                // Interfaz ocupa 3 cosas TipoMovimiento(Descripcion), Fecha, Usuario(Encargado)
+                // Yo agrego el ID de ajustes para la consulta individual
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "SELECT AJ.ID_AJUSTES, M.DESCRIPCION, AJ.FECHA, U.USUARIO"
+                   + "FROM " + esquema + "AJUSTES AJ, " + esquema + "SEG_USUARIO U" + esquema + "CAT_TIPO_MOVIMIENTO M"
+                   + "WHERE AJ.USUARIO_BODEGA = U.SEG_USUARIO "
+                   + "AND AJ.CAT_TIPO_MOVIMIENTO = M.CAT_TIPO_MOVIMIENTO;";
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
+            }
+            catch (Exception e)
+            {
+                resultado = null;
+            }
+            return resultado;
+        }
+
         public String[] insertarAjuste(EntidadAjustes ajuste)
         {
             String esquema = "Inventarios.";
@@ -47,9 +72,10 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
                                             + ajuste.Usuario + "' )";
                     OracleDataReader reader = command.ExecuteReader();
                     
-                    //foreach(List <EntidadDetalles> ajuste.Detalles()  ){
-                    
-                    //}
+                    foreach(EntidadDetalles detallesProducto in  ajuste.Detalles  ){ // Por cada producto meterlo en el detalles ajustes
+                        insertarDetalle(res[3], detallesProducto);
+                        //Hacer el cambio
+                    }
 
                     res[0] = "success";
                     res[1] = "Éxito:";
@@ -65,12 +91,15 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
             return res;
         }
 
-
-        //private Boolean insertarDetalles() { 
-        
-        
-        //}
-
+        private void insertarDetalle(string idAjuste, EntidadDetalles detallesProducto)
+        {
+            String esquema = "Inventarios.";
+            OracleCommand command = conexionBD.CreateCommand();
+            command.CommandText = "INSERT INTO " + esquema +
+                                   "DETALLESAJUSTES (ID_AJUSTES, INV_BODEGA_PRODUCTOS, CAMBIO) VALUES ('"
+                                    + idAjuste + "','" + detallesProducto.IdProductoBodega + "', " + detallesProducto.Cambio + " )";
+            OracleDataReader reader = command.ExecuteReader();
+        }
 
 
         }
