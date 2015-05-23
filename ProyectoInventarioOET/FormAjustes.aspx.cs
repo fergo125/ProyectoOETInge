@@ -28,6 +28,7 @@ namespace ProyectoInventarioOET
         private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
         private static ControladoraDatosGenerales controladoraDatosGenerales;   // Controladora de datos generales
         private static ControladoraAjustes controladoraAjustes;                 // Controladora del modulo ajustes
+        private static EntidadAjustes ajusteConsultado;                         // El ajuste mostrado en pantalla
 
 
         // DataTable bodegas = controladoraBodegas.consultarBodegasDeEstacion(idEstacion);
@@ -67,10 +68,7 @@ namespace ProyectoInventarioOET
                     }
                     else
                     {
-                        cargarEstados();
-                        cargarAnfitriones();
-                        cargarEstaciones();
-                        cargarIntenciones();
+                        cargarTipos();
                         setDatosConsultados();
 
                         seConsulto = false;
@@ -162,6 +160,18 @@ namespace ProyectoInventarioOET
         }
 
         /*
+         * Toma la entidad consultada y carga su información en la interfaz
+         */
+        protected void setDatosConsultados()
+        {
+            this.dropdownTipo.SelectedValue = ajusteConsultado.IdTipoAjuste;
+            this.outputFecha.Value = ajusteConsultado.Usuario;
+            this.outputFecha.Value = ajusteConsultado.Fecha.ToString();
+            // agregar manejo grid
+        }
+
+
+        /*
          * Limpia los campos editables
          */
         protected void limpiarCampos()
@@ -205,8 +215,7 @@ namespace ProyectoInventarioOET
                 // Cargar bodegas
                 Object[] datos = new Object[3];
 
-                DataTable ajustes = new DataTable();
-                //DataTable ajustes = controladoraAjustes.consultarAjustes(algoBodega);
+                DataTable ajustes = controladoraAjustes.consultarAjustes("PITAN129012015101713605001");
 
                 if (ajustes.Rows.Count > 0)
                 {
@@ -316,7 +325,7 @@ namespace ProyectoInventarioOET
             gridViewProductos.DataSource = tablaLimpia;
             gridViewProductos.DataBind();
 
-            idArrayProductos = null;
+            idArrayProductos = new Object[0];
             tablaProductos = tablaProducto();
         }
 
@@ -413,6 +422,21 @@ namespace ProyectoInventarioOET
             return tabla;
         }
 
+
+        /*
+         * Este metodo carga los tipos de movimiento en
+         */
+        protected void cargarTipos()
+        {
+            dropdownTipo.Items.Clear();
+            DataTable tipos = controladoraAjustes.tiposAjuste();
+            foreach (DataRow fila in tipos.Rows)
+            {
+                dropdownTipo.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
+            }
+        }
+
+
         /*
          * Esto pasa la interfaz al modo de crear ajustes.
          */
@@ -422,6 +446,10 @@ namespace ProyectoInventarioOET
             cambiarModo();
             llenarGridAgregarProductos();
             vaciarGridProductos();
+            cargarTipos();
+            // Mostrar nombre de usuario logueado, mientras...
+            outputUsuario.Value = "Emrakul, the Aeons Torn";
+            outputFecha.Value = DateTime.Now.ToString();
             // Creo que falta cargar cosas
         }
 
@@ -446,22 +474,40 @@ namespace ProyectoInventarioOET
         }
 
         /*
+         * Método auxiliar que viaja a la base de datos y maneja la consulta de ajustes
+         */
+        protected void consultarAjuste(String id)
+        {
+            seConsulto = true;
+            try
+            {
+                //ajusteConsultado = controladoraAjustes.consultarAjuste(id);
+                modo = (int)Modo.Consulta;
+            }
+            catch
+            {
+                ajusteConsultado = null;
+                modo = (int)Modo.Inicial;
+            }
+            cambiarModo();
+        }
+
+        /*
          * Método que maneja la selección de un ajuste en el grid de consultar.
          */
         protected void gridViewAjustes_Seleccion(object sender, GridViewCommandEventArgs e)
         {
-            /*
             switch (e.CommandName)
             {
                 case "Select":
                     GridViewRow filaSeleccionada = this.gridViewAjustes.Rows[Convert.ToInt32(e.CommandArgument)];
                     //String codigo = filaSeleccionada.Cells[0].Text.ToString();
-                    String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewBodegas.PageIndex * this.gridViewBodegas.PageSize)]);
-                    consultarBodega(codigo);
+                    String codigo = Convert.ToString(idArrayAjustes[Convert.ToInt32(e.CommandArgument) + (this.gridViewAjustes.PageIndex * this.gridViewAjustes.PageSize)]);
+                    consultarAjuste(codigo);
                     modo = (int)Modo.Consultado;
                     Response.Redirect("FormBodegas.aspx");
                     break;
-            }*/
+            }
         }
 
         /*
@@ -469,11 +515,9 @@ namespace ProyectoInventarioOET
          */
         protected void gridViewAjustes_CambioPagina(Object sender, GridViewPageEventArgs e)
         {
-            /*
             llenarGrid();
             this.gridViewAjustes.PageIndex = e.NewPageIndex;
             this.gridViewAjustes.DataBind();
-            */
         }
 
         /*
@@ -503,7 +547,8 @@ namespace ProyectoInventarioOET
             switch (e.CommandName)
             {
                 case "Select":
-                    DataRow seleccionada = tablaAgregarProductos.Rows[Convert.ToInt32(e.CommandArgument) + (this.gridViewAgregarProductos.PageIndex * this.gridViewAgregarProductos.PageSize)];
+                    int indice = Convert.ToInt32(e.CommandArgument) + (this.gridViewAgregarProductos.PageIndex * this.gridViewAgregarProductos.PageSize);
+                    DataRow seleccionada = tablaAgregarProductos.Rows[indice];
 
                     // Sacamos datos pertinentes del producto
                     Object[] datos = new Object[4];
@@ -521,6 +566,15 @@ namespace ProyectoInventarioOET
                     tablaAgregarProductos.Rows[Convert.ToInt32(e.CommandArgument) + (this.gridViewAgregarProductos.PageIndex * this.gridViewAgregarProductos.PageSize)].Delete();
                     gridViewAgregarProductos.DataSource = tablaAgregarProductos;
                     gridViewAgregarProductos.DataBind();
+
+                    // Actualizar listas de Ids
+                    List<Object> temp = new List<Object>(idArrayProductos);
+                    temp.Add(idArrayAgregarProductos[indice]);
+                    idArrayProductos = temp.ToArray();
+
+                    temp = new List<Object>(idArrayAgregarProductos);
+                    temp.RemoveAt(indice);
+                    idArrayAgregarProductos = temp.ToArray();
 
                     //Response.Redirect("FormAjustes.aspx");
                     break;

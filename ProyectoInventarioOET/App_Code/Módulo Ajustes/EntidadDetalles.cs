@@ -8,8 +8,8 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
     public class EntidadDetalles
     {
         private String idAjuste;
-            private String idProductoBodega;
-            private double cambio;
+        private String idProductoBodega;
+        private double cambio;
 
             public EntidadDetalles (String idAjuste, String idProductoBodega, double cambio)
             {
