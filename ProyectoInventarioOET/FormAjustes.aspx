@@ -3,6 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
+    <br />
     <!-- Label para desplegar mensajes -->
     <div>
         <div id="mensajeAlerta" runat="server" Visible="false" style="margin-left:50%;">
@@ -23,6 +24,7 @@
     <!-- Botones -->
     <button runat="server" onserverclick="botonRealizarAjuste_ServerClick" id="botonRealizarAjuste" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true"><i class="fa fa-pencil"></i> Realizar Ajuste</button>
     <button runat="server" onserverclick="botonConsultarAjustes_ServerClick"  id="botonConsultarAjustes" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true"><i class="fa fa-bars"></i> Consultar Ajustes</button>
+    <br />
     <br />
 
     <!-- Titulo dinamico de la pagina -->

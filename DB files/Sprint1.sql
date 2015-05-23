@@ -86,6 +86,9 @@ SELECT * FROM dual;
 
 SELECT * FROM SEG_PERMISOS;
 
+--Intenciones de uso iniciales para las bodegas existentes
+UPDATE CAT_BODEGA SET CAT_INTENCIONUSO=2
+
 -- Usuarios de prueba
 -- Estos solo durante el periodo de pruebas, no introducir en version final
 INSERT INTO SEG_USUARIO VALUES('1', 'oscar', 'pass', '28-APR-15', 'Administrador global de prueba', 'SII014548761600.7018216447', '01', 'Oscar Esquivel', 1);
