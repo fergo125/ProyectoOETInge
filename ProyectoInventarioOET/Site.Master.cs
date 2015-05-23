@@ -122,6 +122,13 @@ namespace ProyectoInventarioOET
         {
         }
 
+        //Importante:
+        //Para el codigoPerfilUsuario (que se usa un poco hard-coded), los números son:
+        //1. Administrador global
+        //2. Administrador local
+        //3. Supervisor
+        //4. Vendedor
+
         /*
          * Usado cuando se inicia o cierra sesión, al iniciar sesión vuelve a todos los links visibles excepto al de iniciar sesión,
          * al cerrar sesión los esconde, excepto el de iniciar sesión, el cual muestra.
@@ -133,21 +140,21 @@ namespace ProyectoInventarioOET
             this.linkCambiarSesion.Visible = !esconder;
 
             //TODO arreglar esto para que no sea hard coded***
-            this.linkFormProductos.Visible = (!esconder && (usuarioLogueado.Perfil=="Administrador global" || usuarioLogueado.Perfil=="Administrador local"));
-                this.linkFormProductos1.Visible = (!esconder && (usuarioLogueado.Perfil=="Administrador global" || usuarioLogueado.Perfil=="Administrador local"));
-                this.linkFormProductos2.Visible = (!esconder && (usuarioLogueado.Perfil=="Administrador global" || usuarioLogueado.Perfil=="Administrador local"));
+            this.linkFormProductos.Visible = (!esconder && (usuarioLogueado.CodigoPerfil == "1" || usuarioLogueado.CodigoPerfil == "2"));
+            this.linkFormProductos1.Visible = (!esconder && (usuarioLogueado.CodigoPerfil == "1" || usuarioLogueado.CodigoPerfil == "2"));
+            this.linkFormProductos2.Visible = (!esconder && (usuarioLogueado.CodigoPerfil == "1" || usuarioLogueado.CodigoPerfil == "2"));
             this.linkFormBodegas.Visible = !esconder;
                 this.linkFormBodegas1.Visible = !esconder;
-                this.linkFormBodegas2.Visible = (!esconder && (usuarioLogueado.Perfil=="Administrador global" || usuarioLogueado.Perfil=="Administrador local"));
+                this.linkFormBodegas2.Visible = (!esconder && (usuarioLogueado.CodigoPerfil == "1" || usuarioLogueado.CodigoPerfil == "2"));
                 this.linkFormBodegas3.Visible = !esconder;
-            this.linkFormInventario.Visible = (!esconder && (usuarioLogueado.Perfil=="Administrador global" || usuarioLogueado.Perfil=="Administrador local" || usuarioLogueado.Perfil=="Supervisor"));
-                this.linkFormInventario1.Visible = (!esconder && (usuarioLogueado.Perfil=="Administrador global" || usuarioLogueado.Perfil=="Administrador local" || usuarioLogueado.Perfil=="Supervisor"));
-                this.linkFormInventario2.Visible = (!esconder && (usuarioLogueado.Perfil=="Administrador global" || usuarioLogueado.Perfil=="Administrador local" || usuarioLogueado.Perfil=="Supervisor"));
-                this.linkFormInventario3.Visible = (!esconder && (usuarioLogueado.Perfil=="Administrador global" || usuarioLogueado.Perfil=="Administrador local" || usuarioLogueado.Perfil=="Supervisor"));
+                this.linkFormInventario.Visible = (!esconder && (usuarioLogueado.CodigoPerfil == "1" || usuarioLogueado.CodigoPerfil == "2" || usuarioLogueado.CodigoPerfil == "3"));
+                this.linkFormInventario1.Visible = (!esconder && (usuarioLogueado.CodigoPerfil == "1" || usuarioLogueado.CodigoPerfil == "2" || usuarioLogueado.CodigoPerfil == "3"));
+                this.linkFormInventario2.Visible = (!esconder && (usuarioLogueado.CodigoPerfil == "1" || usuarioLogueado.CodigoPerfil == "2" || usuarioLogueado.CodigoPerfil == "3"));
+                this.linkFormInventario3.Visible = (!esconder && (usuarioLogueado.CodigoPerfil == "1" || usuarioLogueado.CodigoPerfil == "2" || usuarioLogueado.CodigoPerfil == "3"));
             this.linkFormVentas.Visible = !esconder;
-            this.linkFormAdministracion.Visible = (!esconder && (usuarioLogueado.Perfil=="Administrador global" || usuarioLogueado.Perfil=="Administrador local" || usuarioLogueado.Perfil=="Supervisor"));
-                this.linkFormAdministracion1.Visible = (!esconder && (usuarioLogueado.Perfil=="Administrador global" || usuarioLogueado.Perfil=="Administrador local" || usuarioLogueado.Perfil=="Supervisor"));
-                this.linkFormAdministracion2.Visible = (!esconder && (usuarioLogueado.Perfil == "Administrador global" || usuarioLogueado.Perfil == "Administrador local"));
+            this.linkFormAdministracion.Visible = (!esconder && (usuarioLogueado.CodigoPerfil == "1" || usuarioLogueado.CodigoPerfil == "2" || usuarioLogueado.CodigoPerfil == "3"));
+            this.linkFormAdministracion1.Visible = (!esconder && (usuarioLogueado.CodigoPerfil == "1" || usuarioLogueado.CodigoPerfil == "2" || usuarioLogueado.CodigoPerfil == "3"));
+            this.linkFormAdministracion2.Visible = (!esconder && (usuarioLogueado.CodigoPerfil == "1" || usuarioLogueado.CodigoPerfil == "2"));
         }
 
         /*
