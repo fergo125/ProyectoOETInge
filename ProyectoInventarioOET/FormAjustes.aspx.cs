@@ -55,16 +55,15 @@ namespace ProyectoInventarioOET
                 mostrarBotonesSegunPermisos();
                 */
 
-                /*
                 if (!seConsulto)
                 {
                     modo = (int)Modo.Inicial;
                 }
                 else
                 {
-                    if (bodegaConsultada == null)
+                    if (ajusteConsultado == null)
                     {
-                        mostrarMensaje("warning", "Alerta: ", "No se pudo consultar la bodega.");
+                        mostrarMensaje("warning", "Alerta: ", "No se pudo consultar el ajuste.");
                     }
                     else
                     {
@@ -74,7 +73,6 @@ namespace ProyectoInventarioOET
                         seConsulto = false;
                     }
                 }
-                */
             }
             cambiarModo();
 
@@ -165,7 +163,7 @@ namespace ProyectoInventarioOET
         protected void setDatosConsultados()
         {
             this.dropdownTipo.SelectedValue = ajusteConsultado.IdTipoAjuste;
-            this.outputFecha.Value = ajusteConsultado.Usuario;
+            this.outputUsuario.Value = ajusteConsultado.Usuario;
             this.outputFecha.Value = ajusteConsultado.Fecha.ToString();
             // agregar manejo grid
         }
@@ -481,7 +479,7 @@ namespace ProyectoInventarioOET
             seConsulto = true;
             try
             {
-                //ajusteConsultado = controladoraAjustes.consultarAjuste(id);
+                ajusteConsultado = controladoraAjustes.consultarAjuste(id);
                 modo = (int)Modo.Consulta;
             }
             catch
@@ -505,7 +503,7 @@ namespace ProyectoInventarioOET
                     String codigo = Convert.ToString(idArrayAjustes[Convert.ToInt32(e.CommandArgument) + (this.gridViewAjustes.PageIndex * this.gridViewAjustes.PageSize)]);
                     consultarAjuste(codigo);
                     modo = (int)Modo.Consultado;
-                    Response.Redirect("FormBodegas.aspx");
+                    Response.Redirect("FormAjustes.aspx");
                     break;
             }
         }

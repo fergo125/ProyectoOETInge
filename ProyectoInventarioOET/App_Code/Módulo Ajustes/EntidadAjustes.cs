@@ -25,10 +25,9 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
             this.fecha = Convert.ToDateTime(datos[1]);
             this.usuario = datos[2].ToString(); 
             this.idUsuario = datos[3].ToString();
-            this.idBodega =  datos[4].ToString();  //
-            if (datos.Count() > 3)
+            if (datos.Count() > 4)
             {
-                this.usuario = datos[3].ToString();
+                this.idBodega = datos[4].ToString();  //
                 this.fecha = Convert.ToDateTime(datos[4].ToString());
             }
             //agregarDetalle(datosProductos);
@@ -49,8 +48,8 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
 
         public String IdTipoAjuste
         {
-            get { return IdTipoAjuste; }
-            set { IdTipoAjuste = value; }
+            get { return idTipoAjuste; }
+            set { idTipoAjuste = value; }
         }
 
         public DateTime Fecha

@@ -60,24 +60,22 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
         }
 
 
-        public DataTable[] consultarAjuste(String idAjuste)
+        public DataTable consultarAjuste(String idAjuste)
         {
             String esquema = "Inventarios.";
-            DataTable[] resultado = new DataTable [2];
+            DataTable resultado = new DataTable();
 
             try
             {
-                // Interfaz ocupa 3 cosas TipoMovimiento(Descripcion), Fecha, Usuario(Encargado)
-                // Yo agrego el ID de ajustes para la consulta individual
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT AJ.ID_AJUSTES, M.DESCRIPCION, AJ.FECHA, U.NOMBRE, "
+                command.CommandText = "SELECT M.CAT_TIPO_MOVIMIENTO, AJ.FECHA, U.NOMBRE, U.SEG_USUARIO, AJ.IDBODEGA, M.DESCRIPCION  "
                    + " FROM " + esquema + "AJUSTES AJ, " + esquema + "SEG_USUARIO U, " + esquema + "CAT_TIPO_MOVIMIENTO M"
                    + " WHERE AJ.USUARIO_BODEGA = U.SEG_USUARIO "
                    + " AND AJ.CAT_TIPO_MOVIMIENTO = M.CAT_TIPO_MOVIMIENTO"
-                   + " AND AJ.IDAJUSTE = '" + idAjuste + "' ";
+                   + " AND AJ.ID_AJUSTES = '" + idAjuste + "' ";
                 OracleDataReader reader = command.ExecuteReader();
-                resultado[0].Load(reader);
-                resultado[1] = consultarDetalles(idAjuste);
+                resultado.Load(reader);
+                DataTable aux = consultarDetalles(idAjuste);
             }
             catch (Exception e)
             {
