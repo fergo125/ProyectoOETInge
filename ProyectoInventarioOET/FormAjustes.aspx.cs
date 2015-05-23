@@ -316,7 +316,7 @@ namespace ProyectoInventarioOET
             gridViewProductos.DataSource = tablaLimpia;
             gridViewProductos.DataBind();
 
-            idArrayProductos = null;
+            idArrayProductos = new Object[0];
             tablaProductos = tablaProducto();
         }
 
@@ -503,7 +503,8 @@ namespace ProyectoInventarioOET
             switch (e.CommandName)
             {
                 case "Select":
-                    DataRow seleccionada = tablaAgregarProductos.Rows[Convert.ToInt32(e.CommandArgument) + (this.gridViewAgregarProductos.PageIndex * this.gridViewAgregarProductos.PageSize)];
+                    int indice = Convert.ToInt32(e.CommandArgument) + (this.gridViewAgregarProductos.PageIndex * this.gridViewAgregarProductos.PageSize);
+                    DataRow seleccionada = tablaAgregarProductos.Rows[indice];
 
                     // Sacamos datos pertinentes del producto
                     Object[] datos = new Object[4];
@@ -521,6 +522,15 @@ namespace ProyectoInventarioOET
                     tablaAgregarProductos.Rows[Convert.ToInt32(e.CommandArgument) + (this.gridViewAgregarProductos.PageIndex * this.gridViewAgregarProductos.PageSize)].Delete();
                     gridViewAgregarProductos.DataSource = tablaAgregarProductos;
                     gridViewAgregarProductos.DataBind();
+
+                    // Actualizar listas de Ids
+                    List<Object> temp = new List<Object>(idArrayProductos);
+                    temp.Add(idArrayAgregarProductos[indice]);
+                    idArrayProductos = temp.ToArray();
+
+                    temp = new List<Object>(idArrayAgregarProductos);
+                    temp.RemoveAt(indice);
+                    idArrayAgregarProductos = temp.ToArray();
 
                     //Response.Redirect("FormAjustes.aspx");
                     break;
