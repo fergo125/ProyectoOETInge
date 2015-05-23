@@ -58,7 +58,6 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlButton botonAgregarEntradas;
         
         /// <summary>
-<<<<<<< HEAD
         /// Control botonConsultaEntradas.
         /// </summary>
         /// <remarks>
@@ -78,18 +77,14 @@ namespace ProyectoInventarioOET {
         
         /// <summary>
         /// Control FieldsetGridEntradas.
-=======
-        /// botonEntradaExtraordinaria control.
->>>>>>> origin/master
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonEntradaExtraordinaria;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetGridEntradas;
         
         /// <summary>
-<<<<<<< HEAD
         /// Control Div2.
         /// </summary>
         /// <remarks>
@@ -100,28 +95,21 @@ namespace ProyectoInventarioOET {
         
         /// <summary>
         /// Control UpdatePanelEntradas.
-=======
-        /// botonConsultaEntradas control.
->>>>>>> origin/master
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonConsultaEntradas;
+        protected global::System.Web.UI.UpdatePanel UpdatePanelEntradas;
         
         /// <summary>
-<<<<<<< HEAD
         /// Control gridViewEntradas.
-=======
-        /// tituloAccionEntradas control.
->>>>>>> origin/master
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tituloAccionEntradas;
+        protected global::System.Web.UI.WebControls.GridView gridViewEntradas;
         
         /// <summary>
         /// Control FielsetBuscarFactura.
@@ -169,21 +157,13 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetGridFacturas;
         
         /// <summary>
-<<<<<<< HEAD
         /// Control tituloGrid.
-=======
-        /// UpdatePanelPruebas control.
->>>>>>> origin/master
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-<<<<<<< HEAD
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl tituloGrid;
-=======
-        protected global::System.Web.UI.UpdatePanel UpdatePanelPruebas;
->>>>>>> origin/master
         
         /// <summary>
         /// Control gridViewFacturas.
@@ -195,7 +175,6 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.GridView gridViewFacturas;
         
         /// <summary>
-<<<<<<< HEAD
         /// Control FieldsetEncabezadoFactura.
         /// </summary>
         /// <remarks>
@@ -206,28 +185,21 @@ namespace ProyectoInventarioOET {
         
         /// <summary>
         /// Control camposEncabezadoFactura.
-=======
-        /// outputFactura control.
->>>>>>> origin/master
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl camposEncabezadoFactura;
+        
+        /// <summary>
+        /// Control outputFactura.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl outputFactura;
-        
-        /// <summary>
-<<<<<<< HEAD
-        /// Control outputFactura.
-=======
-        /// outputProveeduria control.
->>>>>>> origin/master
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl outputProveeduria;
         
         /// <summary>
         /// Control outputFechaPago.
@@ -282,7 +254,6 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl outputTotal;
-<<<<<<< HEAD
         
         /// <summary>
         /// Control outputImpuestos.
@@ -391,7 +362,5 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gridViewProductoBuscado;
-=======
->>>>>>> origin/master
     }
 }
