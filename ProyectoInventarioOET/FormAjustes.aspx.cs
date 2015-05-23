@@ -164,11 +164,10 @@ namespace ProyectoInventarioOET
          */
         protected void setDatosConsultados()
         {
-            //this.inputNombre.Value = bodegaConsultada.Nombre;
-            //this.comboBoxEstacion.SelectedValue = bodegaConsultada.Estacion;
-            //this.comboBoxEmpresa.SelectedValue = bodegaConsultada.Anfitriona;
-            //this.dropdownEstado.SelectedValue = Convert.ToString(bodegaConsultada.Estado);
-            //this.comboBoxIntencion.SelectedValue = Convert.ToString(bodegaConsultada.IntencionUso);
+            this.dropdownTipo.SelectedValue = ajusteConsultado.IdTipoAjuste;
+            this.outputFecha.Value = ajusteConsultado.Usuario;
+            this.outputFecha.Value = ajusteConsultado.Fecha.ToString();
+            // agregar manejo grid
         }
 
 
@@ -216,7 +215,7 @@ namespace ProyectoInventarioOET
                 // Cargar bodegas
                 Object[] datos = new Object[3];
 
-                DataTable ajustes = controladoraAjustes.consultarAjustes("leo envie una bodega");
+                DataTable ajustes = controladoraAjustes.consultarAjustes("PITAN129012015101713605001");
 
                 if (ajustes.Rows.Count > 0)
                 {
@@ -448,6 +447,9 @@ namespace ProyectoInventarioOET
             llenarGridAgregarProductos();
             vaciarGridProductos();
             cargarTipos();
+            // Mostrar nombre de usuario logueado, mientras...
+            outputUsuario.Value = "Emrakul, the Aeons Torn";
+            outputFecha.Value = DateTime.Now.ToString();
             // Creo que falta cargar cosas
         }
 
