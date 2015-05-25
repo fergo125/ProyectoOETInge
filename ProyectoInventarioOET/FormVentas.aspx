@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="Ventas" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="FormVentas.aspx.cs" Inherits="ProyectoInventarioOET.FormVentas" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+<asp:Content ID="ContentVentas" ContentPlaceHolderID="MainContent" runat="server">
 
     <br />
     <!-- Label para desplegar mensajes -->
@@ -15,7 +15,7 @@
 
     <!-- Título del Form -->
     <div>
-        <h2 ID="TituloVentas" runat="server">Factura</h2>
+        <h2 ID="TituloVentas" runat="server">Facturación</h2>
         <hr />
     </div>
 
@@ -23,10 +23,8 @@
     <button runat="server" onserverclick="clickBotonConsultarFacturas" id="botonConsultar" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Consultar Facturas</button>
     <button runat="server" onserverclick="clickBotonCrearFactura" id="botonCrear" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Crear Factura</button>
     <button runat="server" onserverclick="Page_Load" id="botonModificar" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Modificar Factura</button>
-    <a id="botonAjusteEntrada" accesskey="A" href="#modalAjusteRapido" class="btn btn-info-fozkr" role="button" style="float: right" visible="true" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Ajuste rápido de entrada</a> 
-    <a id="botonCambioSesion" accesskey="S" href="#modalCambioSesion" class="btn btn-info-fozkr" role="button" style="float: right" visible="true" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cambio rápido de sesión</a>  
-    
-    
+    <a id="botonAjusteEntrada" accesskey="A" href="#modalAjusteRapido" class="btn btn-info-fozkr" role="button" style="float: right" visible="true" data-toggle="modal" runat ="server">Ajuste rápido de entrada</a> 
+    <a id="botonCambioSesion" accesskey="S" href="#modalCambioSesion" class="btn btn-info-fozkr" role="button" style="float: right" visible="true" data-toggle="modal" runat ="server">Cambio rápido de sesión</a>  
     <br />
     <br />
 
@@ -90,44 +88,30 @@
     </asp:Panel>
 
     <!-- Panel crear factura -->
-    <asp:Panel ID="PanelCrearFactura" runat="server" Visible="false">
-                                            <!-- Para pruebas, quitar despues -->
-                                            <asp:Table ID="test" runat="server">
-                                                <asp:TableRow>
-                                                    <asp:TableCell>Prueba</asp:TableCell>
-                                                    <asp:TableCell>de tabla</asp:TableCell>
-                                                    <asp:TableCell>ASP</asp:TableCell>
-                                                </asp:TableRow>
-                                                <asp:TableRow>
-                                                    <asp:TableCell ColumnSpan="3">para dinamismo</asp:TableCell>
-                                                </asp:TableRow>
-                                            </asp:Table>
+    <asp:Panel ID="PanelCrearFactura" runat="server" Visible="true">
         <table class="table table-fozkr">
             <tr>
-                <td colspan="5">Fecha y hora:  <%: DateTime.Now.Date %></td></tr>
+                <td colspan="5">Fecha y hora:  <%: DateTime.Now.Date.ToShortDateString() %>,  <%: DateTime.Now.TimeOfDay.ToString().Substring(0,5) %></td></tr>
             <tr>
                 <td>Estación:</td>
-                <td>
-                    <asp:DropDownList ID="dropDownListCrearFacturaEstacion" class="input input-fozkr-dropdownlist" runat="server" Enabled="false"></asp:DropDownList></td>
-                <td></td>
+                <td><asp:DropDownList ID="dropDownListCrearFacturaEstacion" class="input input-fozkr-dropdownlist" runat="server" Enabled="false" Width="150px" CssClass="form-control"></asp:DropDownList></td>
                 <td>Bodega:</td>
-                <td>
-                    <asp:DropDownList ID="dropDownListCrearFacturaBodega" class="input input-fozkr-dropdownlist" runat="server"></asp:DropDownList>
-                </td>
+                <td colspan="2"><asp:DropDownList ID="dropDownListCrearFacturaBodega" class="input input-fozkr-dropdownlist" runat="server" Width="150px" CssClass="form-control"></asp:DropDownList></td>
             </tr>
             <tr>
                 <td>Vendedor:</td>
-                <td colspan="4">
-                    <asp:DropDownList ID="dropDownListCrearFacturaVendedor" class="input input-fozkr-dropdownlist" runat="server" Width="450px"></asp:DropDownList>
-                </td>
+                <%--<td colspan="4"><asp:DropDownList ID="dropDownListCrearFacturaVendedor" class="input input-fozkr-dropdownlist" runat="server" Width="450px"></asp:DropDownList></td>--%>
+                <td colspan="2"><asp:Label ID="labelCrearFacturaVendedor" runat="server"></asp:Label></td>
+                <td>Tipo de cambio:</td>
+                <td><asp:Label ID="labelCrearFacturaTipoCambio" runat="server"></asp:Label></td>
             </tr>
             <tr>
-                <td colspan="4">Productos:</td>
-                <td>Tipo de cambio: <asp:Label ID="labelCrearFacturaTipoCambio" runat="server"></asp:Label></td>
+                <td colspan="5">Productos:</td>
             </tr>
             <tr>
                 <%--<td colspan="4"><asp:DropDownList ID="dropDownListAgregarProductoFactura" class="input input-fozkr-dropdownlist" runat="server" Width="450px"></asp:DropDownList></td>--%>
-                <asp:TextBox ID="labelCrearFacturaBusquedaProducto" runat="server" Width="450px"></asp:TextBox>
+                <td colspan="4"><asp:TextBox ID="labelCrearFacturaBusquedaProducto" runat="server" CssClass="form-control" Width="100%"></asp:TextBox>
+                </td>
                 <td><button type="button" ID="botonAgregarProductoFactura" class="btn btn-success-fozkr" onserverclick="Page_Load" runat="server">Agregar</button></td>
             </tr>
             <tr>
@@ -137,7 +121,18 @@
                 <td>Descuento</td>
             </tr>
             <%--TODO: considerar cambiar la lista de producto por un grid, mucho más fácil de manejar, mayor consistencia, un poco más feo--%>
-            <tr>
+                                            <!-- Para pruebas, quitar despues -->
+                                            <%--<asp:Table ID="test" runat="server">
+                                                <asp:TableRow>
+                                                    <asp:TableCell>Prueba</asp:TableCell>
+                                                    <asp:TableCell>de tabla</asp:TableCell>
+                                                    <asp:TableCell>ASP</asp:TableCell>
+                                                </asp:TableRow>
+                                                <asp:TableRow>
+                                                    <asp:TableCell ColumnSpan="3">para dinamismo</asp:TableCell>
+                                                </asp:TableRow>
+                                            </asp:Table>--%>
+            <%--<tr>
                 <td colspan="2"><input ID="Checkbox1" class="input input-fozkr-check" type="checkbox" />Ejemplo de nombre</td>
                 <td><input ID="cantidad1" type="text" class="input input-fozkr-quantity"/></td>
                 <td>900</td>
@@ -154,7 +149,7 @@
                 <td><input ID="cantidad3" type="text" class="input input-fozkr-quantity"/></td>
                 <td>10,000</td>
                 <td></td>
-            </tr>
+            </tr>--%>
             <tr>
                 <td colspan="5">
                     <button type="button" ID="Button2" class="btn btn-danger-fozkr" href="#modalCancelarFactura" data-toggle="modal" style="float: left" runat="server">Quitar producto</button>
@@ -170,11 +165,11 @@
             </tr>
             <tr>
                 <td>Método de pago:</td>
-                <td colspan="4"><asp:DropDownList ID="dropDownListMetodoPago" class="input input-fozkr-dropdownlist" runat="server" Width="450px"></asp:DropDownList></td>
+                <td colspan="4"><asp:DropDownList ID="dropDownListMetodoPago" class="input input-fozkr-dropdownlist" runat="server" Width="450px" CssClass="form-control"></asp:DropDownList></td>
             </tr>
             <tr>
                 <td>Cliente:</td>
-                <td colspan="4"><asp:DropDownList ID="dropDownList2" class="input input-fozkr-dropdownlist" runat="server" Width="450px"></asp:DropDownList></td>
+                <td colspan="4"><asp:DropDownList ID="dropDownList2" class="input input-fozkr-dropdownlist" runat="server" Width="450px" CssClass="form-control"></asp:DropDownList></td>
             </tr>
             <tr>
                 <td colspan="5">

@@ -25,7 +25,7 @@ namespace ProyectoInventarioOET
         private DataTable facturasConsultadas;                          //Usada para llenar el grid y para mostrar los detalles de cada factura específica
         //private ControladoraVentas controladoraVentas;                  //Para accesar las tablas del módulo y realizar las operaciones de consulta, inserción, modificación y anulación
         private ControladoraDatosGenerales controladoraDatosGenerales;  //Para accesar datos generales de la base de datos
-        private static ControladoraSeguridad controladoraSeguridad;
+        private static ControladoraSeguridad controladoraSeguridad;     //???
         //Importante:
         //Para el codigoPerfilUsuario (que se usa un poco hard-coded), los números son:
         //1. Administrador global
@@ -59,11 +59,11 @@ namespace ProyectoInventarioOET
             }
             //cambiarModo();
             //código para probar algo
-            TableRow row = new TableRow();
-            TableCell cell1 = new TableCell();
-            cell1.Text = "blah blah blah";
-            row.Cells.Add(cell1);
-            test.Rows.Add(row);
+            //TableRow row = new TableRow();
+            //TableCell cell1 = new TableCell();
+            //cell1.Text = "blah blah blah";
+            //row.Cells.Add(cell1);
+            //test.Rows.Add(row);
             //HtmlTableRow row = new HtmlTableRow();
             //row.Cells.Add(new HtmlTableCell());
             //estructuraFactura.Rows.Add(row);
@@ -80,9 +80,9 @@ namespace ProyectoInventarioOET
             botonCrear.Visible = (permisos[4] == '1');
             botonModificar.Visible = (permisos[3] == '1');
             //Dropdownlists
-            dropDownListConsultaEstacion.Enabled = (codigoPerfilUsuario == "1");    //Sólo si es administrador global puede escoger una estación
-            dropDownListConsultaBodega.Enabled = (codigoPerfilUsuario == "2");      //Sólo si es administrador local puede escoger una bodega
-            dropDownListConsultaVendedor.Enabled = (codigoPerfilUsuario == "3");    //Sólo si es supervisor puede escoger un vendedor
+            dropDownListConsultaEstacion.Enabled = (Convert.ToInt32(codigoPerfilUsuario) <= 1);    //Sólo si es administrador global, puede escoger una estación
+            dropDownListConsultaBodega.Enabled = (Convert.ToInt32(codigoPerfilUsuario) <= 2);      //Sólo si es administrador global, o administrador local, puede escoger una bodega
+            dropDownListConsultaVendedor.Enabled = (Convert.ToInt32(codigoPerfilUsuario) <= 3);    //Sólo si es administrador global, o administrador local, o supervisor, puede escoger un vendedor
             //dropdownEstado.Enabled = (permisos[2] == '1');
         }
 
@@ -172,17 +172,14 @@ namespace ProyectoInventarioOET
             switch (Convert.ToInt32(codigoPerfilUsuario))
             {
                 case 4: //Vendedor
-                    dropDownListConsultaVendedor.Enabled = false;
                     //dropDownListConsultaVendedor.Items.Add(new ListItem());
                     //dropDownListConsultaVendedor.SelectedItem = 
                     goto case 3; //por alguna razón C# no permite fall through
                 case 3: //Supervisor
-                    dropDownListConsultaBodega.Enabled = false;
                     //dropDownListConsultaBodega.Items.Add(new ListItem());
                     //dropDownListConsultaBodega.SelectedItem =
                     goto case 2;  //por alguna razón C# no permite fall through
                 case 2: //Administrador local
-                    dropDownListConsultaEstacion.Enabled = false;
                     //dropDownListConsultaEstacion.Items.Add(new ListItem());
                     //dropDownListConsultaEstacion.SelectedItem = 
                     break;
@@ -199,9 +196,10 @@ namespace ProyectoInventarioOET
             if(dropDownListConsultaEstacion.SelectedItem == null)
             {
                 dropDownListConsultaEstacion.Items.Add(new ListItem("Todas")); //Agregar la opción de "Todas"/"Todos" al principio de la lista
-                DataTable estaciones = controladoraDatosGenerales.consultarEstaciones();
-                foreach (DataRow fila in estaciones.Rows) //Agregar las opciones para cada caso
-                    dropDownListConsultaEstacion.Items.Add(new ListItem(fila[2].ToString(), fila[0].ToString())); //Nombre, llave
+                //TODO: descomentar esto, está comentado sólo para pruebas
+                //DataTable estaciones = controladoraDatosGenerales.consultarEstaciones();
+                //foreach (DataRow fila in estaciones.Rows) //Agregar las opciones para cada caso
+                //    dropDownListConsultaEstacion.Items.Add(new ListItem(fila[2].ToString(), fila[0].ToString())); //Nombre, llave
             }
             if (dropDownListConsultaBodega.SelectedItem == null)
             {
@@ -238,6 +236,9 @@ namespace ProyectoInventarioOET
             //facturasConsultadas = controladoraVentas.consultarFacturas(codigoEstacion, codigoBodega, codigoVendedor);
         }
 
+        /*
+         * Invocada al escoger una factura en el grid, se muestran todos los detalles de la misma en campos colocados arriba del grid.
+         */
         protected void cargarDatosFactura(int indiceFilaSeleccionada)
         {
             //facturasConsultadas.Rows[indiceFilaSeleccionada]; //usar el grid así
@@ -295,6 +296,9 @@ namespace ProyectoInventarioOET
             cambiarModo();
         }
 
+        /*
+         * ???
+         */
         protected void botonAceptarCambioUsuario_ServerClick(object sender, EventArgs e)
         {
             // Consulta al usuario
@@ -314,6 +318,5 @@ namespace ProyectoInventarioOET
                 //mostrarMensaje();
             }
         }
-
     }
 }

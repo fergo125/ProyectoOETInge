@@ -211,15 +211,6 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.Panel PanelCrearFactura;
         
         /// <summary>
-        /// Control test.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Table test;
-        
-        /// <summary>
         /// Control dropDownListCrearFacturaEstacion.
         /// </summary>
         /// <remarks>
@@ -238,13 +229,13 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.DropDownList dropDownListCrearFacturaBodega;
         
         /// <summary>
-        /// Control dropDownListCrearFacturaVendedor.
+        /// Control labelCrearFacturaVendedor.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList dropDownListCrearFacturaVendedor;
+        protected global::System.Web.UI.WebControls.Label labelCrearFacturaVendedor;
         
         /// <summary>
         /// Control labelCrearFacturaTipoCambio.

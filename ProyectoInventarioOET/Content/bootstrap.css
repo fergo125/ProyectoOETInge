@@ -6992,6 +6992,9 @@ td.visible-print {
   width: 40%;
   margin-left: auto;
   margin-right: auto;
+  border-collapse: collapse;
+  border: 1px solid;
+  border-color: #000000;
 }
 
 .table-fozkr thead > tr > th,
@@ -7001,9 +7004,7 @@ td.visible-print {
 .table-fozkr tbody > tr > td,
 .table-fozkr tfoot > tr > td {
   text-align: center;
-  border-collapse: collapse;
-  border: 1px solid;
-  border-color: #ffffff;
+  border: none;
 }
 
 /*Used for most of the dropdownlists.*/
