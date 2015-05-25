@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using System.Data;
 
-
 namespace ProyectoInventarioOET.Módulo_Bodegas
 {
     /*
@@ -13,7 +12,7 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
     public class ControladoraBodegas
     {
         //Atributos
-        private ControladoraBDBodegas controladoraBDBodegas;    
+        private ControladoraBDBodegas controladoraBDBodegas;    //???
 
         /*
          * Constructor.

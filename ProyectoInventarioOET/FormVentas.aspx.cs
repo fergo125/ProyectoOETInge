@@ -164,7 +164,9 @@ namespace ProyectoInventarioOET
                     break;
             }
             //TODO: básicamente se obtienen los datos del perfil según cual sea para colocarlos en los dropdownlists de una vez y ahorrarse
-            //viajes a la base de datos trayendo opciones
+            //viajes a la base de datos trayendo opciones.
+            //TODO: también, falta agregar que el usuarioLogueado, su clase entidad, guarde la llave de la bodega a la que está asignado,
+            //esto probablemente requiera agregar el campo a la base de datos.
 
             //Si una dropdownlist no queda con un valor seleccionado (porque el perfil es elevado), entonces sí se cargan opciones
             if(dropDownListConsultaEstacion.SelectedItem == null)
@@ -188,6 +190,7 @@ namespace ProyectoInventarioOET
                 //foreach (DataRow fila in vendedores.Rows) //Agregar las opciones para cada caso
                 //    dropDownListConsultaEstacion.Items.Add(new ListItem(); //Nombre, llave
             }
+            //TODO: agregar bien estas consultas para que cargue las listas de opciones
         }
 
         /*
