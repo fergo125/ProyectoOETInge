@@ -91,37 +91,34 @@
     <asp:Panel ID="PanelCrearFactura" runat="server" Visible="false">
         <table class="table table-fozkr">
             <tr>
-                <td colspan="5">Factura #<asp:Label ID="labelNumeroFactura" runat="server" Text="000001"></asp:Label></td>
-            </tr>
-            <tr>
                 <td colspan="5">Fecha y hora:  <%: DateTime.Now.Date %></td></tr>
             <tr>
                 <td>Estación:</td>
-                <td><asp:DropDownList ID="dropDownListEstaciones" class="input input-fozkr-dropdownlist" runat="server">
-                    <asp:ListItem>La Selva</asp:ListItem>
-                    <asp:ListItem>Las Cruces</asp:ListItem>
-                    <asp:ListItem>Palo Verde</asp:ListItem>
-                    <asp:ListItem>Oficinas centrales</asp:ListItem>
-                    </asp:DropDownList></td>
+                <td>
+                    <asp:Label ID="labelCrearFacturaEstacion" runat="server"></asp:Label>
+                    <%--<asp:DropDownList ID="dropDownListEstaciones" class="input input-fozkr-dropdownlist" runat="server" Enabled="false">
+                    </asp:DropDownList></td>--%>
                 <td></td>
                 <td>Bodega:</td>
-                <td><asp:DropDownList ID="dropDownListBodegas" class="input input-fozkr-dropdownlist" runat="server"></asp:DropDownList></td>
+                <td>
+                    <asp:Label ID="labelCrearFacturaBodega" runat="server"></asp:Label>
+                    <%--<asp:DropDownList ID="dropDownListBodegas" class="input input-fozkr-dropdownlist" runat="server"></asp:DropDownList>--%>
+                </td>
             </tr>
             <tr>
                 <td>Vendedor:</td>
-                <td colspan="4"><asp:DropDownList ID="dropDownListVendedores" class="input input-fozkr-dropdownlist" runat="server" Width="450px"></asp:DropDownList></td>
-            </tr>
-            <tr>
-                <td>Cliente:</td>
-                <td colspan="4"><asp:DropDownList ID="dropDownList2" class="input input-fozkr-dropdownlist" runat="server" Width="450px"></asp:DropDownList></td>
+                <td colspan="4">
+                    <asp:Label ID="labelCrearFacturaVendedor" runat="server"></asp:Label>
+                    <%--<asp:DropDownList ID="dropDownListVendedores" class="input input-fozkr-dropdownlist" runat="server" Width="450px"></asp:DropDownList>--%>
+                </td>
             </tr>
             <tr>
                 <td colspan="4">Productos:</td>
-                <td>Tipo de cambio: <asp:Label ID="labelTipoDeCambio" runat="server" Text="550"></asp:Label></td>
+                <td>Tipo de cambio: <asp:Label ID="labelCrearFacturaTipoCambio" runat="server"></asp:Label></td>
             </tr>
             <tr>
-                <td colspan="4"><asp:DropDownList ID="dropDownList1" class="input input-fozkr-dropdownlist" runat="server" Width="450px"></asp:DropDownList></td>
-                <td><button type="button" id="botonAgregarProducto" class="btn btn-success-fozkr" onserverclick="Page_Load" runat="server">Agregar</button></td>
+                <td colspan="4"><asp:DropDownList ID="dropDownListAgregarProductoFactura" class="input input-fozkr-dropdownlist" runat="server" Width="450px"></asp:DropDownList></td>
+                <td><button type="button" id="botonAgregarProductoFactura" class="btn btn-success-fozkr" onserverclick="Page_Load" runat="server">Agregar</button></td>
             </tr>
             <tr>
                 <td colspan="2">Nombre</td>
@@ -163,6 +160,10 @@
             <tr>
                 <td>Método de pago:</td>
                 <td colspan="4"><asp:DropDownList ID="dropDownListMetodoPago" class="input input-fozkr-dropdownlist" runat="server" Width="450px"></asp:DropDownList></td>
+            </tr>
+            <tr>
+                <td>Cliente:</td>
+                <td colspan="4"><asp:DropDownList ID="dropDownList2" class="input input-fozkr-dropdownlist" runat="server" Width="450px"></asp:DropDownList></td>
             </tr>
             <tr>
                 <td colspan="5">

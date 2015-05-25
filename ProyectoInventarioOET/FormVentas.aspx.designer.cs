@@ -211,76 +211,58 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.Panel PanelCrearFactura;
         
         /// <summary>
-        /// labelNumeroFactura control.
+        /// labelCrearFacturaEstacion control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label labelNumeroFactura;
+        protected global::System.Web.UI.WebControls.Label labelCrearFacturaEstacion;
         
         /// <summary>
-        /// dropDownListEstaciones control.
+        /// labelCrearFacturaBodega control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList dropDownListEstaciones;
+        protected global::System.Web.UI.WebControls.Label labelCrearFacturaBodega;
         
         /// <summary>
-        /// dropDownListBodegas control.
+        /// labelCrearFacturaVendedor control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList dropDownListBodegas;
+        protected global::System.Web.UI.WebControls.Label labelCrearFacturaVendedor;
         
         /// <summary>
-        /// dropDownListVendedores control.
+        /// labelCrearFacturaTipoCambio control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList dropDownListVendedores;
+        protected global::System.Web.UI.WebControls.Label labelCrearFacturaTipoCambio;
         
         /// <summary>
-        /// dropDownList2 control.
+        /// dropDownListAgregarProductoFactura control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList dropDownList2;
+        protected global::System.Web.UI.WebControls.DropDownList dropDownListAgregarProductoFactura;
         
         /// <summary>
-        /// labelTipoDeCambio control.
+        /// botonAgregarProductoFactura control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label labelTipoDeCambio;
-        
-        /// <summary>
-        /// dropDownList1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList dropDownList1;
-        
-        /// <summary>
-        /// botonAgregarProducto control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonAgregarProducto;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonAgregarProductoFactura;
         
         /// <summary>
         /// botonSwitchPrecios control.
@@ -317,6 +299,15 @@ namespace ProyectoInventarioOET {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList dropDownListMetodoPago;
+        
+        /// <summary>
+        /// dropDownList2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList dropDownList2;
         
         /// <summary>
         /// botonCancelarFactura control.
