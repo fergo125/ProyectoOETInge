@@ -17,11 +17,11 @@
     <div>
         <h2 id="TituloVentas" runat="server">Factura</h2>
         <hr />
-    </div>
+    </div> 
 
     <!-- Botones principales -->
     <button runat="server" onserverclick="clickBotonConsultarFacturas" id="botonConsultar" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Consultar Facturas</button>
-    <button runat="server" onserverclick="Page_Load" id="botonCrear" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Crear Factura</button>
+    <button runat="server" onserverclick="clickBotonCrearFactura" id="botonCrear" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Crear Factura</button>
     <button runat="server" onserverclick="Page_Load" id="botonModificar" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Modificar Factura</button>
     <a id="botonAjusteEntrada" accesskey="A" href="#modalAjusteRapido" class="btn btn-info-fozkr" role="button" style="float: right" visible="true" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Ajuste rápido de entrada</a> 
     <a id="botonCambioSesion" accesskey="S" href="#modalCambioSesion" class="btn btn-info-fozkr" role="button" style="float: right" visible="true" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cambio rápido de sesión</a>  
