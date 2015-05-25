@@ -73,40 +73,39 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Función invocada cada vez que se cambia de modo en la interfaz, se encarga de mostrar u ocultar, habilitar o deshabilitar,
+         * elementos visuales, dependiendo del modo al que se está entrando.
          */
         protected void cambiarModo()
         {
+            //Código común (que debe ejecutarse en la mayoría de modos, en la minoría luego es arreglado en el switch)
+            //Reduce un poco la eficiencia, pero simplifica el código bastante
+            botonCambioSesion.Visible = false;      //Estos dos botones sólo deben ser visibles
+            botonAjusteEntrada.Visible = false;     //durante la creación de facturas
+
+            //Código específico para cada modo
             switch (modo)
             {
                 case Modo.Inicial:
                     tituloAccionFacturas.InnerText = "Seleccione una opción";
-                    botonCambioSesion.Visible = false;
-                    botonAjusteEntrada.Visible = false;
                     break;
                 case Modo.Consulta:
                     tituloAccionFacturas.InnerText = "Seleccione filtros para consultar";
                     PanelConsultarFacturas.Visible = true;
-                    botonCambioSesion.Visible = false;
-                    botonAjusteEntrada.Visible = false;
                     break;
                 case Modo.Insercion:
                     tituloAccionFacturas.InnerText = "Ingrese los datos de la nueva factura";
-                    botonCambioSesion.Visible = true;      //Estos dos botones sólo deben ser visibles
-                    botonAjusteEntrada.Visible = true;     //durante la creación de facturas
+                    botonCambioSesion.Visible = true;  //Estos dos botones sólo deben ser visibles
+                    botonAjusteEntrada.Visible = true; //durante la creación de facturas
                     break;
                 case Modo.Modificacion:
                     tituloAccionFacturas.InnerText = "Ingrese los nuevos datos para la factura";
-                    botonCambioSesion.Visible = false;
-                    botonAjusteEntrada.Visible = false;
                     break;
                 case Modo.Consultado:
                     tituloAccionFacturas.InnerText = "Detalles de la factura";
-                    botonCambioSesion.Visible = false;
-                    botonAjusteEntrada.Visible = false;
                     break;
-                default:
-                    //Algo salió mal
+                default:  //Algo salió mal
+                    mostrarMensaje("warning", "Alerta: ", "Error de interfaz, el 'modo' de la interfaz no se ha reconocido: " + modo);
                     break;
             }
         }
@@ -116,7 +115,6 @@ namespace ProyectoInventarioOET
          */
         protected void mostrarMensaje(String tipoAlerta, String alerta, String mensaje)
         {
-
             mensajeAlerta.Attributes["class"] = "alert alert-" + tipoAlerta + " alert-dismissable fade in";
             labelTipoAlerta.Text = alerta + " ";
             labelAlerta.Text = mensaje;
@@ -124,7 +122,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * 
+         * Invocada antes de iniciar operaciones que requieran que los campos no contengan información de ninguna operación previa.
          */
         protected void limpiarCampos()
         {
@@ -133,28 +131,63 @@ namespace ProyectoInventarioOET
             dropDownListConsultaBodega.SelectedValue = null;
             dropDownListConsultaVendedor.SelectedValue = null;
             //Campos de consulta individual
+
             //Campos de creación
+
         }
 
         /*
-         * 
+         * Invocada al entrar en modo de consulta normal, se debe cargar la lista de opciones en cada dropdownlist pero por separado (una vez que
+         * se escoge una opción en una, se pueden cargar las opciones en la siguiente).
          */
         protected void cargarDropdownListsConsulta()
         {
-            //Limpiar
+            //Limpiar la lista de opciones para que no se acumulen
             dropDownListConsultaEstacion.Items.Clear();
             dropDownListConsultaBodega.Items.Clear();
             dropDownListConsultaVendedor.Items.Clear();
-            //Agregar la opción de "Todas"/"Todos"
-            dropDownListConsultaEstacion.Items.Add(new ListItem("Todas"));
-            dropDownListConsultaBodega.Items.Add(new ListItem("Todas"));
-            dropDownListConsultaVendedor.Items.Add(new ListItem("Todos"));
-            //Agregar las opciones
-            DataTable estaciones = controladoraDatosGenerales.consultarEstaciones();
-            DataTable bodegas = controladoraDatosGenerales.consultarEstaciones();
-            DataTable vendedores = controladoraDatosGenerales.consultarEstaciones();
-            foreach (DataRow fila in estaciones.Rows)
-                dropDownListConsultaEstacion.Items.Add(new ListItem(fila[2].ToString(), fila[0].ToString()));
+
+            //Dependiendo del perfil del usuario, puede que en la instancia de usuarioLogueado ya estén guardados los datos por default
+            switch (Convert.ToInt32(codigoPerfilUsuario))
+            {
+                case 4: //Vendedor
+                    //dropDownListConsultaEstacion.Items.Add(new ListItem());
+                    //dropDownListConsultaVendedor.SelectedItem = 
+                case 3: //Supervisor
+                    //dropDownListConsultaBodega.Items.Add(new ListItem());
+                    //dropDownListConsultaBodega.SelectedItem = 
+                case 2: //Administrador local
+                    //dropDownListConsultaVendedor.Items.Add(new ListItem());
+                    //dropDownListConsultaEstacion.SelectedItem = 
+                default:
+                    //Administrador global y cualquier otro, este switch es extendible a más perfiles
+                    break;
+            }
+            //TODO: básicamente se obtienen los datos del perfil según cual sea para colocarlos en los dropdownlists de una vez y ahorrarse
+            //viajes a la base de datos trayendo opciones
+
+            //Si una dropdownlist no queda con un valor seleccionado (porque el perfil es elevado), entonces sí se cargan opciones
+            if(dropDownListConsultaEstacion.SelectedItem == null)
+            {
+                dropDownListConsultaEstacion.Items.Add(new ListItem("Todas")); //Agregar la opción de "Todas"/"Todos" al principio de la lista
+                DataTable estaciones = controladoraDatosGenerales.consultarEstaciones();
+                foreach (DataRow fila in estaciones.Rows) //Agregar las opciones para cada caso
+                    dropDownListConsultaEstacion.Items.Add(new ListItem(fila[2].ToString(), fila[0].ToString())); //Nombre, llave
+            }
+            if (dropDownListConsultaBodega.SelectedItem == null)
+            {
+                dropDownListConsultaBodega.Items.Add(new ListItem("Todas")); //Agregar la opción de "Todas"/"Todos" al principio de la lista
+                //DataTable bodegas = 
+                //foreach (DataRow fila in bodegas.Rows) //Agregar las opciones para cada caso
+                //    dropDownListConsultaEstacion.Items.Add(new ListItem(); //Nombre, llave
+            }
+            if (dropDownListConsultaVendedor.SelectedItem == null)
+            {
+                dropDownListConsultaVendedor.Items.Add(new ListItem("Todos")); //Agregar la opción de "Todas"/"Todos" al principio de la lista
+                //DataTable vendedores = 
+                //foreach (DataRow fila in vendedores.Rows) //Agregar las opciones para cada caso
+                //    dropDownListConsultaEstacion.Items.Add(new ListItem(); //Nombre, llave
+            }
         }
 
         /*
@@ -165,11 +198,11 @@ namespace ProyectoInventarioOET
          */
         protected void llenarGrid()
         {
-            //Importante: estos dropdownlists pueden contener una entidad específica o la palabra "Todas"/"Todos", en el segundo caso se envía "null" para que el sistema sepa lo que significa
-            String estacion = (dropDownListConsultaEstacion.SelectedValue != "Todas" ? dropDownListConsultaEstacion.SelectedValue : null);
-            String bodega = (dropDownListConsultaBodega.SelectedValue != "Todas" ? dropDownListConsultaBodega.SelectedValue : null);
-            String vendedor = (dropDownListConsultaVendedor.SelectedValue != "Todos" ? dropDownListConsultaVendedor.SelectedValue : null);
-            
+            //Importante: estos dropdownlists pueden contener una entidad específica o la palabra "Todas"/"Todos", en el segundo caso se envía "null", la controladora debe entenderlo
+            String codigoEstacion = (dropDownListConsultaEstacion.SelectedValue != "Todas" ? dropDownListConsultaEstacion.SelectedValue : null);
+            String codigoBodega = (dropDownListConsultaBodega.SelectedValue != "Todas" ? dropDownListConsultaBodega.SelectedValue : null);
+            String codigoVendedor = (dropDownListConsultaVendedor.SelectedValue != "Todos" ? dropDownListConsultaVendedor.SelectedValue : null);
+            //TODO: revisar que de los dropdownlists se obtengan las llaves, no los nombres, algo como dropDownList.SelectedItem[1] creo
         }
 
         /*

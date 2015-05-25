@@ -32,7 +32,7 @@
     <h3 id="tituloAccionFacturas" runat="server"></h3>
     <br />
 
-    <!-- Panel consultar facturas -->
+    <!-- Panel para consultar facturas -->
     <asp:Panel ID="PanelConsultarFacturas" runat="server" Visible="false">
         <div class="row" id="bloqueFormulario" runat="server">
             <div class="col-lg-12">
@@ -56,10 +56,14 @@
             </div>
         </div>
     </asp:Panel>
-    <br />
-    <br />
+
+    <!-- Panel para consultar la información específica de una factura después de seleccionarla en el grid -->
+    <asp:Panel ID="PanelConsultarFacturaEspecifica" runat="server" Visible="false">
+    </asp:Panel>
 
     <!-- Panel con el grid de consultar facturas (se mantiene aparte para poder esconder los campos de consulta grupal y mostrar los de consulta individual, sin tocar el grid) -->
+    <br />
+    <br />
     <asp:Panel ID="PanelGridConsultas" runat="server" Visible="false">
         <strong><div ID="tituloGrid" runat="server" tabindex="" class="control-label" style="text-align:center; font-size:larger; background-color: #C0C0C0;">Facturas en el sistema</div></strong>
             <asp:UpdatePanel ID="UpdatePanelFacturas" runat="server">
@@ -177,4 +181,5 @@
             document.getElementById("linkFormVentas").className = "active";
         }
     </script>
+
 </asp:Content>
