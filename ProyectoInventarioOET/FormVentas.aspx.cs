@@ -5,6 +5,7 @@ using System.Data;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+//using ProyectoInventarioOET.App_Code.Módulo_Ventas; //TODO: arreglar esta vara -.-
 using ProyectoInventarioOET.App_Code;
 
 namespace ProyectoInventarioOET
@@ -17,10 +18,12 @@ namespace ProyectoInventarioOET
     {
         enum Modo { Inicial, Consulta, Insercion, Modificacion, Consultado };
         //Atributos
-        private Modo modo = Modo.Inicial;                                //Indica en qué modo se encuentra la interfaz en un momento cualquiera, de éste depende cuáles elementos son visibles
-        private String permisos = "111111";                              //Permisos utilizados para el control de seguridad //TODO: poner en 000000, está en 111111 sólo para pruebas
-        private String codigoPerfilUsuario = "";                         //Indica el perfil del usuario, usado para acciones de seguridad para las cuales la string de permisos no basta
-        private ControladoraDatosGenerales controladoraDatosGenerales;   //Para accesar datos generales de la base de datos
+        private Modo modo = Modo.Inicial;                               //Indica en qué modo se encuentra la interfaz en un momento cualquiera, de éste depende cuáles elementos son visibles
+        private String permisos = "111111";                             //Permisos utilizados para el control de seguridad //TODO: poner en 000000, está en 111111 sólo para pruebas
+        private String codigoPerfilUsuario = "";                        //Indica el perfil del usuario, usado para acciones de seguridad para las cuales la string de permisos no basta
+        private DataTable facturasConsultadas;                          //Usada para llenar el grid y para mostrar los detalles de cada factura específica
+        //private ControladoraVentas controladoraVentas;                  //Para accesar las tablas del módulo y realizar las operaciones de consulta, inserción, modificación y anulación
+        private ControladoraDatosGenerales controladoraDatosGenerales;  //Para accesar datos generales de la base de datos
 
         //Importante:
         //Para el codigoPerfilUsuario (que se usa un poco hard-coded), los números son:
@@ -103,6 +106,7 @@ namespace ProyectoInventarioOET
                     break;
                 case Modo.Consultado:
                     tituloAccionFacturas.InnerText = "Detalles de la factura";
+                    PanelConsultarFacturas.Visible = false;
                     break;
                 default:  //Algo salió mal
                     mostrarMensaje("warning", "Alerta: ", "Error de interfaz, el 'modo' de la interfaz no se ha reconocido: " + modo);
@@ -151,14 +155,20 @@ namespace ProyectoInventarioOET
             switch (Convert.ToInt32(codigoPerfilUsuario))
             {
                 case 4: //Vendedor
-                    //dropDownListConsultaEstacion.Items.Add(new ListItem());
-                    //dropDownListConsultaVendedor.SelectedItem = 
-                case 3: //Supervisor
-                    //dropDownListConsultaBodega.Items.Add(new ListItem());
-                    //dropDownListConsultaBodega.SelectedItem = 
-                case 2: //Administrador local
+                    dropDownListConsultaVendedor.Enabled = false;
                     //dropDownListConsultaVendedor.Items.Add(new ListItem());
+                    //dropDownListConsultaVendedor.SelectedItem = 
+                    goto case 3; //por alguna razón C# no permite fall through
+                case 3: //Supervisor
+                    dropDownListConsultaBodega.Enabled = false;
+                    //dropDownListConsultaBodega.Items.Add(new ListItem());
+                    //dropDownListConsultaBodega.SelectedItem =
+                    goto case 2;  //por alguna razón C# no permite fall through
+                case 2: //Administrador local
+                    dropDownListConsultaEstacion.Enabled = false;
+                    //dropDownListConsultaEstacion.Items.Add(new ListItem());
                     //dropDownListConsultaEstacion.SelectedItem = 
+                    break;
                 default:
                     //Administrador global y cualquier otro, este switch es extendible a más perfiles
                     break;
@@ -206,7 +216,17 @@ namespace ProyectoInventarioOET
             String codigoBodega = (dropDownListConsultaBodega.SelectedValue != "Todas" ? dropDownListConsultaBodega.SelectedValue : null);
             String codigoVendedor = (dropDownListConsultaVendedor.SelectedValue != "Todos" ? dropDownListConsultaVendedor.SelectedValue : null);
             //TODO: revisar que de los dropdownlists se obtengan las llaves, no los nombres, algo como dropDownList.SelectedItem[1] creo
+            
+            //Consultar a la controladora (implementar funciones en las capas inferiores)
+            //facturasConsultadas = controladoraVentas.consultarFacturas(codigoEstacion, codigoBodega, codigoVendedor);
         }
+
+        protected void cargarDatosFactura(int indiceFilaSeleccionada)
+        {
+            //facturasConsultadas.Rows[indiceFilaSeleccionada]; //usar el grid así
+        }
+
+
 
         /*
          *****************************************************************************************************************************************************************************
@@ -231,9 +251,9 @@ namespace ProyectoInventarioOET
          */
         protected void clickBotonEjecutarConsulta(object sender, EventArgs e)
         {
-            tituloAccionFacturas.InnerText = "Seleccione una factura para ver su información detallada";
             llenarGrid();
             PanelGridConsultas.Visible = true;
+            tituloAccionFacturas.InnerText = "Seleccione una factura para ver su información detallada";
         }
 
         /*
@@ -242,7 +262,9 @@ namespace ProyectoInventarioOET
          */
         protected void gridViewFacturas_FilaSeleccionada(object sender, EventArgs e)
         {
-
+            modo = Modo.Consultado;
+            cargarDatosFactura(gridViewFacturas.SelectedIndex);
+            cambiarModo();
         }
     }
 }

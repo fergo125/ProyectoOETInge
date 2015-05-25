@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data;
 
-namespace ProyectoInventarioOET.Módulo_Ventas
+namespace ProyectoInventarioOET.App_Code.Módulo_Ventas
 {
     /*
      * Clase controladora del módulo de Ventas, encargada de la comunicación entre la capa de interfaz y la capa de datos.
@@ -21,7 +21,7 @@ namespace ProyectoInventarioOET.Módulo_Ventas
          */
         public ControladoraVentas()
         {
-            controladoraBDVentas = new controladoraBDVentas();
+            controladoraBDVentas = new ControladoraBDVentas();
         }
     }
 }
