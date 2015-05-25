@@ -23,8 +23,10 @@
     <button runat="server" onserverclick="clickBotonConsultarFacturas" id="botonConsultar" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Consultar Facturas</button>
     <button runat="server" onserverclick="Page_Load" id="botonCrear" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Crear Factura</button>
     <button runat="server" onserverclick="Page_Load" id="botonModificar" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Modificar Factura</button>
-    <button runat="server" onserverclick="Page_Load" id="botonCambioSesion" class="btn btn-info-fozkr" type="button" style="float: right" visible="false"><i></i>Cambio rápido sesión</button>
-    <button runat="server" onserverclick="Page_Load" id="botonAjusteEntrada" class="btn btn-info-fozkr" type="button" style="float: right" visible="false"><i></i>Ajuste rápido inventario</button>
+    <a id="botonAjusteEntrada" accesskey="A" href="#modalAjusteRapido" class="btn btn-info-fozkr" role="button" style="float: right" visible="true" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Ajuste rápido de entrada</a> 
+    <a id="botonCambioSesion" accesskey="S" href="#modalCambioSesion" class="btn btn-info-fozkr" role="button" style="float: right" visible="true" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cambio rápido de sesión</a>  
+    
+    
     <br />
     <br />
 
@@ -183,6 +185,78 @@
         </table>
     </asp:Panel>
     
+    
+     <!--Modal Cambio de sesión-->
+    <div class="modal fade" id="modalCambioSesion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="modalTitleCambioSesion"><i></i>Cambio rápido de sesión</h4>
+                </div>
+
+                <div class="modal-body">
+                    Ingrese las nuevas credenciales de usuario con las que desea utilizar el sistema.
+                </div>
+                
+                <div style="margin-left:30px">
+                        <div style="margin-left:30px; margin-right:70px" class="form-group">
+                            <label for="inputUsername" class= "control-label"> Nombre de usuario: </label>      
+                            <input type="text" id= "inputUsername" runat="server" class="form-control" style="max-width:100%" >
+                        </div>
+
+                     <br />
+                        <div style="margin-left:30px; margin-right:70px" class="form-group">
+                            <label for="inputPassword" class= "control-label"> Contraseña: </label>      
+                            <input type="password" id= "inputPassword" runat="server" class="form-control"  style="max-width:100%" >
+                        </div>
+
+                 </div>
+ 
+                <div class="modal-footer">
+                    <button type="button" id="botonAceptarCambioUsuario" class="btn btn-success-fozkr" onserverclick="botonAceptarCambioUsuario_ServerClick" runat="server">Aceptar</button>
+                    <button type="button" id="botonCancelarCambioUsuario" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
+                </div>
+                
+            
+            </div>
+        </div>
+    </div>
+
+    
+     <!--Modal Ajuste rápido de inventario-->
+    <div class="modal fade" id="modalAjusteRapido" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="modalTitleAjusteInventario"><i></i>Ajuste rápido de inventario</h4>
+                </div>
+
+                <div class="modal-body">
+                    Ingrese los datos con los que desea hacer el ajuste rápido de inventario.
+
+                <!-- Ingresar el producto y la cantidad
+                    Para el producto, hay que poner un grid y una barra de busqueda
+                    -->
+
+
+                 </div>
+ 
+                <div class="modal-footer">
+                    <button type="button" id="botonAceptarAjusteRapido" class="btn btn-success-fozkr" onserverclick="botonAceptarCambioUsuario_ServerClick" runat="server">Aceptar</button>
+                    <button type="button" id="botonCancelarAjusteRapido" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
+                </div>
+                
+            
+            </div>
+        </div>
+    </div>
+
+    
+
+
+
     <!-- Javascript -->
     <!-- Modificar tab de site master activo -->
     <script type = "text/javascript">

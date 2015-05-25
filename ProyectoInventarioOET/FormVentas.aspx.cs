@@ -5,6 +5,7 @@ using System.Data;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using ProyectoInventarioOET.Módulo_Seguridad;
 //using ProyectoInventarioOET.App_Code.Módulo_Ventas; //TODO: arreglar esta vara -.-
 using ProyectoInventarioOET.App_Code;
 
@@ -24,7 +25,7 @@ namespace ProyectoInventarioOET
         private DataTable facturasConsultadas;                          //Usada para llenar el grid y para mostrar los detalles de cada factura específica
         //private ControladoraVentas controladoraVentas;                  //Para accesar las tablas del módulo y realizar las operaciones de consulta, inserción, modificación y anulación
         private ControladoraDatosGenerales controladoraDatosGenerales;  //Para accesar datos generales de la base de datos
-
+        private static ControladoraSeguridad controladoraSeguridad;
         //Importante:
         //Para el codigoPerfilUsuario (que se usa un poco hard-coded), los números son:
         //1. Administrador global
@@ -44,6 +45,7 @@ namespace ProyectoInventarioOET
                 ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
                 //Controladoras
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
+                controladoraSeguridad = new ControladoraSeguridad();
                 //Seguridad
                 //permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Facturacion"); //TODO: descomentar esto, está comentado sólo para pruebas
                 if (permisos == "000000")
@@ -275,5 +277,26 @@ namespace ProyectoInventarioOET
             cargarDatosFactura(gridViewFacturas.SelectedIndex);
             cambiarModo();
         }
+
+        protected void botonAceptarCambioUsuario_ServerClick(object sender, EventArgs e)
+        {
+            // Consulta al usuario
+            EntidadUsuario usuario = controladoraSeguridad.consultarUsuario(inputUsername.Value, inputPassword.Value);
+
+            if (usuario != null)
+            {
+                // Si me retorna un usuario valido
+
+                // Hacer el usuario logueado visible a todas los modulos
+                (this.Master as SiteMaster).Usuario = usuario;
+                // Redirigir a pagina principal
+            }
+            else
+            {
+                // Si no me retorna un usuario valido, advertir
+                //mostrarMensaje();
+            }
+        }
+
     }
 }
