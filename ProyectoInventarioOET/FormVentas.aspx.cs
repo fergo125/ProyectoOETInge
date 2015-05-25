@@ -21,7 +21,7 @@ namespace ProyectoInventarioOET
         //Atributos
         private Modo modo = Modo.Inicial;                               //Indica en qué modo se encuentra la interfaz en un momento cualquiera, de éste depende cuáles elementos son visibles
         private String permisos = "111111";                             //Permisos utilizados para el control de seguridad //TODO: poner en 000000, está en 111111 sólo para pruebas
-        private String codigoPerfilUsuario = "";                        //Indica el perfil del usuario, usado para acciones de seguridad para las cuales la string de permisos no basta
+        private String codigoPerfilUsuario = "1";                       //Indica el perfil del usuario, usado para acciones de seguridad para las cuales la string de permisos no basta //TODO: poner en ""
         private DataTable facturasConsultadas;                          //Usada para llenar el grid y para mostrar los detalles de cada factura específica
         //private ControladoraVentas controladoraVentas;                  //Para accesar las tablas del módulo y realizar las operaciones de consulta, inserción, modificación y anulación
         private ControladoraDatosGenerales controladoraDatosGenerales;  //Para accesar datos generales de la base de datos
@@ -94,6 +94,10 @@ namespace ProyectoInventarioOET
         {
             //Código común (que debe ejecutarse en la mayoría de modos, en la minoría luego es arreglado en el switch)
             //Reduce un poco la eficiencia, pero simplifica el código bastante
+            PanelConsultarFacturas.Visible = false;
+            PanelConsultarFacturaEspecifica.Visible = false;
+            PanelGridConsultas.Visible = false;
+            PanelCrearFactura.Visible = false;
             botonCambioSesion.Visible = false;      //Estos dos botones sólo deben ser visibles
             botonAjusteEntrada.Visible = false;     //durante la creación de facturas
 
@@ -104,11 +108,12 @@ namespace ProyectoInventarioOET
                     tituloAccionFacturas.InnerText = "Seleccione una opción";
                     break;
                 case Modo.Consulta:
-                    tituloAccionFacturas.InnerText = "Seleccione filtros para consultar";
+                    tituloAccionFacturas.InnerText = "Seleccione datos para consultar";
                     PanelConsultarFacturas.Visible = true;
                     break;
                 case Modo.Insercion:
                     tituloAccionFacturas.InnerText = "Ingrese los datos de la nueva factura";
+                    PanelCrearFactura.Visible = true;
                     botonCambioSesion.Visible = true;  //Estos dos botones sólo deben ser visibles
                     botonAjusteEntrada.Visible = true; //durante la creación de facturas
                     break;
@@ -117,7 +122,8 @@ namespace ProyectoInventarioOET
                     break;
                 case Modo.Consultado:
                     tituloAccionFacturas.InnerText = "Detalles de la factura";
-                    PanelConsultarFacturas.Visible = false;
+                    PanelConsultarFacturaEspecifica.Visible = true;
+                    PanelGridConsultas.Visible = true;
                     break;
                 default:  //Algo salió mal
                     mostrarMensaje("warning", "Alerta: ", "Error de interfaz, el 'modo' de la interfaz no se ha reconocido: " + modo);
@@ -265,6 +271,17 @@ namespace ProyectoInventarioOET
             llenarGrid();
             PanelGridConsultas.Visible = true;
             tituloAccionFacturas.InnerText = "Seleccione una factura para ver su información detallada";
+            //Aquí NO se debe inovcar cambiarModo, ya que el modo no cambia
+        }
+
+        /*
+         * Invocada cuando se da click al botón de "Consultar", muestra el grid con los resultados de la consulta.
+         * La interfz se mantiene en modo de consulta.
+         */
+        protected void clickBotonCrearFactura(object sender, EventArgs e)
+        {
+            modo = Modo.Insercion;
+            cambiarModo();
         }
 
         /*
