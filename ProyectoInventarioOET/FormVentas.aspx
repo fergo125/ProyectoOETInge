@@ -4,7 +4,7 @@
     <br />
     <!-- Label para desplegar mensajes -->
     <div>
-        <div id="mensajeAlerta" class="" runat="server" Visible="false" style="margin-left:70%;">
+        <div ID="mensajeAlerta" class="" runat="server" Visible="false" style="margin-left:70%;">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <strong>
                 <asp:Label ID="labelTipoAlerta" runat="server" Text=""></asp:Label>
@@ -15,26 +15,26 @@
 
     <!-- Título del Form -->
     <div>
-        <h2 id="TituloVentas" runat="server">Factura</h2>
+        <h2 ID="TituloVentas" runat="server">Factura</h2>
         <hr />
     </div>
 
     <!-- Botones principales -->
-    <button runat="server" onserverclick="clickBotonConsultarFacturas" id="botonConsultar" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Consultar Facturas</button>
-    <button runat="server" onserverclick="Page_Load" id="botonCrear" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Crear Factura</button>
-    <button runat="server" onserverclick="Page_Load" id="botonModificar" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Modificar Factura</button>
-    <button runat="server" onserverclick="Page_Load" id="botonCambioSesion" class="btn btn-info-fozkr" type="button" style="float: right" visible="false"><i></i>Cambio rápido sesión</button>
-    <button runat="server" onserverclick="Page_Load" id="botonAjusteEntrada" class="btn btn-info-fozkr" type="button" style="float: right" visible="false"><i></i>Ajuste rápido inventario</button>
+    <button runat="server" onserverclick="clickBotonConsultarFacturas" ID="botonConsultar" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Consultar Facturas</button>
+    <button runat="server" onserverclick="clickBotonCrearFactura" ID="botonCrear" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Crear Factura</button>
+    <button runat="server" onserverclick="Page_Load" ID="botonModificar" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Modificar Factura</button>
+    <button runat="server" onserverclick="Page_Load" ID="botonCambioSesion" class="btn btn-info-fozkr" type="button" style="float: right" visible="false"><i></i>Cambio rápido sesión</button>
+    <button runat="server" onserverclick="Page_Load" ID="botonAjusteEntrada" class="btn btn-info-fozkr" type="button" style="float: right" visible="false"><i></i>Ajuste rápido inventario</button>
     <br />
     <br />
 
     <!-- Título de la acción que se está realizando -->
-    <h3 id="tituloAccionFacturas" runat="server"></h3>
+    <h3 ID="tituloAccionFacturas" runat="server"></h3>
     <br />
 
     <!-- Panel para consultar facturas -->
     <asp:Panel ID="PanelConsultarFacturas" runat="server" Visible="false">
-        <div class="row" id="bloqueFormulario" runat="server">
+        <div class="row" ID="bloqueFormulario" runat="server">
             <div class="col-lg-12">
                 <div class="form-group col-lg-3">
                     <label for="ConsultaEstacion" class="control-label">Estacion:</label>    
@@ -49,7 +49,7 @@
                     <asp:DropDownList ID="dropDownListConsultaVendedor" runat="server" class="form-control"></asp:DropDownList>
                 </div>
                 <div class="form-group col-lg-3">
-                    <button runat="server" onserverclick="clickBotonEjecutarConsulta" id="botonEjecutarConsulta" class="btn btn-info-fozkr" type="button" style="float:left; margin-top:9%;">
+                    <button runat="server" onserverclick="clickBotonEjecutarConsulta" ID="botonEjecutarConsulta" class="btn btn-info-fozkr" type="button" style="float:left; margin-top:9%;">
                         <i></i>Consultar
                     </button>
                 </div>
@@ -126,7 +126,7 @@
             <tr>
                 <%--<td colspan="4"><asp:DropDownList ID="dropDownListAgregarProductoFactura" class="input input-fozkr-dropdownlist" runat="server" Width="450px"></asp:DropDownList></td>--%>
                 <asp:TextBox ID="labelCrearFacturaBusquedaProducto" runat="server" Width="450px"></asp:TextBox>
-                <td><button type="button" id="botonAgregarProductoFactura" class="btn btn-success-fozkr" onserverclick="Page_Load" runat="server">Agregar</button></td>
+                <td><button type="button" ID="botonAgregarProductoFactura" class="btn btn-success-fozkr" onserverclick="Page_Load" runat="server">Agregar</button></td>
             </tr>
             <tr>
                 <td colspan="2">Nombre</td>
@@ -136,27 +136,27 @@
             </tr>
             <%--TODO: considerar cambiar la lista de producto por un grid, mucho más fácil de manejar, mayor consistencia, un poco más feo--%>
             <tr>
-                <td colspan="2"><input id="Checkbox1" class="input input-fozkr-check" type="checkbox" />Ejemplo de nombre</td>
-                <td><input id="cantidad1" type="text" class="input input-fozkr-quantity"/></td>
+                <td colspan="2"><input ID="Checkbox1" class="input input-fozkr-check" type="checkbox" />Ejemplo de nombre</td>
+                <td><input ID="cantidad1" type="text" class="input input-fozkr-quantity"/></td>
                 <td>900</td>
                 <td></td>
             </tr>
             <tr>
-                <td colspan="2"><input id="Checkbox2" class="input input-fozkr-check" type="checkbox" />Ejemplo de nombre</td>
-                <td><input id="cantidad2" type="text" class="input input-fozkr-quantity"/></td>
+                <td colspan="2"><input ID="Checkbox2" class="input input-fozkr-check" type="checkbox" />Ejemplo de nombre</td>
+                <td><input ID="cantidad2" type="text" class="input input-fozkr-quantity"/></td>
                 <td>1,000</td>
                 <td></td>
             </tr>
             <tr>
-                <td colspan="2"><input id="Checkbox3" class="input input-fozkr-check" type="checkbox" />Ejemplo de nombre</td>
-                <td><input id="cantidad3" type="text" class="input input-fozkr-quantity"/></td>
+                <td colspan="2"><input ID="Checkbox3" class="input input-fozkr-check" type="checkbox" />Ejemplo de nombre</td>
+                <td><input ID="cantidad3" type="text" class="input input-fozkr-quantity"/></td>
                 <td>10,000</td>
                 <td></td>
             </tr>
             <tr>
                 <td colspan="5">
-                    <button type="button" id="Button2" class="btn btn-danger-fozkr" href="#modalCancelarFactura" data-toggle="modal" style="float: left" runat="server">Quitar producto</button>
-                    <button type="button" id="Button1" class="btn btn-warning-fozkr" onserverclick="Page_Load" style="float: left" runat="server">Aplicar descuento</button>
+                    <button type="button" ID="Button2" class="btn btn-danger-fozkr" href="#modalCancelarFactura" data-toggle="modal" style="float: left" runat="server">Quitar producto</button>
+                    <button type="button" ID="Button1" class="btn btn-warning-fozkr" onserverclick="Page_Load" style="float: left" runat="server">Aplicar descuento</button>
                 </td>
             </tr>
             <tr>
@@ -176,8 +176,8 @@
             </tr>
             <tr>
                 <td colspan="5">
-                    <button type="button" id="botonCancelarFactura" class="btn btn-danger-fozkr" href="#modalCancelarFactura" data-toggle="modal" style="float: right" runat="server">Cancelar</button>
-                    <button type="button" id="botonGuardarFactura" class="btn btn-success-fozkr" onserverclick="Page_Load" style="float: right" runat="server">Guardar</button>
+                    <button type="button" ID="botonCancelarFactura" class="btn btn-danger-fozkr" href="#modalCancelarFactura" data-toggle="modal" style="float: right" runat="server">Cancelar</button>
+                    <button type="button" ID="botonGuardarFactura" class="btn btn-success-fozkr" onserverclick="Page_Load" style="float: right" runat="server">Guardar</button>
                 </td>
             </tr>
         </table>
