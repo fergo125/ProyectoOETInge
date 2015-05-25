@@ -211,31 +211,40 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.Panel PanelCrearFactura;
         
         /// <summary>
-        /// labelCrearFacturaEstacion control.
+        /// test control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label labelCrearFacturaEstacion;
+        protected global::System.Web.UI.WebControls.Table test;
         
         /// <summary>
-        /// labelCrearFacturaBodega control.
+        /// dropDownListCrearFacturaEstacion control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label labelCrearFacturaBodega;
+        protected global::System.Web.UI.WebControls.DropDownList dropDownListCrearFacturaEstacion;
         
         /// <summary>
-        /// labelCrearFacturaVendedor control.
+        /// dropDownListCrearFacturaBodega control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label labelCrearFacturaVendedor;
+        protected global::System.Web.UI.WebControls.DropDownList dropDownListCrearFacturaBodega;
+        
+        /// <summary>
+        /// dropDownListCrearFacturaVendedor control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList dropDownListCrearFacturaVendedor;
         
         /// <summary>
         /// labelCrearFacturaTipoCambio control.
@@ -247,13 +256,13 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.Label labelCrearFacturaTipoCambio;
         
         /// <summary>
-        /// dropDownListAgregarProductoFactura control.
+        /// labelCrearFacturaBusquedaProducto control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList dropDownListAgregarProductoFactura;
+        protected global::System.Web.UI.WebControls.TextBox labelCrearFacturaBusquedaProducto;
         
         /// <summary>
         /// botonAgregarProductoFactura control.

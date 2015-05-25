@@ -89,27 +89,34 @@
 
     <!-- Panel crear factura -->
     <asp:Panel ID="PanelCrearFactura" runat="server" Visible="false">
+                                            <!-- Para pruebas, quitar despues -->
+                                            <asp:Table ID="test" runat="server">
+                                                <asp:TableRow>
+                                                    <asp:TableCell>Prueba</asp:TableCell>
+                                                    <asp:TableCell>de tabla</asp:TableCell>
+                                                    <asp:TableCell>ASP</asp:TableCell>
+                                                </asp:TableRow>
+                                                <asp:TableRow>
+                                                    <asp:TableCell ColumnSpan="3">para dinamismo</asp:TableCell>
+                                                </asp:TableRow>
+                                            </asp:Table>
         <table class="table table-fozkr">
             <tr>
                 <td colspan="5">Fecha y hora:  <%: DateTime.Now.Date %></td></tr>
             <tr>
                 <td>Estación:</td>
                 <td>
-                    <asp:Label ID="labelCrearFacturaEstacion" runat="server"></asp:Label>
-                    <%--<asp:DropDownList ID="dropDownListEstaciones" class="input input-fozkr-dropdownlist" runat="server" Enabled="false">
-                    </asp:DropDownList></td>--%>
+                    <asp:DropDownList ID="dropDownListCrearFacturaEstacion" class="input input-fozkr-dropdownlist" runat="server" Enabled="false"></asp:DropDownList></td>
                 <td></td>
                 <td>Bodega:</td>
                 <td>
-                    <asp:Label ID="labelCrearFacturaBodega" runat="server"></asp:Label>
-                    <%--<asp:DropDownList ID="dropDownListBodegas" class="input input-fozkr-dropdownlist" runat="server"></asp:DropDownList>--%>
+                    <asp:DropDownList ID="dropDownListCrearFacturaBodega" class="input input-fozkr-dropdownlist" runat="server"></asp:DropDownList>
                 </td>
             </tr>
             <tr>
                 <td>Vendedor:</td>
                 <td colspan="4">
-                    <asp:Label ID="labelCrearFacturaVendedor" runat="server"></asp:Label>
-                    <%--<asp:DropDownList ID="dropDownListVendedores" class="input input-fozkr-dropdownlist" runat="server" Width="450px"></asp:DropDownList>--%>
+                    <asp:DropDownList ID="dropDownListCrearFacturaVendedor" class="input input-fozkr-dropdownlist" runat="server" Width="450px"></asp:DropDownList>
                 </td>
             </tr>
             <tr>
@@ -117,7 +124,8 @@
                 <td>Tipo de cambio: <asp:Label ID="labelCrearFacturaTipoCambio" runat="server"></asp:Label></td>
             </tr>
             <tr>
-                <td colspan="4"><asp:DropDownList ID="dropDownListAgregarProductoFactura" class="input input-fozkr-dropdownlist" runat="server" Width="450px"></asp:DropDownList></td>
+                <%--<td colspan="4"><asp:DropDownList ID="dropDownListAgregarProductoFactura" class="input input-fozkr-dropdownlist" runat="server" Width="450px"></asp:DropDownList></td>--%>
+                <asp:TextBox ID="labelCrearFacturaBusquedaProducto" runat="server" Width="450px"></asp:TextBox>
                 <td><button type="button" id="botonAgregarProductoFactura" class="btn btn-success-fozkr" onserverclick="Page_Load" runat="server">Agregar</button></td>
             </tr>
             <tr>
@@ -126,6 +134,7 @@
                 <td>Precio <asp:Button ID="botonSwitchPrecios" class="btn" runat="server" Text="₡/$" /></td>
                 <td>Descuento</td>
             </tr>
+            <%--TODO: considerar cambiar la lista de producto por un grid, mucho más fácil de manejar, mayor consistencia, un poco más feo--%>
             <tr>
                 <td colspan="2"><input id="Checkbox1" class="input input-fozkr-check" type="checkbox" />Ejemplo de nombre</td>
                 <td><input id="cantidad1" type="text" class="input input-fozkr-quantity"/></td>
