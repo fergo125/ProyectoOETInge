@@ -5,6 +5,7 @@ using System.Data;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using ProyectoInventarioOET.Módulo_Seguridad;
 //using ProyectoInventarioOET.App_Code.Módulo_Ventas; //TODO: arreglar esta vara -.-
 using ProyectoInventarioOET.App_Code;
 
@@ -20,11 +21,11 @@ namespace ProyectoInventarioOET
         //Atributos
         private Modo modo = Modo.Inicial;                               //Indica en qué modo se encuentra la interfaz en un momento cualquiera, de éste depende cuáles elementos son visibles
         private String permisos = "111111";                             //Permisos utilizados para el control de seguridad //TODO: poner en 000000, está en 111111 sólo para pruebas
-        private String codigoPerfilUsuario = "";                        //Indica el perfil del usuario, usado para acciones de seguridad para las cuales la string de permisos no basta
+        private String codigoPerfilUsuario = "1";                       //Indica el perfil del usuario, usado para acciones de seguridad para las cuales la string de permisos no basta //TODO: poner en ""
         private DataTable facturasConsultadas;                          //Usada para llenar el grid y para mostrar los detalles de cada factura específica
         //private ControladoraVentas controladoraVentas;                  //Para accesar las tablas del módulo y realizar las operaciones de consulta, inserción, modificación y anulación
         private ControladoraDatosGenerales controladoraDatosGenerales;  //Para accesar datos generales de la base de datos
-
+        private static ControladoraSeguridad controladoraSeguridad;     //???
         //Importante:
         //Para el codigoPerfilUsuario (que se usa un poco hard-coded), los números son:
         //1. Administrador global
@@ -44,6 +45,7 @@ namespace ProyectoInventarioOET
                 ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
                 //Controladoras
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
+                controladoraSeguridad = new ControladoraSeguridad();
                 //Seguridad
                 //permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Facturacion"); //TODO: descomentar esto, está comentado sólo para pruebas
                 if (permisos == "000000")
@@ -56,6 +58,7 @@ namespace ProyectoInventarioOET
             {
             }
             //cambiarModo();
+            //código para probar algo
             //TableRow row = new TableRow();
             //TableCell cell1 = new TableCell();
             //cell1.Text = "blah blah blah";
@@ -77,9 +80,9 @@ namespace ProyectoInventarioOET
             botonCrear.Visible = (permisos[4] == '1');
             botonModificar.Visible = (permisos[3] == '1');
             //Dropdownlists
-            dropDownListConsultaEstacion.Enabled = (codigoPerfilUsuario == "1");    //Sólo si es administrador global puede escoger una estación
-            dropDownListConsultaBodega.Enabled = (codigoPerfilUsuario == "2");      //Sólo si es administrador local puede escoger una bodega
-            dropDownListConsultaVendedor.Enabled = (codigoPerfilUsuario == "3");    //Sólo si es supervisor puede escoger un vendedor
+            dropDownListConsultaEstacion.Enabled = (Convert.ToInt32(codigoPerfilUsuario) <= 1);    //Sólo si es administrador global, puede escoger una estación
+            dropDownListConsultaBodega.Enabled = (Convert.ToInt32(codigoPerfilUsuario) <= 2);      //Sólo si es administrador global, o administrador local, puede escoger una bodega
+            dropDownListConsultaVendedor.Enabled = (Convert.ToInt32(codigoPerfilUsuario) <= 3);    //Sólo si es administrador global, o administrador local, o supervisor, puede escoger un vendedor
             //dropdownEstado.Enabled = (permisos[2] == '1');
         }
 
@@ -91,6 +94,10 @@ namespace ProyectoInventarioOET
         {
             //Código común (que debe ejecutarse en la mayoría de modos, en la minoría luego es arreglado en el switch)
             //Reduce un poco la eficiencia, pero simplifica el código bastante
+            PanelConsultarFacturas.Visible = false;
+            PanelConsultarFacturaEspecifica.Visible = false;
+            PanelGridConsultas.Visible = false;
+            PanelCrearFactura.Visible = false;
             botonCambioSesion.Visible = false;      //Estos dos botones sólo deben ser visibles
             botonAjusteEntrada.Visible = false;     //durante la creación de facturas
 
@@ -101,11 +108,12 @@ namespace ProyectoInventarioOET
                     tituloAccionFacturas.InnerText = "Seleccione una opción";
                     break;
                 case Modo.Consulta:
-                    tituloAccionFacturas.InnerText = "Seleccione filtros para consultar";
+                    tituloAccionFacturas.InnerText = "Seleccione datos para consultar";
                     PanelConsultarFacturas.Visible = true;
                     break;
                 case Modo.Insercion:
                     tituloAccionFacturas.InnerText = "Ingrese los datos de la nueva factura";
+                    PanelCrearFactura.Visible = true;
                     botonCambioSesion.Visible = true;  //Estos dos botones sólo deben ser visibles
                     botonAjusteEntrada.Visible = true; //durante la creación de facturas
                     break;
@@ -114,7 +122,8 @@ namespace ProyectoInventarioOET
                     break;
                 case Modo.Consultado:
                     tituloAccionFacturas.InnerText = "Detalles de la factura";
-                    PanelConsultarFacturas.Visible = false;
+                    PanelConsultarFacturaEspecifica.Visible = true;
+                    PanelGridConsultas.Visible = true;
                     break;
                 default:  //Algo salió mal
                     mostrarMensaje("warning", "Alerta: ", "Error de interfaz, el 'modo' de la interfaz no se ha reconocido: " + modo);
@@ -163,17 +172,14 @@ namespace ProyectoInventarioOET
             switch (Convert.ToInt32(codigoPerfilUsuario))
             {
                 case 4: //Vendedor
-                    dropDownListConsultaVendedor.Enabled = false;
                     //dropDownListConsultaVendedor.Items.Add(new ListItem());
                     //dropDownListConsultaVendedor.SelectedItem = 
                     goto case 3; //por alguna razón C# no permite fall through
                 case 3: //Supervisor
-                    dropDownListConsultaBodega.Enabled = false;
                     //dropDownListConsultaBodega.Items.Add(new ListItem());
                     //dropDownListConsultaBodega.SelectedItem =
                     goto case 2;  //por alguna razón C# no permite fall through
                 case 2: //Administrador local
-                    dropDownListConsultaEstacion.Enabled = false;
                     //dropDownListConsultaEstacion.Items.Add(new ListItem());
                     //dropDownListConsultaEstacion.SelectedItem = 
                     break;
@@ -190,9 +196,10 @@ namespace ProyectoInventarioOET
             if(dropDownListConsultaEstacion.SelectedItem == null)
             {
                 dropDownListConsultaEstacion.Items.Add(new ListItem("Todas")); //Agregar la opción de "Todas"/"Todos" al principio de la lista
-                DataTable estaciones = controladoraDatosGenerales.consultarEstaciones();
-                foreach (DataRow fila in estaciones.Rows) //Agregar las opciones para cada caso
-                    dropDownListConsultaEstacion.Items.Add(new ListItem(fila[2].ToString(), fila[0].ToString())); //Nombre, llave
+                //TODO: descomentar esto, está comentado sólo para pruebas
+                //DataTable estaciones = controladoraDatosGenerales.consultarEstaciones();
+                //foreach (DataRow fila in estaciones.Rows) //Agregar las opciones para cada caso
+                //    dropDownListConsultaEstacion.Items.Add(new ListItem(fila[2].ToString(), fila[0].ToString())); //Nombre, llave
             }
             if (dropDownListConsultaBodega.SelectedItem == null)
             {
@@ -229,6 +236,9 @@ namespace ProyectoInventarioOET
             //facturasConsultadas = controladoraVentas.consultarFacturas(codigoEstacion, codigoBodega, codigoVendedor);
         }
 
+        /*
+         * Invocada al escoger una factura en el grid, se muestran todos los detalles de la misma en campos colocados arriba del grid.
+         */
         protected void cargarDatosFactura(int indiceFilaSeleccionada)
         {
             //facturasConsultadas.Rows[indiceFilaSeleccionada]; //usar el grid así
@@ -262,6 +272,17 @@ namespace ProyectoInventarioOET
             llenarGrid();
             PanelGridConsultas.Visible = true;
             tituloAccionFacturas.InnerText = "Seleccione una factura para ver su información detallada";
+            //Aquí NO se debe inovcar cambiarModo, ya que el modo no cambia
+        }
+
+        /*
+         * Invocada cuando se da click al botón de "Consultar", muestra el grid con los resultados de la consulta.
+         * La interfz se mantiene en modo de consulta.
+         */
+        protected void clickBotonCrearFactura(object sender, EventArgs e)
+        {
+            modo = Modo.Insercion;
+            cambiarModo();
         }
 
         /*
@@ -273,6 +294,29 @@ namespace ProyectoInventarioOET
             modo = Modo.Consultado;
             cargarDatosFactura(gridViewFacturas.SelectedIndex);
             cambiarModo();
+        }
+
+        /*
+         * ???
+         */
+        protected void botonAceptarCambioUsuario_ServerClick(object sender, EventArgs e)
+        {
+            // Consulta al usuario
+            EntidadUsuario usuario = controladoraSeguridad.consultarUsuario(inputUsername.Value, inputPassword.Value);
+
+            if (usuario != null)
+            {
+                // Si me retorna un usuario valido
+
+                // Hacer el usuario logueado visible a todas los modulos
+                (this.Master as SiteMaster).Usuario = usuario;
+                // Redirigir a pagina principal
+            }
+            else
+            {
+                // Si no me retorna un usuario valido, advertir
+                //mostrarMensaje();
+            }
         }
     }
 }

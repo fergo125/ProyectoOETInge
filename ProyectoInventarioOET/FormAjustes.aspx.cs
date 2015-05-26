@@ -165,18 +165,29 @@ namespace ProyectoInventarioOET
             this.dropdownTipo.SelectedValue = ajusteConsultado.IdTipoAjuste;
             this.outputUsuario.Value = ajusteConsultado.Usuario;
             this.outputFecha.Value = ajusteConsultado.Fecha.ToString();
-            this.TextArea1.Value = ajusteConsultado.Notas;
+            this.inputNotas.Text = ajusteConsultado.Notas;
 
             // Manejo grid
             DataTable tabla = tablaProductoConsulta();
             Object[] datos = new Object[3];
-            foreach( EntidadDetalles elemento in ajusteConsultado.Detalles )
+            if (ajusteConsultado.Detalles.Count > 0)
             {
-                datos[0] = elemento.NombreProducto;
-                datos[1] = elemento.Codigo;
-                datos[2] = elemento.Cambio;
+                foreach (EntidadDetalles elemento in ajusteConsultado.Detalles)
+                {
+                    datos[0] = elemento.NombreProducto;
+                    datos[1] = elemento.Codigo;
+                    datos[2] = elemento.Cambio;
+                    tabla.Rows.Add(datos);
+                }
+            }
+            else
+            {
+                datos[0] = "-";
+                datos[1] = "-";
+                datos[2] = 0;
                 tabla.Rows.Add(datos);
             }
+            
 
             gridViewProductos.DataSource = tabla;
             gridViewProductos.DataBind();
@@ -190,6 +201,7 @@ namespace ProyectoInventarioOET
         {
             dropdownTipo.SelectedValue = null;
             vaciarGridProductos();
+            inputNotas.Text = "";
         }
 
         /*
@@ -198,6 +210,7 @@ namespace ProyectoInventarioOET
         protected void habilitarCampos(bool habilitar)
         {
             this.dropdownTipo.Enabled = habilitar;
+            this.inputNotas.Enabled = habilitar;
             // Habilitar/Desabilitar botones de grid
         }
 
@@ -619,13 +632,57 @@ namespace ProyectoInventarioOET
             }
         }
 
+        /*
+         * Esto maneja la inserción de datos
+         */
+        protected String insertar()
+        {
+            String codigo = "";
+            /*
+            Object[] bodega = obtenerDatosBodega();
+            EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
+            String idUsuario = usuarioActual.Codigo;
+            String rol = usuarioActual.Perfil;
+            String[] error = controladoraBodegas.insertarDatos(bodega, idUsuario, rol);
+
+            codigo = Convert.ToString(error[3]);
+            mostrarMensaje(error[0], error[1], error[2]);
+            if (error[0].Contains("success"))
+            {
+                llenarGrid();
+            }
+            else
+            {
+                codigo = "";
+                modo = (int)Modo.Insercion;
+            }
+            */
+            return codigo;
+        }
+
 
         /*
          * Este método confirma inserción de ajustes.
          */
         protected void botonAceptarAjustes_ServerClick(object sender, EventArgs e)
         {
+            Boolean operacionCorrecta = true;
+            String codigoInsertado = "";
 
+            if (modo == (int)Modo.Insercion)
+            {
+                codigoInsertado = insertar();
+
+                if (codigoInsertado != "")
+                {
+                    operacionCorrecta = true;
+                    ajusteConsultado = controladoraAjustes.consultarAjuste(codigoInsertado);
+                    modo = (int)Modo.Consultado;
+                    habilitarCampos(false);
+                }
+                else
+                    operacionCorrecta = false;
+            }
         }
 
         /*
@@ -638,7 +695,7 @@ namespace ProyectoInventarioOET
             modo = (int)Modo.Inicial;
             cambiarModo();
             limpiarCampos();
-            //ajusteConsultado = null;
+            ajusteConsultado = null;
         }
 
         protected void gridViewAgregarProductos_CambioPagina(Object sender, GridViewPageEventArgs e)

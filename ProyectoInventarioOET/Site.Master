@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%: Page.Title %> - SIOET</title>
+    <title><%: Page.Title %> - SIO</title>
 
     <asp:PlaceHolder runat="server">
         <%: Scripts.Render("~/bundles/modernizr") %>
@@ -99,7 +99,7 @@
                     <%-- Login --%>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a runat="server" id="linkIniciarSesion" href="~/FormLogin">Iniciar sesión</a></li>
-                        <li><a runat="server" id="linkNombreUsuarioLogueado" href="~/" visible="false" title="Datos personales"></a></li>
+                        <li><a runat="server" id="linkNombreUsuarioLogueado" href="~/FormLoginBodega" visible="false" title="Datos personales"></a></li>
                         <li onclick="cambiarSesion"><a runat="server" id="linkCambiarSesion" onServerClick="cerrarSesion" href="~/FormLogin" visible="false">Cambiar sesión</a></li>
                     </ul>
                     <%--<asp:LoginView runat="server" ViewStateMode="Disabled">

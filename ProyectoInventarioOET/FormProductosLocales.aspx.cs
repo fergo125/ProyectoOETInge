@@ -62,6 +62,10 @@ namespace ProyectoInventarioOET
          */
         protected void mostrarBotonesSegunPermisos()
         {
+            if (permisos == null)
+            {
+                permisos = "000000";
+            }
             botonConsultarBodega.Visible = (permisos[5] == '1');
             botonAsociarBodega.Visible = (permisos[4] == '1');
             botonModificarProductoLocal.Visible = (permisos[3] == '1');

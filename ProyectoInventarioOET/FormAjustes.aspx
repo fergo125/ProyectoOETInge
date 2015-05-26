@@ -49,7 +49,7 @@
             </div>
         </div>
         <div class="col-lg-12">
-            <textarea id="TextArea1" cols="20" rows="2" runat="server"></textarea>
+            <asp:TextBox ID="inputNotas" runat="server" Rows="3" Width="100%" TextMode="MultiLine" style="resize:none"></asp:TextBox>
         </div>
     </fieldset>
     <!-- Fin del fieldset-->
