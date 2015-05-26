@@ -56,14 +56,14 @@ namespace ProyectoInventarioOET
             {
             }
             //cambiarModo();
-            TableRow row = new TableRow();
-            TableCell cell1 = new TableCell();
-            cell1.Text = "blah blah blah";
-            row.Cells.Add(cell1);
-            test.Rows.Add(row);
-            HtmlTableRow row = new HtmlTableRow();
-            row.Cells.Add(new HtmlTableCell());
-            estructuraFactura.Rows.Add(row);
+            //TableRow row = new TableRow();
+            //TableCell cell1 = new TableCell();
+            //cell1.Text = "blah blah blah";
+            //row.Cells.Add(cell1);
+            //test.Rows.Add(row);
+            //HtmlTableRow row = new HtmlTableRow();
+            //row.Cells.Add(new HtmlTableCell());
+            //estructuraFactura.Rows.Add(row);
         }
 
         /*
