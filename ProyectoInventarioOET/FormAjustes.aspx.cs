@@ -165,7 +165,7 @@ namespace ProyectoInventarioOET
             this.dropdownTipo.SelectedValue = ajusteConsultado.IdTipoAjuste;
             this.outputUsuario.Value = ajusteConsultado.Usuario;
             this.outputFecha.Value = ajusteConsultado.Fecha.ToString();
-            this.TextArea1.Value = ajusteConsultado.Notas;
+            this.inputNotas.Text = ajusteConsultado.Notas;
 
             // Manejo grid
             DataTable tabla = tablaProductoConsulta();
@@ -190,6 +190,7 @@ namespace ProyectoInventarioOET
         {
             dropdownTipo.SelectedValue = null;
             vaciarGridProductos();
+            inputNotas.Text = "";
         }
 
         /*
@@ -198,6 +199,7 @@ namespace ProyectoInventarioOET
         protected void habilitarCampos(bool habilitar)
         {
             this.dropdownTipo.Enabled = habilitar;
+            this.inputNotas.Enabled = habilitar;
             // Habilitar/Desabilitar botones de grid
         }
 
@@ -638,7 +640,7 @@ namespace ProyectoInventarioOET
             modo = (int)Modo.Inicial;
             cambiarModo();
             limpiarCampos();
-            //ajusteConsultado = null;
+            ajusteConsultado = null;
         }
 
         protected void gridViewAgregarProductos_CambioPagina(Object sender, GridViewPageEventArgs e)
