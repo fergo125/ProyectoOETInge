@@ -659,7 +659,20 @@ namespace ProyectoInventarioOET
             String codigo = "";
             Object[] ajuste = obtenerDatosAjuste();
             EntidadAjustes nueva = new EntidadAjustes(ajuste);
+
             // Agregar detalles a entidad
+
+            int i = 0;
+            foreach( DataRow row in tablaProductos.Rows )
+            {
+                ajuste = new Object[4];
+                ajuste[0] = ajuste[1] = "";
+                ajuste[2] = row["Ajuste de cambio"];
+                ajuste[3] = idArrayProductos[i];
+                nueva.agregarDetalle(ajuste);
+                ++i;
+            }
+
             String[] error = controladoraAjustes.insertarAjuste(nueva);
 
             codigo = Convert.ToString(error[3]);
