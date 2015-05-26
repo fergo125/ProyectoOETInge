@@ -632,13 +632,57 @@ namespace ProyectoInventarioOET
             }
         }
 
+        /*
+         * Esto maneja la inserción de datos
+         */
+        protected String insertar()
+        {
+            String codigo = "";
+            /*
+            Object[] bodega = obtenerDatosBodega();
+            EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
+            String idUsuario = usuarioActual.Codigo;
+            String rol = usuarioActual.Perfil;
+            String[] error = controladoraBodegas.insertarDatos(bodega, idUsuario, rol);
+
+            codigo = Convert.ToString(error[3]);
+            mostrarMensaje(error[0], error[1], error[2]);
+            if (error[0].Contains("success"))
+            {
+                llenarGrid();
+            }
+            else
+            {
+                codigo = "";
+                modo = (int)Modo.Insercion;
+            }
+            */
+            return codigo;
+        }
+
 
         /*
          * Este método confirma inserción de ajustes.
          */
         protected void botonAceptarAjustes_ServerClick(object sender, EventArgs e)
         {
+            Boolean operacionCorrecta = true;
+            String codigoInsertado = "";
 
+            if (modo == (int)Modo.Insercion)
+            {
+                codigoInsertado = insertar();
+
+                if (codigoInsertado != "")
+                {
+                    operacionCorrecta = true;
+                    ajusteConsultado = controladoraAjustes.consultarAjuste(codigoInsertado);
+                    modo = (int)Modo.Consultado;
+                    habilitarCampos(false);
+                }
+                else
+                    operacionCorrecta = false;
+            }
         }
 
         /*
