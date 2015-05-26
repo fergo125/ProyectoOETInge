@@ -240,7 +240,7 @@ namespace ProyectoInventarioOET
                 // Cargar bodegas
                 Object[] datos = new Object[3];
 
-                DataTable ajustes = controladoraAjustes.consultarAjustes("PITAN129012015101713605001");
+                DataTable ajustes = controladoraAjustes.consultarAjustes((this.Master as SiteMaster).LlaveBodegaSesion);
 
                 if (ajustes.Rows.Count > 0)
                 {
@@ -294,7 +294,7 @@ namespace ProyectoInventarioOET
                 Object[] datos = new Object[5];
 
 
-                DataTable productos = controladoraAjustes.consultarProductosDeBodega("PITAN129012015101713605001");
+                DataTable productos = controladoraAjustes.consultarProductosDeBodega((this.Master as SiteMaster).LlaveBodegaSesion);
 
                 if (productos.Rows.Count > 0)
                 {
@@ -498,8 +498,9 @@ namespace ProyectoInventarioOET
             llenarGridAgregarProductos();
             vaciarGridProductos();
             cargarTipos();
-            // Mostrar nombre de usuario logueado, mientras...
-            outputUsuario.Value = "Emrakul, the Aeons Torn";
+            if( (this.Master as SiteMaster).Usuario != null )
+                outputUsuario.Value = (this.Master as SiteMaster).Usuario.Nombre;
+            outputBodega.Value = (this.Master as SiteMaster).NombreBodegaSesion;
             outputFecha.Value = DateTime.Now.ToString();
             // Creo que falta cargar cosas
         }
