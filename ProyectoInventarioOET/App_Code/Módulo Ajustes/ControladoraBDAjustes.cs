@@ -48,7 +48,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
                    + " FROM " + esquema + "AJUSTES AJ, " + esquema + "SEG_USUARIO U, " + esquema + "CAT_TIPO_MOVIMIENTO M"
                    + " WHERE AJ.USUARIO_BODEGA = U.SEG_USUARIO "
                    + " AND AJ.CAT_TIPO_MOVIMIENTO = M.CAT_TIPO_MOVIMIENTO"
-                   + " AND AJ.IDBODEGA = '" + idBodega +"' ";
+                   + " AND AJ.IDBODEGA = '" + idBodega +"' ORDER BY AJ.FECHA DESC";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
             }
@@ -121,7 +121,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
                     OracleCommand command = conexionBD.CreateCommand();
                     command.CommandText = "INSERT INTO " + esquema + 
                                            "AJUSTES (ID_AJUSTES, CAT_TIPO_MOVIMIENTO, FECHA, USUARIO_BODEGA, IDBODEGA, NOTAS) VALUES ('"
-                                            + res[3] + "','" + ajuste.IdTipoAjuste + "','" + DateTime.Now.ToString("dd:MMM:yy") + "' , '"
+                                            + res[3] + "','" + ajuste.IdTipoAjuste + "', TO_DATE('" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "',  'dd/mm/yyyy hh24:mi:ss') , '"
                                             + ajuste.IdUsuario  + "','" + ajuste.IdBodega + "' , '" + ajuste.Notas + "' )";
                     OracleDataReader reader = command.ExecuteReader();
                     

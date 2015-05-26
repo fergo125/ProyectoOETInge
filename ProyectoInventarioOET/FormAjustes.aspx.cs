@@ -199,7 +199,8 @@ namespace ProyectoInventarioOET
          */
         protected void limpiarCampos()
         {
-            dropdownTipo.SelectedValue = null;
+            if (dropdownTipo.Items.Count > 0)
+                dropdownTipo.SelectedIndex = 0;
             vaciarGridProductos();
             inputNotas.Text = "";
         }
@@ -485,6 +486,7 @@ namespace ProyectoInventarioOET
             {
                 dropdownTipo.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
             }
+            dropdownTipo.SelectedIndex = 0;
         }
 
 
@@ -495,6 +497,7 @@ namespace ProyectoInventarioOET
         {
             modo = (int)Modo.Insercion;
             cambiarModo();
+            limpiarCampos();
             llenarGridAgregarProductos();
             vaciarGridProductos();
             cargarTipos();
@@ -502,7 +505,6 @@ namespace ProyectoInventarioOET
                 outputUsuario.Value = (this.Master as SiteMaster).Usuario.Nombre;
             outputBodega.Value = (this.Master as SiteMaster).NombreBodegaSesion;
             outputFecha.Value = DateTime.Now.ToString();
-            // Creo que falta cargar cosas
         }
 
         /*
@@ -634,17 +636,31 @@ namespace ProyectoInventarioOET
         }
 
         /*
+         * Retorna la información del ajuste como un array de objetos
+         */
+        protected Object[] obtenerDatosAjuste()
+        {
+            Object[] datos = new Object[6];
+            datos[0] = this.dropdownTipo.SelectedValue;
+            datos[1] = this.outputFecha.Value;
+            datos[2] = "";
+            datos[3] = (this.Master as SiteMaster).Usuario.Codigo;
+            datos[4] = this.inputNotas.Text;
+            datos[5] = (this.Master as SiteMaster).LlaveBodegaSesion;
+            return datos;
+        }
+
+
+        /*
          * Esto maneja la inserción de datos
          */
         protected String insertar()
         {
             String codigo = "";
-            /*
-            Object[] bodega = obtenerDatosBodega();
-            EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
-            String idUsuario = usuarioActual.Codigo;
-            String rol = usuarioActual.Perfil;
-            String[] error = controladoraBodegas.insertarDatos(bodega, idUsuario, rol);
+            Object[] ajuste = obtenerDatosAjuste();
+            EntidadAjustes nueva = new EntidadAjustes(ajuste);
+            // Agregar detalles a entidad
+            String[] error = controladoraAjustes.insertarAjuste(nueva);
 
             codigo = Convert.ToString(error[3]);
             mostrarMensaje(error[0], error[1], error[2]);
@@ -657,7 +673,6 @@ namespace ProyectoInventarioOET
                 codigo = "";
                 modo = (int)Modo.Insercion;
             }
-            */
             return codigo;
         }
 
