@@ -170,13 +170,24 @@ namespace ProyectoInventarioOET
             // Manejo grid
             DataTable tabla = tablaProductoConsulta();
             Object[] datos = new Object[3];
-            foreach( EntidadDetalles elemento in ajusteConsultado.Detalles )
+            if (ajusteConsultado.Detalles.Count > 0)
             {
-                datos[0] = elemento.NombreProducto;
-                datos[1] = elemento.Codigo;
-                datos[2] = elemento.Cambio;
+                foreach (EntidadDetalles elemento in ajusteConsultado.Detalles)
+                {
+                    datos[0] = elemento.NombreProducto;
+                    datos[1] = elemento.Codigo;
+                    datos[2] = elemento.Cambio;
+                    tabla.Rows.Add(datos);
+                }
+            }
+            else
+            {
+                datos[0] = "-";
+                datos[1] = "-";
+                datos[2] = 0;
                 tabla.Rows.Add(datos);
             }
+            
 
             gridViewProductos.DataSource = tabla;
             gridViewProductos.DataBind();
