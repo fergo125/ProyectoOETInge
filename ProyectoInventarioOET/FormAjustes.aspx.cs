@@ -6,8 +6,8 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using ProyectoInventarioOET.App_Code;
-using ProyectoInventarioOET.App_Code.Módulo_Ajustes;
-using ProyectoInventarioOET.Módulo_Seguridad;
+using ProyectoInventarioOET.App_Code.Modulo_Ajustes;
+using ProyectoInventarioOET.Modulo_Seguridad;
 
 
 namespace ProyectoInventarioOET

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ProyectoInventarioOET.Módulo_Seguridad
+namespace ProyectoInventarioOET.Modulo_Seguridad
 {
     /*
      * Entidad Usuario, clase encargada de encapsulador la información acerca de cuentas de usuario

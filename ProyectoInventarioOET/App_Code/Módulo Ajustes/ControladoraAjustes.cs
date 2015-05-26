@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data;
-using ProyectoInventarioOET.Módulo_Bodegas;
-using ProyectoInventarioOET.Módulo_Productos_Locales;
+using ProyectoInventarioOET.Modulo_Bodegas;
+using ProyectoInventarioOET.Modulo_Productos_Locales;
 
 
-namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
+namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
 {
     public class ControladoraAjustes
     {

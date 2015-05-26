@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data;
 
-namespace ProyectoInventarioOET.Módulo_Productos_Locales
+namespace ProyectoInventarioOET.Modulo_Productos_Locales
 {
     /*
      * Clase de controladora de productos

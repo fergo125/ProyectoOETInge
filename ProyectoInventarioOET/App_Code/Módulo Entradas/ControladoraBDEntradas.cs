@@ -6,7 +6,7 @@ using System.Web;
 using Oracle.DataAccess.Client; //para conectarse a la base de datos manualmente con strings
 using System.Data.SqlClient;
 
-namespace ProyectoInventarioOET.Módulo_Entradas
+namespace ProyectoInventarioOET.Modulo_Entradas
 {
     public class ControladoraBDEntradas : ControladoraBD
     {

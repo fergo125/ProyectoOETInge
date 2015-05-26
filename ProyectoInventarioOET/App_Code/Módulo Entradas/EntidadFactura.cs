@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ProyectoInventarioOET.Módulo_Entradas
+namespace ProyectoInventarioOET.Modulo_Entradas
 {
     enum TipoDePago{Credito,Contado}
     public class EntidadFactura

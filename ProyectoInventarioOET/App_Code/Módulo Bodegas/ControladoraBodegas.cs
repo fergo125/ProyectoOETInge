@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data;
 
-namespace ProyectoInventarioOET.Módulo_Bodegas
+namespace ProyectoInventarioOET.Modulo_Bodegas
 {
     /*
      * ???

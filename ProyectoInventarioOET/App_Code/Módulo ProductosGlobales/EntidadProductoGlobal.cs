@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
+namespace ProyectoInventarioOET.App_Code.Modulo_ProductosGlobales
 {
     public class EntidadProductoGlobal
     {

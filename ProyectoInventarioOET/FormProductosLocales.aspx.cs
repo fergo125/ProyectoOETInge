@@ -5,11 +5,11 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
-using ProyectoInventarioOET.Módulo_Bodegas;
+using ProyectoInventarioOET.Modulo_Bodegas;
 using ProyectoInventarioOET.App_Code;
-using ProyectoInventarioOET.Módulo_Productos_Locales;
+using ProyectoInventarioOET.Modulo_Productos_Locales;
 using ProyectoInventarioOET.Modulo_Categorias;
-using ProyectoInventarioOET.Módulo_Seguridad;
+using ProyectoInventarioOET.Modulo_Seguridad;
 
 namespace ProyectoInventarioOET
 {

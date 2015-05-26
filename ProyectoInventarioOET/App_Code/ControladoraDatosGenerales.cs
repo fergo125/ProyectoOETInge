@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data;
-using ProyectoInventarioOET.Módulo_Bodegas;
+using ProyectoInventarioOET.Modulo_Bodegas;
 namespace ProyectoInventarioOET.App_Code
 {
     /*

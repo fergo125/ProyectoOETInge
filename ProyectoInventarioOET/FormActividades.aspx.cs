@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using ProyectoInventarioOET.Módulo_Actividades;
+using ProyectoInventarioOET.Modulo_Actividades;
 using ProyectoInventarioOET.App_Code;
 
 

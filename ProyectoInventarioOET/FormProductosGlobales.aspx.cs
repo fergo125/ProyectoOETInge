@@ -5,7 +5,7 @@ using System.Web;
 using System.Data;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales;
+using ProyectoInventarioOET.App_Code.Modulo_ProductosGlobales;
 using ProyectoInventarioOET.App_Code;
 
 

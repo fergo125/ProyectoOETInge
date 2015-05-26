@@ -5,8 +5,8 @@ using System.Data;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using ProyectoInventarioOET.Módulo_Seguridad;
-//using ProyectoInventarioOET.App_Code.Módulo_Ventas; //TODO: arreglar esta vara -.-
+using ProyectoInventarioOET.Modulo_Seguridad;
+//using ProyectoInventarioOET.App_Code.Modulo_Ventas; //TODO: arreglar esta vara -.-
 using ProyectoInventarioOET.App_Code;
 
 namespace ProyectoInventarioOET

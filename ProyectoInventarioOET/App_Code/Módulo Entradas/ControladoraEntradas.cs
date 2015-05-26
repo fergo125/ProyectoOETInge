@@ -1,11 +1,11 @@
-using ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales;
+using ProyectoInventarioOET.App_Code.Modulo_ProductosGlobales;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
 
-namespace ProyectoInventarioOET.Módulo_Entradas
+namespace ProyectoInventarioOET.Modulo_Entradas
 {
     public class ControladoraEntradas
     {

@@ -5,7 +5,7 @@ using System.Web;
 using System.Data;
 using Oracle.DataAccess.Client; //para conectarse a la base de datos manualmente con strings
 
-namespace ProyectoInventarioOET.Módulo_Seguridad
+namespace ProyectoInventarioOET.Modulo_Seguridad
 {
     /*
      * Controladora de base de datos de seguridad, encargada de obtener información acerca de la seguridad

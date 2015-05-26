@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ProyectoInventarioOET.App_Code.Módulo_Ventas
+namespace ProyectoInventarioOET.App_Code.Modulo_Ventas
 {
     /*
      * Entidad Factura, clase encargada de encapsulador la información acerca de las facturas asociadas a transacciones de venta.

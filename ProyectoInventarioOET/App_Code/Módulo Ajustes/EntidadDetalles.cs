@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
+namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
 {
     public class EntidadDetalles
     {

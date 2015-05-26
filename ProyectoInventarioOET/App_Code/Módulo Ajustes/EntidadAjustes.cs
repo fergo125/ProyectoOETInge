@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data;
 
-namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
+namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
 {
 
     public class EntidadAjustes

@@ -6,7 +6,7 @@ using System.Data;
 using Oracle.DataAccess.Client; //para conectarse a la base de datos manualmente con strings
 using System.Data.SqlClient;
 
-namespace ProyectoInventarioOET.Módulo_Bodegas
+namespace ProyectoInventarioOET.Modulo_Bodegas
 {
     /*
      * ???
