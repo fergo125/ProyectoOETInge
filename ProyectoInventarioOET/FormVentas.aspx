@@ -20,11 +20,11 @@
     </div>
 
     <!-- Botones principales -->
-    <button runat="server" onserverclick="clickBotonConsultarFacturas" id="botonConsultar" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Consultar Facturas</button>
-    <button runat="server" onserverclick="clickBotonCrearFactura" id="botonCrear" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Crear Factura</button>
-    <button runat="server" onserverclick="Page_Load" id="botonModificar" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Modificar Factura</button>
-    <a id="botonAjusteEntrada" accesskey="A" href="#modalAjusteRapido" class="btn btn-info-fozkr" role="button" style="float: right" visible="true" data-toggle="modal" runat ="server">Ajuste rápido de entrada</a> 
-    <a id="botonCambioSesion" accesskey="S" href="#modalCambioSesion" class="btn btn-info-fozkr" role="button" style="float: right" visible="true" data-toggle="modal" runat ="server">Cambio rápido de sesión</a>  
+    <button runat="server" onserverclick="clickBotonConsultarFacturas" ID="botonConsultar" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Consultar Facturas</button>
+    <button runat="server" onserverclick="clickBotonCrearFactura" ID="botonCrear" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Crear Factura</button>
+    <button runat="server" onserverclick="Page_Load" ID="botonModificar" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Modificar Factura</button>
+    <a ID="botonAjusteEntrada" accesskey="A" href="#modalAjusteRapido" class="btn btn-info-fozkr" role="button" style="float: right" visible="true" data-toggle="modal" runat ="server">Ajuste rápido de entrada</a> 
+    <a ID="botonCambioSesion" accesskey="S" href="#modalCambioSesion" class="btn btn-info-fozkr" role="button" style="float: right" visible="true" data-toggle="modal" runat ="server">Cambio rápido de sesión</a>  
     <br />
     <br />
 
@@ -106,18 +106,18 @@
                 <td><asp:Label ID="labelCrearFacturaTipoCambio" runat="server"></asp:Label></td>
             </tr>
             <tr>
-                <td colspan="5">Productos:</td>
+                <td colspan="5">Productos de la factura:</td>
             </tr>
             <tr>
                 <%--<td colspan="4"><asp:DropDownList ID="dropDownListAgregarProductoFactura" class="input input-fozkr-dropdownlist" runat="server" Width="450px"></asp:DropDownList></td>--%>
                 <td colspan="4"><asp:TextBox ID="labelCrearFacturaBusquedaProducto" runat="server" CssClass="form-control" Width="100%"></asp:TextBox>
                 </td>
-                <td><button type="button" ID="botonAgregarProductoFactura" class="btn btn-success-fozkr" onserverclick="Page_Load" runat="server">Agregar</button></td>
+                <td><button type="button" ID="botonCrearFacturaAgregarProducto" class="btn btn-success-fozkr" onserverclick="Page_Load" runat="server">Agregar</button></td>
             </tr>
             <tr>
                 <td colspan="2">Nombre</td>
                 <td>Cantidad</td>
-                <td>Precio <asp:Button ID="botonSwitchPrecios" class="btn" runat="server" Text="₡/$" /></td>
+                <td>Precio <asp:Button ID="botonCrearFacturaSwitchPrecios" class="btn" runat="server" Text="₡/$" /></td>
                 <td>Descuento</td>
             </tr>
             <%--TODO: considerar cambiar la lista de producto por un grid, mucho más fácil de manejar, mayor consistencia, un poco más feo--%>
@@ -152,29 +152,29 @@
             </tr>--%>
             <tr>
                 <td colspan="5">
-                    <button type="button" ID="Button2" class="btn btn-danger-fozkr" href="#modalCancelarFactura" data-toggle="modal" style="float: left" runat="server">Quitar producto</button>
-                    <button type="button" ID="Button1" class="btn btn-warning-fozkr" onserverclick="Page_Load" style="float: left" runat="server">Aplicar descuento</button>
+                    <button type="button" ID="botonCrearFacturaQuitarProducto" class="btn btn-danger-fozkr" href="#modalCancelarFactura" data-toggle="modal" style="float: left" runat="server">Quitar producto</button>
+                    <button type="button" ID="botonCrearFacturaDescuentoProducto" class="btn btn-warning-fozkr" onserverclick="Page_Load" style="float: left" runat="server">Aplicar descuento</button>
                 </td>
             </tr>
             <tr>
                 <td></td>
                 <td></td>
                 <td>Total:</td>
-                <td>11,900</td>
+                <td><asp:Label ID="labelCrearFacturaPrecioTotal" runat="server" Text="Label"></asp:Label></td>
                 <td></td>
             </tr>
             <tr>
                 <td>Método de pago:</td>
-                <td colspan="4"><asp:DropDownList ID="dropDownListMetodoPago" class="input input-fozkr-dropdownlist" runat="server" Width="450px" CssClass="form-control"></asp:DropDownList></td>
+                <td colspan="4"><asp:DropDownList ID="dropDownListCrearFacturaMetodoPago" class="input input-fozkr-dropdownlist" runat="server" Width="450px" CssClass="form-control"></asp:DropDownList></td>
             </tr>
             <tr>
                 <td>Cliente:</td>
-                <td colspan="4"><asp:DropDownList ID="dropDownList2" class="input input-fozkr-dropdownlist" runat="server" Width="450px" CssClass="form-control"></asp:DropDownList></td>
+                <td colspan="4"><asp:DropDownList ID="dropDownListCrearFacturaCliente" class="input input-fozkr-dropdownlist" runat="server" Width="450px" CssClass="form-control"></asp:DropDownList></td>
             </tr>
             <tr>
                 <td colspan="5">
-                    <button type="button" ID="botonCancelarFactura" class="btn btn-danger-fozkr" href="#modalCancelarFactura" data-toggle="modal" style="float: right" runat="server">Cancelar</button>
-                    <button type="button" ID="botonGuardarFactura" class="btn btn-success-fozkr" onserverclick="Page_Load" style="float: right" runat="server">Guardar</button>
+                    <button type="button" ID="botonCrearFacturaCancelar" class="btn btn-danger-fozkr" href="#modalCancelarFactura" data-toggle="modal" style="float: right" runat="server">Cancelar</button>
+                    <button type="button" ID="botonCrearFacturaGuardar" class="btn btn-success-fozkr" onserverclick="Page_Load" style="float: right" runat="server">Guardar</button>
                 </td>
             </tr>
         </table>
@@ -182,52 +182,43 @@
     
     
      <!--Modal Cambio de sesión-->
-    <div class="modal fade" id="modalCambioSesion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" ID="modalCambioSesion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="modalTitleCambioSesion"><i></i>Cambio rápido de sesión</h4>
+                    <h4 class="modal-title" ID="modalTitleCambioSesion"><i></i>Cambio rápido de sesión</h4>
                 </div>
-
                 <div class="modal-body">
                     Ingrese las nuevas credenciales de usuario con las que desea utilizar el sistema.
                 </div>
-                
                 <div style="margin-left:30px">
-                        <div style="margin-left:30px; margin-right:70px" class="form-group">
-                            <label for="inputUsername" class= "control-label"> Nombre de usuario: </label>      
-                            <input type="text" id= "inputUsername" runat="server" class="form-control" style="max-width:100%" >
-                        </div>
-
-                     <br />
-                        <div style="margin-left:30px; margin-right:70px" class="form-group">
-                            <label for="inputPassword" class= "control-label"> Contraseña: </label>      
-                            <input type="password" id= "inputPassword" runat="server" class="form-control"  style="max-width:100%" >
-                        </div>
-
-                 </div>
- 
-                <div class="modal-footer">
-                    <button type="button" id="botonAceptarCambioUsuario" class="btn btn-success-fozkr" onserverclick="botonAceptarCambioUsuario_ServerClick" runat="server">Aceptar</button>
-                    <button type="button" id="botonCancelarCambioUsuario" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
+                    <div style="margin-left:30px; margin-right:70px" class="form-group">
+                        <label for="inputUsername" class= "control-label"> Nombre de usuario: </label>      
+                        <input type="text" ID= "inputUsername" runat="server" class="form-control" style="max-width:100%" >
+                    </div>
+                    <br />
+                    <div style="margin-left:30px; margin-right:70px" class="form-group">
+                        <label for="inputPassword" class= "control-label"> Contraseña: </label>      
+                        <input type="password" ID= "inputPassword" runat="server" class="form-control"  style="max-width:100%" >
+                    </div>
                 </div>
-                
-            
+                <div class="modal-footer">
+                    <button type="button" ID="botonAceptarCambioUsuario" class="btn btn-success-fozkr" onserverclick="botonAceptarCambioUsuario_ServerClick" runat="server">Aceptar</button>
+                    <button type="button" ID="botonCancelarCambioUsuario" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
+                </div>
             </div>
         </div>
     </div>
 
-    
      <!--Modal Ajuste rápido de inventario-->
-    <div class="modal fade" id="modalAjusteRapido" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" ID="modalAjusteRapido" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="modalTitleAjusteInventario"><i></i>Ajuste rápido de inventario</h4>
+                    <h4 class="modal-title" ID="modalTitleAjusteInventario"><i></i>Ajuste rápido de inventario</h4>
                 </div>
-
                 <div class="modal-body">
                     Ingrese los datos con los que desea hacer el ajuste rápido de inventario.
 
@@ -235,20 +226,14 @@
                     Para el producto, hay que poner un grid y una barra de busqueda
                     -->
 
-
-                 </div>
- 
-                <div class="modal-footer">
-                    <button type="button" id="botonAceptarAjusteRapido" class="btn btn-success-fozkr" onserverclick="botonAceptarCambioUsuario_ServerClick" runat="server">Aceptar</button>
-                    <button type="button" id="botonCancelarAjusteRapido" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
                 </div>
-                
-            
+                <div class="modal-footer">
+                    <button type="button" ID="botonAceptarAjusteRapido" class="btn btn-success-fozkr" onserverclick="botonAceptarCambioUsuario_ServerClick" runat="server">Aceptar</button>
+                    <button type="button" ID="botonCancelarAjusteRapido" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
+                </div>
             </div>
         </div>
     </div>
-
-    
 
 
 
