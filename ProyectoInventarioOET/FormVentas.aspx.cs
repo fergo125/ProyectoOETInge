@@ -23,9 +23,10 @@ namespace ProyectoInventarioOET
         private String permisos = "111111";                             //Permisos utilizados para el control de seguridad //TODO: poner en 000000, está en 111111 sólo para pruebas
         private String codigoPerfilUsuario = "1";                       //Indica el perfil del usuario, usado para acciones de seguridad para las cuales la string de permisos no basta //TODO: poner en ""
         private DataTable facturasConsultadas;                          //Usada para llenar el grid y para mostrar los detalles de cada factura específica
-        //private ControladoraVentas controladoraVentas;                  //Para accesar las tablas del módulo y realizar las operaciones de consulta, inserción, modificación y anulación
+        private ControladoraVentas controladoraVentas;                  //Para accesar las tablas del módulo y realizar las operaciones de consulta, inserción, modificación y anulación
         private ControladoraDatosGenerales controladoraDatosGenerales;  //Para accesar datos generales de la base de datos
         private static ControladoraSeguridad controladoraSeguridad;     //???
+        
         //Importante:
         //Para el codigoPerfilUsuario (que se usa un poco hard-coded), los números son:
         //1. Administrador global
@@ -59,14 +60,25 @@ namespace ProyectoInventarioOET
             }
             //cambiarModo();
             //código para probar algo
-            //TableRow row = new TableRow();
-            //TableCell cell1 = new TableCell();
-            //cell1.Text = "blah blah blah";
-            //row.Cells.Add(cell1);
-            //test.Rows.Add(row);
-            //HtmlTableRow row = new HtmlTableRow();
-            //row.Cells.Add(new HtmlTableCell());
-            //estructuraFactura.Rows.Add(row);
+            DataTable testTable = new DataTable();
+            DataRow testRow;
+            DataColumn testColumn;
+            
+            //testColumn = new DataColumn();
+            //testColumn.DataType = Type.GetType("System.Checkbox");
+            //testColumn.ColumnName = "Seleccionar";
+            //testTable.Columns.Add(testColumn);
+            testColumn = new DataColumn();
+            testColumn.DataType = Type.GetType("System.String");
+            testColumn.ColumnName = "Nombre";
+            testTable.Columns.Add(testColumn);
+
+            testRow = testTable.NewRow();
+            testRow["Nombre"] = "Probandooo";
+            testTable.Rows.Add(testRow);
+
+            gridView1.DataSource = testTable;
+            gridView1.DataBind();
         }
 
         /*
@@ -283,6 +295,17 @@ namespace ProyectoInventarioOET
         {
             modo = Modo.Insercion;
             cambiarModo();
+        }
+
+        /*
+         * Invocada cuando se da click al botón de "Agregar Producto" a la factura, se revisa que exista primero
+         * (el usuario puede escribir lo que quiera, es un textbox), si existe se agrega al grid para luego editar
+         * su cantidad y poder aplicarle descuentos (o quitarlo de la factura).
+         */
+        protected void clickBotonAgregarProductoFactura(object sender, EventArgs e)
+        {
+            String productoEscogido = textBoxAutocompleteCrearFacturaBusquedaProducto.Text;
+            productoEscogido = controladoraVentas.verificarExistenciaProductoLocal(dropDownListCrearFacturaBodega.SelectedItem.Value, productoEscogido); //TODO: obtener llave de la bodega, no nombre
         }
 
         /*

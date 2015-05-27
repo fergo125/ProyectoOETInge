@@ -166,47 +166,63 @@
                 <td colspan="5">Fecha y hora:  <%: DateTime.Now.Date.ToShortDateString() %>,  <%: DateTime.Now.TimeOfDay.ToString().Substring(0,5) %></td></tr>
             <tr>
                 <td>Estación:</td>
-                <td><asp:DropDownList ID="dropDownListCrearFacturaEstacion" class="input input-fozkr-dropdownlist" runat="server" Enabled="false" Width="200px" CssClass="form-control"></asp:DropDownList></td>
+                <td><asp:DropDownList ID="dropDownListCrearFacturaEstacion" class="input input-fozkr-dropdownlist" runat="server" Enabled="false" Width="100%" CssClass="form-control"></asp:DropDownList></td>
                 <td>Bodega:</td>
-                <td colspan="2"><asp:DropDownList ID="dropDownListCrearFacturaBodega" class="input input-fozkr-dropdownlist" runat="server" Width="200px" CssClass="form-control"></asp:DropDownList></td>
+                <td colspan="2"><asp:DropDownList ID="dropDownListCrearFacturaBodega" class="input input-fozkr-dropdownlist" runat="server" Enabled="false" Width="100%" CssClass="form-control"></asp:DropDownList></td>
             </tr>
             <tr>
                 <td>Vendedor:</td>
-                <td><asp:Label ID="labelCrearFacturaVendedor" runat="server"></asp:Label></td>
-                <td colspan="2">Tipo de cambio:</td>
-                <td><asp:Label ID="labelCrearFacturaTipoCambio" runat="server"></asp:Label></td>
+                <td><asp:TextBox ID="textBoxCrearFacturaVendedor" runat="server" CssClass="form-control" Width="100%"></asp:TextBox></td>
+                <td>Tipo de cambio:</td>
+                <td colspan="2"><asp:TextBox ID="textBoxCrearFacturaTipoCambio" runat="server" CssClass="form-control" Width="100%"></asp:TextBox></td>
             </tr>
             <tr>
-                <td colspan="5">Productos de la factura:</td>
+                <td colspan="5">Lista de productos en la factura:</td>
             </tr>
             <tr>
-                <td colspan="4"><asp:TextBox ID="textBoxAutocompleteCrearFacturaBusquedaProducto" runat="server" CssClass="form-control" Width="100%"></asp:TextBox>
+                <td>Producto:</td>
+                <td colspan="3"><asp:TextBox ID="textBoxAutocompleteCrearFacturaBusquedaProducto" runat="server" CssClass="form-control" Width="100%"></asp:TextBox>
                 </td>
-                <td><button type="button" ID="botonCrearFacturaAgregarProducto" class="btn btn-success-fozkr" onserverclick="Page_Load" runat="server">Agregar Producto</button></td>
+                <td><button type="button" ID="botonCrearFacturaAgregarProducto" class="btn btn-success-fozkr" onserverclick="clickBotonAgregarProductoFactura" disabled="disabled" runat="server">Agregar Producto</button></td>
             </tr>
             <tr>
                 <td colspan="5">
                     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                         <ContentTemplate>
-                            <asp:GridView ID="gridViewCrearFacturaProductos" CssClass="table" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None" ShowHeaderWhenEmpty="True">
-                                <Columns>
-                                    <asp:CheckBoxField Text="Seleccionar">
-                                        <ControlStyle CssClass="btn btn-default"></ControlStyle>
-                                    </asp:CheckBoxField>
-                                </Columns>
+                            <asp:GridView ID="gridView1" CssClass="table" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None" ShowHeaderWhenEmpty="True">
                                 <RowStyle Font-Size="small" BackColor="White" ForeColor="Black"/>
                                 <PagerStyle CssClass="paging" HorizontalAlign="Center"/>
                                 <AlternatingRowStyle BackColor="#F8F8F8"/>
                                 <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White"/>
                                 <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver"/>
                             </asp:GridView>
+                            <%--<asp:GridView ID="gridViewCrearFacturaProductos" CssClass="table" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None" ShowHeaderWhenEmpty="True" AutoGenerateColumns="False">
+                                <Columns>
+                                    <asp:CheckBoxField Text="Seleccionar" HeaderText="Seleccionar"></asp:CheckBoxField>
+                                    <asp:TemplateField HeaderText="Nombre"></asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Código interno"></asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Precio unitario"></asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Cantidad">
+                                        <ItemTemplate>
+                                            <asp:TextBox ID="gridCrearFacturaCantidadProducto" runat="server" ReadOnly="false"></asp:TextBox>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Impuesto"></asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Descuento"></asp:TemplateField>
+                                </Columns>
+                                <RowStyle Font-Size="small" BackColor="White" ForeColor="Black"/>
+                                <PagerStyle CssClass="paging" HorizontalAlign="Center"/>
+                                <AlternatingRowStyle BackColor="#F8F8F8"/>
+                                <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White"/>
+                                <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver"/>
+                            </asp:GridView>--%>
                         </ContentTemplate>
                     </asp:UpdatePanel>
                 </td>
             <tr>
                 <td colspan="5">
-                    <button type="button" ID="botonCrearFacturaQuitarProducto" class="btn btn-danger-fozkr" href="#modalCancelarFactura" data-toggle="modal" style="float: left" runat="server">Quitar producto</button>
-                    <button type="button" ID="botonCrearFacturaDescuentoProducto" class="btn btn-warning-fozkr" onserverclick="Page_Load" style="float: left" runat="server">Aplicar descuento</button>
+                    <button type="button" ID="botonCrearFacturaQuitarProducto" class="btn btn-danger-fozkr" href="#modalCancelarFactura" data-toggle="modal" style="float: left" disabled="disabled" runat="server">Quitar producto</button>
+                    <button type="button" ID="botonCrearFacturaDescuentoProducto" class="btn btn-warning-fozkr" onserverclick="Page_Load" style="float: left" disabled="disabled" runat="server">Aplicar descuento</button>
                 </td>
             </tr>
             <tr>
