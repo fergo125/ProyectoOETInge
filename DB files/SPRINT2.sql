@@ -160,3 +160,26 @@ precioUnitarioDolares float,
 descuento int
 );
 
+
+
+
+
+
+
+SELECT  *
+FROM    INV_PRODUCTOS
+WHERE   NOMBRE LIKE 'Cart%';
+
+SELECT  *
+FROM    INV_PRODUCTOS
+WHERE   (NOMBRE LIKE 'Cart%'
+        OR CODIGO LIKE 'Cart%');
+        
+SELECT  *
+FROM    INV_PRODUCTOS
+WHERE   (NOMBRE LIKE 'CRO0004%'
+        OR CODIGO LIKE 'CRO0004%');
+        
+        
+SELECT NOMBRE, CODIGO FROM Inventarios.INV_PRODUCTOS WHERE (UPPER(NOMBRE) LIKE UPPER('ca%') OR UPPER(CODIGO) LIKE UPPER('ca%'))
+

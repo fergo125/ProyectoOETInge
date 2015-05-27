@@ -230,6 +230,7 @@
     <Content Include="FormLogin.aspx" />
     <Content Include="FormProductosGlobales.aspx" />
     <Content Include="FormProductosLocales.aspx" />
+    <Content Include="FormTraslados.aspx" />
     <Content Include="FormVentas.aspx" />
     <Content Include="FormAjustes.aspx" />
     <Content Include="packages.config" />
@@ -352,9 +353,9 @@
     <Compile Include="App_Code\Módulo Productos Locales\ControladoraBDProductoLocal.cs" />
     <Compile Include="App_Code\Módulo Productos Locales\ControladoraProductoLocal.cs" />
     <Compile Include="App_Code\Módulo Productos Locales\EntidadProductoLocal.cs" />
-    <Compile Include="App_Code\Módulo ProductosGlobales\ControladoraBDProductosGlobales.cs" />
-    <Compile Include="App_Code\Módulo ProductosGlobales\ControladoraProductosGlobales.cs" />
-    <Compile Include="App_Code\Módulo ProductosGlobales\EntidadProductoGlobal.cs" />
+    <Compile Include="App_Code\Módulo Productos Globales\ControladoraBDProductosGlobales.cs" />
+    <Compile Include="App_Code\Módulo Productos Globales\ControladoraProductosGlobales.cs" />
+    <Compile Include="App_Code\Módulo Productos Globales\EntidadProductoGlobal.cs" />
     <Compile Include="App_Code\Módulo Seguridad\ControladoraSeguridad.cs" />
     <Compile Include="App_Code\Módulo Seguridad\EntidadUsuario.cs" />
     <Compile Include="App_Code\Módulo Seguridad\ControladoraBDSeguridad.cs" />
@@ -437,6 +438,13 @@
     </Compile>
     <Compile Include="FormProductosLocales.aspx.designer.cs">
       <DependentUpon>FormProductosLocales.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FormTraslados.aspx.cs">
+      <DependentUpon>FormTraslados.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormTraslados.aspx.designer.cs">
+      <DependentUpon>FormTraslados.aspx</DependentUpon>
     </Compile>
     <Compile Include="FormVentas.aspx.cs">
       <DependentUpon>FormVentas.aspx</DependentUpon>

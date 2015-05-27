@@ -5,7 +5,7 @@ using System.Web;
 using System.Data;
 using ProyectoInventarioOET.Modulo_Categorias;
 
-namespace ProyectoInventarioOET.App_Code.Modulo_ProductosGlobales
+namespace ProyectoInventarioOET.Modulo_ProductosGlobales
 {
     /* Controladora de productos globales, utilizada por la interfaz del catálogo general de productos.
      * Auspicia los datos generales o globales de los productos que la OET maneja 
@@ -97,6 +97,17 @@ namespace ProyectoInventarioOET.App_Code.Modulo_ProductosGlobales
         public DataTable consultarProductosGlobales(string query)
         {
             return controladoraBD.consultarProductosGlobales(query); ;
+        }
+
+        /*
+         * Invocada por la barra de autocomplete, busca sólo el nombre y los códigos internos de
+         * los productos en el catálogo global, con base en un String escrito por el usuario
+         * que se asocia a uno de esos dos (puede buscar productos por nombre o por código).
+         * Procurar que sea eficiente, ya que se invoca por cada key stroke.
+         */
+        public DataTable consultarProductosAutocompletar(String query)
+        {
+            return controladoraBD.consultarProductosAutocompletar(query);
         }
     }
 }

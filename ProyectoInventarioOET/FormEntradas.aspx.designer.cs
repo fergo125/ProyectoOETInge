@@ -229,6 +229,24 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl outputPlazoPago;
         
         /// <summary>
+        /// Control outputMoneda.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl outputMoneda;
+        
+        /// <summary>
+        /// Control outputTipoCambio.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl outputTipoCambio;
+        
+        /// <summary>
         /// Control outputSubtotal.
         /// </summary>
         /// <remarks>
