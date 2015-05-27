@@ -113,7 +113,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
         }
 
 
-        public String[] insertarAjuste(EntidadAjustes ajuste, bool signo)
+        public String[] insertarAjuste(EntidadAjustes ajuste)
         {
             String esquema = "Inventarios.";
             String[] res = new String[4];
@@ -129,7 +129,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
                     
                     foreach(EntidadDetalles detallesProducto in  ajuste.Detalles  ){ // Por cada producto meterlo en el detalles ajustes
                         insertarDetalle(res[3], detallesProducto);
-                        actualizarProducto(detallesProducto.IdProductoBodega, detallesProducto.Cambio, signo);
+                        actualizarProducto(detallesProducto.IdProductoBodega, detallesProducto.Cambio);
                     }
 
                     res[0] = "success";
@@ -157,7 +157,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
         }
 
         // Hay que hablar con LEO para ver si queremos el cambio o mejor el valor que va a ser actual. FUNCIONA CORRECTAMENTE
-        private void actualizarProducto(String idBodegaProducto, double cambio, bool signo)
+        private void actualizarProducto(String idBodegaProducto, double cambio)
         {
             String esquema = "Inventarios.";
             OracleCommand command = conexionBD.CreateCommand();

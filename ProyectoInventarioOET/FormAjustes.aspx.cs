@@ -241,8 +241,8 @@ namespace ProyectoInventarioOET
                 // Cargar bodegas
                 Object[] datos = new Object[3];
 
-                //DataTable ajustes = controladoraAjustes.consultarAjustes((this.Master as SiteMaster).LlaveBodegaSesion);
-                DataTable ajustes = controladoraAjustes.consultarAjustes("PITAN129012015101713605001");
+                DataTable ajustes = controladoraAjustes.consultarAjustes((this.Master as SiteMaster).LlaveBodegaSesion);
+                //DataTable ajustes = controladoraAjustes.consultarAjustes("PITAN129012015101713605001");
 
                 if (ajustes.Rows.Count > 0)
                 {
@@ -679,7 +679,7 @@ namespace ProyectoInventarioOET
                 ++i;
             }
 
-            String[] error = controladoraAjustes.insertarAjuste(nueva, signos[this.dropdownTipo.SelectedIndex]);  // Envia el signo del cambio
+            String[] error = controladoraAjustes.insertarAjuste(nueva); 
 
             codigo = Convert.ToString(error[3]);
             mostrarMensaje(error[0], error[1], error[2]);

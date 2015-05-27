@@ -48,8 +48,8 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
             return controladoraBD.consultarAjustes(idBodega);
         }
 
-        public String[] insertarAjuste(EntidadAjustes nueva, bool signo) {
-            return controladoraBD.insertarAjuste(nueva, signo);
+        public String[] insertarAjuste(EntidadAjustes nueva) {
+            return controladoraBD.insertarAjuste(nueva);
         }
 
         public EntidadAjustes consultarAjuste(String idAjuste)
