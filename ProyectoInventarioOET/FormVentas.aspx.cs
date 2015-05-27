@@ -23,8 +23,8 @@ namespace ProyectoInventarioOET
         private String permisos = "111111";                             //Permisos utilizados para el control de seguridad //TODO: poner en 000000, está en 111111 sólo para pruebas
         private String codigoPerfilUsuario = "1";                       //Indica el perfil del usuario, usado para acciones de seguridad para las cuales la string de permisos no basta //TODO: poner en ""
         private DataTable facturasConsultadas;                          //Usada para llenar el grid y para mostrar los detalles de cada factura específica
-        //private ControladoraVentas controladoraVentas;                  //Para accesar las tablas del módulo y realizar las operaciones de consulta, inserción, modificación y anulación
-        private ControladoraDatosGenerales controladoraDatosGenerales;  //Para accesar datos generales de la base de datos
+        private static ControladoraVentas controladoraVentas;                  //Para accesar las tablas del módulo y realizar las operaciones de consulta, inserción, modificación y anulación
+        private static ControladoraDatosGenerales controladoraDatosGenerales;  //Para accesar datos generales de la base de datos
         private static ControladoraSeguridad controladoraSeguridad;     //???
         //Importante:
         //Para el codigoPerfilUsuario (que se usa un poco hard-coded), los números son:
@@ -46,6 +46,7 @@ namespace ProyectoInventarioOET
                 //Controladoras
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
                 controladoraSeguridad = new ControladoraSeguridad();
+                controladoraVentas = new ControladoraVentas();
                 //Seguridad
                 //permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Facturacion"); //TODO: descomentar esto, está comentado sólo para pruebas
                 if (permisos == "000000")
@@ -302,7 +303,7 @@ namespace ProyectoInventarioOET
         protected void botonAceptarCambioUsuario_ServerClick(object sender, EventArgs e)
         {
             // Consulta al usuario
-            EntidadUsuario usuario = controladoraSeguridad.consultarUsuario(inputUsername.Value, inputPassword.Value);
+            /*EntidadUsuario usuario = controladoraSeguridad.consultarUsuario(inputUsername.Value, inputPassword.Value);
 
             if (usuario != null)
             {
@@ -317,6 +318,27 @@ namespace ProyectoInventarioOET
                 // Si no me retorna un usuario valido, advertir
                 //mostrarMensaje();
             }
+             * 
+             * 
+             * */
+
+
+            Object [] datos = new Object[9];
+
+            datos[0]= "asdasd";
+            datos[1]="asdasd";
+            datos[2]="asdasd";
+            datos[3]="asdasd";
+            datos[4]="asdasd";
+            datos[5]="asdasd";
+            datos[6]=13;
+            datos[7]="asdasd";
+            datos[8] = null;
+
+            String [] resultado = controladoraVentas.insertarFactura(datos);
+
+
+
         }
     }
 }
