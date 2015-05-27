@@ -130,8 +130,6 @@
        </div>
         </fieldset>        
     </div>
-
-<<<<<<< HEAD
     <br />
     <br />
 
@@ -230,7 +228,7 @@
         </div>
 
         <br />
-
+        </fieldset>
         <div class="row">
             <label class= "col-lg-12">Buscar producto:</label>
         </div>
@@ -245,28 +243,46 @@
     <br />
 
     <fieldset id="FieldsetResultadosBusqueda" runat="server" visible="false" >
-        <strong><div ID="UpdatePanelResultados" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Resultados de Búsqueda</div></strong>
-<%--        <asp:UpdatePanel ID="UpdatePanelResultadosBusqueda" runat="server">
-            <ContentTemplate>--%>
+        <div class="row">
+            <div class="col-lg-7">
+            <strong><div ID="UpdatePanelResultados" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Resultados de Búsqueda</div></strong>
+                    <asp:GridView ID="gridViewProductoBuscado" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewProductoBuscado_RowCommand" OnPageIndexChanging="gridViewProductoBuscado_PageIndexChanging" runat="server" AllowPaging="true" PageSize="16" BorderColor="Transparent">
+                        <Columns>
+                            <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Seleccionar">
+                                <ControlStyle CssClass="btn btn-default"></ControlStyle>
+                            </asp:ButtonField>
+                        </Columns>
+                        <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
+                        <PagerStyle CssClass="paging" HorizontalAlign="Center" />
+                        <AlternatingRowStyle BackColor="#EBEBEB" />
+                        <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
+                        <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" />
+                    </asp:GridView>
+            </div>
 
-                <asp:GridView ID="gridViewProductoBuscado" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewProductoBuscado_RowCommand" OnPageIndexChanging="gridViewProductoBuscado_PageIndexChanging" runat="server" AllowPaging="true" PageSize="16" BorderColor="Transparent">
-                    <Columns>
-                        <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Seleccionar">
-                            <ControlStyle CssClass="btn btn-default"></ControlStyle>
-                        </asp:ButtonField>
-                    </Columns>
-                    <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
-                    <PagerStyle CssClass="paging" HorizontalAlign="Center" />
-                    <AlternatingRowStyle BackColor="#EBEBEB" />
-                    <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
-                    <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" />
-                </asp:GridView>
+            <div class="col-lg-5">
+                <div class="row">
+                    <h3>Información del Producto</h3>
+                </div>
 
-<%--            </ContentTemplate>
-            <Triggers>
-            <asp:AsyncPostBackTrigger ControlID="gridViewProductoBuscado" EventName="RowCommand" />
-            </Triggers>
-        </asp:UpdatePanel>--%>
+                <div class="row">
+                    <label for="outputNombreProducto" class= "control-label col-lg-4"></label>      
+                </div>
+
+                <div class="row">
+                    <label for="inputCantidad" class= "control-label col-lg-4">Cantidad:</label>      
+                    <input id="inputCantidad" class="form-control col-lg-4" type="text" placeholder="Ingrese una cantidad" runat="server">
+                </div>
+                <br />
+                <div class="row">
+                    <label for="inputCosto" class= "control-label col-lg-4">Costo:</label>      
+                    <input id="inputCosto" class="form-control col-lg-4" type="text" placeholder="Ingrese una cantidad" runat="server">
+                </div>
+            </div>
+        </div>
     </fieldset>
+
+        
+
 
     </asp:Content>
