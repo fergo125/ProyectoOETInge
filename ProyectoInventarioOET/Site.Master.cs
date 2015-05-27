@@ -184,7 +184,7 @@ namespace ProyectoInventarioOET
         {
             ControladoraSeguridad cs = new ControladoraSeguridad();
             if (usuarioLogueado != null)
-                return cs.consultarPermisosUsuario(usuarioLogueado.CodigoPerfil, nombreInterfaz);
+                return cs.consultarPermisosUsuario(usuarioLogueado.LlavePerfil, nombreInterfaz);
             else
                 return "000000";
         }

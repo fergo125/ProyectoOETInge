@@ -49,7 +49,8 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
                 usuario = new EntidadUsuario(datosConsultados);
                 String[] perfil = consultarPerfilUsuario(usuario.Codigo);
                 usuario.Perfil = perfil[0];
-                usuario.CodigoPerfil = perfil[1];
+                usuario.LlavePerfil = perfil[1];
+                usuario.CodigoPerfil = perfil[2];
             }
             return usuario;
         }
@@ -83,14 +84,15 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             DataTable resultado = new DataTable();
 
             OracleCommand command = conexionBD.CreateCommand();
-            command.CommandText = "SELECT NOMBRE, CODIGO FROM " + esquema + "SEG_PERFIL WHERE (SEG_PERFIL = (SELECT SEG_PERFIL FROM SEG_PERFIL_USUARIO WHERE SEG_USUARIO = '" + codigoUsuario + "'))";
+            command.CommandText = "SELECT NOMBRE, SEG_PERFIL, CODIGO FROM " + esquema + "SEG_PERFIL WHERE (SEG_PERFIL = (SELECT SEG_PERFIL FROM SEG_PERFIL_USUARIO WHERE SEG_USUARIO = '" + codigoUsuario + "'))";
             OracleDataReader reader = command.ExecuteReader();
             resultado.Load(reader);
             if(resultado.Rows.Count == 1)
             {
-                String[] res = new String[2];
+                String[] res = new String[3];
                 res[0] = resultado.Rows[0][0].ToString();
                 res[1] = resultado.Rows[0][1].ToString();
+                res[2] = resultado.Rows[0][2].ToString();
                 return res;
             }
             return null;
