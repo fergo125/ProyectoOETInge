@@ -8,57 +8,61 @@ namespace ProyectoInventarioOET.Modulo_Entradas
     enum TipoDePago{Credito,Contado}
     public class EntidadFactura
     {
-        String idFactura;
-        String idOrdenDeCompra;
-        DateTime fechaPago;
-        DateTime plazoDePago;
-        int tipoDePago;
-        String moneda;
-        int tipoCambio;
-        String idProvedor;
-        int subtotal;
-        int total;
-        int descuento;
-        int retencionImpuestos;
-        bool detallado;
+        private String idFactura;
+        private String idOrdenDeCompra;
+        private DateTime fechaPago;
+        private int plazoDePago;
+        private String tipoDePago;
+        private String moneda;
+        private double tipoCambio;
+        private String idProvedor;
+        private int subtotal;
+        private int total;
+        private int descuento;
+        private int retencionImpuestos;
+        private int detallado;
 
         public EntidadFactura(Object[] datos)
         {
             idFactura = datos[0].ToString();
             idOrdenDeCompra = datos[1].ToString();
-            fechaPago = Convert.ToDateTime( datos[2]);
-            plazoDePago = Convert.ToDateTime(datos[3]);
-            tipoDePago = Convert.ToInt32( datos[4]);
+            fechaPago = Convert.ToDateTime( datos[2]).Date;
+            plazoDePago = Convert.ToInt32(datos[3]);
+            tipoDePago = Convert.ToString( datos[4]);
             moneda = datos[5].ToString();
-            tipoCambio = Convert.ToInt32( datos[6]);
+            tipoCambio = Convert.ToDouble( datos[6].ToString());
             idProvedor = datos[7].ToString();
             subtotal = Convert.ToInt32( datos[8]);
             total = Convert.ToInt32( datos[9]);
             descuento = Convert.ToInt32( datos[10]);
             retencionImpuestos = Convert.ToInt32( datos[11]);
-            detallado = Convert.ToBoolean(datos[12]);
+            detallado = Convert.ToInt32(datos[12]);
         }
+
         public String IdFactura
         {
             get { return idFactura; }
             set { idFactura = value; }
         }
+
         public String IdOrdenDeCompra
         {
             get { return idOrdenDeCompra; }
             set { idOrdenDeCompra = value; }
         }
+
         public DateTime FechaPago
         {
             get { return fechaPago; }
             set { fechaPago = value; }
         }
-        public DateTime PlazoDePago
+
+        public int PlazoDePago
         {
             get { return plazoDePago; }
             set { plazoDePago = value; }
         }
-        public int TipoDePago
+        public String TipoDePago
         {
             get { return tipoDePago; }
             set { tipoDePago = value; }
@@ -68,7 +72,7 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             get { return moneda; }
             set { moneda= value; }
         }
-        public int TipoCambio
+        public double TipoCambio
         {
             get { return tipoCambio; }
             set { tipoCambio = value; }
@@ -94,7 +98,7 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             get { return retencionImpuestos; }
             set { retencionImpuestos = value; }
         }
-        public bool Detallado
+        public int Detallado
         {
             get { return detallado; }
             set { detallado = value; }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 
@@ -12,7 +13,7 @@ namespace ProyectoInventarioOET.Modulo_Ventas
     {
         //Atributos
 
-        private DateTime fecha; 
+        private String fecha; 
         private String estacion;
         private String compañia;
         private String actividad;
@@ -21,6 +22,7 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         private String tipoMoneda;
         private int impuesto;
         private String metodoPago;
+        private DataTable productos;
 
 
         /*
@@ -28,19 +30,21 @@ namespace ProyectoInventarioOET.Modulo_Ventas
          */
         public EntidadFactura(Object[] datos)
         {
-            this.fecha = (DateTime) datos[0];
-            this.estacion = datos[1].ToString();
-            this.compañia = datos[2].ToString();
-            this.actividad = datos[3].ToString();
-            this.vendedor = datos[4].ToString();
-            this.cliente = datos[5].ToString();
-            this.tipoMoneda = datos[6].ToString();
-            this.impuesto = Convert.ToInt32(datos[7].ToString());
-            this.metodoPago = datos[8].ToString();
+            this.fecha = DateTime.Now.ToString("dd:MMM:yy");
+            this.estacion = datos[0].ToString();
+            this.compañia = datos[1].ToString();
+            this.actividad = datos[2].ToString();
+            this.vendedor = datos[3].ToString();
+            this.cliente = datos[4].ToString();
+            this.tipoMoneda = datos[5].ToString();
+            this.impuesto = Convert.ToInt32(datos[6].ToString());
+            this.metodoPago = datos[7].ToString();
+            this.productos = (DataTable) datos[8];
+
         }
 
 
-        public DateTime Fecha
+        public String Fecha
         {
             get { return fecha; }
             set { fecha = value; }
@@ -92,6 +96,12 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         {
             get { return metodoPago; }
             set { metodoPago = value; }
+        }
+
+        public DataTable Productos
+        {
+            get { return productos; }
+            set { productos = value; }
         }
 
         /*

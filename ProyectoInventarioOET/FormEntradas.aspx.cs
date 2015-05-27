@@ -375,6 +375,8 @@ namespace ProyectoInventarioOET
 
         protected void botonConsultaEntradas_ServerClick(object sender, EventArgs e)
         {
+            modo = (int)Modo.Inicial;
+            cambiarModo();            
             modo = (int)Modo.EntradaConsultada;
             cambiarModo();
             llenarGridEntradas();
@@ -441,15 +443,30 @@ namespace ProyectoInventarioOET
             seConsulto = true;
             try
             {
-                //facturaConsultada = controladoraEntradas.consultarFactura(codigo);
-                //modo = (int)Modo.Consultado;
+                facturaConsultada = controladoraEntradas.consultarFactura(codigo);
+                CompletarDatosFactura(facturaConsultada);
+                modo = (int)Modo.SeleccionProductos;
             }
             catch
             {
                 //actividadConsultada = null;
                 modo = (int)Modo.Inicial;
             }
-            //cambiarModo();
+            cambiarModo();
+        }
+
+        protected void CompletarDatosFactura(EntidadFactura facturaConsultada)
+        {
+            outputFactura.InnerText = Convert.ToString(facturaConsultada.IdFactura);
+            outputFechaPago.InnerText = Convert.ToString(facturaConsultada.FechaPago);
+            outputDescuento.InnerText = Convert.ToString(facturaConsultada.Descuento);
+            outputTipoPago.InnerText = Convert.ToString(facturaConsultada.TipoDePago);
+            outputPlazoPago.InnerText = Convert.ToString(facturaConsultada.PlazoDePago);
+            outputSubtotal.InnerText = Convert.ToString(facturaConsultada.SubTotal);
+            outputTotal.InnerText = Convert.ToString(facturaConsultada.Total);
+            outputImpuestos.InnerText = Convert.ToString(facturaConsultada.RetencionImpuestos);
+            outputMoneda.InnerText = Convert.ToString(facturaConsultada.Moneda);
+            outputTipoCambio.InnerText = Convert.ToString(facturaConsultada.TipoCambio);
         }
         protected void gridDetalleFactura_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {

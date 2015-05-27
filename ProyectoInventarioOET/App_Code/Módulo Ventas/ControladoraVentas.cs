@@ -23,6 +23,13 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         {
             controladoraBDVentas = new ControladoraBDVentas();
         }
+
+        public String[] insertarFactura(Object[] datosFactura)
+        {
+            EntidadFactura factura = new EntidadFactura(datosFactura);
+            return controladoraBDVentas.insertarFactura(factura);
+        }
+
         
         /*
          * Invocada por la capa de interfaz para revisar si un producto que está intentando agregarse a una factura,
