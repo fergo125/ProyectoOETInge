@@ -432,6 +432,16 @@ namespace ProyectoInventarioOET
 
         }
 
+        protected void botonAceptarEntrada_ServerClick(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void botonAceptarModalCancelar_ServerClick(object sender, EventArgs e)
+        {
+
+        }
+
 
     }
 }
