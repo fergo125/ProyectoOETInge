@@ -77,7 +77,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li id="linkFormInventario1" visible="false" runat="server"><a runat="server" href="~/FormEntradas">Entradas de inventario</a></li>
-                                <li id="linkFormInventario2" visible="false" runat="server"><a runat="server" href="~/FormContact">Movimientos de inventario</a></li>
+                                <li id="linkFormInventario2" visible="false" runat="server"><a runat="server" href="~/FormTraslados">Traslados de inventario</a></li>
                                 <li id="linkFormInventario3" visible="false" runat="server"><a runat="server" href="~/FormAjustes">Ajustes de inventario</a></li>
                             </ul>
                         </li>
