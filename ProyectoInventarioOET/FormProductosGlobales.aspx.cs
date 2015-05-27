@@ -393,6 +393,7 @@ namespace ProyectoInventarioOET
                 this.inputPrecioDolares.Value = productoConsultado.PrecioDolares.ToString();
                 this.inputCostoColones.Value = productoConsultado.CostoColones.ToString();
                 this.inputCostoDolares.Value = productoConsultado.CostoDolares.ToString();
+                //this.inputEstado.SelectedValue = productoConsultado.Estado.ToString();
             }
     
         }

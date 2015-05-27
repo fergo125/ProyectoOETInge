@@ -79,7 +79,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
                 resultado[1] = consultarDetalles(idAjuste);
                 int x = 9;
                 x = 8;
-                actualizarProducto("PITAN102022015142627451180", 10, true); // PRUEBAAAA QUE FUNCIONA
+                //actualizarProducto("PITAN102022015142627451180", 10, true); // PRUEBAAAA QUE FUNCIONA
             }
             catch (Exception e)
             {
