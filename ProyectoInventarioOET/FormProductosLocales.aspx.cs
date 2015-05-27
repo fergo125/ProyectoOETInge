@@ -18,6 +18,7 @@ namespace ProyectoInventarioOET
      */
     public partial class FormProductosLocales : System.Web.UI.Page
     {
+        enum Modo { Inicial, Consulta, Insercion, Modificacion, Consultado };
         //Atributos
         private static ControladoraBodegas controladoraBodegas;                 // Controladora de bodegas
         private static ControladoraDatosGenerales controladoraDatosGenerales;   // Controladora de datos generales
@@ -58,6 +59,46 @@ namespace ProyectoInventarioOET
         }
 
         /*
+         * Realiza los cambios de modo que determinan que se puede ver y que no.
+         */
+        protected void cambiarModo()
+        {
+            switch (modo)
+            {
+                case (int)Modo.Inicial:
+                    FieldsetProductos.Visible = false;
+                    FieldsetCatalogoLocal.Visible = false;
+                    FieldsetAsociarCatalogoLocal.Visible = false;
+                    FieldsetBloqueBotones.Visible = false;
+                    break;
+                case (int)Modo.Insercion:
+                    FieldsetProductos.Visible = false;
+                    FieldsetCatalogoLocal.Visible = false;
+                    FieldsetAsociarCatalogoLocal.Visible = true;
+                    FieldsetBloqueBotones.Visible = true;
+                    break;
+                case (int)Modo.Consulta:
+                    FieldsetProductos.Visible = false;
+                    FieldsetCatalogoLocal.Visible = true;
+                    FieldsetAsociarCatalogoLocal.Visible = false;
+                    FieldsetBloqueBotones.Visible = false;
+                    break;
+                case (int)Modo.Modificacion:
+                    FieldsetProductos.Visible = true;
+                    FieldsetCatalogoLocal.Visible = false;
+                    FieldsetAsociarCatalogoLocal.Visible = false;
+                    FieldsetBloqueBotones.Visible = false;
+                    break;
+                case (int)Modo.Consultado:
+                    FieldsetProductos.Visible = true;
+                    FieldsetCatalogoLocal.Visible = true;
+                    FieldsetAsociarCatalogoLocal.Visible = false;
+                    FieldsetBloqueBotones.Visible = false;
+                    break;
+            }
+        }
+
+        /*
          *  Decide que botones mostrar según los permisos del usuario.
          */
         protected void mostrarBotonesSegunPermisos()
@@ -70,52 +111,6 @@ namespace ProyectoInventarioOET
             botonAsociarBodega.Visible = (permisos[4] == '1');
             botonModificarProductoLocal.Visible = (permisos[3] == '1');
             //inputEstado.Enabled = (permisos[2] == '1');
-        }
-
-        /*
-         * Realiza los cambios de modo que determinan que se puede ver y que no.
-         */
-        protected void cambiarModo()
-        {
-            switch (modo)
-            {
-                case 0:
-                    FieldsetCatalogoLocal.Visible = false;
-                    FieldsetAsociarCatalogoLocal.Visible = false;
-                    FieldsetProductos.Visible = false;
-                    break;
-                case 1: // consultar catálogo
-                    FieldsetProductos.Visible = false;
-                    DropDownListEstacion.SelectedIndex = estacionSeleccionada;
-                    DropDownListEstacion_SelectedIndexChanged(DropDownListEstacion,null);
-                    DropDownListBodega.SelectedIndex = bodegaSeleccionada;
-                    cargarCatalogoLocal();
-                    break;
-                case 2: //consultar con los espacios bloqueados
-                    FieldsetProductos.Visible = true;
-                    DropDownListEstacion.SelectedIndex = estacionSeleccionada;
-                    DropDownListEstacion_SelectedIndexChanged(DropDownListEstacion,null);
-                    DropDownListBodega.SelectedIndex = bodegaSeleccionada;
-                    cargarCatalogoLocal();
-                    cargarDatosProducto();
-                    botonModificarProductoLocal.Disabled = false; //added***
-                    break;
-                case 3: //desactivar ***
-                    FieldsetCatalogoLocal.Visible = false;
-                    FieldsetProductos.Visible = true;
-                    FieldsetBloqueBotones.Visible = true;
-                    DropDownListEstacion.SelectedIndex = estacionSeleccionada;
-                    DropDownListEstacion_SelectedIndexChanged(DropDownListEstacion, null);
-                    DropDownListBodega.SelectedIndex = bodegaSeleccionada;
-                    cargarDatosProducto();
-                    botonAsociarBodega.Disabled = true;
-                    botonModificarProductoLocal.Disabled = true;
-                    inputEstado.Enabled = true && (permisos[2] == '1');
-                    break;
-                default:
-                    // Algo salio mal
-                    break;
-            }
         }
 
         /*
@@ -191,13 +186,10 @@ namespace ProyectoInventarioOET
         {
             if (gridCatalogoLocal)
             {
-                FieldsetCatalogoLocal.Visible = true;
                 this.gridViewCatalogoLocal.DataSource = catalogoLocal;
                 this.gridViewCatalogoLocal.PageIndex = pagina;
                 this.gridViewCatalogoLocal.DataBind();
             }else{
-                FieldsetAsociarCatalogoLocal.Visible = true;
-                FieldsetBloqueBotones.Visible = true;
                 this.gridViewAsociarCatalogoLocal.DataSource = catalogoLocal;
                 this.gridViewAsociarCatalogoLocal.PageIndex = pagina;
                 this.gridViewAsociarCatalogoLocal.DataBind();
@@ -287,8 +279,7 @@ namespace ProyectoInventarioOET
                     String codigo = filaSeleccionada.Cells[2].Text.ToString();
                     String idBodega = idArray2[bodegaSeleccionada].ToString();
                     consultaProducto = controladoraProductoLocal.consultarProductoDeBodega(idBodega, codigo);
-                    modo=2;
-                    Response.Redirect("FormProductosLocales.aspx");
+                    modo=(int)Modo.Consultado;
                     break;
             }
         }
@@ -298,9 +289,7 @@ namespace ProyectoInventarioOET
          */
         protected void botonModificarProductoLocal_ServerClick(object sender, EventArgs e)
         {
-            FieldsetCatalogoLocal.Visible = false;
-            modo = 3;
-            Response.Redirect("FormProductosLocales.aspx");
+            modo = (int)Modo.Modificacion;
         }
 
         /*
@@ -309,8 +298,7 @@ namespace ProyectoInventarioOET
         protected void gridViewCatalogoLocal_CambioPagina(Object sender, GridViewPageEventArgs e)
         {
             pagina = e.NewPageIndex;
-            modo = 1;
-            Response.Redirect("FormProductosLocales.aspx");
+            modo = (int)Modo.Consulta;
         }
         protected void gridViewAsociarCatalogoLocal_CambioPagina(Object sender, GridViewPageEventArgs e)
         {
@@ -330,8 +318,7 @@ namespace ProyectoInventarioOET
                 pos++;
             }
             pagina = e.NewPageIndex;
-            modo = 1;
-            Response.Redirect("FormProductosLocales.aspx");
+            modo = (int)Modo.Insercion;
         }
 
         /*
@@ -381,11 +368,6 @@ namespace ProyectoInventarioOET
                 botonConsultarBodega.Disabled = true;
                 botonAsociarBodega.Disabled = true;
             }
-            if (modo != 3)
-            {
-                modo = 0;
-            }
-            
         }
         /*
          * Selección de bodega, se habilitan las opciones de consulta y asociacion. 
@@ -405,10 +387,9 @@ namespace ProyectoInventarioOET
          */
         protected void botonConsultarBodega_ServerClick(object sender, EventArgs e)
         {
-            mensajeAlerta.Visible = false;
-            gridCatalogoLocal = true;
             if (this.DropDownListBodega.SelectedItem != null)
             {
+                modo = (int)Modo.Consulta;
                 bodegaSeleccionada = this.DropDownListBodega.SelectedIndex;
                 pagina = 0;
                 FieldsetCatalogoLocal.Visible = true;
@@ -443,6 +424,7 @@ namespace ProyectoInventarioOET
          */
         protected void botonAsociarBodega_ServerClick(object sender, EventArgs e)
         {
+            modo = (int)Modo.Insercion;
             mensajeAlerta.Visible = false;
             gridCatalogoLocal = false;
             if (this.DropDownListBodega.SelectedItem != null)
