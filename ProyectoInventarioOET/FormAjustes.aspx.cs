@@ -311,9 +311,9 @@ namespace ProyectoInventarioOET
                         idArrayAgregarProductos[i] = fila[0];
                         datos[0] = fila[1].ToString();
                         datos[1] = fila[2].ToString();
-                        datos[2] = Convert.ToInt32(fila[3].ToString());
-                        datos[3] = Convert.ToInt32(fila[4].ToString());
-                        datos[4] = Convert.ToInt32(fila[5].ToString());
+                        datos[2] = Convert.ToDouble(fila[3].ToString());
+                        datos[3] = Convert.ToDouble(fila[4].ToString());
+                        datos[4] = Convert.ToDouble(fila[5].ToString());
                         tabla.Rows.Add(datos);
                         i++;
                     }
@@ -405,7 +405,7 @@ namespace ProyectoInventarioOET
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.Int32");
+            columna.DataType = System.Type.GetType("System.ToDouble");
             columna.ColumnName = "Cantidad Actual";
             tabla.Columns.Add(columna);
 
@@ -431,7 +431,7 @@ namespace ProyectoInventarioOET
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.Int32");
+            columna.DataType = System.Type.GetType("System.Double");
             columna.ColumnName = "Ajuste de cambio";
             tabla.Columns.Add(columna);
 
@@ -457,17 +457,17 @@ namespace ProyectoInventarioOET
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.Int32");
+            columna.DataType = System.Type.GetType("System.ToDouble");
             columna.ColumnName = "Cantidad Actual";
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.Int32");
+            columna.DataType = System.Type.GetType("System.ToDouble");
             columna.ColumnName = "Minimo";
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.Int32");
+            columna.DataType = System.Type.GetType("System.ToDouble");
             columna.ColumnName = "Maximo";
             tabla.Columns.Add(columna);
 
