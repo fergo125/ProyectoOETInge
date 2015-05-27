@@ -150,13 +150,13 @@ tipoMoneda varchar2(10),
 impuesto int,
 metodoPago varchar2(30)
 );
-CREATE SEQUENCE REGISTRO_FACTURAS_SEQ;
 
 CREATE TABLE REGISTRO_DETALLES_FACTURAS(
 idFactura int REFERENCES REGISTRO_FACTURAS_VENTA(consecutivo),
 idProducto varchar2(20),
 cantidad int,
-precioUnitario float, 
+precioUnitarioColones float, 
+precioUnitarioDolares float,
 descuento int
 );
 

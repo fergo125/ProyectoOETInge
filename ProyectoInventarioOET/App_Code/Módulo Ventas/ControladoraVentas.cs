@@ -23,5 +23,12 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         {
             controladoraBDVentas = new ControladoraBDVentas();
         }
+
+        public String[] insertarFactura(Object[] datosFactura)
+        {
+            EntidadFactura factura = new EntidadFactura(datosFactura);
+            return controladoraBDVentas.insertarFactura(factura);
+        }
+
     }
 }

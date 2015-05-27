@@ -358,9 +358,9 @@
     <Compile Include="App_Code\Módulo Seguridad\ControladoraSeguridad.cs" />
     <Compile Include="App_Code\Módulo Seguridad\EntidadUsuario.cs" />
     <Compile Include="App_Code\Módulo Seguridad\ControladoraBDSeguridad.cs" />
-    <Content Include="App_Code\Módulo Ventas\EntidadFactura.cs" />
-    <Content Include="App_Code\Módulo Ventas\ControladoraVentas.cs" />
-    <Content Include="App_Code\Módulo Ventas\ControladoraBDVentas.cs" />
+    <Compile Include="App_Code\Módulo Ventas\EntidadFactura.cs" />
+    <Compile Include="App_Code\Módulo Ventas\ControladoraVentas.cs" />
+    <Compile Include="App_Code\Módulo Ventas\ControladoraBDVentas.cs" />
     <Compile Include="App_Code\Módulo Traslados\EntidadTraslado.cs" />
     <Compile Include="App_Code\Módulo Traslados\ControladoraTraslado.cs" />
     <Compile Include="App_Code\Módulo Traslados\ControladoraBDTraslado.cs" />
