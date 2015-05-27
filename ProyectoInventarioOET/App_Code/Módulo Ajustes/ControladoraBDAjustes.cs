@@ -79,6 +79,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
                 resultado[1] = consultarDetalles(idAjuste);
                 int x = 9;
                 x = 8;
+                actualizarProducto("PITAN102022015142627451180", 10, true); // PRUEBAAAA QUE FUNCIONA
             }
             catch (Exception e)
             {
@@ -95,11 +96,12 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT P.NOMBRE, P.CODIGO, D.CAMBIO, B.INV_BODEGA_PRODUCTOS "
-                   + " FROM " + esquema + "DETALLES_AJUSTES D, " + esquema + "INV_BODEGA_PRODUCTOS B, " + esquema + "INV_PRODUCTOS P "
+                command.CommandText = "SELECT P.NOMBRE, P.CODIGO, D.CAMBIO, B.INV_BODEGA_PRODUCTOS, B.SALDO, U.DESCRIPCION "
+                   + " FROM " + esquema + "DETALLES_AJUSTES D, " + esquema + "INV_BODEGA_PRODUCTOS B, " + esquema + "INV_PRODUCTOS P, " + esquema + "CAT_UNIDADES U "
                    + " WHERE D.ID_AJUSTES = '" + idAjuste + "' "
                    + " AND D.INV_BODEGA_PRODUCTOS = B.INV_BODEGA_PRODUCTOS "
-                   + " AND B.INV_PRODUCTOS = P.INV_PRODUCTOS ";
+                   + " AND B.INV_PRODUCTOS = P.INV_PRODUCTOS "
+                   + " AND P.CAT_UNIDADES = U.CAT_UNIDADES ";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
             }
@@ -154,14 +156,14 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
             OracleDataReader reader = command.ExecuteReader();
         }
 
-
-        private void actualizarProducto(string idBodega, double cambio, bool signo)
+        // Hay que hablar con LEO para ver si queremos el cambio o mejor el valor que va a ser actual. FUNCIONA CORRECTAMENTE
+        private void actualizarProducto(String idBodegaProducto, double cambio, bool signo)
         {
             String esquema = "Inventarios.";
             OracleCommand command = conexionBD.CreateCommand();
-            command.CommandText = " UPDATE TABLE " + esquema + "INV_BODEGA_PRODUCTOS "
+            command.CommandText = "UPDATE " + esquema + "INV_BODEGA_PRODUCTOS "
                                    + " SET SALDO = " + cambio
-                                   + " WHERE ID_BODEGA_PRODUCTOS = '"+ idBodega+"'";
+                                   + " WHERE INV_BODEGA_PRODUCTOS = '"+ idBodegaProducto+"'";
             OracleDataReader reader = command.ExecuteReader();
         }
 
