@@ -64,11 +64,16 @@
                 <strong><div ID="tituloGridProductos" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Productos a Cambiar</div></strong>
                 <asp:UpdatePanel ID="UpdatePanel2" runat="server">
                     <ContentTemplate>
-                        <asp:GridView ID="gridViewProductos" CssClass="table" OnRowCommand="gridViewProductos_Seleccion" runat="server" AllowPaging="False" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                        <asp:GridView ID="gridViewProductos" CssClass="table" OnRowCommand="gridViewProductos_Seleccion" runat="server" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
                             <Columns>
                                 <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Quitar">
                                     <ControlStyle CssClass="btn btn-default"></ControlStyle>
                                 </asp:ButtonField>
+                                <asp:TemplateField HeaderText="Ajustes" >
+                                    <ItemTemplate>
+                                        <asp:TextBox ID="textAjustes" runat="server" ReadOnly="false"></asp:TextBox>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                             </Columns>
                             <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
                             <PagerStyle CssClass="paging" HorizontalAlign="Center" />

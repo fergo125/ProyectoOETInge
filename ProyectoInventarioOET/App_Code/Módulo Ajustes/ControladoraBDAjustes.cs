@@ -151,7 +151,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
             String esquema = "Inventarios.";
             OracleCommand command = conexionBD.CreateCommand();
             command.CommandText = "INSERT INTO " + esquema +
-                                   "DETALLESAJUSTES (ID_AJUSTES, INV_BODEGA_PRODUCTOS, CAMBIO) VALUES ('"
+                                   "DETALLES_AJUSTES (ID_AJUSTES, INV_BODEGA_PRODUCTOS, CAMBIO) VALUES ('"
                                     + idAjuste + "','" + detallesProducto.IdProductoBodega + "', " + detallesProducto.Cambio + " )";
             OracleDataReader reader = command.ExecuteReader();
         }

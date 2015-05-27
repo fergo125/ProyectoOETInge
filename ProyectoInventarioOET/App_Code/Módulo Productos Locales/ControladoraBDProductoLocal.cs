@@ -70,6 +70,27 @@ namespace ProyectoInventarioOET.Modulo_Productos_Locales
         }
 
         /*
+         * Consulta los productos que pertenecen a una bodega en específico, especializado para el modulo ajustes.
+         */
+        public DataTable consultarProductosDeBodegaAjustes(String idBodega)
+        {
+            String esquema = "Inventarios.";
+            DataTable resultado = new DataTable();
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();  //Cambio Carlos
+                command.CommandText = "SELECT A.INV_BODEGA_PRODUCTOS, B.NOMBRE, B.CODIGO, A.SALDO, A.MINIMO, A.MAXIMO FROM " + esquema + "INV_BODEGA_PRODUCTOS A, " + esquema + "INV_PRODUCTOS B WHERE A.INV_PRODUCTOS = B.INV_PRODUCTOS AND A.CAT_BODEGA = '" + idBodega + "'";
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
+            }
+            catch (Exception e)
+            {
+                resultado = null;
+            }
+            return resultado;
+        }
+
+        /*
          * Consulta un producto en específico perteneciente a la bodega especificada. 
          */
         public DataTable consultarProductoDeBodega(String idBodega, String idProducto)
