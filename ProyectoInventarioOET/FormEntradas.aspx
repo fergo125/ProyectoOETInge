@@ -198,7 +198,7 @@
 
     <fieldset id="FieldsetCrearFactura" runat="server" visible="false">
         <div class="row">
-            <div id="bloqueGridDetalleFactura" class="col-lg-5">
+            <div id="bloqueGridDetalleFactura" class="col-lg-4">
                  <div class="col-lg-12"><strong><div ID="Div1" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Detalle de la Factura Entrante</div></strong>
                     <asp:UpdatePanel ID="UpdatePanelDetalleFactura" runat="server">
                         <ContentTemplate>
@@ -217,7 +217,19 @@
                </div>     
             </div>
 
-            <div id="bloqueGridFacturaNueva" class="col-lg-7">
+            <div class="row col-lg-3">
+                <label class= "control-label">Buscar producto:</label>
+                <asp:TextBox ID="textBoxAutocompleteCrearFacturaBusquedaProducto" runat="server" CssClass="form-control" Width="100%"></asp:TextBox>
+                <br />
+                <label for="inputCantidad" class= "control-label">Cantidad:</label>      
+                <input id="Text1" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
+                <br />
+                <label for="inputCosto" class= "control-label">Costo:</label>      
+                <input id="Text2" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
+                <asp:Button ID="Button1" runat="server" Text="Mostrar Todas" CssClass="btn btn-warning-fozkr" OnClick="botonMostrarFacturas_Click"/>
+            </div>
+
+            <div id="bloqueGridFacturaNueva" class="col-lg-5">
 <%--                <fieldset id="fieldsetGridFacturaNueva" runat="server" class="fieldset">--%>
                  <div class="col-lg-12"><strong><div ID="Div3" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Detalle de la Factura Consignada</div></strong>
                     <asp:UpdatePanel ID="UpdatePanelFacturaNueva" runat="server">
@@ -240,18 +252,6 @@
         </div>
 
         <br />
-
-        <div class="row">
-            <label class= "col-lg-12">Buscar producto:</label>
-        </div>
-        <div class="row">
-            <div class="col-lg-7">
-                <input id="barraDeBusquedaProducto" class="form-control" type="search" placeholder="Ingresa una palabra o código" runat="server" >
-            </div>
-            <div class="col-lg-2">
-                <asp:Button ID="botonBuscarProducto" runat="server" Text="Buscar" CssClass="btn btn-warning-fozkr" OnClick="botonBuscar_Click"/>
-            </div>
-        </div>
     </fieldset>
     <br />
 
@@ -283,11 +283,11 @@
                 </div>
 
                 <div class="row">
-                    <label for="inputCantidad" class= "control-label col-lg-2">Cantidad:</label>      
-                    <input id="inputCantidad" class="form-control col-lg-2" type="text" placeholder="Ingrese una cantidad" runat="server">
+                    <label for="inputCantidad" class= "control-label">Cantidad:</label>      
+                    <input id="inputCantidad" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
 
-                    <label for="inputCosto" class= "control-label col-lg-2">Costo:</label>      
-                    <input id="inputCosto" class="form-control col-lg-2" type="text" placeholder="Ingrese una cantidad" runat="server">
+                    <label for="inputCosto" class= "control-label">Costo:</label>      
+                    <input id="inputCosto" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
                 </div>
                 <br />
 <%--                <div class="row">
@@ -325,6 +325,14 @@
         </div>
     </div>
         
+    <!-- Código necesario para el autocomplete -->
+    <script src="Scripts/jquery-1.4.1.min.js" type="text/javascript"></script>
+    <script src="Scripts/jquery.autocomplete.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#<%=textBoxAutocompleteCrearFacturaBusquedaProducto.ClientID%>").autocomplete('Search_CS.ashx');
+        });
+    </script>
 
 
     </asp:Content>

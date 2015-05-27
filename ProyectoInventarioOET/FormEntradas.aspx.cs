@@ -375,6 +375,8 @@ namespace ProyectoInventarioOET
 
         protected void botonConsultaEntradas_ServerClick(object sender, EventArgs e)
         {
+            modo = (int)Modo.Inicial;
+            cambiarModo();            
             modo = (int)Modo.EntradaConsultada;
             cambiarModo();
             llenarGridEntradas();
@@ -463,6 +465,8 @@ namespace ProyectoInventarioOET
             outputSubtotal.InnerText = Convert.ToString(facturaConsultada.SubTotal);
             outputTotal.InnerText = Convert.ToString(facturaConsultada.Total);
             outputImpuestos.InnerText = Convert.ToString(facturaConsultada.RetencionImpuestos);
+            outputMoneda.InnerText = Convert.ToString(facturaConsultada.Moneda);
+            outputTipoCambio.InnerText = Convert.ToString(facturaConsultada.TipoCambio);
         }
         protected void gridDetalleFactura_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
