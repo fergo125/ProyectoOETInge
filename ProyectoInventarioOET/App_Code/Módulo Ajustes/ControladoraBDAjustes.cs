@@ -111,7 +111,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
         }
 
 
-        public String[] insertarAjuste(EntidadAjustes ajuste)
+        public String[] insertarAjuste(EntidadAjustes ajuste, bool signo)
         {
             String esquema = "Inventarios.";
             String[] res = new String[4];
@@ -125,10 +125,10 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
                                             + ajuste.IdUsuario  + "','" + ajuste.IdBodega + "' , '" + ajuste.Notas + "' )";
                     OracleDataReader reader = command.ExecuteReader();
                     
-                    //foreach(EntidadDetalles detallesProducto in  ajuste.Detalles  ){ // Por cada producto meterlo en el detalles ajustes
-                    //    insertarDetalle(res[3], detallesProducto);
-                    //    //Hacer el cambio
-                    //}
+                    foreach(EntidadDetalles detallesProducto in  ajuste.Detalles  ){ // Por cada producto meterlo en el detalles ajustes
+                        insertarDetalle(res[3], detallesProducto);
+                        actualizarProducto(detallesProducto.IdProductoBodega, detallesProducto.Cambio, signo);
+                    }
 
                     res[0] = "success";
                     res[1] = "Éxito:";
@@ -144,7 +144,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
             return res;
         }
 
-        private void insertarDetalle(string idAjuste, EntidadDetalles detallesProducto)
+        private void insertarDetalle(String idAjuste, EntidadDetalles detallesProducto)
         {
             String esquema = "Inventarios.";
             OracleCommand command = conexionBD.CreateCommand();
@@ -153,6 +153,19 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
                                     + idAjuste + "','" + detallesProducto.IdProductoBodega + "', " + detallesProducto.Cambio + " )";
             OracleDataReader reader = command.ExecuteReader();
         }
+
+
+        private void actualizarProducto(string idBodega, double cambio, bool signo)
+        {
+            String esquema = "Inventarios.";
+            OracleCommand command = conexionBD.CreateCommand();
+            command.CommandText = " UPDATE TABLE " + esquema + "INV_BODEGA_PRODUCTOS "
+                                   + " SET SALDO = " + cambio
+                                   + " WHERE ID_BODEGA_PRODUCTOS = '"+ idBodega+"'";
+            OracleDataReader reader = command.ExecuteReader();
+        }
+
+
 
 
         }

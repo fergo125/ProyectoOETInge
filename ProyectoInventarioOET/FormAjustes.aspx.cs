@@ -29,7 +29,7 @@ namespace ProyectoInventarioOET
         private static ControladoraDatosGenerales controladoraDatosGenerales;   // Controladora de datos generales
         private static ControladoraAjustes controladoraAjustes;                 // Controladora del modulo ajustes
         private static EntidadAjustes ajusteConsultado;                         // El ajuste mostrado en pantalla
-
+        private static bool[] signos;
 
         // DataTable bodegas = controladoraBodegas.consultarBodegasDeEstacion(idEstacion);
 
@@ -241,7 +241,8 @@ namespace ProyectoInventarioOET
                 // Cargar bodegas
                 Object[] datos = new Object[3];
 
-                DataTable ajustes = controladoraAjustes.consultarAjustes((this.Master as SiteMaster).LlaveBodegaSesion);
+                //DataTable ajustes = controladoraAjustes.consultarAjustes((this.Master as SiteMaster).LlaveBodegaSesion);
+                DataTable ajustes = controladoraAjustes.consultarAjustes("PITAN129012015101713605001");
 
                 if (ajustes.Rows.Count > 0)
                 {
@@ -482,9 +483,13 @@ namespace ProyectoInventarioOET
         {
             dropdownTipo.Items.Clear();
             DataTable tipos = controladoraAjustes.tiposAjuste();
+            signos = new bool [tipos.Rows.Count];
+            int i = 0;
             foreach (DataRow fila in tipos.Rows)
             {
                 dropdownTipo.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
+                signos[i] = fila[2].ToString().Equals("1") ? true : false;
+                i++;
             }
             dropdownTipo.SelectedIndex = 0;
         }
@@ -641,6 +646,7 @@ namespace ProyectoInventarioOET
         protected Object[] obtenerDatosAjuste()
         {
             Object[] datos = new Object[6];
+            bool fun = signos[this.dropdownTipo.SelectedIndex];
             datos[0] = this.dropdownTipo.SelectedValue;
             datos[1] = this.outputFecha.Value;
             datos[2] = "";
@@ -673,7 +679,7 @@ namespace ProyectoInventarioOET
                 ++i;
             }
 
-            String[] error = controladoraAjustes.insertarAjuste(nueva);
+            String[] error = controladoraAjustes.insertarAjuste(nueva, signos[this.dropdownTipo.SelectedIndex]);  // Envia el signo del cambio
 
             codigo = Convert.ToString(error[3]);
             mostrarMensaje(error[0], error[1], error[2]);
