@@ -43,6 +43,6 @@ namespace ProyectoInventarioOET.Modulo_Entradas
         {
             return controladoraProductosGlobales.consultarProductosGlobales(buscado);
         }
-
+        public EntidadFactura b
     }
 }

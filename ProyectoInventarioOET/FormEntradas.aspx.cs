@@ -27,6 +27,7 @@ namespace ProyectoInventarioOET
         private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
         private static String bodegaDeTrabajo;
         private static String facturaBuscada;
+        private static EntidadFactura facturaConsultada;
 
 
         protected void Page_Load(object sender, EventArgs e)
@@ -379,7 +380,33 @@ namespace ProyectoInventarioOET
         {
 
         }
-
+        protected void gridViewFacturas_Seleccion(object sender, GridViewCommandEventArgs e)
+        {
+            switch (e.CommandName)
+            {
+                case "Select":
+                    GridViewRow filaSeleccionada = this.gridViewFacturas.Rows[Convert.ToInt32(e.CommandArgument)];
+                    String codigo = "";
+                    codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewFacturas.PageIndex)]);
+                    consultarFactura(codigo);
+                    break;
+            }
+        }
+        protected void consultarFactura(String codigo)
+        {
+            seConsulto = true;
+            try
+            {
+                facturaConsultada = controladoraEntradas.consultarFactura(codigo);
+                modo = (int)Modo.Consultado;
+            }
+            catch
+            {
+                actividadConsultada = null;
+                modo = (int)Modo.Inicial;
+            }
+            cambiarModo();
+        }
         protected void gridDetalleFactura_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
 
