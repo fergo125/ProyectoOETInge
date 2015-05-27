@@ -12,13 +12,15 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
         private String codigo;
         private double cambio;
         private String idProductoBodega;
+        private double final;
 
             public EntidadDetalles (Object[] datos)
             {
                 this.nombreProducto = datos[0].ToString();
                 this.codigo = datos[1].ToString();
                 this.cambio = Double.Parse(datos[2].ToString());
-                this.idProductoBodega = datos[3].ToString();                
+                this.idProductoBodega = datos[3].ToString();
+                this.final = Double.Parse(datos[4].ToString());
             }
 
 

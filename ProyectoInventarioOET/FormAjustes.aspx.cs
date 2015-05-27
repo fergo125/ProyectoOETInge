@@ -87,7 +87,7 @@ namespace ProyectoInventarioOET
             {
                 case (int)Modo.Inicial: //modo inicial
                     limpiarCampos();
-                    botonAgregar.Disabled = true;
+                    botonAgregar.Visible = false;
                     FieldsetAjustes.Visible = false;
                     botonAceptarAjustes.Visible = false;
                     botonCancelarAjustes.Visible = false;
@@ -103,7 +103,7 @@ namespace ProyectoInventarioOET
                     break;
 
                 case (int)Modo.Insercion: //insertar
-                    botonAgregar.Disabled = false;
+                    botonAgregar.Visible = true;
                     FieldsetAjustes.Visible = true;
                     botonAceptarAjustes.Visible = true;
                     botonCancelarAjustes.Visible = true;
@@ -119,7 +119,7 @@ namespace ProyectoInventarioOET
                     break;
 
                 case (int)Modo.Consulta://consultar
-                    botonAgregar.Disabled = true;
+                    botonAgregar.Visible = false;
                     FieldsetAjustes.Visible = false;
                     botonAceptarAjustes.Visible = false;
                     botonCancelarAjustes.Visible = false;
@@ -135,7 +135,7 @@ namespace ProyectoInventarioOET
                     break;
 
                 case (int)Modo.Consultado://consultado, pero con los espacios bloqueados
-                    botonAgregar.Disabled = true;
+                    botonAgregar.Visible = false;
                     FieldsetAjustes.Visible = true;
                     botonAceptarAjustes.Visible = false;
                     botonCancelarAjustes.Visible = false;
@@ -408,6 +408,7 @@ namespace ProyectoInventarioOET
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.Int32");
             columna.ColumnName = "Ajuste";
+            columna.ReadOnly = false;
             tabla.Columns.Add(columna);
 
             return tabla;
@@ -505,6 +506,7 @@ namespace ProyectoInventarioOET
             limpiarCampos();
             llenarGridAgregarProductos();
             vaciarGridProductos();
+
             cargarTipos();
             if( (this.Master as SiteMaster).Usuario != null )
                 outputUsuario.Value = (this.Master as SiteMaster).Usuario.Nombre;
@@ -671,10 +673,13 @@ namespace ProyectoInventarioOET
             int i = 0;
             foreach( DataRow row in tablaProductos.Rows )
             {
-                ajuste = new Object[4];
+                String x = ((TextBox)gridViewProductos.Rows[i].FindControl("textAjustes")).Text;
+
+                ajuste = new Object[5];
                 ajuste[0] = ajuste[1] = "";
-                ajuste[2] = row["Ajuste de cambio"];
+                ajuste[2] = row["Ajuste"].ToString();
                 ajuste[3] = idArrayProductos[i];
+                ajuste[4] = Double.Parse(row["Ajuste"].ToString()) - Double.Parse(row["Cantidad Actual"].ToString());
                 nueva.agregarDetalle(ajuste);
                 ++i;
             }
