@@ -26,7 +26,7 @@
     <br />
     <br />
 
-    <h3 id="tituloAccionEntradas" runat="server">Seleccione una opción</h3>
+    <h3 id="tituloAccionEntradas" runat="server"></h3>
 
     <div id="bloqueGridEntradas" class="col-lg-12">
         <fieldset id="FieldsetGridEntradas" runat="server" class="fieldset" visible="false">
@@ -130,8 +130,6 @@
        </div>
         </fieldset>        
     </div>
-
-<<<<<<< HEAD
     <br />
     <br />
 
@@ -242,31 +240,77 @@
                 <asp:Button ID="botonBuscarProducto" runat="server" Text="Buscar" CssClass="btn btn-warning-fozkr" OnClick="botonBuscar_Click"/>
             </div>
         </div>
+    </fieldset>
     <br />
 
     <fieldset id="FieldsetResultadosBusqueda" runat="server" visible="false" >
-        <strong><div ID="UpdatePanelResultados" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Resultados de Búsqueda</div></strong>
-<%--        <asp:UpdatePanel ID="UpdatePanelResultadosBusqueda" runat="server">
-            <ContentTemplate>--%>
+        <div class="row">
+            <div class="col-lg-7">
+            <strong><div ID="UpdatePanelResultados" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Resultados de Búsqueda</div></strong>
+                    <asp:GridView ID="gridViewProductoBuscado" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewProductoBuscado_RowCommand" OnPageIndexChanging="gridViewProductoBuscado_PageIndexChanging" runat="server" AllowPaging="true" PageSize="16" BorderColor="Transparent">
+                        <Columns>
+                            <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Seleccionar">
+                                <ControlStyle CssClass="btn btn-default"></ControlStyle>
+                            </asp:ButtonField>
+                        </Columns>
+                        <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
+                        <PagerStyle CssClass="paging" HorizontalAlign="Center" />
+                        <AlternatingRowStyle BackColor="#EBEBEB" />
+                        <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
+                        <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" />
+                    </asp:GridView>
+            </div>
 
-                <asp:GridView ID="gridViewProductoBuscado" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewProductoBuscado_RowCommand" OnPageIndexChanging="gridViewProductoBuscado_PageIndexChanging" runat="server" AllowPaging="true" PageSize="16" BorderColor="Transparent">
-                    <Columns>
-                        <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Seleccionar">
-                            <ControlStyle CssClass="btn btn-default"></ControlStyle>
-                        </asp:ButtonField>
-                    </Columns>
-                    <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
-                    <PagerStyle CssClass="paging" HorizontalAlign="Center" />
-                    <AlternatingRowStyle BackColor="#EBEBEB" />
-                    <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
-                    <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" />
-                </asp:GridView>
+            <div class="col-lg-5">
+                <div class="row">
+                    <h3>Información del Producto</h3>
+                </div>
 
-<%--            </ContentTemplate>
-            <Triggers>
-            <asp:AsyncPostBackTrigger ControlID="gridViewProductoBuscado" EventName="RowCommand" />
-            </Triggers>
-        </asp:UpdatePanel>--%>
+                <div class="row">
+                    <label for="outputNombreProducto" class= "control-label col-lg-4"></label>      
+                </div>
+
+                <div class="row">
+                    <label for="inputCantidad" class= "control-label col-lg-4">Cantidad:</label>      
+                    <input id="inputCantidad" class="form-control col-lg-4" type="text" placeholder="Ingrese una cantidad" runat="server">
+                </div>
+                <br />
+                <div class="row">
+                    <label for="inputCosto" class= "control-label col-lg-4">Costo:</label>      
+                    <input id="inputCosto" class="form-control col-lg-4" type="text" placeholder="Ingrese una cantidad" runat="server">
+                </div>
+            </div>
+        </div>
     </fieldset>
+
+    <div class="col-lg-12" id="bloqueBotones">
+        <div class =" row">
+            <div class="text-center">
+                <button runat="server" onserverclick="botonAceptarEntrada_ServerClick" id="botonAceptarEntrada" class="btn btn-success-fozkr" type="button"><i class="fa fa-pencil-square-o"></i>Enviar</button>
+                <a id="botonCancelarEntrada" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cancelar</a>                
+            </div>
+        </div>
+    </div>
+
+        <!--Modal Cancelar-->
+    <div class="modal fade" id="modalCancelar" tabindex="-1" role="dialog" aria-labelledby="modalCancelarLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="modalTitle"><i class="fa fa-exclamation-triangle text-danger fa-2x"></i>Confirmar cancelación</h4>
+                </div>
+                <div class="modal-body">
+                    ¿Está seguro que desea cancelar los cambios? Perdería todos los datos no guardados.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="botonAceptarModalCancelar" causesvalidation="false" class="btn btn-success-fozkr" runat="server" onserverclick="botonAceptarModalCancelar_ServerClick" >Aceptar</button>
+                    <button type="button" id="botonCancelarModalCancelar" causesvalidation="false" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
+                </div>
+            </div>
+        </div>
+    </div>
+        
+
 
     </asp:Content>
