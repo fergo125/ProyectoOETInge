@@ -83,6 +83,6 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             }
             return resultado;
         }
-        public EntidadFactura 
+        //public EntidadFactura 
     }
 }
