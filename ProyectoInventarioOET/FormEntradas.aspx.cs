@@ -397,15 +397,15 @@ namespace ProyectoInventarioOET
             seConsulto = true;
             try
             {
-                facturaConsultada = controladoraEntradas.consultarFactura(codigo);
+                //facturaConsultada = controladoraEntradas.consultarFactura(codigo);
                 modo = (int)Modo.Consultado;
             }
             catch
             {
-                actividadConsultada = null;
+                //actividadConsultada = null;
                 modo = (int)Modo.Inicial;
             }
-            cambiarModo();
+            //cambiarModo();
         }
         protected void gridDetalleFactura_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
