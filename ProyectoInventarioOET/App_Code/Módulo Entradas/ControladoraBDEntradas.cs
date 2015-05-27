@@ -35,24 +35,6 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             return resultado;
         }
 
-        public DataTable consultarFacturas()
-        {
-            String esquema = "Compras.";
-            DataTable resultado = new DataTable();
-            try
-            {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT * FROM " + esquema + "FACTURAS";
-                OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
-            }
-            catch (OracleException e)
-            {
-                resultado = null;
-            }
-            return resultado;
-        }
-
         public DataTable buscarFacturas(string id)
         {
             DataTable resultado = new DataTable();
@@ -83,6 +65,25 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             }
             return resultado;
         }
-        //public EntidadFactura 
+        public DataTable consultarFactura(String id)
+        {
+            DataTable resultado = new DataTable();
+            String esquema = "Compras.";
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+              
+                command.CommandText = "SELECT *  "
+                + " FROM " + esquema + "FACTURAS "
+                + " WHERE IDFACTURA =" + " '" + id + "'";
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
+            }
+            catch (Exception e)
+            {
+                resultado = null;
+            }
+            return resultado;
+        }
     }
 }
