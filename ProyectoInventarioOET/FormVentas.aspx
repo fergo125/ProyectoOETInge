@@ -37,7 +37,7 @@
         <div class="row" ID="bloqueFormulario" runat="server">
             <div class="col-lg-12">
                 <div class="form-group col-lg-3">
-                    <label for="ConsultaEstacion" class="control-label">Estacion:</label>    
+                    <label for="ConsultaEstacion" class="control-label">Estación:</label>    
                     <asp:DropDownList ID="dropDownListConsultaEstacion" runat="server" class="form-control"></asp:DropDownList>
                 </div>
                 <div class="form-group col-lg-3">
@@ -58,10 +58,79 @@
     </asp:Panel>
 
     <!-- Panel para consultar la información específica de una factura después de seleccionarla en el grid -->
-    <asp:Panel ID="PanelConsultarFacturaEspecifica" runat="server" Visible="true">
-        <asp:Table ID="tableConsultaFacturaEspecificaDetalles" runat="server">
-
-        </asp:Table>
+    <asp:Panel ID="PanelConsultarFacturaEspecifica" runat="server" Visible="false">
+        <table class="table table-fozkr">
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td rowspan="6"> <%--Grid con los productos de la factura, tiene su propia "fila" (abarcando todas las demás) para encontrarlo fácilmente aquí en el aspx--%>
+                    <strong><div ID="divTituloGridProductosFactura" runat="server" tabindex="" class="control-label" style="text-align:center; font-size:larger; background-color: #C0C0C0;">Productos de la factura</div></strong>
+                    <asp:UpdatePanel ID="UpdatePanelFacturaConsultada" runat="server">
+                        <ContentTemplate>
+                            <asp:GridView ID="gridFaacturaEspecificaProductos" CssClass="table" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                               <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
+                               <PagerStyle CssClass="paging" HorizontalAlign="Center" />
+                               <AlternatingRowStyle BackColor="#F8F8F8" />
+                               <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
+                            </asp:GridView>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="FacturaConsultadaConsecutivo" class="control-label">Consecutivo:</label>
+                    <asp:TextBox ID="textBoxFacturaConsultadaConsecutivo" runat="server" class="form-control"></asp:TextBox>
+                </td>
+                <td>
+                    <label for="FacturaConsultadaEstacion" class="control-label">Estación:</label>
+                    <asp:TextBox ID="textBoxFacturaConsultadaEstacion" runat="server" class="form-control"></asp:TextBox>
+                </td>
+                <td>
+                    <label for="FacturaConsultadaBodega" class="control-label">Bodega:</label>
+                    <asp:TextBox ID="textBoxFacturaConsultadaBodega" runat="server" class="form-control"></asp:TextBox>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="FacturaConsultadaFechaHora" class="control-label">Fecha y hora:</label>
+                    <asp:TextBox ID="textBoxFacturaConsultadaFechaHora" runat="server" class="form-control"></asp:TextBox>
+                </td>
+                <td>
+                    <label for="FacturaConsultadaVendedor" class="control-label">Vendedor:</label>
+                    <asp:TextBox ID="textBoxFacturaConsultadaVendedor" runat="server" class="form-control"></asp:TextBox>
+                </td>
+                <td>
+                    <label for="FacturaConsultadaCliente" class="control-label">Cliente:</label>
+                    <asp:TextBox ID="textBoxFacturaConsultadaCliente" runat="server" class="form-control"></asp:TextBox>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="FacturaConsultadaTipoMoneda" class="control-label">Tipo de moneda:</label>
+                    <asp:TextBox ID="textBoxFacturaConsultadaTipoMoneda" runat="server" class="form-control"></asp:TextBox>
+                </td>
+                <td>
+                    <label for="FacturaConsultadaImpuesto" class="control-label">Impuesto:</label>
+                    <asp:TextBox ID="textBoxFacturaConsultadaImpuesto" runat="server" class="form-control"></asp:TextBox>
+                </td>
+                <td>
+                    <label for="FacturaConsultadaMetodoPago" class="control-label">Método de pago:</label>
+                    <asp:TextBox ID="textBoxFacturaConsultadaMetodoPago" runat="server" class="form-control"></asp:TextBox>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="FacturaConsultadaActividad" class="control-label">Actividad:</label>
+                    <asp:TextBox ID="textBoxFacturaConsultadActividad" runat="server" class="form-control"></asp:TextBox>
+                </td>
+                <td>
+                    <label for="FacturaConsultadaEstado" class="control-label">Estado:</label>
+                    <asp:TextBox ID="textBoxFacturaConsultadaEstado" runat="server" class="form-control"></asp:TextBox>
+                </td>
+            </tr>
+        </table>
     </asp:Panel>
 
     <!-- Panel con el grid de consultar facturas (se mantiene aparte para poder esconder los campos de consulta grupal y mostrar los de consulta individual, sin tocar el grid) -->
@@ -77,11 +146,11 @@
                                 <ControlStyle CssClass="btn btn-default"></ControlStyle>
                             </asp:ButtonField>
                        </Columns>
-                       <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
-                       <PagerStyle CssClass="paging" HorizontalAlign="Center" />
-                       <AlternatingRowStyle BackColor="#F8F8F8" />
-                       <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
-                       <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
+                       <RowStyle Font-Size="small" BackColor="White" ForeColor="Black"/>
+                       <PagerStyle CssClass="paging" HorizontalAlign="Center"/>
+                       <AlternatingRowStyle BackColor="#F8F8F8"/>
+                       <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White"/>
+                       <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver"/>
                   </asp:GridView>
              </ContentTemplate>
              <Triggers>
@@ -91,8 +160,8 @@
     </asp:Panel>
 
     <!-- Panel crear factura -->
-    <asp:Panel ID="PanelCrearFactura" runat="server" Visible="false">
-        <table class="table table-fozkr">
+    <asp:Panel ID="PanelCrearFactura" runat="server" Visible="true">
+        <table class="table table-bills-fozkr">
             <tr>
                 <td colspan="5">Fecha y hora:  <%: DateTime.Now.Date.ToShortDateString() %>,  <%: DateTime.Now.TimeOfDay.ToString().Substring(0,5) %></td></tr>
             <tr>
@@ -118,41 +187,25 @@
                 <td><button type="button" ID="botonCrearFacturaAgregarProducto" class="btn btn-success-fozkr" onserverclick="Page_Load" runat="server">Agregar</button></td>
             </tr>
             <tr>
-                <td colspan="2">Nombre</td>
-                <td>Cantidad</td>
-                <td>Precio <asp:Button ID="botonCrearFacturaSwitchPrecios" class="btn" runat="server" Text="₡/$" /></td>
-                <td>Descuento</td>
-            </tr>
             <%--TODO: considerar cambiar la lista de producto por un grid, mucho más fácil de manejar, mayor consistencia, un poco más feo--%>
-                                            <!-- Para pruebas, quitar despues -->
-                                            <%--<asp:Table ID="test" runat="server">
-                                                <asp:TableRow>
-                                                    <asp:TableCell>Prueba</asp:TableCell>
-                                                    <asp:TableCell>de tabla</asp:TableCell>
-                                                    <asp:TableCell>ASP</asp:TableCell>
-                                                </asp:TableRow>
-                                                <asp:TableRow>
-                                                    <asp:TableCell ColumnSpan="3">para dinamismo</asp:TableCell>
-                                                </asp:TableRow>
-                                            </asp:Table>--%>
-            <%--<tr>
-                <td colspan="2"><input ID="Checkbox1" class="input input-fozkr-check" type="checkbox" />Ejemplo de nombre</td>
-                <td><input ID="cantidad1" type="text" class="input input-fozkr-quantity"/></td>
-                <td>900</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td colspan="2"><input ID="Checkbox2" class="input input-fozkr-check" type="checkbox" />Ejemplo de nombre</td>
-                <td><input ID="cantidad2" type="text" class="input input-fozkr-quantity"/></td>
-                <td>1,000</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td colspan="2"><input ID="Checkbox3" class="input input-fozkr-check" type="checkbox" />Ejemplo de nombre</td>
-                <td><input ID="cantidad3" type="text" class="input input-fozkr-quantity"/></td>
-                <td>10,000</td>
-                <td></td>
-            </tr>--%>
+                <td colspan="5">
+                    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                        <ContentTemplate>
+                            <asp:GridView ID="gridViewCrearFacturaProductos" CssClass="table" OnRowCommand="gridViewFacturas_FilaSeleccionada" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                                <Columns>
+                                    <asp:CheckBoxField Text="Seleccionar">
+                                        <ControlStyle CssClass="btn btn-default"></ControlStyle>
+                                    </asp:CheckBoxField>
+                                </Columns>
+                                <RowStyle Font-Size="small" BackColor="White" ForeColor="Black"/>
+                                <PagerStyle CssClass="paging" HorizontalAlign="Center"/>
+                                <AlternatingRowStyle BackColor="#F8F8F8"/>
+                                <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White"/>
+                                <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver"/>
+                            </asp:GridView>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+                </td>
             <tr>
                 <td colspan="5">
                     <button type="button" ID="botonCrearFacturaQuitarProducto" class="btn btn-danger-fozkr" href="#modalCancelarFactura" data-toggle="modal" style="float: left" runat="server">Quitar producto</button>
@@ -161,9 +214,9 @@
             </tr>
             <tr>
                 <td></td>
-                <td></td>
-                <td>Total:</td>
-                <td><asp:Label ID="labelCrearFacturaPrecioTotal" runat="server" Text="Label"></asp:Label></td>
+                <td><asp:Button ID="botonCrearFacturaSwitchPrecios" class="btn" runat="server" Text="₡/$"/></td>
+                <td>Total</td>
+                <td><asp:Label ID="labelCrearFacturaPrecioTotal" runat="server"></asp:Label></td>
                 <td></td>
             </tr>
             <tr>

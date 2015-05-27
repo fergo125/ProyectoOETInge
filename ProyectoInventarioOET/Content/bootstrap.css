@@ -6987,8 +6987,8 @@ td.visible-print {
   margin-bottom: -50px;
 }
 
-/*Used for the billing table in the sales page, a table with no borders or lines of any kind.*/
-.table-fozkr {
+/*Used for the billing table in the sales page, a table with only borders but no lines of any kind.*/
+.table-bills-fozkr {
   width: 40%;
   margin-left: auto;
   margin-right: auto;
@@ -6997,13 +6997,33 @@ td.visible-print {
   border-color: #000000;
 }
 
+.table-bills-fozkr thead > tr > th,
+.table-bills-fozkr tbody > tr > th,
+.table-bills-fozkr tfoot > tr > th,
+.table-bills-fozkr thead > tr > td,
+.table-bills-fozkr tbody > tr > td,
+.table-bills-fozkr tfoot > tr > td {
+  text-align: center;
+  border: none;
+}
+
+/*Used for normal tables, a table with no borders or lines of any kind.*/
+.table-fozkr {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  border-collapse: collapse;
+  border: 1px solid;
+  border-color: #ffffff;
+}
+
 .table-fozkr thead > tr > th,
 .table-fozkr tbody > tr > th,
 .table-fozkr tfoot > tr > th,
 .table-fozkr thead > tr > td,
 .table-fozkr tbody > tr > td,
 .table-fozkr tfoot > tr > td {
-  text-align: center;
+  text-align: left;
   border: none;
 }
 
