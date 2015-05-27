@@ -216,6 +216,7 @@ namespace ProyectoInventarioOET
         {
             this.dropdownTipo.Enabled = habilitar;
             this.inputNotas.Enabled = habilitar;
+            gridViewProductos.Enabled = habilitar;
             // Habilitar/Desabilitar botones de grid
         }
 
@@ -715,6 +716,7 @@ namespace ProyectoInventarioOET
                     ajusteConsultado = controladoraAjustes.consultarAjuste(codigoInsertado);
                     modo = (int)Modo.Consultado;
                     habilitarCampos(false);
+                    cambiarModo();
                 }
                 else
                     operacionCorrecta = false;
