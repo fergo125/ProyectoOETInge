@@ -50,12 +50,13 @@ namespace ProyectoInventarioOET
                 DropDownListEstacion_CargaEstaciones();
 
                 //Seguridad
+                
                 permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Catalogos de productos en bodegas");
                 if (permisos == "000000")
                     Response.Redirect("~/ErrorPages/404.html");
                 mostrarBotonesSegunPermisos();
+                cambiarModo();
             }
-            cambiarModo();
         }
 
         /*
@@ -87,7 +88,7 @@ namespace ProyectoInventarioOET
                     FieldsetProductos.Visible = true;
                     FieldsetCatalogoLocal.Visible = false;
                     FieldsetAsociarCatalogoLocal.Visible = false;
-                    FieldsetBloqueBotones.Visible = false;
+                    FieldsetBloqueBotones.Visible = true;
                     break;
                 case (int)Modo.Consultado:
                     FieldsetProductos.Visible = true;
@@ -180,30 +181,6 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * Recarga el catálogo local que se tiene actualmente en memoria en el grid.
-         */
-        protected void cargarCatalogoLocal()
-        {
-            if (gridCatalogoLocal)
-            {
-                this.gridViewCatalogoLocal.DataSource = catalogoLocal;
-                this.gridViewCatalogoLocal.PageIndex = pagina;
-                this.gridViewCatalogoLocal.DataBind();
-            }else{
-                this.gridViewAsociarCatalogoLocal.DataSource = catalogoLocal;
-                this.gridViewAsociarCatalogoLocal.PageIndex = pagina;
-                this.gridViewAsociarCatalogoLocal.DataBind();
-                int pos = gridViewAsociarCatalogoLocal.PageSize * gridViewAsociarCatalogoLocal.PageIndex;
-                for (int i = 0; i < gridViewAsociarCatalogoLocal.PageSize; i++)
-                {
-                    GridViewRow fila = gridViewAsociarCatalogoLocal.Rows[i];
-                    ((CheckBox)fila.FindControl("checkBoxProductos")).Checked = asociados[pos];
-                    pos++;
-                }
-            }
-        }
-
-        /*
          * Carga los datos del producto consultado en los textos.
          */
         protected void cargarDatosProducto()
@@ -280,6 +257,7 @@ namespace ProyectoInventarioOET
                     String idBodega = idArray2[bodegaSeleccionada].ToString();
                     consultaProducto = controladoraProductoLocal.consultarProductoDeBodega(idBodega, codigo);
                     modo=(int)Modo.Consultado;
+                    cambiarModo();
                     break;
             }
         }
@@ -290,6 +268,7 @@ namespace ProyectoInventarioOET
         protected void botonModificarProductoLocal_ServerClick(object sender, EventArgs e)
         {
             modo = (int)Modo.Modificacion;
+            cambiarModo();
         }
 
         /*
@@ -297,28 +276,47 @@ namespace ProyectoInventarioOET
          */
         protected void gridViewCatalogoLocal_CambioPagina(Object sender, GridViewPageEventArgs e)
         {
-            pagina = e.NewPageIndex;
-            modo = (int)Modo.Consulta;
+            this.gridViewCatalogoLocal.DataSource = catalogoLocal;
+            this.gridViewCatalogoLocal.PageIndex = e.NewPageIndex;
+            this.gridViewCatalogoLocal.DataBind();
         }
         protected void gridViewAsociarCatalogoLocal_CambioPagina(Object sender, GridViewPageEventArgs e)
         {
             int pos = gridViewAsociarCatalogoLocal.PageSize * gridViewAsociarCatalogoLocal.PageIndex;
             for (int i = 0; i < gridViewAsociarCatalogoLocal.PageSize; i++)
             {
-                GridViewRow fila = gridViewAsociarCatalogoLocal.Rows[i];
-                bool estaSeleccionadoProducto = ((CheckBox)fila.FindControl("checkBoxProductos")).Checked;
-                if (estaSeleccionadoProducto)
+                try
                 {
-                    asociados[pos] = true;
+                    GridViewRow fila = gridViewAsociarCatalogoLocal.Rows[i];
+                    bool estaSeleccionadoProducto = ((CheckBox)fila.FindControl("checkBoxProductos")).Checked;
+                    if (estaSeleccionadoProducto)
+                    {
+                        asociados[pos] = true;
+                    }
+                    else
+                    {
+                        asociados[pos] = false;
+                    }
+                    pos++;
                 }
-                else
-                {
-                    asociados[pos] = false;
-                }
-                pos++;
+                catch (ArgumentOutOfRangeException) { break; }
+
             }
-            pagina = e.NewPageIndex;
-            modo = (int)Modo.Insercion;
+            this.gridViewAsociarCatalogoLocal.DataSource = catalogoLocal;
+            this.gridViewAsociarCatalogoLocal.PageIndex = e.NewPageIndex;
+            this.gridViewAsociarCatalogoLocal.DataBind();
+            pos = gridViewAsociarCatalogoLocal.PageSize * gridViewAsociarCatalogoLocal.PageIndex;
+            for (int i = 0; i < gridViewAsociarCatalogoLocal.PageSize; i++)
+            {
+                try
+                {
+                    GridViewRow fila = gridViewAsociarCatalogoLocal.Rows[i];
+                    ((CheckBox)fila.FindControl("checkBoxProductos")).Checked = asociados[pos];
+                    pos++;
+                }
+                catch (ArgumentOutOfRangeException) { break;  }
+            }
+
         }
 
         /*
@@ -346,6 +344,8 @@ namespace ProyectoInventarioOET
          */
         protected void DropDownListEstacion_SelectedIndexChanged(object sender, EventArgs e)
         {
+            modo = (int)Modo.Inicial;
+            cambiarModo();
             this.DropDownListBodega.Items.Clear();
             estacionSeleccionada = this.DropDownListEstacion.SelectedIndex;
             String idEstacion = idArray[estacionSeleccionada].ToString();
@@ -381,7 +381,6 @@ namespace ProyectoInventarioOET
             }
         }
 
-
         /*
          * Consulta de bodega, aquí se carga la tabla.
          */
@@ -390,9 +389,8 @@ namespace ProyectoInventarioOET
             if (this.DropDownListBodega.SelectedItem != null)
             {
                 modo = (int)Modo.Consulta;
+                cambiarModo();
                 bodegaSeleccionada = this.DropDownListBodega.SelectedIndex;
-                pagina = 0;
-                FieldsetCatalogoLocal.Visible = true;
                 String idBodega = idArray2[bodegaSeleccionada].ToString();
                 catalogoLocal = tablaCatalogoLocal();
                 DataTable productos = controladoraProductoLocal.consultarProductosDeBodega(idBodega);
@@ -415,7 +413,7 @@ namespace ProyectoInventarioOET
                     }
                 }
                 this.gridViewCatalogoLocal.DataSource = catalogoLocal;
-                this.gridViewCatalogoLocal.PageIndex = pagina;
+                this.gridViewCatalogoLocal.PageIndex = 0;
                 this.gridViewCatalogoLocal.DataBind();
             }
         }
@@ -424,15 +422,11 @@ namespace ProyectoInventarioOET
          */
         protected void botonAsociarBodega_ServerClick(object sender, EventArgs e)
         {
-            modo = (int)Modo.Insercion;
-            mensajeAlerta.Visible = false;
-            gridCatalogoLocal = false;
             if (this.DropDownListBodega.SelectedItem != null)
             {
+                modo = (int)Modo.Insercion;
+                cambiarModo();
                 bodegaSeleccionada = this.DropDownListBodega.SelectedIndex;
-                pagina = 0;
-                FieldsetAsociarCatalogoLocal.Visible = true;
-                FieldsetBloqueBotones.Visible = true;
                 String idBodega = idArray2[bodegaSeleccionada].ToString();
                 catalogoLocal = tablaAsociacion();
                 DataTable productos = controladoraBodegas.consultarProductosAsociables(idBodega);
@@ -460,29 +454,22 @@ namespace ProyectoInventarioOET
                         }
                     }
                     this.gridViewAsociarCatalogoLocal.DataSource = catalogoLocal;
-                    this.gridViewAsociarCatalogoLocal.PageIndex = pagina;
+                    this.gridViewAsociarCatalogoLocal.PageIndex = 0;
                     this.gridViewAsociarCatalogoLocal.DataBind();
                 }
             }
         }
 
-
-
         /*
-         * Realiza la asociación de los productos confirmados.
+         * Realiza la asociación de los productos confirmados o envia la informacion modificada
          */
         protected void botonAsociarProductos_ServerClick(object sender, EventArgs e)
-        
         {
-            if (modo == 3)
+            String[] res = new String[3];
+            if (modo == (int)Modo.Modificacion)
             {
-                String[] res = new String[3];
-                int test = inputEstado.SelectedIndex;
-                int count = inputEstado.Items.Count;
                 res = controladoraProductoLocal.modificarProductoLocal(consultaProducto.Rows[0][22].ToString(),inputEstado.SelectedItem.ToString());
-                mostrarMensaje(res[0], res[1], res[2]);
-                modo = 2;
-                Response.Redirect("FormProductosLocales.aspx");
+                modo = (int)Modo.Consultado;
             }
             else { 
                 int pos = gridViewAsociarCatalogoLocal.PageSize * gridViewAsociarCatalogoLocal.PageIndex;
@@ -501,7 +488,6 @@ namespace ProyectoInventarioOET
                     pos++;
                 }
                 String idBodega = idArray2[bodegaSeleccionada].ToString();
-                String[] res = new String[3];
                 res[0] = "go";
                 for (int i = 0; i < catalogoLocal.Rows.Count && !res[0].Equals("danger"); i++)
                 {
@@ -510,9 +496,10 @@ namespace ProyectoInventarioOET
                        res = controladoraProductoLocal.asociarProductos(idBodega,idProductos[i], (this.Master as SiteMaster).Usuario.Codigo);
                     }
                 }
-                mostrarMensaje(res[0], res[1], res[2]);
-                FieldsetBloqueBotones.Visible = false;
+                modo = (int)Modo.Inicial;
             }
+            cambiarModo();
+            mostrarMensaje(res[0], res[1], res[2]);
         }
 
         /*
@@ -526,19 +513,13 @@ namespace ProyectoInventarioOET
             mensajeAlerta.Visible = true;
         }
 
-        /*// Envío de modificaciones de producto de catálogo local
-        protected void botonEnviarProducto_ServerClick(object sender, EventArgs e)
-        {
-
-        }*/
-
         /*
          * Aceptar cancelación del modal de cancelar.
          */
         protected void botonAceptarModalCancelar_ServerClick(object sender, EventArgs e)
         {
-            modo = 0;
-            Response.Redirect("FormProductosLocales.aspx");
+            modo = (int)Modo.Inicial;
+            cambiarModo();
         }
 
         /*
@@ -547,6 +528,8 @@ namespace ProyectoInventarioOET
         protected void botonAceptarModalDesactivar_ServerClick(object sender, EventArgs e)
         {
         }
+
+        // TODO: BOTON CONSULTAR, DESAPARECER AL CAMBIO DE BODEGA
 
     }
 }
