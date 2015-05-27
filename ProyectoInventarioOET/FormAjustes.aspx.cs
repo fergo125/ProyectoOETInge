@@ -100,6 +100,7 @@ namespace ProyectoInventarioOET
                     gridViewProductos.Enabled = false;
                     gridViewProductos.Visible = false;
                     habilitarCampos(false);
+                    gridViewProductos.Columns[1].Visible = false;
                     break;
 
                 case (int)Modo.Insercion: //insertar
@@ -116,6 +117,7 @@ namespace ProyectoInventarioOET
                     gridViewProductos.Enabled = true;
                     gridViewProductos.Visible = true;
                     habilitarCampos(true);
+                    gridViewProductos.Columns[1].Visible = true;
                     break;
 
                 case (int)Modo.Consulta://consultar
@@ -132,6 +134,7 @@ namespace ProyectoInventarioOET
                     gridViewProductos.Enabled = false;
                     gridViewProductos.Visible = false;
                     habilitarCampos(false);
+                    gridViewProductos.Columns[1].Visible = false;
                     break;
 
                 case (int)Modo.Consultado://consultado, pero con los espacios bloqueados
@@ -148,6 +151,7 @@ namespace ProyectoInventarioOET
                     gridViewProductos.Enabled = false;
                     gridViewProductos.Visible = true;
                     habilitarCampos(false);
+                    gridViewProductos.Columns[1].Visible = false;
                     llenarGrid();
                     break;
 
@@ -342,11 +346,10 @@ namespace ProyectoInventarioOET
         {
             DataTable tablaLimpia = tablaProducto();
 
-            Object[] datos = new Object[4];
+            Object[] datos = new Object[3];
             datos[0] = "-";
             datos[1] = "-";
             datos[2] = "0";
-            datos[3] = "0";
             tablaLimpia.Rows.Add(datos);
 
             gridViewProductos.DataSource = tablaLimpia;
@@ -403,12 +406,6 @@ namespace ProyectoInventarioOET
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.Int32");
             columna.ColumnName = "Cantidad Actual";
-            tabla.Columns.Add(columna);
-
-            columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.Int32");
-            columna.ColumnName = "Ajuste";
-            columna.ReadOnly = false;
             tabla.Columns.Add(columna);
 
             return tabla;
@@ -612,11 +609,10 @@ namespace ProyectoInventarioOET
                     DataRow seleccionada = tablaAgregarProductos.Rows[indice];
 
                     // Sacamos datos pertinentes del producto
-                    Object[] datos = new Object[4];
+                    Object[] datos = new Object[3];
                     datos[0] = seleccionada["Nombre"];
                     datos[1] = seleccionada["Codigo"];
                     datos[2] = seleccionada["Cantidad Actual"];
-                    datos[3] = 0;
 
                     // Agregar nueva tupla a tabla
                     tablaProductos.Rows.Add(datos);
@@ -673,13 +669,13 @@ namespace ProyectoInventarioOET
             int i = 0;
             foreach( DataRow row in tablaProductos.Rows )
             {
-                String x = ((TextBox)gridViewProductos.Rows[i].FindControl("textAjustes")).Text;
+                Double cantAjuste = Double.Parse(((TextBox)gridViewProductos.Rows[i].FindControl("textAjustes")).Text);
 
                 ajuste = new Object[5];
                 ajuste[0] = ajuste[1] = "";
-                ajuste[2] = row["Ajuste"].ToString();
+                ajuste[2] = cantAjuste;
                 ajuste[3] = idArrayProductos[i];
-                ajuste[4] = Double.Parse(row["Ajuste"].ToString()) - Double.Parse(row["Cantidad Actual"].ToString());
+                ajuste[4] = cantAjuste - Double.Parse(row["Cantidad Actual"].ToString());
                 nueva.agregarDetalle(ajuste);
                 ++i;
             }

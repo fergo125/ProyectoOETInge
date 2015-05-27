@@ -36,7 +36,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
         public DataTable consultarProductosDeBodega(String idBodega)
         {
             ControladoraProductoLocal controladoraProductoLocal = new ControladoraProductoLocal();
-            return controladoraProductoLocal.consultarProductosDeBodega(idBodega);
+            return controladoraProductoLocal.consultarProductosDeBodegaAjustes(idBodega);
         }
 
         public DataTable tiposAjuste()
