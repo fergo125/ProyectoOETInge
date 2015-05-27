@@ -1,9 +1,9 @@
-using ProyectoInventarioOET.App_Code.Modulo_ProductosGlobales;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
+using ProyectoInventarioOET.Modulo_ProductosGlobales;
 
 namespace ProyectoInventarioOET.Modulo_Entradas
 {

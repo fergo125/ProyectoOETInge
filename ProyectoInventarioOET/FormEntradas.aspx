@@ -131,9 +131,11 @@
         </fieldset>        
     </div>
     <br />
-    <br />
 
     <fieldset id="FieldsetEncabezadoFactura" runat="server" class="fieldset" visible="false">
+
+            <h4>Encabezado de la Factura</h4>
+
         <div class="well well-lg" id="camposEncabezadoFactura" runat="server">
             <div class="row col-lg-12">
                 <div class= "form-group col-lg-3">
@@ -154,6 +156,16 @@
                 <div class="form-group col-lg-3">
                     <label for="outputPlazoPago" class= "control-label">Plazo de Pago:</label>      
                     <p id="outputPlazoPago" runat="server" class="form-control-static"></p>
+                </div>
+
+                <div class="form-group col-lg-3">
+                    <label for="outputImpuestos" class="control-label">Moneda:</label>      
+                    <p id="outputMoneda" runat="server" class="form-control-static"></p>
+                </div>
+
+                <div class="form-group col-lg-3">
+                    <label for="outputImpuestos" class="control-label">Tipo de Cambio:</label>      
+                    <p id="outputTipoCambio" runat="server" class="form-control-static"></p>
                 </div>
 
                 <div class="form-group col-lg-3">
@@ -263,7 +275,7 @@
 
             <div class="col-lg-5">
                 <div class="row">
-                    <h3>Información del Producto</h3>
+                    <h4>Información del Producto</h4>
                 </div>
 
                 <div class="row">
@@ -271,14 +283,16 @@
                 </div>
 
                 <div class="row">
-                    <label for="inputCantidad" class= "control-label col-lg-4">Cantidad:</label>      
-                    <input id="inputCantidad" class="form-control col-lg-4" type="text" placeholder="Ingrese una cantidad" runat="server">
+                    <label for="inputCantidad" class= "control-label col-lg-2">Cantidad:</label>      
+                    <input id="inputCantidad" class="form-control col-lg-2" type="text" placeholder="Ingrese una cantidad" runat="server">
+
+                    <label for="inputCosto" class= "control-label col-lg-2">Costo:</label>      
+                    <input id="inputCosto" class="form-control col-lg-2" type="text" placeholder="Ingrese una cantidad" runat="server">
                 </div>
                 <br />
-                <div class="row">
-                    <label for="inputCosto" class= "control-label col-lg-4">Costo:</label>      
-                    <input id="inputCosto" class="form-control col-lg-4" type="text" placeholder="Ingrese una cantidad" runat="server">
-                </div>
+<%--                <div class="row">
+
+                </div>--%>
             </div>
         </div>
     </fieldset>

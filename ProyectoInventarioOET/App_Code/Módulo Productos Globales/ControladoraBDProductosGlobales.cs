@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 
-namespace ProyectoInventarioOET.App_Code.Modulo_ProductosGlobales
+namespace ProyectoInventarioOET.Modulo_ProductosGlobales
 {
    
     /* Controladora de bases de datos de productos globales, utilizada por la controladora de productos globales.
@@ -218,6 +218,30 @@ namespace ProyectoInventarioOET.App_Code.Modulo_ProductosGlobales
                 + " FROM " + esquema + "INV_PRODUCTOS P "
                 + " WHERE P.NOMBRE LIKE " + " '" + query + "%'"
                 + " OR P.CODIGO LIKE "     + " '" + query + "%'";
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
+            }
+            catch (Exception e)
+            {
+                resultado = null;
+            }
+            return resultado;
+        }
+
+        /*
+         * Invocada por la barra de autocomplete, busca sólo el nombre y los códigos internos de
+         * los productos en el catálogo global, con base en un String escrito por el usuario
+         * que se asocia a uno de esos dos (puede buscar productos por nombre o por código).
+         * Procurar que sea eficiente, ya que se invoca por cada key stroke.
+         */
+        public DataTable consultarProductosAutocompletar(String query)
+        {
+            String esquema = "Inventarios.";
+            DataTable resultado = new DataTable();
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "SELECT NOMBRE, CODIGO FROM " + esquema + "INV_PRODUCTOS WHERE (NOMBRE LIKE '" + query + "' OR CODIGO LIKE '" + query + "')";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
             }

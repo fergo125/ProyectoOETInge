@@ -46,6 +46,7 @@ namespace ProyectoInventarioOET.Modulo_Productos_Locales
         {
             return controladoraBD.consultarProductoDeBodega(idBodega, idProducto);
         }
+
         /*
          *  Realiza la asociación de un producto a una bodega en específico. 
          */
@@ -53,6 +54,7 @@ namespace ProyectoInventarioOET.Modulo_Productos_Locales
         {
             return controladoraBD.asociarProductos(idBodega,idProducto,idUsuario);
         }
+
         /*
          * Realiza la modificación de un producto en una bodega específica, modificando su estado. 
          */
@@ -69,6 +71,5 @@ namespace ProyectoInventarioOET.Modulo_Productos_Locales
             }
             return controladoraBD.modificarProductoLocal(idBodegaProductos, estado);
         }
-
     }
 }
