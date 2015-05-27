@@ -23,8 +23,8 @@
     <button runat="server" onserverclick="clickBotonConsultarFacturas" ID="botonConsultar" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Consultar Facturas</button>
     <button runat="server" onserverclick="clickBotonCrearFactura" ID="botonCrear" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Crear Factura</button>
     <button runat="server" onserverclick="Page_Load" ID="botonModificar" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Modificar Factura</button>
-    <a ID="botonAjusteEntrada" accesskey="A" href="#modalAjusteRapido" class="btn btn-info-fozkr" role="button" style="float: right" visible="true" data-toggle="modal" runat ="server">Ajuste rápido de entrada</a> 
-    <a ID="botonCambioSesion" accesskey="S" href="#modalCambioSesion" class="btn btn-info-fozkr" role="button" style="float: right" visible="true" data-toggle="modal" runat ="server">Cambio rápido de sesión</a>  
+    <a ID="botonAjusteEntrada" accesskey="A" href="#modalAjusteRapido" class="btn btn-info-fozkr" role="button" style="float: right" visible="false" data-toggle="modal" runat ="server">Ajuste rápido de entrada</a> 
+    <a ID="botonCambioSesion" accesskey="S" href="#modalCambioSesion" class="btn btn-info-fozkr" role="button" style="float: right" visible="false" data-toggle="modal" runat ="server">Cambio rápido de sesión</a>  
     <br />
     <br />
 
@@ -166,32 +166,29 @@
                 <td colspan="5">Fecha y hora:  <%: DateTime.Now.Date.ToShortDateString() %>,  <%: DateTime.Now.TimeOfDay.ToString().Substring(0,5) %></td></tr>
             <tr>
                 <td>Estación:</td>
-                <td><asp:DropDownList ID="dropDownListCrearFacturaEstacion" class="input input-fozkr-dropdownlist" runat="server" Enabled="false" Width="150px" CssClass="form-control"></asp:DropDownList></td>
+                <td><asp:DropDownList ID="dropDownListCrearFacturaEstacion" class="input input-fozkr-dropdownlist" runat="server" Enabled="false" Width="200px" CssClass="form-control"></asp:DropDownList></td>
                 <td>Bodega:</td>
-                <td colspan="2"><asp:DropDownList ID="dropDownListCrearFacturaBodega" class="input input-fozkr-dropdownlist" runat="server" Width="150px" CssClass="form-control"></asp:DropDownList></td>
+                <td colspan="2"><asp:DropDownList ID="dropDownListCrearFacturaBodega" class="input input-fozkr-dropdownlist" runat="server" Width="200px" CssClass="form-control"></asp:DropDownList></td>
             </tr>
             <tr>
                 <td>Vendedor:</td>
-                <%--<td colspan="4"><asp:DropDownList ID="dropDownListCrearFacturaVendedor" class="input input-fozkr-dropdownlist" runat="server" Width="450px"></asp:DropDownList></td>--%>
-                <td colspan="2"><asp:Label ID="labelCrearFacturaVendedor" runat="server"></asp:Label></td>
-                <td>Tipo de cambio:</td>
+                <td><asp:Label ID="labelCrearFacturaVendedor" runat="server"></asp:Label></td>
+                <td colspan="2">Tipo de cambio:</td>
                 <td><asp:Label ID="labelCrearFacturaTipoCambio" runat="server"></asp:Label></td>
             </tr>
             <tr>
                 <td colspan="5">Productos de la factura:</td>
             </tr>
             <tr>
-                <%--<td colspan="4"><asp:DropDownList ID="dropDownListAgregarProductoFactura" class="input input-fozkr-dropdownlist" runat="server" Width="450px"></asp:DropDownList></td>--%>
                 <td colspan="4"><asp:TextBox ID="textBoxAutocompleteCrearFacturaBusquedaProducto" runat="server" CssClass="form-control" Width="100%"></asp:TextBox>
                 </td>
-                <td><button type="button" ID="botonCrearFacturaAgregarProducto" class="btn btn-success-fozkr" onserverclick="Page_Load" runat="server">Agregar</button></td>
+                <td><button type="button" ID="botonCrearFacturaAgregarProducto" class="btn btn-success-fozkr" onserverclick="Page_Load" runat="server">Agregar Producto</button></td>
             </tr>
             <tr>
-            <%--TODO: considerar cambiar la lista de producto por un grid, mucho más fácil de manejar, mayor consistencia, un poco más feo--%>
                 <td colspan="5">
                     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                         <ContentTemplate>
-                            <asp:GridView ID="gridViewCrearFacturaProductos" CssClass="table" OnRowCommand="gridViewFacturas_FilaSeleccionada" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                            <asp:GridView ID="gridViewCrearFacturaProductos" CssClass="table" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None" ShowHeaderWhenEmpty="True">
                                 <Columns>
                                     <asp:CheckBoxField Text="Seleccionar">
                                         <ControlStyle CssClass="btn btn-default"></ControlStyle>
@@ -214,10 +211,10 @@
             </tr>
             <tr>
                 <td></td>
-                <td><asp:Button ID="botonCrearFacturaSwitchPrecios" class="btn" runat="server" Text="₡/$"/></td>
+                <td></td>
                 <td>Total</td>
                 <td><asp:Label ID="labelCrearFacturaPrecioTotal" runat="server"></asp:Label></td>
-                <td></td>
+                <td><asp:Button ID="botonCrearFacturaSwitchPrecios" class="btn" runat="server" Text="Cambiar moneda ₡/$"/></td>
             </tr>
             <tr>
                 <td>Método de pago:</td>
@@ -302,7 +299,6 @@
         }
     </script>
     <!-- Código necesario para el autocomplete -->
-    <link href="Content/jquery.autocomplete.css" rel="stylesheet" type="text/css" />
     <script src="Scripts/jquery-1.4.1.min.js" type="text/javascript"></script>
     <script src="Scripts/jquery.autocomplete.js" type="text/javascript"></script>
     <script type="text/javascript">
