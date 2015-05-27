@@ -19,7 +19,8 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         private String anfitriona;          // Compañía para la que trabaja, importante si es de permisos limitados
         private String nombre;              // Nombre real de la persona
         private String perfil;              // Perfil de permisos de la persona
-        private String codigoPerfil;        // Codigo interno de dicho perfil
+        private String llavePerfil;         // Llave de BD del perfil usada para averiguar permisos
+        private String codigoPerfil;        // Código interno de dicho perfil usado para operaciones de interfaz
         private DateTime fechaCreacion;     // Fecha en la que el usuario fue creado
         private int estado;                 // Estado de la cuenta, una cuenta desactivada no debería poder utilizarse
 
@@ -104,7 +105,13 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             get { return perfil; }
             set { perfil = value; }
         }
-        
+
+        public String LlavePerfil
+        {
+            get { return llavePerfil; }
+            set { llavePerfil = value; }
+        }
+
         public String CodigoPerfil
         {
             get { return codigoPerfil; }

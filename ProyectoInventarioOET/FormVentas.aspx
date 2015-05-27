@@ -58,7 +58,10 @@
     </asp:Panel>
 
     <!-- Panel para consultar la información específica de una factura después de seleccionarla en el grid -->
-    <asp:Panel ID="PanelConsultarFacturaEspecifica" runat="server" Visible="false">
+    <asp:Panel ID="PanelConsultarFacturaEspecifica" runat="server" Visible="true">
+        <asp:Table ID="tableConsultaFacturaEspecificaDetalles" runat="server">
+
+        </asp:Table>
     </asp:Panel>
 
     <!-- Panel con el grid de consultar facturas (se mantiene aparte para poder esconder los campos de consulta grupal y mostrar los de consulta individual, sin tocar el grid) -->
@@ -88,7 +91,7 @@
     </asp:Panel>
 
     <!-- Panel crear factura -->
-    <asp:Panel ID="PanelCrearFactura" runat="server" Visible="true">
+    <asp:Panel ID="PanelCrearFactura" runat="server" Visible="false">
         <table class="table table-fozkr">
             <tr>
                 <td colspan="5">Fecha y hora:  <%: DateTime.Now.Date.ToShortDateString() %>,  <%: DateTime.Now.TimeOfDay.ToString().Substring(0,5) %></td></tr>
