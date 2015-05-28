@@ -166,7 +166,7 @@
                 <td colspan="4">Fecha y hora:  <%: DateTime.Now.Date.ToShortDateString() %>,  <%: DateTime.Now.TimeOfDay.ToString().Substring(0,5) %></td></tr>
             <tr>
                 <td>Estación:</td>
-                <td><asp:DropDownList ID="dropDownListCrearFacturaEstacion" class="input input-fozkr-dropdownlist" runat="server" Enabled="false" Width="90%" CssClass="form-control"></asp:DropDownList></td>
+                <td><asp:DropDownList ID="dropDownListCrearFacturaEstacion" onselectedindexchanged="dropDownListCrearFacturaEstacion_SelectedIndexChanged" AutoPostBack="true" class="input input-fozkr-dropdownlist" runat="server" Enabled="false" Width="90%" CssClass="form-control"></asp:DropDownList></td>
                 <td>Bodega:</td>
                 <td><asp:DropDownList ID="dropDownListCrearFacturaBodega" class="input input-fozkr-dropdownlist" runat="server" Enabled="false" Width="90%" CssClass="form-control"></asp:DropDownList></td>
             </tr>

@@ -20,7 +20,7 @@ namespace ProyectoInventarioOET
     {
         enum Modo { Inicial, Consulta, Insercion, Modificacion, Consultado };
         //Atributos
-        private Modo modo = Modo.Inicial;                               //Indica en qué modo se encuentra la interfaz en un momento cualquiera, de éste depende cuáles elementos son visibles
+        private static Modo modo = Modo.Inicial;                               //Indica en qué modo se encuentra la interfaz en un momento cualquiera, de éste depende cuáles elementos son visibles
         private String permisos = "111111";                             //Permisos utilizados para el control de seguridad //TODO: poner en 000000, está en 111111 sólo para pruebas
         private String codigoPerfilUsuario = "1";                       //Indica el perfil del usuario, usado para acciones de seguridad para las cuales la string de permisos no basta //TODO: poner en ""
         private DataTable facturasConsultadas;                          //Usada para llenar el grid y para mostrar los detalles de cada factura específica
@@ -57,15 +57,11 @@ namespace ProyectoInventarioOET
                     Response.Redirect("~/ErrorPages/404.html");
                 //perfilUsuario = (this.Master as SiteMaster).Usuario.Perfil;
                 mostrarElementosSegunPermisos();
-                cargarEstaciones();
-                cargarBodegas();
-            }
-            //Si la página ya estaba cargada pero está siendo cargada de nuevo (porque se está realizando alguna acción que la refrezca/actualiza)
-            else
-            {
                 
             }
-            //cambiarModo();
+            //Si la página ya estaba cargada pero está siendo cargada de nuevo (porque se está realizando alguna acción que la refrezca/actualiza)
+
+            cambiarModo();
             //código para probar algo
             DataTable testTable = new DataTable();
             DataRow testRow;
@@ -158,6 +154,7 @@ namespace ProyectoInventarioOET
                     PanelCrearFactura.Visible = true;
                     botonCambioSesion.Visible = true;  //Estos dos botones sólo deben ser visibles
                     botonAjusteEntrada.Visible = true; //durante la creación de facturas
+
                     break;
                 case Modo.Modificacion:
                     tituloAccionFacturas.InnerText = "Ingrese los nuevos datos para la factura";
@@ -297,7 +294,7 @@ namespace ProyectoInventarioOET
             datos[2] = "";
             datos[3] = usuarioActual.Codigo;
             datos[4] = dropDownListCrearFacturaCliente.SelectedValue;
-            datos[5] = labelCrearFacturaTipoCambio.Text;
+            datos[5] = textBoxCrearFacturaTipoCambio.Text;
             datos[6] = dropDownListCrearFacturaMetodoPago.SelectedValue;
             datos[7] = null;
             return datos;
@@ -386,6 +383,8 @@ namespace ProyectoInventarioOET
          */
         protected void clickBotonCrearFactura(object sender, EventArgs e)
         {
+            cargarEstaciones();
+            cargarBodegas();
             modo = Modo.Insercion;
             cambiarModo();
         }
