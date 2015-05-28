@@ -616,6 +616,25 @@ namespace ProyectoInventarioOET
             this.inputCosto.Value = "";
         }
 
+        protected void agregarProducto_Click(object sender, EventArgs e)
+        {
+            String producto = this.textBoxAutocompleteCrearFacturaBusquedaProducto.Text;
+            String cantidad = this.inputCantidad.Value;
+            String costo = this.inputCosto.Value;
+
+
+            DataTable tabla = tablaFacturaDetallada();
+
+            Object[] datos = new Object[3];
+            datos[0] = producto;
+            datos[1] = cantidad;
+            datos[2] = costo;
+            tabla.Rows.Add(datos);
+
+            this.gridFacturaNueva.DataSource = tabla;
+            this.gridFacturaNueva.DataBind();
+        }
+
 
     }
 }

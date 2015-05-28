@@ -227,7 +227,7 @@
                 <label for="inputCosto" class= "control-label">Costo:</label>      
                 <input id="Text2" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
                 <br />
-                <asp:Button ID="agregarProducto" runat="server" Text="Agregar a Factura" CssClass="btn btn-warning-fozkr"/>
+                <asp:Button ID="agregarProducto" runat="server" Text="Agregar a Factura" OnClick="agregarProducto_Click" CssClass="btn btn-warning-fozkr"/>
             </div>
 
             <div id="bloqueGridFacturaNueva" class="col-lg-5">
