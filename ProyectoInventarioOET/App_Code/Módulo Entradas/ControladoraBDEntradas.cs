@@ -105,5 +105,25 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             }
             return resultado;
         }
+        public DataTable consultarEntrada(String id)
+        {
+            DataTable resultado = new DataTable();
+            String esquema = "Inventarios.";
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+
+                command.CommandText = "SELECT *  "
+                + " FROM " + esquema + "CAT_ENTRADAS"
+                + " WHERE CAT_ENTRADAS =" + " '" + id + "'";
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
+            }
+            catch (Exception e)
+            {
+                resultado = null;
+            }
+            return resultado;
+        }
     }
 }
