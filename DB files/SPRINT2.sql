@@ -135,3 +135,36 @@ create table DETALLES_AJUSTES (
 	cambio                      number(15,2)
 );
 
+---Creacion de tablas para facturas
+
+
+CREATE TABLE REGISTRO_FACTURAS_VENTA(
+consecutivo int NOT NULL PRIMARY KEY,
+fecha DATE,
+estacion varchar2(30),
+compañia varchar2(30),
+actividad varchar2(30),
+vendedor varchar2(40),
+cliente varchar2(40),
+tipoMoneda varchar2(10),
+impuesto int,
+metodoPago varchar2(30)
+);
+
+CREATE TABLE REGISTRO_DETALLES_FACTURAS(
+idFactura int REFERENCES REGISTRO_FACTURAS_VENTA(consecutivo),
+idProducto varchar2(20),
+cantidad int,
+precioUnitarioColones float, 
+precioUnitarioDolares float,
+descuento int
+);
+
+
+SELECT  *
+FROM    INV_PRODUCTOS
+WHERE   CODIGO = 'CRO00186' AND NOMBRE = 'Servilletas (paquetes)' AND ESTADO = 1
+
+SELECT  ESTADO
+FROM    INV_BODEGA_PRODUCTOS
+WHERE   INV_PRODUCTOS = 'PITAN130012015150520764106'

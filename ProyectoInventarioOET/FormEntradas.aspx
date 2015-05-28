@@ -26,7 +26,7 @@
     <br />
     <br />
 
-    <h3 id="tituloAccionEntradas" runat="server">Seleccione una opción</h3>
+    <h3 id="tituloAccionEntradas" runat="server"></h3>
 
     <div id="bloqueGridEntradas" class="col-lg-12">
         <fieldset id="FieldsetGridEntradas" runat="server" class="fieldset" visible="false">
@@ -130,12 +130,12 @@
        </div>
         </fieldset>        
     </div>
-
-<<<<<<< HEAD
-    <br />
     <br />
 
     <fieldset id="FieldsetEncabezadoFactura" runat="server" class="fieldset" visible="false">
+
+            <h4>Encabezado de la Factura</h4>
+
         <div class="well well-lg" id="camposEncabezadoFactura" runat="server">
             <div class="row col-lg-12">
                 <div class= "form-group col-lg-3">
@@ -156,6 +156,16 @@
                 <div class="form-group col-lg-3">
                     <label for="outputPlazoPago" class= "control-label">Plazo de Pago:</label>      
                     <p id="outputPlazoPago" runat="server" class="form-control-static"></p>
+                </div>
+
+                <div class="form-group col-lg-3">
+                    <label for="outputImpuestos" class="control-label">Moneda:</label>      
+                    <p id="outputMoneda" runat="server" class="form-control-static"></p>
+                </div>
+
+                <div class="form-group col-lg-3">
+                    <label for="outputImpuestos" class="control-label">Tipo de Cambio:</label>      
+                    <p id="outputTipoCambio" runat="server" class="form-control-static"></p>
                 </div>
 
                 <div class="form-group col-lg-3">
@@ -188,7 +198,7 @@
 
     <fieldset id="FieldsetCrearFactura" runat="server" visible="false">
         <div class="row">
-            <div id="bloqueGridDetalleFactura" class="col-lg-5">
+            <div id="bloqueGridDetalleFactura" class="col-lg-4">
                  <div class="col-lg-12"><strong><div ID="Div1" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Detalle de la Factura Entrante</div></strong>
                     <asp:UpdatePanel ID="UpdatePanelDetalleFactura" runat="server">
                         <ContentTemplate>
@@ -207,12 +217,32 @@
                </div>     
             </div>
 
-            <div id="bloqueGridFacturaNueva" class="col-lg-7">
+            <div class="row col-lg-3">
+                <label class= "control-label">Buscar producto:</label>
+                <asp:TextBox ID="textBoxAutocompleteCrearFacturaBusquedaProducto" runat="server" CssClass="form-control" Width="100%"></asp:TextBox>
+                <br />
+                <label for="inputCantidad" class= "control-label">Cantidad:</label>      
+                <input id="Text1" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
+                <br />
+                <label for="inputCosto" class= "control-label">Costo:</label>      
+                <input id="Text2" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
+                <br />
+                <asp:Button ID="agregarProducto" runat="server" Text="Agregar a Factura" OnClick="agregarProducto_Click" CssClass="btn btn-warning-fozkr"/>
+            </div>
+
+            <div id="bloqueGridFacturaNueva" class="col-lg-5">
 <%--                <fieldset id="fieldsetGridFacturaNueva" runat="server" class="fieldset">--%>
                  <div class="col-lg-12"><strong><div ID="Div3" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Detalle de la Factura Consignada</div></strong>
                     <asp:UpdatePanel ID="UpdatePanelFacturaNueva" runat="server">
                         <ContentTemplate>
                             <asp:GridView ID="gridFacturaNueva" CssClass="table" OnPageIndexChanging="gridFacturaNueva_PageIndexChanging" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+						        <Columns>
+							        <asp:TemplateField HeaderText="Seleccionar">
+								        <ItemTemplate>
+									        <asp:CheckBox ID="checkBoxProductos" runat="server"/>
+								        </ItemTemplate>
+							        </asp:TemplateField>
+						        </Columns>
                                <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
                                <PagerStyle CssClass="paging" HorizontalAlign="Center" />
                                <AlternatingRowStyle BackColor="#F8F8F8" />
@@ -230,43 +260,100 @@
         </div>
 
         <br />
-
-        <div class="row">
-            <label class= "col-lg-12">Buscar producto:</label>
-        </div>
+    </fieldset>
+    <br />
+    <br />
+    <br />
+    <fieldset id="FieldsetResultadosBusqueda" runat="server" visible="false" >
         <div class="row">
             <div class="col-lg-7">
-                <input id="barraDeBusquedaProducto" class="form-control" type="search" placeholder="Ingresa una palabra o código" runat="server" >
+            <strong><div ID="UpdatePanelResultados" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Resultados de Búsqueda</div></strong>
+                    <asp:GridView ID="gridViewProductoBuscado" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewProductoBuscado_RowCommand" OnPageIndexChanging="gridViewProductoBuscado_PageIndexChanging" runat="server" AllowPaging="true" PageSize="16" BorderColor="Transparent">
+                        <Columns>
+                            <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Seleccionar">
+                                <ControlStyle CssClass="btn btn-default"></ControlStyle>
+                            </asp:ButtonField>
+                        </Columns>
+                        <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
+                        <PagerStyle CssClass="paging" HorizontalAlign="Center" />
+                        <AlternatingRowStyle BackColor="#EBEBEB" />
+                        <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
+                        <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" />
+                    </asp:GridView>
             </div>
-            <div class="col-lg-2">
-                <asp:Button ID="botonBuscarProducto" runat="server" Text="Buscar" CssClass="btn btn-warning-fozkr" OnClick="botonBuscar_Click"/>
+
+            <div class="col-lg-5">
+                <div class="row">
+                    <h4>Información del Producto</h4>
+                </div>
+
+                <div class="row">
+                    <label for="outputNombreProducto" class= "control-label col-lg-4"></label>      
+                </div>
+
+                <div class="row">
+                    <label for="inputCantidad" class= "control-label">Cantidad:</label>      
+                    <input id="inputCantidad" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
+
+                    <label for="inputCosto" class= "control-label">Costo:</label>      
+                    <input id="inputCosto" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
+                </div>
+                <br />
+<%--                <div class="row">
+
+                </div>--%>
             </div>
         </div>
-    <br />
-
-    <fieldset id="FieldsetResultadosBusqueda" runat="server" visible="false" >
-        <strong><div ID="UpdatePanelResultados" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Resultados de Búsqueda</div></strong>
-<%--        <asp:UpdatePanel ID="UpdatePanelResultadosBusqueda" runat="server">
-            <ContentTemplate>--%>
-
-                <asp:GridView ID="gridViewProductoBuscado" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewProductoBuscado_RowCommand" OnPageIndexChanging="gridViewProductoBuscado_PageIndexChanging" runat="server" AllowPaging="true" PageSize="16" BorderColor="Transparent">
-                    <Columns>
-                        <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Seleccionar">
-                            <ControlStyle CssClass="btn btn-default"></ControlStyle>
-                        </asp:ButtonField>
-                    </Columns>
-                    <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
-                    <PagerStyle CssClass="paging" HorizontalAlign="Center" />
-                    <AlternatingRowStyle BackColor="#EBEBEB" />
-                    <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
-                    <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" />
-                </asp:GridView>
-
-<%--            </ContentTemplate>
-            <Triggers>
-            <asp:AsyncPostBackTrigger ControlID="gridViewProductoBuscado" EventName="RowCommand" />
-            </Triggers>
-        </asp:UpdatePanel>--%>
     </fieldset>
+
+    <div class="col-lg-12" id="bloqueBotones">
+        <div class =" row">
+            <div class="text-center">
+                <button runat="server" onserverclick="botonAceptarEntrada_ServerClick" id="botonAceptarEntrada" class="btn btn-success-fozkr" type="button"><i class="fa fa-pencil-square-o"></i>Enviar</button>
+                <a id="botonCancelarEntrada" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cancelar</a>                
+            </div>
+        </div>
+    </div>
+
+        <!--Modal Cancelar-->
+    <div class="modal fade" id="modalCancelar" tabindex="-1" role="dialog" aria-labelledby="modalCancelarLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="modalTitle"><i class="fa fa-exclamation-triangle text-danger fa-2x"></i>Confirmar cancelación</h4>
+                </div>
+                <div class="modal-body">
+                    ¿Está seguro que desea cancelar los cambios? Perdería todos los datos no guardados.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="botonAceptarModalCancelar" causesvalidation="false" class="btn btn-success-fozkr" runat="server" onserverclick="botonAceptarModalCancelar_ServerClick" >Aceptar</button>
+                    <button type="button" id="botonCancelarModalCancelar" causesvalidation="false" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
+                </div>
+            </div>
+        </div>
+    </div>
+        
+    <!-- Código necesario para el autocomplete -->
+    <script src="Scripts/jquery-1.4.1.min.js" type="text/javascript"></script>
+    <script src="Scripts/jquery.autocomplete.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#<%=textBoxAutocompleteCrearFacturaBusquedaProducto.ClientID%>").autocomplete('Search_CS.ashx');
+        });
+    </script>
+
+<%--       DataTable tabla = tablaBodegas();
+            for (int i = 0; i < 10; i++ )
+            {
+                Object[] datos = new Object[4];
+                datos[0] = new CheckBox();
+                datos[1] = i;
+                datos[2] = i;
+                datos[3] = i;
+                tabla.Rows.Add(datos);
+            }
+            this.gridViewBodegas.DataSource = tabla;
+            this.gridViewBodegas.DataBind();--%>
 
     </asp:Content>

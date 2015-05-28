@@ -6,7 +6,8 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using ProyectoInventarioOET.Modulo_Seguridad;
-//using ProyectoInventarioOET.App_Code.Modulo_Ventas; //TODO: arreglar esta vara -.-
+using ProyectoInventarioOET.Modulo_Ventas;
+using ProyectoInventarioOET.Modulo_Bodegas;
 using ProyectoInventarioOET.App_Code;
 
 namespace ProyectoInventarioOET
@@ -19,13 +20,15 @@ namespace ProyectoInventarioOET
     {
         enum Modo { Inicial, Consulta, Insercion, Modificacion, Consultado };
         //Atributos
-        private Modo modo = Modo.Inicial;                               //Indica en qué modo se encuentra la interfaz en un momento cualquiera, de éste depende cuáles elementos son visibles
+        private static Modo modo = Modo.Inicial;                               //Indica en qué modo se encuentra la interfaz en un momento cualquiera, de éste depende cuáles elementos son visibles
         private String permisos = "111111";                             //Permisos utilizados para el control de seguridad //TODO: poner en 000000, está en 111111 sólo para pruebas
         private String codigoPerfilUsuario = "1";                       //Indica el perfil del usuario, usado para acciones de seguridad para las cuales la string de permisos no basta //TODO: poner en ""
         private DataTable facturasConsultadas;                          //Usada para llenar el grid y para mostrar los detalles de cada factura específica
-        //private ControladoraVentas controladoraVentas;                  //Para accesar las tablas del módulo y realizar las operaciones de consulta, inserción, modificación y anulación
-        private ControladoraDatosGenerales controladoraDatosGenerales;  //Para accesar datos generales de la base de datos
+        private static ControladoraVentas controladoraVentas;                  //Para accesar las tablas del módulo y realizar las operaciones de consulta, inserción, modificación y anulación
+        private static ControladoraDatosGenerales controladoraDatosGenerales;  //Para accesar datos generales de la base de datos
+        private static ControladoraBodegas controladoraBodegas;  //Para accesar datos generales de la base de datos
         private static ControladoraSeguridad controladoraSeguridad;     //???
+        
         //Importante:
         //Para el codigoPerfilUsuario (que se usa un poco hard-coded), los números son:
         //1. Administrador global
@@ -46,27 +49,71 @@ namespace ProyectoInventarioOET
                 //Controladoras
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
                 controladoraSeguridad = new ControladoraSeguridad();
+                controladoraVentas = new ControladoraVentas();
+                controladoraBodegas = new ControladoraBodegas();
                 //Seguridad
                 //permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Facturacion"); //TODO: descomentar esto, está comentado sólo para pruebas
                 if (permisos == "000000")
                     Response.Redirect("~/ErrorPages/404.html");
                 //perfilUsuario = (this.Master as SiteMaster).Usuario.Perfil;
                 mostrarElementosSegunPermisos();
+                
             }
             //Si la página ya estaba cargada pero está siendo cargada de nuevo (porque se está realizando alguna acción que la refrezca/actualiza)
-            else
-            {
-            }
-            //cambiarModo();
+
+            cambiarModo();
             //código para probar algo
-            //TableRow row = new TableRow();
-            //TableCell cell1 = new TableCell();
-            //cell1.Text = "blah blah blah";
-            //row.Cells.Add(cell1);
-            //test.Rows.Add(row);
-            //HtmlTableRow row = new HtmlTableRow();
-            //row.Cells.Add(new HtmlTableCell());
-            //estructuraFactura.Rows.Add(row);
+            DataTable testTable = new DataTable();
+            DataRow testRow;
+            DataColumn testColumn;
+
+            testColumn = new DataColumn();
+            testColumn.DataType = Type.GetType("System.String");
+            testColumn.ColumnName = "Nombre";
+            testTable.Columns.Add(testColumn);
+            testColumn = new DataColumn();
+            testColumn.DataType = Type.GetType("System.String");
+            testColumn.ColumnName = "Código interno";
+            testTable.Columns.Add(testColumn);
+            testColumn = new DataColumn();
+            testColumn.DataType = Type.GetType("System.Int32");
+            testColumn.ColumnName = "Precio unitario";
+            testTable.Columns.Add(testColumn);
+            testColumn = new DataColumn();
+            testColumn.DataType = Type.GetType("System.String");
+            testColumn.ColumnName = "Impuesto";
+            testTable.Columns.Add(testColumn);
+            testColumn = new DataColumn();
+            testColumn.DataType = Type.GetType("System.Int32");
+            testColumn.ColumnName = "Descuento (%)";
+            testTable.Columns.Add(testColumn);
+
+            testRow = testTable.NewRow();
+            testRow["Nombre"] = "Nombre de prueba";
+            testRow["Código interno"] = "CRO001";
+            testRow["Precio unitario"] = "500";
+            testRow["Impuesto"] = "Sí";
+            testRow["Descuento (%)"] = "0";
+            testTable.Rows.Add(testRow);
+            testRow = testTable.NewRow();
+            testRow["Nombre"] = "Nombre de prueba larguísimo de esos que ponen las unidades y la vara";
+            testRow["Código interno"] = "CRO002";
+            testRow["Precio unitario"] = "50000";
+            testRow["Impuesto"] = "Sí";
+            testRow["Descuento (%)"] = "0";
+            testTable.Rows.Add(testRow);
+
+            gridViewCrearFacturaProductos.DataSource = testTable;
+            gridViewCrearFacturaProductos.DataBind();
+
+            //DataControlField[] backupColumn = new DataControlField[100];
+            //gridViewCrearFacturaProductos.Columns.CopyTo(backupColumn, 0);
+            //gridViewCrearFacturaProductos.Columns.Insert(0, backupColumn[0]);
+            //DataControlField backup = gridViewCrearFacturaProductos.Columns[1];
+            //gridViewCrearFacturaProductos.Columns.RemoveAt(1);
+            //gridViewCrearFacturaProductos.Columns.Add(backup);
+            //gridViewCrearFacturaProductos.Columns.Add(backup);
+            //gridViewCrearFacturaProductos.Columns["Seleccionar"].DisplayIndex = 0;
         }
 
         /*
@@ -116,6 +163,7 @@ namespace ProyectoInventarioOET
                     PanelCrearFactura.Visible = true;
                     botonCambioSesion.Visible = true;  //Estos dos botones sólo deben ser visibles
                     botonAjusteEntrada.Visible = true; //durante la creación de facturas
+
                     break;
                 case Modo.Modificacion:
                     tituloAccionFacturas.InnerText = "Ingrese los nuevos datos para la factura";
@@ -245,6 +293,69 @@ namespace ProyectoInventarioOET
         }
 
 
+        protected Object[] obtenerDatos()
+        {
+            Object[] datos = new Object[8];
+            EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
+
+            datos[0] = dropDownListCrearFacturaEstacion.SelectedValue;
+            datos[1] = "02";
+            datos[2] = "";
+            datos[3] = usuarioActual.Codigo;
+            datos[4] = dropDownListCrearFacturaCliente.SelectedValue;
+            datos[5] = textBoxCrearFacturaTipoCambio.Text;
+            datos[6] = dropDownListCrearFacturaMetodoPago.SelectedValue;
+            datos[7] = null;
+            return datos;
+        
+        }
+
+        protected void cargarEstaciones() 
+        {
+            EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
+            DataTable estaciones = controladoraDatosGenerales.consultarEstaciones();
+
+            if (estaciones.Rows.Count > 0)
+            {
+                this.dropDownListCrearFacturaEstacion.Items.Clear();
+                foreach (DataRow fila in estaciones.Rows)
+                {
+                    if ((usuarioActual.Perfil.Equals("Administrador global"))||(usuarioActual.IdEstacion.Equals(fila[0])))
+                    {
+                        this.dropDownListCrearFacturaEstacion.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
+                    }
+                }
+            }
+            if (usuarioActual.Perfil.Equals("Administrador global"))
+            {
+                dropDownListCrearFacturaEstacion.Enabled = true;
+            }
+            else
+            {
+                dropDownListCrearFacturaEstacion.Enabled = false;
+            }
+        }
+
+        protected void cargarBodegas()
+        {
+            EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
+            DataTable bodegas = controladoraBodegas.consultarBodegasDeEstacion(dropDownListCrearFacturaEstacion.SelectedValue);
+            int i = 0;
+            if (bodegas.Rows.Count > 0)
+            {
+                foreach (DataRow fila in bodegas.Rows)
+                {
+                    if ((usuarioActual.Perfil.Equals("Administrador global")) || (usuarioActual.Perfil.Equals("Administrador local")) || fila[1].ToString().Equals((this.Master as SiteMaster).NombreBodegaSesion))
+                    {
+                        this.dropDownListCrearFacturaBodega.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
+                    }
+                }
+            }
+        }
+
+
+
+
 
         /*
          *****************************************************************************************************************************************************************************
@@ -281,8 +392,21 @@ namespace ProyectoInventarioOET
          */
         protected void clickBotonCrearFactura(object sender, EventArgs e)
         {
+            cargarEstaciones();
+            cargarBodegas();
             modo = Modo.Insercion;
             cambiarModo();
+        }
+
+        /*
+         * Invocada cuando se da click al botón de "Agregar Producto" a la factura, se revisa que exista primero
+         * (el usuario puede escribir lo que quiera, es un textbox), si existe se agrega al grid para luego editar
+         * su cantidad y poder aplicarle descuentos (o quitarlo de la factura).
+         */
+        protected void clickBotonAgregarProductoFactura(object sender, EventArgs e)
+        {
+            String productoEscogido = textBoxAutocompleteCrearFacturaBusquedaProducto.Text;
+            productoEscogido = controladoraVentas.verificarExistenciaProductoLocal(dropDownListCrearFacturaBodega.SelectedItem.Value, productoEscogido); //TODO: obtener llave de la bodega, no nombre
         }
 
         /*
@@ -302,7 +426,7 @@ namespace ProyectoInventarioOET
         protected void botonAceptarCambioUsuario_ServerClick(object sender, EventArgs e)
         {
             // Consulta al usuario
-            EntidadUsuario usuario = controladoraSeguridad.consultarUsuario(inputUsername.Value, inputPassword.Value);
+            /*EntidadUsuario usuario = controladoraSeguridad.consultarUsuario(inputUsername.Value, inputPassword.Value);
 
             if (usuario != null)
             {
@@ -316,7 +440,15 @@ namespace ProyectoInventarioOET
             {
                 // Si no me retorna un usuario valido, advertir
                 //mostrarMensaje();
-            }
+            }* */
+
+            String [] resultado = controladoraVentas.insertarFactura(obtenerDatos());
+
+        }
+
+        protected void dropDownListCrearFacturaEstacion_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cargarBodegas();
         }
     }
 }

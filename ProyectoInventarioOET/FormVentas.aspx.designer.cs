@@ -166,13 +166,130 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.Panel PanelConsultarFacturaEspecifica;
         
         /// <summary>
-        /// Control tableConsultaFacturaEspecificaDetalles.
+        /// Control divTituloGridProductosFactura.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Table tableConsultaFacturaEspecificaDetalles;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divTituloGridProductosFactura;
+        
+        /// <summary>
+        /// Control UpdatePanelFacturaConsultada.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanelFacturaConsultada;
+        
+        /// <summary>
+        /// Control gridFaacturaEspecificaProductos.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gridFaacturaEspecificaProductos;
+        
+        /// <summary>
+        /// Control textBoxFacturaConsultadaConsecutivo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox textBoxFacturaConsultadaConsecutivo;
+        
+        /// <summary>
+        /// Control textBoxFacturaConsultadaEstacion.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox textBoxFacturaConsultadaEstacion;
+        
+        /// <summary>
+        /// Control textBoxFacturaConsultadaBodega.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox textBoxFacturaConsultadaBodega;
+        
+        /// <summary>
+        /// Control textBoxFacturaConsultadaFechaHora.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox textBoxFacturaConsultadaFechaHora;
+        
+        /// <summary>
+        /// Control textBoxFacturaConsultadaVendedor.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox textBoxFacturaConsultadaVendedor;
+        
+        /// <summary>
+        /// Control textBoxFacturaConsultadaCliente.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox textBoxFacturaConsultadaCliente;
+        
+        /// <summary>
+        /// Control textBoxFacturaConsultadaTipoMoneda.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox textBoxFacturaConsultadaTipoMoneda;
+        
+        /// <summary>
+        /// Control textBoxFacturaConsultadaImpuesto.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox textBoxFacturaConsultadaImpuesto;
+        
+        /// <summary>
+        /// Control textBoxFacturaConsultadaMetodoPago.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox textBoxFacturaConsultadaMetodoPago;
+        
+        /// <summary>
+        /// Control textBoxFacturaConsultadActividad.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox textBoxFacturaConsultadActividad;
+        
+        /// <summary>
+        /// Control textBoxFacturaConsultadaEstado.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox textBoxFacturaConsultadaEstado;
         
         /// <summary>
         /// Control PanelGridConsultas.
@@ -238,22 +355,22 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.DropDownList dropDownListCrearFacturaBodega;
         
         /// <summary>
-        /// Control labelCrearFacturaVendedor.
+        /// Control textBoxCrearFacturaVendedor.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label labelCrearFacturaVendedor;
+        protected global::System.Web.UI.WebControls.TextBox textBoxCrearFacturaVendedor;
         
         /// <summary>
-        /// Control labelCrearFacturaTipoCambio.
+        /// Control textBoxCrearFacturaTipoCambio.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label labelCrearFacturaTipoCambio;
+        protected global::System.Web.UI.WebControls.TextBox textBoxCrearFacturaTipoCambio;
         
         /// <summary>
         /// Control textBoxAutocompleteCrearFacturaBusquedaProducto.
@@ -274,13 +391,22 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlButton botonCrearFacturaAgregarProducto;
         
         /// <summary>
-        /// Control botonCrearFacturaSwitchPrecios.
+        /// Control UpdatePanel1.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button botonCrearFacturaSwitchPrecios;
+        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
+        
+        /// <summary>
+        /// Control gridViewCrearFacturaProductos.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gridViewCrearFacturaProductos;
         
         /// <summary>
         /// Control botonCrearFacturaQuitarProducto.
@@ -308,6 +434,15 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label labelCrearFacturaPrecioTotal;
+        
+        /// <summary>
+        /// Control botonCrearFacturaSwitchPrecios.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button botonCrearFacturaSwitchPrecios;
         
         /// <summary>
         /// Control dropDownListCrearFacturaMetodoPago.

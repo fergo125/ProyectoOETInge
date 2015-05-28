@@ -5,7 +5,7 @@ using System.Web;
 using System.Data;
 using ProyectoInventarioOET.Modulo_Categorias;
 
-namespace ProyectoInventarioOET.App_Code.Modulo_ProductosGlobales
+namespace ProyectoInventarioOET.Modulo_ProductosGlobales
 {
     /* Controladora de productos globales, utilizada por la interfaz del catálogo general de productos.
      * Auspicia los datos generales o globales de los productos que la OET maneja 

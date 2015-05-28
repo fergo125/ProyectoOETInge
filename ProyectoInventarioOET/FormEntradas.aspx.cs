@@ -16,7 +16,7 @@ namespace ProyectoInventarioOET
      */
     public partial class FormEntradas : System.Web.UI.Page
     {
-        enum Modo { Inicial, ConsultaEntradas, Insercion, Consultado }; // Sirve para controlar los modos de la interfaz
+        enum Modo { Inicial, BusquedaFactura, SeleccionFactura, SeleccionProductos,  EntradaConsultada }; // Sirve para controlar los modos de la interfaz
         //Atributos
         private static int modo = (int)Modo.Inicial;                            // Almacena el modo actual de la interfaz
         private static ControladoraEntradas controladoraEntradas;               // Comunica con la base de datos.
@@ -27,6 +27,7 @@ namespace ProyectoInventarioOET
         private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
         private static String bodegaDeTrabajo;
         private static String facturaBuscada;
+        private static EntidadFactura facturaConsultada;
 
 
         protected void Page_Load(object sender, EventArgs e)
@@ -35,6 +36,45 @@ namespace ProyectoInventarioOET
             //bodegaDeTrabajo = (this.Master as SiteMaster).LlaveBodegaSesion;
 
             //llenarGrid();
+
+            mensajeAlerta.Visible = false;
+            if (!IsPostBack)
+            {
+                controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
+                controladoraEntradas = new ControladoraEntradas();
+                permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Gestion de entradas");
+                if (permisos == "000000")
+                    //Response.Redirect("~/ErrorPages/404.html");
+
+                // Esconder botones
+                mostrarBotonesSegunPermisos();
+
+                if (!seConsulto)
+                {
+                    modo = (int)Modo.Inicial;
+                }
+                else
+                {
+                    if (entradaConsultada == null)
+                    {
+                        mostrarMensaje("warning", "Alerta: ", "No se pudo consultar la actividad.");
+                    }
+                    else
+                    {                        
+                        seConsulto = false;
+                    }
+                }
+
+            }
+            cambiarModo();
+        }
+
+        protected void mostrarBotonesSegunPermisos()
+        {
+            //botonConsultaActividades.Visible = (permisos[5] == '1');
+            //botonAgregarActividades.Visible = (permisos[4] == '1');
+            //botonModificacionActividades.Visible = (permisos[3] == '1');
+            //comboBoxEstadosActividades.Enabled = (permisos[2] == '1');
         }
 
         /*
@@ -335,8 +375,11 @@ namespace ProyectoInventarioOET
 
         protected void botonConsultaEntradas_ServerClick(object sender, EventArgs e)
         {
+            modo = (int)Modo.Inicial;
+            cambiarModo();            
+            modo = (int)Modo.EntradaConsultada;
+            cambiarModo();
             llenarGridEntradas();
-            FieldsetGridEntradas.Visible = true;
         }
 
         protected void gridViewEntradas_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -351,40 +394,133 @@ namespace ProyectoInventarioOET
 
         protected void botonAgregarEntradas_ServerClick(object sender, EventArgs e)
         {
-            FielsetBuscarFactura.Visible = true;
+            modo = (int)Modo.BusquedaFactura;
+            cambiarModo();
         }
 
         protected void botonMostrarFacturas_Click(object sender, EventArgs e)
         {
             facturaBuscada = "Todas";
+            modo = (int)Modo.SeleccionFactura;
+            cambiarModo();
             llenarGridFacturas();
-            FieldsetGridFacturas.Visible = true;
         }
 
         protected void botonBuscarFactura_Click(object sender, EventArgs e)
         {
             facturaBuscada = this.barraDeBusquedaFactura.Value.ToString();
+            modo = (int)Modo.SeleccionFactura;
+            cambiarModo();
             llenarGridFacturas();
-            FieldsetGridFacturas.Visible = true;
         }
 
 
         protected void gridViewFacturas_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            FieldsetEncabezadoFactura.Visible = true;
-            FieldsetCrearFactura.Visible = true;
+            modo = (int)Modo.SeleccionProductos;
+            switch (e.CommandName)
+            {
+                case "Select":
+                    GridViewRow filaSeleccionada = this.gridViewFacturas.Rows[Convert.ToInt32(e.CommandArgument)];
+                    String codigo = "";
+                    codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewFacturas.PageIndex)]);
+                    consultarFactura(codigo);
+                    break;
+            }
+            cambiarModo();
         }
 
         protected void gridViewFacturas_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
 
         }
+        protected void gridViewFacturas_Seleccion(object sender, GridViewCommandEventArgs e)
+        {
 
+        }
+        protected void consultarFactura(String codigo)
+        {
+            seConsulto = true;
+            try
+            {
+                facturaConsultada = controladoraEntradas.consultarFactura(codigo);
+                CompletarDatosFactura(facturaConsultada);
+                llenarGridDetalleFactura();
+                modo = (int)Modo.SeleccionProductos;
+            }
+            catch
+            {
+                //actividadConsultada = null;
+                modo = (int)Modo.Inicial;
+            }
+            cambiarModo();
+        }
+
+        protected void CompletarDatosFactura(EntidadFactura facturaConsultada)
+        {
+            outputFactura.InnerText = Convert.ToString(facturaConsultada.IdFactura);
+            outputFechaPago.InnerText = Convert.ToString(facturaConsultada.FechaPago);
+            outputDescuento.InnerText = Convert.ToString(facturaConsultada.Descuento);
+            outputTipoPago.InnerText = Convert.ToString(facturaConsultada.TipoDePago);
+            outputPlazoPago.InnerText = Convert.ToString(facturaConsultada.PlazoDePago);
+            outputSubtotal.InnerText = Convert.ToString(facturaConsultada.SubTotal);
+            outputTotal.InnerText = Convert.ToString(facturaConsultada.Total);
+            outputImpuestos.InnerText = Convert.ToString(facturaConsultada.RetencionImpuestos);
+            outputMoneda.InnerText = Convert.ToString(facturaConsultada.Moneda);
+            outputTipoCambio.InnerText = Convert.ToString(facturaConsultada.TipoCambio);
+        }
         protected void gridDetalleFactura_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
 
         }
 
+        protected void llenarGridDetalleFactura()
+        {
+            DataTable tabla = tablaFacturaDetallada();
+            int i = 0;
+
+            try
+            {
+                // Cargar entradas
+                Object[] datos = new Object[3];
+                DataTable facturas = controladoraEntradas.consultarDetalleFactura(facturaConsultada.IdOrdenDeCompra);
+
+                if (facturas.Rows.Count > 0)
+                {
+                    //idArray = new Object[facturas.Rows.Count];
+                    foreach (DataRow fila in facturas.Rows)
+                    {
+                        //idArray[i] = fila[0];
+                        datos[0] = fila[0].ToString();
+                        datos[1] = fila[1].ToString();
+                        datos[2] = fila[2].ToString();
+
+
+                        tabla.Rows.Add(datos);
+                        //if (entradaConsultada != null && (fila[0].Equals(entradaConsultada.Codigo)))
+                        //{
+                        //    indiceNuevaActividad = i;
+                        //}
+                        i++;
+                    }
+                }
+                // No hay entradas almacenadas.
+                else
+                {
+                    datos[0] = "-";
+                    datos[1] = "-";
+                    datos[2] = "-";
+                    tabla.Rows.Add(datos);
+                }
+
+                this.gridDetalleFactura.DataSource = tabla;
+                this.gridDetalleFactura.DataBind();
+            }
+            catch (Exception e)
+            {
+                mostrarMensaje("warning", "Alerta", "Error al llenar la tabla de Facturas.");
+            }
+        }
         protected void botonBuscar_Click(object sender, EventArgs e)
         {
             FieldsetResultadosBusqueda.Visible = true;
@@ -403,6 +539,100 @@ namespace ProyectoInventarioOET
         protected void gridFacturaNueva_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
 
+        }
+
+        protected void botonAceptarEntrada_ServerClick(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void botonAceptarModalCancelar_ServerClick(object sender, EventArgs e)
+        {
+            modo = (int)Modo.Inicial;
+            cambiarModo();
+        }
+
+        /*
+         * Cambia el modo de la pantalla activando/desactivando o mostrando/ocultando elementos de acuerdo con la 
+         * acción que se va a realizar.
+         */
+        protected void cambiarModo()
+        {
+            switch (modo)
+            {
+                case (int)Modo.Inicial:
+                    this.FieldsetGridEntradas.Visible = false;
+                    this.FielsetBuscarFactura.Visible = false;
+                    this.FieldsetGridFacturas.Visible = false;
+                    this.FieldsetEncabezadoFactura.Visible = false;
+                    this.FieldsetCrearFactura.Visible = false;
+                    this.FieldsetResultadosBusqueda.Visible = false;
+                    this.botonAgregarEntradas.Disabled = false;
+                    this.botonAceptarEntrada.Visible = false;
+                    this.botonCancelarEntrada.Visible = false;
+                    tituloAccionEntradas.InnerText = "Seleccione una opción";
+                    break;
+
+
+                case (int)Modo.BusquedaFactura: // Modo que permite buscar una factura por identificador o 
+                                                // seleccionando del listado general.
+                    this.botonAgregarEntradas.Disabled = true;
+                    this.FielsetBuscarFactura.Visible = true;
+                    this.botonAceptarEntrada.Visible = true;
+                    this.botonAceptarEntrada.Disabled = true;
+                    this.botonCancelarEntrada.Visible = true;
+                    this.FieldsetGridEntradas.Visible = false;
+                    tituloAccionEntradas.InnerText = "";
+                    break;
+
+                case (int)Modo.SeleccionFactura: // Se presenta la lista con los resultados de la búsqueda para	
+                                                // elegir la que se desea trabajar.
+
+                    this.FieldsetGridFacturas.Visible = true;
+
+                    break;
+                case (int)Modo.SeleccionProductos: // Visualiza la información de la factura seleccionada y permite 
+                                                  // detallar los productos recibidos(Crear la entrada).
+                    this.FieldsetEncabezadoFactura.Visible = true;
+                    this.FieldsetCrearFactura.Visible = true;
+                    this.botonAceptarEntrada.Disabled = false;
+                    limpiarCampos();
+
+                    break;
+
+                case (int)Modo.EntradaConsultada:
+                    tituloAccionEntradas.InnerText = "";
+                    this.FieldsetGridEntradas.Visible = true;
+                    break;
+                default:
+
+                    break;
+            }
+        }
+
+        private void limpiarCampos()
+        {
+            this.inputCantidad.Value = "";
+            this.inputCosto.Value = "";
+        }
+
+        protected void agregarProducto_Click(object sender, EventArgs e)
+        {
+            String producto = this.textBoxAutocompleteCrearFacturaBusquedaProducto.Text;
+            String cantidad = this.inputCantidad.Value;
+            String costo = this.inputCosto.Value;
+
+
+            DataTable tabla = tablaFacturaDetallada();
+
+            Object[] datos = new Object[3];
+            datos[0] = producto;
+            datos[1] = cantidad;
+            datos[2] = costo;
+            tabla.Rows.Add(datos);
+
+            this.gridFacturaNueva.DataSource = tabla;
+            this.gridFacturaNueva.DataBind();
         }
 
 
