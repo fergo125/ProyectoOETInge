@@ -56,6 +56,26 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             return factura;
 
         }
+        public EntidadEntrada consultarEntrada(String id)
+        {
+            EntidadEntrada entrada = null;
+
+            DataTable resultado = controladoraBDEntradas.consultarEntrada(id);
+            Object[] datosConsultados = new Object[5];
+
+            if (resultado.Rows.Count == 1)
+            {
+                datosConsultados[0] = resultado.Rows[0][0].ToString();
+                for (int i = 1; i < 5; i++)
+                {
+                    datosConsultados[i] = resultado.Rows[0][i].ToString();
+                }
+
+                entrada = new EntidadEntrada(datosConsultados);
+            }
+            return entrada;
+
+        }
         public DataTable consultarDetalleFactura(string idOrdenDeCompra)
         {
             return controladoraBDEntradas.consultarDetalleFactura(idOrdenDeCompra);
