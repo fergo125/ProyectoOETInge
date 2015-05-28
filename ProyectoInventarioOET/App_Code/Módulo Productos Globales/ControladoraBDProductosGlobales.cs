@@ -227,29 +227,5 @@ namespace ProyectoInventarioOET.Modulo_ProductosGlobales
             }
             return resultado;
         }
-
-        /*
-         * Invocada por la barra de autocomplete, busca sólo el nombre y los códigos internos de
-         * los productos en el catálogo global, con base en un String escrito por el usuario
-         * que se asocia a uno de esos dos (puede buscar productos por nombre o por código).
-         * Procurar que sea eficiente, ya que se invoca por cada key stroke.
-         */
-        public DataTable consultarProductosAutocompletar(String query)
-        {
-            String esquema = "Inventarios.";
-            DataTable resultado = new DataTable();
-            try
-            {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT NOMBRE, CODIGO FROM " + esquema + "INV_PRODUCTOS WHERE (NOMBRE LIKE '" + query + "' OR CODIGO LIKE '" + query + "')";
-                OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
-            }
-            catch (Exception e)
-            {
-                resultado = null;
-            }
-            return resultado;
-        }
     }
 }
