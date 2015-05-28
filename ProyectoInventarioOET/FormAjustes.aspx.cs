@@ -405,7 +405,7 @@ namespace ProyectoInventarioOET
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.ToDouble");
+            columna.DataType = System.Type.GetType("System.Double");
             columna.ColumnName = "Cantidad Actual";
             tabla.Columns.Add(columna);
 
@@ -457,17 +457,17 @@ namespace ProyectoInventarioOET
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.ToDouble");
+            columna.DataType = System.Type.GetType("System.Double");
             columna.ColumnName = "Cantidad Actual";
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.ToDouble");
+            columna.DataType = System.Type.GetType("System.Double");
             columna.ColumnName = "Minimo";
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.ToDouble");
+            columna.DataType = System.Type.GetType("System.Double");
             columna.ColumnName = "Maximo";
             tabla.Columns.Add(columna);
 

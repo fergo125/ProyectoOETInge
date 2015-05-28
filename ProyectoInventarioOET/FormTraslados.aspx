@@ -142,4 +142,46 @@
     </div>
     <!-- Fin Modal Cancelar -->
 
+    <!-- Modal Agregar Producto -->
+    <div class="modal fade" id="modalAgregarProducto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="modalTitle2"><i class="fa fa-plus fa-lg"></i> Agregar un producto</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- Grid de consultas -->
+                    <div id="bloqueGridAgregarProductos" class="col-lg-12">
+                        <fieldset id="Fieldset3" runat="server" class="fieldset">
+                            <!-- Gridview de consultar -->
+                            <div class="col-lg-12">
+                                <strong><div ID="Div1" runat="server" visible="false" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Productos en Bodega</div></strong>
+                                <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                                    <ContentTemplate>
+                                        <asp:GridView ID="gridViewAgregarProductos" CssClass="table" OnRowCommand="gridViewAgregarProductos_Seleccion" OnPageIndexChanging="gridViewAgregarProductos_CambioPagina" runat="server" AllowPaging="True" PageSize="10" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                                            <Columns>
+                                                <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Agregar">
+                                                    <ControlStyle CssClass="btn btn-default"></ControlStyle>
+                                                </asp:ButtonField>
+                                            </Columns>
+                                            <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
+                                            <PagerStyle CssClass="paging" HorizontalAlign="Center" />
+                                            <AlternatingRowStyle BackColor="#F8F8F8" />
+                                            <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
+                                        </asp:GridView>
+                                    </ContentTemplate>
+                                    <Triggers>
+                                        <asp:AsyncPostBackTrigger ControlID="gridViewAgregarProductos" EventName="RowCommand" />
+                                    </Triggers>
+                                </asp:UpdatePanel>
+                            </div>
+                        </fieldset>         
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fin Modal Agregar Producto -->
+
 </asp:Content>
