@@ -65,21 +65,44 @@ namespace ProyectoInventarioOET
             DataRow testRow;
             DataColumn testColumn;
             
-            //testColumn = new DataColumn();
-            //testColumn.DataType = Type.GetType("System.Checkbox");
-            //testColumn.ColumnName = "Seleccionar";
-            //testTable.Columns.Add(testColumn);
             testColumn = new DataColumn();
             testColumn.DataType = Type.GetType("System.String");
             testColumn.ColumnName = "Nombre";
             testTable.Columns.Add(testColumn);
+            testColumn = new DataColumn();
+            testColumn.DataType = Type.GetType("System.String");
+            testColumn.ColumnName = "Código interno";
+            testTable.Columns.Add(testColumn);
+            testColumn = new DataColumn();
+            testColumn.DataType = Type.GetType("System.Int32");
+            testColumn.ColumnName = "Precio unitario";
+            testTable.Columns.Add(testColumn);
+            testColumn = new DataColumn();
+            testColumn.DataType = Type.GetType("System.String");
+            testColumn.ColumnName = "Impuesto";
+            testTable.Columns.Add(testColumn);
+            testColumn = new DataColumn();
+            testColumn.DataType = Type.GetType("System.Int32");
+            testColumn.ColumnName = "Descuento (%)";
+            testTable.Columns.Add(testColumn);
 
             testRow = testTable.NewRow();
-            testRow["Nombre"] = "Probandooo";
+            testRow["Nombre"] = "Nombre de prueba";
+            testRow["Código interno"] = "CRO001";
+            testRow["Precio unitario"] = "500";
+            testRow["Impuesto"] = "Sí";
+            testRow["Descuento (%)"] = "0";
+            testTable.Rows.Add(testRow);
+            testRow = testTable.NewRow();
+            testRow["Nombre"] = "Nombre de prueba";
+            testRow["Código interno"] = "CRO001";
+            testRow["Precio unitario"] = "500";
+            testRow["Impuesto"] = "Sí";
+            testRow["Descuento (%)"] = "0";
             testTable.Rows.Add(testRow);
 
-            gridView1.DataSource = testTable;
-            gridView1.DataBind();
+            gridViewCrearFacturaProductos.DataSource = testTable;
+            gridViewCrearFacturaProductos.DataBind();
         }
 
         /*
