@@ -173,7 +173,7 @@
             <tr>
                 <td>Vendedor:</td>
                 <td><asp:TextBox ID="textBoxCrearFacturaVendedor" runat="server" CssClass="form-control" Width="90%"></asp:TextBox></td>
-                <td>Tipo de cambio:</td>
+                <td>Tipo cambio:</td>
                 <td><asp:TextBox ID="textBoxCrearFacturaTipoCambio" runat="server" CssClass="form-control" Width="90%"></asp:TextBox></td>
             </tr>
             <tr>
@@ -189,6 +189,30 @@
                 <td colspan="4">
                     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                         <ContentTemplate>
+                            <%--<asp:GridView ID="gridViewCrearFacturaProductos" CssClass="table" runat="server" AllowPaging="True" PageSize="5" BorderColor="White" BorderStyle="Solid" BorderWidth="1px" GridLines="None" ShowHeaderWhenEmpty="True" AutoGenerateColumns="False">
+                                <Columns>
+                                    <asp:TemplateField HeaderText="Seleccionar">
+                                        <ItemTemplate>
+                                            <asp:CheckBox ID="CheckBox1" runat="server" />
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:BoundField HeaderText="Nombre" />
+                                    <asp:BoundField HeaderText="Código interno" />
+                                    <asp:TemplateField HeaderText="Cantidad">
+                                        <ItemTemplate>
+                                            <asp:TextBox ID="gridCrearFacturaCantidadProducto" runat="server" ReadOnly="false" Width="50px"></asp:TextBox>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:BoundField HeaderText="Precio unitario" />
+                                    <asp:BoundField HeaderText="Impuesto" />
+                                    <asp:BoundField HeaderText="Descuento" />
+                                </Columns>
+                                <RowStyle Font-Size="small" BackColor="White" ForeColor="Black"/>
+                                <PagerStyle CssClass="paging" HorizontalAlign="Center"/>
+                                <AlternatingRowStyle BackColor="#F8F8F8"/>
+                                <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White"/>
+                                <HeaderStyle CssClass="active" Font-Size="Small" Font-Bold="true" BackColor="Silver"/>
+                            </asp:GridView>--%>
                             <asp:GridView ID="gridViewCrearFacturaProductos" CssClass="table" runat="server" AllowPaging="True" PageSize="5" BorderColor="#ffffff" BorderStyle="Solid" BorderWidth="1px" GridLines="None" ShowHeaderWhenEmpty="True">
                                 <Columns>
                                     <asp:TemplateField HeaderText="Seleccionar">

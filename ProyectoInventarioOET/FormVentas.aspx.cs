@@ -66,7 +66,7 @@ namespace ProyectoInventarioOET
             DataTable testTable = new DataTable();
             DataRow testRow;
             DataColumn testColumn;
-            
+
             testColumn = new DataColumn();
             testColumn.DataType = Type.GetType("System.String");
             testColumn.ColumnName = "Nombre";
@@ -96,15 +96,24 @@ namespace ProyectoInventarioOET
             testRow["Descuento (%)"] = "0";
             testTable.Rows.Add(testRow);
             testRow = testTable.NewRow();
-            testRow["Nombre"] = "Nombre de prueba";
-            testRow["Código interno"] = "CRO001";
-            testRow["Precio unitario"] = "500";
+            testRow["Nombre"] = "Nombre de prueba larguísimo de esos que ponen las unidades y la vara";
+            testRow["Código interno"] = "CRO002";
+            testRow["Precio unitario"] = "50000";
             testRow["Impuesto"] = "Sí";
             testRow["Descuento (%)"] = "0";
             testTable.Rows.Add(testRow);
 
             gridViewCrearFacturaProductos.DataSource = testTable;
             gridViewCrearFacturaProductos.DataBind();
+
+            //DataControlField[] backupColumn = new DataControlField[100];
+            //gridViewCrearFacturaProductos.Columns.CopyTo(backupColumn, 0);
+            //gridViewCrearFacturaProductos.Columns.Insert(0, backupColumn[0]);
+            //DataControlField backup = gridViewCrearFacturaProductos.Columns[1];
+            //gridViewCrearFacturaProductos.Columns.RemoveAt(1);
+            //gridViewCrearFacturaProductos.Columns.Add(backup);
+            //gridViewCrearFacturaProductos.Columns.Add(backup);
+            //gridViewCrearFacturaProductos.Columns["Seleccionar"].DisplayIndex = 0;
         }
 
         /*
