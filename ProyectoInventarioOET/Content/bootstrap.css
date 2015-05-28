@@ -6989,7 +6989,7 @@ td.visible-print {
 
 /*Used for the billing table in the sales page, a table with only borders but no lines of any kind.*/
 .table-bills-fozkr {
-  width: 40%;
+  width: 60%;
   margin-left: auto;
   margin-right: auto;
   border-collapse: collapse;
@@ -7258,6 +7258,6 @@ fieldset[disabled] .btn-info-fozkr.active {
 }
 
 .ac_over {
-	background-color: lightgreen; /*TODO: check if this green is appropiate*/
+	background-color: #7BC143; /*TODO: check if this green is appropiate*/
 	color: white;
 }
