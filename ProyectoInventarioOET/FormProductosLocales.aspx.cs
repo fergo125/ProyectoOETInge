@@ -31,9 +31,9 @@ namespace ProyectoInventarioOET
         private static Object[] idArray2;                                       // Arreglo de id's de bodegas
         private static DataTable catalogoLocal, consultaProducto;               // Tablas de datos que almacenan los productos del catálogo local y los datos del producto consultado
         private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
-        private static Boolean gridCatalogoLocal = false;
-        private static bool[] asociados;
-        private static String[] idProductos;
+        private static bool[] asociados;                                        // Almacena cuales itemes estan siendo asociados actualmente.
+        private static String[] idProductos;                                    // Almacena el id de los productos mostrados.
+        private static Boolean mensaje = false;                                 // Almacena si se debe mostrar el mensaje.
 
         /*
          * Cuando se accede la pagina inicializa los controladores si es la primera vez, sino solo realiza el cambio de modo.
@@ -77,6 +77,8 @@ namespace ProyectoInventarioOET
                     FieldsetCatalogoLocal.Visible = false;
                     FieldsetAsociarCatalogoLocal.Visible = true;
                     FieldsetBloqueBotones.Visible = true;
+                    botonAsociarProducto.Visible = true;
+                    botonDesactivarProducto.Visible = false;
                     break;
                 case (int)Modo.Consulta:
                     FieldsetProductos.Visible = false;
@@ -89,6 +91,8 @@ namespace ProyectoInventarioOET
                     FieldsetCatalogoLocal.Visible = false;
                     FieldsetAsociarCatalogoLocal.Visible = false;
                     FieldsetBloqueBotones.Visible = true;
+                    botonAsociarProducto.Visible = false;
+                    botonDesactivarProducto.Visible = true;
                     break;
                 case (int)Modo.Consultado:
                     FieldsetProductos.Visible = true;
@@ -96,6 +100,15 @@ namespace ProyectoInventarioOET
                     FieldsetAsociarCatalogoLocal.Visible = false;
                     FieldsetBloqueBotones.Visible = false;
                     break;
+            }
+            if (mensaje)
+            {
+                mensajeAlerta.Visible = true;
+                mensaje = false;
+            }
+            else
+            {
+                mensajeAlerta.Visible = false;
             }
         }
 
@@ -249,17 +262,12 @@ namespace ProyectoInventarioOET
          */
         protected void gridViewCatalogoLocal_Seleccion(object sender, GridViewCommandEventArgs e)
         {
-            switch (e.CommandName)
-            {
-                case "Select":
-                    GridViewRow filaSeleccionada = this.gridViewCatalogoLocal.Rows[Convert.ToInt32(e.CommandArgument)];
-                    String codigo = filaSeleccionada.Cells[2].Text.ToString();
-                    String idBodega = idArray2[bodegaSeleccionada].ToString();
-                    consultaProducto = controladoraProductoLocal.consultarProductoDeBodega(idBodega, codigo);
-                    modo=(int)Modo.Consultado;
-                    cambiarModo();
-                    break;
-            }
+            GridViewRow filaSeleccionada = this.gridViewCatalogoLocal.Rows[Convert.ToInt32(e.CommandArgument)];
+            String codigo = filaSeleccionada.Cells[2].Text.ToString();
+            String idBodega = idArray2[bodegaSeleccionada].ToString();
+            consultaProducto = controladoraProductoLocal.consultarProductoDeBodega(idBodega, codigo);
+            modo = (int)Modo.Consultado;
+            cambiarModo();
         }
 
         /*
@@ -378,6 +386,8 @@ namespace ProyectoInventarioOET
             {
                 botonConsultarBodega.Disabled = false;
                 botonAsociarBodega.Disabled = false;
+                modo = (int)Modo.Inicial;
+                cambiarModo();
             }
         }
 
@@ -465,13 +475,43 @@ namespace ProyectoInventarioOET
          */
         protected void botonAsociarProductos_ServerClick(object sender, EventArgs e)
         {
+            
+        }
+
+        /*
+         * Muestra el mensaje que da el resultado de las transacciones que se efectúan.
+         */
+        protected void mostrarMensaje(String tipoAlerta, String alerta, String mensaje)
+        {
+            mensajeAlerta.Attributes["class"] = "alert alert-" + tipoAlerta + " alert-dismissable fade in";
+            labelTipoAlerta.Text = alerta + " ";
+            labelAlerta.Text = mensaje;
+            FormProductosLocales.mensaje = true;
+        }
+
+        /*
+         * Aceptar cancelación del modal de cancelar.
+         */
+        protected void botonAceptarModalCancelar_ServerClick(object sender, EventArgs e)
+        {
+            modo = (int)Modo.Inicial;
+            cambiarModo();
+        }
+
+        /*
+         * Desactivación confirmada.
+         * MODALES NO IMPLEMENTADOS
+         */
+        protected void botonAceptarModalDesactivar_ServerClick(object sender, EventArgs e)
+        {
             String[] res = new String[3];
             if (modo == (int)Modo.Modificacion)
             {
-                res = controladoraProductoLocal.modificarProductoLocal(consultaProducto.Rows[0][22].ToString(),inputEstado.SelectedItem.ToString());
+                res = controladoraProductoLocal.modificarProductoLocal(consultaProducto.Rows[0][22].ToString(), inputEstado.SelectedItem.ToString());
                 modo = (int)Modo.Consultado;
             }
-            else { 
+            else
+            {
                 int pos = gridViewAsociarCatalogoLocal.PageSize * gridViewAsociarCatalogoLocal.PageIndex;
                 for (int i = 0; i < gridViewAsociarCatalogoLocal.PageSize; i++)
                 {
@@ -491,45 +531,16 @@ namespace ProyectoInventarioOET
                 res[0] = "go";
                 for (int i = 0; i < catalogoLocal.Rows.Count && !res[0].Equals("danger"); i++)
                 {
-                    if(asociados[i])
+                    if (asociados[i])
                     {
-                       res = controladoraProductoLocal.asociarProductos(idBodega,idProductos[i], (this.Master as SiteMaster).Usuario.Codigo);
+                        res = controladoraProductoLocal.asociarProductos(idBodega, idProductos[i], (this.Master as SiteMaster).Usuario.Codigo);
                     }
                 }
                 modo = (int)Modo.Inicial;
             }
-            cambiarModo();
             mostrarMensaje(res[0], res[1], res[2]);
-        }
-
-        /*
-         * Muestra el mensaje que da el resultado de las transacciones que se efectúan.
-         */
-        protected void mostrarMensaje(String tipoAlerta, String alerta, String mensaje)
-        {
-            mensajeAlerta.Attributes["class"] = "alert alert-" + tipoAlerta + " alert-dismissable fade in";
-            labelTipoAlerta.Text = alerta + " ";
-            labelAlerta.Text = mensaje;
-            mensajeAlerta.Visible = true;
-        }
-
-        /*
-         * Aceptar cancelación del modal de cancelar.
-         */
-        protected void botonAceptarModalCancelar_ServerClick(object sender, EventArgs e)
-        {
-            modo = (int)Modo.Inicial;
             cambiarModo();
         }
-
-        /*
-         * Desactivación confirmada.
-         */
-        protected void botonAceptarModalDesactivar_ServerClick(object sender, EventArgs e)
-        {
-        }
-
-        // TODO: BOTON CONSULTAR, DESAPARECER AL CAMBIO DE BODEGA
 
     }
 }

@@ -373,13 +373,22 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl bloqueBotones;
         
         /// <summary>
-        /// Control botonAsociarProductos.
+        /// Control botonAsociarProducto.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonAsociarProductos;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor botonAsociarProducto;
+        
+        /// <summary>
+        /// Control botonDesactivarProducto.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor botonDesactivarProducto;
         
         /// <summary>
         /// Control botonCancelarProductoGlobal.
@@ -407,5 +416,14 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlButton botonAceptarModalDesactivar;
+        
+        /// <summary>
+        /// Control Button1.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton Button1;
     }
 }
