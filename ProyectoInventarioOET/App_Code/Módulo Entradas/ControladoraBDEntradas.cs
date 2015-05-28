@@ -65,6 +65,26 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             }
             return resultado;
         }
+        public DataTable consultarDetalleFactura(String id)
+        {
+            DataTable resultado = new DataTable();
+            String esquema = "Compras.";
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+                    command.CommandText = "SELECT *  "
+                    + " FROM " + esquema + "PRODUCTO_ORDENADOS "
+                    + " WHERE IDORDENDECOMPRA= " + " '" + id + "' ";
+                    OracleDataReader reader = command.ExecuteReader();
+                    resultado.Load(reader);
+
+            }
+            catch (Exception e)
+            {
+                resultado = null;
+            }
+            return resultado;
+        }
         public DataTable consultarFactura(String id)
         {
             DataTable resultado = new DataTable();
