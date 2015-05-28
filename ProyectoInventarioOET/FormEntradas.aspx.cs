@@ -445,6 +445,7 @@ namespace ProyectoInventarioOET
             {
                 facturaConsultada = controladoraEntradas.consultarFactura(codigo);
                 CompletarDatosFactura(facturaConsultada);
+                llenarGridDetalleFactura();
                 modo = (int)Modo.SeleccionProductos;
             }
             catch
@@ -473,6 +474,53 @@ namespace ProyectoInventarioOET
 
         }
 
+        protected void llenarGridDetalleFactura()
+        {
+            DataTable tabla = tablaFacturaDetallada();
+            int i = 0;
+
+            try
+            {
+                // Cargar entradas
+                Object[] datos = new Object[3];
+                DataTable facturas = controladoraEntradas.consultarDetalleFactura(facturaConsultada.IdOrdenDeCompra);
+
+                if (facturas.Rows.Count > 0)
+                {
+                    //idArray = new Object[facturas.Rows.Count];
+                    foreach (DataRow fila in facturas.Rows)
+                    {
+                        //idArray[i] = fila[0];
+                        datos[0] = fila[0].ToString();
+                        datos[1] = fila[1].ToString();
+                        datos[2] = fila[2].ToString();
+
+
+                        tabla.Rows.Add(datos);
+                        //if (entradaConsultada != null && (fila[0].Equals(entradaConsultada.Codigo)))
+                        //{
+                        //    indiceNuevaActividad = i;
+                        //}
+                        i++;
+                    }
+                }
+                // No hay entradas almacenadas.
+                else
+                {
+                    datos[0] = "-";
+                    datos[1] = "-";
+                    datos[2] = "-";
+                    tabla.Rows.Add(datos);
+                }
+
+                this.gridDetalleFactura.DataSource = tabla;
+                this.gridDetalleFactura.DataBind();
+            }
+            catch (Exception e)
+            {
+                mostrarMensaje("warning", "Alerta", "Error al llenar la tabla de Facturas.");
+            }
+        }
         protected void botonBuscar_Click(object sender, EventArgs e)
         {
             FieldsetResultadosBusqueda.Visible = true;
@@ -566,6 +614,25 @@ namespace ProyectoInventarioOET
         {
             this.inputCantidad.Value = "";
             this.inputCosto.Value = "";
+        }
+
+        protected void agregarProducto_Click(object sender, EventArgs e)
+        {
+            String producto = this.textBoxAutocompleteCrearFacturaBusquedaProducto.Text;
+            String cantidad = this.inputCantidad.Value;
+            String costo = this.inputCosto.Value;
+
+
+            DataTable tabla = tablaFacturaDetallada();
+
+            Object[] datos = new Object[3];
+            datos[0] = producto;
+            datos[1] = cantidad;
+            datos[2] = costo;
+            tabla.Rows.Add(datos);
+
+            this.gridFacturaNueva.DataSource = tabla;
+            this.gridFacturaNueva.DataBind();
         }
 
 
