@@ -355,22 +355,22 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.DropDownList dropDownListCrearFacturaBodega;
         
         /// <summary>
-        /// Control labelCrearFacturaVendedor.
+        /// Control textBoxCrearFacturaVendedor.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label labelCrearFacturaVendedor;
+        protected global::System.Web.UI.WebControls.TextBox textBoxCrearFacturaVendedor;
         
         /// <summary>
-        /// Control labelCrearFacturaTipoCambio.
+        /// Control textBoxCrearFacturaTipoCambio.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label labelCrearFacturaTipoCambio;
+        protected global::System.Web.UI.WebControls.TextBox textBoxCrearFacturaTipoCambio;
         
         /// <summary>
         /// Control textBoxAutocompleteCrearFacturaBusquedaProducto.

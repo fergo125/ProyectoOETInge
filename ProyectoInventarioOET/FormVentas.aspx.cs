@@ -26,6 +26,7 @@ namespace ProyectoInventarioOET
         private static ControladoraVentas controladoraVentas;                  //Para accesar las tablas del módulo y realizar las operaciones de consulta, inserción, modificación y anulación
         private static ControladoraDatosGenerales controladoraDatosGenerales;  //Para accesar datos generales de la base de datos
         private static ControladoraSeguridad controladoraSeguridad;     //???
+        
         //Importante:
         //Para el codigoPerfilUsuario (que se usa un poco hard-coded), los números son:
         //1. Administrador global
@@ -60,14 +61,48 @@ namespace ProyectoInventarioOET
             }
             //cambiarModo();
             //código para probar algo
-            //TableRow row = new TableRow();
-            //TableCell cell1 = new TableCell();
-            //cell1.Text = "blah blah blah";
-            //row.Cells.Add(cell1);
-            //test.Rows.Add(row);
-            //HtmlTableRow row = new HtmlTableRow();
-            //row.Cells.Add(new HtmlTableCell());
-            //estructuraFactura.Rows.Add(row);
+            DataTable testTable = new DataTable();
+            DataRow testRow;
+            DataColumn testColumn;
+            
+            testColumn = new DataColumn();
+            testColumn.DataType = Type.GetType("System.String");
+            testColumn.ColumnName = "Nombre";
+            testTable.Columns.Add(testColumn);
+            testColumn = new DataColumn();
+            testColumn.DataType = Type.GetType("System.String");
+            testColumn.ColumnName = "Código interno";
+            testTable.Columns.Add(testColumn);
+            testColumn = new DataColumn();
+            testColumn.DataType = Type.GetType("System.Int32");
+            testColumn.ColumnName = "Precio unitario";
+            testTable.Columns.Add(testColumn);
+            testColumn = new DataColumn();
+            testColumn.DataType = Type.GetType("System.String");
+            testColumn.ColumnName = "Impuesto";
+            testTable.Columns.Add(testColumn);
+            testColumn = new DataColumn();
+            testColumn.DataType = Type.GetType("System.Int32");
+            testColumn.ColumnName = "Descuento (%)";
+            testTable.Columns.Add(testColumn);
+
+            testRow = testTable.NewRow();
+            testRow["Nombre"] = "Nombre de prueba";
+            testRow["Código interno"] = "CRO001";
+            testRow["Precio unitario"] = "500";
+            testRow["Impuesto"] = "Sí";
+            testRow["Descuento (%)"] = "0";
+            testTable.Rows.Add(testRow);
+            testRow = testTable.NewRow();
+            testRow["Nombre"] = "Nombre de prueba";
+            testRow["Código interno"] = "CRO001";
+            testRow["Precio unitario"] = "500";
+            testRow["Impuesto"] = "Sí";
+            testRow["Descuento (%)"] = "0";
+            testTable.Rows.Add(testRow);
+
+            gridViewCrearFacturaProductos.DataSource = testTable;
+            gridViewCrearFacturaProductos.DataBind();
         }
 
         /*
@@ -284,6 +319,17 @@ namespace ProyectoInventarioOET
         {
             modo = Modo.Insercion;
             cambiarModo();
+        }
+
+        /*
+         * Invocada cuando se da click al botón de "Agregar Producto" a la factura, se revisa que exista primero
+         * (el usuario puede escribir lo que quiera, es un textbox), si existe se agrega al grid para luego editar
+         * su cantidad y poder aplicarle descuentos (o quitarlo de la factura).
+         */
+        protected void clickBotonAgregarProductoFactura(object sender, EventArgs e)
+        {
+            String productoEscogido = textBoxAutocompleteCrearFacturaBusquedaProducto.Text;
+            productoEscogido = controladoraVentas.verificarExistenciaProductoLocal(dropDownListCrearFacturaBodega.SelectedItem.Value, productoEscogido); //TODO: obtener llave de la bodega, no nombre
         }
 
         /*
