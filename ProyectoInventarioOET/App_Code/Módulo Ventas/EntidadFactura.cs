@@ -37,9 +37,8 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             this.vendedor = datos[3].ToString();
             this.cliente = datos[4].ToString();
             this.tipoMoneda = datos[5].ToString();
-            this.impuesto = Convert.ToInt32(datos[6].ToString());
-            this.metodoPago = datos[7].ToString();
-            this.productos = (DataTable) datos[8];
+            this.metodoPago = datos[6].ToString();
+            this.productos = (DataTable) datos[7];
 
         }
 

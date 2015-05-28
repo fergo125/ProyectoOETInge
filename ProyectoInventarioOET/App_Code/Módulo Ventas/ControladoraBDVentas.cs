@@ -28,7 +28,7 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             {
                 int idSiguienteFactura = getCantidadFacturas();
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "INSERT INTO " + esquema + "REGISTRO_FACTURAS_VENTA (CONSECUTIVO, FECHA, ESTACION, COMPAÑIA, ACTIVIDAD, VENDEDOR, CLIENTE, TIPOMONEDA, IMPUESTO, METODOPAGO) VALUES ("
+                command.CommandText = "INSERT INTO " + esquema + "REGISTRO_FACTURAS_VENTA (CONSECUTIVO, FECHA, ESTACION, COMPAÑIA, ACTIVIDAD, VENDEDOR, CLIENTE, TIPOMONEDA, METODOPAGO) VALUES ("
                 + (idSiguienteFactura + 1) + ",'"
                 + factura.Fecha + "','"
                 + factura.Estacion + "','"
@@ -36,24 +36,24 @@ namespace ProyectoInventarioOET.Modulo_Ventas
                 + factura.Actividad + "','"
                 + factura.Vendedor + "','"
                 + factura.Cliente + "','"
-                + factura.TipoMoneda + "',"
-                + factura.Impuesto + ",'"
+                + factura.TipoMoneda + "','"
                 + factura.MetodoPago + "')";
                 OracleDataReader reader = command.ExecuteReader();
 
 
                 String tuplasAMeter = "";
-               /* foreach (DataRow producto in factura.Productos.Rows)
-                {
-                    tuplasAMeter += " INTO REGISTRO_DETALLES_FACTURAS VALUES( "
-                        + idSiguienteFactura +",'"
-                        + producto[0].ToString() + "',"
-                        + producto[1].ToString() + ","
-                        + producto[2].ToString() + ","
-                        + producto[3].ToString() + ","
-                        + producto[4].ToString() + ","
-                        + ") "; 
-                }*/
+                /* foreach (DataRow producto in factura.Productos.Rows)
+                 {
+                     tuplasAMeter += " INTO REGISTRO_DETALLES_FACTURAS VALUES( "
+                         + idSiguienteFactura +",'"
+                         + producto[0].ToString() + "',"
+                         + producto[1].ToString() + ","
+                         + producto[2].ToString() + ","
+                         + producto[3].ToString() + ","
+                         + producto[4].ToString() + ","
+                         + producto[5].ToString() + ","
+                         + ") "; 
+                 }*/
 
                 String insercion = "INSERT ALL " + tuplasAMeter + " SELECT * FROM dual";
 

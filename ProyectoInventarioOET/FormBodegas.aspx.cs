@@ -251,6 +251,9 @@ namespace ProyectoInventarioOET
                 {
                     mostrarMensaje("warning", "Alerta", "No hay conexión a la base de datos.");
                 }
+            
+
+
         }
 
         /*

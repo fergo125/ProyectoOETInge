@@ -7,6 +7,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using ProyectoInventarioOET.Modulo_Seguridad;
 using ProyectoInventarioOET.Modulo_Ventas;
+using ProyectoInventarioOET.Modulo_Bodegas;
 using ProyectoInventarioOET.App_Code;
 
 namespace ProyectoInventarioOET
@@ -25,6 +26,7 @@ namespace ProyectoInventarioOET
         private DataTable facturasConsultadas;                          //Usada para llenar el grid y para mostrar los detalles de cada factura específica
         private static ControladoraVentas controladoraVentas;                  //Para accesar las tablas del módulo y realizar las operaciones de consulta, inserción, modificación y anulación
         private static ControladoraDatosGenerales controladoraDatosGenerales;  //Para accesar datos generales de la base de datos
+        private static ControladoraBodegas controladoraBodegas;  //Para accesar datos generales de la base de datos
         private static ControladoraSeguridad controladoraSeguridad;     //???
         //Importante:
         //Para el codigoPerfilUsuario (que se usa un poco hard-coded), los números son:
@@ -47,16 +49,20 @@ namespace ProyectoInventarioOET
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
                 controladoraSeguridad = new ControladoraSeguridad();
                 controladoraVentas = new ControladoraVentas();
+                controladoraBodegas = new ControladoraBodegas();
                 //Seguridad
                 //permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Facturacion"); //TODO: descomentar esto, está comentado sólo para pruebas
                 if (permisos == "000000")
                     Response.Redirect("~/ErrorPages/404.html");
                 //perfilUsuario = (this.Master as SiteMaster).Usuario.Perfil;
                 mostrarElementosSegunPermisos();
+                cargarEstaciones();
+                cargarBodegas();
             }
             //Si la página ya estaba cargada pero está siendo cargada de nuevo (porque se está realizando alguna acción que la refrezca/actualiza)
             else
             {
+                
             }
             //cambiarModo();
             //código para probar algo
@@ -246,6 +252,69 @@ namespace ProyectoInventarioOET
         }
 
 
+        protected Object[] obtenerDatos()
+        {
+            Object[] datos = new Object[8];
+            EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
+
+            datos[0] = dropDownListCrearFacturaEstacion.SelectedValue;
+            datos[1] = "02";
+            datos[2] = "";
+            datos[3] = usuarioActual.Codigo;
+            datos[4] = dropDownListCrearFacturaCliente.SelectedValue;
+            datos[5] = labelCrearFacturaTipoCambio.Text;
+            datos[6] = dropDownListCrearFacturaMetodoPago.SelectedValue;
+            datos[7] = null;
+            return datos;
+        
+        }
+
+        protected void cargarEstaciones() 
+        {
+            EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
+            DataTable estaciones = controladoraDatosGenerales.consultarEstaciones();
+
+            if (estaciones.Rows.Count > 0)
+            {
+                this.dropDownListCrearFacturaEstacion.Items.Clear();
+                foreach (DataRow fila in estaciones.Rows)
+                {
+                    if ((usuarioActual.Perfil.Equals("Administrador global"))||(usuarioActual.IdEstacion.Equals(fila[0])))
+                    {
+                        this.dropDownListCrearFacturaEstacion.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
+                    }
+                }
+            }
+            if (usuarioActual.Perfil.Equals("Administrador global"))
+            {
+                dropDownListCrearFacturaEstacion.Enabled = true;
+            }
+            else
+            {
+                dropDownListCrearFacturaEstacion.Enabled = false;
+            }
+        }
+
+        protected void cargarBodegas()
+        {
+            EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
+            DataTable bodegas = controladoraBodegas.consultarBodegasDeEstacion(dropDownListCrearFacturaEstacion.SelectedValue);
+            int i = 0;
+            if (bodegas.Rows.Count > 0)
+            {
+                foreach (DataRow fila in bodegas.Rows)
+                {
+                    if ((usuarioActual.Perfil.Equals("Administrador global")) || (usuarioActual.Perfil.Equals("Administrador local")) || fila[1].ToString().Equals((this.Master as SiteMaster).NombreBodegaSesion))
+                    {
+                        this.dropDownListCrearFacturaBodega.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
+                    }
+                }
+            }
+        }
+
+
+
+
 
         /*
          *****************************************************************************************************************************************************************************
@@ -317,28 +386,15 @@ namespace ProyectoInventarioOET
             {
                 // Si no me retorna un usuario valido, advertir
                 //mostrarMensaje();
-            }
-             * 
-             * 
-             * */
+            }* */
 
+            String [] resultado = controladoraVentas.insertarFactura(obtenerDatos());
 
-            Object [] datos = new Object[9];
+        }
 
-            datos[0]= "asdasd";
-            datos[1]="asdasd";
-            datos[2]="asdasd";
-            datos[3]="asdasd";
-            datos[4]="asdasd";
-            datos[5]="asdasd";
-            datos[6]=13;
-            datos[7]="asdasd";
-            datos[8] = null;
-
-            String [] resultado = controladoraVentas.insertarFactura(datos);
-
-
-
+        protected void dropDownListCrearFacturaEstacion_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cargarBodegas();
         }
     }
 }
