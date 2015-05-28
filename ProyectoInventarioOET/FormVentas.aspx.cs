@@ -339,6 +339,7 @@ namespace ProyectoInventarioOET
         protected void cargarBodegas()
         {
             EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
+            this.dropDownListCrearFacturaBodega.Items.Clear();
             DataTable bodegas = controladoraBodegas.consultarBodegasDeEstacion(dropDownListCrearFacturaEstacion.SelectedValue);
             int i = 0;
             if (bodegas.Rows.Count > 0)
@@ -350,6 +351,14 @@ namespace ProyectoInventarioOET
                         this.dropDownListCrearFacturaBodega.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
                     }
                 }
+            }
+            if ((usuarioActual.Perfil.Equals("Administrador global")) || (usuarioActual.Perfil.Equals("Administrador local")))
+            {
+                dropDownListCrearFacturaBodega.Enabled = true;
+            }
+            else
+            {
+                dropDownListCrearFacturaBodega.Enabled = false;
             }
         }
 
@@ -394,6 +403,8 @@ namespace ProyectoInventarioOET
         {
             cargarEstaciones();
             cargarBodegas();
+            textBoxCrearFacturaVendedor.Text = (this.Master as SiteMaster).Usuario.Nombre;
+            textBoxCrearFacturaVendedor.Enabled = false;
             modo = Modo.Insercion;
             cambiarModo();
         }
