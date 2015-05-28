@@ -38,8 +38,134 @@ namespace ProyectoInventarioOET
                 controladoraTraslados = new ControladoraTraslado();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
 
-                llenarGridAgregarProductos();
+                if (!seConsulto)
+                {
+                    modo = (int)Modo.Inicial;
+                }
+                else
+                {
+                    if (trasladoConsultado == null)
+                    {
+                        mostrarMensaje("warning", "Alerta: ", "No se pudo consultar el traslado.");
+                    }
+                    else
+                    {
+                        // cargarBodegas
+                        // setDatosConsultados();
+
+                        seConsulto = false;
+                    }
+                }
             }
+            cambiarModo();
+        }
+
+        /*
+         * Maneja la activación y desactivación de objetos dependiendo de la operación a realizar por el usuario
+         */
+        protected void cambiarModo()
+        {
+            switch (modo)
+            {
+                case (int)Modo.Inicial: //modo inicial
+                    limpiarCampos();
+                    botonAgregar.Visible = false;
+                    FieldsetTraslados.Visible = false;
+                    botonAceptarTraslado.Visible = false;
+                    botonCancelarTraslado.Visible = false;
+                    tituloAccionTraslados.InnerText = "Seleccione una opción";
+                    botonRealizarTraslado.Disabled = false;
+                    botonModificarTraslado.Disabled = true;
+                    botonConsultarTraslado.Disabled = false;
+                    tituloGridProductos.Visible = false;
+                    //tituloGridConsulta.Visible = false;
+                    //gridViewAjustes.Visible = false;
+                    gridViewProductos.Enabled = false;
+                    gridViewProductos.Visible = false;
+                    habilitarCampos(false);
+                    gridViewProductos.Columns[1].Visible = false;
+                    break;
+
+                case (int)Modo.Insercion: //insertar
+                    botonAgregar.Visible = true;
+                    FieldsetTraslados.Visible = true;
+                    botonAceptarTraslado.Visible = true;
+                    botonCancelarTraslado.Visible = true;
+                    tituloAccionTraslados.InnerText = "Ingrese datos";
+                    botonRealizarTraslado.Disabled = true;
+                    botonModificarTraslado.Disabled = true;
+                    botonConsultarTraslado.Disabled = false;
+                    tituloGridProductos.Visible = true;
+                    //tituloGridConsulta.Visible = false;
+                    //gridViewAjustes.Visible = false;
+                    gridViewProductos.Enabled = true;
+                    gridViewProductos.Visible = true;
+                    habilitarCampos(true);
+                    gridViewProductos.Columns[1].Visible = true;
+                    break;
+
+                case (int)Modo.Consulta://consultar
+                    botonAgregar.Visible = false;
+                    FieldsetTraslados.Visible = false;
+                    botonAceptarTraslado.Visible = false;
+                    botonCancelarTraslado.Visible = false;
+                    tituloAccionTraslados.InnerText = "Seleccione un ajuste";
+                    botonRealizarTraslado.Disabled = false;
+                    botonModificarTraslado.Disabled = true;
+                    botonConsultarTraslado.Disabled = true;
+                    tituloGridProductos.Visible = false;
+                    //tituloGridConsulta.Visible = true;
+                    //gridViewAjustes.Visible = true;
+                    gridViewProductos.Enabled = false;
+                    gridViewProductos.Visible = false;
+                    habilitarCampos(false);
+                    gridViewProductos.Columns[1].Visible = false;
+                    break;
+
+                case (int)Modo.Consultado://consultado, pero con los espacios bloqueados
+                    botonAgregar.Visible = false;
+                    FieldsetTraslados.Visible = true;
+                    botonAceptarTraslado.Visible = false;
+                    botonCancelarTraslado.Visible = false;
+                    tituloAccionTraslados.InnerText = "Ajuste seleccionado";
+                    botonRealizarTraslado.Disabled = false;
+                    botonModificarTraslado.Disabled = false;
+                    botonConsultarTraslado.Disabled = true;
+                    //tituloGridProductos.Visible = true;
+                    //tituloGridConsulta.Visible = true;
+                    //gridViewAjustes.Visible = true;
+                    gridViewProductos.Enabled = false;
+                    gridViewProductos.Visible = true;
+                    habilitarCampos(false);
+                    gridViewProductos.Columns[1].Visible = false;
+                    //llenarGrid();
+                    break;
+
+                default:
+                    // Algo salio mal
+                    break;
+            }
+        }
+
+        /*
+         * Limpia los campos editables
+         */
+        protected void limpiarCampos()
+        {
+            //Clear dropDown bodegas
+            //vaciarGridProductos();
+            inputNotas.Text = "";
+        }
+
+        /*
+         * Habilita o desabilita los campos editables
+         */
+        protected void habilitarCampos(bool habilitar)
+        {
+            this.inputNotas.Enabled = habilitar;
+            this.dropDownBodegaEntrada.Disabled = !habilitar;
+            gridViewProductos.Enabled = habilitar;
+            // Habilitar/Desabilitar botones de grid
         }
 
         /*

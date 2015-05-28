@@ -43,8 +43,8 @@
                 <h3 style="text-align:center"><i class="fa fa-long-arrow-right fa-2x"></i></h3>
             </div>
             <div class="col-lg-5">
-                <label for="outputBodegaEntrada" class= "control-label"> Destino: </label>      
-                <input type="text" id="outputBodegaEntrada" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
+                <label for="dropDownBodegaEntrada" class= "control-label"> Destino: </label>      
+                <input type="text" id="dropDownBodegaEntrada" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
             </div>
         </div>
         <div class="row">

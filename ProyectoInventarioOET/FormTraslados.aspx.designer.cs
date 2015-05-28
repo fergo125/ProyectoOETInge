@@ -103,13 +103,13 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlInputText outputBodegaSalida;
         
         /// <summary>
-        /// Control outputBodegaEntrada.
+        /// Control dropDownBodegaEntrada.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText outputBodegaEntrada;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText dropDownBodegaEntrada;
         
         /// <summary>
         /// Control outputUsuario.
