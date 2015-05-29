@@ -121,6 +121,36 @@
     <br />
 
 
+    <!-- Grid de consultas -->
+    <div id="bloqueGridTraslados" class="col-lg-12">
+        <fieldset id="FieldsetGridTraslados" runat="server" class="fieldset">
+            <!-- Gridview de consultar -->
+            <div class="col-lg-12">
+                <strong><div ID="tituloGridConsulta" runat="server" visible="false" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Traslados en Bodega</div></strong>
+                <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
+                    <ContentTemplate>
+                        <asp:GridView ID="gridViewTraslados" CssClass="table" OnRowCommand="gridViewTraslados_Seleccion" OnPageIndexChanging="gridViewTraslados_CambioPagina" runat="server" AllowPaging="True" PageSize="15" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                            <Columns>
+                                <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Consultar">
+                                    <ControlStyle CssClass="btn btn-default"></ControlStyle>
+                                </asp:ButtonField>
+                            </Columns>
+                            <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
+                            <PagerStyle CssClass="paging" HorizontalAlign="Center" />
+                            <AlternatingRowStyle BackColor="#F8F8F8" />
+                            <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
+                            <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
+                        </asp:GridView>
+                    </ContentTemplate>
+                    <Triggers>
+                        <asp:AsyncPostBackTrigger ControlID="gridViewTraslados" EventName="RowCommand" />
+                    </Triggers>
+                </asp:UpdatePanel>
+            </div>
+        </fieldset>         
+    </div>
+    <!-- Fin Grid de consultas -->
+
 
     <!-- Modal Cancelar -->
     <div class="modal fade" id="modalCancelar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
