@@ -38,15 +38,16 @@
             <div class="col-lg-12">
                 <div class="form-group col-lg-3">
                     <label for="ConsultaEstacion" class="control-label">Estación:</label>    
-                    <asp:DropDownList ID="dropDownListConsultaEstacion" runat="server" class="form-control"></asp:DropDownList>
+                    <asp:DropDownList ID="dropDownListConsultaEstacion" class="input input-fozkr-dropdownlist" runat="server" Enabled="false" Width="90%" CssClass="form-control"></asp:DropDownList>
+
                 </div>
                 <div class="form-group col-lg-3">
                     <label for="ConsultaEstacion" class="control-label">Bodega:</label>    
-                    <asp:DropDownList ID="dropDownListConsultaBodega" runat="server" class="form-control"></asp:DropDownList>
+                    <asp:DropDownList ID="dropDownListConsultaBodega" class="input input-fozkr-dropdownlist" runat="server" Enabled="false" Width="90%" CssClass="form-control"></asp:DropDownList>
                 </div>
                 <div class="form-group col-lg-3">
-                    <label for="ConsultaEstacion" class="control-label">Vendedor:</label>    
-                    <asp:DropDownList ID="dropDownListConsultaVendedor" runat="server" class="form-control"></asp:DropDownList>
+                    <label for="ConsultaVendedor" class="control-label">Vendedor:</label>    
+                    <asp:DropDownList ID="dropDownListConsultaVendedor" class="input input-fozkr-dropdownlist" runat="server" Enabled="false" Width="90%" CssClass="form-control"></asp:DropDownList>
                 </div>
                 <div class="form-group col-lg-3">
                     <button runat="server" onserverclick="clickBotonEjecutarConsulta" ID="botonEjecutarConsulta" class="btn btn-info-fozkr" type="button" style="float:left; margin-top:9%;">
@@ -68,7 +69,7 @@
                     <strong><div ID="divTituloGridProductosFactura" runat="server" tabindex="" class="control-label" style="text-align:center; font-size:larger; background-color: #C0C0C0;">Productos de la factura</div></strong>
                     <asp:UpdatePanel ID="UpdatePanelFacturaConsultada" runat="server">
                         <ContentTemplate>
-                            <asp:GridView ID="gridFaacturaEspecificaProductos" CssClass="table" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                            <asp:GridView ID="gridFacturaEspecificaProductos" CssClass="table" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
                                <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
                                <PagerStyle CssClass="paging" HorizontalAlign="Center" />
                                <AlternatingRowStyle BackColor="#F8F8F8" />

@@ -23,6 +23,7 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         private int impuesto;
         private String metodoPago;
         private DataTable productos;
+        private double montoTotal;
 
 
         /*
@@ -39,6 +40,7 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             this.tipoMoneda = datos[5].ToString();
             this.metodoPago = datos[6].ToString();
             this.productos = (DataTable) datos[7];
+            this.montoTotal = Convert.ToDouble(datos[8].ToString());
 
         }
 
@@ -101,6 +103,12 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         {
             get { return productos; }
             set { productos = value; }
+        }
+
+        public double MontoTotal
+        {
+            get { return montoTotal; }
+            set { montoTotal = value; }
         }
 
         /*
