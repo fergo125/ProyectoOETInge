@@ -289,7 +289,7 @@ namespace ProyectoInventarioOET
          */
         protected void botonConsultarTraslado_ServerClick(object sender, EventArgs e)
         {
-            DataTable prueba = controladoraTraslados.consultarTraslados("PITAN129012015101713605001");
+            DataTable prueba = controladoraTraslados.consultarTraslados("PITAN129012015101713605001", false);
             int y = 9+6;
         }
 

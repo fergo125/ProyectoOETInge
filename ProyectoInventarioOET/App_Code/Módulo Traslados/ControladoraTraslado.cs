@@ -28,19 +28,19 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
 
 
         // Consulta de los traslados tanto entrantes como salientes de la bodega actual (con la que esta loggeado)
-        public DataTable consultarTraslados(String idBodega)
+        public DataTable consultarTraslados(String idBodega, bool entrada)
         {
-            DataTable traslados = controladoraBD.consultaTraslados(idBodega);
-            traslados.Columns.Add("Tipo", typeof(string));
-            if (traslados.Rows.Count > 0)
-            {
-                foreach (DataRow fila in traslados.Rows) {
-                    fila[5] = "Entrada";
-                    if (fila[4].ToString() == idBodega) { //Si el idOrigen es igual al de la bodega que estoy consultado
-                        fila[5] = "Salida";
-                    }
-                }
-            }
+            DataTable traslados = controladoraBD.consultaTraslados(idBodega, entrada);
+            //traslados.Columns.Add("Tipo", typeof(string));
+            //if (traslados.Rows.Count > 0)
+            //{
+            //    foreach (DataRow fila in traslados.Rows) {
+            //        fila[5] = "Entrada";
+            //        if (fila[4].ToString() == idBodega) { //Si el idOrigen es igual al de la bodega que estoy consultado
+            //            fila[5] = "Salida";
+            //        }
+            //    }
+            //}
             return traslados;
         }
 
