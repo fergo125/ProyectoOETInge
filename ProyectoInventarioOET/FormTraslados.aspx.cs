@@ -82,6 +82,7 @@ namespace ProyectoInventarioOET
                     gridViewTraslados.Visible = false;
                     gridViewProductos.Enabled = false;
                     gridViewProductos.Visible = false;
+                    botonConsultarDestino.Visible = botonConsultarOrigen.Visible = false;
                     habilitarCampos(false);
                     gridViewProductos.Columns[1].Visible = false;
                     break;
@@ -100,6 +101,7 @@ namespace ProyectoInventarioOET
                     gridViewTraslados.Visible = false;
                     gridViewProductos.Enabled = true;
                     gridViewProductos.Visible = true;
+                    botonConsultarDestino.Visible = botonConsultarOrigen.Visible = false;
                     habilitarCampos(true);
                     gridViewProductos.Columns[1].Visible = true;
                     break;
@@ -118,6 +120,7 @@ namespace ProyectoInventarioOET
                     gridViewTraslados.Visible = true;
                     gridViewProductos.Enabled = false;
                     gridViewProductos.Visible = false;
+                    botonConsultarDestino.Visible = botonConsultarOrigen.Visible = true;
                     habilitarCampos(false);
                     gridViewProductos.Columns[1].Visible = false;
                     break;
@@ -136,6 +139,7 @@ namespace ProyectoInventarioOET
                     gridViewTraslados.Visible = false;
                     gridViewProductos.Enabled = true;
                     gridViewProductos.Visible = true;
+                    botonConsultarDestino.Visible = botonConsultarOrigen.Visible = false;
                     habilitarCampos(true);
                     gridViewProductos.Columns[1].Visible = true;
                     break;
@@ -154,6 +158,7 @@ namespace ProyectoInventarioOET
                     gridViewTraslados.Visible = true;
                     gridViewProductos.Enabled = false;
                     gridViewProductos.Visible = true;
+                    botonConsultarDestino.Visible = botonConsultarOrigen.Visible = true;
                     habilitarCampos(false);
                     gridViewProductos.Columns[1].Visible = false;
                     //llenarGrid();
@@ -325,6 +330,7 @@ namespace ProyectoInventarioOET
             int y = 9+6;
             modo = (int)Modo.Consulta;
             cambiarModo();
+            // Agregar traslados vacios
         }
 
         /*
@@ -365,6 +371,22 @@ namespace ProyectoInventarioOET
             //cambiarModo();
             //limpiarCampos();
             //ajusteConsultado = null;
+        }
+
+        /*
+         * Método que consulta los traslados cuyo origen es la bodega actual
+         */
+        protected void botonConsultarOrigen_ServerClick(object sender, EventArgs e)
+        {
+            // llenarGrid(false);
+        }
+
+        /*
+         * Método que consulta los traslados cuyo destino es la bodega actual
+         */
+        protected void botonConsultarDestino_ServerClick(object sender, EventArgs e)
+        {
+            // llenarGrid(true);
         }
 
         /*

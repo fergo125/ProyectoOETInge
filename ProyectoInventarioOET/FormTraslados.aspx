@@ -120,6 +120,19 @@
     <br />
     <br />
 
+    <!-- Botones de consulta-->
+    <div class="col-lg-12" id="bloqueBotones2">
+        <div class ="row">
+            <div class="text-center">
+                <button runat="server" onserverclick="botonConsultarDestino_ServerClick" id="botonConsultarDestino" class="btn btn-success-fozkr" type="button">Traslados de Entrada</button>
+                <button runat="server" onserverclick="botonConsultarOrigen_ServerClick" id="botonConsultarOrigen" class="btn btn-success-fozkr" type="button">Traslados de Salida</button>              
+            </div>
+        </div>
+    </div>
+    <!-- Fin del bloque de botones-->
+
+    <br />
+    <br />
 
     <!-- Grid de consultas -->
     <div id="bloqueGridTraslados" class="col-lg-12">

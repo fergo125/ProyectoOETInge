@@ -202,6 +202,24 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlAnchor botonCancelarTraslado;
         
         /// <summary>
+        /// Control botonConsultarDestino.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonConsultarDestino;
+        
+        /// <summary>
+        /// Control botonConsultarOrigen.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonConsultarOrigen;
+        
+        /// <summary>
         /// Control FieldsetGridTraslados.
         /// </summary>
         /// <remarks>
