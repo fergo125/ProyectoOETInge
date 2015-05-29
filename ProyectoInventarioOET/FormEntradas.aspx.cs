@@ -406,9 +406,9 @@ namespace ProyectoInventarioOET
             try
             {
                 entradaConsultada = controladoraEntradas.consultarEntrada(codigo);
-                facturaConsultada = controladoraEntradas.consultarFactura(entradaConsultada.IdFactura);
-                CompletarDatosFactura(facturaConsultada);
-                llenarGridDetalleFactura();
+                //facturaConsultada = controladoraEntradas.consultarFactura(entradaConsultada.IdFactura);
+                //CompletarDatosFactura(facturaConsultada);
+                //llenarGridDetalleFactura();
             }
             catch
             {
@@ -589,6 +589,11 @@ namespace ProyectoInventarioOET
             cambiarModo();
         }
 
+        protected void gridProductosDeEntrada_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+
+        }
+
         /*
          * Cambia el modo de la pantalla activando/desactivando o mostrando/ocultando elementos de acuerdo con la 
          * acción que se va a realizar.
@@ -607,6 +612,7 @@ namespace ProyectoInventarioOET
                     this.botonAgregarEntradas.Disabled = false;
                     this.botonAceptarEntrada.Visible = false;
                     this.botonCancelarEntrada.Visible = false;
+                    this.FieldsetGridProductosDeEntrada.Visible = false;
                     tituloAccionEntradas.InnerText = "Seleccione una opción";
                     break;
 
@@ -638,6 +644,7 @@ namespace ProyectoInventarioOET
                 case (int)Modo.EntradaConsultada:
                     tituloAccionEntradas.InnerText = "";
                     this.FieldsetGridEntradas.Visible = true;
+                    this.FieldsetGridProductosDeEntrada.Visible = true;
                     break;
 
                 case (int)Modo.SeleccionEntrada:
@@ -656,6 +663,8 @@ namespace ProyectoInventarioOET
             this.inputCantidad.Value = "";
             this.inputCosto.Value = "";
         }
+
+
 
 
 
