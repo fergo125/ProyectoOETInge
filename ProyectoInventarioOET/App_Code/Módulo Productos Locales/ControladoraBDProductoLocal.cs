@@ -141,5 +141,23 @@ namespace ProyectoInventarioOET.Modulo_Productos_Locales
             }
             return res;
         }
+
+        public DataTable consultarProductosDeBodega(string idBodegaOrigen, string idBodegaDestino)
+        {
+            String esquema = "Inventarios.";
+            DataTable resultado = new DataTable();
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();  //Cambio Carlos
+                command.CommandText = "SELECT A.INV_PRODUCTOS, B.NOMBRE, B.CODIGO, A.SALDO, A.MINIMO, A.MAXIMO FROM " + esquema + "INV_BODEGA_PRODUCTOS A, " + esquema + "INV_PRODUCTOS B WHERE A.INV_PRODUCTOS = B.INV_PRODUCTOS AND A.CAT_BODEGA = '" + idBodegaOrigen + "'";
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
+            }
+            catch (Exception e)
+            {
+                resultado = null;
+            }
+            return resultado;
+        }
     }
 }
