@@ -289,6 +289,8 @@ namespace ProyectoInventarioOET
          */
         protected void botonConsultarTraslado_ServerClick(object sender, EventArgs e)
         {
+            DataTable prueba = controladoraTraslados.consultarTraslados("PITAN129012015101713605001");
+            int y = 9+6;
         }
 
         /*

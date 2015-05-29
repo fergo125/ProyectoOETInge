@@ -11,7 +11,9 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
     public class ControladoraBDTraslado : ControladoraBD
     {
 
-        public DataTable consultarAjustes(String idBodega)
+
+        // Funciona
+        public DataTable consultaTraslados(String idBodega)
         {
             String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
@@ -21,10 +23,10 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
                 // Interfaz ocupa 3 cosas TipoMovimiento(Descripcion), Fecha, Usuario(Encargado)
                 // Yo agrego el ID de ajustes para la consulta individual
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT T.ID_TRASLADO, T.NOTAS, T.FECHA, U.NOMBRE"
-                   + " FROM " + esquema + "TRASLADOS T, " + esquema + "SEG_USUARIO U, " + esquema + "CAT_TIPO_MOVIMIENTO M"
-                   + " WHERE AJ.USUARIO_BODEGA = U.SEG_USUARIO "
-                   + " AND AJ.IDBODEGA = '" + idBodega + "' ORDER BY AJ.FECHA DESC";
+                command.CommandText = "SELECT T.ID_TRASLADO, T.NOTAS, T.FECHA, U.NOMBRE, T.IDBODEGAORIGEN "
+                   + " FROM " + esquema + "TRASLADOS T, " + esquema + "SEG_USUARIO U "
+                   + " WHERE T.USUARIO_BODEGA = U.SEG_USUARIO "
+                   + " AND ( T.IDBODEGAORIGEN = '" + idBodega + "' OR T.IDBODEGADESTINO = '" + idBodega + "') ORDER BY T.FECHA DESC";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
             }
@@ -36,7 +38,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
         }
 
 
-        public DataTable[] consultarTraslados(String idTraslados)
+        public DataTable[] consultarTraslado(String idTraslados)
         {
             String esquema = "Inventarios.";
             DataTable[] resultado = new DataTable[2];
