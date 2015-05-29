@@ -254,7 +254,7 @@ namespace ProyectoInventarioOET
                 Object[] datos = new Object[5];
 
 
-                DataTable productos = controladoraTraslados.consultarProductosDeBodega((this.Master as SiteMaster).LlaveBodegaSesion);
+                DataTable productos = controladoraTraslados.consultarProductosDeBodega((this.Master as SiteMaster).LlaveBodegaSesion, "laotraBodega");
 
                 if (productos.Rows.Count > 0)
                 {

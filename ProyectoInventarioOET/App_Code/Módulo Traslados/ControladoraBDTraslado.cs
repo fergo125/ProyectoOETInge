@@ -39,7 +39,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
         }
 
         // Falata arreglar
-        public DataTable[] consultarTraslado(String idTraslados)
+        public DataTable[] consultarTraslado(String idTraslado)
         {
             String esquema = "Inventarios.";
             DataTable[] resultado = new DataTable[2];
@@ -51,11 +51,11 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
                    + " FROM " + esquema + "AJUSTES AJ, " + esquema + "SEG_USUARIO U, " + esquema + "CAT_TIPO_MOVIMIENTO M"
                    + " WHERE AJ.USUARIO_BODEGA = U.SEG_USUARIO "
                    + " AND AJ.CAT_TIPO_MOVIMIENTO = M.CAT_TIPO_MOVIMIENTO"
-                   + " AND AJ.ID_AJUSTES = '" + idTraslados + "' ";
+                   + " AND AJ.ID_AJUSTES = '" + idTraslado + "' ";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado[0] = new DataTable();
                 resultado[0].Load(reader);
-                //resultado[1] = consultarDetalles(idAjuste);
+                resultado[1] = consultarDetalles(idTraslado);
                 int x = 9;
                 x = 8;
                 //actualizarProducto("PITAN102022015142627451180", 10, true); // PRUEBAAAA QUE FUNCIONA
@@ -66,6 +66,32 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
             }
             return resultado;
         }
+
+
+        private DataTable consultarDetalles(String idAjuste)
+        {
+            String esquema = "Inventarios.";
+            DataTable resultado = new DataTable();
+
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "SELECT P.NOMBRE, P.CODIGO, T.TRASLADO, B.INV_BODEGA_PRODUCTOS, B.SALDO, U.DESCRIPCION "
+                   + " FROM " + esquema + "DETALLES_TRASLADO T, " + esquema + "INV_BODEGA_PRODUCTOS B, " + esquema + "INV_PRODUCTOS P, " + esquema + "CAT_UNIDADES U "
+                   + " WHERE D.ID_AJUSTES = '" + idAjuste + "' "
+                   + " AND D.INV_BODEGA_PRODUCTOS = B.INV_BODEGA_PRODUCTOS "
+                   + " AND B.INV_PRODUCTOS = P.INV_PRODUCTOS "
+                   + " AND P.CAT_UNIDADES = U.CAT_UNIDADES ";
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
+            }
+            catch (Exception e)
+            {
+                resultado = null;
+            }
+            return resultado;
+        }
+
 
     }
 }
