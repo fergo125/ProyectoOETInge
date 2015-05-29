@@ -31,8 +31,8 @@
     <div id="bloqueGridEntradas" class="col-lg-12">
         <fieldset id="FieldsetGridEntradas" runat="server" class="fieldset" visible="false">
          <div class="col-lg-12"><strong><div ID="Div2" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Listado de Entradas</div></strong>
-            <asp:UpdatePanel ID="UpdatePanelEntradas" runat="server">
-                <ContentTemplate>
+<%--            <asp:UpdatePanel ID="UpdatePanelEntradas" runat="server">
+                <ContentTemplate>--%>
                     <asp:GridView ID="gridViewEntradas" CssClass="table" OnRowCommand="gridViewEntradas_RowCommand" OnPageIndexChanging="gridViewEntradas_PageIndexChanging" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
                         <Columns>
                             <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Consultar">
@@ -45,13 +45,68 @@
                        <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
                        <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
                   </asp:GridView>
-             </ContentTemplate>
+<%--             </ContentTemplate>
              <Triggers>
                 <asp:AsyncPostBackTrigger ControlID="gridViewEntradas" EventName="RowCommand" />
              </Triggers>
-          </asp:UpdatePanel>
+          </asp:UpdatePanel>--%>
        </div>
         </fieldset>        
+    </div>
+
+    <div id="bloqueGridProductosDeEntrada" class="col-lg-12">
+        <fieldset id="FieldsetGridProductosDeEntrada" runat="server" class="fieldset" visible="false">
+
+            <div id="FieldsetEncabezadoEntrada" runat="server" class="col-lg-12">
+                        <h4>Encabezado de la Entrada</h4>
+
+                    <div class="well well-lg" id="Div5" runat="server">
+                        <div class="row col-lg-12">
+                            <div class= "form-group col-lg-3">
+                                <label for="outputEntrada" class= "control-label">Código de Entrada:</label>      
+                                <p id="outputEntrada" runat="server" class="form-control-static"></p>
+                            </div>
+            
+                            <div class="form-group col-lg-3">
+                                <label for="outputFacturaAsociada" class= "control-label">Factura Asociada:</label>      
+                                <p id="outputFacturaAsociada" runat="server" class="form-control-static"></p>
+                            </div>
+
+                            <div class="form-group col-lg-3">
+                                <label for="outputUsuario" class= "control-label">Usuario Responsable:</label>      
+                                <p id="outputUsuario" runat="server" class="form-control-static"></p>
+                            </div>
+
+                            <div class="form-group col-lg-3">
+                                <label for="outputBodega" class= "control-label">Bodega:</label>      
+                                <p id="outputBodega" runat="server" class="form-control-static"></p>
+                            </div>
+
+                            <div class="form-group col-lg-3">
+                                <label for="outputFecha" class="control-label">Fecha de Realización:</label>      
+                                <p id="outputFecha" runat="server" class="form-control-static"></p>
+                            </div>
+
+                        </div>       
+                    </div>
+            </div>
+            <div class="col-lg-12"><strong><div ID="Div4" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Productos relacionados con la Entrada</div></strong>
+        <%--    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                <ContentTemplate>--%>
+                <asp:GridView ID="gridProductosDeEntrada" CssClass="table" OnPageIndexChanging="gridProductosDeEntrada_PageIndexChanging" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                    <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
+                    <PagerStyle CssClass="paging" HorizontalAlign="Center" />
+                    <AlternatingRowStyle BackColor="#F8F8F8" />
+                    <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
+                    <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
+                </asp:GridView>
+        <%--    </ContentTemplate>
+                <Triggers>
+                <asp:AsyncPostBackTrigger ControlID="gridProductosDeEntrada" EventName="RowCommand" />
+                </Triggers>
+            </asp:UpdatePanel>--%>
+            </div> 
+        </fieldset>
     </div>
 
 <%--        <div class="col-lg-4">
@@ -132,66 +187,66 @@
     </div>
     <br />
     <div id="FieldsetEncabezadoFactura" runat="server"  visible="false">
-    <fieldset id="FieldsetEncabezadoFactura1" runat="server" class="fieldset" >
+        <fieldset id="FieldsetEncabezadoFactura1" runat="server" class="fieldset" >
 
-            <h4>Encabezado de la Factura</h4>
+                <h4>Encabezado de la Factura</h4>
 
-        <div class="well well-lg" id="camposEncabezadoFactura" runat="server">
-            <div class="row col-lg-12">
-                <div class= "form-group col-lg-3">
-                    <label for="outputFactura" class= "control-label">Factura:</label>      
-                    <p id="outputFactura" runat="server" class="form-control-static"></p>
-                </div>
+            <div class="well well-lg" id="camposEncabezadoFactura" runat="server">
+                <div class="row col-lg-12">
+                    <div class= "form-group col-lg-3">
+                        <label for="outputFactura" class= "control-label">Factura:</label>      
+                        <p id="outputFactura" runat="server" class="form-control-static"></p>
+                    </div>
             
-                <div class="form-group col-lg-3">
-                    <label for="outputFechaPago" class= "control-label">Fecha de Pago:</label>      
-                    <p id="outputFechaPago" runat="server" class="form-control-static"></p>
-                </div>
+                    <div class="form-group col-lg-3">
+                        <label for="outputFechaPago" class= "control-label">Fecha de Pago:</label>      
+                        <p id="outputFechaPago" runat="server" class="form-control-static"></p>
+                    </div>
 
-                <div class="form-group col-lg-3">
-                    <label for="outputTipoPago" class= "control-label">Tipo de Pago:</label>      
-                    <p id="outputTipoPago" runat="server" class="form-control-static"></p>
-                </div>
+                    <div class="form-group col-lg-3">
+                        <label for="outputTipoPago" class= "control-label">Tipo de Pago:</label>      
+                        <p id="outputTipoPago" runat="server" class="form-control-static"></p>
+                    </div>
 
-                <div class="form-group col-lg-3">
-                    <label for="outputPlazoPago" class= "control-label">Plazo de Pago:</label>      
-                    <p id="outputPlazoPago" runat="server" class="form-control-static"></p>
-                </div>
+                    <div class="form-group col-lg-3">
+                        <label for="outputPlazoPago" class= "control-label">Plazo de Pago:</label>      
+                        <p id="outputPlazoPago" runat="server" class="form-control-static"></p>
+                    </div>
 
-                <div class="form-group col-lg-3">
-                    <label for="outputImpuestos" class="control-label">Moneda:</label>      
-                    <p id="outputMoneda" runat="server" class="form-control-static"></p>
-                </div>
+                    <div class="form-group col-lg-3">
+                        <label for="outputImpuestos" class="control-label">Moneda:</label>      
+                        <p id="outputMoneda" runat="server" class="form-control-static"></p>
+                    </div>
 
-                <div class="form-group col-lg-3">
-                    <label for="outputImpuestos" class="control-label">Tipo de Cambio:</label>      
-                    <p id="outputTipoCambio" runat="server" class="form-control-static"></p>
-                </div>
+                    <div class="form-group col-lg-3">
+                        <label for="outputImpuestos" class="control-label">Tipo de Cambio:</label>      
+                        <p id="outputTipoCambio" runat="server" class="form-control-static"></p>
+                    </div>
 
-                <div class="form-group col-lg-3">
-                    <label for="outputSubtotal" class= "control-label">SubTotal:</label>      
-                    <p id="outputSubtotal" runat="server" class="form-control-static"></p>
-                </div>
+                    <div class="form-group col-lg-3">
+                        <label for="outputSubtotal" class= "control-label">SubTotal:</label>      
+                        <p id="outputSubtotal" runat="server" class="form-control-static"></p>
+                    </div>
 
-                <div class="form-group col-lg-3">
-                    <label for="outputDescuento" class= "control-label">Descuento:</label>      
-                    <p id="outputDescuento" runat="server" class="form-control-static"></p>
-                </div>
+                    <div class="form-group col-lg-3">
+                        <label for="outputDescuento" class= "control-label">Descuento:</label>      
+                        <p id="outputDescuento" runat="server" class="form-control-static"></p>
+                    </div>
 
-                <div class="form-group col-lg-3">
-                    <label for="outputTotal" class= "control-label">Total:</label>      
-                    <p id="outputTotal" runat="server" class="form-control-static"></p>
-                </div>
+                    <div class="form-group col-lg-3">
+                        <label for="outputTotal" class= "control-label">Total:</label>      
+                        <p id="outputTotal" runat="server" class="form-control-static"></p>
+                    </div>
 
-                <div class="form-group col-lg-3">
-                    <label for="outputImpuestos" class="control-label">Retención de Impuestos:</label>      
-                    <p id="outputImpuestos" runat="server" class="form-control-static"></p>
-                </div>
+                    <div class="form-group col-lg-3">
+                        <label for="outputImpuestos" class="control-label">Retención de Impuestos:</label>      
+                        <p id="outputImpuestos" runat="server" class="form-control-static"></p>
+                    </div>
 
-            </div>       
-        </div>
+                </div>       
+            </div>
 
-    </fieldset>
+        </fieldset>
     </div>
 
     <br />
