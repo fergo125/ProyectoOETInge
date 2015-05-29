@@ -5,6 +5,7 @@ using System.Web;
 using System.Data;
 using ProyectoInventarioOET.Modulo_Bodegas;
 using ProyectoInventarioOET.Modulo_Productos_Locales;
+using ProyectoInventarioOET.App_Code.Modulo_Traslados;
 
 
 namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
@@ -45,6 +46,8 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
         }
 
         public DataTable consultarAjustes(String idBodega) {
+            //ControladoraBDTraslado pruebaConsultarTraslados = new ControladoraBDTraslado();
+            //pruebaConsultarTraslados.consultaTraslados(idBodega);
             return controladoraBD.consultarAjustes(idBodega);
         }
 

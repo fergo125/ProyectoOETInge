@@ -184,6 +184,15 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetEncabezadoFactura;
         
         /// <summary>
+        /// Control FieldsetEncabezadoFactura1.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetEncabezadoFactura1;
+        
+        /// <summary>
         /// Control camposEncabezadoFactura.
         /// </summary>
         /// <remarks>
@@ -346,13 +355,13 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlInputText Text2;
         
         /// <summary>
-        /// Control agregarProducto.
+        /// Control botonAgregarProductoFactura.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button agregarProducto;
+        protected global::System.Web.UI.WebControls.Button botonAgregarProductoFactura;
         
         /// <summary>
         /// Control Div3.

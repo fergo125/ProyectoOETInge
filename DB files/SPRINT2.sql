@@ -167,3 +167,69 @@ WHERE   CODIGO = 'CRO00186' AND NOMBRE = 'Servilletas (paquetes)' AND ESTADO = 1
 SELECT  ESTADO
 FROM    INV_BODEGA_PRODUCTOS
 WHERE   INV_PRODUCTOS = 'PITAN130012015150520764106'
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----PARTE DE TRASLADOS
+
+create table  TRASLADOS(
+	id_traslado               varchar2(30),
+	fecha                     date,
+	usuario_bodega            varchar2(30),
+	idBodegaOrigen            varchar2(30),
+	idBodegaDestino           varchar2(30),
+  estado                    number(1),
+	notas                     varchar2(30)
+);
+ 
+create table DETALLES_TRASLADO (
+	id_traslado                   varchar2(30),
+	inv_bodega_productosDestino   varchar2(30),
+  inv_bodega_productosOrigen    varchar2(30),
+	traslado                      number(15,2)
+);
+
+
+ALTER TABLE INV_BODEGA_PRODUCTOS ADD SaldoCongelado number(15,2);
+
+Update INV_BODEGA_PRODUCTOS
+SET SaldoCongelado = 0
+
+INSERT INTO TRASLADOS (ID_TRASLADO, FECHA, USUARIO_BODEGA, IDBODEGAORIGEN, IDBODEGADESTINO, ESTADO, NOTAS) 
+VALUES ('1111', TO_DATE('2003/07/09', 'yyyy/mm/dd') , '4', 'PITAN129012015101713605001', 'CYCLO128122012112950388004', 0, 'PrimerConsultar');
+DELETE FROM TRASLADOS WHERE ID_TRASLADO = '1111';
+
+
+select *
+from inv_bodega_productos 
+order by inv_productos
+
+
+
+---Productos que estan en ambas bodegas PITAN130012015105015574038 PITAN130012015104745304036
+
+
+
+SELECT T.ID_TRASLADO, T.NOTAS, T.FECHA, U.NOMBRE 
+FROM Inventarios.TRASLADOS T, Inventarios.SEG_USUARIO U
+WHERE T.USUARIO_BODEGA = U.SEG_USUARIO  
+AND ( T.IDBODEGAORIGEN = 'PITAN129012015101713605001' OR T.IDBODEGADESTINO = 'PITAN129012015101713605001') 
+ORDER BY T.FECHA DESC
+
+commit
+
+SELECT *
+FROM TRASLADOS;
+
+
+

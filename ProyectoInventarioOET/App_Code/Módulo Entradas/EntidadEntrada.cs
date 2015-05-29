@@ -15,11 +15,11 @@ namespace ProyectoInventarioOET.Modulo_Entradas
 
         public EntidadEntrada(Object[] datos)
         {
-            idFactura = datos[0].ToString();
-            idEntrada = datos[1].ToString();
-            fechaEntrada = Convert.ToDateTime(datos[2]);
-            Bodega = datos[5].ToString();
-            idEncargado = datos[7].ToString();
+            idFactura = datos[1].ToString();
+            idEntrada = datos[0].ToString();
+            fechaEntrada = Convert.ToDateTime(datos[4]).Date;
+            Bodega = datos[3].ToString();
+            idEncargado = datos[2].ToString();
         }
         public String IdFactura
         {

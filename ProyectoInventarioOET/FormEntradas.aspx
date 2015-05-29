@@ -107,7 +107,7 @@
 <%--            <asp:UpdatePanel ID="UpdatePanelFacturas" runat="server">
                 <ContentTemplate>--%>
         <div id="popup" style="max-height:600px;overflow-y:scroll;">
-                    <asp:GridView ID="gridViewFacturas" CssClass="table" OnRowCommand="gridViewFacturas_RowCommand" OnPageIndexChanging="gridViewFacturas_PageIndexChanging" runat="server" AllowPaging="false" PageSize="2" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                    <asp:GridView ID="gridViewFacturas" CssClass="table" OnRowCommand="gridViewFacturas_RowCommand" OnPageIndexChanging="gridViewFacturas_PageIndexChanging" runat="server" AllowPaging="false" PageSize="2" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None" OnSelectedIndexChanged="gridViewFacturas_SelectedIndexChanged">
                         <Columns>
                             <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Seleccionar">
                                 <ControlStyle CssClass="btn btn-default"></ControlStyle>
@@ -131,8 +131,8 @@
         </fieldset>        
     </div>
     <br />
-
-    <fieldset id="FieldsetEncabezadoFactura" runat="server" class="fieldset" visible="false">
+    <div id="FieldsetEncabezadoFactura" runat="server"  visible="false">
+    <fieldset id="FieldsetEncabezadoFactura1" runat="server" class="fieldset" >
 
             <h4>Encabezado de la Factura</h4>
 
@@ -192,6 +192,7 @@
         </div>
 
     </fieldset>
+    </div>
 
     <br />
     <br />
@@ -227,7 +228,7 @@
                 <label for="inputCosto" class= "control-label">Costo:</label>      
                 <input id="Text2" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
                 <br />
-                <asp:Button ID="agregarProducto" runat="server" Text="Agregar a Factura" OnClick="agregarProducto_Click" CssClass="btn btn-warning-fozkr"/>
+                <asp:Button ID="botonAgregarProductoFactura" runat="server" Text="Agregar a Factura" CssClass="btn btn-warning-fozkr" OnClick="botonAgregarProductoFactura_Click"/>
             </div>
 
             <div id="bloqueGridFacturaNueva" class="col-lg-5">
@@ -236,13 +237,6 @@
                     <asp:UpdatePanel ID="UpdatePanelFacturaNueva" runat="server">
                         <ContentTemplate>
                             <asp:GridView ID="gridFacturaNueva" CssClass="table" OnPageIndexChanging="gridFacturaNueva_PageIndexChanging" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
-						        <Columns>
-							        <asp:TemplateField HeaderText="Seleccionar">
-								        <ItemTemplate>
-									        <asp:CheckBox ID="checkBoxProductos" runat="server"/>
-								        </ItemTemplate>
-							        </asp:TemplateField>
-						        </Columns>
                                <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
                                <PagerStyle CssClass="paging" HorizontalAlign="Center" />
                                <AlternatingRowStyle BackColor="#F8F8F8" />
@@ -262,8 +256,7 @@
         <br />
     </fieldset>
     <br />
-    <br />
-    <br />
+
     <fieldset id="FieldsetResultadosBusqueda" runat="server" visible="false" >
         <div class="row">
             <div class="col-lg-7">
@@ -343,17 +336,6 @@
         });
     </script>
 
-<%--       DataTable tabla = tablaBodegas();
-            for (int i = 0; i < 10; i++ )
-            {
-                Object[] datos = new Object[4];
-                datos[0] = new CheckBox();
-                datos[1] = i;
-                datos[2] = i;
-                datos[3] = i;
-                tabla.Rows.Add(datos);
-            }
-            this.gridViewBodegas.DataSource = tabla;
-            this.gridViewBodegas.DataBind();--%>
 
-    </asp:Content>
+    </div>
+</asp:Content>

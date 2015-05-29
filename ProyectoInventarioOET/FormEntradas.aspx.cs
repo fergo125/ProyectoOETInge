@@ -16,11 +16,12 @@ namespace ProyectoInventarioOET
      */
     public partial class FormEntradas : System.Web.UI.Page
     {
-        enum Modo { Inicial, BusquedaFactura, SeleccionFactura, SeleccionProductos,  EntradaConsultada }; // Sirve para controlar los modos de la interfaz
+        enum Modo { Inicial, BusquedaFactura, SeleccionFactura, SeleccionProductos,  EntradaConsultada, SeleccionEntrada }; // Sirve para controlar los modos de la interfaz
         //Atributos
         private static int modo = (int)Modo.Inicial;                            // Almacena el modo actual de la interfaz
         private static ControladoraEntradas controladoraEntradas;               // Comunica con la base de datos.
-        private static Object[] idArray;                                        // Almacena identificadores de entradas
+        private static Object[] idArrayFactura;                                        // Almacena identificadores de entradas
+        private static Object[] idArrayEntrada; 
         private static ControladoraDatosGenerales controladoraDatosGenerales;   // Obtiene datos generales (estados)
         private static EntidadEntrada entradaConsultada;                    // Almacena la entrada que se consultó (o acaba de agregar)
         private static Boolean seConsulto = false;                              // Bandera para saber si hubo consulta de una actividad.
@@ -60,8 +61,9 @@ namespace ProyectoInventarioOET
                         mostrarMensaje("warning", "Alerta: ", "No se pudo consultar la actividad.");
                     }
                     else
-                    {                        
+                    {
                         seConsulto = false;
+                        CompletarDatosFactura(facturaConsultada);
                     }
                 }
 
@@ -204,10 +206,10 @@ namespace ProyectoInventarioOET
 
                 if (entradas.Rows.Count > 0)
                 {
-                    idArray = new Object[entradas.Rows.Count];
+                    idArrayEntrada = new Object[entradas.Rows.Count];
                     foreach (DataRow fila in entradas.Rows)
                     {
-                        idArray[i] = fila[0];
+                        idArrayEntrada[i] = fila[0];
                         datos[0] = fila[0].ToString();
                         datos[1] = fila[1].ToString();
                         datos[2] = fila[2].ToString();
@@ -247,7 +249,6 @@ namespace ProyectoInventarioOET
         protected void llenarGridFacturas()
         {
             DataTable tabla = tablaFacturas();
-            int indiceNuevaActividad = -1;
             int i = 0;
 
             try
@@ -258,10 +259,10 @@ namespace ProyectoInventarioOET
 
                 if (facturas.Rows.Count > 0)
                 {
-                    idArray = new Object[facturas.Rows.Count];
+                    idArrayFactura = new Object[facturas.Rows.Count];
                     foreach (DataRow fila in facturas.Rows)
                     {
-                        idArray[i] = fila[0];
+                        idArrayFactura[i] = fila[0];
                         datos[0] = fila[0].ToString();
                         datos[1] = fila[1].ToString();
                         datos[2] = fila[2].ToString();
@@ -377,14 +378,42 @@ namespace ProyectoInventarioOET
         {
             modo = (int)Modo.Inicial;
             cambiarModo();            
-            modo = (int)Modo.EntradaConsultada;
+            modo = (int)Modo.SeleccionEntrada;
             cambiarModo();
             llenarGridEntradas();
         }
 
         protected void gridViewEntradas_RowCommand(object sender, GridViewCommandEventArgs e)
         {
+            modo = (int)Modo.EntradaConsultada;
+            switch (e.CommandName)
+            {
+                case "Select":
+                    GridViewRow filaSeleccionada = this.gridViewEntradas.Rows[Convert.ToInt32(e.CommandArgument)];
+                    String codigo = "";
+                    codigo = Convert.ToString(idArrayEntrada[Convert.ToInt32(e.CommandArgument) + (this.gridViewEntradas.PageIndex)]);
+                    consultarEntrada(codigo);
+                    break;
+            }
+            cambiarModo();
 
+          //  Response.Redirect("FormEntradas.aspx");
+        }
+
+        protected void consultarEntrada(String codigo)
+        {
+            seConsulto = true;
+            try
+            {
+                entradaConsultada = controladoraEntradas.consultarEntrada(codigo);
+                facturaConsultada = controladoraEntradas.consultarFactura(entradaConsultada.IdFactura);
+                CompletarDatosFactura(facturaConsultada);
+                llenarGridDetalleFactura();
+            }
+            catch
+            {
+                modo = (int)Modo.Inicial;
+            }
         }
 
         protected void gridViewEntradas_PageIndexChanging(object sender, GridViewPageEventArgs e)
@@ -423,7 +452,7 @@ namespace ProyectoInventarioOET
                 case "Select":
                     GridViewRow filaSeleccionada = this.gridViewFacturas.Rows[Convert.ToInt32(e.CommandArgument)];
                     String codigo = "";
-                    codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewFacturas.PageIndex)]);
+                    codigo = Convert.ToString(idArrayFactura[Convert.ToInt32(e.CommandArgument) + (this.gridViewFacturas.PageIndex)]);
                     consultarFactura(codigo);
                     break;
             }
@@ -446,14 +475,12 @@ namespace ProyectoInventarioOET
                 facturaConsultada = controladoraEntradas.consultarFactura(codigo);
                 CompletarDatosFactura(facturaConsultada);
                 llenarGridDetalleFactura();
-                modo = (int)Modo.SeleccionProductos;
             }
             catch
             {
                 //actividadConsultada = null;
                 modo = (int)Modo.Inicial;
             }
-            cambiarModo();
         }
 
         protected void CompletarDatosFactura(EntidadFactura facturaConsultada)
@@ -491,9 +518,9 @@ namespace ProyectoInventarioOET
                     foreach (DataRow fila in facturas.Rows)
                     {
                         //idArray[i] = fila[0];
-                        datos[0] = fila[0].ToString();
-                        datos[1] = fila[1].ToString();
-                        datos[2] = fila[2].ToString();
+                        datos[0] = fila[2].ToString();
+                        datos[1] = fila[3].ToString();
+                        datos[2] = fila[10].ToString();
 
 
                         tabla.Rows.Add(datos);
@@ -524,6 +551,16 @@ namespace ProyectoInventarioOET
         protected void botonBuscar_Click(object sender, EventArgs e)
         {
             FieldsetResultadosBusqueda.Visible = true;
+        }
+
+        protected void gridViewFacturas_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void botonAgregarProductoFactura_Click(object sender, EventArgs e)
+        {
+
         }
 
         protected void gridViewProductoBuscado_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -589,7 +626,6 @@ namespace ProyectoInventarioOET
                                                 // elegir la que se desea trabajar.
 
                     this.FieldsetGridFacturas.Visible = true;
-
                     break;
                 case (int)Modo.SeleccionProductos: // Visualiza la información de la factura seleccionada y permite 
                                                   // detallar los productos recibidos(Crear la entrada).
@@ -597,16 +633,21 @@ namespace ProyectoInventarioOET
                     this.FieldsetCrearFactura.Visible = true;
                     this.botonAceptarEntrada.Disabled = false;
                     limpiarCampos();
-
                     break;
 
                 case (int)Modo.EntradaConsultada:
                     tituloAccionEntradas.InnerText = "";
                     this.FieldsetGridEntradas.Visible = true;
                     break;
-                default:
 
+                case (int)Modo.SeleccionEntrada:
+                    tituloAccionEntradas.InnerText = "";
+                    this.FieldsetGridEntradas.Visible = true;
+                    this.FieldsetEncabezadoFactura.Visible = false;
                     break;
+
+                default:
+                break;
             }
         }
 
@@ -616,24 +657,7 @@ namespace ProyectoInventarioOET
             this.inputCosto.Value = "";
         }
 
-        protected void agregarProducto_Click(object sender, EventArgs e)
-        {
-            String producto = this.textBoxAutocompleteCrearFacturaBusquedaProducto.Text;
-            String cantidad = this.inputCantidad.Value;
-            String costo = this.inputCosto.Value;
 
-
-            DataTable tabla = tablaFacturaDetallada();
-
-            Object[] datos = new Object[3];
-            datos[0] = producto;
-            datos[1] = cantidad;
-            datos[2] = costo;
-            tabla.Rows.Add(datos);
-
-            this.gridFacturaNueva.DataSource = tabla;
-            this.gridFacturaNueva.DataBind();
-        }
 
 
     }
