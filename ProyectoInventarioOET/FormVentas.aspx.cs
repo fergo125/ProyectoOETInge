@@ -24,6 +24,7 @@ namespace ProyectoInventarioOET
         private String permisos = "111111";                             //Permisos utilizados para el control de seguridad //TODO: poner en 000000, está en 111111 sólo para pruebas
         private String codigoPerfilUsuario = "1";                       //Indica el perfil del usuario, usado para acciones de seguridad para las cuales la string de permisos no basta //TODO: poner en ""
         private DataTable facturasConsultadas;                          //Usada para llenar el grid y para mostrar los detalles de cada factura específica
+        private static Object[] idArray;                                //Usada para llevar el control de las facturas consultadas
         private static ControladoraVentas controladoraVentas;                  //Para accesar las tablas del módulo y realizar las operaciones de consulta, inserción, modificación y anulación
         private static ControladoraDatosGenerales controladoraDatosGenerales;  //Para accesar datos generales de la base de datos
         private static ControladoraBodegas controladoraBodegas;  //Para accesar datos generales de la base de datos
@@ -65,28 +66,32 @@ namespace ProyectoInventarioOET
             //código para probar algo
             DataTable testTable = new DataTable();
             DataRow testRow;
-            DataColumn testColumn;
+            DataColumn column;
 
-            testColumn = new DataColumn();
-            testColumn.DataType = Type.GetType("System.String");
-            testColumn.ColumnName = "Nombre";
-            testTable.Columns.Add(testColumn);
-            testColumn = new DataColumn();
-            testColumn.DataType = Type.GetType("System.String");
-            testColumn.ColumnName = "Código interno";
-            testTable.Columns.Add(testColumn);
-            testColumn = new DataColumn();
-            testColumn.DataType = Type.GetType("System.Int32");
-            testColumn.ColumnName = "Precio unitario";
-            testTable.Columns.Add(testColumn);
-            testColumn = new DataColumn();
-            testColumn.DataType = Type.GetType("System.String");
-            testColumn.ColumnName = "Impuesto";
-            testTable.Columns.Add(testColumn);
-            testColumn = new DataColumn();
-            testColumn.DataType = Type.GetType("System.Int32");
-            testColumn.ColumnName = "Descuento (%)";
-            testTable.Columns.Add(testColumn);
+            column = new DataColumn();
+            column.DataType = Type.GetType("System.String");
+            column.ColumnName = "Nombre";
+            testTable.Columns.Add(column);
+
+            column = new DataColumn();
+            column.DataType = Type.GetType("System.String");
+            column.ColumnName = "Código interno";
+            testTable.Columns.Add(column);
+
+            column = new DataColumn();
+            column.DataType = Type.GetType("System.Int32");
+            column.ColumnName = "Precio unitario";
+            testTable.Columns.Add(column);
+
+            column = new DataColumn();
+            column.DataType = Type.GetType("System.String");
+            column.ColumnName = "Impuesto";
+            testTable.Columns.Add(column);
+
+            column = new DataColumn();
+            column.DataType = Type.GetType("System.Int32");
+            column.ColumnName = "Descuento (%)";
+            testTable.Columns.Add(column);
 
             testRow = testTable.NewRow();
             testRow["Nombre"] = "Nombre de prueba";
@@ -215,13 +220,23 @@ namespace ProyectoInventarioOET
             dropDownListConsultaEstacion.Items.Clear();
             dropDownListConsultaBodega.Items.Clear();
             dropDownListConsultaVendedor.Items.Clear();
-
+            EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
             //Dependiendo del perfil del usuario, puede que en la instancia de usuarioLogueado ya estén guardados los datos por default
-            switch (Convert.ToInt32(codigoPerfilUsuario))
+            switch (Convert.ToInt32(usuarioActual.CodigoPerfil))
             {
                 case 4: //Vendedor
-                    //dropDownListConsultaVendedor.Items.Add(new ListItem());
-                    //dropDownListConsultaVendedor.SelectedItem = 
+                    dropDownListConsultaVendedor.Items.Add(new ListItem(usuarioActual.Nombre,usuarioActual.Codigo));
+                    dropDownListConsultaVendedor.SelectedIndex = 0;
+                    dropDownListConsultaVendedor.Enabled = false;
+
+
+                    dropDownListConsultaBodega.Items.Add(new ListItem( (this.Master as SiteMaster).NombreBodegaSesion, (this.Master as SiteMaster).LlaveBodegaSesion));
+                    dropDownListConsultaBodega.SelectedIndex = 0;
+                    dropDownListConsultaBodega.Enabled = false;
+
+                    cargarEstacionesConsulta();
+                    dropDownListConsultaEstacion.Enabled = false;
+
                     goto case 3; //por alguna razón C# no permite fall through
                 case 3: //Supervisor
                     //dropDownListConsultaBodega.Items.Add(new ListItem());
@@ -279,7 +294,57 @@ namespace ProyectoInventarioOET
             String codigoBodega = (dropDownListConsultaBodega.SelectedValue != "Todas" ? dropDownListConsultaBodega.SelectedValue : null);
             String codigoVendedor = (dropDownListConsultaVendedor.SelectedValue != "Todos" ? dropDownListConsultaVendedor.SelectedValue : null);
             //TODO: revisar que de los dropdownlists se obtengan las llaves, no los nombres, algo como dropDownList.SelectedItem[1] creo
+
+
+
+            DataTable tabla = tablaFacturas();
+            int indiceNuevaFactura = -1;
+            int i = 0;
+
+
+            try
+            {
+                // Cargar facturas
+                Object[] datos = new Object[4];
+
+                DataTable facturas = controladoraVentas.consultarFacturas((this.Master as SiteMaster).Usuario.Perfil, codigoVendedor,codigoBodega, codigoEstacion);
+                if (facturas.Rows.Count > 0)
+                {
+                    idArray = new Object[facturas.Rows.Count];
+                    foreach (DataRow fila in facturas.Rows)
+                    {
+                        idArray[i] = fila[0];
+                        datos[0] = fila[0].ToString();
+                        datos[1] = fila[1].ToString();
+                        datos[2] = fila[5].ToString();
+                        datos[3] = fila[8].ToString();
+                        datos[4] = fila[9].ToString();
+                        tabla.Rows.Add(datos);
+                        i++;
+                    }
+                }
+                else
+                {
+                    datos[0] = "-";
+                    datos[1] = "-";
+                    datos[2] = "-";
+                    datos[3] = "-";
+                    datos[4] = "-";
+                    tabla.Rows.Add(datos);
+                    mostrarMensaje("warning", "Atención: ", "No existen facturas en la base de datos.");
+                }
+                this.gridFacturaEspecificaProductos.DataSource = tabla;
+                this.gridFacturaEspecificaProductos.DataBind();
+            }
+            catch (Exception e)
+            {
+                mostrarMensaje("warning", "Alerta", "No hay conexión a la base de datos.");
+            }
             
+
+
+
+
             //Consultar a la controladora (implementar funciones en las capas inferiores)
             //facturasConsultadas = controladoraVentas.consultarFacturas(codigoEstacion, codigoBodega, codigoVendedor);
         }
@@ -295,7 +360,7 @@ namespace ProyectoInventarioOET
 
         protected Object[] obtenerDatos()
         {
-            Object[] datos = new Object[8];
+            Object[] datos = new Object[9];
             EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
 
             datos[0] = dropDownListCrearFacturaEstacion.SelectedValue;
@@ -306,9 +371,46 @@ namespace ProyectoInventarioOET
             datos[5] = textBoxCrearFacturaTipoCambio.Text;
             datos[6] = dropDownListCrearFacturaMetodoPago.SelectedValue;
             datos[7] = null;
+            datos[8] = 456.6;
             return datos;
         
         }
+
+
+        protected DataTable tablaFacturas() 
+        {
+            DataTable tabla = new DataTable();
+            DataColumn column;
+
+            column = new DataColumn();
+            column.DataType = Type.GetType("System.String");
+            column.ColumnName = "Consecutivo";
+            tabla.Columns.Add(column);
+
+            column = new DataColumn();
+            column.DataType = Type.GetType("System.String");
+            column.ColumnName = "Fecha";
+            tabla.Columns.Add(column);
+
+            column = new DataColumn();
+            column.DataType = Type.GetType("System.String");
+            column.ColumnName = "Vendedor";
+            tabla.Columns.Add(column);
+
+            column = new DataColumn();
+            column.DataType = Type.GetType("System.String");
+            column.ColumnName = "Monto total";
+            tabla.Columns.Add(column);
+
+            column = new DataColumn();
+            column.DataType = Type.GetType("System.String");
+            column.ColumnName = "Método de pago";
+            tabla.Columns.Add(column);
+
+            return tabla;
+
+        }
+
 
         protected void cargarEstaciones() 
         {
@@ -335,6 +437,28 @@ namespace ProyectoInventarioOET
                 dropDownListCrearFacturaEstacion.Enabled = false;
             }
         }
+
+
+        protected void cargarEstacionesConsulta()
+        {
+            EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
+            DataTable estaciones = controladoraDatosGenerales.consultarEstaciones();
+
+            if (estaciones.Rows.Count > 0)
+            {
+                this.dropDownListConsultaEstacion.Items.Clear();
+                foreach (DataRow fila in estaciones.Rows)
+                {
+                    if ((usuarioActual.Perfil.Equals("Administrador global")) || (usuarioActual.IdEstacion.Equals(fila[0])))
+                    {
+                        this.dropDownListConsultaEstacion.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
+                    }
+                }
+            }
+        }
+
+
+
 
         protected void cargarBodegas()
         {

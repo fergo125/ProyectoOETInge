@@ -71,5 +71,10 @@ namespace ProyectoInventarioOET.Modulo_Productos_Locales
             }
             return controladoraBD.modificarProductoLocal(idBodegaProductos, estado);
         }
+
+        public DataTable consultarProductosDeBodega(string idBodegaOrigen, string idBodegaDestino)
+        {
+            return controladoraBD.consultarProductosDeBodega(idBodegaOrigen, idBodegaDestino);
+        }
     }
 }

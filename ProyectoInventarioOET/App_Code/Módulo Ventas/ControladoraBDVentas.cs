@@ -76,6 +76,35 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             return res;
         }
 
+        public DataTable consultarFacturas(String rol, String idUsuario, String idBodega, String idEstacion)
+        {
+            String esquema1 = "Inventarios.";
+            DataTable resultado = new DataTable();
+
+            try
+            {
+                
+
+                if (rol.Equals("Vendedor"))
+                {
+                    OracleCommand command = conexionBD.CreateCommand();
+                    command.CommandText = "select * from " + esquema1 + "registro_facturas_venta where " + esquema1 + "registro_facturas_venta.vendedor = '" + idUsuario + "'";
+                    OracleDataReader reader = command.ExecuteReader();
+                    resultado.Load(reader);
+                }
+                else
+                {
+                }
+            }
+            catch (OracleException e)
+            {
+                resultado = null;
+            }
+            return resultado;
+        }
+
+
+
                 
         public int getCantidadFacturas()
         {

@@ -32,6 +32,21 @@
     <h3 id="tituloAccionTraslados" runat="server">Seleccione una opción</h3>
     <br />
 
+    <!-- DropDown de modo de consultas -->
+    <fieldset id= "fieldsetConsulta" runat="server" class="fieldset">
+        <div class="row">
+            <div class="col-lg-4">
+                <asp:DropDownList id="dropDownConsultas" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
+                    <asp:ListItem>Entradas</asp:ListItem>
+                    <asp:ListItem>Salidas</asp:ListItem>
+                </asp:DropDownList>
+            </div>
+            <div class="col-lg-1">
+                <button runat="server" onserverclick="botonTipoConsulta_ServerClick" id="botonTipoConsulta" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true">Aplicar</button>
+            </div>
+        </div>
+    </fieldset>
+
     <!-- Fieldset para Traslados -->
     <fieldset id= "FieldsetTraslados" runat="server" class="fieldset">
         <div class="row">
@@ -112,20 +127,6 @@
             <div class="text-center">
                 <button runat="server" onserverclick="botonAceptarTraslado_ServerClick" id="botonAceptarTraslado" class="btn btn-success-fozkr" type="button"><i class="fa fa-pencil-square-o"></i> Guardar</button>
                 <a id="botonCancelarTraslado" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i> Cancelar</a>                
-            </div>
-        </div>
-    </div>
-    <!-- Fin del bloque de botones-->
-
-    <br />
-    <br />
-
-    <!-- Botones de consulta-->
-    <div class="col-lg-12" id="bloqueBotones2">
-        <div class ="row">
-            <div class="text-center">
-                <button runat="server" onserverclick="botonConsultarDestino_ServerClick" id="botonConsultarDestino" class="btn btn-success-fozkr" type="button">Traslados de Entrada</button>
-                <button runat="server" onserverclick="botonConsultarOrigen_ServerClick" id="botonConsultarOrigen" class="btn btn-success-fozkr" type="button">Traslados de Salida</button>              
             </div>
         </div>
     </div>
