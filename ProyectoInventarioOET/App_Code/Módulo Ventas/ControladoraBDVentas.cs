@@ -28,16 +28,19 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             {
                 int idSiguienteFactura = getCantidadFacturas();
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "INSERT INTO " + esquema + "REGISTRO_FACTURAS_VENTA (CONSECUTIVO, FECHA, ESTACION, COMPAÑIA, ACTIVIDAD, VENDEDOR, CLIENTE, TIPOMONEDA, METODOPAGO) VALUES ("
+                command.CommandText = "INSERT INTO " + esquema + "REGISTRO_FACTURAS_VENTA (CONSECUTIVO, FECHA, BODEGA, ESTACION, COMPAÑIA, ACTIVIDAD, VENDEDOR, CLIENTE, TIPOMONEDA, METODOPAGO, MONTOTOTAL, ESTADO) VALUES ("
                 + (idSiguienteFactura + 1) + ",'"
                 + factura.Fecha + "','"
+                + factura.Bodega + "','"
                 + factura.Estacion + "','"
                 + factura.Compañia + "','"
                 + factura.Actividad + "','"
                 + factura.Vendedor + "','"
                 + factura.Cliente + "','"
                 + factura.TipoMoneda + "','"
-                + factura.MetodoPago + "')";
+                + factura.MetodoPago + "',"
+                + factura.MontoTotal + ",'"
+                + factura.Estado + "')";
                 OracleDataReader reader = command.ExecuteReader();
 
 
@@ -80,11 +83,8 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         {
             String esquema1 = "Inventarios.";
             DataTable resultado = new DataTable();
-
             try
             {
-                
-
                 if (rol.Equals("Vendedor"))
                 {
                     OracleCommand command = conexionBD.CreateCommand();
@@ -101,6 +101,36 @@ namespace ProyectoInventarioOET.Modulo_Ventas
                 resultado = null;
             }
             return resultado;
+        }
+
+        public EntidadFactura consultarFactura(String codigo)
+        {
+            String esquema = "Inventarios.";
+            DataTable resultado = new DataTable();
+            EntidadFactura facturaConsultada = null;
+            Object[] datosConsultados = new Object[13];
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "SELECT * FROM " + esquema + "REGISTRO_FACTURAS_VENTA WHERE REGISTRO_FACTURAS_VENTA.CONSECUTIVO= '" + codigo + "'";
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
+
+                if (resultado.Rows.Count == 1)
+                {
+                    datosConsultados[0] = codigo;
+                    for (int i = 1; i < 12; i++)
+                    {
+                        datosConsultados[i] = resultado.Rows[0][i].ToString();
+                    }
+
+                    facturaConsultada = new EntidadFactura(datosConsultados);
+                }
+            }
+            catch (OracleException e)
+            {
+            }
+            return facturaConsultada;
         }
 
 

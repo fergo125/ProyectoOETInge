@@ -69,7 +69,7 @@
                     <strong><div ID="divTituloGridProductosFactura" runat="server" tabindex="" class="control-label" style="text-align:center; font-size:larger; background-color: #C0C0C0;">Productos de la factura</div></strong>
                     <asp:UpdatePanel ID="UpdatePanelFacturaConsultada" runat="server">
                         <ContentTemplate>
-                            <asp:GridView ID="gridFacturaEspecificaProductos" CssClass="table" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                            <asp:GridView ID="gridFacturaEspecificaProductos" CssClass="table" runat="server" AllowPaging="True" PageSize="10" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
                                <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
                                <PagerStyle CssClass="paging" HorizontalAlign="Center" />
                                <AlternatingRowStyle BackColor="#F8F8F8" />
@@ -113,8 +113,8 @@
                     <asp:TextBox ID="textBoxFacturaConsultadaTipoMoneda" runat="server" class="form-control"></asp:TextBox>
                 </td>
                 <td>
-                    <label for="FacturaConsultadaImpuesto" class="control-label">Impuesto:</label>
-                    <asp:TextBox ID="textBoxFacturaConsultadaImpuesto" runat="server" class="form-control"></asp:TextBox>
+                    <label for="FacturaConsultadaMontoTotal" class="control-label">Monto total:</label>
+                    <asp:TextBox ID="textBoxFacturaConsultadaMontoTotal" runat="server" class="form-control"></asp:TextBox>
                 </td>
                 <td>
                     <label for="FacturaConsultadaMetodoPago" class="control-label">Método de pago:</label>
@@ -141,7 +141,7 @@
         <strong><div ID="tituloGrid" runat="server" tabindex="" class="control-label" style="text-align:center; font-size:larger; background-color: #C0C0C0;">Facturas en el sistema</div></strong>
             <asp:UpdatePanel ID="UpdatePanelFacturas" runat="server">
                 <ContentTemplate>
-                    <asp:GridView ID="gridViewFacturas" CssClass="table" OnRowCommand="gridViewFacturas_FilaSeleccionada" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                    <asp:GridView ID="gridViewFacturas" CssClass="table" OnRowCommand="gridViewFacturas_FilaSeleccionada" OnPageIndexChanging="gridViewFacturas_CambioPagina" runat="server" AllowPaging="True" PageSize="10" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
                         <Columns>
                             <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Consultar">
                                 <ControlStyle CssClass="btn btn-default"></ControlStyle>

@@ -12,8 +12,9 @@ namespace ProyectoInventarioOET.Modulo_Ventas
     public class EntidadFactura
     {
         //Atributos
-
-        private String fecha; 
+        private String consecutivo;
+        private String fecha;
+        private String bodega;
         private String estacion;
         private String compañia;
         private String actividad;
@@ -24,6 +25,7 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         private String metodoPago;
         private DataTable productos;
         private double montoTotal;
+        private String estado;
 
 
         /*
@@ -31,17 +33,25 @@ namespace ProyectoInventarioOET.Modulo_Ventas
          */
         public EntidadFactura(Object[] datos)
         {
-            this.fecha = DateTime.Now.ToString("dd:MMM:yy");
-            this.estacion = datos[0].ToString();
-            this.compañia = datos[1].ToString();
-            this.actividad = datos[2].ToString();
-            this.vendedor = datos[3].ToString();
-            this.cliente = datos[4].ToString();
-            this.tipoMoneda = datos[5].ToString();
-            this.metodoPago = datos[6].ToString();
-            this.productos = (DataTable) datos[7];
-            this.montoTotal = Convert.ToDouble(datos[8].ToString());
+            this.consecutivo = datos[0].ToString();
+            this.fecha = datos[1].ToString();
+            this.bodega = datos[2].ToString();
+            this.estacion = datos[3].ToString();
+            this.compañia = datos[4].ToString();
+            this.actividad = datos[5].ToString();
+            this.vendedor = datos[6].ToString();
+            this.cliente = datos[7].ToString();
+            this.tipoMoneda = datos[8].ToString();
+            this.metodoPago = datos[9].ToString();
+            this.montoTotal = Convert.ToDouble(datos[10].ToString());
+            this.estado = datos[11].ToString().ToString();
+            this.productos = null; //(DataTable)datos[7];
+        }
 
+        public String Consecutivo
+        {
+            get { return consecutivo; }
+            set { consecutivo = value; }
         }
 
 
@@ -55,6 +65,12 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         {
             get { return estacion; }
             set { estacion = value; }
+        }
+
+        public String Bodega
+        {
+            get { return bodega; }
+            set { bodega = value; }
         }
 
         public String Compañia
@@ -109,6 +125,12 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         {
             get { return montoTotal; }
             set { montoTotal = value; }
+        }
+
+        public String Estado
+        {
+            get { return estado; }
+            set { estado = value; }
         }
 
         /*

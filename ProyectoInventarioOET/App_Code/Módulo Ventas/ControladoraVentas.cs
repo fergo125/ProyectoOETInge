@@ -56,5 +56,11 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         {
             return controladoraBDVentas.consultarFacturas(rol, idUsuario, idBodega, idEstacion);
         }
+
+        public EntidadFactura consultarFactura(String id)
+        {
+            return controladoraBDVentas.consultarFactura(id);
+        }
+
     }
 }

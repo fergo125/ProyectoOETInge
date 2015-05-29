@@ -116,5 +116,39 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             }
             return nombre;
         }
+
+        public String consultarNombreDeBodega(String id)
+        {
+            String esquema = "Inventarios.";
+            String nombre = "";
+            DataTable resultado = new DataTable();
+            OracleCommand command = conexionBD.CreateCommand();
+            command.CommandText = "SELECT DESCRIPCION FROM " + esquema + "CAT_BODEGA WHERE CAT_BODEGA = '" + id + "'";
+            OracleDataReader reader = command.ExecuteReader();
+            resultado.Load(reader);
+            if (resultado.Rows.Count == 1)
+            {
+                nombre = resultado.Rows[0][0].ToString();
+            }
+            return nombre;
+        }
+
+        public String consultarNombreDeEstacion(String id)
+        {
+            String esquema = "Reservas.";
+            String nombre = "";
+            DataTable resultado = new DataTable();
+            OracleCommand command = conexionBD.CreateCommand();
+            command.CommandText = "SELECT NOMBRE FROM " + esquema + "ESTACION WHERE ID ='"+ id+"'";
+            OracleDataReader reader = command.ExecuteReader();
+            resultado.Load(reader);
+            if (resultado.Rows.Count == 1)
+            {
+                nombre = resultado.Rows[0][0].ToString();
+            }
+            return nombre;
+        }
+
+
     }
 }

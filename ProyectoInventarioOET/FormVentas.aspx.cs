@@ -21,9 +21,11 @@ namespace ProyectoInventarioOET
         enum Modo { Inicial, Consulta, Insercion, Modificacion, Consultado };
         //Atributos
         private static Modo modo = Modo.Inicial;                               //Indica en qué modo se encuentra la interfaz en un momento cualquiera, de éste depende cuáles elementos son visibles
-        private String permisos = "111111";                             //Permisos utilizados para el control de seguridad //TODO: poner en 000000, está en 111111 sólo para pruebas
-        private String codigoPerfilUsuario = "1";                       //Indica el perfil del usuario, usado para acciones de seguridad para las cuales la string de permisos no basta //TODO: poner en ""
-        private DataTable facturasConsultadas;                          //Usada para llenar el grid y para mostrar los detalles de cada factura específica
+        private static String permisos = "111111";                             //Permisos utilizados para el control de seguridad //TODO: poner en 000000, está en 111111 sólo para pruebas
+        private static String codigoPerfilUsuario = "1";                       //Indica el perfil del usuario, usado para acciones de seguridad para las cuales la string de permisos no basta //TODO: poner en ""
+        private static DataTable facturasConsultadas;                          //Usada para llenar el grid y para mostrar los detalles de cada factura específica
+        private static EntidadFactura facturaConsultada;
+        private static Boolean seConsulto = false;
         private static Object[] idArray;                                //Usada para llevar el control de las facturas consultadas
         private static ControladoraVentas controladoraVentas;                  //Para accesar las tablas del módulo y realizar las operaciones de consulta, inserción, modificación y anulación
         private static ControladoraDatosGenerales controladoraDatosGenerales;  //Para accesar datos generales de la base de datos
@@ -42,6 +44,7 @@ namespace ProyectoInventarioOET
          */
         protected void Page_Load(object sender, EventArgs e)
         {
+            mensajeAlerta.Visible = false;
             //Si es la primera vez que se carga la página
             if (!IsPostBack)
             {
@@ -58,6 +61,26 @@ namespace ProyectoInventarioOET
                     Response.Redirect("~/ErrorPages/404.html");
                 //perfilUsuario = (this.Master as SiteMaster).Usuario.Perfil;
                 mostrarElementosSegunPermisos();
+
+
+                if (!seConsulto)
+                {
+                    modo = Modo.Inicial;
+                }
+                else
+                {
+                    if (facturaConsultada == null)
+                    {
+                        mostrarMensaje("warning", "Alerta: ", "No se pudo consultar la bodega.");
+                    }
+                    else
+                    {
+                        setDatosConsultados();
+
+                        seConsulto = false;
+                    }
+                }
+
                 
             }
             //Si la página ya estaba cargada pero está siendo cargada de nuevo (porque se está realizando alguna acción que la refrezca/actualiza)
@@ -162,6 +185,7 @@ namespace ProyectoInventarioOET
                 case Modo.Consulta:
                     tituloAccionFacturas.InnerText = "Seleccione datos para consultar";
                     PanelConsultarFacturas.Visible = true;
+                    llenarGrid();
                     break;
                 case Modo.Insercion:
                     tituloAccionFacturas.InnerText = "Ingrese los datos de la nueva factura";
@@ -177,6 +201,9 @@ namespace ProyectoInventarioOET
                     tituloAccionFacturas.InnerText = "Detalles de la factura";
                     PanelConsultarFacturaEspecifica.Visible = true;
                     PanelGridConsultas.Visible = true;
+                    cargarDropdownListsConsulta();
+                    llenarGrid();
+                    //habilitarCampos(false);
                     break;
                 default:  //Algo salió mal
                     mostrarMensaje("warning", "Alerta: ", "Error de interfaz, el 'modo' de la interfaz no se ha reconocido: " + modo);
@@ -305,7 +332,7 @@ namespace ProyectoInventarioOET
             try
             {
                 // Cargar facturas
-                Object[] datos = new Object[4];
+                Object[] datos = new Object[5];
 
                 DataTable facturas = controladoraVentas.consultarFacturas((this.Master as SiteMaster).Usuario.Perfil, codigoVendedor,codigoBodega, codigoEstacion);
                 if (facturas.Rows.Count > 0)
@@ -316,9 +343,9 @@ namespace ProyectoInventarioOET
                         idArray[i] = fila[0];
                         datos[0] = fila[0].ToString();
                         datos[1] = fila[1].ToString();
-                        datos[2] = fila[5].ToString();
-                        datos[3] = fila[8].ToString();
-                        datos[4] = fila[9].ToString();
+                        datos[2] = controladoraSeguridad.consultarNombreDeUsuario(fila[6].ToString());
+                        datos[3] = fila[9].ToString();
+                        datos[4] = fila[8].ToString();
                         tabla.Rows.Add(datos);
                         i++;
                     }
@@ -333,45 +360,105 @@ namespace ProyectoInventarioOET
                     tabla.Rows.Add(datos);
                     mostrarMensaje("warning", "Atención: ", "No existen facturas en la base de datos.");
                 }
-                this.gridFacturaEspecificaProductos.DataSource = tabla;
-                this.gridFacturaEspecificaProductos.DataBind();
+                this.gridViewFacturas.DataSource = tabla;
+                this.gridViewFacturas.DataBind();
             }
             catch (Exception e)
             {
                 mostrarMensaje("warning", "Alerta", "No hay conexión a la base de datos.");
             }
-            
-
-
-
-
-            //Consultar a la controladora (implementar funciones en las capas inferiores)
-            //facturasConsultadas = controladoraVentas.consultarFacturas(codigoEstacion, codigoBodega, codigoVendedor);
         }
 
         /*
          * Invocada al escoger una factura en el grid, se muestran todos los detalles de la misma en campos colocados arriba del grid.
          */
-        protected void cargarDatosFactura(int indiceFilaSeleccionada)
+        protected void cargarDatosFactura(String consecutivoSeleccionado)
         {
-            //facturasConsultadas.Rows[indiceFilaSeleccionada]; //usar el grid así
+            facturaConsultada = controladoraVentas.consultarFactura(consecutivoSeleccionado);
+            setDatosConsultados();
+            PanelConsultarFacturaEspecifica.Visible = true;
+
         }
+
+        protected void consultarFactura(String id)
+        {
+            seConsulto = true;
+            try
+            {
+                facturaConsultada = controladoraVentas.consultarFactura(id);
+                modo = Modo.Consulta;
+            }
+            catch
+            {
+                facturaConsultada = null;
+                modo = Modo.Inicial;
+            }
+            cambiarModo();
+        }
+
+
+        protected void setDatosConsultados()
+        {
+            textBoxFacturaConsultadaConsecutivo.Text=facturaConsultada.Consecutivo;
+            textBoxFacturaConsultadaEstacion.Text=controladoraSeguridad.consultarNombreDeEstacion(facturaConsultada.Estacion);
+            textBoxFacturaConsultadaBodega.Text = controladoraSeguridad.consultarNombreDeBodega(facturaConsultada.Bodega);
+            textBoxFacturaConsultadaFechaHora.Text=facturaConsultada.Fecha;
+            textBoxFacturaConsultadaVendedor.Text = controladoraSeguridad.consultarNombreDeUsuario(facturaConsultada.Vendedor);
+            textBoxFacturaConsultadaCliente.Text=facturaConsultada.Cliente;
+            textBoxFacturaConsultadaTipoMoneda.Text=facturaConsultada.TipoMoneda;
+            textBoxFacturaConsultadaMontoTotal.Text=facturaConsultada.MontoTotal.ToString();
+            textBoxFacturaConsultadaMetodoPago.Text=facturaConsultada.MetodoPago;
+            textBoxFacturaConsultadActividad.Text=facturaConsultada.Actividad;
+            textBoxFacturaConsultadaEstado.Text = facturaConsultada.Estado; 
+
+        }
+
+
+        protected void habilitarCampos(bool habilitar)
+        {
+            /*
+             * 
+             * Esto sirve, peeeeero, cuando se bloquean, el estilo se les cambia.
+             * Entonces le toca a quien hizo el .aspx, hacer bien la definicion de
+             * los comboboxes. A cada elemento TextBox le hacen falta muchos atributos
+             * de estilo, y como no los tiene, cuando se hace Enabled = false, el estilo
+             * se le despicha feo. En fin, le toca arreglarlo a quien hizo el .aspx.
+             * */
+
+
+            textBoxFacturaConsultadaConsecutivo.Enabled = habilitar;
+            textBoxFacturaConsultadaEstacion.Enabled = habilitar;
+            textBoxFacturaConsultadaBodega.Enabled = habilitar; ;
+            textBoxFacturaConsultadaFechaHora.Enabled = habilitar;
+            textBoxFacturaConsultadaVendedor.Enabled = habilitar;
+            textBoxFacturaConsultadaCliente.Enabled = habilitar;
+            textBoxFacturaConsultadaTipoMoneda.Enabled = habilitar;
+            textBoxFacturaConsultadaMontoTotal.Enabled = habilitar;
+            textBoxFacturaConsultadaMetodoPago.Enabled = habilitar;
+            textBoxFacturaConsultadActividad.Enabled = habilitar;
+            textBoxFacturaConsultadaEstado.Enabled = habilitar;
+        }
+
+
 
 
         protected Object[] obtenerDatos()
         {
-            Object[] datos = new Object[9];
+            Object[] datos = new Object[13];
             EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
-
-            datos[0] = dropDownListCrearFacturaEstacion.SelectedValue;
-            datos[1] = "02";
-            datos[2] = "";
-            datos[3] = usuarioActual.Codigo;
-            datos[4] = dropDownListCrearFacturaCliente.SelectedValue;
-            datos[5] = textBoxCrearFacturaTipoCambio.Text;
-            datos[6] = dropDownListCrearFacturaMetodoPago.SelectedValue;
-            datos[7] = null;
-            datos[8] = 456.6;
+            datos[0] = "";
+            datos[1] = DateTime.Now.ToString("dd:MMM:yy");
+            datos[2] = (this.Master as SiteMaster).LlaveBodegaSesion;
+            datos[3] = dropDownListCrearFacturaEstacion.SelectedValue;
+            datos[4] = "02";
+            datos[5] = "";
+            datos[6] = usuarioActual.Codigo;
+            datos[7] = dropDownListCrearFacturaCliente.SelectedValue;
+            datos[8] = textBoxCrearFacturaTipoCambio.Text;
+            datos[9] = dropDownListCrearFacturaMetodoPago.SelectedValue;
+            datos[10] = 456.6;
+            datos[11] = "Activo";  
+            datos[12] = null;
             return datos;
         
         }
@@ -548,12 +635,26 @@ namespace ProyectoInventarioOET
          * Invocada cuando se escoge una factura del grid de consultas para desplegar su información específica
          * (en el panel de consulta específica, el cual ahora reemplazará visualmente al panel de escoger datos para consultar).
          */
-        protected void gridViewFacturas_FilaSeleccionada(object sender, EventArgs e)
+        protected void gridViewFacturas_FilaSeleccionada(object sender, GridViewCommandEventArgs e)
         {
-            modo = Modo.Consultado;
-            cargarDatosFactura(gridViewFacturas.SelectedIndex);
-            cambiarModo();
+            switch (e.CommandName)
+            {
+                case "Select":
+                    String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewFacturas.PageIndex * this.gridViewFacturas.PageSize)]);
+                    consultarFactura(codigo);
+                    modo = Modo.Consultado;
+                    Response.Redirect("FormVentas.aspx");
+                    break;
+            }
         }
+
+        protected void gridViewFacturas_CambioPagina(Object sender, GridViewPageEventArgs e)
+        {
+            llenarGrid();
+            this.gridViewFacturas.PageIndex = e.NewPageIndex;
+            this.gridViewFacturas.DataBind();
+        }
+
 
         /*
          * ???
