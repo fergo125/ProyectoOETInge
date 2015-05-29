@@ -14,7 +14,7 @@ using ProyectoInventarioOET.Modulo_Seguridad;
 namespace ProyectoInventarioOET
 {
     /*
-     * ???
+     * Catálogos locales de productos en bodega.
      */
     public partial class FormProductosLocales : System.Web.UI.Page
     {
@@ -42,6 +42,7 @@ namespace ProyectoInventarioOET
         {
             if (!IsPostBack)
             {
+                modo = (int)Modo.Inicial;
                 controladoraBodegas = new ControladoraBodegas();
                 controladoraProductoLocal = new ControladoraProductoLocal();
                 controladoraCategorias = new ControladoraCategorias();
@@ -71,6 +72,7 @@ namespace ProyectoInventarioOET
                     FieldsetCatalogoLocal.Visible = false;
                     FieldsetAsociarCatalogoLocal.Visible = false;
                     FieldsetBloqueBotones.Visible = false;
+                    botonModificarProductoLocal.Disabled = true;
                     break;
                 case (int)Modo.Insercion:
                     FieldsetProductos.Visible = false;
@@ -79,12 +81,14 @@ namespace ProyectoInventarioOET
                     FieldsetBloqueBotones.Visible = true;
                     botonAsociarProducto.Visible = true;
                     botonDesactivarProducto.Visible = false;
+                    botonModificarProductoLocal.Disabled = true;
                     break;
                 case (int)Modo.Consulta:
                     FieldsetProductos.Visible = false;
                     FieldsetCatalogoLocal.Visible = true;
                     FieldsetAsociarCatalogoLocal.Visible = false;
                     FieldsetBloqueBotones.Visible = false;
+                    botonModificarProductoLocal.Disabled = true;
                     break;
                 case (int)Modo.Modificacion:
                     FieldsetProductos.Visible = true;
@@ -93,12 +97,17 @@ namespace ProyectoInventarioOET
                     FieldsetBloqueBotones.Visible = true;
                     botonAsociarProducto.Visible = false;
                     botonDesactivarProducto.Visible = true;
+                    cargarDatosProducto();
+                    inputEstado.Enabled = true;
                     break;
                 case (int)Modo.Consultado:
                     FieldsetProductos.Visible = true;
                     FieldsetCatalogoLocal.Visible = true;
                     FieldsetAsociarCatalogoLocal.Visible = false;
                     FieldsetBloqueBotones.Visible = false;
+                    botonModificarProductoLocal.Disabled = false;
+                    cargarDatosProducto();
+                    inputEstado.Enabled = false;
                     break;
             }
             if (mensaje)
@@ -124,7 +133,6 @@ namespace ProyectoInventarioOET
             botonConsultarBodega.Visible = (permisos[5] == '1');
             botonAsociarBodega.Visible = (permisos[4] == '1');
             botonModificarProductoLocal.Visible = (permisos[3] == '1');
-            //inputEstado.Enabled = (permisos[2] == '1');
         }
 
         /*
@@ -262,12 +270,15 @@ namespace ProyectoInventarioOET
          */
         protected void gridViewCatalogoLocal_Seleccion(object sender, GridViewCommandEventArgs e)
         {
-            GridViewRow filaSeleccionada = this.gridViewCatalogoLocal.Rows[Convert.ToInt32(e.CommandArgument)];
-            String codigo = filaSeleccionada.Cells[2].Text.ToString();
-            String idBodega = idArray2[bodegaSeleccionada].ToString();
-            consultaProducto = controladoraProductoLocal.consultarProductoDeBodega(idBodega, codigo);
-            modo = (int)Modo.Consultado;
-            cambiarModo();
+            if (e.CommandName == "Select")
+            {
+                GridViewRow filaSeleccionada = this.gridViewCatalogoLocal.Rows[Convert.ToInt32(e.CommandArgument)];
+                String codigo = filaSeleccionada.Cells[2].Text.ToString();
+                String idBodega = idArray2[bodegaSeleccionada].ToString();
+                consultaProducto = controladoraProductoLocal.consultarProductoDeBodega(idBodega, codigo);
+                modo = (int)Modo.Consultado;
+                cambiarModo();
+            }
         }
 
         /*
@@ -471,14 +482,6 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * Realiza la asociación de los productos confirmados o envia la informacion modificada
-         */
-        protected void botonAsociarProductos_ServerClick(object sender, EventArgs e)
-        {
-            
-        }
-
-        /*
          * Muestra el mensaje que da el resultado de las transacciones que se efectúan.
          */
         protected void mostrarMensaje(String tipoAlerta, String alerta, String mensaje)
@@ -500,47 +503,52 @@ namespace ProyectoInventarioOET
 
         /*
          * Desactivación confirmada.
-         * MODALES NO IMPLEMENTADOS
          */
         protected void botonAceptarModalDesactivar_ServerClick(object sender, EventArgs e)
         {
             String[] res = new String[3];
-            if (modo == (int)Modo.Modificacion)
-            {
-                res = controladoraProductoLocal.modificarProductoLocal(consultaProducto.Rows[0][22].ToString(), inputEstado.SelectedItem.ToString());
-                modo = (int)Modo.Consultado;
-            }
-            else
-            {
-                int pos = gridViewAsociarCatalogoLocal.PageSize * gridViewAsociarCatalogoLocal.PageIndex;
-                for (int i = 0; i < gridViewAsociarCatalogoLocal.PageSize; i++)
-                {
-                    GridViewRow fila = gridViewAsociarCatalogoLocal.Rows[i];
-                    bool estaSeleccionadoProducto = ((CheckBox)fila.FindControl("checkBoxProductos")).Checked;
-                    if (estaSeleccionadoProducto)
-                    {
-                        asociados[pos] = true;
-                    }
-                    else
-                    {
-                        asociados[pos] = false;
-                    }
-                    pos++;
-                }
-                String idBodega = idArray2[bodegaSeleccionada].ToString();
-                res[0] = "go";
-                for (int i = 0; i < catalogoLocal.Rows.Count && !res[0].Equals("danger"); i++)
-                {
-                    if (asociados[i])
-                    {
-                        res = controladoraProductoLocal.asociarProductos(idBodega, idProductos[i], (this.Master as SiteMaster).Usuario.Codigo);
-                    }
-                }
-                modo = (int)Modo.Inicial;
-            }
+            res = controladoraProductoLocal.modificarProductoLocal(consultaProducto.Rows[0][22].ToString(), inputEstado.SelectedItem.ToString());
+            modo = (int)Modo.Consulta;
             mostrarMensaje(res[0], res[1], res[2]);
             cambiarModo();
         }
+
+        /*
+         * Asociación confirmada.
+         */
+        protected void botonAceptarModalAsociar_ServerClick(object sender, EventArgs e)
+        {
+            String[] res = new String[3];
+            int pos = gridViewAsociarCatalogoLocal.PageSize * gridViewAsociarCatalogoLocal.PageIndex;
+            for (int i = 0; i < gridViewAsociarCatalogoLocal.PageSize; i++)
+            {
+                GridViewRow fila = gridViewAsociarCatalogoLocal.Rows[i];
+                bool estaSeleccionadoProducto = ((CheckBox)fila.FindControl("checkBoxProductos")).Checked;
+                if (estaSeleccionadoProducto)
+                {
+                    asociados[pos] = true;
+                }
+                else
+                {
+                    asociados[pos] = false;
+                }
+                pos++;
+            }
+            String idBodega = idArray2[bodegaSeleccionada].ToString();
+            res[0] = "go";
+            for (int i = 0; i < catalogoLocal.Rows.Count && !res[0].Equals("danger"); i++)
+            {
+                if (asociados[i])
+                {
+                    res = controladoraProductoLocal.asociarProductos(idBodega, idProductos[i], (this.Master as SiteMaster).Usuario.Codigo);
+                }
+            }
+            modo = (int)Modo.Inicial;
+            mostrarMensaje(res[0], res[1], res[2]);
+            cambiarModo();
+        }
+
+
 
     }
 }

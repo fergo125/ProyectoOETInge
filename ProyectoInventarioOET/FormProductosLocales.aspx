@@ -176,7 +176,7 @@
                   </asp:GridView>
              </ContentTemplate>
              <Triggers>
-                <asp:AsyncPostBackTrigger ControlID="gridViewCatalogoLocal" EventName="RowCommand" />
+                <asp:PostBackTrigger ControlID="gridViewCatalogoLocal"/>
              </Triggers>
           </asp:UpdatePanel>
        </div>
@@ -277,7 +277,7 @@
                     ¿Está seguro que desea asociar el/los producto/s? La asociación será guardada permanentemente.
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="Button1" class="btn btn-success-fozkr" runat="server" onserverclick="botonAceptarModalDesactivar_ServerClick">Aceptar</button>
+                    <button type="button" id="botonAceptarModalAsociar" class="btn btn-success-fozkr" runat="server" onserverclick="botonAceptarModalAsociar_ServerClick">Aceptar</button>
                     <button type="button" id="botonCancelarModalAsociar" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
                 </div>
             </div>

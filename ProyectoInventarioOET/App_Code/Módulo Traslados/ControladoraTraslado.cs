@@ -18,12 +18,17 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
             controladoraBD = new ControladoraBDTraslado();
         }
 
+        public DataTable consultarBodegas() {
+            ControladoraBodegas controladoraBodega = new ControladoraBodegas();
+            return controladoraBodega.consultarBodegas("3", "sdfsadf");
+        }
 
         // Lista de productos para poder trasladar
-        public DataTable consultarProductosDeBodega(String idBodega)
+        public DataTable consultarProductosDeBodega(String idBodegaOrigen, String idBodegaDestino)
         {
             ControladoraProductoLocal controladoraProductoLocal = new ControladoraProductoLocal();
-            return controladoraProductoLocal.consultarProductosDeBodegaAjustes(idBodega);
+            return controladoraProductoLocal.consultarProductosDeBodega(idBodegaOrigen);
+            //return controladoraProductoLocal.consultarProductosDeBodega(idBodegaOrigen, idBodegaDestino);
         }
 
 
