@@ -24,7 +24,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
                 // Interfaz ocupa 3 cosas TipoMovimiento(Descripcion), Fecha, Usuario(Encargado)
                 // Yo agrego el ID de ajustes para la consulta individual
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT T.ID_TRASLADO, T.NOTAS, T.FECHA, U.NOMBRE, T.IDBODEGAORIGEN, T.IDBODEGADESTINO, B1.DESCRIPCION, B2.DESCRIPCION  "
+                command.CommandText = "SELECT T.ID_TRASLADO, T.NOTAS, T.FECHA, U.NOMBRE, T.IDBODEGAORIGEN, T.IDBODEGADESTINO, B1.DESCRIPCION, B2.DESCRIPCION, T.ESTADO  "
                    + " FROM " + esquema + "TRASLADOS T, " + esquema + "SEG_USUARIO U, " + esquema + "CAT_BODEGA B1, " + esquema + "CAT_BODEGA B2 "
                    + " WHERE T.USUARIO_BODEGA = U.SEG_USUARIO "
                    + " AND " + tipoConsulta
