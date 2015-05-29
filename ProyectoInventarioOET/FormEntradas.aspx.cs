@@ -7,6 +7,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using ProyectoInventarioOET.Modulo_Entradas;
 using ProyectoInventarioOET.App_Code;
+using ProyectoInventarioOET.Modulo_Seguridad;
 
 
 namespace ProyectoInventarioOET
@@ -18,6 +19,7 @@ namespace ProyectoInventarioOET
     {
         enum Modo { Inicial, BusquedaFactura, SeleccionFactura, SeleccionProductos,  EntradaConsultada, SeleccionEntrada }; // Sirve para controlar los modos de la interfaz
         //Atributos
+
         private static int modo = (int)Modo.Inicial;                            // Almacena el modo actual de la interfaz
         private static ControladoraEntradas controladoraEntradas;               // Comunica con la base de datos.
         private static Object[] idArrayFactura;                                        // Almacena identificadores de entradas
@@ -29,6 +31,7 @@ namespace ProyectoInventarioOET
         private static String bodegaDeTrabajo;
         private static String facturaBuscada;
         private static EntidadFactura facturaConsultada;
+        private static ControladoraSeguridad controladoraSeguridad;
 
 
         protected void Page_Load(object sender, EventArgs e)
@@ -407,7 +410,7 @@ namespace ProyectoInventarioOET
             {
                 entradaConsultada = controladoraEntradas.consultarEntrada(codigo);
                 //facturaConsultada = controladoraEntradas.consultarFactura(entradaConsultada.IdFactura);
-                //CompletarDatosFactura(facturaConsultada);
+                CompletarDatosEntrada(entradaConsultada);
                 //llenarGridDetalleFactura();
             }
             catch
@@ -495,6 +498,15 @@ namespace ProyectoInventarioOET
             outputImpuestos.InnerText = Convert.ToString(facturaConsultada.RetencionImpuestos);
             outputMoneda.InnerText = Convert.ToString(facturaConsultada.Moneda);
             outputTipoCambio.InnerText = Convert.ToString(facturaConsultada.TipoCambio);
+        }
+        protected void CompletarDatosEntrada(EntidadEntrada entradaConsultada)
+        {
+            outputEntrada.InnerText = Convert.ToString(entradaConsultada.IdEntrada);
+            outputFacturaAsociada.InnerText = Convert.ToString(entradaConsultada.IdFactura);
+           //outputUsuario.InnerText = Convert.ToString(controladoraSeguridad.consultarNombreDeUsuario(entradaConsultada.IdEncargado));
+            outputUsuario.InnerText = Convert.ToString(entradaConsultada.IdEncargado);
+            outputBodega.InnerText = Convert.ToString(entradaConsultada.Bodega);
+            outputFecha.InnerText = Convert.ToString(entradaConsultada.FechEntrada);
         }
         protected void gridDetalleFactura_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
