@@ -2,48 +2,48 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using ProyectoInventarioOET.App_Code.Modulo_Ajustes;
 
 namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
 {
     public class EntidadTraslado
     {
-        private String idTipoAjuste; 
+        private String idTraslado; 
         private DateTime fecha;
         private String usuario; 
         private String idUsuario;
         private String notas;
-        private String idBodega; 
-        //private List<EntidadDetalles> detalles = new List<EntidadDetalles>();
+        private String idBodegaOrigen;
+        private String idBodegaDestino; 
 
-        //public EntidadAjustes(Object[] datos, DataTable datosProductos)
+        private List<EntidadDetalles> detalles = new List<EntidadDetalles>();
+
         public EntidadTraslado(Object[] datos)
         {
-            //detalles = new List<EntidadDetalles>();
-            this.idTipoAjuste = datos[0].ToString(); 
+            detalles = new List<EntidadDetalles>();
+            this.idTraslado = datos[0].ToString(); 
             this.fecha = Convert.ToDateTime(datos[1]);
             this.usuario = datos[2].ToString(); 
             this.idUsuario = datos[3].ToString();
             this.notas = datos[4].ToString();
             if (datos.Count() >= 6)
             {
-                this.idBodega = datos[5].ToString();
-                //this.idUsuario = datos[6].ToString();
+                this.idBodegaOrigen = datos[5].ToString();
+                this.idBodegaDestino = datos[6].ToString();
             }
         }
 
-        // Decirle a leo que los nuevos productos vienen en un datatable
+
         public void agregarDetalle(Object[] datosProductos) {
-            //EntidadDetalles nuevo = new EntidadDetalles(datosProductos);
-            //detalles.Add(nuevo);
+            EntidadDetalles nuevo = new EntidadDetalles(datosProductos);
+            detalles.Add(nuevo);
         }
 
 
-
-
-        public String IdTipoAjuste
+        public String IdTraslado
         {
-            get { return idTipoAjuste; }
-            set { idTipoAjuste = value; }
+            get { return idTraslado; }
+            set { idTraslado = value; }
         }
 
         public DateTime Fecha
@@ -64,22 +64,28 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
             set { idUsuario = value; }
         }
 
-        public String IdBodega
-        {
-            get { return idBodega; }
-            set { idBodega = value; }
-        }
-
         public String Notas
         {
             get { return notas; }
             set { notas = value; }
         }
 
-        //public List<EntidadDetalles> Detalles
-        //{
-        //    get { return detalles; }
-        //}
+        public String IdBodegaOrigen
+        {
+            get { return idBodegaOrigen; }
+            set { idBodegaOrigen = value; }
+        }
+
+        public String IdBodegaDestino
+        {
+            get { return idBodegaDestino; }
+            set { idBodegaDestino = value; }
+        }
+
+        public List<EntidadDetalles> Detalles
+        {
+            get { return detalles; }
+        }
 
 
 
