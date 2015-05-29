@@ -320,7 +320,7 @@ namespace ProyectoInventarioOET
                     datos[3] = Convert.ToDateTime("01/01/1997");
                     datos[4] = "-";
                     tabla.Rows.Add(datos);
-                    mostrarMensaje("warning", "Atención: ", "No existen ajustes en la bodega actual.");
+                    mostrarMensaje("warning", "Atención: ", "No existen traslados de ese tipo.");
                 }
 
                 this.gridViewTraslados.DataSource = tabla;
