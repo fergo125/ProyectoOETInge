@@ -19,6 +19,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
         }
 
 
+        // Lista de productos para poder trasladar
         public DataTable consultarProductosDeBodega(String idBodega)
         {
             ControladoraProductoLocal controladoraProductoLocal = new ControladoraProductoLocal();
@@ -26,6 +27,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
         }
 
 
+        // Consulta de los traslados tanto entrantes como salientes de la bodega actual (con la que esta loggeado)
         public DataTable consultarTraslados(String idBodega)
         {
             DataTable traslados = controladoraBD.consultaTraslados(idBodega);
@@ -40,6 +42,40 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
                 }
             }
             return traslados;
+        }
+
+        public EntidadTraslado consultarTraslado (String idAjuste)
+        {
+
+            Object[] datos = new Object[5];
+            DataTable[] respuesta = controladoraBD.consultarTraslado(idAjuste);
+            foreach (DataRow fila in respuesta[0].Rows)
+            {  //Solo seria una fila
+                datos[0] = fila[0].ToString();
+                datos[1] = fila[1].ToString();
+                datos[2] = fila[2];  // Es la fecha
+                datos[3] = fila[3].ToString(); // Es la bodega
+                datos[4] = fila[4].ToString();
+            }
+
+            EntidadTraslado consultada = new EntidadTraslado(datos);
+
+            Object[] datosProductos = new Object[4];
+            foreach (DataRow fila in respuesta[1].Rows) // Varias filas que corresponden a los productos
+            {
+                datosProductos[0] = fila[0].ToString();
+                datosProductos[1] = fila[1].ToString();
+                datosProductos[2] = fila[2];  // Es la fecha
+                datosProductos[3] = fila[3].ToString();
+                consultada.agregarDetalle(datosProductos);
+            }
+
+            //consultada.IdBodega = "PITAN129012015101713605001";
+            //consultada.IdUsuario = "3";
+            //consultada.Notas = "PRUEBADEINSERCIONALOMACHO";
+
+            //controladoraBD.insertarAjuste(consultada);
+            return consultada;
         }
 
 

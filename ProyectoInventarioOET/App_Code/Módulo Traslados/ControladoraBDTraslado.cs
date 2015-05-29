@@ -37,7 +37,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
             return resultado;
         }
 
-
+        // Falata arreglar
         public DataTable[] consultarTraslado(String idTraslados)
         {
             String esquema = "Inventarios.";
