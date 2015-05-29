@@ -27,7 +27,8 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
         public DataTable consultarProductosDeBodega(String idBodegaOrigen, String idBodegaDestino)
         {
             ControladoraProductoLocal controladoraProductoLocal = new ControladoraProductoLocal();
-            return controladoraProductoLocal.consultarProductosDeBodega(idBodegaOrigen, idBodegaDestino);
+            return controladoraProductoLocal.consultarProductosDeBodega(idBodegaOrigen);
+            //return controladoraProductoLocal.consultarProductosDeBodega(idBodegaOrigen, idBodegaDestino);
         }
 
 
