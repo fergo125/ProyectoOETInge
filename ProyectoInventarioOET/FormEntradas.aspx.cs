@@ -553,6 +553,16 @@ namespace ProyectoInventarioOET
             FieldsetResultadosBusqueda.Visible = true;
         }
 
+        protected void gridViewFacturas_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void botonAgregarProductoFactura_Click(object sender, EventArgs e)
+        {
+
+        }
+
         protected void gridViewProductoBuscado_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             FieldsetResultadosBusqueda.Visible = false;
@@ -628,7 +638,6 @@ namespace ProyectoInventarioOET
                 case (int)Modo.EntradaConsultada:
                     tituloAccionEntradas.InnerText = "";
                     this.FieldsetGridEntradas.Visible = true;
-                    this.FieldsetEncabezadoFactura.Visible = true;
                     break;
 
                 case (int)Modo.SeleccionEntrada:
@@ -648,10 +657,7 @@ namespace ProyectoInventarioOET
             this.inputCosto.Value = "";
         }
 
-        protected void gridViewFacturas_SelectedIndexChanged(object sender, EventArgs e)
-        {
 
-        }
 
 
     }
