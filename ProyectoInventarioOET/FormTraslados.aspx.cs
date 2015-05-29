@@ -297,11 +297,11 @@ namespace ProyectoInventarioOET
                     foreach (DataRow fila in traslados.Rows)
                     {
                         idArrayTraslados[i] = fila[0];
-                        datos[0] = "";
-                        datos[1] = "";
-                        datos[2] = "";
-                        datos[3] = "";
-                        datos[4] = "";
+                        datos[0] = fila[6];
+                        datos[1] = fila[7];
+                        datos[2] = fila[8];
+                        datos[3] = fila[2];
+                        datos[4] = fila[3];
                         tabla.Rows.Add(datos);
                         /*
                         if (ajusteConsultado != null && (fila[0].Equals(ajusteConsultado.Codigo)))
@@ -320,7 +320,7 @@ namespace ProyectoInventarioOET
                     datos[3] = Convert.ToDateTime("01/01/1997");
                     datos[4] = "-";
                     tabla.Rows.Add(datos);
-                    mostrarMensaje("warning", "Atención: ", "No existen ajustes en la bodega actual.");
+                    mostrarMensaje("warning", "Atención: ", "No existen traslados de ese tipo.");
                 }
 
                 this.gridViewTraslados.DataSource = tabla;
