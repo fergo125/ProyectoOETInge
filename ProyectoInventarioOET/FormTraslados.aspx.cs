@@ -12,7 +12,7 @@ namespace ProyectoInventarioOET
 {
     public partial class FormTraslados : System.Web.UI.Page
     {
-        enum Modo { Inicial, Consulta, Insercion, Consultado };
+        enum Modo { Inicial, Consulta, Insercion, Modificacion, Consultado };
 
         // Atributos
         private static Boolean seConsulto = false;                              // True si se consulto y se debe visitar la base de datos
@@ -78,10 +78,11 @@ namespace ProyectoInventarioOET
                     botonModificarTraslado.Disabled = true;
                     botonConsultarTraslado.Disabled = false;
                     tituloGridProductos.Visible = false;
-                    //tituloGridConsulta.Visible = false;
-                    //gridViewAjustes.Visible = false;
+                    tituloGridConsulta.Visible = false;
+                    gridViewTraslados.Visible = false;
                     gridViewProductos.Enabled = false;
                     gridViewProductos.Visible = false;
+                    botonConsultarDestino.Visible = botonConsultarOrigen.Visible = false;
                     habilitarCampos(false);
                     gridViewProductos.Columns[1].Visible = false;
                     break;
@@ -96,10 +97,11 @@ namespace ProyectoInventarioOET
                     botonModificarTraslado.Disabled = true;
                     botonConsultarTraslado.Disabled = false;
                     tituloGridProductos.Visible = true;
-                    //tituloGridConsulta.Visible = false;
-                    //gridViewAjustes.Visible = false;
+                    tituloGridConsulta.Visible = false;
+                    gridViewTraslados.Visible = false;
                     gridViewProductos.Enabled = true;
                     gridViewProductos.Visible = true;
+                    botonConsultarDestino.Visible = botonConsultarOrigen.Visible = false;
                     habilitarCampos(true);
                     gridViewProductos.Columns[1].Visible = true;
                     break;
@@ -114,12 +116,32 @@ namespace ProyectoInventarioOET
                     botonModificarTraslado.Disabled = true;
                     botonConsultarTraslado.Disabled = true;
                     tituloGridProductos.Visible = false;
-                    //tituloGridConsulta.Visible = true;
-                    //gridViewAjustes.Visible = true;
+                    tituloGridConsulta.Visible = true;
+                    gridViewTraslados.Visible = true;
                     gridViewProductos.Enabled = false;
                     gridViewProductos.Visible = false;
+                    botonConsultarDestino.Visible = botonConsultarOrigen.Visible = true;
                     habilitarCampos(false);
                     gridViewProductos.Columns[1].Visible = false;
+                    break;
+
+                case (int)Modo.Modificacion: //insertar
+                    botonAgregar.Visible = false;
+                    FieldsetTraslados.Visible = true;
+                    botonAceptarTraslado.Visible = true;
+                    botonCancelarTraslado.Visible = true;
+                    tituloAccionTraslados.InnerText = "Cambie los datos";
+                    botonRealizarTraslado.Disabled = true;
+                    botonModificarTraslado.Disabled = true;
+                    botonConsultarTraslado.Disabled = false;
+                    tituloGridProductos.Visible = true;
+                    tituloGridConsulta.Visible = false;
+                    gridViewTraslados.Visible = false;
+                    gridViewProductos.Enabled = true;
+                    gridViewProductos.Visible = true;
+                    botonConsultarDestino.Visible = botonConsultarOrigen.Visible = false;
+                    habilitarCampos(true);
+                    gridViewProductos.Columns[1].Visible = true;
                     break;
 
                 case (int)Modo.Consultado://consultado, pero con los espacios bloqueados
@@ -131,11 +153,12 @@ namespace ProyectoInventarioOET
                     botonRealizarTraslado.Disabled = false;
                     botonModificarTraslado.Disabled = false;
                     botonConsultarTraslado.Disabled = true;
-                    //tituloGridProductos.Visible = true;
-                    //tituloGridConsulta.Visible = true;
-                    //gridViewAjustes.Visible = true;
+                    tituloGridProductos.Visible = true;
+                    tituloGridConsulta.Visible = true;
+                    gridViewTraslados.Visible = true;
                     gridViewProductos.Enabled = false;
                     gridViewProductos.Visible = true;
+                    botonConsultarDestino.Visible = botonConsultarOrigen.Visible = true;
                     habilitarCampos(false);
                     gridViewProductos.Columns[1].Visible = false;
                     //llenarGrid();
@@ -275,6 +298,17 @@ namespace ProyectoInventarioOET
          */
         protected void botonRealizarTraslado_ServerClick(object sender, EventArgs e)
         {
+            modo = (int)Modo.Insercion;
+            cambiarModo();
+            limpiarCampos();
+            llenarGridAgregarProductos();
+            //vaciarGridProductos();
+
+            //cargarTipos();
+            if ((this.Master as SiteMaster).Usuario != null)
+                outputUsuario.Value = (this.Master as SiteMaster).Usuario.Nombre;
+            outputBodegaSalida.Value = (this.Master as SiteMaster).NombreBodegaSesion;
+            outputFecha.Value = DateTime.Now.ToString();
         }
 
         /*
@@ -282,6 +316,9 @@ namespace ProyectoInventarioOET
          */
         protected void botonModificarTraslado_ServerClick(object sender, EventArgs e)
         {
+            modo = (int)Modo.Modificacion;
+            cambiarModo();
+            // Agregar cambio de estado
         }
 
         /*
@@ -289,8 +326,11 @@ namespace ProyectoInventarioOET
          */
         protected void botonConsultarTraslado_ServerClick(object sender, EventArgs e)
         {
-            DataTable prueba = controladoraTraslados.consultarTraslados("PITAN129012015101713605001");
+            DataTable prueba = controladoraTraslados.consultarTraslados("PITAN129012015101713605001", false);
             int y = 9+6;
+            modo = (int)Modo.Consulta;
+            cambiarModo();
+            // Agregar traslados vacios
         }
 
         /*
@@ -331,6 +371,50 @@ namespace ProyectoInventarioOET
             //cambiarModo();
             //limpiarCampos();
             //ajusteConsultado = null;
+        }
+
+        /*
+         * Método que consulta los traslados cuyo origen es la bodega actual
+         */
+        protected void botonConsultarOrigen_ServerClick(object sender, EventArgs e)
+        {
+            // llenarGrid(false);
+        }
+
+        /*
+         * Método que consulta los traslados cuyo destino es la bodega actual
+         */
+        protected void botonConsultarDestino_ServerClick(object sender, EventArgs e)
+        {
+            // llenarGrid(true);
+        }
+
+        /*
+         * Método que maneja la selección de un ajuste en el grid de consultar.
+         */
+        protected void gridViewTraslados_Seleccion(object sender, GridViewCommandEventArgs e)
+        {
+            switch (e.CommandName)
+            {
+                case "Select":
+                    GridViewRow filaSeleccionada = this.gridViewTraslados.Rows[Convert.ToInt32(e.CommandArgument)];
+                    //String codigo = filaSeleccionada.Cells[0].Text.ToString();
+                    String codigo = Convert.ToString(idArrayAjustes[Convert.ToInt32(e.CommandArgument) + (this.gridViewTraslados.PageIndex * this.gridViewTraslados.PageSize)]);
+                    //consultarAjuste(codigo);
+                    modo = (int)Modo.Consultado;
+                    Response.Redirect("FormAjustes.aspx");
+                    break;
+            }
+        }
+
+        /*
+         * Método que maneja el cambio de páginas en el grid de consultar
+         */
+        protected void gridViewTraslados_CambioPagina(Object sender, GridViewPageEventArgs e)
+        {
+            //llenarGrid();
+            this.gridViewTraslados.PageIndex = e.NewPageIndex;
+            this.gridViewTraslados.DataBind();
         }
 
         /*

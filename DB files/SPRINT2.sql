@@ -147,7 +147,6 @@ actividad varchar2(30),
 vendedor varchar2(40),
 cliente varchar2(40),
 tipoMoneda varchar2(10),
-impuesto int,
 metodoPago varchar2(30)
 );
 

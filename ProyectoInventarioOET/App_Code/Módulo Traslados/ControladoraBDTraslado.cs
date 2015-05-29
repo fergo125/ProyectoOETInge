@@ -13,10 +13,11 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
 
 
         // Funciona
-        public DataTable consultaTraslados(String idBodega)
+        public DataTable consultaTraslados(String idBodega, bool entrada)
         {
             String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
+            String tipoConsulta = entrada ? "T.IDBODEGADESTINO = '" + idBodega + "'" : "T.IDBODEGAORIGEN = '" + idBodega + "'";
 
             try
             {
@@ -26,7 +27,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
                 command.CommandText = "SELECT T.ID_TRASLADO, T.NOTAS, T.FECHA, U.NOMBRE, T.IDBODEGAORIGEN "
                    + " FROM " + esquema + "TRASLADOS T, " + esquema + "SEG_USUARIO U "
                    + " WHERE T.USUARIO_BODEGA = U.SEG_USUARIO "
-                   + " AND ( T.IDBODEGAORIGEN = '" + idBodega + "' OR T.IDBODEGADESTINO = '" + idBodega + "') ORDER BY T.FECHA DESC";
+                   + " AND " + tipoConsulta +  " ORDER BY T.FECHA DESC";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
             }
