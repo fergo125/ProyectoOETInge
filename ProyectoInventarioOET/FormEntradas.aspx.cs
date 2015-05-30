@@ -234,6 +234,7 @@ namespace ProyectoInventarioOET
                     datos[1] = "-";
                     datos[2] = "-";
                     datos[3] = "-";
+                    mostrarMensaje("warning", "Alerta", "No hay entradas almacenadas.");
                     tabla.Rows.Add(datos);
                 }
 
@@ -287,6 +288,7 @@ namespace ProyectoInventarioOET
                     datos[1] = "-";
                     datos[2] = "-";
                     datos[3] = "-";
+                    mostrarMensaje("warning", "Alerta", "No hay Facturas disponibles en este momento.");
                     tabla.Rows.Add(datos);
                 }
 

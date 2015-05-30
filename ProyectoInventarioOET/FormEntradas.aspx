@@ -161,8 +161,7 @@
          <div class="col-lg-12"><strong><div ID="tituloGrid" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Listado de Facturas</div></strong>
 <%--            <asp:UpdatePanel ID="UpdatePanelFacturas" runat="server">
                 <ContentTemplate>--%>
-        <div id="popup" style="max-height:600px;overflow-y:scroll;">
-                    <asp:GridView ID="gridViewFacturas" CssClass="table" OnRowCommand="gridViewFacturas_RowCommand" OnPageIndexChanging="gridViewFacturas_PageIndexChanging" runat="server" AllowPaging="false" PageSize="2" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None" OnSelectedIndexChanged="gridViewFacturas_SelectedIndexChanged">
+                    <asp:GridView ID="gridViewFacturas" CssClass="table" OnRowCommand="gridViewFacturas_RowCommand" OnPageIndexChanging="gridViewFacturas_PageIndexChanging" runat="server" AllowPaging="true" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None" OnSelectedIndexChanged="gridViewFacturas_SelectedIndexChanged">
                         <Columns>
                             <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Seleccionar">
                                 <ControlStyle CssClass="btn btn-default"></ControlStyle>
@@ -174,9 +173,6 @@
                        <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="Green" />
                        <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
                   </asp:GridView>
-
-        </div>
-
 <%--             </ContentTemplate>
              <Triggers>
                 <asp:AsyncPostBackTrigger ControlID="gridViewFacturas" EventName="RowCommand" />
