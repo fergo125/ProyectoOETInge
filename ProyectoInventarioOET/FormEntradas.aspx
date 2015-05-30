@@ -287,8 +287,14 @@
                  <div class="col-lg-12"><strong><div ID="Div3" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Detalle de la Factura Consignada</div></strong>
                     <asp:UpdatePanel ID="UpdatePanelFacturaNueva" runat="server">
                         <ContentTemplate>
-                            <asp:GridView ID="gridFacturaNueva" CssClass="table" OnPageIndexChanging="gridFacturaNueva_PageIndexChanging" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                            <asp:GridView ID="gridFacturaNueva" CssClass="table" OnRowCreated="gridFacturaNueva_RowCreated" OnPageIndexChanging="gridFacturaNueva_PageIndexChanging" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
 						        <Columns>
+
+                                    <asp:TemplateField HeaderText="Costo" >
+                                        <ItemTemplate>
+                                            <asp:TextBox ID="textCosto" runat="server" ReadOnly="false"></asp:TextBox>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
 							        <asp:TemplateField HeaderText="Seleccionar">
 								        <ItemTemplate>
 									        <asp:CheckBox ID="checkBoxProductos" runat="server"/>
