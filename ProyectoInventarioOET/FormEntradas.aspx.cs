@@ -234,6 +234,7 @@ namespace ProyectoInventarioOET
                     datos[1] = "-";
                     datos[2] = "-";
                     datos[3] = "-";
+                    mostrarMensaje("warning", "Alerta", "No hay entradas almacenadas.");
                     tabla.Rows.Add(datos);
                 }
 
@@ -287,6 +288,7 @@ namespace ProyectoInventarioOET
                     datos[1] = "-";
                     datos[2] = "-";
                     datos[3] = "-";
+                    mostrarMensaje("warning", "Alerta", "No hay Facturas disponibles en este momento.");
                     tabla.Rows.Add(datos);
                 }
 
@@ -564,7 +566,7 @@ namespace ProyectoInventarioOET
         }
         protected void botonBuscar_Click(object sender, EventArgs e)
         {
-            FieldsetResultadosBusqueda.Visible = true;
+            //FieldsetResultadosBusqueda.Visible = true;
         }
 
         protected void gridViewFacturas_SelectedIndexChanged(object sender, EventArgs e)
@@ -579,7 +581,7 @@ namespace ProyectoInventarioOET
 
         protected void gridViewProductoBuscado_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            FieldsetResultadosBusqueda.Visible = false;
+            //FieldsetResultadosBusqueda.Visible = false;
         }
 
         protected void gridViewProductoBuscado_PageIndexChanging(object sender, GridViewPageEventArgs e)
@@ -622,7 +624,7 @@ namespace ProyectoInventarioOET
                     this.FieldsetGridFacturas.Visible = false;
                     this.FieldsetEncabezadoFactura.Visible = false;
                     this.FieldsetCrearFactura.Visible = false;
-                    this.FieldsetResultadosBusqueda.Visible = false;
+                   // this.FieldsetResultadosBusqueda.Visible = false;
                     this.botonAgregarEntradas.Disabled = false;
                     this.botonAceptarEntrada.Visible = false;
                     this.botonCancelarEntrada.Visible = false;

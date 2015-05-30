@@ -161,8 +161,7 @@
          <div class="col-lg-12"><strong><div ID="tituloGrid" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Listado de Facturas</div></strong>
 <%--            <asp:UpdatePanel ID="UpdatePanelFacturas" runat="server">
                 <ContentTemplate>--%>
-        <div id="popup" style="max-height:600px;overflow-y:scroll;">
-                    <asp:GridView ID="gridViewFacturas" CssClass="table" OnRowCommand="gridViewFacturas_RowCommand" OnPageIndexChanging="gridViewFacturas_PageIndexChanging" runat="server" AllowPaging="false" PageSize="2" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None" OnSelectedIndexChanged="gridViewFacturas_SelectedIndexChanged">
+                    <asp:GridView ID="gridViewFacturas" CssClass="table" OnRowCommand="gridViewFacturas_RowCommand" OnPageIndexChanging="gridViewFacturas_PageIndexChanging" runat="server" AllowPaging="true" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None" OnSelectedIndexChanged="gridViewFacturas_SelectedIndexChanged">
                         <Columns>
                             <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Seleccionar">
                                 <ControlStyle CssClass="btn btn-default"></ControlStyle>
@@ -174,9 +173,6 @@
                        <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="Green" />
                        <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
                   </asp:GridView>
-
-        </div>
-
 <%--             </ContentTemplate>
              <Triggers>
                 <asp:AsyncPostBackTrigger ControlID="gridViewFacturas" EventName="RowCommand" />
@@ -278,10 +274,10 @@
                 <asp:TextBox ID="textBoxAutocompleteCrearFacturaBusquedaProducto" runat="server" CssClass="form-control" Width="100%"></asp:TextBox>
                 <br />
                 <label for="inputCantidad" class= "control-label">Cantidad:</label>      
-                <input id="Text1" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
+                <input id="inputCantidad" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
                 <br />
                 <label for="inputCosto" class= "control-label">Costo:</label>      
-                <input id="Text2" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
+                <input id="inputCosto" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
                 <br />
                 <asp:Button ID="botonAgregarProductoFactura" runat="server" Text="Agregar a Factura" CssClass="btn btn-warning-fozkr" OnClick="botonAgregarProductoFactura_Click"/>
             </div>
@@ -312,7 +308,7 @@
     </fieldset>
     <br />
 
-    <fieldset id="FieldsetResultadosBusqueda" runat="server" visible="false" >
+<%--    <fieldset id="FieldsetResultadosBusqueda" runat="server" visible="false" >
         <div class="row">
             <div class="col-lg-7">
             <strong><div ID="UpdatePanelResultados" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Resultados de Búsqueda</div></strong>
@@ -352,7 +348,7 @@
                 </div>--%>
             </div>
         </div>
-    </fieldset>
+    </fieldset>--%>
 
     <div class="col-lg-12" id="bloqueBotones">
         <div class =" row">

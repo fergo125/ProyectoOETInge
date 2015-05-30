@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using ProyectoInventarioOET.App_Code.Modulo_Ajustes;
 
 namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
 {
@@ -95,5 +96,73 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
         }
 
 
+
+        public String[] insertarAjuste(EntidadTraslado nuevo)
+        {
+            String esquema = "Inventarios.";
+            String[] res = new String[4];
+            res[3] = generarID();
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "INSERT INTO " + esquema + "TRASLADOS (ID_TRASLADO, FECHA, USUARIO_BODEGA, IDBODEGAORIGEN, IDBODEGADESTINO, ESTADO, NOTAS) "
+               + "VALUES ('" + res[3] + "', TO_DATE('" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "',  'dd/mm/yyyy hh24:mi:ss') , '"
+               + nuevo.IdUsuario + "','" + nuevo.IdBodegaOrigen + "' , '" + nuevo.IdBodegaDestino + "' , " + 0 + ", '" + nuevo.Notas+ "' )";
+                OracleDataReader reader = command.ExecuteReader();
+
+                foreach (EntidadDetalles detallesProducto in nuevo.Detalles)
+                { // Por cada producto meterlo en el detalles ajustes
+                    insertarDetalle(res[3], detallesProducto);
+                    congelarProducto(detallesProducto.IdProductoBodegaOrigen, detallesProducto.Cambio);
+                }
+
+                res[0] = "success";
+                res[1] = "Éxito:";
+                res[2] = "Ajuste agregado al sistema.";
+            }
+            catch (OracleException e)
+            {
+                res[0] = "danger";
+                res[1] = "Error:";
+                res[2] = "Ajuste no agregado, intente nuevamente.";
+            }
+
+            return res;
+        }
+
+
+        // Actualiza el inventario local y pone los productos en la columna congelados 
+        private void congelarProducto(String idProductoBodega, double traslado)
+        {
+            String esquema = "Inventarios.";
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = " UPDATE " + esquema + "INV_BODEGA_PRODUCTOS "
+                                     + " SET SALDOCONGELADO = SALDOCONGELADO + " + traslado + " , "
+                                     + " SALDO = SALDO - " + traslado
+                                     + " WHERE INV_BODEGA_PRODUCTOS = '" + idProductoBodega+ "'";  
+                OracleDataReader reader = command.ExecuteReader();
+            }
+            catch (OracleException e) {
+
+            }
+        }
+
+        private void insertarDetalle(String idTraslado, EntidadDetalles detallesProducto)
+        {
+            String esquema = "Inventarios.";
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = " INSERT INTO " + esquema + "DETALLES_TRASLADO "
+                                     + " VALUES ('" + idTraslado +"', '" + detallesProducto.IdProductoBodegaDestino + "', '"+ detallesProducto.IdProductoBodegaOrigen +"' , " +detallesProducto.Cambio+ ")";
+                OracleDataReader reader = command.ExecuteReader();
+            }
+            catch (OracleException e)
+            {
+
+            }
+        }
     }
 }
