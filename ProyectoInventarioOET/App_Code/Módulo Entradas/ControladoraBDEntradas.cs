@@ -125,5 +125,23 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             }
             return resultado;
         }
+
+        public DataTable consultarProductosEntrada(string id)
+        {
+            DataTable resultado = new DataTable();
+            //String esquema = "Inventarios.";
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "SELECT NOMBRE,CANTIDAD,PRECIO_UNITARIO  FROM (SELECT * FROM CAT_ENTRADAS_PRODUCTOS JOIN INV_PRODUCTOS ON CAT_ENTRADAS_PRODUCTOS.CAT_PRODUCTOS = INV_PRODUCTOS.INV_PRODUCTOS) WHERE CAT_ENTRADAS" +"= '" + id + "'";
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
+            }
+            catch (Exception e)
+            {
+                resultado = null;
+            }
+            return resultado;
+        }
     }
 }

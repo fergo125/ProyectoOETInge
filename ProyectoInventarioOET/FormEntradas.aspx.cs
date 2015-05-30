@@ -38,7 +38,7 @@ namespace ProyectoInventarioOET
         {
             controladoraEntradas = new ControladoraEntradas();
             //bodegaDeTrabajo = (this.Master as SiteMaster).LlaveBodegaSesion;
-
+            bodegaDeTrabajo = "CRO44452";
             //llenarGrid();
 
             mensajeAlerta.Visible = false;
@@ -170,7 +170,6 @@ namespace ProyectoInventarioOET
 
             return tabla;
         }
-
         /*
          * Construye la tabla que se va a utilizar para mostrar la información de como se va construyendo la factura según los artículos recibidos.
          */
@@ -204,7 +203,6 @@ namespace ProyectoInventarioOET
             {
                 // Cargar entradas
                 Object[] datos = new Object[4];
-                bodegaDeTrabajo = "CRO44452";
                 DataTable entradas = controladoraEntradas.consultarEntradas(bodegaDeTrabajo);
 
                 if (entradas.Rows.Count > 0)
@@ -298,7 +296,55 @@ namespace ProyectoInventarioOET
                 mostrarMensaje("warning", "Alerta", "Error al llenar la tabla de Facturas.");
             }
         }
+        protected void llenarGridProductos()
+        {
+            DataTable tabla = tablaFacturaDetallada();
+            int i = 0;
 
+            try
+            {
+                // Cargar entradas
+                Object[] datos = new Object[3];
+                DataTable facturas = controladoraEntradas.consultarProductosEntrada(entradaConsultada.IdEntrada);
+
+                if (facturas.Rows.Count > 0)
+                {
+                    idArrayFactura = new Object[facturas.Rows.Count];
+                    foreach (DataRow fila in facturas.Rows)
+                    {
+                        //idArrayFactura[i] = fila[0];
+                        datos[0] = fila[0].ToString();
+                        datos[1] = fila[1].ToString();
+                        datos[2] = fila[2].ToString();
+
+
+
+                        tabla.Rows.Add(datos);
+                        //if (entradaConsultada != null && (fila[0].Equals(entradaConsultada.Codigo)))
+                        //{
+                        //    indiceNuevaActividad = i;
+                        //}
+                        i++;
+                    }
+                }
+                // No hay entradas almacenadas.
+                else
+                {
+                    datos[0] = "-";
+                    datos[1] = "-";
+                    datos[2] = "-";
+                    //datos[3] = "-";
+                    tabla.Rows.Add(datos);
+                }
+
+                this.gridProductosDeEntrada.DataSource = tabla;
+                this.gridProductosDeEntrada.DataBind();
+            }
+            catch (Exception e)
+            {
+                mostrarMensaje("warning", "Alerta", "Error al llenar la tabla de Facturas.");
+            }
+        }
         /*
          * Llena la tabla con las actividades almacenadas en la base de datos.
          */
@@ -411,7 +457,8 @@ namespace ProyectoInventarioOET
                 entradaConsultada = controladoraEntradas.consultarEntrada(codigo);
                 //facturaConsultada = controladoraEntradas.consultarFactura(entradaConsultada.IdFactura);
                 CompletarDatosEntrada(entradaConsultada);
-                //llenarGridDetalleFactura();
+                llenarGridProductos();
+
             }
             catch
             {
@@ -487,7 +534,7 @@ namespace ProyectoInventarioOET
                 modo = (int)Modo.Inicial;
             }
         }
-
+        
         protected void CompletarDatosFactura(EntidadFactura facturaConsultada)
         {
             outputFactura.InnerText = Convert.ToString(facturaConsultada.IdFactura);
