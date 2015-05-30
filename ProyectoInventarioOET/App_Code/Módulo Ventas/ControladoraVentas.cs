@@ -39,10 +39,9 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         {
             //Primero, obtener la llave desde el catálogo global usando esos dos valores (es necesario revisar ambos
             //valores para asegurarse de que el usuario no cambio ninguno antes de dar click al botón). 
-            String codigoProductoEscogido = productoEscogido.Substring(productoEscogido.LastIndexOf('('));  //el código entre paréntesis
-            codigoProductoEscogido = codigoProductoEscogido.Substring(1);                                   //el código sin el primer paréntesis
-            codigoProductoEscogido = codigoProductoEscogido.TrimEnd(')');                                   //el código
-            productoEscogido = productoEscogido.Remove(productoEscogido.LastIndexOf('(') - 1);              //nombre del producto (con un -1 al final por el espacio)
+            String codigoProductoEscogido = productoEscogido.Substring(productoEscogido.LastIndexOf('(') + 1);  //el código sin el primer paréntesis
+            codigoProductoEscogido = codigoProductoEscogido.TrimEnd(')');                                       //el código
+            productoEscogido = productoEscogido.Remove(productoEscogido.LastIndexOf('(') - 1);                  //nombre del producto (con un -1 al final por el espacio)
             String llaveProducto = controladoraBDVentas.verificarExistenciaProductoGlobal(productoEscogido, codigoProductoEscogido);
 
             //Luego, si el producto se existe, se usa su llave para verificar que existe en el catálogo local de la bodega
