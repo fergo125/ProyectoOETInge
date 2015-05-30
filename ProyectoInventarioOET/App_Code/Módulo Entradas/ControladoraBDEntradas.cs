@@ -10,13 +10,15 @@ namespace ProyectoInventarioOET.Modulo_Entradas
 {
     public class ControladoraBDEntradas : ControladoraBD
     {
-                /*
+        /*
          * Constructor.
          */
         public ControladoraBDEntradas()
         {
         }
-        
+        /*
+         * Recibe un id de bodega y devuelve las entradas para esa bodega especifica
+         */
         public DataTable consultarEntradasDeBodega(string bodega)
         {
             String esquema = "Inventarios.";
@@ -34,7 +36,10 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             }
             return resultado;
         }
-
+        /*
+         * Si en el ID se pasa por parametro todas, el sistema devuelve todas las facturas en la base,
+         * pero si recibe por paramentro un id o el inicio de un id, tratara de buscar todas las facturas que sean similares
+         */
         public DataTable buscarFacturas(string id)
         {
             DataTable resultado = new DataTable();
@@ -65,6 +70,9 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             }
             return resultado;
         }
+        /*
+         *Recibe el id de una factura y devuelve el detalle de la misma 
+         */
         public DataTable consultarDetalleFactura(String id)
         {
             DataTable resultado = new DataTable();
@@ -85,6 +93,9 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             }
             return resultado;
         }
+        /*
+         * Recibe el id de una factura y devuelve los datos de esa factura.
+         */
         public DataTable consultarFactura(String id)
         {
             DataTable resultado = new DataTable();
@@ -105,6 +116,9 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             }
             return resultado;
         }
+        /*
+         * Recibe el id de una entrada y devuelve sus datos.
+         */
         public DataTable consultarEntrada(String id)
         {
             DataTable resultado = new DataTable();
