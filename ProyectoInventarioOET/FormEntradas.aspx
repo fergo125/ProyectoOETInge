@@ -283,7 +283,6 @@
             </div>
 
             <div id="bloqueGridFacturaNueva" class="col-lg-5">
-<%--                <fieldset id="fieldsetGridFacturaNueva" runat="server" class="fieldset">--%>
                  <div class="col-lg-12"><strong><div ID="Div3" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Detalle de la Factura Consignada</div></strong>
                     <asp:UpdatePanel ID="UpdatePanelFacturaNueva" runat="server">
                         <ContentTemplate>
@@ -291,7 +290,7 @@
 						        <Columns>
 							        <asp:TemplateField HeaderText="Seleccionar">
 								        <ItemTemplate>
-									        <asp:CheckBox ID="checkBoxProductos" runat="server"/>
+									        <asp:CheckBox ID="checkBoxProductos" OnCheckedChanged="checkBoxProductos_CheckedChanged" runat="server" AutoPostBack="true"/>
 								        </ItemTemplate>
 							        </asp:TemplateField>
 						        </Columns>                                
@@ -306,8 +305,9 @@
                         <asp:AsyncPostBackTrigger ControlID="gridFacturaNueva" EventName="RowCommand" />
                      </Triggers>
                   </asp:UpdatePanel>
-               </div>
-<%--                </fieldset>   --%>     
+               </div>  
+                <asp:Button ID="botonModificarProducto" runat="server" Text="Modificar" OnClick="botonModificarProducto_Click" CssClass="btn btn-warning-fozkr"/>                 
+                <asp:Button ID="botonEliminarProducto" runat="server" Text="Eliminar" OnClick="botonEliminarProducto_Click" CssClass="btn btn-warning-fozkr"/> 
             </div>
         </div>
 

@@ -472,6 +472,24 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.GridView gridFacturaNueva;
         
         /// <summary>
+        /// Control botonModificarProducto.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button botonModificarProducto;
+        
+        /// <summary>
+        /// Control botonEliminarProducto.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button botonEliminarProducto;
+        
+        /// <summary>
         /// Control botonAceptarEntrada.
         /// </summary>
         /// <remarks>

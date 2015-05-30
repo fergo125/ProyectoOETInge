@@ -32,6 +32,7 @@ namespace ProyectoInventarioOET
         private static String facturaBuscada;
         private static EntidadFactura facturaConsultada;
         private static ControladoraSeguridad controladoraSeguridad;
+        private static DataTable tablaProductosNuevos;
 
 
         protected void Page_Load(object sender, EventArgs e)
@@ -52,7 +53,8 @@ namespace ProyectoInventarioOET
 
                 // Esconder botones
                 mostrarBotonesSegunPermisos();
-
+                tablaProductosNuevos = new DataTable();
+                tablaProductosNuevos = tablaFacturaDetallada();
                 if (!seConsulto)
                 {
                     modo = (int)Modo.Inicial;
@@ -61,7 +63,7 @@ namespace ProyectoInventarioOET
                 {
                     if (entradaConsultada == null)
                     {
-                        mostrarMensaje("warning", "Alerta: ", "No se pudo consultar la actividad.");
+                        mostrarMensaje("warning", "Alerta: ", "No se pudo consultar la entrada.");
                     }
                     else
                     {
@@ -513,29 +515,19 @@ namespace ProyectoInventarioOET
             String cantidad = this.inputCantidadProducto.Value.ToString();
             String costo = this.inputCostoProducto.Value.ToString();
 
-
-            DataTable tabla = tablaFacturaDetallada();
-
             Object[] datos = new Object[3];
             datos[0] = producto;
             datos[1] = cantidad;
             datos[2] = costo;
-            tabla.Rows.Add(datos);
+            tablaProductosNuevos.Rows.Add(datos);
 
-            this.gridFacturaNueva.DataSource = tabla;
+            this.botonEliminarProducto.Enabled = true;
+            this.botonModificarProducto.Enabled = true;
+            this.gridFacturaNueva.DataSource = tablaProductosNuevos;
             this.gridFacturaNueva.DataBind();
             limpiarCampos();
         }
 
-        protected void gridViewProductoBuscado_RowCommand(object sender, GridViewCommandEventArgs e)
-        {
-            //FieldsetResultadosBusqueda.Visible = false;
-        }
-
-        protected void gridViewProductoBuscado_PageIndexChanging(object sender, GridViewPageEventArgs e)
-        {
-
-        }
 
         protected void gridFacturaNueva_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
@@ -558,6 +550,66 @@ namespace ProyectoInventarioOET
 
         }
 
+        protected void botonModificarProducto_Click(object sender, EventArgs e)
+        {
+            String producto;
+            String costo;
+            String cantidad;
+            for (int i = 0; i < gridFacturaNueva.Rows.Count; i++)
+            {
+                GridViewRow row = gridFacturaNueva.Rows[i];
+                bool estaSeleccionadoProducto = ((CheckBox)row.FindControl("checkBoxProductos")).Checked;
+
+
+                if (estaSeleccionadoProducto)
+                {
+                    producto = gridFacturaNueva.Rows[i].Cells[1].Text.ToString();
+                    costo = gridFacturaNueva.Rows[i].Cells[2].Text.ToString();
+                    cantidad = gridFacturaNueva.Rows[i].Cells[3].Text.ToString();
+
+                    this.inputCantidadProducto.Value = cantidad;
+                    this.inputCostoProducto.Value = costo;
+                    this.textBoxAutocompleteCrearFacturaBusquedaProducto.Text = producto;
+
+                }
+
+                //bool estaSeleccionadoMiembro = ((CheckBox)row.FindControl("cbMiembros")).Checked;
+
+                //if (estaSeleccionadoMiembro)
+                //{
+                //    String nuevoMiembro = gridUsuarios.Rows[i].Cells[2].Text.ToString();
+                //    miembros[contador] = nuevoMiembro; //llena vector de usuarios que se asignan a proyecto
+                //    contador++;
+                //}
+
+            }
+        }
+
+        protected void botonEliminarProducto_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void checkBoxProductos_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox chk = (CheckBox)sender;
+            GridViewRow gv = (GridViewRow)chk.NamingContainer;
+            int rownumber = gv.RowIndex;
+
+            if (chk.Checked)
+            {
+                int i;
+                for (i = 0; i <= gridFacturaNueva.Rows.Count - 1; i++)
+                {
+                    if (i != rownumber)
+                    {
+                        CheckBox chkcheckbox = ((CheckBox)(gridFacturaNueva.Rows[i].FindControl("checkBoxProductos")));
+                        chkcheckbox.Checked = false;
+                    }
+                }
+            }
+        }
+
         /*
          * Cambia el modo de la pantalla activando/desactivando o mostrando/ocultando elementos de acuerdo con la 
          * acción que se va a realizar.
@@ -572,7 +624,6 @@ namespace ProyectoInventarioOET
                     this.FieldsetGridFacturas.Visible = false;
                     this.FieldsetEncabezadoFactura.Visible = false;
                     this.FieldsetCrearFactura.Visible = false;
-                   // this.FieldsetResultadosBusqueda.Visible = false;
                     this.botonAgregarEntradas.Disabled = false;
                     this.botonAceptarEntrada.Visible = false;
                     this.botonCancelarEntrada.Visible = false;
@@ -603,7 +654,9 @@ namespace ProyectoInventarioOET
                     this.FieldsetEncabezadoFactura.Visible = true;
                     this.FieldsetCrearFactura.Visible = true;
                     this.botonAceptarEntrada.Disabled = false;
-                    limpiarCampos();
+                    this.botonModificarProducto.Enabled = false;
+                    this.botonEliminarProducto.Enabled = false;
+                    //limpiarCampos();
                     break;
 
                 case (int)Modo.EntradaConsultada:
@@ -625,14 +678,12 @@ namespace ProyectoInventarioOET
 
         private void limpiarCampos()
         {
-            //this.inputCantidadProducto.Value = "";
-            //this.inputCantidadProducto.Value = "";
+            this.inputCantidadProducto.Value = "";
+            this.inputCostoProducto.Value = "";
+            this.textBoxAutocompleteCrearFacturaBusquedaProducto.Text = "";
         }
 
 
-
-
-
-
+        
     }
 }
