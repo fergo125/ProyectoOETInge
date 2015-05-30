@@ -264,48 +264,41 @@ namespace ProyectoInventarioOET
                     cargarEstacionesConsulta();
                     dropDownListConsultaEstacion.Enabled = false;
 
-                    goto case 3; //por alguna razón C# no permite fall through
+                    break;
                 case 3: //Supervisor
-                    //dropDownListConsultaBodega.Items.Add(new ListItem());
-                    //dropDownListConsultaBodega.SelectedItem =
-                    goto case 2;  //por alguna razón C# no permite fall through
+
+                    cargarAsociadosABodega((this.Master as SiteMaster).LlaveBodegaSesion);
+
+                    dropDownListConsultaBodega.Items.Add(new ListItem( (this.Master as SiteMaster).NombreBodegaSesion, (this.Master as SiteMaster).LlaveBodegaSesion));
+                    dropDownListConsultaBodega.SelectedIndex = 0;
+                    dropDownListConsultaBodega.Enabled = false;
+
+                    
+                    cargarEstacionesConsulta();
+                    dropDownListConsultaEstacion.Enabled = false;
+
+                    break;  
                 case 2: //Administrador local
-                    //dropDownListConsultaEstacion.Items.Add(new ListItem());
-                    //dropDownListConsultaEstacion.SelectedItem = 
+                    cargarAsociadosABodega((this.Master as SiteMaster).LlaveBodegaSesion);
+                    
+                    cargarEstacionesConsulta();
+                    dropDownListConsultaEstacion.Enabled = false;
+
+                    cargarBodegas(this.dropDownListConsultaBodega);
+                    dropDownListConsultaBodega.SelectedIndex = 1;
                     break;
                 default:
+
+                    cargarAsociadosABodega((this.Master as SiteMaster).LlaveBodegaSesion);
+
+                    cargarEstacionesConsulta();
+                    dropDownListConsultaEstacion.SelectedIndex = 0;
+
+                    cargarBodegas(this.dropDownListConsultaBodega);
+                    dropDownListConsultaBodega.SelectedIndex = 1;
                     //Administrador global y cualquier otro, este switch es extendible a más perfiles
                     break;
             }
-            //TODO: básicamente se obtienen los datos del perfil según cual sea para colocarlos en los dropdownlists de una vez y ahorrarse
-            //viajes a la base de datos trayendo opciones.
-            //TODO: también, falta agregar que el usuarioLogueado, su clase entidad, guarde la llave de la bodega a la que está asignado,
-            //esto probablemente requiera agregar el campo a la base de datos.
-
-            //Si una dropdownlist no queda con un valor seleccionado (porque el perfil es elevado), entonces sí se cargan opciones
-            if(dropDownListConsultaEstacion.SelectedItem == null)
-            {
-                dropDownListConsultaEstacion.Items.Add(new ListItem("Todas")); //Agregar la opción de "Todas"/"Todos" al principio de la lista
-                //TODO: descomentar esto, está comentado sólo para pruebas
-                //DataTable estaciones = controladoraDatosGenerales.consultarEstaciones();
-                //foreach (DataRow fila in estaciones.Rows) //Agregar las opciones para cada caso
-                //    dropDownListConsultaEstacion.Items.Add(new ListItem(fila[2].ToString(), fila[0].ToString())); //Nombre, llave
-            }
-            if (dropDownListConsultaBodega.SelectedItem == null)
-            {
-                dropDownListConsultaBodega.Items.Add(new ListItem("Todas")); //Agregar la opción de "Todas"/"Todos" al principio de la lista
-                //DataTable bodegas = 
-                //foreach (DataRow fila in bodegas.Rows) //Agregar las opciones para cada caso
-                //    dropDownListConsultaEstacion.Items.Add(new ListItem(); //Nombre, llave
-            }
-            if (dropDownListConsultaVendedor.SelectedItem == null)
-            {
-                dropDownListConsultaVendedor.Items.Add(new ListItem("Todos")); //Agregar la opción de "Todas"/"Todos" al principio de la lista
-                //DataTable vendedores = 
-                //foreach (DataRow fila in vendedores.Rows) //Agregar las opciones para cada caso
-                //    dropDownListConsultaEstacion.Items.Add(new ListItem(); //Nombre, llave
-            }
-            //TODO: agregar bien estas consultas para que cargue las listas de opciones
         }
 
         /*
@@ -317,9 +310,9 @@ namespace ProyectoInventarioOET
         protected void llenarGrid()
         {
             //Importante: estos dropdownlists pueden contener una entidad específica o la palabra "Todas"/"Todos", en el segundo caso se envía "null", la controladora debe entenderlo
-            String codigoEstacion = (dropDownListConsultaEstacion.SelectedValue != "Todas" ? dropDownListConsultaEstacion.SelectedValue : null);
-            String codigoBodega = (dropDownListConsultaBodega.SelectedValue != "Todas" ? dropDownListConsultaBodega.SelectedValue : null);
-            String codigoVendedor = (dropDownListConsultaVendedor.SelectedValue != "Todos" ? dropDownListConsultaVendedor.SelectedValue : null);
+            String codigoEstacion = dropDownListConsultaEstacion.SelectedValue;
+            String codigoBodega = dropDownListConsultaBodega.SelectedValue;
+            String codigoVendedor = dropDownListConsultaVendedor.SelectedValue;
             //TODO: revisar que de los dropdownlists se obtengan las llaves, no los nombres, algo como dropDownList.SelectedItem[1] creo
 
 
@@ -358,7 +351,6 @@ namespace ProyectoInventarioOET
                     datos[3] = "-";
                     datos[4] = "-";
                     tabla.Rows.Add(datos);
-                    mostrarMensaje("warning", "Atención: ", "No existen facturas en la base de datos.");
                 }
                 this.gridViewFacturas.DataSource = tabla;
                 this.gridViewFacturas.DataBind();
@@ -378,6 +370,20 @@ namespace ProyectoInventarioOET
             setDatosConsultados();
             PanelConsultarFacturaEspecifica.Visible = true;
 
+        }
+
+
+        protected void cargarAsociadosABodega(String idBodega)
+        {
+            dropDownListConsultaVendedor.Items.Clear();
+            dropDownListConsultaVendedor.Items.Add(new ListItem("", null));
+            dropDownListConsultaVendedor.Items.Add(new ListItem("Todos", "Todos"));
+            DataTable vendedores = controladoraVentas.asociadosABodega(idBodega);
+            foreach (DataRow fila in vendedores.Rows)
+            {
+                dropDownListConsultaVendedor.Items.Add(new ListItem(controladoraSeguridad.consultarNombreDeUsuario(fila[0].ToString()), fila[0].ToString()));
+            }
+            dropDownListConsultaVendedor.SelectedIndex = 1;
         }
 
         protected void consultarFactura(String id)
@@ -534,6 +540,7 @@ namespace ProyectoInventarioOET
             if (estaciones.Rows.Count > 0)
             {
                 this.dropDownListConsultaEstacion.Items.Clear();
+                this.dropDownListConsultaEstacion.Items.Add(new ListItem("Todas", "Todas"));
                 foreach (DataRow fila in estaciones.Rows)
                 {
                     if ((usuarioActual.Perfil.Equals("Administrador global")) || (usuarioActual.IdEstacion.Equals(fila[0])))
@@ -547,11 +554,21 @@ namespace ProyectoInventarioOET
 
 
 
-        protected void cargarBodegas()
+        protected void cargarBodegas(DropDownList dropdown)
         {
             EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
-            this.dropDownListCrearFacturaBodega.Items.Clear();
-            DataTable bodegas = controladoraBodegas.consultarBodegasDeEstacion(dropDownListCrearFacturaEstacion.SelectedValue);
+            dropdown.Items.Clear();
+            DataTable bodegas;
+            if (dropdown == this.dropDownListConsultaBodega)
+            {
+                dropdown.Items.Add(new ListItem("", null));
+                dropdown.Items.Add(new ListItem("Todas", "Todas"));
+                 bodegas = controladoraBodegas.consultarBodegasDeEstacion(dropDownListConsultaEstacion.SelectedValue);
+            }
+            else
+            {
+                 bodegas = controladoraBodegas.consultarBodegasDeEstacion(dropDownListCrearFacturaEstacion.SelectedValue);
+            }
             int i = 0;
             if (bodegas.Rows.Count > 0)
             {
@@ -559,19 +576,21 @@ namespace ProyectoInventarioOET
                 {
                     if ((usuarioActual.Perfil.Equals("Administrador global")) || (usuarioActual.Perfil.Equals("Administrador local")) || fila[1].ToString().Equals((this.Master as SiteMaster).NombreBodegaSesion))
                     {
-                        this.dropDownListCrearFacturaBodega.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
+                        dropdown.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
                     }
                 }
             }
             if ((usuarioActual.Perfil.Equals("Administrador global")) || (usuarioActual.Perfil.Equals("Administrador local")))
             {
-                dropDownListCrearFacturaBodega.Enabled = true;
+                dropdown.Enabled = true;
             }
             else
             {
-                dropDownListCrearFacturaBodega.Enabled = false;
+                dropdown.Enabled = false;
             }
         }
+
+
 
 
 
@@ -613,7 +632,7 @@ namespace ProyectoInventarioOET
         protected void clickBotonCrearFactura(object sender, EventArgs e)
         {
             cargarEstaciones();
-            cargarBodegas();
+            cargarBodegas(this.dropDownListCrearFacturaBodega);
             textBoxCrearFacturaVendedor.Text = (this.Master as SiteMaster).Usuario.Nombre;
             textBoxCrearFacturaVendedor.Enabled = false;
             modo = Modo.Insercion;
@@ -684,7 +703,17 @@ namespace ProyectoInventarioOET
 
         protected void dropDownListCrearFacturaEstacion_SelectedIndexChanged(object sender, EventArgs e)
         {
-            cargarBodegas();
+            cargarBodegas(this.dropDownListCrearFacturaBodega);
+        }
+
+        protected void dropDownListConsultaBodega_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cargarAsociadosABodega(dropDownListConsultaBodega.SelectedValue);
+        }
+
+        protected void dropDownListConsultaEstacion_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cargarBodegas(this.dropDownListConsultaBodega);
         }
     }
 }

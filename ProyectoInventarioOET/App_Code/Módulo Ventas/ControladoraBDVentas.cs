@@ -85,16 +85,73 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             DataTable resultado = new DataTable();
             try
             {
+                OracleCommand command = conexionBD.CreateCommand();
                 if (rol.Equals("Vendedor"))
                 {
-                    OracleCommand command = conexionBD.CreateCommand();
                     command.CommandText = "select * from " + esquema1 + "registro_facturas_venta where " + esquema1 + "registro_facturas_venta.vendedor = '" + idUsuario + "'";
-                    OracleDataReader reader = command.ExecuteReader();
-                    resultado.Load(reader);
+                    
                 }
                 else
                 {
+                    if (rol.Equals("Supervisor"))
+                    {
+                        if (idUsuario.Equals("Todos"))
+                        {
+                            command.CommandText = "select * from " + esquema1 + "registro_facturas_venta where " + esquema1 + "registro_facturas_venta.bodega = '" + idBodega + "'";
+                        }
+                        else
+                        {
+                            command.CommandText = "select * from " + esquema1 + "registro_facturas_venta where " + esquema1 + "registro_facturas_venta.bodega = '" + idBodega + "' and registro_facturas_venta.vendedor='" + idUsuario + "'";
+                        }
+                    }
+                    else
+                    {
+                        if (rol.Equals("Administrador local"))
+                        {
+                            if (idBodega.Equals("Todas"))
+                            {
+                                command.CommandText = "select * from registro_facturas_venta where estacion = '" + idEstacion + "'";
+                            }
+                            else
+                            {
+                                if (idUsuario.Equals("Todos"))
+                                {
+                                    command.CommandText = "select * from " + esquema1 + "registro_facturas_venta where " + esquema1 + "registro_facturas_venta.estacion = '" + idEstacion + "' and registro_facturas_venta.bodega = '" + idBodega + "'";
+                                }
+                                else
+                                {
+                                    command.CommandText = "select * from " + esquema1 + "registro_facturas_venta where " + esquema1 + "registro_facturas_venta.estacion = '" + idEstacion + "' and registro_facturas_venta.bodega = '" + idBodega + "' and registro_facturas_venta.vendedor='" + idUsuario + "'";
+                                }
+                            }
+                        }
+                        else {
+                            if (idEstacion.Equals("Todas"))
+                            {
+                                command.CommandText = "select * from registro_facturas_venta";
+                            }
+                            else
+                            {
+                                if (idBodega.Equals("Todas"))
+                                {
+                                    command.CommandText = "select * from registro_facturas_venta where estacion = '" + idEstacion + "'";
+                                }
+                                else
+                                {
+                                    if (idUsuario.Equals("Todos"))
+                                    {
+                                        command.CommandText = "select * from " + esquema1 + "registro_facturas_venta where " + esquema1 + "registro_facturas_venta.estacion = '" + idEstacion + "' and registro_facturas_venta.bodega = '" + idBodega + "'";
+                                    }
+                                    else
+                                    {
+                                        command.CommandText = "select * from " + esquema1 + "registro_facturas_venta where " + esquema1 + "registro_facturas_venta.estacion = '" + idEstacion + "' and registro_facturas_venta.bodega = '" + idBodega + "' and registro_facturas_venta.vendedor='" + idUsuario + "'";
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
+                OracleDataReader reader = command.ExecuteReader();
+               resultado.Load(reader);
             }
             catch (OracleException e)
             {
@@ -133,6 +190,23 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             return facturaConsultada;
         }
 
+        public DataTable asociadosABodega(String idBodega)
+        {
+            String esquema = "Inventarios.";
+            DataTable resultado = new DataTable();
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "select seg_usuario from "+ esquema +"seg_usuario_bodega where cat_bodega = '"+idBodega+"'";
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
+            }
+            catch (OracleException e)
+            {
+                resultado = null;
+            }
+            return resultado;
+        }
 
 
                 
@@ -198,5 +272,7 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             }
             return valido;
         }
+
+
     }
 }

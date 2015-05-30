@@ -62,5 +62,10 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             return controladoraBDVentas.consultarFactura(id);
         }
 
+        public DataTable asociadosABodega(String idBodega)
+        {
+            return controladoraBDVentas.asociadosABodega(idBodega);
+        }
+
     }
 }
