@@ -268,6 +268,26 @@ namespace ProyectoInventarioOET.Modulo_Bodegas
             return resultado;
         }
 
+        /*
+         * Consulta y devuelvela estación a la cual pertenece una bodega en específico.
+         */
+        public DataTable consultarEstacionDeBodega(String idBodega)
+        {
+            String esquema = "Inventarios.";
+            DataTable resultado = new DataTable();
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "SELECT ESTACION FROM " + esquema + "CAT_BODEGA WHERE CAT_BODEGA = '" + idBodega + "'";
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
+            }
+            catch (OracleException e)
+            {
+                resultado = null;
+            }
+            return resultado;
+        }
       
     }
 }

@@ -34,6 +34,7 @@ namespace ProyectoInventarioOET
         private static bool[] asociados;                                        // Almacena cuales itemes estan siendo asociados actualmente.
         private static String[] idProductos;                                    // Almacena el id de los productos mostrados.
         private static Boolean mensaje = false;                                 // Almacena si se debe mostrar el mensaje.
+        private String codigoSeleccionado, idBodegaSeleccionada;                // Almacena el codigo y la id de bodega del producto consultado
 
         /*
          * Cuando se accede la pagina inicializa los controladores si es la primera vez, sino solo realiza el cambio de modo.
@@ -56,6 +57,23 @@ namespace ProyectoInventarioOET
                 if (permisos == "000000")
                     Response.Redirect("~/ErrorPages/404.html");
                 mostrarBotonesSegunPermisos();
+
+                // Carga estacion y bodega predeterminados
+                DropDownListEstacion_CargaEstaciones();
+                String idEstacionSesion = controladoraBodegas.consultarEstacionDeBodega((this.Master as SiteMaster).LlaveBodegaSesion).Rows[0][0].ToString();
+                for (int i = 0; i < idArray.Length; i++)
+                {
+                    if(idEstacionSesion.Equals(idArray[i])){
+                        DropDownListEstacion.SelectedIndex=i;
+                    }
+                }
+                DropDownListEstacion_SelectedIndexChanged(null, null);
+                DropDownListBodega.SelectedValue = (this.Master as SiteMaster).NombreBodegaSesion;
+                if (Convert.ToInt32((this.Master as SiteMaster).Usuario.CodigoPerfil) > 2){
+                   DropDownListEstacion.Enabled = false;
+                   DropDownListBodega.Enabled = false;
+                }
+
                 cambiarModo();
             }
         }
@@ -98,7 +116,8 @@ namespace ProyectoInventarioOET
                     botonAsociarProducto.Visible = false;
                     botonDesactivarProducto.Visible = true;
                     cargarDatosProducto();
-                    inputEstado.Enabled = true;
+                    inputMinimo.Disabled = false;
+                    inputMaximo.Disabled = false;
                     break;
                 case (int)Modo.Consultado:
                     FieldsetProductos.Visible = true;
@@ -108,6 +127,8 @@ namespace ProyectoInventarioOET
                     botonModificarProductoLocal.Disabled = false;
                     cargarDatosProducto();
                     inputEstado.Enabled = false;
+                    inputMinimo.Disabled = true;
+                    inputMaximo.Disabled = true;
                     break;
             }
             if (mensaje)
@@ -166,6 +187,11 @@ namespace ProyectoInventarioOET
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
             columna.ColumnName = "Máximo";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Advertencias";
             tabla.Columns.Add(columna);
 
             return tabla;
@@ -246,7 +272,11 @@ namespace ProyectoInventarioOET
                 inputVendible.Value = producto[4].ToString();
                 inputUnidades.Value = producto[5].ToString();
                 inputSaldo.Value = producto[7].ToString();
-                inputImpuesto.Value = producto[8].ToString();
+                inputImpuesto.Value = "No";
+                if (producto[8].Equals("1"))
+                {
+                    inputImpuesto.Value = "Sí";
+                }
                 inputPrecioColones.Value = producto[9].ToString();
                 inputPrecioDolares.Value = producto[10].ToString();
                 inputCostoColones.Value = producto[11].ToString();
@@ -273,9 +303,9 @@ namespace ProyectoInventarioOET
             if (e.CommandName == "Select")
             {
                 GridViewRow filaSeleccionada = this.gridViewCatalogoLocal.Rows[Convert.ToInt32(e.CommandArgument)];
-                String codigo = filaSeleccionada.Cells[2].Text.ToString();
-                String idBodega = idArray2[bodegaSeleccionada].ToString();
-                consultaProducto = controladoraProductoLocal.consultarProductoDeBodega(idBodega, codigo);
+                codigoSeleccionado = filaSeleccionada.Cells[2].Text.ToString();
+                idBodegaSeleccionada = idArray2[bodegaSeleccionada].ToString();
+                consultaProducto = controladoraProductoLocal.consultarProductoDeBodega(idBodegaSeleccionada, codigoSeleccionado);
                 modo = (int)Modo.Consultado;
                 cambiarModo();
             }
@@ -286,8 +316,16 @@ namespace ProyectoInventarioOET
          */
         protected void botonModificarProductoLocal_ServerClick(object sender, EventArgs e)
         {
-            modo = (int)Modo.Modificacion;
-            cambiarModo();
+            if (consultaProducto.Rows.Count > 0)
+            {
+                DataRow productos = consultaProducto.Rows[0];
+                if (productos[7].ToString().Equals("0"))
+                {
+                    inputEstado.Enabled = true;
+                }
+                modo = (int)Modo.Modificacion;
+                cambiarModo();
+            }
         }
 
         /*
@@ -422,7 +460,7 @@ namespace ProyectoInventarioOET
                     {
                         asociados[x]=false;
                     }
-                    Object[] datos = new Object[5];  
+                    Object[] datos = new Object[6];  
                     int i;
                     foreach (DataRow producto in productos.Rows)
                     {
@@ -430,7 +468,24 @@ namespace ProyectoInventarioOET
                         {
                             datos[i] = producto[i+1];  //Cambio Carlos
                         }
-                            catalogoLocal.Rows.Add(datos);
+                        datos[5] = "";
+                        try
+                        {
+                            if (Convert.ToInt32(datos[2].ToString()) <= Convert.ToInt32(datos[3].ToString()))
+                            {
+                                datos[5] = "Debajo del mínimo";
+
+                            }
+                            else
+                            {
+                                if (Convert.ToInt32(datos[2].ToString()) >= Convert.ToInt32(datos[4].ToString()))
+                                {
+                                    datos[5] = "Encima del máximo";
+                                }
+                            }
+                        }
+                        catch (SystemException) { };
+                        catalogoLocal.Rows.Add(datos);
                     }
                 }
                 this.gridViewCatalogoLocal.DataSource = catalogoLocal;
@@ -507,8 +562,10 @@ namespace ProyectoInventarioOET
         protected void botonAceptarModalDesactivar_ServerClick(object sender, EventArgs e)
         {
             String[] res = new String[3];
-            res = controladoraProductoLocal.modificarProductoLocal(consultaProducto.Rows[0][22].ToString(), inputEstado.SelectedItem.ToString());
-            modo = (int)Modo.Consulta;
+            res = controladoraProductoLocal.modificarProductoLocal(consultaProducto.Rows[0][22].ToString(), inputEstado.SelectedItem.ToString(),inputMinimo.Value,inputMaximo.Value);
+            botonConsultarBodega_ServerClick(null, null);
+            consultaProducto = controladoraProductoLocal.consultarProductoDeBodega(idBodegaSeleccionada, codigoSeleccionado);
+            modo = (int)Modo.Consultado;
             mostrarMensaje(res[0], res[1], res[2]);
             cambiarModo();
         }

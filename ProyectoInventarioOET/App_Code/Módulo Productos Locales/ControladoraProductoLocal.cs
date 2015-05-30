@@ -58,7 +58,7 @@ namespace ProyectoInventarioOET.Modulo_Productos_Locales
         /*
          * Realiza la modificación de un producto en una bodega específica, modificando su estado. 
          */
-        public string[] modificarProductoLocal(String idBodegaProductos, String est)
+        public string[] modificarProductoLocal(String idBodegaProductos, String est,String min, String max)
         {
             int estado;
             if(est.Equals("Activo"))
@@ -69,7 +69,7 @@ namespace ProyectoInventarioOET.Modulo_Productos_Locales
             {
                 estado=0;
             }
-            return controladoraBD.modificarProductoLocal(idBodegaProductos, estado);
+            return controladoraBD.modificarProductoLocal(idBodegaProductos, estado,min,max);
         }
 
         public DataTable consultarProductosDeBodega(string idBodegaOrigen, string idBodegaDestino)
