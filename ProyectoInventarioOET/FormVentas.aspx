@@ -22,7 +22,7 @@
     <!-- Botones principales -->
     <button runat="server" onserverclick="clickBotonConsultarFacturas" ID="botonConsultar" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Consultar Facturas</button>
     <button runat="server" onserverclick="clickBotonCrearFactura" ID="botonCrear" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Crear Factura</button>
-    <button runat="server" onserverclick="Page_Load" ID="botonModificar" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Modificar Factura</button>
+    <button runat="server" onserverclick="botonModificar_ServerClick" ID="botonModificar" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Modificar Factura</button>
     <a ID="botonAjusteEntrada" accesskey="A" href="#modalAjusteRapido" class="btn btn-info-fozkr" role="button" style="float: right" visible="true" data-toggle="modal" runat ="server">Ajuste rápido de entrada</a> 
     <a ID="botonCambioSesion" accesskey="S" href="#modalCambioSesion" class="btn btn-info-fozkr" role="button" style="float: right" visible="true" data-toggle="modal" runat ="server">Cambio rápido de sesión</a>  
     <br />
@@ -128,7 +128,7 @@
                 </td>
                 <td>
                     <label for="FacturaConsultadaEstado" class="control-label">Estado:</label>
-                    <asp:TextBox ID="textBoxFacturaConsultadaEstado" runat="server" class="form-control"></asp:TextBox>
+                    <asp:DropDownList ID="textBoxFacturaConsultadaEstado" class="input input-fozkr-dropdownlist" runat="server" Enabled="false" Width="90%" CssClass="form-control"></asp:DropDownList>
                 </td>
             </tr>
         </table>

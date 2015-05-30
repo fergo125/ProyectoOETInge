@@ -202,6 +202,8 @@ namespace ProyectoInventarioOET
                     break;
                 case Modo.Modificacion:
                     tituloAccionFacturas.InnerText = "Ingrese los nuevos datos para la factura";
+                    PanelConsultarFacturaEspecifica.Visible = true;
+                    habilitarCampos(true);
                     break;
                 case Modo.Consultado:
                     tituloAccionFacturas.InnerText = "Detalles de la factura";
@@ -212,7 +214,7 @@ namespace ProyectoInventarioOET
                     this.tituloGrid.Visible = true;
                     cargarDropdownListsConsulta();
                     llenarGrid();
-                    //habilitarCampos(false);
+                    habilitarCampos(false);
                     break;
                 default:  //Algo salió mal
                     mostrarMensaje("warning", "Alerta: ", "Error de interfaz, el 'modo' de la interfaz no se ha reconocido: " + modo);
@@ -794,6 +796,12 @@ namespace ProyectoInventarioOET
         
         
         
+        }
+
+        protected void botonModificar_ServerClick(object sender, EventArgs e)
+        {
+            modo = Modo.Modificacion;
+            cambiarModo();
         }
     }
 }
