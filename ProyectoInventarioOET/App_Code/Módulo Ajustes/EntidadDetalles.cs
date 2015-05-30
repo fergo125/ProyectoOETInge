@@ -14,6 +14,8 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
         private String idProductoBodega;
         private double final;
         private String unidades;
+        private String idProductoBodegaDestino;
+        private String idProductoBodegaOrigen;
 
             public EntidadDetalles (Object[] datos)
             {
@@ -56,7 +58,18 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
                 get { return idProductoBodega; }
                 set { idProductoBodega = value; }
             }
-
+            
+            public String IdProductoBodegaOrigen
+            {
+                get { return idProductoBodegaOrigen; }
+                set { idProductoBodegaOrigen = value; }
+            }
+            
+            public String IdProductoBodegaDestino
+            {
+                get { return idProductoBodegaDestino; }
+                set { idProductoBodegaDestino = value; }
+            }
 
             public String Unidades
             {

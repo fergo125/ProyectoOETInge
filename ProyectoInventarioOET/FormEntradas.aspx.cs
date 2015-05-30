@@ -624,7 +624,7 @@ namespace ProyectoInventarioOET
                     this.FieldsetGridFacturas.Visible = false;
                     this.FieldsetEncabezadoFactura.Visible = false;
                     this.FieldsetCrearFactura.Visible = false;
-                    this.FieldsetResultadosBusqueda.Visible = false;
+                   // this.FieldsetResultadosBusqueda.Visible = false;
                     this.botonAgregarEntradas.Disabled = false;
                     this.botonAceptarEntrada.Visible = false;
                     this.botonCancelarEntrada.Visible = false;
