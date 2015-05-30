@@ -426,6 +426,8 @@ namespace ProyectoInventarioOET
 
         protected void botonAgregarEntradas_ServerClick(object sender, EventArgs e)
         {
+            modo = (int)Modo.Inicial;
+            cambiarModo();
             modo = (int)Modo.BusquedaFactura;
             cambiarModo();
         }
@@ -624,6 +626,7 @@ namespace ProyectoInventarioOET
                     this.botonAgregarEntradas.Disabled = false;
                     this.botonAceptarEntrada.Visible = false;
                     this.botonCancelarEntrada.Visible = false;
+                    this.FieldsetGridProductosDeEntrada.Visible = false;
                     this.FieldsetGridProductosDeEntrada.Visible = false;
                     tituloAccionEntradas.InnerText = "Seleccione una opción";
                     break;
