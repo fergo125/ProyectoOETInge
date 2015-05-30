@@ -576,7 +576,22 @@ namespace ProyectoInventarioOET
 
         protected void botonAgregarProductoFactura_Click(object sender, EventArgs e)
         {
+            String producto = this.textBoxAutocompleteCrearFacturaBusquedaProducto.Text;
+            String cantidad = this.inputCantidadProducto.Value.ToString();
+            String costo = this.inputCostoProducto.Value.ToString();
 
+
+            DataTable tabla = tablaFacturaDetallada();
+
+            Object[] datos = new Object[3];
+            datos[0] = producto;
+            datos[1] = cantidad;
+            datos[2] = costo;
+            tabla.Rows.Add(datos);
+
+            this.gridFacturaNueva.DataSource = tabla;
+            this.gridFacturaNueva.DataBind();
+            limpiarCampos();
         }
 
         protected void gridViewProductoBuscado_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -624,7 +639,7 @@ namespace ProyectoInventarioOET
                     this.FieldsetGridFacturas.Visible = false;
                     this.FieldsetEncabezadoFactura.Visible = false;
                     this.FieldsetCrearFactura.Visible = false;
-                    this.FieldsetResultadosBusqueda.Visible = false;
+                    //this.FieldsetResultadosBusqueda.Visible = false;
                     this.botonAgregarEntradas.Disabled = false;
                     this.botonAceptarEntrada.Visible = false;
                     this.botonCancelarEntrada.Visible = false;
@@ -655,7 +670,6 @@ namespace ProyectoInventarioOET
                     this.FieldsetEncabezadoFactura.Visible = true;
                     this.FieldsetCrearFactura.Visible = true;
                     this.botonAceptarEntrada.Disabled = false;
-                    limpiarCampos();
                     break;
 
                 case (int)Modo.EntradaConsultada:
@@ -677,8 +691,8 @@ namespace ProyectoInventarioOET
 
         private void limpiarCampos()
         {
-            this.inputCantidad.Value = "";
-            this.inputCosto.Value = "";
+            //this.inputCantidadProducto.Value = "";
+            //this.inputCostoProducto.Value = "";
         }
 
 
