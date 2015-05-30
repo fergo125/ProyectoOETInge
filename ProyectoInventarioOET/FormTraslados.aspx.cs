@@ -290,6 +290,7 @@ namespace ProyectoInventarioOET
                 Object[] datos = new Object[5];
 
                 DataTable traslados = controladoraTraslados.consultarTraslados((this.Master as SiteMaster).LlaveBodegaSesion, entrada);
+
                 
                 if (traslados.Rows.Count > 0)
                 {
@@ -297,11 +298,11 @@ namespace ProyectoInventarioOET
                     foreach (DataRow fila in traslados.Rows)
                     {
                         idArrayTraslados[i] = fila[0];
-                        datos[0] = fila[6];
-                        datos[1] = fila[7];
-                        datos[2] = fila[9];
-                        datos[3] = fila[2];
-                        datos[4] = fila[3];
+                        datos[0] = fila[5];
+                        datos[1] = fila[6];
+                        datos[2] = fila[8];
+                        datos[3] = fila[1];
+                        datos[4] = fila[2];
                         tabla.Rows.Add(datos);
                         /*
                         if (ajusteConsultado != null && (fila[0].Equals(ajusteConsultado.Codigo)))
@@ -346,7 +347,6 @@ namespace ProyectoInventarioOET
                 // Cargar bodegas
                 Object[] datos = new Object[5];
 
-                // LE
                 DataTable productos = controladoraTraslados.consultarProductosDeBodega((this.Master as SiteMaster).LlaveBodegaSesion, "PITAN129012015101713605001");
 
                 if (productos.Rows.Count > 0)
