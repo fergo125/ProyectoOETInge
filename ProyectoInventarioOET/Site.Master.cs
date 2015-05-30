@@ -92,7 +92,7 @@ namespace ProyectoInventarioOET
                 this.linkNombreUsuarioLogueado.InnerText = usuarioLogueado.Nombre + " (" + usuarioLogueado.Perfil + ") " + nombreBodegaSesion;
                 this.linkIniciarSesion.Visible = false;
                 this.linkNombreUsuarioLogueado.Visible = true;
-                this.linkCambiarSesion.Visible = true;
+                //this.linkCambiarSesion.Visible = true;
                 esconderLinks(false);
             }
         }
@@ -156,7 +156,7 @@ namespace ProyectoInventarioOET
         {
             this.linkIniciarSesion.Visible = esconder;
             this.linkNombreUsuarioLogueado.Visible = !esconder;
-            this.linkCambiarSesion.Visible = !esconder;
+            //this.linkCambiarSesion.Visible = !esconder;
 
             //TODO arreglar esto para que no sea hard coded***
             this.linkFormProductos.Visible = (!esconder && (usuarioLogueado.CodigoPerfil == "1" || usuarioLogueado.CodigoPerfil == "2"));

@@ -379,7 +379,9 @@ namespace ProyectoInventarioOET
 
         }
 
-
+        /*
+         * ???
+         */
         protected void cargarAsociadosABodega(String idBodega)
         {
             dropDownListConsultaVendedor.Items.Clear();
@@ -393,6 +395,9 @@ namespace ProyectoInventarioOET
             dropDownListConsultaVendedor.SelectedIndex = 1;
         }
 
+        /*
+         * ???
+         */
         protected void consultarFactura(String id)
         {
             seConsulto = true;
@@ -409,7 +414,9 @@ namespace ProyectoInventarioOET
             cambiarModo();
         }
 
-
+        /*
+         * ???
+         */
         protected void setDatosConsultados()
         {
             textBoxFacturaConsultadaConsecutivo.Text=facturaConsultada.Consecutivo;
@@ -426,7 +433,9 @@ namespace ProyectoInventarioOET
 
         }
 
-
+        /*
+         * ???
+         */
         protected void habilitarCampos(bool habilitar)
         {
             /*
@@ -452,9 +461,9 @@ namespace ProyectoInventarioOET
             textBoxFacturaConsultadaEstado.Enabled = habilitar;
         }
 
-
-
-
+        /*
+         * ???
+         */
         protected Object[] obtenerDatos()
         {
             Object[] datos = new Object[13];
@@ -476,7 +485,9 @@ namespace ProyectoInventarioOET
         
         }
 
-
+        /*
+         * ???
+         */
         protected DataTable tablaFacturas() 
         {
             DataTable tabla = new DataTable();
@@ -511,7 +522,9 @@ namespace ProyectoInventarioOET
 
         }
 
-
+        /*
+         * ???
+         */
         protected void cargarEstaciones() 
         {
             EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
@@ -538,7 +551,9 @@ namespace ProyectoInventarioOET
             }
         }
 
-
+        /*
+         * ???
+         */
         protected void cargarEstacionesConsulta()
         {
             EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
@@ -564,9 +579,9 @@ namespace ProyectoInventarioOET
             }
         }
 
-
-
-
+        /*
+         * ???
+         */
         protected void cargarBodegas(DropDownList dropdown)
         {
             EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
@@ -666,7 +681,7 @@ namespace ProyectoInventarioOET
         protected void clickBotonAgregarProductoFactura(object sender, EventArgs e)
         {
             String productoEscogido = textBoxAutocompleteCrearFacturaBusquedaProducto.Text;
-            productoEscogido = controladoraVentas.verificarExistenciaProductoLocal(dropDownListCrearFacturaBodega.SelectedItem.Value, productoEscogido); //TODO: obtener llave de la bodega, no nombre
+            productoEscogido = controladoraVentas.verificarExistenciaProductoLocal((this.Master as SiteMaster).LlaveBodegaSesion, productoEscogido);
         }
 
         /*
@@ -685,14 +700,16 @@ namespace ProyectoInventarioOET
                     break;
             }
         }
-
+        
+        /*
+         * ???
+         */
         protected void gridViewFacturas_CambioPagina(Object sender, GridViewPageEventArgs e)
         {
             llenarGrid();
             this.gridViewFacturas.PageIndex = e.NewPageIndex;
             this.gridViewFacturas.DataBind();
         }
-
 
         /*
          * ???
@@ -720,16 +737,25 @@ namespace ProyectoInventarioOET
 
         }
 
+        /*
+         * ???
+         */
         protected void dropDownListCrearFacturaEstacion_SelectedIndexChanged(object sender, EventArgs e)
         {
             cargarBodegas(this.dropDownListCrearFacturaBodega);
         }
 
+        /*
+         * ???
+         */
         protected void dropDownListConsultaBodega_SelectedIndexChanged(object sender, EventArgs e)
         {
             cargarAsociadosABodega(dropDownListConsultaBodega.SelectedValue);
         }
 
+        /*
+         * ???
+         */
         protected void dropDownListConsultaEstacion_SelectedIndexChanged(object sender, EventArgs e)
         {
             cargarBodegas(this.dropDownListConsultaBodega);

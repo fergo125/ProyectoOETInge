@@ -267,7 +267,5 @@ namespace ProyectoInventarioOET.Modulo_Bodegas
             }
             return resultado;
         }
-
-      
     }
 }
