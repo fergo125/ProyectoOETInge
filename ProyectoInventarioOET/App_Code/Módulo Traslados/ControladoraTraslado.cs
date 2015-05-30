@@ -18,6 +18,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
             controladoraBD = new ControladoraBDTraslado();
         }
 
+
         public DataTable consultarBodegas(String idUsuario, String rol)
         {
             ControladoraBodegas controladoraBodega = new ControladoraBodegas();
@@ -45,15 +46,15 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
             {
                 foreach (DataRow fila in traslados.Rows)
                 {
-                    switch (fila[8].ToString()) { 
+                    switch (fila[7].ToString()) { 
                         case  "-1":
-                            fila[9] = "Rechazado";
+                            fila[8] = "Rechazado";
                             break;
                         case "1":
-                            fila[9] = "Aceptado";
+                            fila[8] = "Aceptado";
                             break;
                         default:
-                            fila[9] = "En Proceso";
+                            fila[8] = "En Proceso";
                             break;
                     }
 
@@ -62,11 +63,11 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
             return traslados;
         }
 
-        public EntidadTraslado consultarTraslado (String idAjuste)
+        public EntidadTraslado consultarTraslado (String idTraslado)
         {
 
             Object[] datos = new Object[5];
-            DataTable[] respuesta = controladoraBD.consultarTraslado(idAjuste);
+            DataTable[] respuesta = controladoraBD.consultarTraslado(idTraslado);
             foreach (DataRow fila in respuesta[0].Rows)
             {  //Solo seria una fila
                 datos[0] = fila[0].ToString();

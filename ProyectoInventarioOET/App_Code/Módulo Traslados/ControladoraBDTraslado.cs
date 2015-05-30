@@ -24,7 +24,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
                 // Interfaz ocupa 3 cosas TipoMovimiento(Descripcion), Fecha, Usuario(Encargado)
                 // Yo agrego el ID de ajustes para la consulta individual
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT T.ID_TRASLADO, T.NOTAS, T.FECHA, U.NOMBRE, T.IDBODEGAORIGEN, T.IDBODEGADESTINO, B1.DESCRIPCION, B2.DESCRIPCION, T.ESTADO  "
+                command.CommandText = "SELECT T.ID_TRASLADO, T.FECHA, U.NOMBRE, T.IDBODEGAORIGEN, T.IDBODEGADESTINO, B1.DESCRIPCION, B2.DESCRIPCION, T.ESTADO  "
                    + " FROM " + esquema + "TRASLADOS T, " + esquema + "SEG_USUARIO U, " + esquema + "CAT_BODEGA B1, " + esquema + "CAT_BODEGA B2 "
                    + " WHERE T.USUARIO_BODEGA = U.SEG_USUARIO "
                    + " AND " + tipoConsulta
@@ -48,19 +48,16 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
 
             try
             {
+                // Interfaz ocupa 3 cosas TipoMovimiento(Descripcion), Fecha, Usuario(Encargado)
+                // Yo agrego el ID de ajustes para la consulta individual
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT M.CAT_TIPO_MOVIMIENTO, AJ.FECHA, U.NOMBRE, U.SEG_USUARIO, AJ.NOTAS ,AJ.IDBODEGA, M.DESCRIPCION  "
-                   + " FROM " + esquema + "AJUSTES AJ, " + esquema + "SEG_USUARIO U, " + esquema + "CAT_TIPO_MOVIMIENTO M"
-                   + " WHERE AJ.USUARIO_BODEGA = U.SEG_USUARIO "
-                   + " AND AJ.CAT_TIPO_MOVIMIENTO = M.CAT_TIPO_MOVIMIENTO"
-                   + " AND AJ.ID_AJUSTES = '" + idTraslado + "' ";
+                command.CommandText = "SELECT T.ID_TRASLADO, T.FECHA, U.NOMBRE, T.IDBODEGAORIGEN, T.IDBODEGADESTINO, B1.DESCRIPCION, B2.DESCRIPCION, T.ESTADO  "
+                   + " FROM " + esquema + "TRASLADOS T, " + esquema + "SEG_USUARIO U, " + esquema + "CAT_BODEGA B1, " + esquema + "CAT_BODEGA B2 "
+                   + " WHERE T.USUARIO_BODEGA = U.SEG_USUARIO "
+                   + " AND  T.IDBODEGAORIGEN = B1.CAT_BODEGA"
+                   + " AND T.IDBODEGADESTINO = B2.CAT_BODEGA  ORDER BY T.FECHA DESC";
                 OracleDataReader reader = command.ExecuteReader();
-                resultado[0] = new DataTable();
                 resultado[0].Load(reader);
-                resultado[1] = consultarDetalles(idTraslado);
-                int x = 9;
-                x = 8;
-                //actualizarProducto("PITAN102022015142627451180", 10, true); // PRUEBAAAA QUE FUNCIONA
             }
             catch (Exception e)
             {
