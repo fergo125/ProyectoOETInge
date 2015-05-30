@@ -56,15 +56,20 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
         public EntidadTraslado consultarTraslado (String idTraslado)
         {
 
-            Object[] datos = new Object[5];
+            Object[] datos = new Object[10];
             DataTable[] respuesta = controladoraBD.consultarTraslado(idTraslado);
             foreach (DataRow fila in respuesta[0].Rows)
-            {  //Solo seria una fila
-                datos[0] = idTraslado;
-                datos[1] = fila[1].ToString(); //Fecha
-                datos[2] = fila[2];  //
-                datos[3] = fila[3].ToString(); // Es la bodega
-                datos[4] = fila[4].ToString();
+            {  
+                datos[0] = idTraslado;          // Id
+                datos[1] = fila[1];             //Fecha
+                datos[2] = fila[2].ToString();  // usuario
+                datos[3] = "";                  //idUsuario
+                datos[4] = fila[0].ToString();  //notas 
+                datos[5] = "";                  //idBodeOrigen
+                datos[6] = "";                  //idBodeDestino
+                datos[7] = fila[3].ToString();  //BodeOrigen
+                datos[8] = fila[4].ToString();  //BodeDestino
+                datos[9] = getNombreEstado(fila[5].ToString()); // Estado
             }
 
             EntidadTraslado consultada = new EntidadTraslado(datos);
@@ -72,19 +77,13 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
             Object[] datosProductos = new Object[4];
             foreach (DataRow fila in respuesta[1].Rows) // Varias filas que corresponden a los productos
             {
-                datosProductos[0] = fila[0].ToString(); // Id
-                datosProductos[1] = fila[1];            //Fecha
-                datosProductos[2] = fila[2].ToString();  // usuario
-                datosProductos[3] = fila[4].ToString(); //idUsuario
-                datosProductos[4] = fila[5].ToString(); //notas 
-                datosProductos[5] = fila[3].ToString(); //idBodeOrigen
-                datosProductos[6] = fila[3].ToString(); //idBodeDestino
-                datosProductos[7] = fila[3].ToString(); //BodeOrigen
-                datosProductos[8] = fila[3].ToString(); //BodeDestino
-                datosProductos[9] = getNombreEstado (fila[9].ToString()); // Estado
+                datosProductos[0] = fila[0].ToString(); // Nombre
+                datosProductos[1] = fila[1].ToString(); // Codigo
+                datosProductos[2] = fila[2].ToString(); // Traslado, el parse se hace en la entidad
+                datosProductos[3] = fila[4].ToString(); // Unidades
                 consultada.agregarDetalle(datosProductos);
             }
-
+            
             //consultada.IdBodega = "PITAN129012015101713605001";
             //consultada.IdUsuario = "3";
             //consultada.Notas = "PRUEBADEINSERCIONALOMACHO";

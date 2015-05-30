@@ -32,12 +32,13 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
             this.idBodegaDestino = datos[6].ToString();
             this.bodegaOrigen = datos[7].ToString();
             this.bodegaDestino = datos[8].ToString();
+            this.estado = datos[9].ToString();
             detalles = new List<EntidadDetalles>();
         }
 
 
         public void agregarDetalle(Object[] datosProductos) {
-            EntidadDetalles nuevo = new EntidadDetalles(datosProductos);
+            EntidadDetalles nuevo = new EntidadDetalles(datosProductos, true);
             detalles.Add(nuevo);
         }
 
