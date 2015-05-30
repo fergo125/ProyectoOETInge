@@ -32,6 +32,8 @@ namespace ProyectoInventarioOET
          */
         protected void Page_Load(object sender, EventArgs e)
         {
+            //Elementos visuales
+            ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
             mensajeAlerta.Visible = false;
             if (!IsPostBack)
             {

@@ -76,7 +76,7 @@
                     <input type="text" id= "inputCreador" class= "form-control" style= "max-width: 100%" required runat="server" disabled="disabled">
                 </div>
                 <div class="form-group col-lg-6">
-                    <label for="inputCreado" class= "control-label">Asociado:</label>      
+                    <label for="inputCreado" class= "control-label">Fecha asociado:</label>      
                     <input type="text" id= "inputCreado" style= "max-width: 100%" class="form-control" required runat="server" disabled="disabled">
                 </div>
                 <div class= "form-group col-lg-6">
@@ -84,7 +84,7 @@
                     <input type="text" id= "inputModifica" class= "form-control" style= "max-width: 100%" required runat="server" disabled="disabled">
                 </div>
                 <div class="form-group col-lg-6">
-                    <label for="inputModificado" class= "control-label">Modificado:</label>      
+                    <label for="inputModificado" class= "control-label">Fecha modificado:</label>      
                     <input type="text" id= "inputModificado" style= "max-width: 100%" class="form-control" required runat="server" disabled="disabled">
                 </div>
             </div>
@@ -92,7 +92,7 @@
             <div class="col-lg-5">
                 <div class="row">
                     <div class="form-group col-lg-6">
-                        <label for="inputSaldo" class= "control-label">Existencia global:</label>
+                        <label for="inputSaldo" class= "control-label">Existencia local:</label>
                         <input type="text" id="inputSaldo" class="form-control" runat="server" style= "max-width: 100%" disabled="disabled">
                     </div>
                      <div class="form-group col-lg-6">
@@ -112,12 +112,12 @@
                 </div>
                 <div class="row">
                     <div class="form-group col-lg-6">
-                        <label for="inputCostoColones" class= "control-label">Costo (colones):</label>
+                        <label for="inputCostoColones" class= "control-label">Costo promedio (colones):</label>
                         <input type="text" id= "inputCostoColones" class="form-control" runat="server" style= "max-width: 100%" disabled="disabled">
                     </div>
 
                     <div class="form-group col-lg-6">
-                        <label for="inputCostoDolares" class= "control-label">Costo (dólares):</label>
+                        <label for="inputCostoDolares" class= "control-label">Costo promedio (dólares):</label>
                         <input type="text" id= "inputCostoDolares" class="form-control" runat="server" style= "max-width: 100%" disabled="disabled">
                     </div>
                 </div>
@@ -283,4 +283,12 @@
             </div>
         </div>
     </div>
+
+    <!-- Javascript -->
+    <!-- Modificar tab de site master activo -->
+    <script type = "text/javascript">
+        function setCurrentTab() {
+            document.getElementById("linkFormBodegas").className = "active";
+        }
+    </script>
 </asp:Content>

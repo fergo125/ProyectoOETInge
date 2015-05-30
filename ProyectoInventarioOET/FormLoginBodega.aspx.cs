@@ -38,7 +38,8 @@ namespace ProyectoInventarioOET
         }
 
         // Carga las bodegas que puede seleccionar el usuario
-        void cargarBodegas(){
+        void cargarBodegas()
+        {
              try
                 {
                     Object[] datos = new Object[4];
@@ -81,7 +82,10 @@ namespace ProyectoInventarioOET
             Response.Redirect("Default.aspx");
         }
 
-
-
+        protected void CerrarSesion_Click(object sender, EventArgs e)
+        {
+            (this.Master as SiteMaster).cerrarSesion(null,null);
+            Response.Redirect("Default.aspx");
+        }
     }
 }

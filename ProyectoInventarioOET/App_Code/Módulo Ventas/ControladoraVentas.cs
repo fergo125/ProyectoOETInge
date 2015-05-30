@@ -24,13 +24,15 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             controladoraBDVentas = new ControladoraBDVentas();
         }
 
+        /*
+         * ???
+         */
         public String[] insertarFactura(Object[] datosFactura)
         {
             EntidadFactura factura = new EntidadFactura(datosFactura);
             return controladoraBDVentas.insertarFactura(factura);
         }
 
-        
         /*
          * Invocada por la capa de interfaz para revisar si un producto que está intentando agregarse a una factura,
          * de verdad existe en la base de datos.
@@ -51,20 +53,28 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             return null;
         }
 
-        public DataTable consultarFacturas(String rol, String idUsuario, String idBodega, String idEstacion)
+        /*
+         * ???
+         */
+        public DataTable consultarFacturas(String perfil, String idUsuario, String idBodega, String idEstacion)
         {
-            return controladoraBDVentas.consultarFacturas(rol, idUsuario, idBodega, idEstacion);
+            return controladoraBDVentas.consultarFacturas(perfil, idUsuario, idBodega, idEstacion);
         }
 
+        /*
+         * ???
+         */
         public EntidadFactura consultarFactura(String id)
         {
             return controladoraBDVentas.consultarFactura(id);
         }
 
+        /*
+         * ???
+         */
         public DataTable asociadosABodega(String idBodega)
         {
             return controladoraBDVentas.asociadosABodega(idBodega);
         }
-
     }
 }

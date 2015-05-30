@@ -33,6 +33,8 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
                 this.codigo = datos[1].ToString();
                 this.cambio = Double.Parse(datos[2].ToString());
                 this.unidades = datos[3].ToString();
+                this.idProductoBodegaOrigen = datos[4].ToString();
+                this.idProductoBodegaDestino = datos[5].ToString();
             }
 
             public String NombreProducto

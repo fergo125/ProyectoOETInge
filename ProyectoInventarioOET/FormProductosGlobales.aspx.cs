@@ -33,8 +33,10 @@ namespace ProyectoInventarioOET
         protected void Page_Load(object sender, EventArgs e)
         {
             mensajeAlerta.Visible = false;
-            if (!IsPostBack) 
+            if (!IsPostBack)
             {
+                //Elementos visuales
+                ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
                 controladora = new ControladoraProductosGlobales();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
                 permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Catalogo general de productos");

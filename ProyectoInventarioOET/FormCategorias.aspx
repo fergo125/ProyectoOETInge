@@ -116,7 +116,7 @@
     <!-- Modificar tab de site master activo -->
     <script type = "text/javascript">
         function setCurrentTab() {
-            document.getElementById("linkFormCategorias").className = "active";
+            document.getElementById("linkFormProductos").className = "active";
         }
     </script>
 

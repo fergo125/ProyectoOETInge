@@ -228,4 +228,11 @@
     </div>
     <!-- Fin Modal Agregar Producto -->
 
+    <!-- Javascript -->
+    <!-- Modificar tab de site master activo -->
+    <script type = "text/javascript">
+        function setCurrentTab() {
+            document.getElementById("linkFormInventario").className = "active";
+        }
+    </script>
 </asp:Content>

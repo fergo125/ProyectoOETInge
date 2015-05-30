@@ -22,7 +22,7 @@
     <!-- Botones principales -->
     <button runat="server" onserverclick="clickBotonConsultarFacturas" ID="botonConsultar" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Consultar Facturas</button>
     <button runat="server" onserverclick="clickBotonCrearFactura" ID="botonCrear" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Crear Factura</button>
-    <button runat="server" onserverclick="Page_Load" ID="botonModificar" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Modificar Factura</button>
+    <button runat="server" onserverclick="botonModificar_ServerClick" ID="botonModificar" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Modificar Factura</button>
     <a ID="botonAjusteEntrada" accesskey="A" href="#modalAjusteRapido" class="btn btn-info-fozkr" role="button" style="float: right" visible="true" data-toggle="modal" runat ="server">Ajuste rápido de entrada</a> 
     <a ID="botonCambioSesion" accesskey="S" href="#modalCambioSesion" class="btn btn-info-fozkr" role="button" style="float: right" visible="true" data-toggle="modal" runat ="server">Cambio rápido de sesión</a>  
     <br />
@@ -82,53 +82,53 @@
             <tr>
                 <td>
                     <label for="FacturaConsultadaConsecutivo" class="control-label">Consecutivo:</label>
-                    <asp:TextBox ID="textBoxFacturaConsultadaConsecutivo" runat="server" class="form-control"></asp:TextBox>
+                    <input type="text" ID="textBoxFacturaConsultadaConsecutivo" runat="server" class="form-control">
                 </td>
                 <td>
                     <label for="FacturaConsultadaEstacion" class="control-label">Estación:</label>
-                    <asp:TextBox ID="textBoxFacturaConsultadaEstacion" runat="server" class="form-control"></asp:TextBox>
+                    <input type="text" ID="textBoxFacturaConsultadaEstacion" runat="server" class="form-control">
                 </td>
                 <td>
                     <label for="FacturaConsultadaBodega" class="control-label">Bodega:</label>
-                    <asp:TextBox ID="textBoxFacturaConsultadaBodega" runat="server" class="form-control"></asp:TextBox>
+                    <input type="text" ID="textBoxFacturaConsultadaBodega" runat="server" class="form-control">
                 </td>
             </tr>
             <tr>
                 <td>
                     <label for="FacturaConsultadaFechaHora" class="control-label">Fecha y hora:</label>
-                    <asp:TextBox ID="textBoxFacturaConsultadaFechaHora" runat="server" class="form-control"></asp:TextBox>
+                    <input type="text" ID="textBoxFacturaConsultadaFechaHora" runat="server" class="form-control">
                 </td>
                 <td>
                     <label for="FacturaConsultadaVendedor" class="control-label">Vendedor:</label>
-                    <asp:TextBox ID="textBoxFacturaConsultadaVendedor" runat="server" class="form-control"></asp:TextBox>
+                    <input type="text" ID="textBoxFacturaConsultadaVendedor" runat="server" class="form-control">
                 </td>
                 <td>
                     <label for="FacturaConsultadaCliente" class="control-label">Cliente:</label>
-                    <asp:TextBox ID="textBoxFacturaConsultadaCliente" runat="server" class="form-control"></asp:TextBox>
+                    <input type="text" ID="textBoxFacturaConsultadaCliente" runat="server" class="form-control">
                 </td>
             </tr>
             <tr>
                 <td>
                     <label for="FacturaConsultadaTipoMoneda" class="control-label">Tipo de moneda:</label>
-                    <asp:TextBox ID="textBoxFacturaConsultadaTipoMoneda" runat="server" class="form-control"></asp:TextBox>
+                    <input type="text" ID="textBoxFacturaConsultadaTipoMoneda" runat="server" class="form-control">
                 </td>
                 <td>
                     <label for="FacturaConsultadaMontoTotal" class="control-label">Monto total:</label>
-                    <asp:TextBox ID="textBoxFacturaConsultadaMontoTotal" runat="server" class="form-control"></asp:TextBox>
+                    <input type="text" ID="textBoxFacturaConsultadaMontoTotal" runat="server" class="form-control">
                 </td>
                 <td>
                     <label for="FacturaConsultadaMetodoPago" class="control-label">Método de pago:</label>
-                    <asp:TextBox ID="textBoxFacturaConsultadaMetodoPago" runat="server" class="form-control"></asp:TextBox>
+                    <input type="text" ID="textBoxFacturaConsultadaMetodoPago" runat="server" class="form-control">
                 </td>
             </tr>
             <tr>
                 <td>
                     <label for="FacturaConsultadaActividad" class="control-label">Actividad:</label>
-                    <asp:TextBox ID="textBoxFacturaConsultadActividad" runat="server" class="form-control"></asp:TextBox>
+                    <input type="text" ID="textBoxFacturaConsultadActividad" runat="server" class="form-control">
                 </td>
                 <td>
                     <label for="FacturaConsultadaEstado" class="control-label">Estado:</label>
-                    <asp:TextBox ID="textBoxFacturaConsultadaEstado" runat="server" class="form-control"></asp:TextBox>
+                    <asp:DropDownList ID="textBoxFacturaConsultadaEstado" class="input input-fozkr-dropdownlist" runat="server" Enabled="false" Width="90%" CssClass="form-control"></asp:DropDownList>
                 </td>
             </tr>
         </table>
@@ -137,9 +137,6 @@
     <!-- Panel con el grid de consultar facturas (se mantiene aparte para poder esconder los campos de consulta grupal y mostrar los de consulta individual, sin tocar el grid) -->
     <br />
     <br />
-    
-    
-    
         <strong><div ID="tituloGrid" runat="server" tabindex="" class="control-label" style="text-align:center; font-size:larger; background-color: #C0C0C0;">Facturas en el sistema</div></strong>
             <asp:UpdatePanel ID="UpdatePanelFacturas" runat="server">
                 <ContentTemplate>

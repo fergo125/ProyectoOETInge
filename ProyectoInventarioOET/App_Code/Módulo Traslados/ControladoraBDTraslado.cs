@@ -79,7 +79,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT P.NOMBRE, P.CODIGO, D.TRASLADO, U.DESCRIPCION "
+                command.CommandText = "SELECT P.NOMBRE, P.CODIGO, D.TRASLADO, U.DESCRIPCION, D.INV_BODEGA_PRODUCTOSORIGEN, D.INV_BODEGA_PRODUCTOSDESTINO "
                    + " FROM " + esquema + "DETALLES_TRASLADO D, " + esquema + "INV_BODEGA_PRODUCTOS B, " + esquema + "INV_PRODUCTOS P, " + esquema + "CAT_UNIDADES U "
                    + " WHERE D.ID_TRASLADO = '" + idTraslado + "' "
                    + " AND D.INV_BODEGA_PRODUCTOSORIGEN = B.INV_BODEGA_PRODUCTOS "
@@ -149,12 +149,12 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
             }
         }
 
-        private void desCongelarProducto(String idProductoBodegaOrigen, String idProductoBodegaDestino, double traslado, bool aceptarTraslado)
+        private void desCongelarProducto(String idProductoBodegaOrigen, String idProductoBodegaDestino, double traslado, int aceptarTraslado)
         {
-            String esquema = "Inventarios.";
+            String esquema = "Inventarios.";  
             try
             {
-                if (aceptarTraslado)
+                if (aceptarTraslado>0)
                 {
                     OracleCommand command = conexionBD.CreateCommand();
                     command.CommandText = " UPDATE " + esquema + "INV_BODEGA_PRODUCTOS "
@@ -178,32 +178,36 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
                     reader = command.ExecuteReader();
                 }
             }
-            catch (OracleException e)
-            {
-
-            }
+            catch (OracleException e)  {             }
         }
 
 
         private void insertarDetalle(String idTraslado, EntidadDetalles detallesProducto)
         {
             String esquema = "Inventarios.";
+            String[] res = new String[3];
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
                 command.CommandText = " INSERT INTO " + esquema + "DETALLES_TRASLADO "
                                      + " VALUES ('" + idTraslado +"', '" + detallesProducto.IdProductoBodegaDestino + "', '"+ detallesProducto.IdProductoBodegaOrigen +"' , " +detallesProducto.Cambio+ ")";
                 OracleDataReader reader = command.ExecuteReader();
+                res[0] = "success";
+                res[1] = "Éxito:";
+                res[2] = "Ajuste agregado al sistema.";
             }
             catch (OracleException e)
             {
-
+                res[0] = "danger";
+                res[1] = "Error:";
+                res[2] = "Traslado no modificado, intente nuevamente.";
             }
         }
 
 
-        public void modificarTraslado(EntidadTraslado traslado, int estado) {
+        public String[] modificarTraslado(EntidadTraslado traslado, int estado) {
             String esquema = "Inventarios.";
+            String[] res = new String[3];
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
@@ -211,16 +215,20 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
                                      + " SET ESTADO = " + estado 
                                      + " WHERE ID_TRASLADO = '" + traslado.IdTraslado + "'" ;
                 OracleDataReader reader = command.ExecuteReader();
-                /*foreach (){
-                
-                } */
+                foreach (EntidadDetalles detalle in traslado.Detalles){
+                    desCongelarProducto(detalle.IdProductoBodegaOrigen, detalle.IdProductoBodegaDestino, detalle.Cambio ,estado);
+                }
+                res[0] = "success";
+                res[1] = "Éxito:";
+                res[2] = "Ajuste agregado al sistema.";
             }
             catch (OracleException e)
             {
-
+                res[0] = "danger";
+                res[1] = "Error:";
+                res[2] = "Traslado no modificado, intente nuevamente.";
             }
-
-
+            return res;
         }
 
 

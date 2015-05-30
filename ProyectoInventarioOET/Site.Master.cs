@@ -93,7 +93,7 @@ namespace ProyectoInventarioOET
                 this.linkIniciarSesion.Visible = false;
                 this.linkNombreUsuarioLogueado.Visible = true;
                 //this.linkCambiarSesion.Visible = true;
-                esconderLinks(false);
+                esconderLinks(llaveBodegaSesion == null); //Sólo si ya inició sesión y ya escogió bodega se muestran los links para las partes del sistema
             }
         }
 
@@ -127,7 +127,7 @@ namespace ProyectoInventarioOET
          * Para simular el cierre de sesión esconde todos los elementos y borra el usuario que estaba conectado antes.
          * Muestra de nuevo el enlace para iniciar sesión.
          */
-        protected void cerrarSesion(object sender, EventArgs e)
+        public void cerrarSesion(object sender, EventArgs e)
         {
             usuarioLogueado = null;
             esconderLinks(true);
