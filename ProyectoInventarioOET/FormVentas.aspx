@@ -137,9 +137,6 @@
     <!-- Panel con el grid de consultar facturas (se mantiene aparte para poder esconder los campos de consulta grupal y mostrar los de consulta individual, sin tocar el grid) -->
     <br />
     <br />
-    
-    
-    
         <strong><div ID="tituloGrid" runat="server" tabindex="" class="control-label" style="text-align:center; font-size:larger; background-color: #C0C0C0;">Facturas en el sistema</div></strong>
             <asp:UpdatePanel ID="UpdatePanelFacturas" runat="server">
                 <ContentTemplate>

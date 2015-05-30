@@ -224,4 +224,12 @@
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.1.47/jquery.form-validator.min.js"> </script>
     <script> $.validate(); </script>
+
+    <!-- Javascript -->
+    <!-- Modificar tab de site master activo -->
+    <script type = "text/javascript">
+        function setCurrentTab() {
+            document.getElementById("linkFormBodegas").className = "active";
+        }
+    </script>
 </asp:Content>

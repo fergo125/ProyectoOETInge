@@ -377,7 +377,14 @@
             </div>
         </div>
     </div>
-        
+    
+    <!-- Javascript -->
+    <!-- Modificar tab de site master activo -->
+    <script type = "text/javascript">
+        function setCurrentTab() {
+            document.getElementById("linkFormInventario").className = "active";
+        }
+    </script>
     <!-- Código necesario para el autocomplete -->
     <script src="Scripts/jquery-1.4.1.min.js" type="text/javascript"></script>
     <script src="Scripts/jquery.autocomplete.js" type="text/javascript"></script>
@@ -386,7 +393,4 @@
             $("#<%=textBoxAutocompleteCrearFacturaBusquedaProducto.ClientID%>").autocomplete('Search_CS.ashx');
         });
     </script>
-
-
-    </div>
 </asp:Content>

@@ -36,6 +36,8 @@ namespace ProyectoInventarioOET
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            //Elementos visuales
+            ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
             controladoraEntradas = new ControladoraEntradas();
             //bodegaDeTrabajo = (this.Master as SiteMaster).LlaveBodegaSesion;
 

@@ -42,6 +42,8 @@ namespace ProyectoInventarioOET
         {
             if (!IsPostBack)
             {
+                //Elementos visuales
+                ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
                 modo = (int)Modo.Inicial;
                 controladoraBodegas = new ControladoraBodegas();
                 controladoraProductoLocal = new ControladoraProductoLocal();

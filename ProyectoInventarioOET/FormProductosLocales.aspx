@@ -283,4 +283,12 @@
             </div>
         </div>
     </div>
+
+    <!-- Javascript -->
+    <!-- Modificar tab de site master activo -->
+    <script type = "text/javascript">
+        function setCurrentTab() {
+            document.getElementById("linkFormBodegas").className = "active";
+        }
+    </script>
 </asp:Content>
