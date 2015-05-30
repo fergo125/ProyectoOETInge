@@ -76,7 +76,6 @@ namespace ProyectoInventarioOET
                     else
                     {
                         setDatosConsultados();
-
                         seConsulto = false;
                     }
                 }
@@ -171,7 +170,9 @@ namespace ProyectoInventarioOET
             //Reduce un poco la eficiencia, pero simplifica el código bastante
             PanelConsultarFacturas.Visible = false;
             PanelConsultarFacturaEspecifica.Visible = false;
-            PanelGridConsultas.Visible = false;
+            //PanelGridConsultas.Visible = false;
+            //hay que hacerlo directo con el panel, porque si no la paginacion no sirve
+            this.tituloGrid.Visible = false;
             PanelCrearFactura.Visible = false;
             botonCambioSesion.Visible = false;      //Estos dos botones sólo deben ser visibles
             botonAjusteEntrada.Visible = false;     //durante la creación de facturas
@@ -185,6 +186,8 @@ namespace ProyectoInventarioOET
                 case Modo.Consulta:
                     tituloAccionFacturas.InnerText = "Seleccione datos para consultar";
                     PanelConsultarFacturas.Visible = true;
+                    //this.gridViewFacturas.Visible = false;
+                    //this.tituloGrid.Visible = false;
                     llenarGrid();
                     break;
                 case Modo.Insercion:
@@ -200,7 +203,10 @@ namespace ProyectoInventarioOET
                 case Modo.Consultado:
                     tituloAccionFacturas.InnerText = "Detalles de la factura";
                     PanelConsultarFacturaEspecifica.Visible = true;
-                    PanelGridConsultas.Visible = true;
+                    //PanelGridConsultas.Visible = true;
+                    //hay que hacerlo directo con el panel, porque si no la paginacion no sirve
+                    this.gridViewFacturas.Visible = true;
+                    this.tituloGrid.Visible = true;
                     cargarDropdownListsConsulta();
                     llenarGrid();
                     //habilitarCampos(false);
@@ -328,6 +334,7 @@ namespace ProyectoInventarioOET
                 Object[] datos = new Object[5];
 
                 DataTable facturas = controladoraVentas.consultarFacturas((this.Master as SiteMaster).Usuario.Perfil, codigoVendedor,codigoBodega, codigoEstacion);
+                facturasConsultadas = facturas;
                 if (facturas.Rows.Count > 0)
                 {
                     idArray = new Object[facturas.Rows.Count];
@@ -536,16 +543,22 @@ namespace ProyectoInventarioOET
         {
             EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
             DataTable estaciones = controladoraDatosGenerales.consultarEstaciones();
-
+            int i=0;
             if (estaciones.Rows.Count > 0)
             {
                 this.dropDownListConsultaEstacion.Items.Clear();
                 this.dropDownListConsultaEstacion.Items.Add(new ListItem("Todas", "Todas"));
+                i++;
                 foreach (DataRow fila in estaciones.Rows)
                 {
                     if ((usuarioActual.Perfil.Equals("Administrador global")) || (usuarioActual.IdEstacion.Equals(fila[0])))
                     {
                         this.dropDownListConsultaEstacion.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
+                        if ((usuarioActual.IdEstacion.Equals(fila[0])) && (!usuarioActual.Perfil.Equals("Administrador global")))
+                        {
+                            this.dropDownListConsultaEstacion.SelectedIndex = i;
+                        }
+                        i++;
                     }
                 }
             }
@@ -610,6 +623,9 @@ namespace ProyectoInventarioOET
         {
             modo = Modo.Consulta;
             cargarDropdownListsConsulta();
+            this.gridViewFacturas.Visible = false;
+            this.tituloGrid.Visible = false;
+                    
             cambiarModo();
         }
 
@@ -620,7 +636,10 @@ namespace ProyectoInventarioOET
         protected void clickBotonEjecutarConsulta(object sender, EventArgs e)
         {
             llenarGrid();
-            PanelGridConsultas.Visible = true;
+            //PanelGridConsultas.Visible = true;
+            //hay que hacerlo directo con el panel, porque si no la paginacion no sirve
+            this.gridViewFacturas.Visible = true;
+            this.tituloGrid.Visible = true;
             tituloAccionFacturas.InnerText = "Seleccione una factura para ver su información detallada";
             //Aquí NO se debe inovcar cambiarModo, ya que el modo no cambia
         }
