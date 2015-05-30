@@ -99,6 +99,16 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
         }
 
 
+        public String[] acertarTraslador(EntidadTraslado aceptado) {
+            return controladoraBD.modificarTraslado(aceptado, 1);
+        }
+
+        public String[] rechazarTraslador(EntidadTraslado aceptado)
+        {
+            return controladoraBD.modificarTraslado(aceptado, -1);
+        }
+
+
         private object getNombreEstado(string estado)
         {
             String descripcion = "";
