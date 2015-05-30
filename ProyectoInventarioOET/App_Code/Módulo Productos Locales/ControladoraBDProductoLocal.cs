@@ -84,7 +84,7 @@ namespace ProyectoInventarioOET.Modulo_Productos_Locales
         /*
          * Modifica el estado de un producto en específico.
          */
-        public string[] modificarProductoLocal(String idBodegaProductos, int estado)
+        public string[] modificarProductoLocal(String idBodegaProductos, int estado,String min,String max)
         {
             String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
@@ -92,7 +92,7 @@ namespace ProyectoInventarioOET.Modulo_Productos_Locales
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "UPDATE " + esquema + "INV_BODEGA_PRODUCTOS SET ESTADO = " + estado + " WHERE INV_BODEGA_PRODUCTOS = '" + idBodegaProductos + "'";
+                command.CommandText = "UPDATE " + esquema + "INV_BODEGA_PRODUCTOS SET ESTADO = " + estado + ", MINIMO = " + min + ", MAXIMO = "+max+" WHERE INV_BODEGA_PRODUCTOS = '" + idBodegaProductos + "'";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
                 res[0] = "success";

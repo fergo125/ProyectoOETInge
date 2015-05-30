@@ -304,73 +304,6 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * Llena la tabla con las actividades almacenadas en la base de datos.
-         */
-        protected void llenarGrid()
-        {
-            DataTable tabla = tablaFacturas();
-            int indiceNuevaActividad = -1;
-            //int i = 0;
-
-            try
-            {
-                // Cargar actividades
-                //Object[] datos = new Object[3];
-                Object[] datos = new Object[4];
-                //DataTable actividades = controladoraActividades.consultarActividades();
-                //idArray = new Object[actividades.Rows.Count];
-                for (int i = 0; i < 3; i++)
-                {
-                    //idArray[i] = fila[0];
-                    datos[0] = 55;
-                    datos[1] = 55;
-                    datos[2] = 55;
-                    datos[3] = 55;
-                    //datos[1] = fila[0].ToString();
-                    //if (fila[2].ToString().Equals("0"))
-                    //{
-                    //    datos[2] = "Inactivo";
-                    //}
-                    //else if (fila[2].ToString().Equals("1"))
-                    //{
-                    //    datos[2] = "Activo";
-                    //}
-                    //else
-                    //{
-                    //    datos[2] = fila[2].ToString();
-                    //}
-                    //if (fila[2].ToString().Equals("0"))
-                    //{
-                    //    datos[1] = "Inactivo";
-                    //}
-                    //else if (fila[2].ToString().Equals("1"))
-                    //{
-                    //    datos[1] = "Activo";
-                    //}
-                    //else
-                    //{
-                    //    datos[1] = fila[2].ToString();
-                    //}
-
-                    tabla.Rows.Add(datos);
-                    //if (actividadConsultada != null && (fila[0].Equals(actividadConsultada.Codigo)))
-                    //{
-                    //    indiceNuevaActividad = i;
-                    //}
-                    //i++;
-                }
-
-
-                this.gridViewFacturas.DataSource = tabla;
-                this.gridViewFacturas.DataBind();
-            }
-            catch (Exception e)
-            {
-                //mostrarMensaje("warning", "Alerta", "Error al llenar la tabla de Facturas.");
-            }
-        }
-
-        /*
          * Muestra el mensaje que da el resultado de las transacciones que se efectúan.
          */
         protected void mostrarMensaje(String tipoAlerta, String alerta, String mensaje)
@@ -578,7 +511,22 @@ namespace ProyectoInventarioOET
 
         protected void botonAgregarProductoFactura_Click(object sender, EventArgs e)
         {
+            String producto = this.textBoxAutocompleteCrearFacturaBusquedaProducto.Text;
+            String cantidad = this.inputCantidadProducto.Value.ToString();
+            String costo = this.inputCostoProducto.Value.ToString();
 
+
+            DataTable tabla = tablaFacturaDetallada();
+
+            Object[] datos = new Object[3];
+            datos[0] = producto;
+            datos[1] = cantidad;
+            datos[2] = costo;
+            tabla.Rows.Add(datos);
+
+            this.gridFacturaNueva.DataSource = tabla;
+            this.gridFacturaNueva.DataBind();
+            limpiarCampos();
         }
 
         protected void gridViewProductoBuscado_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -679,8 +627,8 @@ namespace ProyectoInventarioOET
 
         private void limpiarCampos()
         {
-            this.inputCantidad.Value = "";
-            this.inputCosto.Value = "";
+            //this.inputCantidadProducto.Value = "";
+            //this.inputCantidadProducto.Value = "";
         }
 
 

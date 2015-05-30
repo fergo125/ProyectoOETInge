@@ -70,6 +70,12 @@ namespace ProyectoInventarioOET.Modulo_Bodegas
         {
             return controladoraBDBodegas.consultarProductosAsociables(idBodega);
         }
-
+        /*
+         * Consulta el ID de la estación a la cual pertenece una bodega
+         */
+        public DataTable consultarEstacionDeBodega(String idBodega)
+        {
+            return controladoraBDBodegas.consultarEstacionDeBodega(idBodega);
+        }
     }
 }

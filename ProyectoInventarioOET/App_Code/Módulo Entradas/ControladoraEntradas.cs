@@ -24,19 +24,30 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             controladoraProductosGlobales = new ControladoraProductosGlobales();
         }
 
+        /*
+         *Consulta las entradas de una bodega especifica 
+         */
         public DataTable consultarEntradas(String bodega) 
         {
             return controladoraBDEntradas.consultarEntradasDeBodega(bodega);
         }
+        /*
+         * Busca las facturas para las cuales se va a registrar una entrada
+         */
         public DataTable buscarFacturas(String id)
         {
             return controladoraBDEntradas.buscarFacturas(id);
         }
-
+        /*
+         * Busca un producto especifico en el catalogo
+         */
         public DataTable buscarProducto(String buscado) 
         {
             return controladoraProductosGlobales.consultarProductosGlobales(buscado);
         }
+        /*
+         * Consulta una factura determinada
+         */
         public EntidadFactura consultarFactura(String id) {
             EntidadFactura factura = null;
             
@@ -56,6 +67,9 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             return factura;
 
         }
+        /*
+         * Consulta una entrada especifica a partir de un id
+         */
         public EntidadEntrada consultarEntrada(String id)
         {
             EntidadEntrada entrada = null;
@@ -76,6 +90,9 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             return entrada;
 
         }
+        /*
+         * Recupera el detalle de una factura a partir de una orden de compra
+         */
         public DataTable consultarDetalleFactura(string idOrdenDeCompra)
         {
             return controladoraBDEntradas.consultarDetalleFactura(idOrdenDeCompra);
