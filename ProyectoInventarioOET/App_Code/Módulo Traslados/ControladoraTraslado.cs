@@ -27,7 +27,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
         }
 
 
-        // Lista de productos para poder trasladar
+        // Lista de productos para poder trasladar osea que esten en ambas bodegas
         public DataTable consultarProductosDeBodega(String idBodegaOrigen, String idBodegaDestino)
         {
             ControladoraProductoLocal controladoraProductoLocal = new ControladoraProductoLocal();
@@ -74,41 +74,46 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
             }
 
             EntidadTraslado consultada = new EntidadTraslado(datos);
+            //  PRUEBA INSERTAR
+            /*
             consultada.IdTraslado = "222";
             consultada.IdUsuario = "3";
             consultada.IdBodegaOrigen = "CYCLO128122012112950388004";
             consultada.IdBodegaDestino = "PITAN129012015101713605001";
             consultada.Notas = "PRIMER INSERTARRRRR";
-      
+            */
 
-            Object[] datosProductos = new Object[4];
+            Object[] datosProductos = new Object[6];
             foreach (DataRow fila in respuesta[1].Rows) 
             {
                 datosProductos[0] = fila[0].ToString(); // Nombre
                 datosProductos[1] = fila[1].ToString(); // Codigo
                 datosProductos[2] = fila[2].ToString(); // Traslado, el parse se hace en la entidad
                 datosProductos[3] = fila[3].ToString(); // Unidades
+                datosProductos[4] = fila[4].ToString(); // idProdOrigen
+                datosProductos[5] = fila[5].ToString(); // idProdOrigen
                 consultada.agregarDetalle(datosProductos);
             }
             return consultada;
         }
 
+
+        // LISTO FUNCIONA
         public String[] insertarAjuste(EntidadTraslado nuevo)
         {
             return controladoraBD.insertarAjuste(nuevo);
         }
 
-        /*
-        public String[] acertarTraslador(EntidadTraslado aceptado) {
-            //return controladoraBD.modificarTraslado(aceptado, 1);
+        
+        public String[] acertarTraslado(EntidadTraslado aceptado) {
+            return controladoraBD.modificarTraslado(aceptado, 1);
         }
 
-        public String[] rechazarTraslador(EntidadTraslado aceptado)
+        public String[] rechazarTraslado(EntidadTraslado aceptado)
         {
-           // return controladoraBD.modificarTraslado(aceptado, -1);
+            return controladoraBD.modificarTraslado(aceptado, -1);
         }
-        */
-
+        
         private object getNombreEstado(string estado)
         {
             String descripcion = "";
