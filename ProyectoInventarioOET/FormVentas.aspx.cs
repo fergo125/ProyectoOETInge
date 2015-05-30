@@ -430,7 +430,19 @@ namespace ProyectoInventarioOET
             textBoxFacturaConsultadaMontoTotal.Value = facturaConsultada.MontoTotal.ToString();
             textBoxFacturaConsultadaMetodoPago.Value = facturaConsultada.MetodoPago;
             textBoxFacturaConsultadActividad.Value = facturaConsultada.Actividad;
-            textBoxFacturaConsultadaEstado.Value = facturaConsultada.Estado; 
+
+            textBoxFacturaConsultadaEstado.Items.Clear();
+            textBoxFacturaConsultadaEstado.Items.Add(new ListItem("Activa", "Activa"));
+            textBoxFacturaConsultadaEstado.Items.Add(new ListItem("Anulada", "Anulada"));
+
+            if (facturaConsultada.Estado.Equals("Activa"))
+            {
+                textBoxFacturaConsultadaEstado.SelectedIndex = 0;
+            }
+            else
+            {
+                textBoxFacturaConsultadaEstado.SelectedIndex = 1;
+            }
 
         }
 
@@ -459,7 +471,7 @@ namespace ProyectoInventarioOET
             textBoxFacturaConsultadaMontoTotal.Disabled = !habilitar;
             textBoxFacturaConsultadaMetodoPago.Disabled = !habilitar;
             textBoxFacturaConsultadActividad.Disabled = !habilitar;
-            textBoxFacturaConsultadaEstado.Disabled = !habilitar;
+            textBoxFacturaConsultadaEstado.Enabled = habilitar;
         }
 
         /*
