@@ -291,6 +291,7 @@ namespace ProyectoInventarioOET
 
                 DataTable traslados = controladoraTraslados.consultarTraslados((this.Master as SiteMaster).LlaveBodegaSesion, entrada);
                 EntidadTraslado p = controladoraTraslados.consultarTraslado("1111");
+                controladoraTraslados.insertarAjuste(p);
                 int y = 98/9;
                 
                 if (traslados.Rows.Count > 0)

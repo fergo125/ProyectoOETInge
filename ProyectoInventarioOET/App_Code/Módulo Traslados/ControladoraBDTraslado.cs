@@ -113,7 +113,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
                 foreach (EntidadDetalles detallesProducto in nuevo.Detalles)
                 { // Por cada producto meterlo en el detalles ajustes
                     insertarDetalle(res[3], detallesProducto);
-                    congelarProducto(detallesProducto.IdProductoBodega, detallesProducto.Cambio);
+                    congelarProducto(detallesProducto.IdProductoBodegaOrigen, detallesProducto.Cambio);
                 }
 
                 res[0] = "success";
@@ -139,9 +139,9 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
             {
                 OracleCommand command = conexionBD.CreateCommand();
                 command.CommandText = " UPDATE " + esquema + "INV_BODEGA_PRODUCTOS "
-                                     + " SET SALDOCONGELADO = SALDOCONGELADO + " + traslado
+                                     + " SET SALDOCONGELADO = SALDOCONGELADO + " + traslado + " , "
                                      + " SALDO = SALDO - " + traslado
-                                     + " WHERE INV_PRODUCTO = '" + idProductoBodega+ "'";  
+                                     + " WHERE INV_BODEGA_PRODUCTOS = '" + idProductoBodega+ "'";  
                 OracleDataReader reader = command.ExecuteReader();
             }
             catch (OracleException e) {
@@ -149,13 +149,49 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
             }
         }
 
-        private void insertarDetalle(string idTraslado, EntidadDetalles detallesProducto)
+        private void desCongelarProducto(String idProductoBodegaOrigen, String idProductoBodegaDestino, double traslado, bool aceptarTraslado)
+        {
+            String esquema = "Inventarios.";
+            try
+            {
+                if (aceptarTraslado)
+                {
+                    OracleCommand command = conexionBD.CreateCommand();
+                    command.CommandText = " UPDATE " + esquema + "INV_BODEGA_PRODUCTOS "
+                                         + " SET SALDOCONGELADO = SALDOCONGELADO - " + traslado
+                                         + " WHERE INV_BODEGA_PRODUCTOS = '" + idProductoBodegaOrigen + "'";
+                    OracleDataReader reader = command.ExecuteReader();
+                    command.CommandText = " UPDATE " + esquema + "INV_BODEGA_PRODUCTOS "
+                     + " SET SALDO = SALDO + " + traslado
+                     + " WHERE INV_BODEGA_PRODUCTOS = '" + idProductoBodegaDestino + "'";
+                    reader = command.ExecuteReader();
+                }
+                else {  // RECHAZAR TRASLADO
+                    OracleCommand command = conexionBD.CreateCommand();
+                    command.CommandText = " UPDATE " + esquema + "INV_BODEGA_PRODUCTOS "
+                                         + " SET SALDOCONGELADO = SALDOCONGELADO - " + traslado
+                                         + " WHERE INV_BODEGA_PRODUCTOS = '" + idProductoBodegaOrigen + "'";
+                    OracleDataReader reader = command.ExecuteReader();
+                    command.CommandText = " UPDATE " + esquema + "INV_BODEGA_PRODUCTOS "
+                                        + " SET SALDO = SALDO + " + traslado
+                                        + " WHERE INV_BODEGA_PRODUCTOS = '" + idProductoBodegaOrigen + "'";
+                    reader = command.ExecuteReader();
+                }
+            }
+            catch (OracleException e)
+            {
+
+            }
+        }
+
+
+        private void insertarDetalle(String idTraslado, EntidadDetalles detallesProducto)
         {
             String esquema = "Inventarios.";
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = " INSERT INTO" + esquema + "DETALLES_TRASLADO "
+                command.CommandText = " INSERT INTO " + esquema + "DETALLES_TRASLADO "
                                      + " VALUES ('" + idTraslado +"', '" + detallesProducto.IdProductoBodegaDestino + "', '"+ detallesProducto.IdProductoBodegaOrigen +"' , " +detallesProducto.Cambio+ ")";
                 OracleDataReader reader = command.ExecuteReader();
             }
@@ -164,5 +200,29 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
 
             }
         }
+
+
+        public void modificarTraslado(EntidadTraslado traslado, int estado) {
+            String esquema = "Inventarios.";
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = " UPDATE " + esquema + "TRASLADOS "
+                                     + " SET ESTADO = " + estado 
+                                     + " WHERE ID_TRASLADO = '" + traslado.IdTraslado + "'" ;
+                OracleDataReader reader = command.ExecuteReader();
+                /*foreach (){
+                
+                } */
+            }
+            catch (OracleException e)
+            {
+
+            }
+
+
+        }
+
+
     }
 }

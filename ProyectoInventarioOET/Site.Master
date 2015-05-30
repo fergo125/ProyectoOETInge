@@ -100,17 +100,8 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li><a runat="server" id="linkIniciarSesion" href="~/FormLogin">Iniciar sesión</a></li>
                         <li><a runat="server" id="linkNombreUsuarioLogueado" href="~/FormLoginBodega" visible="false" title="Datos personales"></a></li>
-                        <li onclick="cambiarSesion"><a runat="server" id="linkCambiarSesion" onServerClick="cerrarSesion" href="~/FormLogin" visible="false">Cambiar sesión</a></li>
+                        <%--<li onclick="cambiarSesion"><a runat="server" id="linkCambiarSesion" onServerClick="cerrarSesion" href="~/FormLogin" visible="false">Cambiar sesión</a></li>--%>
                     </ul>
-                    <%--<asp:LoginView runat="server" ViewStateMode="Disabled">
-                        <AnonymousTemplate>
-                        </AnonymousTemplate>
-                        <LoggedInTemplate>
-                            <li>
-                                <asp:LoginStatus runat="server" LogoutAction="Redirect" LogoutText="Cerrar sesión" LogoutPageUrl="~/" OnLoggingOut="Unnamed_LoggingOut" />
-                            </li>
-                        </LoggedInTemplate>
-                    </asp:LoginView>--%>
                 </div>
             </div>
         </div>
