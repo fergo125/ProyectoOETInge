@@ -261,7 +261,7 @@ namespace ProyectoInventarioOET
             switch (Convert.ToInt32(usuarioActual.CodigoPerfil))
             {
                 case 4: //Vendedor
-                    dropDownListConsultaVendedor.Items.Add(new ListItem(usuarioActual.Nombre,usuarioActual.Codigo));
+                    dropDownListConsultaVendedor.Items.Add(new ListItem(usuarioActual.Nombre, usuarioActual.Codigo));
                     dropDownListConsultaVendedor.SelectedIndex = 0;
                     dropDownListConsultaVendedor.Enabled = false;
 
@@ -324,19 +324,15 @@ namespace ProyectoInventarioOET
             String codigoVendedor = dropDownListConsultaVendedor.SelectedValue;
             //TODO: revisar que de los dropdownlists se obtengan las llaves, no los nombres, algo como dropDownList.SelectedItem[1] creo
 
-
-
             DataTable tabla = tablaFacturas();
             int indiceNuevaFactura = -1;
             int i = 0;
-
 
             try
             {
                 // Cargar facturas
                 Object[] datos = new Object[5];
-
-                DataTable facturas = controladoraVentas.consultarFacturas((this.Master as SiteMaster).Usuario.Perfil, codigoVendedor,codigoBodega, codigoEstacion);
+                DataTable facturas = controladoraVentas.consultarFacturas((this.Master as SiteMaster).Usuario.Perfil, codigoVendedor, codigoBodega, codigoEstacion);
                 facturasConsultadas = facturas;
                 if (facturas.Rows.Count > 0)
                 {
@@ -422,17 +418,17 @@ namespace ProyectoInventarioOET
          */
         protected void setDatosConsultados()
         {
-            textBoxFacturaConsultadaConsecutivo.Text=facturaConsultada.Consecutivo;
-            textBoxFacturaConsultadaEstacion.Text=controladoraSeguridad.consultarNombreDeEstacion(facturaConsultada.Estacion);
-            textBoxFacturaConsultadaBodega.Text = controladoraSeguridad.consultarNombreDeBodega(facturaConsultada.Bodega);
-            textBoxFacturaConsultadaFechaHora.Text=facturaConsultada.Fecha;
-            textBoxFacturaConsultadaVendedor.Text = controladoraSeguridad.consultarNombreDeUsuario(facturaConsultada.Vendedor);
-            textBoxFacturaConsultadaCliente.Text=facturaConsultada.Cliente;
-            textBoxFacturaConsultadaTipoMoneda.Text=facturaConsultada.TipoMoneda;
-            textBoxFacturaConsultadaMontoTotal.Text=facturaConsultada.MontoTotal.ToString();
-            textBoxFacturaConsultadaMetodoPago.Text=facturaConsultada.MetodoPago;
-            textBoxFacturaConsultadActividad.Text=facturaConsultada.Actividad;
-            textBoxFacturaConsultadaEstado.Text = facturaConsultada.Estado; 
+            textBoxFacturaConsultadaConsecutivo.Value = facturaConsultada.Consecutivo;
+            textBoxFacturaConsultadaEstacion.Value = controladoraSeguridad.consultarNombreDeEstacion(facturaConsultada.Estacion);
+            textBoxFacturaConsultadaBodega.Value = controladoraSeguridad.consultarNombreDeBodega(facturaConsultada.Bodega);
+            textBoxFacturaConsultadaFechaHora.Value = facturaConsultada.Fecha;
+            textBoxFacturaConsultadaVendedor.Value = controladoraSeguridad.consultarNombreDeUsuario(facturaConsultada.Vendedor);
+            textBoxFacturaConsultadaCliente.Value = facturaConsultada.Cliente;
+            textBoxFacturaConsultadaTipoMoneda.Value = facturaConsultada.TipoMoneda;
+            textBoxFacturaConsultadaMontoTotal.Value = facturaConsultada.MontoTotal.ToString();
+            textBoxFacturaConsultadaMetodoPago.Value = facturaConsultada.MetodoPago;
+            textBoxFacturaConsultadActividad.Value = facturaConsultada.Actividad;
+            textBoxFacturaConsultadaEstado.Value = facturaConsultada.Estado; 
 
         }
 
@@ -451,17 +447,17 @@ namespace ProyectoInventarioOET
              * */
 
 
-            textBoxFacturaConsultadaConsecutivo.Enabled = habilitar;
-            textBoxFacturaConsultadaEstacion.Enabled = habilitar;
-            textBoxFacturaConsultadaBodega.Enabled = habilitar; ;
-            textBoxFacturaConsultadaFechaHora.Enabled = habilitar;
-            textBoxFacturaConsultadaVendedor.Enabled = habilitar;
-            textBoxFacturaConsultadaCliente.Enabled = habilitar;
-            textBoxFacturaConsultadaTipoMoneda.Enabled = habilitar;
-            textBoxFacturaConsultadaMontoTotal.Enabled = habilitar;
-            textBoxFacturaConsultadaMetodoPago.Enabled = habilitar;
-            textBoxFacturaConsultadActividad.Enabled = habilitar;
-            textBoxFacturaConsultadaEstado.Enabled = habilitar;
+            textBoxFacturaConsultadaConsecutivo.Disabled = !habilitar;
+            textBoxFacturaConsultadaEstacion.Disabled = !habilitar;
+            textBoxFacturaConsultadaBodega.Disabled = !habilitar; ;
+            textBoxFacturaConsultadaFechaHora.Disabled = !habilitar;
+            textBoxFacturaConsultadaVendedor.Disabled = !habilitar;
+            textBoxFacturaConsultadaCliente.Disabled = !habilitar;
+            textBoxFacturaConsultadaTipoMoneda.Disabled = !habilitar;
+            textBoxFacturaConsultadaMontoTotal.Disabled = !habilitar;
+            textBoxFacturaConsultadaMetodoPago.Disabled = !habilitar;
+            textBoxFacturaConsultadActividad.Disabled = !habilitar;
+            textBoxFacturaConsultadaEstado.Disabled = !habilitar;
         }
 
         /*
