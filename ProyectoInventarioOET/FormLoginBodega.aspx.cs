@@ -81,5 +81,11 @@ namespace ProyectoInventarioOET
             }
             Response.Redirect("Default.aspx");
         }
+
+        protected void CerrarSesion_Click(object sender, EventArgs e)
+        {
+            (this.Master as SiteMaster).cerrarSesion(null,null);
+            Response.Redirect("Default.aspx");
+        }
     }
 }

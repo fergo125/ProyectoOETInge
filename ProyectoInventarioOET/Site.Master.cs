@@ -127,7 +127,7 @@ namespace ProyectoInventarioOET
          * Para simular el cierre de sesión esconde todos los elementos y borra el usuario que estaba conectado antes.
          * Muestra de nuevo el enlace para iniciar sesión.
          */
-        protected void cerrarSesion(object sender, EventArgs e)
+        public void cerrarSesion(object sender, EventArgs e)
         {
             usuarioLogueado = null;
             esconderLinks(true);

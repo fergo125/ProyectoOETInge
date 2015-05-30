@@ -82,49 +82,49 @@
             <tr>
                 <td>
                     <label for="FacturaConsultadaConsecutivo" class="control-label">Consecutivo:</label>
-                    <asp:TextBox ID="textBoxFacturaConsultadaConsecutivo" runat="server" class="form-control"></asp:TextBox>
+                    <input type="text" ID="textBoxFacturaConsultadaConsecutivo" runat="server" class="form-control">
                 </td>
                 <td>
                     <label for="FacturaConsultadaEstacion" class="control-label">Estación:</label>
-                    <asp:TextBox ID="textBoxFacturaConsultadaEstacion" runat="server" class="form-control"></asp:TextBox>
+                    <input type="text" ID="textBoxFacturaConsultadaEstacion" runat="server" class="form-control">
                 </td>
                 <td>
                     <label for="FacturaConsultadaBodega" class="control-label">Bodega:</label>
-                    <asp:TextBox ID="textBoxFacturaConsultadaBodega" runat="server" class="form-control"></asp:TextBox>
+                    <input type="text" ID="textBoxFacturaConsultadaBodega" runat="server" class="form-control">
                 </td>
             </tr>
             <tr>
                 <td>
                     <label for="FacturaConsultadaFechaHora" class="control-label">Fecha y hora:</label>
-                    <asp:TextBox ID="textBoxFacturaConsultadaFechaHora" runat="server" class="form-control"></asp:TextBox>
+                    <input type="text" ID="textBoxFacturaConsultadaFechaHora" runat="server" class="form-control">
                 </td>
                 <td>
                     <label for="FacturaConsultadaVendedor" class="control-label">Vendedor:</label>
-                    <asp:TextBox ID="textBoxFacturaConsultadaVendedor" runat="server" class="form-control"></asp:TextBox>
+                    <input type="text" ID="textBoxFacturaConsultadaVendedor" runat="server" class="form-control">
                 </td>
                 <td>
                     <label for="FacturaConsultadaCliente" class="control-label">Cliente:</label>
-                    <asp:TextBox ID="textBoxFacturaConsultadaCliente" runat="server" class="form-control"></asp:TextBox>
+                    <input type="text" ID="textBoxFacturaConsultadaCliente" runat="server" class="form-control">
                 </td>
             </tr>
             <tr>
                 <td>
                     <label for="FacturaConsultadaTipoMoneda" class="control-label">Tipo de moneda:</label>
-                    <asp:TextBox ID="textBoxFacturaConsultadaTipoMoneda" runat="server" class="form-control"></asp:TextBox>
+                    <input type="text" ID="textBoxFacturaConsultadaTipoMoneda" runat="server" class="form-control">
                 </td>
                 <td>
                     <label for="FacturaConsultadaMontoTotal" class="control-label">Monto total:</label>
-                    <asp:TextBox ID="textBoxFacturaConsultadaMontoTotal" runat="server" class="form-control"></asp:TextBox>
+                    <input type="text" ID="textBoxFacturaConsultadaMontoTotal" runat="server" class="form-control">
                 </td>
                 <td>
                     <label for="FacturaConsultadaMetodoPago" class="control-label">Método de pago:</label>
-                    <asp:TextBox ID="textBoxFacturaConsultadaMetodoPago" runat="server" class="form-control"></asp:TextBox>
+                    <input type="text" ID="textBoxFacturaConsultadaMetodoPago" runat="server" class="form-control">
                 </td>
             </tr>
             <tr>
                 <td>
                     <label for="FacturaConsultadaActividad" class="control-label">Actividad:</label>
-                    <asp:TextBox ID="textBoxFacturaConsultadActividad" runat="server" class="form-control"></asp:TextBox>
+                    <input type="text" ID="textBoxFacturaConsultadActividad" runat="server" class="form-control">
                 </td>
                 <td>
                     <label for="FacturaConsultadaEstado" class="control-label">Estado:</label>
