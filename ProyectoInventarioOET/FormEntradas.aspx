@@ -161,8 +161,7 @@
          <div class="col-lg-12"><strong><div ID="tituloGrid" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Listado de Facturas</div></strong>
 <%--            <asp:UpdatePanel ID="UpdatePanelFacturas" runat="server">
                 <ContentTemplate>--%>
-        <div id="popup" style="max-height:600px;overflow-y:scroll;">
-                    <asp:GridView ID="gridViewFacturas" CssClass="table" OnRowCommand="gridViewFacturas_RowCommand" OnPageIndexChanging="gridViewFacturas_PageIndexChanging" runat="server" AllowPaging="false" PageSize="2" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None" OnSelectedIndexChanged="gridViewFacturas_SelectedIndexChanged">
+                    <asp:GridView ID="gridViewFacturas" CssClass="table" OnRowCommand="gridViewFacturas_RowCommand" OnPageIndexChanging="gridViewFacturas_PageIndexChanging" runat="server" AllowPaging="true" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None" OnSelectedIndexChanged="gridViewFacturas_SelectedIndexChanged">
                         <Columns>
                             <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Seleccionar">
                                 <ControlStyle CssClass="btn btn-default"></ControlStyle>
@@ -174,9 +173,6 @@
                        <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="Green" />
                        <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
                   </asp:GridView>
-
-        </div>
-
 <%--             </ContentTemplate>
              <Triggers>
                 <asp:AsyncPostBackTrigger ControlID="gridViewFacturas" EventName="RowCommand" />
@@ -258,12 +254,12 @@
                  <div class="col-lg-12"><strong><div ID="Div1" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Detalle de la Factura Entrante</div></strong>
                     <asp:UpdatePanel ID="UpdatePanelDetalleFactura" runat="server">
                         <ContentTemplate>
-                            <asp:GridView ID="gridDetalleFactura" CssClass="table" OnPageIndexChanging="gridDetalleFactura_PageIndexChanging" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
-                               <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
-                               <PagerStyle CssClass="paging" HorizontalAlign="Center" />
-                               <AlternatingRowStyle BackColor="#F8F8F8" />
-                               <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
-                               <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
+                            <asp:GridView ID="gridDetalleFactura" CssClass="table" OnPageIndexChanging="gridDetalleFactura_PageIndexChanging" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">                                                             
+                                <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
+                                <PagerStyle CssClass="paging" HorizontalAlign="Center" />
+                                <AlternatingRowStyle BackColor="#F8F8F8" />
+                                <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
+                                <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
                           </asp:GridView>
                      </ContentTemplate>
                      <Triggers>
@@ -277,11 +273,11 @@
                 <label class= "control-label">Buscar producto:</label>
                 <asp:TextBox ID="textBoxAutocompleteCrearFacturaBusquedaProducto" runat="server" CssClass="form-control" Width="100%"></asp:TextBox>
                 <br />
-                <label for="inputCantidad" class= "control-label">Cantidad:</label>      
-                <input id="Text1" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
+                <label for="inputCantidadProducto" class= "control-label">Cantidad:</label>      
+                <input id="inputCantidadProducto" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
                 <br />
-                <label for="inputCosto" class= "control-label">Costo:</label>      
-                <input id="Text2" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
+                <label for="inputCostoProducto" class= "control-label">Costo:</label>      
+                <input id="inputCostoProducto" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
                 <br />
                 <asp:Button ID="botonAgregarProductoFactura" runat="server" Text="Agregar a Factura" CssClass="btn btn-warning-fozkr" OnClick="botonAgregarProductoFactura_Click"/>
             </div>
@@ -292,11 +288,18 @@
                     <asp:UpdatePanel ID="UpdatePanelFacturaNueva" runat="server">
                         <ContentTemplate>
                             <asp:GridView ID="gridFacturaNueva" CssClass="table" OnPageIndexChanging="gridFacturaNueva_PageIndexChanging" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
-                               <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
-                               <PagerStyle CssClass="paging" HorizontalAlign="Center" />
-                               <AlternatingRowStyle BackColor="#F8F8F8" />
-                               <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
-                               <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
+						        <Columns>
+							        <asp:TemplateField HeaderText="Seleccionar">
+								        <ItemTemplate>
+									        <asp:CheckBox ID="checkBoxProductos" runat="server"/>
+								        </ItemTemplate>
+							        </asp:TemplateField>
+						        </Columns>                                 
+                                <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
+                                <PagerStyle CssClass="paging" HorizontalAlign="Center" />
+                                <AlternatingRowStyle BackColor="#F8F8F8" />
+                                <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
+                                <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
                           </asp:GridView>
                      </ContentTemplate>
                      <Triggers>
@@ -311,48 +314,6 @@
         <br />
     </fieldset>
     <br />
-
-    <fieldset id="FieldsetResultadosBusqueda" runat="server" visible="false" >
-        <div class="row">
-            <div class="col-lg-7">
-            <strong><div ID="UpdatePanelResultados" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Resultados de Búsqueda</div></strong>
-                    <asp:GridView ID="gridViewProductoBuscado" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewProductoBuscado_RowCommand" OnPageIndexChanging="gridViewProductoBuscado_PageIndexChanging" runat="server" AllowPaging="true" PageSize="16" BorderColor="Transparent">
-                        <Columns>
-                            <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Seleccionar">
-                                <ControlStyle CssClass="btn btn-default"></ControlStyle>
-                            </asp:ButtonField>
-                        </Columns>
-                        <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
-                        <PagerStyle CssClass="paging" HorizontalAlign="Center" />
-                        <AlternatingRowStyle BackColor="#EBEBEB" />
-                        <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
-                        <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" />
-                    </asp:GridView>
-            </div>
-
-            <div class="col-lg-5">
-                <div class="row">
-                    <h4>Información del Producto</h4>
-                </div>
-
-                <div class="row">
-                    <label for="outputNombreProducto" class= "control-label col-lg-4"></label>      
-                </div>
-
-                <div class="row">
-                    <label for="inputCantidad" class= "control-label">Cantidad:</label>      
-                    <input id="inputCantidad" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
-
-                    <label for="inputCosto" class= "control-label">Costo:</label>      
-                    <input id="inputCosto" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
-                </div>
-                <br />
-<%--                <div class="row">
-
-                </div>--%>
-            </div>
-        </div>
-    </fieldset>
 
     <div class="col-lg-12" id="bloqueBotones">
         <div class =" row">

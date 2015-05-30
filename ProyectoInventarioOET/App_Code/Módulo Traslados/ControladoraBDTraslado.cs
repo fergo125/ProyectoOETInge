@@ -95,5 +95,38 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
         }
 
 
+
+        public String[] insertarAjuste(EntidadTraslado nuevo)
+        {
+            String esquema = "Inventarios.";
+            String[] res = new String[4];
+            res[3] = generarID();
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "INSERT INTO " + esquema + "TRASLADOS (ID_TRASLADO, FECHA, USUARIO_BODEGA, IDBODEGAORIGEN, IDBODEGADESTINO, ESTADO, NOTAS) "
+               + "VALUES ('" + res[3] + "', TO_DATE('" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "',  'dd/mm/yyyy hh24:mi:ss') , '"
+               + nuevo.IdUsuario + "','" + nuevo.IdBodegaOrigen + "' , '" + nuevo.IdBodegaDestino + "' , " + 0 + ", '" + nuevo.Notas+ "' )";
+                OracleDataReader reader = command.ExecuteReader();
+
+                /*foreach (EntidadDetalles detallesProducto in ajuste.Detalles)
+                { // Por cada producto meterlo en el detalles ajustes
+                    insertarDetalle(res[3], detallesProducto);
+                    actualizarProducto(detallesProducto.IdProductoBodega, detallesProducto.Cambio);
+                }*/
+
+                res[0] = "success";
+                res[1] = "Éxito:";
+                res[2] = "Ajuste agregado al sistema.";
+            }
+            catch (OracleException e)
+            {
+                res[0] = "danger";
+                res[1] = "Error:";
+                res[2] = "Ajuste no agregado, intente nuevamente.";
+            }
+
+            return res;
+        }
     }
 }
