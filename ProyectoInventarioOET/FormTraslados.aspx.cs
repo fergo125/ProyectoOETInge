@@ -290,6 +290,7 @@ namespace ProyectoInventarioOET
                 Object[] datos = new Object[5];
 
                 DataTable traslados = controladoraTraslados.consultarTraslados((this.Master as SiteMaster).LlaveBodegaSesion, entrada);
+
                 
                 if (traslados.Rows.Count > 0)
                 {
