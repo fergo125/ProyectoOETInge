@@ -113,7 +113,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
                 foreach (EntidadDetalles detallesProducto in nuevo.Detalles)
                 { // Por cada producto meterlo en el detalles ajustes
                     insertarDetalle(res[3], detallesProducto);
-                    congelarProducto(detallesProducto.IdProductoBodega, detallesProducto.Cambio);
+                    congelarProducto(detallesProducto.IdProductoBodegaOrigen, detallesProducto.Cambio);
                 }
 
                 res[0] = "success";
@@ -139,9 +139,9 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
             {
                 OracleCommand command = conexionBD.CreateCommand();
                 command.CommandText = " UPDATE " + esquema + "INV_BODEGA_PRODUCTOS "
-                                     + " SET SALDOCONGELADO = SALDOCONGELADO + " + traslado
+                                     + " SET SALDOCONGELADO = SALDOCONGELADO + " + traslado + " , "
                                      + " SALDO = SALDO - " + traslado
-                                     + " WHERE INV_PRODUCTO = '" + idProductoBodega+ "'";  
+                                     + " WHERE INV_BODEGA_PRODUCTOS = '" + idProductoBodega+ "'";  
                 OracleDataReader reader = command.ExecuteReader();
             }
             catch (OracleException e) {
@@ -149,13 +149,13 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
             }
         }
 
-        private void insertarDetalle(string idTraslado, EntidadDetalles detallesProducto)
+        private void insertarDetalle(String idTraslado, EntidadDetalles detallesProducto)
         {
             String esquema = "Inventarios.";
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = " INSERT INTO" + esquema + "DETALLES_TRASLADO "
+                command.CommandText = " INSERT INTO " + esquema + "DETALLES_TRASLADO "
                                      + " VALUES ('" + idTraslado +"', '" + detallesProducto.IdProductoBodegaDestino + "', '"+ detallesProducto.IdProductoBodegaOrigen +"' , " +detallesProducto.Cambio+ ")";
                 OracleDataReader reader = command.ExecuteReader();
             }

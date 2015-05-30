@@ -246,8 +246,8 @@ namespace ProyectoInventarioOET
                 // Cargar bodegas
                 Object[] datos = new Object[3];
 
-                DataTable ajustes = controladoraAjustes.consultarAjustes((this.Master as SiteMaster).LlaveBodegaSesion);
-                //DataTable ajustes = controladoraAjustes.consultarAjustes("PITAN129012015101713605001");
+                //DataTable ajustes = controladoraAjustes.consultarAjustes((this.Master as SiteMaster).LlaveBodegaSesion);
+                DataTable ajustes = controladoraAjustes.consultarAjustes("PITAN129012015101713605001");
 
                 if (ajustes.Rows.Count > 0)
                 {
