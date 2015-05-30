@@ -254,12 +254,12 @@
                  <div class="col-lg-12"><strong><div ID="Div1" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Detalle de la Factura Entrante</div></strong>
                     <asp:UpdatePanel ID="UpdatePanelDetalleFactura" runat="server">
                         <ContentTemplate>
-                            <asp:GridView ID="gridDetalleFactura" CssClass="table" OnPageIndexChanging="gridDetalleFactura_PageIndexChanging" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">                                                             
-                                <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
-                                <PagerStyle CssClass="paging" HorizontalAlign="Center" />
-                                <AlternatingRowStyle BackColor="#F8F8F8" />
-                                <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
-                                <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
+                            <asp:GridView ID="gridDetalleFactura" CssClass="table" OnPageIndexChanging="gridDetalleFactura_PageIndexChanging" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                               <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
+                               <PagerStyle CssClass="paging" HorizontalAlign="Center" />
+                               <AlternatingRowStyle BackColor="#F8F8F8" />
+                               <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
+                               <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
                           </asp:GridView>
                      </ContentTemplate>
                      <Triggers>
@@ -273,11 +273,11 @@
                 <label class= "control-label">Buscar producto:</label>
                 <asp:TextBox ID="textBoxAutocompleteCrearFacturaBusquedaProducto" runat="server" CssClass="form-control" Width="100%"></asp:TextBox>
                 <br />
-                <label for="inputCantidadProductoNuevo" class= "control-label">Cantidad:</label>      
-                <input id="inputCantidadProductoNuevo" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
+                <label for="inputCantidad" class= "control-label">Cantidad:</label>      
+                <input id="inputCantidad" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
                 <br />
-                <label for="inputCostoProductoNuevo" class= "control-label">Costo:</label>      
-                <input id="inputCostoProductoNuevo" class="form-control" type="text" placeholder="Ingrese el costo" runat="server">
+                <label for="inputCosto" class= "control-label">Costo:</label>      
+                <input id="inputCosto" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
                 <br />
                 <asp:Button ID="botonAgregarProductoFactura" runat="server" Text="Agregar a Factura" CssClass="btn btn-warning-fozkr" OnClick="botonAgregarProductoFactura_Click"/>
             </div>
@@ -287,25 +287,12 @@
                  <div class="col-lg-12"><strong><div ID="Div3" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Detalle de la Factura Consignada</div></strong>
                     <asp:UpdatePanel ID="UpdatePanelFacturaNueva" runat="server">
                         <ContentTemplate>
-                            <asp:GridView ID="gridFacturaNueva" CssClass="table" OnRowCreated="gridFacturaNueva_RowCreated" OnPageIndexChanging="gridFacturaNueva_PageIndexChanging" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
-						        <Columns>
-
-                                    <asp:TemplateField HeaderText="Costo" >
-                                        <ItemTemplate>
-                                            <asp:TextBox ID="textCosto" runat="server" ReadOnly="false"></asp:TextBox>
-                                        </ItemTemplate>
-                                    </asp:TemplateField>
-							        <asp:TemplateField HeaderText="Seleccionar">
-								        <ItemTemplate>
-									        <asp:CheckBox ID="checkBoxProductos" runat="server"/>
-								        </ItemTemplate>
-							        </asp:TemplateField>
-						        </Columns>                                 
-                                <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
-                                <PagerStyle CssClass="paging" HorizontalAlign="Center" />
-                                <AlternatingRowStyle BackColor="#F8F8F8" />
-                                <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
-                                <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
+                            <asp:GridView ID="gridFacturaNueva" CssClass="table" OnPageIndexChanging="gridFacturaNueva_PageIndexChanging" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                               <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
+                               <PagerStyle CssClass="paging" HorizontalAlign="Center" />
+                               <AlternatingRowStyle BackColor="#F8F8F8" />
+                               <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
+                               <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
                           </asp:GridView>
                      </ContentTemplate>
                      <Triggers>
@@ -320,6 +307,48 @@
         <br />
     </fieldset>
     <br />
+
+<%--    <fieldset id="FieldsetResultadosBusqueda" runat="server" visible="false" >
+        <div class="row">
+            <div class="col-lg-7">
+            <strong><div ID="UpdatePanelResultados" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Resultados de Búsqueda</div></strong>
+                    <asp:GridView ID="gridViewProductoBuscado" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewProductoBuscado_RowCommand" OnPageIndexChanging="gridViewProductoBuscado_PageIndexChanging" runat="server" AllowPaging="true" PageSize="16" BorderColor="Transparent">
+                        <Columns>
+                            <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Seleccionar">
+                                <ControlStyle CssClass="btn btn-default"></ControlStyle>
+                            </asp:ButtonField>
+                        </Columns>
+                        <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
+                        <PagerStyle CssClass="paging" HorizontalAlign="Center" />
+                        <AlternatingRowStyle BackColor="#EBEBEB" />
+                        <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
+                        <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" />
+                    </asp:GridView>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="row">
+                    <h4>Información del Producto</h4>
+                </div>
+
+                <div class="row">
+                    <label for="outputNombreProducto" class= "control-label col-lg-4"></label>      
+                </div>
+
+                <div class="row">
+                    <label for="inputCantidad" class= "control-label">Cantidad:</label>      
+                    <input id="inputCantidad" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
+
+                    <label for="inputCosto" class= "control-label">Costo:</label>      
+                    <input id="inputCosto" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
+                </div>
+                <br />
+<%--                <div class="row">
+
+                </div>--%>
+            </div>
+        </div>
+    </fieldset>--%>
 
     <div class="col-lg-12" id="bloqueBotones">
         <div class =" row">

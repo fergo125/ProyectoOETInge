@@ -418,22 +418,22 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.TextBox textBoxAutocompleteCrearFacturaBusquedaProducto;
         
         /// <summary>
-        /// Control inputCantidadProductoNuevo.
+        /// Control inputCantidad.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText inputCantidadProductoNuevo;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText inputCantidad;
         
         /// <summary>
-        /// Control inputCostoProductoNuevo.
+        /// Control inputCosto.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText inputCostoProductoNuevo;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText inputCosto;
         
         /// <summary>
         /// Control botonAgregarProductoFactura.

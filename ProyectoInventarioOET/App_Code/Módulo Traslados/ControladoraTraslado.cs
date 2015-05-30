@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using ProyectoInventarioOET.Modulo_Bodegas;
 using ProyectoInventarioOET.Modulo_Productos_Locales;
+using ProyectoInventarioOET.App_Code.Modulo_Ajustes;
 
 namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
 {
@@ -78,14 +79,10 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
             consultada.IdBodegaOrigen = "CYCLO128122012112950388004";
             consultada.IdBodegaDestino = "PITAN129012015101713605001";
             consultada.Notas = "PRIMER INSERTARRRRR";
-            controladoraBD.insertarAjuste(consultada);
-
-
-
-
+      
 
             Object[] datosProductos = new Object[4];
-            foreach (DataRow fila in respuesta[1].Rows) // Varias filas que corresponden a los productos
+            foreach (DataRow fila in respuesta[1].Rows) 
             {
                 datosProductos[0] = fila[0].ToString(); // Nombre
                 datosProductos[1] = fila[1].ToString(); // Codigo
@@ -93,7 +90,6 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
                 datosProductos[3] = fila[3].ToString(); // Unidades
                 consultada.agregarDetalle(datosProductos);
             }
-            
             return consultada;
         }
 
