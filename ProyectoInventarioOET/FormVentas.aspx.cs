@@ -260,14 +260,14 @@ namespace ProyectoInventarioOET
             dropDownListConsultaVendedor.Items.Clear();
             EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
             //Dependiendo del perfil del usuario, puede que en la instancia de usuarioLogueado ya estén guardados los datos por default
-            switch (Convert.ToInt32(usuarioActual.CodigoPerfil))
+            switch (Convert.ToInt32(usuarioActual.CodigoPerfil)) //TODO, revisar esto
             {
                 case 4: //Vendedor
+                    //Se pone al venededor automáticamente
                     dropDownListConsultaVendedor.Items.Add(new ListItem(usuarioActual.Nombre, usuarioActual.Codigo));
                     dropDownListConsultaVendedor.SelectedIndex = 0;
                     dropDownListConsultaVendedor.Enabled = false;
-
-
+                    //Se pone la bodega automáticamente
                     dropDownListConsultaBodega.Items.Add(new ListItem( (this.Master as SiteMaster).NombreBodegaSesion, (this.Master as SiteMaster).LlaveBodegaSesion));
                     dropDownListConsultaBodega.SelectedIndex = 0;
                     dropDownListConsultaBodega.Enabled = false;
