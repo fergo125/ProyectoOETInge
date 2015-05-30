@@ -211,9 +211,9 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
                                      + " SET ESTADO = " + estado 
                                      + " WHERE ID_TRASLADO = '" + traslado.IdTraslado + "'" ;
                 OracleDataReader reader = command.ExecuteReader();
-                foreach (){
+                /*foreach (){
                 
-                }
+                } */
             }
             catch (OracleException e)
             {
