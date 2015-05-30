@@ -8,6 +8,7 @@ using System.Web.UI.WebControls;
 using ProyectoInventarioOET.Modulo_Seguridad;
 using ProyectoInventarioOET.Modulo_Ventas;
 using ProyectoInventarioOET.Modulo_Bodegas;
+using ProyectoInventarioOET.App_Code.Modulo_Ajustes;
 using ProyectoInventarioOET.App_Code;
 
 namespace ProyectoInventarioOET
@@ -31,6 +32,7 @@ namespace ProyectoInventarioOET
         private static ControladoraDatosGenerales controladoraDatosGenerales;  //Para accesar datos generales de la base de datos
         private static ControladoraBodegas controladoraBodegas;  //Para accesar datos generales de la base de datos
         private static ControladoraSeguridad controladoraSeguridad;     //???
+        private static ControladoraAjustes controladoraAjustes;     //???
         
         //Importante:
         //Para el codigoPerfilUsuario (que se usa un poco hard-coded), los números son:
@@ -55,6 +57,7 @@ namespace ProyectoInventarioOET
                 controladoraSeguridad = new ControladoraSeguridad();
                 controladoraVentas = new ControladoraVentas();
                 controladoraBodegas = new ControladoraBodegas();
+                controladoraAjustes = new ControladoraAjustes();
                 //Seguridad
                 //permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Facturacion"); //TODO: descomentar esto, está comentado sólo para pruebas
                 if (permisos == "000000")
@@ -733,6 +736,38 @@ namespace ProyectoInventarioOET
         protected void dropDownListConsultaEstacion_SelectedIndexChanged(object sender, EventArgs e)
         {
             cargarBodegas(this.dropDownListConsultaBodega);
+        }
+
+        protected void botonAceptarAjusteRapido_ServerClick(object sender, EventArgs e)
+        {
+            String productoEscogido = textBoxAutocompleteAjusteRapidoBusquedaProducto.Text;
+            productoEscogido = controladoraVentas.verificarExistenciaProductoLocal( (this.Master as SiteMaster).LlaveBodegaSesion, productoEscogido); //TODO: obtener llave de la bodega, no nombre
+
+            Object[] datos = new Object[6];
+            datos[0] = "CYCLO106062012145550408008";
+            datos[1] = DateTime.Now.ToString("dd-MMM-yy");
+            datos[2] = (this.Master as SiteMaster).Usuario.Nombre;
+            datos[3] = (this.Master as SiteMaster).Usuario.Codigo;
+            datos[4] = "Ajuste realizado para permitir una venta";
+            datos[5] = (this.Master as SiteMaster).LlaveBodegaSesion;
+
+            EntidadAjustes nuevoAjusteRapido = new EntidadAjustes(datos);
+            
+            datos = new Object[5];
+            datos[0] = datos[1] = "";
+            datos[2] = Convert.ToInt32(nuevaCantidadParaAjusteRapido.Text);
+            datos[3] = productoEscogido;
+            datos[4] = Convert.ToInt32(nuevaCantidadParaAjusteRapido.Text);
+
+
+            nuevoAjusteRapido.agregarDetalle(datos);
+            String [] resultado = controladoraAjustes.insertarAjuste(nuevoAjusteRapido);
+            mostrarMensaje(resultado[0],resultado[1],resultado[2]);
+        
+        
+        
+        
+        
         }
     }
 }

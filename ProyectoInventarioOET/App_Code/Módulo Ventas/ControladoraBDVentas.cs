@@ -258,7 +258,7 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT ESTADO FROM " + esquema + "INV_BODEGA_PRODUCTOS WHERE INV_PRODUCTOS = '" + llaveProducto + "'";
+                command.CommandText = "SELECT ESTADO FROM " + esquema + "INV_BODEGA_PRODUCTOS WHERE INV_PRODUCTOS = '" + llaveProducto + "' AND CAT_BODEGA = '" + llaveBodega + "'";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
                 if (resultado.Rows.Count == 1)
