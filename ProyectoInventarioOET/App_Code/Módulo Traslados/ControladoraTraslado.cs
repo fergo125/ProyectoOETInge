@@ -47,18 +47,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
             {
                 foreach (DataRow fila in traslados.Rows)
                 {
-                    switch (fila[7].ToString()) { 
-                        case  "-1":
-                            fila[8] = "Rechazado";
-                            break;
-                        case "1":
-                            fila[8] = "Aceptado";
-                            break;
-                        default:
-                            fila[8] = "En Proceso";
-                            break;
-                    }
-
+                    fila[8] = getNombreEstado(fila[7].ToString()); 
                 }
             }
             return traslados;
@@ -86,12 +75,13 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
                 datosProductos[0] = fila[0].ToString(); // Id
                 datosProductos[1] = fila[1];            //Fecha
                 datosProductos[2] = fila[2].ToString();  // usuario
-                datosProductos[3] = fila[3].ToString(); //idUsuario
-                datosProductos[4] = fila[3].ToString(); //notas 
+                datosProductos[3] = fila[4].ToString(); //idUsuario
+                datosProductos[4] = fila[5].ToString(); //notas 
                 datosProductos[5] = fila[3].ToString(); //idBodeOrigen
                 datosProductos[6] = fila[3].ToString(); //idBodeDestino
                 datosProductos[7] = fila[3].ToString(); //BodeOrigen
                 datosProductos[8] = fila[3].ToString(); //BodeDestino
+                datosProductos[9] = getNombreEstado (fila[9].ToString()); // Estado
                 consultada.agregarDetalle(datosProductos);
             }
 
@@ -101,6 +91,24 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
 
             //controladoraBD.insertarAjuste(consultada);
             return consultada;
+        }
+
+        private object getNombreEstado(string estado)
+        {
+            String descripcion = "";
+            switch (estado)
+            {
+                case "-1":
+                    descripcion = "Rechazado";
+                    break;
+                case "1":
+                    descripcion = "Aceptado";
+                    break;
+                default:
+                    descripcion = "En Proceso";
+                    break;
+            }
+            return descripcion;
         }
 
 

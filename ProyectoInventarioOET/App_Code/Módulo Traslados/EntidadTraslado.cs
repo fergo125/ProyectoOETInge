@@ -16,7 +16,8 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
         private String idBodegaOrigen;
         private String idBodegaDestino;
         private String bodegaOrigen;
-        private String bodegaDestino; 
+        private String bodegaDestino;
+        private String estado;
 
         private List<EntidadDetalles> detalles = new List<EntidadDetalles>();
 
@@ -29,8 +30,8 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
             this.notas = datos[4].ToString();
             this.idBodegaOrigen = datos[5].ToString();
             this.idBodegaDestino = datos[6].ToString();
-            this.bodegaOrigen = datos[5].ToString();
-            this.bodegaDestino = datos[6].ToString();
+            this.bodegaOrigen = datos[7].ToString();
+            this.bodegaDestino = datos[8].ToString();
             detalles = new List<EntidadDetalles>();
         }
 
@@ -95,6 +96,11 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
             set { bodegaDestino = value; }
         }
 
+        public String Estado
+        {
+            get { return estado; }
+            set { estado = value; }
+        }
 
         public List<EntidadDetalles> Detalles
         {
