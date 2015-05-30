@@ -137,11 +137,13 @@
     <!-- Panel con el grid de consultar facturas (se mantiene aparte para poder esconder los campos de consulta grupal y mostrar los de consulta individual, sin tocar el grid) -->
     <br />
     <br />
-    <asp:Panel ID="PanelGridConsultas" runat="server" Visible="false">
+    
+    
+    
         <strong><div ID="tituloGrid" runat="server" tabindex="" class="control-label" style="text-align:center; font-size:larger; background-color: #C0C0C0;">Facturas en el sistema</div></strong>
             <asp:UpdatePanel ID="UpdatePanelFacturas" runat="server">
                 <ContentTemplate>
-                    <asp:GridView ID="gridViewFacturas" CssClass="table" OnRowCommand="gridViewFacturas_FilaSeleccionada" OnPageIndexChanging="gridViewFacturas_CambioPagina" runat="server" AllowPaging="True" PageSize="10" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                    <asp:GridView ID="gridViewFacturas" Visible="false" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewFacturas_FilaSeleccionada" OnPageIndexChanging="gridViewFacturas_CambioPagina" runat="server" AllowPaging="true" PageSize="3" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
                         <Columns>
                             <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Consultar">
                                 <ControlStyle CssClass="btn btn-default"></ControlStyle>
@@ -158,7 +160,6 @@
                 <asp:AsyncPostBackTrigger ControlID="gridViewFacturas" EventName="RowCommand" />
              </Triggers>
           </asp:UpdatePanel>
-    </asp:Panel>
 
     <!-- Panel crear factura -->
     <asp:Panel ID="PanelCrearFactura" runat="server" Visible="true">
