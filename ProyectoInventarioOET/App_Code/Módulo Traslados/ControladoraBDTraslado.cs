@@ -151,7 +151,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
 
         private void desCongelarProducto(String idProductoBodegaOrigen, String idProductoBodegaDestino, double traslado, int aceptarTraslado)
         {
-            String esquema = "Inventarios.";
+            String esquema = "Inventarios.";  
             try
             {
                 if (aceptarTraslado>0)
