@@ -184,13 +184,13 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.UpdatePanel UpdatePanelFacturaConsultada;
         
         /// <summary>
-        /// Control gridFaacturaEspecificaProductos.
+        /// Control gridFacturaEspecificaProductos.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gridFaacturaEspecificaProductos;
+        protected global::System.Web.UI.WebControls.GridView gridFacturaEspecificaProductos;
         
         /// <summary>
         /// Control textBoxFacturaConsultadaConsecutivo.
@@ -256,13 +256,13 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.TextBox textBoxFacturaConsultadaTipoMoneda;
         
         /// <summary>
-        /// Control textBoxFacturaConsultadaImpuesto.
+        /// Control textBoxFacturaConsultadaMontoTotal.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox textBoxFacturaConsultadaImpuesto;
+        protected global::System.Web.UI.WebControls.TextBox textBoxFacturaConsultadaMontoTotal;
         
         /// <summary>
         /// Control textBoxFacturaConsultadaMetodoPago.
@@ -290,15 +290,6 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox textBoxFacturaConsultadaEstado;
-        
-        /// <summary>
-        /// Control PanelGridConsultas.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel PanelGridConsultas;
         
         /// <summary>
         /// Control tituloGrid.

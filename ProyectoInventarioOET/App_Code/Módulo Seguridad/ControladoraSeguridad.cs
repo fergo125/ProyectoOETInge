@@ -77,5 +77,16 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         {
             return controladoraBDSeguridad.consultarNombreDeUsuario(idUsuario);
         }
+
+        public String consultarNombreDeBodega(String id)
+        {
+            return controladoraBDSeguridad.consultarNombreDeBodega(id);
+        }
+
+
+        public String consultarNombreDeEstacion(String id)
+        {
+            return controladoraBDSeguridad.consultarNombreDeEstacion(id);
+        }
     }
 }

@@ -13,6 +13,9 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
         private double cambio;
         private String idProductoBodega;
         private double final;
+        private String unidades;
+        private String idProductoBodegaDestino;
+        private String idProductoBodegaOrigen;
 
             public EntidadDetalles (Object[] datos)
             {
@@ -24,6 +27,13 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
                     this.final = Double.Parse(datos[4].ToString());
             }
 
+            public EntidadDetalles(Object[] datos, bool traslado)
+            {
+                this.nombreProducto = datos[0].ToString();
+                this.codigo = datos[1].ToString();
+                this.cambio = Double.Parse(datos[2].ToString());
+                this.unidades = datos[3].ToString();
+            }
 
             public String NombreProducto
             {
@@ -48,6 +58,26 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
                 get { return idProductoBodega; }
                 set { idProductoBodega = value; }
             }
+            
+            public String IdProductoBodegaOrigen
+            {
+                get { return idProductoBodegaOrigen; }
+                set { idProductoBodegaOrigen = value; }
+            }
+            
+            public String IdProductoBodegaDestino
+            {
+                get { return idProductoBodegaDestino; }
+                set { idProductoBodegaDestino = value; }
+            }
+
+            public String Unidades
+            {
+                get { return unidades; }
+                set { unidades = value; }
+            }
+
+
 
     }
 }

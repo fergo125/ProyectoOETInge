@@ -141,13 +141,15 @@ create table DETALLES_AJUSTES (
 CREATE TABLE REGISTRO_FACTURAS_VENTA(
 consecutivo int NOT NULL PRIMARY KEY,
 fecha DATE,
+bodega varchar(30),
 estacion varchar2(30),
 compañia varchar2(30),
 actividad varchar2(30),
 vendedor varchar2(40),
 cliente varchar2(40),
 tipoMoneda varchar2(10),
-metodoPago varchar2(30)
+metodoPago varchar2(30),
+montoTotal float
 );
 
 CREATE TABLE REGISTRO_DETALLES_FACTURAS(

@@ -18,69 +18,107 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
             controladoraBD = new ControladoraBDTraslado();
         }
 
-        public DataTable consultarBodegas() {
+
+        public DataTable consultarBodegas(String idUsuario, String rol)
+        {
             ControladoraBodegas controladoraBodega = new ControladoraBodegas();
-            return controladoraBodega.consultarBodegas("3", "sdfsadf");
+            return controladoraBodega.consultarBodegas(idUsuario, rol);
         }
+
 
         // Lista de productos para poder trasladar
         public DataTable consultarProductosDeBodega(String idBodegaOrigen, String idBodegaDestino)
         {
             ControladoraProductoLocal controladoraProductoLocal = new ControladoraProductoLocal();
-            return controladoraProductoLocal.consultarProductosDeBodega(idBodegaOrigen);
-            //return controladoraProductoLocal.consultarProductosDeBodega(idBodegaOrigen, idBodegaDestino);
+            return controladoraProductoLocal.consultarProductosDeBodega(idBodegaOrigen, idBodegaDestino);
         }
 
 
         // Consulta de los traslados tanto entrantes como salientes de la bodega actual (con la que esta loggeado)
+        // RECORDAR     -1: Traslado Rechazado
+        //               0: Traslado Anulado
+        //               1: Traslado Aceptado
         public DataTable consultarTraslados(String idBodega, bool entrada)
         {
             DataTable traslados = controladoraBD.consultaTraslados(idBodega, entrada);
-            //traslados.Columns.Add("Tipo", typeof(string));
-            //if (traslados.Rows.Count > 0)
-            //{
-            //    foreach (DataRow fila in traslados.Rows) {
-            //        fila[5] = "Entrada";
-            //        if (fila[4].ToString() == idBodega) { //Si el idOrigen es igual al de la bodega que estoy consultado
-            //            fila[5] = "Salida";
-            //        }
-            //    }
-            //}
+            traslados.Columns.Add("DescripcionEstado", typeof(string));
+            //DataTable[] prueba = controladoraBD.consultarTraslado("1111"); //PRUEBA CARLOS
+            if (traslados.Rows.Count > 0)
+            {
+                foreach (DataRow fila in traslados.Rows)
+                {
+                    fila[8] = getNombreEstado(fila[7].ToString()); 
+                }
+            }
             return traslados;
         }
 
-        public EntidadTraslado consultarTraslado (String idAjuste)
+        public EntidadTraslado consultarTraslado (String idTraslado)
         {
 
-            Object[] datos = new Object[5];
-            DataTable[] respuesta = controladoraBD.consultarTraslado(idAjuste);
+            Object[] datos = new Object[10];
+            DataTable[] respuesta = controladoraBD.consultarTraslado(idTraslado);
             foreach (DataRow fila in respuesta[0].Rows)
-            {  //Solo seria una fila
-                datos[0] = fila[0].ToString();
-                datos[1] = fila[1].ToString();
-                datos[2] = fila[2];  // Es la fecha
-                datos[3] = fila[3].ToString(); // Es la bodega
-                datos[4] = fila[4].ToString();
+            {  
+                datos[0] = idTraslado;          // Id
+                datos[1] = fila[1];             //Fecha
+                datos[2] = fila[2].ToString();  // usuario
+                datos[3] = "";                  //idUsuario
+                datos[4] = fila[0].ToString();  //notas 
+                datos[5] = "";                  //idBodeOrigen
+                datos[6] = "";                  //idBodeDestino
+                datos[7] = fila[3].ToString();  //BodeOrigen
+                datos[8] = fila[4].ToString();  //BodeDestino
+                datos[9] = getNombreEstado(fila[5].ToString()); // Estado
             }
 
             EntidadTraslado consultada = new EntidadTraslado(datos);
+            consultada.IdTraslado = "222";
+            consultada.IdUsuario = "3";
+            consultada.IdBodegaOrigen = "CYCLO128122012112950388004";
+            consultada.IdBodegaDestino = "PITAN129012015101713605001";
+            consultada.Notas = "PRIMER INSERTARRRRR";
+            controladoraBD.insertarAjuste(consultada);
+
+
+
+
 
             Object[] datosProductos = new Object[4];
             foreach (DataRow fila in respuesta[1].Rows) // Varias filas que corresponden a los productos
             {
-                datosProductos[0] = fila[0].ToString();
-                datosProductos[1] = fila[1].ToString();
-                datosProductos[2] = fila[2];  // Es la fecha
-                datosProductos[3] = fila[3].ToString();
+                datosProductos[0] = fila[0].ToString(); // Nombre
+                datosProductos[1] = fila[1].ToString(); // Codigo
+                datosProductos[2] = fila[2].ToString(); // Traslado, el parse se hace en la entidad
+                datosProductos[3] = fila[3].ToString(); // Unidades
                 consultada.agregarDetalle(datosProductos);
             }
-
-            //consultada.IdBodega = "PITAN129012015101713605001";
-            //consultada.IdUsuario = "3";
-            //consultada.Notas = "PRUEBADEINSERCIONALOMACHO";
-
-            //controladoraBD.insertarAjuste(consultada);
+            
             return consultada;
+        }
+
+        public String[] insertarAjuste(EntidadTraslado nuevo)
+        {
+            return controladoraBD.insertarAjuste(nuevo);
+        }
+
+
+        private object getNombreEstado(string estado)
+        {
+            String descripcion = "";
+            switch (estado)
+            {
+                case "-1":
+                    descripcion = "Rechazado";
+                    break;
+                case "1":
+                    descripcion = "Aceptado";
+                    break;
+                default:
+                    descripcion = "En Proceso";
+                    break;
+            }
+            return descripcion;
         }
 
 

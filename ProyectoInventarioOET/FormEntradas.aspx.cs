@@ -7,6 +7,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using ProyectoInventarioOET.Modulo_Entradas;
 using ProyectoInventarioOET.App_Code;
+using ProyectoInventarioOET.Modulo_Seguridad;
 
 
 namespace ProyectoInventarioOET
@@ -18,6 +19,7 @@ namespace ProyectoInventarioOET
     {
         enum Modo { Inicial, BusquedaFactura, SeleccionFactura, SeleccionProductos,  EntradaConsultada, SeleccionEntrada }; // Sirve para controlar los modos de la interfaz
         //Atributos
+
         private static int modo = (int)Modo.Inicial;                            // Almacena el modo actual de la interfaz
         private static ControladoraEntradas controladoraEntradas;               // Comunica con la base de datos.
         private static Object[] idArrayFactura;                                        // Almacena identificadores de entradas
@@ -29,6 +31,7 @@ namespace ProyectoInventarioOET
         private static String bodegaDeTrabajo;
         private static String facturaBuscada;
         private static EntidadFactura facturaConsultada;
+        private static ControladoraSeguridad controladoraSeguridad;
 
 
         protected void Page_Load(object sender, EventArgs e)
@@ -231,6 +234,7 @@ namespace ProyectoInventarioOET
                     datos[1] = "-";
                     datos[2] = "-";
                     datos[3] = "-";
+                    mostrarMensaje("warning", "Alerta", "No hay entradas almacenadas.");
                     tabla.Rows.Add(datos);
                 }
 
@@ -284,6 +288,7 @@ namespace ProyectoInventarioOET
                     datos[1] = "-";
                     datos[2] = "-";
                     datos[3] = "-";
+                    mostrarMensaje("warning", "Alerta", "No hay Facturas disponibles en este momento.");
                     tabla.Rows.Add(datos);
                 }
 
@@ -406,9 +411,9 @@ namespace ProyectoInventarioOET
             try
             {
                 entradaConsultada = controladoraEntradas.consultarEntrada(codigo);
-                facturaConsultada = controladoraEntradas.consultarFactura(entradaConsultada.IdFactura);
-                CompletarDatosFactura(facturaConsultada);
-                llenarGridDetalleFactura();
+                //facturaConsultada = controladoraEntradas.consultarFactura(entradaConsultada.IdFactura);
+                CompletarDatosEntrada(entradaConsultada);
+                //llenarGridDetalleFactura();
             }
             catch
             {
@@ -423,6 +428,8 @@ namespace ProyectoInventarioOET
 
         protected void botonAgregarEntradas_ServerClick(object sender, EventArgs e)
         {
+            modo = (int)Modo.Inicial;
+            cambiarModo();
             modo = (int)Modo.BusquedaFactura;
             cambiarModo();
         }
@@ -496,6 +503,15 @@ namespace ProyectoInventarioOET
             outputMoneda.InnerText = Convert.ToString(facturaConsultada.Moneda);
             outputTipoCambio.InnerText = Convert.ToString(facturaConsultada.TipoCambio);
         }
+        protected void CompletarDatosEntrada(EntidadEntrada entradaConsultada)
+        {
+            outputEntrada.InnerText = Convert.ToString(entradaConsultada.IdEntrada);
+            outputFacturaAsociada.InnerText = Convert.ToString(entradaConsultada.IdFactura);
+           //outputUsuario.InnerText = Convert.ToString(controladoraSeguridad.consultarNombreDeUsuario(entradaConsultada.IdEncargado));
+            outputUsuario.InnerText = Convert.ToString(entradaConsultada.IdEncargado);
+            outputBodega.InnerText = Convert.ToString(entradaConsultada.Bodega);
+            outputFecha.InnerText = Convert.ToString(entradaConsultada.FechEntrada);
+        }
         protected void gridDetalleFactura_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
 
@@ -550,7 +566,7 @@ namespace ProyectoInventarioOET
         }
         protected void botonBuscar_Click(object sender, EventArgs e)
         {
-            FieldsetResultadosBusqueda.Visible = true;
+            //FieldsetResultadosBusqueda.Visible = true;
         }
 
         protected void gridViewFacturas_SelectedIndexChanged(object sender, EventArgs e)
@@ -565,7 +581,7 @@ namespace ProyectoInventarioOET
 
         protected void gridViewProductoBuscado_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            FieldsetResultadosBusqueda.Visible = false;
+            //FieldsetResultadosBusqueda.Visible = false;
         }
 
         protected void gridViewProductoBuscado_PageIndexChanging(object sender, GridViewPageEventArgs e)
@@ -589,6 +605,11 @@ namespace ProyectoInventarioOET
             cambiarModo();
         }
 
+        protected void gridProductosDeEntrada_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+
+        }
+
         /*
          * Cambia el modo de la pantalla activando/desactivando o mostrando/ocultando elementos de acuerdo con la 
          * acción que se va a realizar.
@@ -603,10 +624,12 @@ namespace ProyectoInventarioOET
                     this.FieldsetGridFacturas.Visible = false;
                     this.FieldsetEncabezadoFactura.Visible = false;
                     this.FieldsetCrearFactura.Visible = false;
-                    this.FieldsetResultadosBusqueda.Visible = false;
+                   // this.FieldsetResultadosBusqueda.Visible = false;
                     this.botonAgregarEntradas.Disabled = false;
                     this.botonAceptarEntrada.Visible = false;
                     this.botonCancelarEntrada.Visible = false;
+                    this.FieldsetGridProductosDeEntrada.Visible = false;
+                    this.FieldsetGridProductosDeEntrada.Visible = false;
                     tituloAccionEntradas.InnerText = "Seleccione una opción";
                     break;
 
@@ -638,6 +661,7 @@ namespace ProyectoInventarioOET
                 case (int)Modo.EntradaConsultada:
                     tituloAccionEntradas.InnerText = "";
                     this.FieldsetGridEntradas.Visible = true;
+                    this.FieldsetGridProductosDeEntrada.Visible = true;
                     break;
 
                 case (int)Modo.SeleccionEntrada:
@@ -656,6 +680,8 @@ namespace ProyectoInventarioOET
             this.inputCantidad.Value = "";
             this.inputCosto.Value = "";
         }
+
+
 
 
 

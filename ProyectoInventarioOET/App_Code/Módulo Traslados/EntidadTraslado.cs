@@ -14,28 +14,31 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
         private String idUsuario;
         private String notas;
         private String idBodegaOrigen;
-        private String idBodegaDestino; 
+        private String idBodegaDestino;
+        private String bodegaOrigen;
+        private String bodegaDestino;
+        private String estado;
 
         private List<EntidadDetalles> detalles = new List<EntidadDetalles>();
 
         public EntidadTraslado(Object[] datos)
         {
-            detalles = new List<EntidadDetalles>();
             this.idTraslado = datos[0].ToString(); 
             this.fecha = Convert.ToDateTime(datos[1]);
             this.usuario = datos[2].ToString(); 
             this.idUsuario = datos[3].ToString();
             this.notas = datos[4].ToString();
-            if (datos.Count() >= 6)
-            {
-                this.idBodegaOrigen = datos[5].ToString();
-                this.idBodegaDestino = datos[6].ToString();
-            }
+            this.idBodegaOrigen = datos[5].ToString();
+            this.idBodegaDestino = datos[6].ToString();
+            this.bodegaOrigen = datos[7].ToString();
+            this.bodegaDestino = datos[8].ToString();
+            this.estado = datos[9].ToString();
+            detalles = new List<EntidadDetalles>();
         }
 
 
         public void agregarDetalle(Object[] datosProductos) {
-            EntidadDetalles nuevo = new EntidadDetalles(datosProductos);
+            EntidadDetalles nuevo = new EntidadDetalles(datosProductos, true);
             detalles.Add(nuevo);
         }
 
@@ -80,6 +83,24 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
         {
             get { return idBodegaDestino; }
             set { idBodegaDestino = value; }
+        }
+
+        public String BodegaOrigen
+        {
+            get { return bodegaOrigen; }
+            set { bodegaOrigen = value; }
+        }
+
+        public String BodegaDestino
+        {
+            get { return bodegaDestino; }
+            set { bodegaDestino = value; }
+        }
+
+        public String Estado
+        {
+            get { return estado; }
+            set { estado = value; }
         }
 
         public List<EntidadDetalles> Detalles

@@ -51,5 +51,21 @@ namespace ProyectoInventarioOET.Modulo_Ventas
                 return llaveProducto; //Finalmente, se retorna nulo si el producto no se encuentra, y la llave del produto si sí se encuentra
             return null;
         }
+
+        public DataTable consultarFacturas(String rol, String idUsuario, String idBodega, String idEstacion)
+        {
+            return controladoraBDVentas.consultarFacturas(rol, idUsuario, idBodega, idEstacion);
+        }
+
+        public EntidadFactura consultarFactura(String id)
+        {
+            return controladoraBDVentas.consultarFactura(id);
+        }
+
+        public DataTable asociadosABodega(String idBodega)
+        {
+            return controladoraBDVentas.asociadosABodega(idBodega);
+        }
+
     }
 }
