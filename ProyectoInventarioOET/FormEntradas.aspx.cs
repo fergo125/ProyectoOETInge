@@ -38,7 +38,7 @@ namespace ProyectoInventarioOET
         {
             controladoraEntradas = new ControladoraEntradas();
             //bodegaDeTrabajo = (this.Master as SiteMaster).LlaveBodegaSesion;
-            bodegaDeTrabajo = "CRO44452";
+
             //llenarGrid();
 
             mensajeAlerta.Visible = false;
@@ -170,6 +170,7 @@ namespace ProyectoInventarioOET
 
             return tabla;
         }
+
         /*
          * Construye la tabla que se va a utilizar para mostrar la información de como se va construyendo la factura según los artículos recibidos.
          */
@@ -203,6 +204,7 @@ namespace ProyectoInventarioOET
             {
                 // Cargar entradas
                 Object[] datos = new Object[4];
+                bodegaDeTrabajo = "CRO44452";
                 DataTable entradas = controladoraEntradas.consultarEntradas(bodegaDeTrabajo);
 
                 if (entradas.Rows.Count > 0)
@@ -298,16 +300,6 @@ namespace ProyectoInventarioOET
                 mostrarMensaje("warning", "Alerta", "Error al llenar la tabla de Facturas.");
             }
         }
-        protected void llenarGridProductos()
-        {
-            DataTable tabla = tablaFacturaDetallada();
-            int i = 0;
-
-            try
-            {
-                // Cargar entradas
-                Object[] datos = new Object[3];
-                DataTable facturas = controladoraEntradas.consultarProductosEntrada(entradaConsultada.IdEntrada);
 
                 if (facturas.Rows.Count > 0)
                 {
@@ -347,6 +339,63 @@ namespace ProyectoInventarioOET
                 mostrarMensaje("warning", "Alerta", "Error al llenar la tabla de Facturas.");
             }
         }
+        /*
+         * Llena la tabla con las actividades almacenadas en la base de datos.
+         */
+        protected void llenarGrid()
+        {
+            DataTable tabla = tablaFacturas();
+            int indiceNuevaActividad = -1;
+            //int i = 0;
+
+            try
+            {
+                // Cargar actividades
+                //Object[] datos = new Object[3];
+                Object[] datos = new Object[4];
+                //DataTable actividades = controladoraActividades.consultarActividades();
+                //idArray = new Object[actividades.Rows.Count];
+                for (int i = 0; i < 3; i++)
+                {
+                    //idArray[i] = fila[0];
+                    datos[0] = 55;
+                    datos[1] = 55;
+                    datos[2] = 55;
+                    datos[3] = 55;
+                    //datos[1] = fila[0].ToString();
+                    //if (fila[2].ToString().Equals("0"))
+                    //{
+                    //    datos[2] = "Inactivo";
+                    //}
+                    //else if (fila[2].ToString().Equals("1"))
+                    //{
+                    //    datos[2] = "Activo";
+                    //}
+                    //else
+                    //{
+                    //    datos[2] = fila[2].ToString();
+                    //}
+                    //if (fila[2].ToString().Equals("0"))
+                    //{
+                    //    datos[1] = "Inactivo";
+                    //}
+                    //else if (fila[2].ToString().Equals("1"))
+                    //{
+                    //    datos[1] = "Activo";
+                    //}
+                    //else
+                    //{
+                    //    datos[1] = fila[2].ToString();
+                    //}
+
+                    tabla.Rows.Add(datos);
+                    //if (actividadConsultada != null && (fila[0].Equals(actividadConsultada.Codigo)))
+                    //{
+                    //    indiceNuevaActividad = i;
+                    //}
+                    //i++;
+                }
+
 
         /*
          * Muestra el mensaje que da el resultado de las transacciones que se efectúan.
@@ -393,8 +442,7 @@ namespace ProyectoInventarioOET
                 entradaConsultada = controladoraEntradas.consultarEntrada(codigo);
                 //facturaConsultada = controladoraEntradas.consultarFactura(entradaConsultada.IdFactura);
                 CompletarDatosEntrada(entradaConsultada);
-                llenarGridProductos();
-
+                //llenarGridDetalleFactura();
             }
             catch
             {
@@ -557,22 +605,7 @@ namespace ProyectoInventarioOET
 
         protected void botonAgregarProductoFactura_Click(object sender, EventArgs e)
         {
-            String producto = this.textBoxAutocompleteCrearFacturaBusquedaProducto.Text;
-            String cantidad = this.inputCantidadProducto.Value.ToString();
-            String costo = this.inputCostoProducto.Value.ToString();
 
-
-            DataTable tabla = tablaFacturaDetallada();
-
-            Object[] datos = new Object[3];
-            datos[0] = producto;
-            datos[1] = cantidad;
-            datos[2] = costo;
-            tabla.Rows.Add(datos);
-
-            this.gridFacturaNueva.DataSource = tabla;
-            this.gridFacturaNueva.DataBind();
-            limpiarCampos();
         }
 
         protected void gridViewProductoBuscado_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -620,7 +653,7 @@ namespace ProyectoInventarioOET
                     this.FieldsetGridFacturas.Visible = false;
                     this.FieldsetEncabezadoFactura.Visible = false;
                     this.FieldsetCrearFactura.Visible = false;
-                    //this.FieldsetResultadosBusqueda.Visible = false;
+                   // this.FieldsetResultadosBusqueda.Visible = false;
                     this.botonAgregarEntradas.Disabled = false;
                     this.botonAceptarEntrada.Visible = false;
                     this.botonCancelarEntrada.Visible = false;
@@ -651,6 +684,7 @@ namespace ProyectoInventarioOET
                     this.FieldsetEncabezadoFactura.Visible = true;
                     this.FieldsetCrearFactura.Visible = true;
                     this.botonAceptarEntrada.Disabled = false;
+                    limpiarCampos();
                     break;
 
                 case (int)Modo.EntradaConsultada:
@@ -672,36 +706,8 @@ namespace ProyectoInventarioOET
 
         private void limpiarCampos()
         {
-            this.inputCantidadProducto.Value = "";
-            this.inputCostoProducto.Value = "";
-        }
-
-        protected void gridFacturaNueva_RowCreated(object sender, GridViewRowEventArgs e)
-        {
-            GridViewRow row = e.Row;
-            // Intitialize TableCell list
-            List<TableCell> columns = new List<TableCell>();
-            int i = 0;
-            foreach (DataControlField column in gridFacturaNueva.Columns)
-            {
-                if (i != 0)
-                {
-                    //Get the first Cell /Column
-                    TableCell cell = row.Cells[0];
-                    // Then Remove it after
-                    row.Cells.Remove(cell);
-                    //And Add it to the List Collections
-                    columns.Add(cell);
-
-                }
-                else {
-                    i++;
-                } 
-
-            }
-
-            // Add cells
-            row.Cells.AddRange(columns.ToArray());
+            //this.inputCantidadProducto.Value = "";
+            //this.inputCostoProducto.Value = "";
         }
 
 

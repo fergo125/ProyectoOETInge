@@ -94,11 +94,6 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
                 consultada.agregarDetalle(datosProductos);
             }
             
-            //consultada.IdBodega = "PITAN129012015101713605001";
-            //consultada.IdUsuario = "3";
-            //consultada.Notas = "PRUEBADEINSERCIONALOMACHO";
-
-            //controladoraBD.insertarAjuste(consultada);
             return consultada;
         }
 
