@@ -18,9 +18,10 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
             controladoraBD = new ControladoraBDTraslado();
         }
 
-        public DataTable consultarBodegas() {
+        public DataTable consultarBodegas(String idUsuario, String rol)
+        {
             ControladoraBodegas controladoraBodega = new ControladoraBodegas();
-            return controladoraBodega.consultarBodegas("3", "sdfsadf");
+            return controladoraBodega.consultarBodegas(idUsuario, rol);
         }
 
 
@@ -33,19 +34,31 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
 
 
         // Consulta de los traslados tanto entrantes como salientes de la bodega actual (con la que esta loggeado)
+        // RECORDAR     -1: Traslado Rechazado
+        //               0: Traslado Anulado
+        //               1: Traslado Aceptado
         public DataTable consultarTraslados(String idBodega, bool entrada)
         {
             DataTable traslados = controladoraBD.consultaTraslados(idBodega, entrada);
-            //traslados.Columns.Add("Tipo", typeof(string));
-            //if (traslados.Rows.Count > 0)
-            //{
-            //    foreach (DataRow fila in traslados.Rows) {
-            //        fila[5] = "Entrada";
-            //        if (fila[4].ToString() == idBodega) { //Si el idOrigen es igual al de la bodega que estoy consultado
-            //            fila[5] = "Salida";
-            //        }
-            //    }
-            //}
+            traslados.Columns.Add("DescripcionEstado", typeof(string));
+            if (traslados.Rows.Count > 0)
+            {
+                foreach (DataRow fila in traslados.Rows)
+                {
+                    switch (fila[8].ToString()) { 
+                        case  "-1":
+                            fila[9] = "Rechazado";
+                            break;
+                        case "1":
+                            fila[9] = "Aceptado";
+                            break;
+                        default:
+                            fila[9] = "En Proceso";
+                            break;
+                    }
+
+                }
+            }
             return traslados;
         }
 

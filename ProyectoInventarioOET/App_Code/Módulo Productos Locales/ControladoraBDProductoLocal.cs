@@ -23,7 +23,7 @@ namespace ProyectoInventarioOET.Modulo_Productos_Locales
             DataTable resultado = new DataTable();
             try
             {
-                OracleCommand command = conexionBD.CreateCommand();  //Cambio Carlos
+                OracleCommand command = conexionBD.CreateCommand();  
                 command.CommandText = "SELECT A.INV_PRODUCTOS, B.NOMBRE, B.CODIGO, A.SALDO, A.MINIMO, A.MAXIMO FROM " + esquema + "INV_BODEGA_PRODUCTOS A, " + esquema + "INV_PRODUCTOS B WHERE A.INV_PRODUCTOS = B.INV_PRODUCTOS AND A.CAT_BODEGA = '" + idBodega + "'";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
@@ -149,7 +149,13 @@ namespace ProyectoInventarioOET.Modulo_Productos_Locales
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();  //Cambio Carlos
-                command.CommandText = "SELECT A.INV_PRODUCTOS, B.NOMBRE, B.CODIGO, A.SALDO, A.MINIMO, A.MAXIMO FROM " + esquema + "INV_BODEGA_PRODUCTOS A, " + esquema + "INV_PRODUCTOS B WHERE A.INV_PRODUCTOS = B.INV_PRODUCTOS AND A.CAT_BODEGA = '" + idBodegaOrigen + "'";
+                command.CommandText = " SELECT B1.INV_PRODUCTOS, P.NOMBRE, P.CODIGO, B1.SALDO, B1.MINIMO, B1.MAXIMO "
+                                     +  " FROM " +  esquema + "INV_BODEGA_PRODUCTOS B1, " + esquema + "INV_PRODUCTOS P " 
+                                     +  " WHERE B1.CAT_BODEGA = '" + idBodegaOrigen + "' "
+                                     + " AND B1.INV_PRODUCTOS = P.INV_PRODUCTOS "
+                                     +  " AND B1.INV_PRODUCTOS IN (  SELECT B2.INV_PRODUCTOS "
+                                                                 + " FROM INV_BODEGA_PRODUCTOS B2 "
+                                                                 + " WHERE B2.CAT_BODEGA = '" + idBodegaDestino + "')";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
             }

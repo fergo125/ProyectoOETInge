@@ -299,7 +299,7 @@ namespace ProyectoInventarioOET
                         idArrayTraslados[i] = fila[0];
                         datos[0] = fila[6];
                         datos[1] = fila[7];
-                        datos[2] = fila[8];
+                        datos[2] = fila[9];
                         datos[3] = fila[2];
                         datos[4] = fila[3];
                         tabla.Rows.Add(datos);
@@ -346,8 +346,8 @@ namespace ProyectoInventarioOET
                 // Cargar bodegas
                 Object[] datos = new Object[5];
 
-
-                DataTable productos = controladoraTraslados.consultarProductosDeBodega((this.Master as SiteMaster).LlaveBodegaSesion, "laotraBodega");
+                // LE
+                DataTable productos = controladoraTraslados.consultarProductosDeBodega((this.Master as SiteMaster).LlaveBodegaSesion, "PITAN129012015101713605001");
 
                 if (productos.Rows.Count > 0)
                 {
