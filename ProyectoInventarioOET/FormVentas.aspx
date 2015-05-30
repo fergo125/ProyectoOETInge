@@ -311,10 +311,17 @@
                 <!-- Ingresar el producto y la cantidad
                     Para el producto, hay que poner un grid y una barra de busqueda
                     -->
+                    <br />
+                    <br />
+                        <label for="productoParaAjuste" class= "control-label"> Producto a ajustar: </label>     
+                    <asp:TextBox ID="textBoxAutocompleteAjusteRapidoBusquedaProducto" runat="server" CssClass="form-control" style="max-width:100%"></asp:TextBox>
+                    <br />
+                        <label for="cantidadParaAjuste" class= "control-label"> Nueva cantidad: </label>     
+                    <asp:TextBox ID="nuevaCantidadParaAjusteRapido" runat="server" CssClass="form-control" style="max-width:100%"></asp:TextBox>
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" ID="botonAceptarAjusteRapido" class="btn btn-success-fozkr" onserverclick="botonAceptarCambioUsuario_ServerClick" runat="server">Aceptar</button>
+                    <button type="button" ID="botonAceptarAjusteRapido" class="btn btn-success-fozkr" onserverclick="botonAceptarAjusteRapido_ServerClick" runat="server">Aceptar</button>
                     <button type="button" ID="botonCancelarAjusteRapido" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
                 </div>
             </div>
@@ -338,6 +345,12 @@
         $(document).ready(function() {
             $("#<%=textBoxAutocompleteCrearFacturaBusquedaProducto.ClientID%>").autocomplete('Search_CS.ashx');
         });       
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#<%=textBoxAutocompleteAjusteRapidoBusquedaProducto.ClientID%>").autocomplete('Search_CS.ashx');
+        });
     </script>
 
 </asp:Content>
