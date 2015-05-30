@@ -273,11 +273,11 @@
                 <label class= "control-label">Buscar producto:</label>
                 <asp:TextBox ID="textBoxAutocompleteCrearFacturaBusquedaProducto" runat="server" CssClass="form-control" Width="100%"></asp:TextBox>
                 <br />
-                <label for="inputCantidadProducto" class= "control-label">Cantidad:</label>      
-                <input id="inputCantidadProducto" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
+                <label for="inputCantidadProductoNuevo" class= "control-label">Cantidad:</label>      
+                <input id="inputCantidadProductoNuevo" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
                 <br />
-                <label for="inputCostoProducto" class= "control-label">Costo:</label>      
-                <input id="inputCostoProducto" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
+                <label for="inputCostoProductoNuevo" class= "control-label">Costo:</label>      
+                <input id="inputCostoProductoNuevo" class="form-control" type="text" placeholder="Ingrese el costo" runat="server">
                 <br />
                 <asp:Button ID="botonAgregarProductoFactura" runat="server" Text="Agregar a Factura" CssClass="btn btn-warning-fozkr" OnClick="botonAgregarProductoFactura_Click"/>
             </div>

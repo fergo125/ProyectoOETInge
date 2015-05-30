@@ -80,5 +80,10 @@ namespace ProyectoInventarioOET.Modulo_Entradas
         {
             return controladoraBDEntradas.consultarDetalleFactura(idOrdenDeCompra);
         }
+
+        public DataTable consultarProductosEntrada(string id)
+        {
+            return controladoraBDEntradas.consultarProductosEntrada(id);
+        }
     }
 }
