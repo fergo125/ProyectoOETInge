@@ -274,10 +274,10 @@
                 <asp:TextBox ID="textBoxAutocompleteCrearFacturaBusquedaProducto" runat="server" CssClass="form-control" Width="100%"></asp:TextBox>
                 <br />
                 <label for="inputCantidad" class= "control-label">Cantidad:</label>      
-                <input id="Text1" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
+                <input id="inputCantidad" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
                 <br />
                 <label for="inputCosto" class= "control-label">Costo:</label>      
-                <input id="Text2" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
+                <input id="inputCosto" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
                 <br />
                 <asp:Button ID="botonAgregarProductoFactura" runat="server" Text="Agregar a Factura" CssClass="btn btn-warning-fozkr" OnClick="botonAgregarProductoFactura_Click"/>
             </div>
@@ -308,7 +308,7 @@
     </fieldset>
     <br />
 
-    <fieldset id="FieldsetResultadosBusqueda" runat="server" visible="false" >
+<%--    <fieldset id="FieldsetResultadosBusqueda" runat="server" visible="false" >
         <div class="row">
             <div class="col-lg-7">
             <strong><div ID="UpdatePanelResultados" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Resultados de Búsqueda</div></strong>
@@ -348,7 +348,7 @@
                 </div>--%>
             </div>
         </div>
-    </fieldset>
+    </fieldset>--%>
 
     <div class="col-lg-12" id="bloqueBotones">
         <div class =" row">
