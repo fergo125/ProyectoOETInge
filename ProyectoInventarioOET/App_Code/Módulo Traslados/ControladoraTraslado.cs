@@ -73,6 +73,16 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
             }
 
             EntidadTraslado consultada = new EntidadTraslado(datos);
+            consultada.IdTraslado = "222";
+            consultada.IdUsuario = "3";
+            consultada.IdBodegaOrigen = "CYCLO128122012112950388004";
+            consultada.IdBodegaDestino = "PITAN129012015101713605001";
+            consultada.Notas = "PRIMER INSERTARRRRR";
+            controladoraBD.insertarAjuste(consultada);
+
+
+
+
 
             Object[] datosProductos = new Object[4];
             foreach (DataRow fila in respuesta[1].Rows) // Varias filas que corresponden a los productos
@@ -80,7 +90,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
                 datosProductos[0] = fila[0].ToString(); // Nombre
                 datosProductos[1] = fila[1].ToString(); // Codigo
                 datosProductos[2] = fila[2].ToString(); // Traslado, el parse se hace en la entidad
-                datosProductos[3] = fila[4].ToString(); // Unidades
+                datosProductos[3] = fila[3].ToString(); // Unidades
                 consultada.agregarDetalle(datosProductos);
             }
             
@@ -91,6 +101,12 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
             //controladoraBD.insertarAjuste(consultada);
             return consultada;
         }
+
+        public String[] insertarAjuste(EntidadTraslado nuevo)
+        {
+            return controladoraBD.insertarAjuste(nuevo);
+        }
+
 
         private object getNombreEstado(string estado)
         {
