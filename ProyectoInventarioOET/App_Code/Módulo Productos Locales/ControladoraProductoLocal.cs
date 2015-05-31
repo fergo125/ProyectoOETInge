@@ -72,6 +72,7 @@ namespace ProyectoInventarioOET.Modulo_Productos_Locales
             return controladoraBD.modificarProductoLocal(idBodegaProductos, estado,min,max);
         }
 
+        //B1.INV_PRODUCTOS, P.NOMBRE, P.CODIGO, B1.SALDO, B1.MINIMO, B1.MAXIMO, B1.INV_BODEGA_PRODUCTOS, B2.INV_BODEGA_PRODUCTOS
         public DataTable consultarProductosDeBodega(string idBodegaOrigen, string idBodegaDestino)
         {
             return controladoraBD.consultarProductosDeBodega(idBodegaOrigen, idBodegaDestino);
