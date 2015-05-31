@@ -51,8 +51,6 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
 
             try
             {
-                // Interfaz ocupa 3 cosas TipoMovimiento(Descripcion), Fecha, Usuario(Encargado)
-                // Yo agrego el ID de ajustes para la consulta individual
                 OracleCommand command = conexionBD.CreateCommand();
                 command.CommandText = "SELECT T.NOTAS, T.FECHA, U.NOMBRE, B1.DESCRIPCION, B2.DESCRIPCION, T.ESTADO  "
                    + " FROM " + esquema + "TRASLADOS T, " + esquema + "SEG_USUARIO U, " + esquema + "CAT_BODEGA B1, " + esquema + "CAT_BODEGA B2 "
@@ -157,21 +155,25 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
                 if (aceptarTraslado>0)
                 {
                     OracleCommand command = conexionBD.CreateCommand();
+                    // Descongelar el Producto en la Bodega ORIGEN
                     command.CommandText = " UPDATE " + esquema + "INV_BODEGA_PRODUCTOS "
                                          + " SET SALDOCONGELADO = SALDOCONGELADO - " + traslado
                                          + " WHERE INV_BODEGA_PRODUCTOS = '" + idProductoBodegaOrigen + "'";
                     OracleDataReader reader = command.ExecuteReader();
+                    // SUMAR los productos a la Bogega DESTINO pues el traslado se completo!!
                     command.CommandText = " UPDATE " + esquema + "INV_BODEGA_PRODUCTOS "
-                     + " SET SALDO = SALDO + " + traslado
-                     + " WHERE INV_BODEGA_PRODUCTOS = '" + idProductoBodegaDestino + "'";
+                                        + " SET SALDO = SALDO + " + traslado
+                                        + " WHERE INV_BODEGA_PRODUCTOS = '" + idProductoBodegaDestino + "'";
                     reader = command.ExecuteReader();
                 }
-                else {  // RECHAZAR TRASLADO
+                else {  // CASO DE RECHAZAR TRASLADO
+                    // Descongelar el Producto en la Bodega ORIGEN
                     OracleCommand command = conexionBD.CreateCommand();
                     command.CommandText = " UPDATE " + esquema + "INV_BODEGA_PRODUCTOS "
                                          + " SET SALDOCONGELADO = SALDOCONGELADO - " + traslado
                                          + " WHERE INV_BODEGA_PRODUCTOS = '" + idProductoBodegaOrigen + "'";
                     OracleDataReader reader = command.ExecuteReader();
+                    // Devolver los productos a la Bogega Origen pues no se lograron trasladar
                     command.CommandText = " UPDATE " + esquema + "INV_BODEGA_PRODUCTOS "
                                         + " SET SALDO = SALDO + " + traslado
                                         + " WHERE INV_BODEGA_PRODUCTOS = '" + idProductoBodegaOrigen + "'";
@@ -216,7 +218,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
                                      + " WHERE ID_TRASLADO = '" + traslado.IdTraslado + "'" ;
                 OracleDataReader reader = command.ExecuteReader();
                 foreach (EntidadDetalles detalle in traslado.Detalles){
-                    desCongelarProducto(detalle.IdProductoBodegaOrigen, detalle.IdProductoBodegaDestino, detalle.Cambio ,estado);
+                    desCongelarProducto(detalle.IdProductoBodegaOrigen, detalle.IdProductoBodegaDestino, detalle.Cambio, estado);
                 }
                 res[0] = "success";
                 res[1] = "Éxito:";
