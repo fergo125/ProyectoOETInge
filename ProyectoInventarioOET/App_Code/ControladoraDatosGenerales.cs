@@ -127,6 +127,9 @@ namespace ProyectoInventarioOET.App_Code
             return intenciones;
         }
 
+        /*
+         * ????????????????
+         */
         public DataTable consultarBooleanos()
         {
             return booleanos;
@@ -162,6 +165,23 @@ namespace ProyectoInventarioOET.App_Code
         public int dolarVenta()
         {
             return tipoCambioVenta;
+        }
+
+        /*
+         * Retorna el nombre y la llave de la estación a la que pertenece la bodega parámetro.
+         */
+        public String[] consultarEstacionDeBodega(String idBodega)
+        {
+            ControladoraBDEstaciones controladoraEstaciones = new ControladoraBDEstaciones();
+            String[] datos = null;
+            DataTable resultado = controladoraEstaciones.consultarEstacionDeBodega(idBodega);
+            if (resultado.Rows.Count == 1)
+            {
+                datos = new String[2];
+                datos[0] = resultado.Rows[0][0].ToString();
+                datos[1] = resultado.Rows[0][1].ToString();
+            }
+            return datos;
         }
     } 
 }
