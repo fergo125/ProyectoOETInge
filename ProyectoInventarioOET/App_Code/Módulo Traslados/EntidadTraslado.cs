@@ -17,7 +17,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
         private String idBodegaDestino;
         private String bodegaOrigen;
         private String bodegaDestino;
-        private String estado;
+        private String estado; //Es String para poder consultar mas facil
 
         private List<EntidadDetalles> detalles = new List<EntidadDetalles>();
 

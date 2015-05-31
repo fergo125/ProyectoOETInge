@@ -350,7 +350,7 @@ namespace ProyectoInventarioOET
                 // Cargar bodegas
                 Object[] datos = new Object[5];
 
-                DataTable productos = controladoraTraslados.consultarProductosDeBodega((this.Master as SiteMaster).LlaveBodegaSesion, "PITAN129012015101713605001");
+                DataTable productos = controladoraTraslados.consultarProductosTrasferibles((this.Master as SiteMaster).LlaveBodegaSesion, "PITAN129012015101713605001");
 
                 if (productos.Rows.Count > 0)
                 {
