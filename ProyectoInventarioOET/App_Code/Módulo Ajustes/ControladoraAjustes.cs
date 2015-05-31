@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data;
-using ProyectoInventarioOET.Módulo_Bodegas;
-using ProyectoInventarioOET.Módulo_Productos_Locales;
+using ProyectoInventarioOET.Modulo_Bodegas;
+using ProyectoInventarioOET.Modulo_Productos_Locales;
+using ProyectoInventarioOET.App_Code.Modulo_Traslados;
 
 
-namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
+namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
 {
     public class ControladoraAjustes
     {
@@ -36,7 +37,7 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
         public DataTable consultarProductosDeBodega(String idBodega)
         {
             ControladoraProductoLocal controladoraProductoLocal = new ControladoraProductoLocal();
-            return controladoraProductoLocal.consultarProductosDeBodega(idBodega);
+            return controladoraProductoLocal.consultarProductosDeBodegaAjustes(idBodega);
         }
 
         public DataTable tiposAjuste()
@@ -45,6 +46,8 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
         }
 
         public DataTable consultarAjustes(String idBodega) {
+            //ControladoraBDTraslado pruebaConsultarTraslados = new ControladoraBDTraslado();
+            //pruebaConsultarTraslados.consultaTraslados(idBodega);
             return controladoraBD.consultarAjustes(idBodega);
         }
 

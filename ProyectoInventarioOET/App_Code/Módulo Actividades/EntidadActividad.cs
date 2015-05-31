@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ProyectoInventarioOET.Módulo_Actividades
+namespace ProyectoInventarioOET.Modulo_Actividades
 {
     /*
      * ???

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data;
 
-namespace ProyectoInventarioOET.Módulo_Productos_Locales
+namespace ProyectoInventarioOET.Modulo_Productos_Locales
 {
     /*
      * Clase de controladora de productos
@@ -32,12 +32,21 @@ namespace ProyectoInventarioOET.Módulo_Productos_Locales
         }
 
         /*
+         * Consulta los productos que pertenecen a un idBodega específico, especialziado para modulo ajustes.
+         */
+        public DataTable consultarProductosDeBodegaAjustes(String idBodega)
+        {
+            return controladoraBD.consultarProductosDeBodegaAjustes(idBodega);
+        }
+
+        /*
          * Consulta los datos de un producto específico perteneciente a una bodega.
          */
         public DataTable consultarProductoDeBodega(String idBodega, String idProducto)
         {
             return controladoraBD.consultarProductoDeBodega(idBodega, idProducto);
         }
+
         /*
          *  Realiza la asociación de un producto a una bodega en específico. 
          */
@@ -45,10 +54,11 @@ namespace ProyectoInventarioOET.Módulo_Productos_Locales
         {
             return controladoraBD.asociarProductos(idBodega,idProducto,idUsuario);
         }
+
         /*
          * Realiza la modificación de un producto en una bodega específica, modificando su estado. 
          */
-        public string[] modificarProductoLocal(String idBodegaProductos, String est)
+        public string[] modificarProductoLocal(String idBodegaProductos, String est,String min, String max)
         {
             int estado;
             if(est.Equals("Activo"))
@@ -59,8 +69,12 @@ namespace ProyectoInventarioOET.Módulo_Productos_Locales
             {
                 estado=0;
             }
-            return controladoraBD.modificarProductoLocal(idBodegaProductos, estado);
+            return controladoraBD.modificarProductoLocal(idBodegaProductos, estado,min,max);
         }
 
+        public DataTable consultarProductosDeBodega(string idBodegaOrigen, string idBodegaDestino)
+        {
+            return controladoraBD.consultarProductosDeBodega(idBodegaOrigen, idBodegaDestino);
+        }
     }
 }

@@ -10,7 +10,7 @@
 namespace ProyectoInventarioOET {
     
     
-    public partial class FormProductosGlobales {
+    public partial class FormTraslados {
         
         /// <summary>
         /// Control mensajeAlerta.
@@ -40,193 +40,211 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.Label labelAlerta;
         
         /// <summary>
-        /// Control botonAgregarProductos.
+        /// Control TituloTraslados.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonAgregarProductos;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl TituloTraslados;
         
         /// <summary>
-        /// Control botonModificacionProductos.
+        /// Control botonRealizarTraslado.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonModificacionProductos;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonRealizarTraslado;
         
         /// <summary>
-        /// Control botonConsultaProductos.
+        /// Control botonModificarTraslado.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonConsultaProductos;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonModificarTraslado;
         
         /// <summary>
-        /// Control tituloAccion.
+        /// Control botonConsultarTraslado.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tituloAccion;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonConsultarTraslado;
         
         /// <summary>
-        /// Control bloqueFormulario.
+        /// Control tituloAccionTraslados.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl bloqueFormulario;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tituloAccionTraslados;
         
         /// <summary>
-        /// Control inputNombre.
+        /// Control fieldsetConsulta.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText inputNombre;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl fieldsetConsulta;
         
         /// <summary>
-        /// Control inputCodigo.
+        /// Control dropDownConsultas.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText inputCodigo;
+        protected global::System.Web.UI.WebControls.DropDownList dropDownConsultas;
         
         /// <summary>
-        /// Control inputCodigoBarras.
+        /// Control botonTipoConsulta.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText inputCodigoBarras;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonTipoConsulta;
         
         /// <summary>
-        /// Control inpuCategoria.
+        /// Control FieldsetTraslados.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList inpuCategoria;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetTraslados;
         
         /// <summary>
-        /// Control inputVendible.
+        /// Control outputBodegaSalida.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList inputVendible;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText outputBodegaSalida;
         
         /// <summary>
-        /// Control inputUnidades.
+        /// Control dropDownBodegaEntrada.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList inputUnidades;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText dropDownBodegaEntrada;
         
         /// <summary>
-        /// Control inputEstado.
+        /// Control outputUsuario.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList inputEstado;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText outputUsuario;
         
         /// <summary>
-        /// Control inputSaldo.
+        /// Control botonAgregar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText inputSaldo;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor botonAgregar;
         
         /// <summary>
-        /// Control inputImpuesto.
+        /// Control outputFecha.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText inputImpuesto;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText outputFecha;
         
         /// <summary>
-        /// Control inputPrecioColones.
+        /// Control inputNotas.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText inputPrecioColones;
+        protected global::System.Web.UI.WebControls.TextBox inputNotas;
         
         /// <summary>
-        /// Control inputPrecioDolares.
+        /// Control Fieldset2.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText inputPrecioDolares;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Fieldset2;
         
         /// <summary>
-        /// Control inputCostoColones.
+        /// Control tituloGridProductos.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText inputCostoColones;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tituloGridProductos;
         
         /// <summary>
-        /// Control inputCostoDolares.
+        /// Control UpdatePanel2.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText inputCostoDolares;
+        protected global::System.Web.UI.UpdatePanel UpdatePanel2;
         
         /// <summary>
-        /// Control bloqueGrid.
+        /// Control gridViewProductos.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl bloqueGrid;
+        protected global::System.Web.UI.WebControls.GridView gridViewProductos;
         
         /// <summary>
-        /// Control barraDeBusqueda.
+        /// Control botonAceptarTraslado.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputGenericControl barraDeBusqueda;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonAceptarTraslado;
         
         /// <summary>
-        /// Control Button1.
+        /// Control botonCancelarTraslado.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button1;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor botonCancelarTraslado;
+        
+        /// <summary>
+        /// Control FieldsetGridTraslados.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetGridTraslados;
+        
+        /// <summary>
+        /// Control tituloGridConsulta.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tituloGridConsulta;
         
         /// <summary>
         /// Control UpdatePanelPruebas.
@@ -238,49 +256,13 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.UpdatePanel UpdatePanelPruebas;
         
         /// <summary>
-        /// Control gridViewProductosGlobales.
+        /// Control gridViewTraslados.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gridViewProductosGlobales;
-        
-        /// <summary>
-        /// Control Fieldset1.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Fieldset1;
-        
-        /// <summary>
-        /// Control bloqueBotones.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl bloqueBotones;
-        
-        /// <summary>
-        /// Control botonAceptarProductoGlobal.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonAceptarProductoGlobal;
-        
-        /// <summary>
-        /// Control botonCancelarProductoGlobal.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor botonCancelarProductoGlobal;
+        protected global::System.Web.UI.WebControls.GridView gridViewTraslados;
         
         /// <summary>
         /// Control botonAceptarModalCancelar.
@@ -292,12 +274,39 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlButton botonAceptarModalCancelar;
         
         /// <summary>
-        /// Control botonAceptarModalDesactivar.
+        /// Control Fieldset3.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonAceptarModalDesactivar;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Fieldset3;
+        
+        /// <summary>
+        /// Control Div1.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Div1;
+        
+        /// <summary>
+        /// Control UpdatePanel1.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
+        
+        /// <summary>
+        /// Control gridViewAgregarProductos.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gridViewAgregarProductos;
     }
 }

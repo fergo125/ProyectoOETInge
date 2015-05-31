@@ -6,7 +6,7 @@ using System.Data;
 using Oracle.DataAccess.Client; //para conectarse a la base de datos manualmente con strings
 using System.Data.SqlClient;
 
-namespace ProyectoInventarioOET.Módulo_Bodegas
+namespace ProyectoInventarioOET.Modulo_Bodegas
 {
     /*
      * ???
@@ -149,17 +149,17 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
             try 
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                if (rol.Equals("Administrador local"))
+                if (rol.Equals("Administrador global"))
                 {
+                    command.CommandText = "SELECT C.CAT_BODEGA,C.DESCRIPCION,C.ANFITRIONA,D.NOMBRE,E.DESCRIPCION, F.NOMBRE FROM " + esquema1 + "CAT_BODEGA C, " + esquema2
+                        + "ESTACION D, " + esquema3 + "CAT_ESTADOS E, " + esquema1 + "CAT_INTENCIONUSO F WHERE C.ESTACION = D.ID AND E.VALOR = C.ESTADO AND C.CAT_INTENCIONUSO = F.CAT_INTENCIONUSO";
+                }
+                else
+                { 
                     command.CommandText = "SELECT C.CAT_BODEGA,C.DESCRIPCION,C.ANFITRIONA,D.NOMBRE,E.DESCRIPCION,"
                         + "F.NOMBRE FROM " + esquema1 + "CAT_BODEGA C, " + esquema2 + "ESTACION D, " + esquema3 + "CAT_ESTADOS E, " + esquema1 + "CAT_INTENCIONUSO F WHERE C.ESTACION = "
                         + "D.ID AND E.VALOR = C.ESTADO AND C.CAT_INTENCIONUSO = F.CAT_INTENCIONUSO AND C.CAT_BODEGA IN "
                         + "(SELECT CAT_BODEGA FROM " + esquema1 + "SEG_USUARIO_BODEGA WHERE SEG_USUARIO = '" + idUsuario + "')";
-                }
-                else
-                {
-                    command.CommandText = "SELECT C.CAT_BODEGA,C.DESCRIPCION,C.ANFITRIONA,D.NOMBRE,E.DESCRIPCION, F.NOMBRE FROM " + esquema1 + "CAT_BODEGA C, " + esquema2
-                        + "ESTACION D, " + esquema3 + "CAT_ESTADOS E, " + esquema1 + "CAT_INTENCIONUSO F WHERE C.ESTACION = D.ID AND E.VALOR = C.ESTADO AND C.CAT_INTENCIONUSO = F.CAT_INTENCIONUSO";
                 }
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
@@ -268,6 +268,26 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
             return resultado;
         }
 
+        /*
+         * Consulta y devuelvela estación a la cual pertenece una bodega en específico.
+         */
+        public DataTable consultarEstacionDeBodega(String idBodega)
+        {
+            String esquema = "Inventarios.";
+            DataTable resultado = new DataTable();
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "SELECT ESTACION FROM " + esquema + "CAT_BODEGA WHERE CAT_BODEGA = '" + idBodega + "'";
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
+            }
+            catch (OracleException e)
+            {
+                resultado = null;
+            }
+            return resultado;
+        }
       
     }
 }

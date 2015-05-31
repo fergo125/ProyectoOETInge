@@ -34,7 +34,7 @@
                     <!-- Campos de ingreso de datos -->
                     <div class="form-group">
                         <asp:Label runat="server" AssociatedControlID="UserName" CssClass="col-md-4 control-label">Nombre de usuario:</asp:Label>
-                        <div class="col-md-8">
+                        <div class="col-md-4">
                             <asp:TextBox runat="server" ID="UserName" CssClass="form-control"/>
                             <asp:RequiredFieldValidator runat="server" ControlToValidate="UserName"
                                 CssClass="text-danger" ErrorMessage="El campo de nombre de usuario es obligatorio." />
@@ -42,7 +42,7 @@
                     </div>
                     <div class="form-group">
                         <asp:Label runat="server" AssociatedControlID="Password" CssClass="col-md-4 control-label">Contraseña:</asp:Label>
-                        <div class="col-md-8">
+                        <div class="col-md-4">
                             <asp:TextBox runat="server" ID="Password" TextMode="Password" CssClass="form-control"/>
                             <asp:RequiredFieldValidator runat="server" ControlToValidate="Password" CssClass="text-danger" ErrorMessage="El campo de contraseña es obligatorio." />
                         </div>

@@ -6,8 +6,8 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using ProyectoInventarioOET.App_Code;
-using ProyectoInventarioOET.App_Code.Módulo_Ajustes;
-using ProyectoInventarioOET.Módulo_Seguridad;
+using ProyectoInventarioOET.App_Code.Modulo_Ajustes;
+using ProyectoInventarioOET.Modulo_Seguridad;
 
 
 namespace ProyectoInventarioOET
@@ -29,7 +29,7 @@ namespace ProyectoInventarioOET
         private static ControladoraDatosGenerales controladoraDatosGenerales;   // Controladora de datos generales
         private static ControladoraAjustes controladoraAjustes;                 // Controladora del modulo ajustes
         private static EntidadAjustes ajusteConsultado;                         // El ajuste mostrado en pantalla
-
+        private static bool[] signos;
 
         // DataTable bodegas = controladoraBodegas.consultarBodegasDeEstacion(idEstacion);
 
@@ -38,6 +38,8 @@ namespace ProyectoInventarioOET
          */
         protected void Page_Load(object sender, EventArgs e)
         {
+            //Elementos visuales
+            ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
             mensajeAlerta.Visible = false;
 
             if (!IsPostBack)
@@ -87,7 +89,7 @@ namespace ProyectoInventarioOET
             {
                 case (int)Modo.Inicial: //modo inicial
                     limpiarCampos();
-                    botonAgregar.Disabled = true;
+                    botonAgregar.Visible = false;
                     FieldsetAjustes.Visible = false;
                     botonAceptarAjustes.Visible = false;
                     botonCancelarAjustes.Visible = false;
@@ -100,10 +102,11 @@ namespace ProyectoInventarioOET
                     gridViewProductos.Enabled = false;
                     gridViewProductos.Visible = false;
                     habilitarCampos(false);
+                    gridViewProductos.Columns[1].Visible = false;
                     break;
 
                 case (int)Modo.Insercion: //insertar
-                    botonAgregar.Disabled = false;
+                    botonAgregar.Visible = true;
                     FieldsetAjustes.Visible = true;
                     botonAceptarAjustes.Visible = true;
                     botonCancelarAjustes.Visible = true;
@@ -116,10 +119,11 @@ namespace ProyectoInventarioOET
                     gridViewProductos.Enabled = true;
                     gridViewProductos.Visible = true;
                     habilitarCampos(true);
+                    gridViewProductos.Columns[1].Visible = true;
                     break;
 
                 case (int)Modo.Consulta://consultar
-                    botonAgregar.Disabled = true;
+                    botonAgregar.Visible = false;
                     FieldsetAjustes.Visible = false;
                     botonAceptarAjustes.Visible = false;
                     botonCancelarAjustes.Visible = false;
@@ -132,10 +136,11 @@ namespace ProyectoInventarioOET
                     gridViewProductos.Enabled = false;
                     gridViewProductos.Visible = false;
                     habilitarCampos(false);
+                    gridViewProductos.Columns[1].Visible = false;
                     break;
 
                 case (int)Modo.Consultado://consultado, pero con los espacios bloqueados
-                    botonAgregar.Disabled = true;
+                    botonAgregar.Visible = false;
                     FieldsetAjustes.Visible = true;
                     botonAceptarAjustes.Visible = false;
                     botonCancelarAjustes.Visible = false;
@@ -148,6 +153,7 @@ namespace ProyectoInventarioOET
                     gridViewProductos.Enabled = false;
                     gridViewProductos.Visible = true;
                     habilitarCampos(false);
+                    gridViewProductos.Columns[1].Visible = false;
                     llenarGrid();
                     break;
 
@@ -199,7 +205,8 @@ namespace ProyectoInventarioOET
          */
         protected void limpiarCampos()
         {
-            dropdownTipo.SelectedValue = null;
+            if (dropdownTipo.Items.Count > 0)
+                dropdownTipo.SelectedIndex = 0;
             vaciarGridProductos();
             inputNotas.Text = "";
         }
@@ -211,6 +218,7 @@ namespace ProyectoInventarioOET
         {
             this.dropdownTipo.Enabled = habilitar;
             this.inputNotas.Enabled = habilitar;
+            gridViewProductos.Enabled = habilitar;
             // Habilitar/Desabilitar botones de grid
         }
 
@@ -240,7 +248,8 @@ namespace ProyectoInventarioOET
                 // Cargar bodegas
                 Object[] datos = new Object[3];
 
-                DataTable ajustes = controladoraAjustes.consultarAjustes("PITAN129012015101713605001");
+                DataTable ajustes = controladoraAjustes.consultarAjustes((this.Master as SiteMaster).LlaveBodegaSesion);
+                //DataTable ajustes = controladoraAjustes.consultarAjustes("PITAN129012015101713605001");
 
                 if (ajustes.Rows.Count > 0)
                 {
@@ -294,7 +303,7 @@ namespace ProyectoInventarioOET
                 Object[] datos = new Object[5];
 
 
-                DataTable productos = controladoraAjustes.consultarProductosDeBodega("PITAN129012015101713605001");
+                DataTable productos = controladoraAjustes.consultarProductosDeBodega((this.Master as SiteMaster).LlaveBodegaSesion);
 
                 if (productos.Rows.Count > 0)
                 {
@@ -304,9 +313,9 @@ namespace ProyectoInventarioOET
                         idArrayAgregarProductos[i] = fila[0];
                         datos[0] = fila[1].ToString();
                         datos[1] = fila[2].ToString();
-                        datos[2] = Convert.ToInt32(fila[3].ToString());
-                        datos[3] = Convert.ToInt32(fila[4].ToString());
-                        datos[4] = Convert.ToInt32(fila[5].ToString());
+                        datos[2] = Convert.ToDouble(fila[3].ToString());
+                        datos[3] = Convert.ToDouble(fila[4].ToString());
+                        datos[4] = Convert.ToDouble(fila[5].ToString());
                         tabla.Rows.Add(datos);
                         i++;
                     }
@@ -340,11 +349,10 @@ namespace ProyectoInventarioOET
         {
             DataTable tablaLimpia = tablaProducto();
 
-            Object[] datos = new Object[4];
+            Object[] datos = new Object[3];
             datos[0] = "-";
             datos[1] = "-";
             datos[2] = "0";
-            datos[3] = "0";
             tablaLimpia.Rows.Add(datos);
 
             gridViewProductos.DataSource = tablaLimpia;
@@ -399,13 +407,8 @@ namespace ProyectoInventarioOET
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.Int32");
+            columna.DataType = System.Type.GetType("System.Double");
             columna.ColumnName = "Cantidad Actual";
-            tabla.Columns.Add(columna);
-
-            columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.Int32");
-            columna.ColumnName = "Ajuste";
             tabla.Columns.Add(columna);
 
             return tabla;
@@ -430,7 +433,7 @@ namespace ProyectoInventarioOET
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.Int32");
+            columna.DataType = System.Type.GetType("System.Double");
             columna.ColumnName = "Ajuste de cambio";
             tabla.Columns.Add(columna);
 
@@ -456,17 +459,17 @@ namespace ProyectoInventarioOET
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.Int32");
+            columna.DataType = System.Type.GetType("System.Double");
             columna.ColumnName = "Cantidad Actual";
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.Int32");
+            columna.DataType = System.Type.GetType("System.Double");
             columna.ColumnName = "Minimo";
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.Int32");
+            columna.DataType = System.Type.GetType("System.Double");
             columna.ColumnName = "Maximo";
             tabla.Columns.Add(columna);
 
@@ -481,10 +484,15 @@ namespace ProyectoInventarioOET
         {
             dropdownTipo.Items.Clear();
             DataTable tipos = controladoraAjustes.tiposAjuste();
+            signos = new bool [tipos.Rows.Count];
+            int i = 0;
             foreach (DataRow fila in tipos.Rows)
             {
                 dropdownTipo.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
+                signos[i] = fila[2].ToString().Equals("1") ? true : false;
+                i++;
             }
+            dropdownTipo.SelectedIndex = 0;
         }
 
 
@@ -495,13 +503,15 @@ namespace ProyectoInventarioOET
         {
             modo = (int)Modo.Insercion;
             cambiarModo();
+            limpiarCampos();
             llenarGridAgregarProductos();
             vaciarGridProductos();
+
             cargarTipos();
-            // Mostrar nombre de usuario logueado, mientras...
-            outputUsuario.Value = "Emrakul, the Aeons Torn";
+            if( (this.Master as SiteMaster).Usuario != null )
+                outputUsuario.Value = (this.Master as SiteMaster).Usuario.Nombre;
+            outputBodega.Value = (this.Master as SiteMaster).NombreBodegaSesion;
             outputFecha.Value = DateTime.Now.ToString();
-            // Creo que falta cargar cosas
         }
 
         /*
@@ -602,11 +612,10 @@ namespace ProyectoInventarioOET
                     DataRow seleccionada = tablaAgregarProductos.Rows[indice];
 
                     // Sacamos datos pertinentes del producto
-                    Object[] datos = new Object[4];
+                    Object[] datos = new Object[3];
                     datos[0] = seleccionada["Nombre"];
                     datos[1] = seleccionada["Codigo"];
                     datos[2] = seleccionada["Cantidad Actual"];
-                    datos[3] = 0;
 
                     // Agregar nueva tupla a tabla
                     tablaProductos.Rows.Add(datos);
@@ -633,17 +642,48 @@ namespace ProyectoInventarioOET
         }
 
         /*
+         * Retorna la información del ajuste como un array de objetos
+         */
+        protected Object[] obtenerDatosAjuste()
+        {
+            Object[] datos = new Object[6];
+            bool fun = signos[this.dropdownTipo.SelectedIndex];
+            datos[0] = this.dropdownTipo.SelectedValue;
+            datos[1] = this.outputFecha.Value;
+            datos[2] = "";
+            datos[3] = (this.Master as SiteMaster).Usuario.Codigo;
+            datos[4] = this.inputNotas.Text;
+            datos[5] = (this.Master as SiteMaster).LlaveBodegaSesion;
+            return datos;
+        }
+
+
+        /*
          * Esto maneja la inserción de datos
          */
         protected String insertar()
         {
             String codigo = "";
-            /*
-            Object[] bodega = obtenerDatosBodega();
-            EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
-            String idUsuario = usuarioActual.Codigo;
-            String rol = usuarioActual.Perfil;
-            String[] error = controladoraBodegas.insertarDatos(bodega, idUsuario, rol);
+            Object[] ajuste = obtenerDatosAjuste();
+            EntidadAjustes nueva = new EntidadAjustes(ajuste);
+
+            // Agregar detalles a entidad
+
+            int i = 0;
+            foreach( DataRow row in tablaProductos.Rows )
+            {
+                Double cantAjuste = Double.Parse(((TextBox)gridViewProductos.Rows[i].FindControl("textAjustes")).Text);
+
+                ajuste = new Object[5];
+                ajuste[0] = ajuste[1] = "";
+                ajuste[2] = cantAjuste;
+                ajuste[3] = idArrayProductos[i];
+                ajuste[4] = cantAjuste - Double.Parse(row["Cantidad Actual"].ToString());
+                nueva.agregarDetalle(ajuste);
+                ++i;
+            }
+
+            String[] error = controladoraAjustes.insertarAjuste(nueva); 
 
             codigo = Convert.ToString(error[3]);
             mostrarMensaje(error[0], error[1], error[2]);
@@ -656,7 +696,6 @@ namespace ProyectoInventarioOET
                 codigo = "";
                 modo = (int)Modo.Insercion;
             }
-            */
             return codigo;
         }
 
@@ -679,6 +718,7 @@ namespace ProyectoInventarioOET
                     ajusteConsultado = controladoraAjustes.consultarAjuste(codigoInsertado);
                     modo = (int)Modo.Consultado;
                     habilitarCampos(false);
+                    cambiarModo();
                 }
                 else
                     operacionCorrecta = false;

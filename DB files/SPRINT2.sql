@@ -135,3 +135,123 @@ create table DETALLES_AJUSTES (
 	cambio                      number(15,2)
 );
 
+---Creacion de tablas para facturas
+
+
+CREATE TABLE REGISTRO_FACTURAS_VENTA(
+consecutivo int NOT NULL PRIMARY KEY,
+fecha DATE,
+bodega varchar(30),
+estacion varchar2(30),
+compañia varchar2(30),
+actividad varchar2(30),
+vendedor varchar2(40),
+cliente varchar2(40),
+tipoMoneda varchar2(10),
+metodoPago varchar2(30),
+montoTotal float
+);
+
+CREATE TABLE REGISTRO_DETALLES_FACTURAS(
+idFactura int REFERENCES REGISTRO_FACTURAS_VENTA(consecutivo),
+idProducto varchar2(20),
+cantidad int,
+precioUnitarioColones float, 
+precioUnitarioDolares float,
+descuento int
+);
+
+
+SELECT  *
+FROM    INV_PRODUCTOS
+WHERE   CODIGO = 'CRO00186' AND NOMBRE = 'Servilletas (paquetes)' AND ESTADO = 1
+
+SELECT  ESTADO
+FROM    INV_BODEGA_PRODUCTOS
+WHERE   INV_PRODUCTOS = 'PITAN130012015150520764106'
+
+
+--Nuevos permisos para los perfiles, según las interfaces del sprint 2
+INSERT INTO SEG_PERMISOS VALUES('30052015180000000020', 'CYCLO105062012115352292015', 'Entradas de inventario',   '111111');
+INSERT INTO SEG_PERMISOS VALUES('30052015180000000021', 'CYCLO105062012115352292015', 'Traslados de inventario',  '111111');
+INSERT INTO SEG_PERMISOS VALUES('30052015180000000022', 'CYCLO105062012115352292015', 'Ajustes de inventario',    '111111');
+INSERT INTO SEG_PERMISOS VALUES('30052015180000000023', 'CYCLO105062012115352292015', 'Facturacion',              '111111');
+INSERT INTO SEG_PERMISOS VALUES('30052015180000000024', 'CYCLO114062012084948203080', 'Entradas de inventario',   '000111');
+INSERT INTO SEG_PERMISOS VALUES('30052015180000000025', 'CYCLO114062012084948203080', 'Traslados de inventario',  '000111');
+INSERT INTO SEG_PERMISOS VALUES('30052015180000000026', 'CYCLO114062012084948203080', 'Ajustes de inventario',    '000011');
+INSERT INTO SEG_PERMISOS VALUES('30052015180000000027', 'CYCLO114062012084948203080', 'Facturacion',              '000111');
+INSERT INTO SEG_PERMISOS VALUES('30052015180000000028', 'CYCLO112122012150416678002', 'Entradas de inventario',   '000011');
+INSERT INTO SEG_PERMISOS VALUES('30052015180000000029', 'CYCLO112122012150416678002', 'Traslados de inventario',  '000011');
+INSERT INTO SEG_PERMISOS VALUES('30052015180000000030', 'CYCLO112122012150416678002', 'Ajustes de inventario',    '000011');
+INSERT INTO SEG_PERMISOS VALUES('30052015180000000031', 'CYCLO112122012150416678002', 'Facturacion',              '000111');
+INSERT INTO SEG_PERMISOS VALUES('30052015180000000032', 'CYCLO112122012150835261069', 'Entradas de inventario',   '000000');
+INSERT INTO SEG_PERMISOS VALUES('30052015180000000033', 'CYCLO112122012150835261069', 'Traslados de inventario',  '000000');
+INSERT INTO SEG_PERMISOS VALUES('30052015180000000034', 'CYCLO112122012150835261069', 'Ajustes de inventario',    '000000');
+INSERT INTO SEG_PERMISOS VALUES('30052015180000000035', 'CYCLO112122012150835261069', 'Facturacion',              '000011');
+--CYCLO105062012115352292015	Administrador global
+--CYCLO114062012084948203080	Administrador local
+--CYCLO112122012150416678002	Supervisor
+--CYCLO112122012150835261069	Vendedor
+
+
+
+
+
+
+
+
+
+
+-----PARTE DE TRASLADOS
+
+create table  TRASLADOS(
+	id_traslado               varchar2(30),
+	fecha                     date,
+	usuario_bodega            varchar2(30),
+	idBodegaOrigen            varchar2(30),
+	idBodegaDestino           varchar2(30),
+  estado                    number(1),
+	notas                     varchar2(30)
+);
+ 
+create table DETALLES_TRASLADO (
+	id_traslado                   varchar2(30),
+	inv_bodega_productosDestino   varchar2(30),
+  inv_bodega_productosOrigen    varchar2(30),
+	traslado                      number(15,2)
+);
+
+
+ALTER TABLE INV_BODEGA_PRODUCTOS ADD SaldoCongelado number(15,2);
+
+Update INV_BODEGA_PRODUCTOS
+SET SaldoCongelado = 0
+
+INSERT INTO TRASLADOS (ID_TRASLADO, FECHA, USUARIO_BODEGA, IDBODEGAORIGEN, IDBODEGADESTINO, ESTADO, NOTAS) 
+VALUES ('1111', TO_DATE('2003/07/09', 'yyyy/mm/dd') , '4', 'PITAN129012015101713605001', 'CYCLO128122012112950388004', 0, 'PrimerConsultar');
+DELETE FROM TRASLADOS WHERE ID_TRASLADO = '1111';
+
+
+select *
+from inv_bodega_productos 
+order by inv_productos
+
+
+
+---Productos que estan en ambas bodegas PITAN130012015105015574038 PITAN130012015104745304036
+
+
+
+SELECT T.ID_TRASLADO, T.NOTAS, T.FECHA, U.NOMBRE 
+FROM Inventarios.TRASLADOS T, Inventarios.SEG_USUARIO U
+WHERE T.USUARIO_BODEGA = U.SEG_USUARIO  
+AND ( T.IDBODEGAORIGEN = 'PITAN129012015101713605001' OR T.IDBODEGADESTINO = 'PITAN129012015101713605001') 
+ORDER BY T.FECHA DESC
+
+commit
+
+SELECT *
+FROM TRASLADOS;
+
+
+

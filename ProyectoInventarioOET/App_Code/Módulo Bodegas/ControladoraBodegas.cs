@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data;
 
-namespace ProyectoInventarioOET.Módulo_Bodegas
+namespace ProyectoInventarioOET.Modulo_Bodegas
 {
     /*
      * ???
@@ -70,6 +70,12 @@ namespace ProyectoInventarioOET.Módulo_Bodegas
         {
             return controladoraBDBodegas.consultarProductosAsociables(idBodega);
         }
-
+        /*
+         * Consulta el ID de la estación a la cual pertenece una bodega
+         */
+        public DataTable consultarEstacionDeBodega(String idBodega)
+        {
+            return controladoraBDBodegas.consultarEstacionDeBodega(idBodega);
+        }
     }
 }

@@ -5,7 +5,7 @@ using System.Web;
 using System.Data;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales;
+using ProyectoInventarioOET.Modulo_ProductosGlobales;
 using ProyectoInventarioOET.App_Code;
 
 
@@ -33,8 +33,10 @@ namespace ProyectoInventarioOET
         protected void Page_Load(object sender, EventArgs e)
         {
             mensajeAlerta.Visible = false;
-            if (!IsPostBack) 
+            if (!IsPostBack)
             {
+                //Elementos visuales
+                ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
                 controladora = new ControladoraProductosGlobales();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
                 permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Catalogo general de productos");
@@ -393,6 +395,7 @@ namespace ProyectoInventarioOET
                 this.inputPrecioDolares.Value = productoConsultado.PrecioDolares.ToString();
                 this.inputCostoColones.Value = productoConsultado.CostoColones.ToString();
                 this.inputCostoDolares.Value = productoConsultado.CostoDolares.ToString();
+                //this.inputEstado.SelectedValue = productoConsultado.Estado.ToString();
             }
     
         }

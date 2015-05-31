@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data;
 
-namespace ProyectoInventarioOET.Módulo_Seguridad
+namespace ProyectoInventarioOET.Modulo_Seguridad
 {
     /*
      * Controladora de Seguridad, encargada de las funciones de seguridad del sistema, también encripta/desencripta contraseñas.
@@ -76,6 +76,17 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
         public String consultarNombreDeUsuario(String idUsuario)
         {
             return controladoraBDSeguridad.consultarNombreDeUsuario(idUsuario);
+        }
+
+        public String consultarNombreDeBodega(String id)
+        {
+            return controladoraBDSeguridad.consultarNombreDeBodega(id);
+        }
+
+
+        public String consultarNombreDeEstacion(String id)
+        {
+            return controladoraBDSeguridad.consultarNombreDeEstacion(id);
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Data;
 using Oracle.DataAccess.Client; //para conectarse a la base de datos manualmente con strings
 using System.Data.SqlClient;
 
-namespace ProyectoInventarioOET.Módulo_Productos_Locales
+namespace ProyectoInventarioOET.Modulo_Productos_Locales
 {
     /*
      * ???
@@ -14,40 +14,6 @@ namespace ProyectoInventarioOET.Módulo_Productos_Locales
      */
     public class ControladoraBDProductosLocales : ControladoraBD
     {
-        /*public EntidadProductoLocal consultarProductoLocal(String id)
-        {
-            DataTable resultado = new DataTable();
-            EntidadProductoLocal producConsultado = null;
-            Object[] datosConsultados = new Object[3];
-
-            try
-            {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT * FROM INV_ACTIVIDAD WHERE INV_PRODUCTOS = '" + id + "'";
-                OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
-
-                if (resultado.Rows.Count == 1)
-                {
-                    datosConsultados[0] = id;
-                    for (int i = 1; i < 3; i++)
-                    {
-                        datosConsultados[i] = resultado.Rows[0][i].ToString();
-                    }
-
-                    producConsultado = new EntidadProductoLocal(datosConsultados);
-                }
-            }
-            catch (Exception e) { }
-
-            return producConsultado;
-        }
-
-        internal static System.Data.DataTable consultarProductosLocales()
-        {
-            throw new NotImplementedException();
-        }*/
-
         /*
          * Consulta los productos que pertenecen a una bodega en específico.
          */
@@ -57,8 +23,29 @@ namespace ProyectoInventarioOET.Módulo_Productos_Locales
             DataTable resultado = new DataTable();
             try
             {
-                OracleCommand command = conexionBD.CreateCommand();  //Cambio Carlos
+                OracleCommand command = conexionBD.CreateCommand();  
                 command.CommandText = "SELECT A.INV_PRODUCTOS, B.NOMBRE, B.CODIGO, A.SALDO, A.MINIMO, A.MAXIMO FROM " + esquema + "INV_BODEGA_PRODUCTOS A, " + esquema + "INV_PRODUCTOS B WHERE A.INV_PRODUCTOS = B.INV_PRODUCTOS AND A.CAT_BODEGA = '" + idBodega + "'";
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
+            }
+            catch (Exception e)
+            {
+                resultado = null;
+            }
+            return resultado;
+        }
+
+        /*
+         * Consulta los productos que pertenecen a una bodega en específico, especializado para el modulo ajustes.
+         */
+        public DataTable consultarProductosDeBodegaAjustes(String idBodega)
+        {
+            String esquema = "Inventarios.";
+            DataTable resultado = new DataTable();
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();  //Cambio Carlos
+                command.CommandText = "SELECT A.INV_BODEGA_PRODUCTOS, B.NOMBRE, B.CODIGO, A.SALDO, A.MINIMO, A.MAXIMO FROM " + esquema + "INV_BODEGA_PRODUCTOS A, " + esquema + "INV_PRODUCTOS B WHERE A.INV_PRODUCTOS = B.INV_PRODUCTOS AND A.CAT_BODEGA = '" + idBodega + "' AND A.ESTADO = 1";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
             }
@@ -97,7 +84,7 @@ namespace ProyectoInventarioOET.Módulo_Productos_Locales
         /*
          * Modifica el estado de un producto en específico.
          */
-        public string[] modificarProductoLocal(String idBodegaProductos, int estado)
+        public string[] modificarProductoLocal(String idBodegaProductos, int estado,String min,String max)
         {
             String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
@@ -105,7 +92,7 @@ namespace ProyectoInventarioOET.Módulo_Productos_Locales
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "UPDATE " + esquema + "INV_BODEGA_PRODUCTOS SET ESTADO = " + estado + " WHERE INV_BODEGA_PRODUCTOS = '" + idBodegaProductos + "'";
+                command.CommandText = "UPDATE " + esquema + "INV_BODEGA_PRODUCTOS SET ESTADO = " + estado + ", MINIMO = " + min + ", MAXIMO = "+max+" WHERE INV_BODEGA_PRODUCTOS = '" + idBodegaProductos + "'";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
                 res[0] = "success";
@@ -119,8 +106,8 @@ namespace ProyectoInventarioOET.Módulo_Productos_Locales
                 res[2] = "Producto no modificado, intente nuevamente.";
             }
             return res;
-
         }
+
         /*
          * Asocia el producto especificado con la bodega especificada. 
          */
@@ -153,6 +140,30 @@ namespace ProyectoInventarioOET.Módulo_Productos_Locales
                 res[2] = "Producto/s no asociado, intente nuevamente.";
             }
             return res;
+        }
+
+        public DataTable consultarProductosDeBodega(string idBodegaOrigen, string idBodegaDestino)
+        {
+            String esquema = "Inventarios.";
+            DataTable resultado = new DataTable();
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();  //Cambio Carlos
+                command.CommandText = " SELECT B1.INV_PRODUCTOS, P.NOMBRE, P.CODIGO, B1.SALDO, B1.MINIMO, B1.MAXIMO, B1.INV_BODEGA_PRODUCTOS, B2.INV_BODEGA_PRODUCTOS "
+                                     + " FROM " + esquema + "INV_BODEGA_PRODUCTOS B1, " + esquema + "INV_BODEGA_PRODUCTOS B2, " + esquema + "INV_PRODUCTOS P "
+                                     + " WHERE B1.CAT_BODEGA = '" + idBodegaOrigen + "' "
+                                     + " AND B2.CAT_BODEGA = '" + idBodegaDestino + "' "
+                                     + " AND B1.INV_PRODUCTOS = B2.INV_PRODUCTOS "
+                                     + " AND B1.INV_PRODUCTOS = P.INV_PRODUCTOS "
+                                     + " AND B2.INV_PRODUCTOS = P.INV_PRODUCTOS ";   
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
+            }
+            catch (Exception e)
+            {
+                resultado = null;
+            }
+            return resultado;
         }
     }
 }

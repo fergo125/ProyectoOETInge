@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 
-namespace ProyectoInventarioOET.App_Code.Módulo_ProductosGlobales
+namespace ProyectoInventarioOET.Modulo_ProductosGlobales
 {
    
     /* Controladora de bases de datos de productos globales, utilizada por la controladora de productos globales.

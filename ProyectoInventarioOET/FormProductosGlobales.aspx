@@ -224,14 +224,6 @@
         } // Final de funcion 
     </script>
 
-    <!-- Javascript -->
-    <!-- Modificar tab de site master activo -->
-    <script type = "text/javascript">
-        function setCurrentTab() {
-            document.getElementById("linkFormProductos").className = "active";
-        }
-    </script>
-
     <%--MODAL CANCELAR--%>
     <div class="modal fade" id="modalCancelar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -269,4 +261,11 @@
         </div>
     </div>
 
+    <!-- Javascript -->
+    <!-- Modificar tab de site master activo -->
+    <script type = "text/javascript">
+        function setCurrentTab() {
+            document.getElementById("linkFormProductos").className = "active";
+        }
+    </script>
 </asp:Content>

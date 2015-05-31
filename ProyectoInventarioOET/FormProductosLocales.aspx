@@ -76,7 +76,7 @@
                     <input type="text" id= "inputCreador" class= "form-control" style= "max-width: 100%" required runat="server" disabled="disabled">
                 </div>
                 <div class="form-group col-lg-6">
-                    <label for="inputCreado" class= "control-label">Asociado:</label>      
+                    <label for="inputCreado" class= "control-label">Fecha asociado:</label>      
                     <input type="text" id= "inputCreado" style= "max-width: 100%" class="form-control" required runat="server" disabled="disabled">
                 </div>
                 <div class= "form-group col-lg-6">
@@ -84,7 +84,7 @@
                     <input type="text" id= "inputModifica" class= "form-control" style= "max-width: 100%" required runat="server" disabled="disabled">
                 </div>
                 <div class="form-group col-lg-6">
-                    <label for="inputModificado" class= "control-label">Modificado:</label>      
+                    <label for="inputModificado" class= "control-label">Fecha modificado:</label>      
                     <input type="text" id= "inputModificado" style= "max-width: 100%" class="form-control" required runat="server" disabled="disabled">
                 </div>
             </div>
@@ -92,7 +92,7 @@
             <div class="col-lg-5">
                 <div class="row">
                     <div class="form-group col-lg-6">
-                        <label for="inputSaldo" class= "control-label">Existencia global:</label>
+                        <label for="inputSaldo" class= "control-label">Existencia local:</label>
                         <input type="text" id="inputSaldo" class="form-control" runat="server" style= "max-width: 100%" disabled="disabled">
                     </div>
                      <div class="form-group col-lg-6">
@@ -112,12 +112,12 @@
                 </div>
                 <div class="row">
                     <div class="form-group col-lg-6">
-                        <label for="inputCostoColones" class= "control-label">Costo (colones):</label>
+                        <label for="inputCostoColones" class= "control-label">Costo promedio (colones):</label>
                         <input type="text" id= "inputCostoColones" class="form-control" runat="server" style= "max-width: 100%" disabled="disabled">
                     </div>
 
                     <div class="form-group col-lg-6">
-                        <label for="inputCostoDolares" class= "control-label">Costo (dólares):</label>
+                        <label for="inputCostoDolares" class= "control-label">Costo promedio (dólares):</label>
                         <input type="text" id= "inputCostoDolares" class="form-control" runat="server" style= "max-width: 100%" disabled="disabled">
                     </div>
                 </div>
@@ -159,7 +159,7 @@
     <fieldset id= "FieldsetCatalogoLocal" center="left" runat="server" class="fieldset" visible="false">
         <!-- Gridview de productos de bodega elegida -->
          <div class="col-lg-12">
-            <strong><div ID="UpdatePanelPruebas" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Catálogo de productos en bodega</div></strong>
+            <strong><div ID="TituloGrid" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Catálogo de productos en bodega</div></strong>
             <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
                 <ContentTemplate>
                     <asp:GridView ID="gridViewCatalogoLocal" CssClass="table" OnRowCommand="gridViewCatalogoLocal_Seleccion" OnPageIndexChanging="gridViewCatalogoLocal_CambioPagina" runat="server" AllowPaging="True" PageSize="16" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
@@ -171,12 +171,12 @@
                        <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
                        <PagerStyle CssClass="paging" HorizontalAlign="Center" />
                        <AlternatingRowStyle BackColor="#F8F8F8" />
-                       <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
+                       <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="Black" />
                        <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
                   </asp:GridView>
              </ContentTemplate>
              <Triggers>
-                <asp:AsyncPostBackTrigger ControlID="gridViewCatalogoLocal" EventName="RowCommand" />
+                <asp:PostBackTrigger ControlID="gridViewCatalogoLocal"/>
              </Triggers>
           </asp:UpdatePanel>
        </div>
@@ -218,8 +218,9 @@
          <div class="col-lg-12" id="bloqueBotones" runat="server">
             <div class =" row">
                 <div class="text-center">
-                    <button runat="server" onserverclick="botonAsociarProductos_ServerClick" id="botonAsociarProductos" class="btn btn-success-fozkr" type="button">Enviar</button>
-                    <a id="botonCancelarProductoGlobal" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server">Cancelar</a>
+                    <a runat="server" href="#modalAsociar" id="botonAsociarProducto" class="btn btn-success-fozkr" role="button" data-toggle="modal">Enviar</a>
+                    <a runat="server" href="#modalDesactivar" id="botonDesactivarProducto" class="btn btn-success-fozkr" role="button" data-toggle="modal">Enviar</a>
+                    <a runat="server" href="#modalCancelar" id="botonCancelarProductoGlobal" class="btn btn-danger-fozkr" role="button" data-toggle="modal" >Cancelar</a>
                 </div>
             </div>
         </div>
@@ -246,7 +247,7 @@
             </div>
         </div>
     </div>
-    <!--Modal Aceptar-->
+    <!--Modal Aceptar Desactivacion-->
     <div class="modal fade" id="modalDesactivar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -264,4 +265,30 @@
             </div>
         </div>
     </div>
+    <!--Modal Asociar-->
+    <div class="modal fade" id="modalAsociar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="modalTitleAsociar"><i class="fa fa-exclamation-triangle text-danger fa-2x"></i>Confirmar asociación</h4>
+                </div>
+                <div class="modal-body">
+                    ¿Está seguro que desea asociar el/los producto/s? La asociación será guardada permanentemente.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="botonAceptarModalAsociar" class="btn btn-success-fozkr" runat="server" onserverclick="botonAceptarModalAsociar_ServerClick">Aceptar</button>
+                    <button type="button" id="botonCancelarModalAsociar" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Javascript -->
+    <!-- Modificar tab de site master activo -->
+    <script type = "text/javascript">
+        function setCurrentTab() {
+            document.getElementById("linkFormBodegas").className = "active";
+        }
+    </script>
 </asp:Content>

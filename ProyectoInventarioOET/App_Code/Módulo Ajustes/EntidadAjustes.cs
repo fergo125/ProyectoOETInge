@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data;
 
-namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
+namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
 {
 
     public class EntidadAjustes
@@ -27,10 +27,10 @@ namespace ProyectoInventarioOET.App_Code.Módulo_Ajustes
             this.usuario = datos[2].ToString(); 
             this.idUsuario = datos[3].ToString();
             this.notas = datos[4].ToString();
-            if (datos.Count() > 6)
+            if (datos.Count() >= 6)
             {
                 this.idBodega = datos[5].ToString();
-                this.idUsuario = datos[6].ToString();
+                //this.idUsuario = datos[6].ToString();
             }
         }
 

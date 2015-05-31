@@ -22,7 +22,7 @@
     </div>
 
     <!-- Botones -->
-    <button runat="server" onserverclick="botonRealizarAjuste_ServerClick" id="botonRealizarAjuste" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true"><i class="fa fa-pencil"></i> Realizar Ajuste</button>
+    <button runat="server" onserverclick="botonRealizarAjuste_ServerClick" id="botonRealizarAjuste" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true"><i class="fa fa-pencil"></i> Nuevo Ajuste</button>
     <button runat="server" onserverclick="botonConsultarAjustes_ServerClick"  id="botonConsultarAjustes" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true"><i class="fa fa-bars"></i> Consultar Ajustes</button>
     <br />
     <br />
@@ -31,7 +31,7 @@
     <h3 id="tituloAccionAjustes" runat="server">Seleccione una opción</h3>
     <br />
     
-    <!-- Fieldset para Bodegas -->
+    <!-- Fieldset para Ajustes -->
     <fieldset id= "FieldsetAjustes" runat="server" class="fieldset">
         <div class="row">
             <div class="col-lg-6">
@@ -59,16 +59,21 @@
     <!-- Grid de productos a ajustar -->
     <div id="bloqueGridProductos" class="col-lg-12">
         <fieldset id="Fieldset2" runat="server" class="fieldset">
-            <!-- Gridview de consultar -->
+            <!-- Gridview -->
             <div class="col-lg-12">
                 <strong><div ID="tituloGridProductos" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Productos a Cambiar</div></strong>
                 <asp:UpdatePanel ID="UpdatePanel2" runat="server">
                     <ContentTemplate>
-                        <asp:GridView ID="gridViewProductos" CssClass="table" OnRowCommand="gridViewProductos_Seleccion" runat="server" AllowPaging="False" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                        <asp:GridView ID="gridViewProductos" CssClass="table" OnRowCommand="gridViewProductos_Seleccion" runat="server" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
                             <Columns>
                                 <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Quitar">
                                     <ControlStyle CssClass="btn btn-default"></ControlStyle>
                                 </asp:ButtonField>
+                                <asp:TemplateField HeaderText="Ajustes" >
+                                    <ItemTemplate>
+                                        <asp:TextBox ID="textAjustes" runat="server" ReadOnly="false"></asp:TextBox>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                             </Columns>
                             <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
                             <PagerStyle CssClass="paging" HorizontalAlign="Center" />
@@ -199,4 +204,12 @@
         </div>
     </div>
     <!-- Fin Modal Agregar Producto -->
+
+    <!-- Javascript -->
+    <!-- Modificar tab de site master activo -->
+    <script type = "text/javascript">
+        function setCurrentTab() {
+            document.getElementById("linkFormInventario").className = "active";
+        }
+    </script>
 </asp:Content>

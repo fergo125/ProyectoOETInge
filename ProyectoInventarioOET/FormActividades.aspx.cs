@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using ProyectoInventarioOET.Módulo_Actividades;
+using ProyectoInventarioOET.Modulo_Actividades;
 using ProyectoInventarioOET.App_Code;
 
 
@@ -32,6 +32,8 @@ namespace ProyectoInventarioOET
          */
         protected void Page_Load(object sender, EventArgs e)
         {
+            //Elementos visuales
+            ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
             mensajeAlerta.Visible = false;
             if (!IsPostBack)
             {

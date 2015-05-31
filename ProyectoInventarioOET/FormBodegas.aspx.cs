@@ -5,8 +5,8 @@ using System.Data;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using ProyectoInventarioOET.Módulo_Bodegas;
-using ProyectoInventarioOET.Módulo_Seguridad;
+using ProyectoInventarioOET.Modulo_Bodegas;
+using ProyectoInventarioOET.Modulo_Seguridad;
 using ProyectoInventarioOET.App_Code;
 
 namespace ProyectoInventarioOET
@@ -38,6 +38,8 @@ namespace ProyectoInventarioOET
           
             if (!IsPostBack)
             {
+                //Elementos visuales
+                ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
                     labelAlerta.Text = "";
                
                 controladoraBodegas = new ControladoraBodegas();
@@ -251,6 +253,9 @@ namespace ProyectoInventarioOET
                 {
                     mostrarMensaje("warning", "Alerta", "No hay conexión a la base de datos.");
                 }
+            
+
+
         }
 
         /*

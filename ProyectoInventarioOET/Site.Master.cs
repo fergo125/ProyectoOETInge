@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using ProyectoInventarioOET.Módulo_Seguridad;
+using ProyectoInventarioOET.Modulo_Seguridad;
 
 namespace ProyectoInventarioOET
 {
@@ -92,8 +92,8 @@ namespace ProyectoInventarioOET
                 this.linkNombreUsuarioLogueado.InnerText = usuarioLogueado.Nombre + " (" + usuarioLogueado.Perfil + ") " + nombreBodegaSesion;
                 this.linkIniciarSesion.Visible = false;
                 this.linkNombreUsuarioLogueado.Visible = true;
-                this.linkCambiarSesion.Visible = true;
-                esconderLinks(false);
+                //this.linkCambiarSesion.Visible = true;
+                esconderLinks(llaveBodegaSesion == null); //Sólo si ya inició sesión y ya escogió bodega se muestran los links para las partes del sistema
             }
         }
 
@@ -127,7 +127,7 @@ namespace ProyectoInventarioOET
          * Para simular el cierre de sesión esconde todos los elementos y borra el usuario que estaba conectado antes.
          * Muestra de nuevo el enlace para iniciar sesión.
          */
-        protected void cerrarSesion(object sender, EventArgs e)
+        public void cerrarSesion(object sender, EventArgs e)
         {
             usuarioLogueado = null;
             esconderLinks(true);
@@ -156,7 +156,7 @@ namespace ProyectoInventarioOET
         {
             this.linkIniciarSesion.Visible = esconder;
             this.linkNombreUsuarioLogueado.Visible = !esconder;
-            this.linkCambiarSesion.Visible = !esconder;
+            //this.linkCambiarSesion.Visible = !esconder;
 
             //TODO arreglar esto para que no sea hard coded***
             this.linkFormProductos.Visible = (!esconder && (usuarioLogueado.CodigoPerfil == "1" || usuarioLogueado.CodigoPerfil == "2"));
@@ -184,7 +184,7 @@ namespace ProyectoInventarioOET
         {
             ControladoraSeguridad cs = new ControladoraSeguridad();
             if (usuarioLogueado != null)
-                return cs.consultarPermisosUsuario(usuarioLogueado.CodigoPerfil, nombreInterfaz);
+                return cs.consultarPermisosUsuario(usuarioLogueado.LlavePerfil, nombreInterfaz);
             else
                 return "000000";
         }

@@ -5,7 +5,7 @@ using System.Web;
 using System.Data;
 using Oracle.DataAccess.Client; //para conectarse a la base de datos manualmente con strings
 
-namespace ProyectoInventarioOET.Módulo_Seguridad
+namespace ProyectoInventarioOET.Modulo_Seguridad
 {
     /*
      * Controladora de base de datos de seguridad, encargada de obtener información acerca de la seguridad
@@ -49,7 +49,8 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
                 usuario = new EntidadUsuario(datosConsultados);
                 String[] perfil = consultarPerfilUsuario(usuario.Codigo);
                 usuario.Perfil = perfil[0];
-                usuario.CodigoPerfil = perfil[1];
+                usuario.LlavePerfil = perfil[1];
+                usuario.CodigoPerfil = perfil[2];
             }
             return usuario;
         }
@@ -83,14 +84,15 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
             DataTable resultado = new DataTable();
 
             OracleCommand command = conexionBD.CreateCommand();
-            command.CommandText = "SELECT NOMBRE, CODIGO FROM " + esquema + "SEG_PERFIL WHERE (SEG_PERFIL = (SELECT SEG_PERFIL FROM SEG_PERFIL_USUARIO WHERE SEG_USUARIO = '" + codigoUsuario + "'))";
+            command.CommandText = "SELECT NOMBRE, SEG_PERFIL, CODIGO FROM " + esquema + "SEG_PERFIL WHERE (SEG_PERFIL = (SELECT SEG_PERFIL FROM SEG_PERFIL_USUARIO WHERE SEG_USUARIO = '" + codigoUsuario + "'))";
             OracleDataReader reader = command.ExecuteReader();
             resultado.Load(reader);
             if(resultado.Rows.Count == 1)
             {
-                String[] res = new String[2];
+                String[] res = new String[3];
                 res[0] = resultado.Rows[0][0].ToString();
                 res[1] = resultado.Rows[0][1].ToString();
+                res[2] = resultado.Rows[0][2].ToString();
                 return res;
             }
             return null;
@@ -114,5 +116,39 @@ namespace ProyectoInventarioOET.Módulo_Seguridad
             }
             return nombre;
         }
+
+        public String consultarNombreDeBodega(String id)
+        {
+            String esquema = "Inventarios.";
+            String nombre = "";
+            DataTable resultado = new DataTable();
+            OracleCommand command = conexionBD.CreateCommand();
+            command.CommandText = "SELECT DESCRIPCION FROM " + esquema + "CAT_BODEGA WHERE CAT_BODEGA = '" + id + "'";
+            OracleDataReader reader = command.ExecuteReader();
+            resultado.Load(reader);
+            if (resultado.Rows.Count == 1)
+            {
+                nombre = resultado.Rows[0][0].ToString();
+            }
+            return nombre;
+        }
+
+        public String consultarNombreDeEstacion(String id)
+        {
+            String esquema = "Reservas.";
+            String nombre = "";
+            DataTable resultado = new DataTable();
+            OracleCommand command = conexionBD.CreateCommand();
+            command.CommandText = "SELECT NOMBRE FROM " + esquema + "ESTACION WHERE ID ='"+ id+"'";
+            OracleDataReader reader = command.ExecuteReader();
+            resultado.Load(reader);
+            if (resultado.Rows.Count == 1)
+            {
+                nombre = resultado.Rows[0][0].ToString();
+            }
+            return nombre;
+        }
+
+
     }
 }
