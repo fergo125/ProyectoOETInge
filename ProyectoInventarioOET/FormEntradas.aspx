@@ -19,15 +19,17 @@
         <hr />
     </div>
 
-    <!-- Botones -->
+    <!-- Botones de acciones de la interfaz -->
 
     <button runat="server" onserverclick="botonAgregarEntradas_ServerClick" causesvalidation="false" id="botonAgregarEntradas" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true">Nueva Entrada</button>
     <button runat="server" onserverclick="botonConsultaEntradas_ServerClick" causesvalidation="false"  id="botonConsultaEntradas" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true">Consultar Entradas</button>
     <br />
     <br />
 
+    <!-- Título de acción -->
     <h3 id="tituloAccionEntradas" runat="server"></h3>
 
+    <!-- Bloque con la tabla que muestra las entradas -->
     <div id="bloqueGridEntradas" class="col-lg-12">
         <fieldset id="FieldsetGridEntradas" runat="server" class="fieldset" visible="false">
          <div class="col-lg-12"><strong><div ID="Div2" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Listado de Entradas</div></strong>
@@ -54,6 +56,7 @@
         </fieldset>        
     </div>
 
+    <!-- Bloque que muestra la información de la entrada -->
     <div id="bloqueGridProductosDeEntrada" class="col-lg-12">
         <fieldset id="FieldsetGridProductosDeEntrada" runat="server" class="fieldset" visible="false">
 
@@ -109,33 +112,7 @@
         </fieldset>
     </div>
 
-<%--        <div class="col-lg-4">
-            <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
-                ControlToValidate=comboBoxEmpresa
-                ErrorMessage="">
-            </asp:RequiredFieldValidator>
-                <br />
-                <div class="form-group">
-                    <label for="comboBoxEmpresa" class= "control-label"> Empresa*: </label>      
-                    <asp:DropDownList id="comboBoxEmpresa" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
-                    </asp:DropDownList>
-                </div>
-        </div>
-            
-        <div class="col-lg-4">
-            <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
-                ControlToValidate=comboBoxEstacion
-                ErrorMessage="">
-            </asp:RequiredFieldValidator>
-                <br />
-                <div class="form-group">
-                    <label for="comboBoxEstacion" class= "control-label"> Estación*: </label>      
-                    <asp:DropDownList id="comboBoxEstacion" runat="server" style="max-width=75%" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
-                    </asp:DropDownList>
-                </div>
-        </div>--%>
-
-
+    <!-- Sección con lo necesario para realizar una búsqueda de una factura -->
     <fieldset id="FielsetBuscarFactura" runat="server" visible="false">
         <div class="row">
             <label class= "col-lg-12">Buscar factura:</label>
@@ -156,6 +133,7 @@
     <br />
     <br />
 
+    <!-- Tabla con los resultados de búsqueda de facturas y sección para mostrar el encabezado -->
     <div id="bloqueGridFacturas" class="col-lg-12">
         <fieldset id="FieldsetGridFacturas" runat="server" class="fieldset" visible="false">
          <div class="col-lg-12"><strong><div ID="tituloGrid" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Listado de Facturas</div></strong>
@@ -248,6 +226,10 @@
     <br />
     <br />
 
+
+    <!-- Contiene el detalle de la factura: la creada desde el sistema de compras, búsqueda
+         de productos y la factura detallada que se está creando
+     -->
     <fieldset id="FieldsetCrearFactura" runat="server" visible="false">
         <div class="row">
             <div id="bloqueGridDetalleFactura" class="col-lg-4">
@@ -315,6 +297,7 @@
     </fieldset>
     <br />
 
+    <!-- Botones de Aceptar y Cancelar -->
     <div class="col-lg-12" id="bloqueBotones">
         <div class =" row">
             <div class="text-center">
