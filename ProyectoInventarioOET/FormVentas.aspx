@@ -136,6 +136,7 @@
     <!-- Panel con el grid de consultar facturas (se mantiene aparte para poder esconder los campos de consulta grupal y mostrar los de consulta individual, sin tocar el grid) -->
     <br />
     <br />
+    <asp:Panel ID="PanelGridConsultarFacturas" runat="server"></asp:Panel>
         <strong><div ID="tituloGrid" runat="server" tabindex="" class="control-label" style="text-align:center; font-size:larger; background-color: #C0C0C0;">Facturas en el sistema</div></strong>
         <asp:UpdatePanel ID="UpdatePanelFacturas" runat="server">
             <ContentTemplate>
@@ -164,7 +165,7 @@
                 <td colspan="4">Fecha y hora:  <%: DateTime.Now.Date.ToShortDateString() %>,  <%: DateTime.Now.TimeOfDay.ToString().Substring(0,5) %></td></tr>
             <tr>
                 <td>Estación:</td>
-                <td><asp:DropDownList ID="dropDownListCrearFacturaEstacion" onselectedindexchanged="dropDownListCrearFacturaEstacion_SelectedIndexChanged" AutoPostBack="true" class="input input-fozkr-dropdownlist" runat="server" Enabled="false" Width="90%" CssClass="form-control"></asp:DropDownList></td>
+                <td><asp:DropDownList ID="dropDownListCrearFacturaEstacion" AutoPostBack="true" class="input input-fozkr-dropdownlist" runat="server" Enabled="false" Width="90%" CssClass="form-control"></asp:DropDownList></td>
                 <td>Bodega:</td>
                 <td><asp:DropDownList ID="dropDownListCrearFacturaBodega" class="input input-fozkr-dropdownlist" runat="server" Enabled="false" Width="90%" CssClass="form-control"></asp:DropDownList></td>
             </tr>

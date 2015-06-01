@@ -212,8 +212,10 @@ namespace ProyectoInventarioOET.Modulo_Bodegas
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                //command.CommandText = "SELECT * FROM " + esquema + "CAT_BODEGA WHERE CAT_BODEGA.ESTACION = '" + codigo + "'";
-                command.CommandText = "SELECT * FROM " + esquema + "CAT_BODEGA WHERE ESTACION = '" + codigo + "'";
+                if(codigo == null)
+                    command.CommandText = "SELECT * FROM " + esquema + "CAT_BODEGA";
+                else
+                    command.CommandText = "SELECT * FROM " + esquema + "CAT_BODEGA WHERE ESTACION = '" + codigo + "'";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
             }

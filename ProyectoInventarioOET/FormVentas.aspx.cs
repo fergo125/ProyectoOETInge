@@ -59,10 +59,10 @@ namespace ProyectoInventarioOET
                 controladoraBodegas = new ControladoraBodegas();
                 controladoraAjustes = new ControladoraAjustes();
                 //Seguridad
-                //permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Facturacion"); //TODO: descomentar esto, está comentado sólo para pruebas
+                permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Facturacion"); //TODO: descomentar esto, está comentado sólo para pruebas
                 if (permisos == "000000")
                     Response.Redirect("~/ErrorPages/404.html");
-                //perfilUsuario = (this.Master as SiteMaster).Usuario.Perfil;
+                codigoPerfilUsuario = (this.Master as SiteMaster).Usuario.CodigoPerfil;
                 mostrarElementosSegunPermisos();
 
 
@@ -288,7 +288,7 @@ namespace ProyectoInventarioOET
                     dropDownListConsultaVendedor.Enabled = true;                            //Sí se le permite escoger vendedor
                     cargarDropDownListsAutomaticamente(false, false, true, false);          //Se pone la estación de la bodega automáticamente* (x, x, estación única, x)
                     cargarBodegas(this.dropDownListConsultaBodega);                         //*en este caso es importante cargar la estación primero, para luego cargar sus bodegas
-                    cargarEstaciones();                                                     //Se cargan las posibles estaciones
+                    cargarEstacionesConsulta();                                             //Se cargan las posibles estaciones
                     cargarDropDownListsAutomaticamente(false, true, false, true);           //Se ponen la bodega y la estación automáticamente (x, bodegas múltiples, x, estaciones múltiples)
                     break;
 
@@ -465,14 +465,16 @@ namespace ProyectoInventarioOET
         protected void cargarAsociadosABodega(String idBodega)
         {
             dropDownListConsultaVendedor.Items.Clear();
-            dropDownListConsultaVendedor.Items.Add(new ListItem("", null));
-            dropDownListConsultaVendedor.Items.Add(new ListItem("Todos", "Todos"));
+            dropDownListConsultaVendedor.Items.Add(new ListItem("Todos", "All"));
             DataTable vendedores = controladoraVentas.asociadosABodega(idBodega);
+            short i = 1; //dejar en 1
             foreach (DataRow fila in vendedores.Rows)
             {
                 dropDownListConsultaVendedor.Items.Add(new ListItem(controladoraSeguridad.consultarNombreDeUsuario(fila[0].ToString()), fila[0].ToString()));
+                if(fila[0].ToString() == (this.Master as SiteMaster).Usuario.Codigo)
+                    dropDownListConsultaVendedor.SelectedIndex = i;
+                ++i;
             }
-            dropDownListConsultaVendedor.SelectedIndex = 1;
         }
 
         /*
@@ -617,13 +619,13 @@ namespace ProyectoInventarioOET
                 this.dropDownListCrearFacturaEstacion.Items.Clear();
                 foreach (DataRow fila in estaciones.Rows)
                 {
-                    if ((usuarioActual.Perfil.Equals("Administrador global"))||(usuarioActual.IdEstacion.Equals(fila[0])))
+                    if ((usuarioActual.CodigoPerfil.Equals("1"))||(usuarioActual.IdEstacion.Equals(fila[0])))
                     {
                         this.dropDownListCrearFacturaEstacion.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
                     }
                 }
             }
-            if (usuarioActual.Perfil.Equals("Administrador global"))
+            if ((usuarioActual.CodigoPerfil.Equals("1")))
             {
                 dropDownListCrearFacturaEstacion.Enabled = true;
             }
@@ -644,7 +646,7 @@ namespace ProyectoInventarioOET
             //int i=0;
             if (estaciones.Rows.Count > 0)
             {
-                dropDownListConsultaEstacion.Items.Add(new ListItem("Todas", "Todas"));
+                dropDownListConsultaEstacion.Items.Add(new ListItem("Todas", "All"));
                 //i++;
                 foreach (DataRow fila in estaciones.Rows)
                 {
@@ -671,8 +673,7 @@ namespace ProyectoInventarioOET
             DataTable bodegas = null;
             if (dropdown == dropDownListConsultaBodega)
             {
-                dropdown.Items.Add(new ListItem("", null));
-                dropdown.Items.Add(new ListItem("Todas", "Todas"));
+                dropdown.Items.Add(new ListItem("Todas", "All"));
                 bodegas = controladoraBodegas.consultarBodegasDeEstacion(dropDownListConsultaEstacion.SelectedValue);
             }
             //else //esto no debería darse
@@ -844,7 +845,7 @@ namespace ProyectoInventarioOET
         protected void botonAceptarAjusteRapido_ServerClick(object sender, EventArgs e)
         {
             String productoEscogido = textBoxAutocompleteAjusteRapidoBusquedaProducto.Text;
-            productoEscogido = controladoraVentas.verificarExistenciaProductoLocal( (this.Master as SiteMaster).LlaveBodegaSesion, productoEscogido); //TODO: obtener llave de la bodega, no nombre
+            productoEscogido = controladoraVentas.verificarExistenciaProductoLocal( (this.Master as SiteMaster).LlaveBodegaSesion, productoEscogido);
 
             Object[] datos = new Object[6];
             datos[0] = "CYCLO106062012145550408008";
