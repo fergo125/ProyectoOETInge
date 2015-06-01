@@ -21,18 +21,18 @@ namespace ProyectoInventarioOET
     {
         enum Modo { Inicial, Consulta, Insercion, Modificacion, Consultado };
         //Atributos
-        private static Modo modo = Modo.Inicial;                               //Indica en qué modo se encuentra la interfaz en un momento cualquiera, de éste depende cuáles elementos son visibles
-        private static String permisos = "111111";                             //Permisos utilizados para el control de seguridad //TODO: poner en 000000, está en 111111 sólo para pruebas
-        private static String codigoPerfilUsuario = "1";                       //Indica el perfil del usuario, usado para acciones de seguridad para las cuales la string de permisos no basta //TODO: poner en ""
-        private static DataTable facturasConsultadas;                          //Usada para llenar el grid y para mostrar los detalles de cada factura específica
-        private static EntidadFactura facturaConsultada;
-        private static Boolean seConsulto = false;
-        private static Object[] idArray;                                //Usada para llevar el control de las facturas consultadas
-        private static ControladoraVentas controladoraVentas;                  //Para accesar las tablas del módulo y realizar las operaciones de consulta, inserción, modificación y anulación
-        private static ControladoraDatosGenerales controladoraDatosGenerales;  //Para accesar datos generales de la base de datos
-        private static ControladoraBodegas controladoraBodegas;  //Para accesar datos generales de la base de datos
-        private static ControladoraSeguridad controladoraSeguridad;     //???
-        private static ControladoraAjustes controladoraAjustes;     //???
+        private static Modo modo = Modo.Inicial;                                //Indica en qué modo se encuentra la interfaz en un momento cualquiera, de éste depende cuáles elementos son visibles
+        private static String permisos = "000000";                              //Permisos utilizados para el control de seguridad //TODO: poner en 000000, está en 111111 sólo para pruebas
+        private static String codigoPerfilUsuario = "";                         //Indica el perfil del usuario, usado para acciones de seguridad para las cuales la string de permisos no basta //TODO: poner en ""
+        private static DataTable facturasConsultadas;                           //Usada para llenar el grid y para mostrar los detalles de cada factura específica
+        private static EntidadFactura facturaConsultada;                        //???
+        private static Boolean seConsulto = false;                              //???
+        private static Object[] idArray;                                        //Usada para llevar el control de las facturas consultadas
+        private static ControladoraVentas controladoraVentas;                   //Para accesar las tablas del módulo y realizar las operaciones de consulta, inserción, modificación y anulación
+        private static ControladoraAjustes controladoraAjustes;                 //???
+        private static ControladoraBodegas controladoraBodegas;                 //???
+        private static ControladoraSeguridad controladoraSeguridad;             //???
+        private static ControladoraDatosGenerales controladoraDatosGenerales;   //Para accesar datos generales de la base de datos
         
         //Importante:
         //Para el codigoPerfilUsuario (que se usa un poco hard-coded), los números son:
@@ -255,60 +255,140 @@ namespace ProyectoInventarioOET
         protected void cargarDropdownListsConsulta()
         {
             //Limpiar la lista de opciones para que no se acumulen
-            dropDownListConsultaEstacion.Items.Clear();
-            dropDownListConsultaBodega.Items.Clear();
-            dropDownListConsultaVendedor.Items.Clear();
-            EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
-            //Dependiendo del perfil del usuario, puede que en la instancia de usuarioLogueado ya estén guardados los datos por default
-            switch (Convert.ToInt32(usuarioActual.CodigoPerfil))
+            //dropDownListConsultaEstacion.Items.Clear();
+            //dropDownListConsultaBodega.Items.Clear();
+            //dropDownListConsultaVendedor.Items.Clear();
+
+            //Switch para cargar los datos default y los datos escogibles
+            switch (Convert.ToInt32((this.Master as SiteMaster).Usuario.CodigoPerfil)) //TODO: probar este nuevo switch
             {
                 case 4: //Vendedor
-                    dropDownListConsultaVendedor.Items.Add(new ListItem(usuarioActual.Nombre, usuarioActual.Codigo));
-                    dropDownListConsultaVendedor.SelectedIndex = 0;
-                    dropDownListConsultaVendedor.Enabled = false;
-
-
-                    dropDownListConsultaBodega.Items.Add(new ListItem( (this.Master as SiteMaster).NombreBodegaSesion, (this.Master as SiteMaster).LlaveBodegaSesion));
-                    dropDownListConsultaBodega.SelectedIndex = 0;
-                    dropDownListConsultaBodega.Enabled = false;
-
-                    cargarEstacionesConsulta();
-                    dropDownListConsultaEstacion.Enabled = false;
-
+                    dropDownListConsultaVendedor.Items.Add(new ListItem((this.Master as SiteMaster).Usuario.Nombre, (this.Master as SiteMaster).Usuario.Codigo));
+                    dropDownListConsultaVendedor.SelectedIndex = 0;                         //Se pone al vendedor automáticamente
+                    dropDownListConsultaVendedor.Enabled = false;                           //NO se le permite escoger vendedor
+                    cargarDropDownListsAutomaticamente(true, false, true, false);           //Se ponen la bodega y la estación de esa bodega automáticamente (bodega única, x, estación única, x)
                     break;
+
                 case 3: //Supervisor
+                    cargarAsociadosABodega((this.Master as SiteMaster).LlaveBodegaSesion);  //Se cargan los posibles vendedores dada la bodega de trabajo de la sesión
+                    dropDownListConsultaVendedor.Enabled = true;                            //Sí se le permite escoger vendedor
+                    cargarDropDownListsAutomaticamente(true, false, true, false);           //Se ponen la bodega y la estación automáticamente (bodega única, x, estación única, x)
+                    break;
 
-                    cargarAsociadosABodega((this.Master as SiteMaster).LlaveBodegaSesion);
-
-                    dropDownListConsultaBodega.Items.Add(new ListItem( (this.Master as SiteMaster).NombreBodegaSesion, (this.Master as SiteMaster).LlaveBodegaSesion));
-                    dropDownListConsultaBodega.SelectedIndex = 0;
-                    dropDownListConsultaBodega.Enabled = false;
-
-                    
-                    cargarEstacionesConsulta();
-                    dropDownListConsultaEstacion.Enabled = false;
-
-                    break;  
                 case 2: //Administrador local
-                    cargarAsociadosABodega((this.Master as SiteMaster).LlaveBodegaSesion);
-                    
-                    cargarEstacionesConsulta();
-                    dropDownListConsultaEstacion.Enabled = false;
-
-                    cargarBodegas(this.dropDownListConsultaBodega);
-                    dropDownListConsultaBodega.SelectedIndex = 1;
+                    cargarAsociadosABodega((this.Master as SiteMaster).LlaveBodegaSesion);  //Se cargan los posibles vendedores dada la bodega de trabajo de la sesión
+                    dropDownListConsultaVendedor.Enabled = true;                            //Sí se le permite escoger vendedor
+                    cargarDropDownListsAutomaticamente(false, false, true, false);          //Se pone la estación de la bodega automáticamente* (x, x, estación única, x)
+                    cargarBodegas(this.dropDownListConsultaBodega);                         //*en este caso es importante cargar la estación primero, para luego cargar sus bodegas
+                    cargarDropDownListsAutomaticamente(false, true, false, false);          //Se cargan las posibles bodegas, una vez cargadas, se pone de una vez la de sesión, pero se dejan las opciones por si quiere cambiar (x, bodegas múltiples, x, x)
                     break;
+
+                case 1: //Administrador global
+                    cargarAsociadosABodega((this.Master as SiteMaster).LlaveBodegaSesion);  //Se cargan los posibles vendedores dada la bodega de trabajo de la sesión
+                    dropDownListConsultaVendedor.Enabled = true;                            //Sí se le permite escoger vendedor
+                    cargarDropDownListsAutomaticamente(false, false, true, false);          //Se pone la estación de la bodega automáticamente* (x, x, estación única, x)
+                    cargarBodegas(this.dropDownListConsultaBodega);                         //*en este caso es importante cargar la estación primero, para luego cargar sus bodegas
+                    cargarEstaciones();                                                     //Se cargan las posibles estaciones
+                    cargarDropDownListsAutomaticamente(false, true, false, true);           //Se ponen la bodega y la estación automáticamente (x, bodegas múltiples, x, estaciones múltiples)
+                    break;
+
                 default:
-
-                    cargarAsociadosABodega((this.Master as SiteMaster).LlaveBodegaSesion);
-
-                    cargarEstacionesConsulta();
-                    dropDownListConsultaEstacion.SelectedIndex = 0;
-
-                    cargarBodegas(this.dropDownListConsultaBodega);
-                    dropDownListConsultaBodega.SelectedIndex = 1;
-                    //Administrador global y cualquier otro, este switch es extendible a más perfiles
                     break;
+            }
+
+            //switch original
+            //switch (Convert.ToInt32((this.Master as SiteMaster).Usuario.CodigoPerfil)) //TODO, revisar esto
+            //{
+            //    case 4: //Vendedor
+            //        //Se pone al vendedor automáticamente
+            //        dropDownListConsultaVendedor.Items.Add(new ListItem((this.Master as SiteMaster).Usuario.Nombre, (this.Master as SiteMaster).Usuario.Codigo));
+            //        dropDownListConsultaVendedor.SelectedIndex = 0;
+            //        dropDownListConsultaVendedor.Enabled = false;
+            //        //Se pone la bodega automáticamente
+            //        dropDownListConsultaBodega.Items.Add(new ListItem( (this.Master as SiteMaster).NombreBodegaSesion, (this.Master as SiteMaster).LlaveBodegaSesion));
+            //        dropDownListConsultaBodega.SelectedIndex = 0;
+            //        dropDownListConsultaBodega.Enabled = false;
+            //        cargarEstacionesConsulta();
+            //        dropDownListConsultaEstacion.Enabled = false;
+            //        break;
+            //    case 3: //Supervisor
+            //        cargarAsociadosABodega((this.Master as SiteMaster).LlaveBodegaSesion);
+            //        dropDownListConsultaBodega.Items.Add(new ListItem( (this.Master as SiteMaster).NombreBodegaSesion, (this.Master as SiteMaster).LlaveBodegaSesion));
+            //        dropDownListConsultaBodega.SelectedIndex = 0;
+            //        dropDownListConsultaBodega.Enabled = false;
+            //        cargarEstacionesConsulta();
+            //        dropDownListConsultaEstacion.Enabled = false;
+            //        break;  
+            //    case 2: //Administrador local
+            //        cargarAsociadosABodega((this.Master as SiteMaster).LlaveBodegaSesion);
+            //        cargarEstacionesConsulta();
+            //        dropDownListConsultaEstacion.Enabled = false;
+            //        cargarBodegas(this.dropDownListConsultaBodega);
+            //        dropDownListConsultaBodega.SelectedIndex = 1;
+            //        break;
+            //    default:
+            //        cargarAsociadosABodega((this.Master as SiteMaster).LlaveBodegaSesion);
+            //        cargarEstacionesConsulta();
+            //        dropDownListConsultaEstacion.SelectedIndex = 0;
+            //        cargarBodegas(this.dropDownListConsultaBodega);
+            //        dropDownListConsultaBodega.SelectedIndex = 1;
+            //        //Administrador global y cualquier otro, este switch es extendible a más perfiles
+            //        break;
+            //}
+        }
+
+        /*
+         * Invocada al cargar los dropdownlists de consultar facturas. Ya que al iniciar sesión siempre se escoge una bodega de trabajo, ésta ya debe estar
+         * escogida para la consulta de facturas, a la vez, si ya se escogió una bodega, ya se escogió la estación donde ésta se encuentra, por lo que esos
+         * dos dropdownlists deben cargarse con datos default siempre, sin importar el perfil, lo que importa es que algunos perfiles pueden elegir cambiar
+         * esa escogencia que se da por defecto.
+         */
+        protected void cargarDropDownListsAutomaticamente(bool bodegaUnica, bool buscarBodega, bool estacionUnica, bool buscarEstacion)
+        {
+            if (bodegaUnica) //Se pone la bodega automáticamente, se usa la que se escogió al iniciar sesión
+            {
+                dropDownListConsultaBodega.Items.Add(new ListItem((this.Master as SiteMaster).NombreBodegaSesion, (this.Master as SiteMaster).LlaveBodegaSesion));
+                dropDownListConsultaBodega.SelectedIndex = 0;
+                dropDownListConsultaBodega.Enabled = false; //NO se le permite escoger la bodega
+            }
+            if (buscarBodega) //Se busca la bodega en la lista de opciones para escogerla y dejarla así desde el principio
+            {
+                for (short i = 0; i < dropDownListConsultaBodega.Items.Count; ++i)
+                {
+                    if (dropDownListConsultaBodega.Items[i].Value == (this.Master as SiteMaster).LlaveBodegaSesion) //si las llaves son iguales
+                    {
+                        dropDownListConsultaBodega.SelectedIndex = i;
+                        break;
+                    }
+                }
+                dropDownListConsultaBodega.Enabled = true; // sí se le permite escoger la bodega
+            }
+            if (estacionUnica || buscarEstacion)
+            {
+                String[] datosEstacion = controladoraDatosGenerales.consultarEstacionDeBodega(((this.Master as SiteMaster).LlaveBodegaSesion));
+                if (datosEstacion != null)
+                {
+                    if (estacionUnica) //Se pone la estación automáticamente, la estación a la que pertenece la bodega escogida previamente (por consistencia)
+                    {
+                        dropDownListConsultaEstacion.Items.Add(new ListItem(datosEstacion[0], datosEstacion[1]));
+                        dropDownListConsultaEstacion.SelectedIndex = 0;
+                        dropDownListConsultaEstacion.Enabled = false; //NO se le permite escoger la estación
+                    }
+                    if (buscarEstacion) //Se busca la estación en la lista de opciones para escogerla y dejarla así desde el principio
+                    {
+                        for (short i = 0; i < dropDownListConsultaEstacion.Items.Count; ++i)
+                        {
+                            if (dropDownListConsultaEstacion.Items[i].Value == datosEstacion[1]) //si las llaves son iguales
+                            {
+                                dropDownListConsultaEstacion.SelectedIndex = i;
+                                break;
+                            }
+                        }
+                        dropDownListConsultaEstacion.Enabled = true; // sí se le permite escoger la estación
+                    }
+                }
+                else
+                    mostrarMensaje("warning", "Alerta", "Ocurrió un error al intentar obtener la estación a la que pertence la bodega actual de trabajo.");
             }
         }
 
@@ -320,11 +400,10 @@ namespace ProyectoInventarioOET
          */
         protected void llenarGrid()
         {
-            //Importante: estos dropdownlists pueden contener una entidad específica o la palabra "Todas"/"Todos", en el segundo caso se envía "null", la controladora debe entenderlo
+            //Importante: estos dropdownlists pueden contener una entidad específica o la palabra "Todas"/"Todos", en el segundo caso se envía "All", la controladora debe entenderlo
             String codigoEstacion = dropDownListConsultaEstacion.SelectedValue;
             String codigoBodega = dropDownListConsultaBodega.SelectedValue;
             String codigoVendedor = dropDownListConsultaVendedor.SelectedValue;
-            //TODO: revisar que de los dropdownlists se obtengan las llaves, no los nombres, algo como dropDownList.SelectedItem[1] creo
 
             DataTable tabla = tablaFacturas();
             int indiceNuevaFactura = -1;
@@ -451,16 +530,6 @@ namespace ProyectoInventarioOET
          */
         protected void habilitarCampos(bool habilitar)
         {
-            /*
-             * 
-             * Esto sirve, peeeeero, cuando se bloquean, el estilo se les cambia.
-             * Entonces le toca a quien hizo el .aspx, hacer bien la definicion de
-             * los comboboxes. A cada elemento TextBox le hacen falta muchos atributos
-             * de estilo, y como no los tiene, cuando se hace Enabled = false, el estilo
-             * se le despicha feo. En fin, le toca arreglarlo a quien hizo el .aspx.
-             * */
-
-
             textBoxFacturaConsultadaConsecutivo.Disabled = !habilitar;
             textBoxFacturaConsultadaEstacion.Disabled = !habilitar;
             textBoxFacturaConsultadaBodega.Disabled = !habilitar; ;
@@ -569,24 +638,24 @@ namespace ProyectoInventarioOET
          */
         protected void cargarEstacionesConsulta()
         {
+            dropDownListConsultaEstacion.Items.Clear();
             EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
             DataTable estaciones = controladoraDatosGenerales.consultarEstaciones();
-            int i=0;
+            //int i=0;
             if (estaciones.Rows.Count > 0)
             {
-                this.dropDownListConsultaEstacion.Items.Clear();
-                this.dropDownListConsultaEstacion.Items.Add(new ListItem("Todas", "Todas"));
-                i++;
+                dropDownListConsultaEstacion.Items.Add(new ListItem("Todas", "Todas"));
+                //i++;
                 foreach (DataRow fila in estaciones.Rows)
                 {
-                    if ((usuarioActual.Perfil.Equals("Administrador global")) || (usuarioActual.IdEstacion.Equals(fila[0])))
+                    if ((usuarioActual.CodigoPerfil.Equals("1")) || (usuarioActual.IdEstacion.Equals(fila[0])))
                     {
                         this.dropDownListConsultaEstacion.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
-                        if ((usuarioActual.IdEstacion.Equals(fila[0])) && (!usuarioActual.Perfil.Equals("Administrador global")))
-                        {
-                            this.dropDownListConsultaEstacion.SelectedIndex = i;
-                        }
-                        i++;
+                        //if ((usuarioActual.IdEstacion.Equals(fila[0])) && (!usuarioActual.CodigoPerfil.Equals("1")))
+                        //{
+                        //    this.dropDownListConsultaEstacion.SelectedIndex = i;
+                        //}
+                        //i++;
                     }
                 }
             }
@@ -597,38 +666,37 @@ namespace ProyectoInventarioOET
          */
         protected void cargarBodegas(DropDownList dropdown)
         {
-            EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
             dropdown.Items.Clear();
-            DataTable bodegas;
-            if (dropdown == this.dropDownListConsultaBodega)
+            EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
+            DataTable bodegas = null;
+            if (dropdown == dropDownListConsultaBodega)
             {
                 dropdown.Items.Add(new ListItem("", null));
                 dropdown.Items.Add(new ListItem("Todas", "Todas"));
-                 bodegas = controladoraBodegas.consultarBodegasDeEstacion(dropDownListConsultaEstacion.SelectedValue);
+                bodegas = controladoraBodegas.consultarBodegasDeEstacion(dropDownListConsultaEstacion.SelectedValue);
             }
-            else
-            {
-                 bodegas = controladoraBodegas.consultarBodegasDeEstacion(dropDownListCrearFacturaEstacion.SelectedValue);
-            }
-            int i = 0;
+            //else //esto no debería darse
+            //{
+            //    bodegas = controladoraBodegas.consultarBodegasDeEstacion(dropDownListCrearFacturaEstacion.SelectedValue);
+            //}
+            //int i = 0;
             if (bodegas.Rows.Count > 0)
             {
                 foreach (DataRow fila in bodegas.Rows)
                 {
-                    if ((usuarioActual.Perfil.Equals("Administrador global")) || (usuarioActual.Perfil.Equals("Administrador local")) || fila[1].ToString().Equals((this.Master as SiteMaster).NombreBodegaSesion))
-                    {
-                        dropdown.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
-                    }
+                    //if ((usuarioActual.Perfil.Equals("Administrador global")) || (usuarioActual.Perfil.Equals("Administrador local")) || fila[1].ToString().Equals((this.Master as SiteMaster).NombreBodegaSesion))
+                    //si se invoca esta función es porque ya se revisó la parte de seguridad
+                    dropdown.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
                 }
             }
-            if ((usuarioActual.Perfil.Equals("Administrador global")) || (usuarioActual.Perfil.Equals("Administrador local")))
-            {
-                dropdown.Enabled = true;
-            }
-            else
-            {
-                dropdown.Enabled = false;
-            }
+            //if ((usuarioActual.Perfil.Equals("Administrador global")) || (usuarioActual.Perfil.Equals("Administrador local")))
+            //{
+            //    dropdown.Enabled = true;
+            //}
+            //else
+            //{
+            //    dropdown.Enabled = false;
+            //}
         }
 
 
@@ -679,7 +747,8 @@ namespace ProyectoInventarioOET
         protected void clickBotonCrearFactura(object sender, EventArgs e)
         {
             cargarEstaciones();
-            cargarBodegas(this.dropDownListCrearFacturaBodega);
+            //cargarBodegas(this.dropDownListCrearFacturaBodega);
+            //Sólo debe cargar la bodega actual de trabajo, TODO: arreglar esto
             textBoxCrearFacturaVendedor.Text = (this.Master as SiteMaster).Usuario.Nombre;
             textBoxCrearFacturaVendedor.Enabled = false;
             modo = Modo.Insercion;
@@ -750,13 +819,11 @@ namespace ProyectoInventarioOET
 
         }
 
-        /*
-         * ???
-         */
-        protected void dropDownListCrearFacturaEstacion_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            cargarBodegas(this.dropDownListCrearFacturaBodega);
-        }
+        //Este evento no debe darse.
+        //protected void dropDownListCrearFacturaEstacion_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    cargarBodegas(this.dropDownListCrearFacturaBodega);
+        //}
 
         /*
          * ???

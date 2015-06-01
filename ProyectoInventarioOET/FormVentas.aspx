@@ -1,8 +1,8 @@
 ﻿<%@ Page Title="Ventas" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="FormVentas.aspx.cs" Inherits="ProyectoInventarioOET.FormVentas" %>
 <asp:Content ID="ContentVentas" ContentPlaceHolderID="MainContent" runat="server">
 
-    <br />
     <!-- Label para desplegar mensajes -->
+    <br />
     <div>
         <div ID="mensajeAlerta" class="" runat="server" Visible="false" style="margin-left:70%;">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -39,7 +39,6 @@
                 <div class="form-group col-lg-3">
                     <label for="ConsultaEstacion" class="control-label">Estación:</label>    
                     <asp:DropDownList ID="dropDownListConsultaEstacion" AutoPostBack="true" onselectedindexchanged="dropDownListConsultaEstacion_SelectedIndexChanged"  class="input input-fozkr-dropdownlist" runat="server" Enabled="false" Width="90%" CssClass="form-control"></asp:DropDownList>
-
                 </div>
                 <div class="form-group col-lg-3">
                     <label for="ConsultaEstacion" class="control-label">Bodega:</label>    
@@ -138,25 +137,25 @@
     <br />
     <br />
         <strong><div ID="tituloGrid" runat="server" tabindex="" class="control-label" style="text-align:center; font-size:larger; background-color: #C0C0C0;">Facturas en el sistema</div></strong>
-            <asp:UpdatePanel ID="UpdatePanelFacturas" runat="server">
-                <ContentTemplate>
-                    <asp:GridView ID="gridViewFacturas" Visible="false" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewFacturas_FilaSeleccionada" OnPageIndexChanging="gridViewFacturas_CambioPagina" runat="server" AllowPaging="true" PageSize="3" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
-                        <Columns>
-                            <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Consultar">
-                                <ControlStyle CssClass="btn btn-default"></ControlStyle>
-                            </asp:ButtonField>
-                       </Columns>
-                       <RowStyle Font-Size="small" BackColor="White" ForeColor="Black"/>
-                       <PagerStyle CssClass="paging" HorizontalAlign="Center"/>
-                       <AlternatingRowStyle BackColor="#F8F8F8"/>
-                       <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White"/>
-                       <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver"/>
-                  </asp:GridView>
-             </ContentTemplate>
-             <Triggers>
-                <asp:AsyncPostBackTrigger ControlID="gridViewFacturas" EventName="RowCommand" />
-             </Triggers>
-          </asp:UpdatePanel>
+        <asp:UpdatePanel ID="UpdatePanelFacturas" runat="server">
+            <ContentTemplate>
+                <asp:GridView ID="gridViewFacturas" Visible="false" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewFacturas_FilaSeleccionada" OnPageIndexChanging="gridViewFacturas_CambioPagina" runat="server" AllowPaging="true" PageSize="3" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                    <Columns>
+                        <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Consultar">
+                            <ControlStyle CssClass="btn btn-default"></ControlStyle>
+                        </asp:ButtonField>
+                    </Columns>
+                    <RowStyle Font-Size="small" BackColor="White" ForeColor="Black"/>
+                    <PagerStyle CssClass="paging" HorizontalAlign="Center"/>
+                    <AlternatingRowStyle BackColor="#F8F8F8"/>
+                    <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White"/>
+                    <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver"/>
+                </asp:GridView>
+            </ContentTemplate>
+            <Triggers>
+            <asp:AsyncPostBackTrigger ControlID="gridViewFacturas" EventName="RowCommand" />
+            </Triggers>
+        </asp:UpdatePanel>
 
     <!-- Panel crear factura -->
     <asp:Panel ID="PanelCrearFactura" runat="server" Visible="true">
@@ -216,7 +215,7 @@
                                 <Columns>
                                     <asp:TemplateField HeaderText="Seleccionar">
                                         <ItemTemplate>
-                                            <asp:CheckBox ID="CheckBox1" runat="server" />
+                                            <asp:CheckBox ID="gridCrearFacturCheckBoxSeleccionarProducto" runat="server" />
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Cantidad">
@@ -263,7 +262,6 @@
         </table>
     </asp:Panel>
     
-    
      <!--Modal Cambio de sesión-->
     <div class="modal fade" ID="modalCambioSesion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -304,18 +302,14 @@
                 </div>
                 <div class="modal-body">
                     Ingrese los datos con los que desea hacer el ajuste rápido de inventario.
-
-                <!-- Ingresar el producto y la cantidad
-                    Para el producto, hay que poner un grid y una barra de busqueda
-                    -->
+                <!-- Ingresar el producto y la cantidad -->
                     <br />
                     <br />
-                        <label for="productoParaAjuste" class= "control-label"> Producto a ajustar: </label>     
+                    <label for="productoParaAjuste" class= "control-label"> Producto a ajustar: </label>     
                     <asp:TextBox ID="textBoxAutocompleteAjusteRapidoBusquedaProducto" runat="server" CssClass="form-control" style="max-width:100%"></asp:TextBox>
                     <br />
-                        <label for="cantidadParaAjuste" class= "control-label"> Nueva cantidad: </label>     
+                    <label for="cantidadParaAjuste" class= "control-label"> Nueva cantidad: </label>     
                     <asp:TextBox ID="nuevaCantidadParaAjusteRapido" runat="server" CssClass="form-control" style="max-width:100%"></asp:TextBox>
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" ID="botonAceptarAjusteRapido" class="btn btn-success-fozkr" onserverclick="botonAceptarAjusteRapido_ServerClick" runat="server">Aceptar</button>
@@ -335,7 +329,7 @@
             document.getElementById("linkFormVentas").className = "active";
         }
     </script>
-    <!-- Código necesario para el autocomplete -->
+    <!-- Código necesario para el autocomplete de agregar productos a la factura -->
     <script src="Scripts/jquery-1.4.1.min.js" type="text/javascript"></script>
     <script src="Scripts/jquery.autocomplete.js" type="text/javascript"></script>
     <script type="text/javascript">
@@ -343,7 +337,7 @@
             $("#<%=textBoxAutocompleteCrearFacturaBusquedaProducto.ClientID%>").autocomplete('Search_CS.ashx');
         });       
     </script>
-
+    <!-- Código necesario para el autocomplete de escoger un producto para un ajuste -->
     <script type="text/javascript">
         $(document).ready(function () {
             $("#<%=textBoxAutocompleteAjusteRapidoBusquedaProducto.ClientID%>").autocomplete('Search_CS.ashx');

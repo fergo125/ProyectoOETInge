@@ -19,15 +19,17 @@
         <hr />
     </div>
 
-    <!-- Botones -->
+    <!-- Botones de acciones de la interfaz -->
 
     <button runat="server" onserverclick="botonAgregarEntradas_ServerClick" causesvalidation="false" id="botonAgregarEntradas" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true">Nueva Entrada</button>
     <button runat="server" onserverclick="botonConsultaEntradas_ServerClick" causesvalidation="false"  id="botonConsultaEntradas" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true">Consultar Entradas</button>
     <br />
     <br />
 
+    <!-- Título de acción -->
     <h3 id="tituloAccionEntradas" runat="server"></h3>
 
+    <!-- Bloque con la tabla que muestra las entradas -->
     <div id="bloqueGridEntradas" class="col-lg-12">
         <fieldset id="FieldsetGridEntradas" runat="server" class="fieldset" visible="false">
          <div class="col-lg-12"><strong><div ID="Div2" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Listado de Entradas</div></strong>
@@ -54,6 +56,7 @@
         </fieldset>        
     </div>
 
+    <!-- Bloque que muestra la información de la entrada -->
     <div id="bloqueGridProductosDeEntrada" class="col-lg-12">
         <fieldset id="FieldsetGridProductosDeEntrada" runat="server" class="fieldset" visible="false">
 
@@ -109,33 +112,7 @@
         </fieldset>
     </div>
 
-<%--        <div class="col-lg-4">
-            <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
-                ControlToValidate=comboBoxEmpresa
-                ErrorMessage="">
-            </asp:RequiredFieldValidator>
-                <br />
-                <div class="form-group">
-                    <label for="comboBoxEmpresa" class= "control-label"> Empresa*: </label>      
-                    <asp:DropDownList id="comboBoxEmpresa" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
-                    </asp:DropDownList>
-                </div>
-        </div>
-            
-        <div class="col-lg-4">
-            <asp:RequiredFieldValidator CssClass="label label-danger" runat=server 
-                ControlToValidate=comboBoxEstacion
-                ErrorMessage="">
-            </asp:RequiredFieldValidator>
-                <br />
-                <div class="form-group">
-                    <label for="comboBoxEstacion" class= "control-label"> Estación*: </label>      
-                    <asp:DropDownList id="comboBoxEstacion" runat="server" style="max-width=75%" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
-                    </asp:DropDownList>
-                </div>
-        </div>--%>
-
-
+    <!-- Sección con lo necesario para realizar una búsqueda de una factura -->
     <fieldset id="FielsetBuscarFactura" runat="server" visible="false">
         <div class="row">
             <label class= "col-lg-12">Buscar factura:</label>
@@ -156,12 +133,13 @@
     <br />
     <br />
 
+    <!-- Tabla con los resultados de búsqueda de facturas y sección para mostrar el encabezado -->
     <div id="bloqueGridFacturas" class="col-lg-12">
         <fieldset id="FieldsetGridFacturas" runat="server" class="fieldset" visible="false">
          <div class="col-lg-12"><strong><div ID="tituloGrid" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Listado de Facturas</div></strong>
 <%--            <asp:UpdatePanel ID="UpdatePanelFacturas" runat="server">
                 <ContentTemplate>--%>
-                    <asp:GridView ID="gridViewFacturas" CssClass="table" OnRowCommand="gridViewFacturas_RowCommand" OnPageIndexChanging="gridViewFacturas_PageIndexChanging" runat="server" AllowPaging="true" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None" OnSelectedIndexChanged="gridViewFacturas_SelectedIndexChanged">
+                    <asp:GridView ID="gridViewFacturas" CssClass="table" OnRowCommand="gridViewFacturas_RowCommand" OnPageIndexChanging="gridViewFacturas_PageIndexChanging" runat="server" AllowPaging="true" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
                         <Columns>
                             <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Seleccionar">
                                 <ControlStyle CssClass="btn btn-default"></ControlStyle>
@@ -248,6 +226,10 @@
     <br />
     <br />
 
+
+    <!-- Contiene el detalle de la factura: la creada desde el sistema de compras, búsqueda
+         de productos y la factura detallada que se está creando
+     -->
     <fieldset id="FieldsetCrearFactura" runat="server" visible="false">
         <div class="row">
             <div id="bloqueGridDetalleFactura" class="col-lg-4">
@@ -283,7 +265,6 @@
             </div>
 
             <div id="bloqueGridFacturaNueva" class="col-lg-5">
-<%--                <fieldset id="fieldsetGridFacturaNueva" runat="server" class="fieldset">--%>
                  <div class="col-lg-12"><strong><div ID="Div3" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Detalle de la Factura Consignada</div></strong>
                     <asp:UpdatePanel ID="UpdatePanelFacturaNueva" runat="server">
                         <ContentTemplate>
@@ -291,7 +272,7 @@
 						        <Columns>
 							        <asp:TemplateField HeaderText="Seleccionar">
 								        <ItemTemplate>
-									        <asp:CheckBox ID="checkBoxProductos" runat="server"/>
+									        <asp:CheckBox ID="checkBoxProductos" OnCheckedChanged="checkBoxProductos_CheckedChanged" runat="server" AutoPostBack="true"/>
 								        </ItemTemplate>
 							        </asp:TemplateField>
 						        </Columns>                                
@@ -306,8 +287,9 @@
                         <asp:AsyncPostBackTrigger ControlID="gridFacturaNueva" EventName="RowCommand" />
                      </Triggers>
                   </asp:UpdatePanel>
-               </div>
-<%--                </fieldset>   --%>     
+               </div>  
+                <asp:Button ID="botonModificarProducto" runat="server" Text="Modificar" OnClick="botonModificarProducto_Click" CssClass="btn btn-warning-fozkr"/>                 
+                <asp:Button ID="botonEliminarProducto" runat="server" Text="Eliminar" OnClick="botonEliminarProducto_Click" CssClass="btn btn-warning-fozkr"/> 
             </div>
         </div>
 
@@ -315,6 +297,7 @@
     </fieldset>
     <br />
 
+    <!-- Botones de Aceptar y Cancelar -->
     <div class="col-lg-12" id="bloqueBotones">
         <div class =" row">
             <div class="text-center">

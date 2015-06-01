@@ -52,8 +52,6 @@ namespace ProyectoInventarioOET.Modulo_Bodegas
             }
             else
             {
-
-
                 try
                 {
                     OracleCommand command = conexionBD.CreateCommand();

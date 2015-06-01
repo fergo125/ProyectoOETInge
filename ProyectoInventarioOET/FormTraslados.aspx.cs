@@ -292,9 +292,8 @@ namespace ProyectoInventarioOET
                 Object[] datos = new Object[5];
 
                 DataTable traslados = controladoraTraslados.consultarTraslados((this.Master as SiteMaster).LlaveBodegaSesion, entrada);
-                EntidadTraslado p = controladoraTraslados.consultarTraslado("1111");
-                controladoraTraslados.insertarAjuste(p);
-                int y = 98/9;
+                //EntidadTraslado p = controladoraTraslados.consultarTraslado("1111");
+                
                 
                 if (traslados.Rows.Count > 0)
                 {
@@ -351,7 +350,7 @@ namespace ProyectoInventarioOET
                 // Cargar bodegas
                 Object[] datos = new Object[5];
 
-                DataTable productos = controladoraTraslados.consultarProductosDeBodega((this.Master as SiteMaster).LlaveBodegaSesion, "PITAN129012015101713605001");
+                DataTable productos = controladoraTraslados.consultarProductosTrasferibles((this.Master as SiteMaster).LlaveBodegaSesion, "PITAN129012015101713605001");
 
                 if (productos.Rows.Count > 0)
                 {
@@ -446,18 +445,19 @@ namespace ProyectoInventarioOET
          */
         protected void gridViewProductos_Seleccion(object sender, GridViewCommandEventArgs e)
         {
-            /*
+            
             switch (e.CommandName)
             {
                 case "Select":
-                    GridViewRow filaSeleccionada = this.gridViewAjustes.Rows[Convert.ToInt32(e.CommandArgument)];
+                    GridViewRow filaSeleccionada = this.gridViewTraslados.Rows[Convert.ToInt32(e.CommandArgument)];
                     //String codigo = filaSeleccionada.Cells[0].Text.ToString();
-                    String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewBodegas.PageIndex * this.gridViewBodegas.PageSize)]);
-                    consultarBodega(codigo);
+                    String codigo = Convert.ToString(idArrayTraslados[Convert.ToInt32(e.CommandArgument) + (this.gridViewTraslados.PageIndex * this.gridViewTraslados.PageSize)]);
+                    controladoraTraslados.consultarTraslado(codigo);
+                    
                     modo = (int)Modo.Consultado;
                     Response.Redirect("FormTraslados.aspx");
                     break;
-            }*/
+            }
         }
 
         /*
@@ -500,7 +500,8 @@ namespace ProyectoInventarioOET
                     GridViewRow filaSeleccionada = this.gridViewTraslados.Rows[Convert.ToInt32(e.CommandArgument)];
                     //String codigo = filaSeleccionada.Cells[0].Text.ToString();
                     String codigo = Convert.ToString(idArrayTraslados[Convert.ToInt32(e.CommandArgument) + (this.gridViewTraslados.PageIndex * this.gridViewTraslados.PageSize)]);
-                    //consultarAjuste(codigo);
+                    trasladoConsultado  = controladoraTraslados.consultarTraslado(codigo);
+                    controladoraTraslados.acertarTraslado(trasladoConsultado);
                     modo = (int)Modo.Consultado;
                     Response.Redirect("FormTraslados.aspx");
                     break;
