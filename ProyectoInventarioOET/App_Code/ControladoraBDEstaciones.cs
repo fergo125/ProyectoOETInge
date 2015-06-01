@@ -43,8 +43,7 @@ namespace ProyectoInventarioOET.App_Code
             String esquema2 = "Inventarios.";
             DataTable resultado = new DataTable();
             OracleCommand command = conexionBD.CreateCommand();
-            //command.CommandText = "SELECT * FROM " + esquema1 + "ESTACION";
-            //seleccionar el nombre y la llave de la estación (esquema1) cuya llave coincide con la de la estación a la que pertenece la bodega (esquema 2)
+            command.CommandText = "SELECT NOMBRE,ID FROM " + esquema1 + "ESTACION WHERE ID=(SELECT " + esquema2 + "CAT_BODEGA.ESTACION FROM " + esquema2 + "CAT_BODEGA WHERE CAT_BODEGA='" + idBodega + "')";
             OracleDataReader reader = command.ExecuteReader();
             resultado.Load(reader);
             return resultado;

@@ -74,7 +74,7 @@ namespace ProyectoInventarioOET.Modulo_Ventas
          */
         public DataTable asociadosABodega(String idBodega)
         {
-            return controladoraBDVentas.asociadosABodega(idBodega);
+            return controladoraBDVentas.asociadosABodega((idBodega == "All" ? null : idBodega)); //Si se pregunta por todas ("All"), se envía null para que entienda
         }
     }
 }

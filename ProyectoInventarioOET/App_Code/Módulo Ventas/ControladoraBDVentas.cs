@@ -98,7 +98,7 @@ namespace ProyectoInventarioOET.Modulo_Ventas
                 {
                     if (perfil.Equals("Supervisor"))
                     {
-                        if (idUsuario.Equals("Todos"))
+                        if (idUsuario.Equals("All"))
                             command.CommandText = "select * from " + esquema + "registro_facturas_venta where " + esquema + "registro_facturas_venta.bodega = '" + idBodega + "'";
                         else
                             command.CommandText = "select * from " + esquema + "registro_facturas_venta where " + esquema + "registro_facturas_venta.bodega = '" + idBodega + "' and registro_facturas_venta.vendedor='" + idUsuario + "'";
@@ -107,11 +107,11 @@ namespace ProyectoInventarioOET.Modulo_Ventas
                     {
                         if (perfil.Equals("Administrador local"))
                         {
-                            if (idBodega.Equals("Todas"))
+                            if (idBodega.Equals("All"))
                                 command.CommandText = "select * from registro_facturas_venta where estacion = '" + idEstacion + "'";
                             else
                             {
-                                if (idUsuario.Equals("Todos"))
+                                if (idUsuario.Equals("All"))
                                     command.CommandText = "select * from " + esquema + "registro_facturas_venta where " + esquema + "registro_facturas_venta.estacion = '" + idEstacion + "' and registro_facturas_venta.bodega = '" + idBodega + "'";
                                 else
                                     command.CommandText = "select * from " + esquema + "registro_facturas_venta where " + esquema + "registro_facturas_venta.estacion = '" + idEstacion + "' and registro_facturas_venta.bodega = '" + idBodega + "' and registro_facturas_venta.vendedor='" + idUsuario + "'";
@@ -119,15 +119,15 @@ namespace ProyectoInventarioOET.Modulo_Ventas
                         }
                         else
                         {
-                            if (idEstacion.Equals("Todas"))
+                            if (idEstacion.Equals("All"))
                                 command.CommandText = "select * from registro_facturas_venta";
                             else
                             {
-                                if (idBodega.Equals("Todas"))
+                                if (idBodega.Equals("All"))
                                     command.CommandText = "select * from registro_facturas_venta where estacion = '" + idEstacion + "'";
                                 else
                                 {
-                                    if (idUsuario.Equals("Todos"))
+                                    if (idUsuario.Equals("All"))
                                         command.CommandText = "select * from " + esquema + "registro_facturas_venta where " + esquema + "registro_facturas_venta.estacion = '" + idEstacion + "' and registro_facturas_venta.bodega = '" + idBodega + "'";
                                     else
                                         command.CommandText = "select * from " + esquema + "registro_facturas_venta where " + esquema + "registro_facturas_venta.estacion = '" + idEstacion + "' and registro_facturas_venta.bodega = '" + idBodega + "' and registro_facturas_venta.vendedor='" + idUsuario + "'";
@@ -189,7 +189,10 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "select seg_usuario from "+ esquema +"seg_usuario_bodega where cat_bodega = '"+idBodega+"'";
+                if(idBodega == null)
+                    command.CommandText = "SELECT SEG_USUARIO FROM " + esquema + "SEG_USUARIO_BODEGA";
+                else
+                    command.CommandText = "SELECT SEG_USUARIO FROM " + esquema + "SEG_USUARIO_BODEGA WHERE CAT_BODEGA = '" + idBodega + "'";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
             }
