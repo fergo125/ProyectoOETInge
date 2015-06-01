@@ -268,5 +268,33 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             }
             return valido;
         }
+
+        /*
+         * Obtiene el máximo de descuento aplicable a la venta de un producto específico por parte de un empleado específico 
+         */
+        public int maximoDescuentoAplicable(String idProducto, String idVendedor)
+        {
+            int maximo=0,descuentoProducto,descuentoUsuario;
+            try
+            {
+                DataTable resultado = new DataTable();
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "SELECT DESCUENTO_MAXIMO FROM INV_PRODUCTOS WHERE INV_PRODUCTOS = '"+idProducto+"'";
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
+                descuentoProducto = Convert.ToInt32(resultado.Rows[0][0].ToString());
+
+                resultado = new DataTable();
+                command = conexionBD.CreateCommand();
+                command.CommandText = "SELECT DESCUENTO_MAXIMO FROM SEG_USUARIO WHERE SEG_USUARIO = '" + idVendedor + "'";
+                reader = command.ExecuteReader();
+                resultado.Load(reader);
+                descuentoUsuario = Convert.ToInt32(resultado.Rows[0][0].ToString());
+
+                maximo = descuentoProducto > descuentoUsuario ? descuentoUsuario : descuentoProducto;
+            }
+            catch (Exception){}
+            return maximo;
+        }
     }
 }
