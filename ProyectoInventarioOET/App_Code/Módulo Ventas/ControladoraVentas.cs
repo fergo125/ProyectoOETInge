@@ -72,9 +72,12 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         /*
          * ???
          */
-        public DataTable asociadosABodega(String idBodega)
+        public DataTable asociadosABodegas(String idBodega, String idEstacion)
         {
-            return controladoraBDVentas.asociadosABodega((idBodega == "All" ? null : idBodega)); //Si se pregunta por todas ("All"), se envía null para que entienda
+            if (idBodega == "All")
+                return controladoraBDVentas.asociadosAEstacion(idEstacion); //Si se pregunta por todas ("All"), se consulta a nivel de estación
+            else
+                return controladoraBDVentas.asociadosABodega(idBodega); 
         }
 
         /*
