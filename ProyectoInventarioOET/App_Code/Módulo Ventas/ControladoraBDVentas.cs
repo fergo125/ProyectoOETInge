@@ -189,10 +189,31 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                if(idBodega == null)
-                    command.CommandText = "SELECT SEG_USUARIO FROM " + esquema + "SEG_USUARIO_BODEGA";
+                command.CommandText = "SELECT UNIQUE SEG_USUARIO FROM " + esquema + "SEG_USUARIO_BODEGA WHERE CAT_BODEGA = '" + idBodega + "'";
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
+            }
+            catch (OracleException e)
+            {
+                resultado = null;
+            }
+            return resultado;
+        }
+
+        /*
+         * 
+         */
+        public DataTable asociadosAEstacion(String idEstacion)
+        {
+            String esquema = "Inventarios.";
+            DataTable resultado = new DataTable();
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+                if(idEstacion == "All")
+                    command.CommandText = "SELECT UNIQUE SEG_USUARIO FROM " + esquema + "SEG_USUARIO_BODEGA"; //si se consultó de todas las estaciones, mostrar todos los vendedores
                 else
-                    command.CommandText = "SELECT SEG_USUARIO FROM " + esquema + "SEG_USUARIO_BODEGA WHERE CAT_BODEGA = '" + idBodega + "'";
+                    command.CommandText = "SELECT UNIQUE SEG_USUARIO FROM " + esquema + "SEG_USUARIO_BODEGA WHERE ESTACION = '" + idEstacion + "'";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
             }
@@ -267,6 +288,34 @@ namespace ProyectoInventarioOET.Modulo_Ventas
                 valido = false;
             }
             return valido;
+        }
+
+        /*
+         * Obtiene el máximo de descuento aplicable a la venta de un producto específico por parte de un empleado específico 
+         */
+        public int maximoDescuentoAplicable(String idProducto, String idVendedor)
+        {
+            int maximo=0,descuentoProducto,descuentoUsuario;
+            try
+            {
+                DataTable resultado = new DataTable();
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "SELECT DESCUENTO_MAXIMO FROM INV_PRODUCTOS WHERE INV_PRODUCTOS = '"+idProducto+"'";
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
+                descuentoProducto = Convert.ToInt32(resultado.Rows[0][0].ToString());
+
+                resultado = new DataTable();
+                command = conexionBD.CreateCommand();
+                command.CommandText = "SELECT DESCUENTO_MAXIMO FROM SEG_USUARIO WHERE SEG_USUARIO = '" + idVendedor + "'";
+                reader = command.ExecuteReader();
+                resultado.Load(reader);
+                descuentoUsuario = Convert.ToInt32(resultado.Rows[0][0].ToString());
+
+                maximo = descuentoProducto > descuentoUsuario ? descuentoUsuario : descuentoProducto;
+            }
+            catch (Exception){}
+            return maximo;
         }
     }
 }

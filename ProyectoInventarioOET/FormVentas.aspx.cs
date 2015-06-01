@@ -260,7 +260,7 @@ namespace ProyectoInventarioOET
             //dropDownListConsultaVendedor.Items.Clear();
 
             //Switch para cargar los datos default y los datos escogibles
-            switch (Convert.ToInt32((this.Master as SiteMaster).Usuario.CodigoPerfil)) //TODO: probar este nuevo switch
+            switch (Convert.ToInt32((this.Master as SiteMaster).Usuario.CodigoPerfil))
             {
                 case 4: //Vendedor
                     dropDownListConsultaVendedor.Items.Add(new ListItem((this.Master as SiteMaster).Usuario.Nombre, (this.Master as SiteMaster).Usuario.Codigo));
@@ -270,13 +270,13 @@ namespace ProyectoInventarioOET
                     break;
 
                 case 3: //Supervisor
-                    cargarAsociadosABodega((this.Master as SiteMaster).LlaveBodegaSesion);  //Se cargan los posibles vendedores dada la bodega de trabajo de la sesión
+                    cargarAsociadosABodegas((this.Master as SiteMaster).LlaveBodegaSesion); //Se cargan los posibles vendedores dada la bodega de trabajo de la sesión
                     dropDownListConsultaVendedor.Enabled = true;                            //Sí se le permite escoger vendedor
                     cargarDropDownListsAutomaticamente(true, false, true, false);           //Se ponen la bodega y la estación automáticamente (bodega única, x, estación única, x)
                     break;
 
                 case 2: //Administrador local
-                    cargarAsociadosABodega((this.Master as SiteMaster).LlaveBodegaSesion);  //Se cargan los posibles vendedores dada la bodega de trabajo de la sesión
+                    cargarAsociadosABodegas((this.Master as SiteMaster).LlaveBodegaSesion); //Se cargan los posibles vendedores dada la bodega de trabajo de la sesión
                     dropDownListConsultaVendedor.Enabled = true;                            //Sí se le permite escoger vendedor
                     cargarDropDownListsAutomaticamente(false, false, true, false);          //Se pone la estación de la bodega automáticamente* (x, x, estación única, x)
                     cargarBodegas(this.dropDownListConsultaBodega);                         //*en este caso es importante cargar la estación primero, para luego cargar sus bodegas
@@ -284,7 +284,7 @@ namespace ProyectoInventarioOET
                     break;
 
                 case 1: //Administrador global
-                    cargarAsociadosABodega((this.Master as SiteMaster).LlaveBodegaSesion);  //Se cargan los posibles vendedores dada la bodega de trabajo de la sesión
+                    cargarAsociadosABodegas((this.Master as SiteMaster).LlaveBodegaSesion); //Se cargan los posibles vendedores dada la bodega de trabajo de la sesión
                     dropDownListConsultaVendedor.Enabled = true;                            //Sí se le permite escoger vendedor
                     cargarDropDownListsAutomaticamente(false, false, true, false);          //Se pone la estación de la bodega automáticamente* (x, x, estación única, x)
                     cargarBodegas(this.dropDownListConsultaBodega);                         //*en este caso es importante cargar la estación primero, para luego cargar sus bodegas
@@ -462,11 +462,18 @@ namespace ProyectoInventarioOET
         /*
          * ???
          */
-        protected void cargarAsociadosABodega(String idBodega)
+        protected void cargarAsociadosABodegas(String idBodega)
         {
             dropDownListConsultaVendedor.Items.Clear();
             dropDownListConsultaVendedor.Items.Add(new ListItem("Todos", "All"));
-            DataTable vendedores = controladoraVentas.asociadosABodega(idBodega);
+            DataTable vendedores = null;
+            if (idBodega == "All") //si se escogió "Todas las bodegas"
+                if (dropDownListConsultaEstacion.SelectedValue == "All") //si se escogió "Todas las estaciones"
+                    vendedores = controladoraVentas.asociadosABodegas("All", "All"); //escoge todas las estaciones, todas las bodegas
+                else //si se escogió una estación específica
+                    vendedores = controladoraVentas.asociadosABodegas("All", dropDownListConsultaEstacion.SelectedValue); //Para el caso en que se consultan todos los vendedores de todas las bodegas de una estación
+            else //si se escogió una bodega específica
+                vendedores = controladoraVentas.asociadosABodegas(idBodega, null);
             short i = 1; //dejar en 1
             foreach (DataRow fila in vendedores.Rows)
             {
@@ -831,7 +838,7 @@ namespace ProyectoInventarioOET
          */
         protected void dropDownListConsultaBodega_SelectedIndexChanged(object sender, EventArgs e)
         {
-            cargarAsociadosABodega(dropDownListConsultaBodega.SelectedValue);
+            cargarAsociadosABodegas(dropDownListConsultaBodega.SelectedValue);
         }
 
         /*
@@ -840,6 +847,7 @@ namespace ProyectoInventarioOET
         protected void dropDownListConsultaEstacion_SelectedIndexChanged(object sender, EventArgs e)
         {
             cargarBodegas(this.dropDownListConsultaBodega);
+            dropDownListConsultaVendedor.Items.Clear(); //para evitar que escoja vendedores cargados de bodegas anteriores
         }
 
         protected void botonAceptarAjusteRapido_ServerClick(object sender, EventArgs e)
