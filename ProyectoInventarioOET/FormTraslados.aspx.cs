@@ -129,7 +129,7 @@ namespace ProyectoInventarioOET
                     gridViewProductos.Columns[1].Visible = false;
                     break;
 
-                case (int)Modo.Modificacion: //insertar
+                case (int)Modo.Modificacion: //modificar
                     botonAgregar.Visible = false;
                     FieldsetTraslados.Visible = true;
                     botonAceptarTraslado.Visible = true;
@@ -144,7 +144,7 @@ namespace ProyectoInventarioOET
                     gridViewProductos.Enabled = true;
                     gridViewProductos.Visible = true;
                     fieldsetConsulta.Visible = false;
-                    habilitarCampos(true);
+                    habilitarCampos(false);
                     gridViewProductos.Columns[1].Visible = true;
                     break;
 
