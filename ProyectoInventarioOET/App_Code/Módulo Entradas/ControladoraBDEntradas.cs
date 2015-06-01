@@ -43,22 +43,24 @@ namespace ProyectoInventarioOET.Modulo_Entradas
         public DataTable buscarFacturas(string id)
         {
             DataTable resultado = new DataTable();
-            String esquema = "Compras.";
+            //String esquema = "Compras.";
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
                 if ("Todas".Equals(id))
                 {
-                    command.CommandText = "SELECT * FROM " + esquema + "FACTURAS";
+                    command.CommandText = "SELECT *" 
+                        + "FROM compras.facturas full outer join INVENTARIOS.cat_entradas on compras.facturas.idfactura = inventarios.cat_entradas.factura"
+                        +" where INVENTARIOS.cat_entradas.cat_entradas is null";
                     OracleDataReader reader = command.ExecuteReader();
                     resultado.Load(reader);
 
                 }
                 else
                 {
-                    command.CommandText = "SELECT *  "
-                    + " FROM " + esquema + "FACTURAS "
-                    + " WHERE IDFACTURA LIKE " + " '" + id + "%'";
+                    command.CommandText = "SELECT *"
+                        + "FROM compras.facturas full outer join INVENTARIOS.cat_entradas on compras.facturas.idfactura = inventarios.cat_entradas.factura"
+                        + " where INVENTARIOS.cat_entradas.cat_entradas is null" + "like " + id +"%";
                     OracleDataReader reader = command.ExecuteReader();
                     resultado.Load(reader);
                 }
@@ -128,7 +130,7 @@ namespace ProyectoInventarioOET.Modulo_Entradas
                 OracleCommand command = conexionBD.CreateCommand();
 
                 command.CommandText = "SELECT *  "
-                + " FROM " + esquema + "CAT_ENTRADAS"
+                + " FROM " + esquema + "CAT_ENTRADAS" 
                 + " WHERE CAT_ENTRADAS =" + " '" + id + "'";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);

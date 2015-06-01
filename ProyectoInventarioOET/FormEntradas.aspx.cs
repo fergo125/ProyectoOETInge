@@ -699,13 +699,13 @@ namespace ProyectoInventarioOET
                     this.botonAceptarEntrada.Disabled = false;
                     this.botonModificarProducto.Enabled = false;
                     this.botonEliminarProducto.Enabled = false;
-                    //limpiarCampos();
                     break;
 
                 case (int)Modo.EntradaConsultada:
                     tituloAccionEntradas.InnerText = "";
-                    this.FieldsetGridEntradas.Visible = true;
+                    this.FieldsetGridEntradas.Visible = false;
                     this.FieldsetGridProductosDeEntrada.Visible = true;
+                    this.gridViewEntradas.Visible = true;
                     break;
 
                 case (int)Modo.SeleccionEntrada:
