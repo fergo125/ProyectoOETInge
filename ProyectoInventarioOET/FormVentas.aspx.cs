@@ -5,9 +5,10 @@ using System.Data;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using ProyectoInventarioOET.Modulo_Seguridad;
 using ProyectoInventarioOET.Modulo_Ventas;
 using ProyectoInventarioOET.Modulo_Bodegas;
+using ProyectoInventarioOET.Modulo_Seguridad;
+using ProyectoInventarioOET.Modulo_Actividades;
 using ProyectoInventarioOET.App_Code.Modulo_Ajustes;
 using ProyectoInventarioOET.App_Code;
 
@@ -27,13 +28,14 @@ namespace ProyectoInventarioOET
         private static String tipoMonedaCrearFactura = "Colones";               //Indica el tipo de moneda que se está usando para crear facturas
         private static DataTable productosAgregados;                            //Usada para llenar el grid de productos al crear una factura
         private static DataTable facturasConsultadas;                           //Usada para llenar el grid y para mostrar los detalles de cada factura específica
-        private static EntidadFactura facturaConsultada;                        //???
+        private static EntidadFacturaVenta facturaConsultada;                        //???
         //private static Boolean seConsulto = false;                              //???
         private static Object[] idArray;                                        //Usada para llevar el control de las facturas consultadas
         private static ControladoraVentas controladoraVentas;                   //Para accesar las tablas del módulo y realizar las operaciones de consulta, inserción, modificación y anulación
         private static ControladoraAjustes controladoraAjustes;                 //???
         private static ControladoraBodegas controladoraBodegas;                 //???
         private static ControladoraSeguridad controladoraSeguridad;             //???
+        private static ControladoraActividades controladoraActividades;         //Usada para consultar las actividades a las que se puede asociar una nueva factura
         private static ControladoraDatosGenerales controladoraDatosGenerales;   //Para accesar datos generales de la base de datos
         
         //Importante:
@@ -54,12 +56,15 @@ namespace ProyectoInventarioOET
             {
                 //Elementos visuales
                 ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
+                
                 //Controladoras
-                controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
-                controladoraSeguridad = new ControladoraSeguridad();
                 controladoraVentas = new ControladoraVentas();
                 controladoraBodegas = new ControladoraBodegas();
                 controladoraAjustes = new ControladoraAjustes();
+                controladoraSeguridad = new ControladoraSeguridad();
+                controladoraActividades = new ControladoraActividades();
+                controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
+
                 //Seguridad
                 permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Facturacion"); //TODO: descomentar esto, está comentado sólo para pruebas
                 if (permisos == "000000")
@@ -420,16 +425,6 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * Invocada al escoger una factura en el grid, se muestran todos los detalles de la misma en campos colocados arriba del grid.
-         */
-        //protected void cargarDatosFactura(String consecutivoSeleccionado)
-        //{
-        //    facturaConsultada = controladoraVentas.consultarFactura(consecutivoSeleccionado);
-        //    setDatosConsultados();
-        //    PanelConsultarFacturaEspecifica.Visible = true;
-        //}
-
-        /*
          * ???
          */
         protected void cargarAsociadosABodegas(String idBodega)
@@ -483,11 +478,11 @@ namespace ProyectoInventarioOET
             textBoxFacturaConsultadaConsecutivo.Value = facturaConsultada.Consecutivo;
             textBoxFacturaConsultadaEstacion.Value = controladoraSeguridad.consultarNombreDeEstacion(facturaConsultada.Estacion);
             textBoxFacturaConsultadaBodega.Value = controladoraSeguridad.consultarNombreDeBodega(facturaConsultada.Bodega);
-            textBoxFacturaConsultadaFechaHora.Value = facturaConsultada.Fecha;
+            textBoxFacturaConsultadaFechaHora.Value = facturaConsultada.FechaHora;
             textBoxFacturaConsultadaVendedor.Value = controladoraSeguridad.consultarNombreDeUsuario(facturaConsultada.Vendedor);
             textBoxFacturaConsultadaCliente.Value = facturaConsultada.Cliente;
             textBoxFacturaConsultadaTipoMoneda.Value = facturaConsultada.TipoMoneda;
-            textBoxFacturaConsultadaMontoTotal.Value = facturaConsultada.MontoTotal.ToString();
+            textBoxFacturaConsultadaMontoTotal.Value = facturaConsultada.MontoTotalColones.ToString();
             textBoxFacturaConsultadaMetodoPago.Value = facturaConsultada.MetodoPago;
             textBoxFacturaConsultadActividad.Value = facturaConsultada.Actividad;
 
@@ -517,23 +512,23 @@ namespace ProyectoInventarioOET
          */
         protected Object[] obtenerDatos()
         {
-            Object[] datos = new Object[13];
-            EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
-            datos[0] = "";
-            datos[1] = DateTime.Now.ToString("dd:MMM:yy");
-            datos[2] = (this.Master as SiteMaster).LlaveBodegaSesion;
-            datos[3] = textBoxCrearFacturaEstacion.Text;
-            datos[4] = "02";
-            datos[5] = "";
-            datos[6] = usuarioActual.Codigo;
-            datos[7] = dropDownListCrearFacturaCliente.SelectedValue;
-            datos[8] = textBoxCrearFacturaTipoCambio.Text;
-            datos[9] = dropDownListCrearFacturaMetodoPago.SelectedValue;
-            datos[10] = 456.6;
-            datos[11] = "Activo";  
-            datos[12] = null;
-            return datos;
-        
+            //datos[1] = DateTime.Now.ToString("dd:MMM:yy");
+            Object[] datosFactura = new Object[14];
+            datosFactura[0] = null;                                                 //consecutivo, se autogenera al insertar a nivel de BD
+            datosFactura[1] = DateTime.Now.Date.ToShortDateString() + DateTime.Now.TimeOfDay.ToString().Substring(0, 5); //fecha y hora
+            datosFactura[2] = textBoxCrearFacturaEstacion.Text;                     //estacion
+            datosFactura[3] = textBoxCrearFacturaBodega.Text;                       //bodega
+            datosFactura[4] = "02";                                                 //compania, siempre esintro (llave)
+            datosFactura[5] = textBoxCrearFacturaVendedor.Text;                     //vendedor
+            datosFactura[6] = labelCrearFacturaTipoMoneda.Text;                     //tipo moneda
+            datosFactura[7] = dropDownListCrearFacturaMetodoPago.SelectedValue;     //metodo de pago (llave)
+            datosFactura[8] = dropDownListCrearFacturaCliente.SelectedValue;        //cliente usuario (llave)
+            datosFactura[9] = dropDownListCrearFacturaActividad.SelectedValue;      //actividad (llave)
+            datosFactura[10] = 1;                                                   //estado (1=activo por default)
+            datosFactura[11] = Convert.ToInt32(labelCrearFacturaPrecioTotal.Text);  //montoTotalColones
+            datosFactura[12] = (Convert.ToInt32(labelCrearFacturaPrecioTotal.Text) * Convert.ToInt32(textBoxCrearFacturaTipoCambio.Text));  //montoTotalDolares (colones * tipocambio)
+            datosFactura[13] = null;    //tabla de productos
+            return datosFactura;
         }
 
         /*
@@ -591,18 +586,23 @@ namespace ProyectoInventarioOET
             productosAgregados.Columns.Add(column);
 
             column = new DataColumn();
-            column.DataType = Type.GetType("System.Int32");
+            column.DataType = Type.GetType("System.Double");
             column.ColumnName = "Precio unitario";
             productosAgregados.Columns.Add(column);
 
             column = new DataColumn();
             column.DataType = Type.GetType("System.String");
-            column.ColumnName = "Impuesto";
+            column.ColumnName = "Impuesto (13%)";
             productosAgregados.Columns.Add(column);
 
             column = new DataColumn();
             column.DataType = Type.GetType("System.Int32");
             column.ColumnName = "Descuento (%)";
+            productosAgregados.Columns.Add(column);
+
+            column = new DataColumn();
+            column.DataType = Type.GetType("System.String");
+            column.ColumnName = "Total";
             productosAgregados.Columns.Add(column);
 
             return productosAgregados;
@@ -702,6 +702,68 @@ namespace ProyectoInventarioOET
             //}
         }
 
+        /*
+         * Separa la string de un producto escogido en una barra de autocomplete en sus dos partes, nombre y código ([0] y [1]).
+         */
+        protected String[] separarNombreCodigoProductoEscogido(String productoEscogido)
+        {
+            String[] resultado = new String[2];
+            String codigoProductoEscogido = productoEscogido.Substring(productoEscogido.LastIndexOf('(') + 1);  //el código sin el primer paréntesis
+            codigoProductoEscogido = codigoProductoEscogido.TrimEnd(')');                                       //el código
+            productoEscogido = productoEscogido.Remove(productoEscogido.LastIndexOf('(') - 1);                  //nombre del producto (-1 al final por el espacio)
+            resultado[0] = productoEscogido;
+            resultado[1] = codigoProductoEscogido;
+            return resultado;
+        }
+
+        /*
+         * Consulta en la BD las diferentes formas de pago para cargarlas en el dropdownlist.
+         */
+        protected void cargarMetodosPago()
+        {
+            DataTable metodosPago = controladoraVentas.consultarMetodosPago();
+            if(metodosPago != null)
+            {
+                dropDownListCrearFacturaMetodoPago.Items.Clear();
+                foreach (DataRow fila in metodosPago.Rows)
+                    dropDownListCrearFacturaMetodoPago.Items.Add(new ListItem(fila[0].ToString(), fila[1].ToString()));
+            }
+            else
+                mostrarMensaje("warning", "Alerta: ", "Error al intentar cargar los métodos de pago.");
+        }
+
+        /*
+         * Consulta en la BD las diferentes formas de pago para cargarlas en el dropdownlist.
+         */
+        protected void cargarPosiblesClientes()
+        {
+            DataTable clientes = controladoraVentas.consultarMetodosPago();
+            if (clientes != null)
+            {
+                dropDownListCrearFacturaCliente.Items.Clear();
+                foreach (DataRow fila in clientes.Rows)
+                    dropDownListCrearFacturaCliente.Items.Add(new ListItem(fila[0].ToString(), fila[1].ToString()));
+            }
+            else
+                mostrarMensaje("warning", "Alerta: ", "Error al intentar cargar los posibles clientes.");
+        }
+
+        /*
+         * Consulta en la BD las diferentes actividades a las que se puede asociar la factura.
+         */
+        protected void cargarActividades()
+        {
+            DataTable actividadesDisponibles = controladoraActividades.consultarActividades();
+            if (actividadesDisponibles != null)
+            {
+                dropDownListCrearFacturaActividad.Items.Clear();
+                foreach (DataRow fila in actividadesDisponibles.Rows)
+                    dropDownListCrearFacturaActividad.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
+            }
+            else
+                mostrarMensaje("warning", "Alerta: ", "Error al intentar cargar las actividades en el sistema.");
+        }
+
 
 
 
@@ -747,27 +809,20 @@ namespace ProyectoInventarioOET
          */
         protected void clickBotonCrearFactura(object sender, EventArgs e)
         {
+            //Cargar datos default y opcionales
             textBoxCrearFacturaEstacion.Text = controladoraDatosGenerales.consultarEstacionDeBodega((this.Master as SiteMaster).LlaveBodegaSesion)[0]; //nombre de la estación a la que pertenece la bodega de trabajo
             textBoxCrearFacturaBodega.Text = (this.Master as SiteMaster).NombreBodegaSesion; //nombre de la bodega de trabajo (punto de venta)
             textBoxCrearFacturaVendedor.Text = (this.Master as SiteMaster).Usuario.Nombre;
             textBoxCrearFacturaTipoCambio.Text = controladoraVentas.consultarTipoCambio().ToString();
+            cargarMetodosPago();
+            //cargarPosiblesClientes();
+            cargarActividades();
+
             modo = Modo.Insercion;
             cambiarModo();
             productosAgregados = crearTablaProdcutosFactura(); //se crea una nueva tabla cada vez
-        }
-
-        /*
-         * Separa la string de un producto escogido en una barra de autocomplete en sus dos partes, nombre y código ([0] y [1]).
-         */
-        protected String[] separarNombreCodigoProductoEscogido(String productoEscogido)
-        {
-            String[] resultado = new String[2];
-            String codigoProductoEscogido = productoEscogido.Substring(productoEscogido.LastIndexOf('(') + 1);  //el código sin el primer paréntesis
-            codigoProductoEscogido = codigoProductoEscogido.TrimEnd(')');                                       //el código
-            productoEscogido = productoEscogido.Remove(productoEscogido.LastIndexOf('(') - 1);                  //nombre del producto (-1 al final por el espacio)
-            resultado[0] = productoEscogido;
-            resultado[1] = codigoProductoEscogido;
-            return resultado;
+            tipoMonedaCrearFactura = "Colones"; //por default
+            labelCrearFacturaTipoMoneda.Text = tipoMonedaCrearFactura;
         }
 
         /*
@@ -787,15 +842,24 @@ namespace ProyectoInventarioOET
             {
                 DataRow testRow;
                 testRow = productosAgregados.NewRow();
-                testRow["Nombre"] = nombreCodigoProductoEscogido[0];            //nombre
-                testRow["Código interno"] = nombreCodigoProductoEscogido[1];    //código interno
-                testRow["Precio unitario"] = "500";                             //precio unitario (buscar en la BD)
-                testRow["Impuesto"] = "Sí";                                     //impuesto (booleano)
-                testRow["Descuento (%)"] = "0";                                 //descuento (siempre empieza con 0)
+                testRow["Nombre"] = nombreCodigoProductoEscogido[0];                                                                        //nombre
+                testRow["Código interno"] = nombreCodigoProductoEscogido[1];                                                                //código interno
+                testRow["Precio unitario"] = (controladoraVentas.consultarPrecioUnitario(llaveProductoEscogido, tipoMonedaCrearFactura));   //precio unitario (buscar en la BD)
+                testRow["Impuesto (13%)"] = "Sí";                                                                                           //impuesto (booleano)
+                testRow["Descuento (%)"] = "0";                                                                                             //descuento (siempre empieza con 0)
+                testRow["Total"] = testRow["Precio unitario"];                                                                              //total (empieza con precion unitario * 1)
                 productosAgregados.Rows.Add(testRow);
                 gridViewCrearFacturaProductos.DataSource = productosAgregados;
                 gridViewCrearFacturaProductos.DataBind();
             }
+        }
+
+        /*
+         * Invocada cuando termina de hacer la factura y se envia a la base de datos.
+         */
+        protected void clickBotonbotonCrearFacturaGuardar(object sender, EventArgs e)
+        {
+            Object[] datosFactura = obtenerDatos();
         }
 
         /*
@@ -852,12 +916,6 @@ namespace ProyectoInventarioOET
 
         }
 
-        //Este evento no debe darse.
-        //protected void dropDownListCrearFacturaEstacion_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    cargarBodegas(this.dropDownListCrearFacturaBodega);
-        //}
-
         /*
          * ???
          */
@@ -900,15 +958,9 @@ namespace ProyectoInventarioOET
             datos[3] = productoEscogido;
             datos[4] = Convert.ToInt32(nuevaCantidadParaAjusteRapido.Text);
 
-
             nuevoAjusteRapido.agregarDetalle(datos);
             String [] resultado = controladoraAjustes.insertarAjuste(nuevoAjusteRapido);
             mostrarMensaje(resultado[0],resultado[1],resultado[2]);
-        
-        
-        
-        
-        
         }
 
         /*
@@ -920,6 +972,9 @@ namespace ProyectoInventarioOET
             cambiarModo();
         }
 
+        /*
+         * ???
+         */
         protected void botonAceptarModificacionFacturaEspecifica_ServerClick(object sender, EventArgs e)
         {
             String[] error = controladoraVentas.anularFactura(facturaConsultada); 
@@ -937,9 +992,30 @@ namespace ProyectoInventarioOET
             }
         }
 
+        /*
+         * ???
+         */
         protected void botonCancelarModificacionFacturaEspecifica_ServerClick(object sender, EventArgs e)
         {
 
+        }
+
+        /*
+         * Habilita los botones de quitar o editar el producto en el grid.
+         */
+        protected void checkBoxCrearFacturaProductos_CheckedChanged(object sender, EventArgs e)
+        {
+            botonCrearFacturaQuitarProducto.Disabled = !((CheckBox)sender).Checked;
+            botonCrearFacturaEditarProducto.Disabled = !((CheckBox)sender).Checked;
+        }
+
+        /*
+         * 
+         */
+        protected void dropDownListCrearFacturaMetodoPago_ValorCambiado(object sender, EventArgs e)
+        {
+            //Deberia hacerse solo cuando escoja "deduccion de planilla"
+            cargarPosiblesClientes();
         }
     }
 }

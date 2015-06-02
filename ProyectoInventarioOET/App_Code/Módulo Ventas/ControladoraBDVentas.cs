@@ -22,30 +22,29 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         /*
          * ???
          */
-        public String[] insertarFactura(EntidadFactura factura)
+        public String[] insertarFactura(EntidadFacturaVenta factura)
         {
             String esquema = "Inventarios.";
             String[] res = new String[4];
 
             try
             {
-                int idSiguienteFactura = getCantidadFacturas();
+                int consecutivoSiguienteFactura = consultarUltimoConsecutivo() + 1;
                 OracleCommand command = conexionBD.CreateCommand();
                 command.CommandText = "INSERT INTO " + esquema + "REGISTRO_FACTURAS_VENTA (CONSECUTIVO, FECHA, BODEGA, ESTACION, COMPAÑIA, ACTIVIDAD, VENDEDOR, CLIENTE, TIPOMONEDA, METODOPAGO, MONTOTOTAL, ESTADO) VALUES ("
-                + (idSiguienteFactura + 1) + ",'"
-                + factura.Fecha + "','"
+                + consecutivoSiguienteFactura + ",'"
+                + factura.FechaHora + "','"
                 + factura.Bodega + "','"
                 + factura.Estacion + "','"
-                + factura.Compañia + "','"
+                + factura.Compania + "','"
                 + factura.Actividad + "','"
                 + factura.Vendedor + "','"
                 + factura.Cliente + "','"
                 + factura.TipoMoneda + "','"
                 + factura.MetodoPago + "',"
-                + factura.MontoTotal + ",'"
+                + factura.MontoTotalColones + ",'"
                 + factura.Estado + "')";
                 OracleDataReader reader = command.ExecuteReader();
-
 
                 String tuplasAMeter = "";
                 /* foreach (DataRow producto in factura.Productos.Rows)
@@ -163,11 +162,11 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         /*
          * ???
          */
-        public EntidadFactura consultarFactura(String codigo)
+        public EntidadFacturaVenta consultarFactura(String codigo)
         {
             String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
-            EntidadFactura facturaConsultada = null;
+            EntidadFacturaVenta facturaConsultada = null;
             Object[] datosConsultados = new Object[13];
             try
             {
@@ -184,7 +183,7 @@ namespace ProyectoInventarioOET.Modulo_Ventas
                         datosConsultados[i] = resultado.Rows[0][i].ToString();
                     }
 
-                    facturaConsultada = new EntidadFactura(datosConsultados);
+                    facturaConsultada = new EntidadFacturaVenta(datosConsultados);
                 }
             }
             catch (OracleException e)
@@ -236,6 +235,30 @@ namespace ProyectoInventarioOET.Modulo_Ventas
                 resultado = null;
             }
             return resultado;
+        }
+
+        /*
+         * Consulta el último número de consecutivo en la tabla para crear el siguiente.
+         */
+        public int consultarUltimoConsecutivo()
+        {
+            String esquema = "Inventarios.";
+            DataTable resultado = new DataTable();
+            int ultimoNumeroConsecutivo = -1;
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "SELECT MAX(CONSECUTIVO) FROM " + esquema + "REGISTRO_FACTURAS_VENTA";
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
+                if (resultado.Rows.Count == 1)
+                    ultimoNumeroConsecutivo = Convert.ToInt32(resultado.Rows[0][0].ToString());
+            }
+            catch (OracleException e)
+            {
+                ultimoNumeroConsecutivo = -1;
+            }
+            return ultimoNumeroConsecutivo;
         }
 
         /*
@@ -331,6 +354,35 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         }
 
         /*
+         * Obtiene el precio unitario de un producto, según el parámetro de si es en colones o en dólares.
+         */
+        public double consultarPrecioUnitario(String llaveProducto, String tipoMoneda)
+        {
+            String esquema = "Inventarios.";
+            DataTable resultado = new DataTable();
+            double precioUnitario = 0;
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+                if(tipoMoneda == "Colones")
+                    command.CommandText = "SELECT PRECIO_C FROM " + esquema + "INV_PRODUCTOS WHERE INV_PRODUCTOS = '" + llaveProducto + "'";
+                else //Dolares
+                    command.CommandText = "SELECT PRECIO_D FROM " + esquema + "INV_PRODUCTOS WHERE INV_PRODUCTOS = '" + llaveProducto + "'";
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
+                if (resultado.Rows.Count == 1)
+                {
+                    precioUnitario = Convert.ToDouble(resultado.Rows[0][0]);
+                }
+            }
+            catch (Exception e)
+            {
+                precioUnitario = -1;
+            }
+            return precioUnitario;
+        }
+
+        /*
          * Obtiene el máximo de descuento aplicable a la venta de un producto específico por parte de un empleado específico.
          */
         public int maximoDescuentoAplicable(String idProducto, String idVendedor)
@@ -349,8 +401,10 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             return maximo;
         }
 
-
-        public String[] anularFactura(EntidadFactura factura)
+        /*
+         * ???
+         */
+        public String[] anularFactura(EntidadFacturaVenta factura)
         {
             String esquema = "Inventarios.";
 
@@ -381,6 +435,46 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             return res;
         }
 
+        /*
+         * Obtiene las diferentes formas de pago para escoger una en ventas.
+         */
+        public DataTable consultarMetodosPago()
+        {
+            String esquema = "Reservas.";
+            DataTable resultado = new DataTable();
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "SELECT NOMBRE,ID FROM " + esquema + "FORMAPAGO";
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
+            }
+            catch (OracleException e)
+            {
+                resultado = null;
+            }
+            return resultado;
+        }
 
+        /*
+         * Obtiene los empleados que pueden ser clientes.
+         */
+        public DataTable consultarClientes()
+        {
+            String esquema = "Inventarios.";
+            DataTable resultado = new DataTable();
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "SELECT UNIQUE NOMBRE,SEG_USUARIO FROM " + esquema + "SEG_USUARIO";
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
+            }
+            catch (OracleException e)
+            {
+                resultado = null;
+            }
+            return resultado;
+        }
     }
 }
