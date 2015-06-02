@@ -174,11 +174,11 @@ namespace ProyectoInventarioOET.Modulo_Entradas
                 {
                     OracleCommand command = conexionBD.CreateCommand();
                     command.CommandText = "insert into cat_entradas values("+
-                        "'"+ entrada.IdEntrada +"'"+
-                        "'" + entrada.IdFactura + "'"+
-                        "'" + entrada.IdEncargado+ "'" +
-                        "'" + entrada.Bodega+ "'" +
-                        "'" + entrada.FechEntrada+ "'" 
+                        ",'"+ entrada.IdEntrada +"'"+
+                        ",'" + entrada.IdFactura + "'"+
+                        ",'" + entrada.IdEncargado+ "'" +
+                        ",'" + entrada.Bodega+ "'" +
+                        ",'" + entrada.FechEntrada+ "'" 
                         +")";
                     OracleDataReader reader = command.ExecuteReader();
 
@@ -188,11 +188,11 @@ namespace ProyectoInventarioOET.Modulo_Entradas
                         {
                             command = conexionBD.CreateCommand();
                             command.CommandText = "insert into cat_entradas_productos values(" +
-                                "'" + generarID() + "'" +
-                                "'" + entrada.IdEntrada + "'" +
-                                "'" + fila[0] + "'" +
-                                "'" + fila[1] + "'" +
-                                "'" + fila[2] + "'" 
+                                ",'" + generarID() + "'" +
+                                ",'" + entrada.IdEntrada + "'" +
+                                ",'" + fila[0] + "'" +
+                                ",'" + fila[1] + "'" +
+                                ",'" + fila[2] + "'" 
                                 + ")";
                              reader = command.ExecuteReader();
                             
