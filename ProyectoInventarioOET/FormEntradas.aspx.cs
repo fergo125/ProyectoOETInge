@@ -527,17 +527,17 @@ namespace ProyectoInventarioOET
             Object[] datos = new Object[3];
             DataTable tablaProductosConID = new DataTable();
             tablaProductosConID = tablaFacturaDetallada();
-
+            bodegaDeTrabajo = "CRO44452";
 
             //if (modo == (int)Modo.SeleccionProductos)
             //{
                 try 
                 {
-                    objetoEntrada[0] = idFactura;
-                    objetoEntrada[1] = "";
-                    objetoEntrada[2] = fecha;
+                    objetoEntrada[1] = idFactura;
+                    objetoEntrada[0] = "";
+                    objetoEntrada[4] = fecha;
                     objetoEntrada[3] = bodegaDeTrabajo;
-                    objetoEntrada[4] = usuario;
+                    objetoEntrada[2] = usuario;
 
                     foreach (DataRow fila in tablaProductosNuevos.Rows)
                     {
@@ -556,7 +556,7 @@ namespace ProyectoInventarioOET
                         operacionCorrecta = true;
                     }
                 }
-                catch
+                catch (Exception t)
                 {
                     mostrarMensaje("warning", "Alerta", "No se pudo insertar la entrada.");
                     operacionCorrecta = false;                
