@@ -22,8 +22,9 @@ namespace ProyectoInventarioOET
         enum Modo { Inicial, Consulta, Insercion, Modificacion, Consultado };
         //Atributos
         private static Modo modo = Modo.Inicial;                                //Indica en qué modo se encuentra la interfaz en un momento cualquiera, de éste depende cuáles elementos son visibles
-        private static String permisos = "000000";                              //Permisos utilizados para el control de seguridad //TODO: poner en 000000, está en 111111 sólo para pruebas
-        private static String codigoPerfilUsuario = "";                         //Indica el perfil del usuario, usado para acciones de seguridad para las cuales la string de permisos no basta //TODO: poner en ""
+        private static String permisos = "000000";                              //Permisos utilizados para el control de seguridad
+        private static String codigoPerfilUsuario = "";                         //Indica el perfil del usuario, usado para acciones de seguridad para las cuales la string de permisos no basta
+        private static DataTable productosAgregados;
         private static DataTable facturasConsultadas;                           //Usada para llenar el grid y para mostrar los detalles de cada factura específica
         private static EntidadFactura facturaConsultada;                        //???
         private static Boolean seConsulto = false;                              //???
@@ -85,35 +86,7 @@ namespace ProyectoInventarioOET
 
             //cambiarModo();
             ////código para probar algo
-            //DataTable testTable = new DataTable();
-            //DataRow testRow;
-            //DataColumn column;
-
-            //column = new DataColumn();
-            //column.DataType = Type.GetType("System.String");
-            //column.ColumnName = "Nombre";
-            //testTable.Columns.Add(column);
-
-            //column = new DataColumn();
-            //column.DataType = Type.GetType("System.String");
-            //column.ColumnName = "Código interno";
-            //testTable.Columns.Add(column);
-
-            //column = new DataColumn();
-            //column.DataType = Type.GetType("System.Int32");
-            //column.ColumnName = "Precio unitario";
-            //testTable.Columns.Add(column);
-
-            //column = new DataColumn();
-            //column.DataType = Type.GetType("System.String");
-            //column.ColumnName = "Impuesto";
-            //testTable.Columns.Add(column);
-
-            //column = new DataColumn();
-            //column.DataType = Type.GetType("System.Int32");
-            //column.ColumnName = "Descuento (%)";
-            //testTable.Columns.Add(column);
-
+            
             //testRow = testTable.NewRow();
             //testRow["Nombre"] = "Nombre de prueba";
             //testRow["Código interno"] = "CRO001";
@@ -212,7 +185,6 @@ namespace ProyectoInventarioOET
                     mostrarMensaje("warning", "Alerta: ", "Error de interfaz, el 'modo' de la interfaz no se ha reconocido: " + modo);
                     break;
             }
-            Page_Load(null, null);
         }
 
         /*
@@ -479,7 +451,7 @@ namespace ProyectoInventarioOET
          */
         protected void consultarFactura(String idFactura)
         {
-            seConsulto = true;
+            //seConsulto = true;
             try
             {
                 facturaConsultada = controladoraVentas.consultarFactura(idFactura);
@@ -549,7 +521,7 @@ namespace ProyectoInventarioOET
             datos[0] = "";
             datos[1] = DateTime.Now.ToString("dd:MMM:yy");
             datos[2] = (this.Master as SiteMaster).LlaveBodegaSesion;
-            datos[3] = dropDownListCrearFacturaEstacion.SelectedValue;
+            datos[3] = textBoxCrearFacturaEstacion.Text;
             datos[4] = "02";
             datos[5] = "";
             datos[6] = usuarioActual.Codigo;
@@ -602,31 +574,67 @@ namespace ProyectoInventarioOET
         /*
          * ???
          */
-        protected void cargarEstaciones() 
+        protected DataTable crearTablaProdcutosFactura()
         {
-            EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
-            DataTable estaciones = controladoraDatosGenerales.consultarEstaciones();
+            productosAgregados = new DataTable();
+            DataColumn column;
 
-            if (estaciones.Rows.Count > 0)
-            {
-                this.dropDownListCrearFacturaEstacion.Items.Clear();
-                foreach (DataRow fila in estaciones.Rows)
-                {
-                    if ((usuarioActual.CodigoPerfil.Equals("1"))||(usuarioActual.IdEstacion.Equals(fila[0])))
-                    {
-                        this.dropDownListCrearFacturaEstacion.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
-                    }
-                }
-            }
-            if ((usuarioActual.CodigoPerfil.Equals("1")))
-            {
-                dropDownListCrearFacturaEstacion.Enabled = true;
-            }
-            else
-            {
-                dropDownListCrearFacturaEstacion.Enabled = false;
-            }
+            column = new DataColumn();
+            column.DataType = Type.GetType("System.String");
+            column.ColumnName = "Nombre";
+            productosAgregados.Columns.Add(column);
+
+            column = new DataColumn();
+            column.DataType = Type.GetType("System.String");
+            column.ColumnName = "Código interno";
+            productosAgregados.Columns.Add(column);
+
+            column = new DataColumn();
+            column.DataType = Type.GetType("System.Int32");
+            column.ColumnName = "Precio unitario";
+            productosAgregados.Columns.Add(column);
+
+            column = new DataColumn();
+            column.DataType = Type.GetType("System.String");
+            column.ColumnName = "Impuesto";
+            productosAgregados.Columns.Add(column);
+
+            column = new DataColumn();
+            column.DataType = Type.GetType("System.Int32");
+            column.ColumnName = "Descuento (%)";
+            productosAgregados.Columns.Add(column);
+
+            return productosAgregados;
         }
+
+        /*
+         * ???
+         */
+        //protected void cargarEstaciones() 
+        //{
+        //    EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
+        //    DataTable estaciones = controladoraDatosGenerales.consultarEstaciones();
+
+        //    if (estaciones.Rows.Count > 0)
+        //    {
+        //        this.dropDownListCrearFacturaEstacion.Items.Clear();
+        //        foreach (DataRow fila in estaciones.Rows)
+        //        {
+        //            if ((usuarioActual.CodigoPerfil.Equals("1"))||(usuarioActual.IdEstacion.Equals(fila[0])))
+        //            {
+        //                this.dropDownListCrearFacturaEstacion.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
+        //            }
+        //        }
+        //    }
+        //    if ((usuarioActual.CodigoPerfil.Equals("1")))
+        //    {
+        //        dropDownListCrearFacturaEstacion.Enabled = true;
+        //    }
+        //    else
+        //    {
+        //        dropDownListCrearFacturaEstacion.Enabled = false;
+        //    }
+        //}
 
         /*
          * ???
@@ -738,13 +746,27 @@ namespace ProyectoInventarioOET
          */
         protected void clickBotonCrearFactura(object sender, EventArgs e)
         {
-            cargarEstaciones();
-            //cargarBodegas(this.dropDownListCrearFacturaBodega);
-            //Sólo debe cargar la bodega actual de trabajo, TODO: arreglar esto
+            textBoxCrearFacturaEstacion.Text = controladoraDatosGenerales.consultarEstacionDeBodega((this.Master as SiteMaster).LlaveBodegaSesion)[0]; //nombre de la estación a la que pertenece la bodega de trabajo
+            textBoxCrearFacturaBodega.Text = (this.Master as SiteMaster).NombreBodegaSesion; //nombre de la bodega de trabajo (punto de venta)
             textBoxCrearFacturaVendedor.Text = (this.Master as SiteMaster).Usuario.Nombre;
-            textBoxCrearFacturaVendedor.Enabled = false;
+            textBoxCrearFacturaTipoCambio.Text = controladoraVentas.consultarTipoCambio().ToString();
             modo = Modo.Insercion;
             cambiarModo();
+            productosAgregados = crearTablaProdcutosFactura(); //se crea una nueva tabla cada vez
+        }
+
+        /*
+         * Separa la string de un producto escogido en una barra de autocomplete en sus dos partes, nombre y código ([0] y [1]).
+         */
+        protected String[] separarNombreCodigoProductoEscogido(String productoEscogido)
+        {
+            String[] resultado = new String[2];
+            String codigoProductoEscogido = productoEscogido.Substring(productoEscogido.LastIndexOf('(') + 1);  //el código sin el primer paréntesis
+            codigoProductoEscogido = codigoProductoEscogido.TrimEnd(')');                                       //el código
+            productoEscogido = productoEscogido.Remove(productoEscogido.LastIndexOf('(') - 1);                  //nombre del producto (-1 al final por el espacio)
+            resultado[0] = productoEscogido;
+            resultado[1] = codigoProductoEscogido;
+            return resultado;
         }
 
         /*
@@ -754,8 +776,25 @@ namespace ProyectoInventarioOET
          */
         protected void clickBotonAgregarProductoFactura(object sender, EventArgs e)
         {
+            //Primero, obtener la llave desde el catálogo global usando esos dos valores (es necesario revisar ambos
+            //valores para asegurarse de que el usuario no cambio ninguno antes de dar click al botón).
             String productoEscogido = textBoxAutocompleteCrearFacturaBusquedaProducto.Text;
-            productoEscogido = controladoraVentas.verificarExistenciaProductoLocal((this.Master as SiteMaster).LlaveBodegaSesion, productoEscogido);
+            String[] nombreCodigoProductoEscogido = separarNombreCodigoProductoEscogido(productoEscogido);
+            String llaveProductoEscogido = controladoraVentas.verificarExistenciaProductoLocal((this.Master as SiteMaster).LlaveBodegaSesion, nombreCodigoProductoEscogido[0], nombreCodigoProductoEscogido[1]);
+
+            if (llaveProductoEscogido != null)
+            {
+                DataRow testRow;
+                testRow = productosAgregados.NewRow();
+                testRow["Nombre"] = nombreCodigoProductoEscogido[0];            //nombre
+                testRow["Código interno"] = nombreCodigoProductoEscogido[1];    //código interno
+                testRow["Precio unitario"] = "500";                             //precio unitario (buscar en la BD)
+                testRow["Impuesto"] = "Sí";                                     //impuesto (booleano)
+                testRow["Descuento (%)"] = "0";                                 //descuento (siempre empieza con 0)
+                productosAgregados.Rows.Add(testRow);
+                gridViewCrearFacturaProductos.DataSource = productosAgregados;
+                gridViewCrearFacturaProductos.DataBind();
+            }
         }
 
         /*
@@ -841,7 +880,8 @@ namespace ProyectoInventarioOET
         protected void botonAceptarAjusteRapido_ServerClick(object sender, EventArgs e)
         {
             String productoEscogido = textBoxAutocompleteAjusteRapidoBusquedaProducto.Text;
-            productoEscogido = controladoraVentas.verificarExistenciaProductoLocal( (this.Master as SiteMaster).LlaveBodegaSesion, productoEscogido);
+            String[] nombreCodigoProductoEscogido = separarNombreCodigoProductoEscogido(productoEscogido);
+            String llaveProductoEscogido = controladoraVentas.verificarExistenciaProductoLocal((this.Master as SiteMaster).LlaveBodegaSesion, nombreCodigoProductoEscogido[0], nombreCodigoProductoEscogido[1]);
 
             Object[] datos = new Object[6];
             datos[0] = "CYCLO106062012145550408008";

@@ -215,7 +215,7 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         }
 
         /*
-         * 
+         * Dada una estación, consulta todos los usuarios asociados a bodegas que pertenezcan a esa estación.
          */
         public DataTable asociadosAEstacion(String idEstacion)
         {
@@ -262,7 +262,7 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT INV_PRODUCTOS FROM " + esquema + "INV_PRODUCTOS WHERE CODIGO = '" + codigoProducto + "' AND NOMBRE = '" + nombreProducto + "' AND ESTADO = 1";
+                command.CommandText = "SELECT INV_PRODUCTOS FROM " + esquema + "INV_PRODUCTOS WHERE CODIGO = '" + codigoProducto + "' AND NOMBRE = (REPLACE('" + nombreProducto + "', '\\', '')) AND ESTADO = 1"; //se usa el replace de oracle porque si no entonces no quita el backslash
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
                 if (resultado.Rows.Count == 1)
@@ -302,6 +302,32 @@ namespace ProyectoInventarioOET.Modulo_Ventas
                 valido = false;
             }
             return valido;
+        }
+
+        /*
+         * Obtiene la venta del tipo de cambio más reciente desde la tabla de la base de datos.
+         */
+        public double consultarTipoCambio()
+        {
+            String esquema = "Reservas.";
+            DataTable resultado = new DataTable();
+            double ventaDolar = 0;
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "SELECT VENTA FROM " + esquema + "TIPOCAMBIO WHERE DEL = (SELECT MAX(DEL) FROM RESERVAS.TIPOCAMBIO)";
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
+                if (resultado.Rows.Count == 1)
+                {
+                    ventaDolar = Convert.ToDouble(resultado.Rows[0][0]);
+                }
+            }
+            catch (Exception e)
+            {
+                ventaDolar = -1;
+            }
+            return ventaDolar;
         }
 
         /*

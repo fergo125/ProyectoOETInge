@@ -147,7 +147,7 @@
                     <RowStyle Font-Size="small" BackColor="White" ForeColor="Black"/>
                     <PagerStyle CssClass="paging" HorizontalAlign="Center"/>
                     <AlternatingRowStyle BackColor="#F8F8F8"/>
-                    <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="#7BC143"/>
+                    <SelectedRowStyle CssClass="info" Font-Bold="false" ForeColor="Black"/>
                     <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver"/>
                 </asp:GridView>
         <%--<asp:UpdatePanel ID="UpdatePanelFacturas" runat="server">
@@ -165,15 +165,15 @@
                 <td colspan="4">Fecha y hora:  <%: DateTime.Now.Date.ToShortDateString() %>,  <%: DateTime.Now.TimeOfDay.ToString().Substring(0,5) %></td></tr>
             <tr>
                 <td>Estación:</td>
-                <td><asp:DropDownList ID="dropDownListCrearFacturaEstacion" AutoPostBack="true" class="input input-fozkr-dropdownlist" runat="server" Enabled="false" Width="90%" CssClass="form-control"></asp:DropDownList></td>
+                <td><asp:TextBox ID="textBoxCrearFacturaEstacion" CssClass="form-control" Width="90%" Enabled="false" runat="server"></asp:TextBox></td>
                 <td>Bodega:</td>
-                <td><asp:DropDownList ID="dropDownListCrearFacturaBodega" class="input input-fozkr-dropdownlist" runat="server" Enabled="false" Width="90%" CssClass="form-control"></asp:DropDownList></td>
+                <td><asp:TextBox ID="textBoxCrearFacturaBodega" CssClass="form-control" Width="90%" Enabled="false" runat="server"></asp:TextBox></td>
             </tr>
             <tr>
                 <td>Vendedor:</td>
-                <td><asp:TextBox ID="textBoxCrearFacturaVendedor" runat="server" CssClass="form-control" Width="90%"></asp:TextBox></td>
+                <td><asp:TextBox ID="textBoxCrearFacturaVendedor" CssClass="form-control" Width="90%" Enabled="false" runat="server"></asp:TextBox></td>
                 <td>Tipo cambio:</td>
-                <td><asp:TextBox ID="textBoxCrearFacturaTipoCambio" runat="server" CssClass="form-control" Width="90%"></asp:TextBox></td>
+                <td><asp:TextBox ID="textBoxCrearFacturaTipoCambio" CssClass="form-control" Width="90%" Enabled="false" runat="server"></asp:TextBox></td>
             </tr>
             <tr>
                 <td colspan="4">Lista de productos en la factura:</td>
@@ -182,7 +182,7 @@
                 <td>Producto:</td>
                 <td colspan="2"><asp:TextBox ID="textBoxAutocompleteCrearFacturaBusquedaProducto" runat="server" CssClass="form-control" Width="100%"></asp:TextBox>
                 </td>
-                <td><button type="button" ID="botonCrearFacturaAgregarProducto" class="btn btn-success-fozkr" onserverclick="clickBotonAgregarProductoFactura" disabled="disabled" runat="server">Agregar Producto</button></td>
+                <td><button type="button" ID="botonCrearFacturaAgregarProducto" class="btn btn-success-fozkr" onserverclick="clickBotonAgregarProductoFactura" runat="server">Agregar Producto</button></td>
             </tr>
             <tr>
                 <td colspan="4">
@@ -228,7 +228,7 @@
                                 <RowStyle Font-Size="small" BackColor="White" ForeColor="Black"/>
                                 <PagerStyle CssClass="paging" HorizontalAlign="Center"/>
                                 <AlternatingRowStyle BackColor="#F8F8F8"/>
-                                <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White"/>
+                                <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="Black"/>
                                 <HeaderStyle CssClass="active" Font-Size="Small" Font-Bold="true" BackColor="Silver"/>
                             </asp:GridView>
                         </ContentTemplate>
@@ -256,8 +256,8 @@
             </tr>
             <tr>
                 <td colspan="4">
-                    <button type="button" ID="botonCrearFacturaCancelar" class="btn btn-danger-fozkr" href="#modalCancelarFactura" data-toggle="modal" style="float: right" runat="server">Cancelar</button>
-                    <button type="button" ID="botonCrearFacturaGuardar" class="btn btn-success-fozkr" onserverclick="Page_Load" style="float: right" runat="server">Guardar</button>
+                    <button type="button" ID="botonCrearFacturaGuardar" class="btn btn-success-fozkr" onserverclick="Page_Load" runat="server">Guardar</button>
+                    <button type="button" ID="botonCrearFacturaCancelar" class="btn btn-danger-fozkr" href="#modalCancelarFactura" data-toggle="modal" runat="server">Cancelar</button>
                 </td>
             </tr>
         </table>

@@ -328,22 +328,22 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.Panel PanelCrearFactura;
         
         /// <summary>
-        /// Control dropDownListCrearFacturaEstacion.
+        /// Control textBoxCrearFacturaEstacion.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList dropDownListCrearFacturaEstacion;
+        protected global::System.Web.UI.WebControls.TextBox textBoxCrearFacturaEstacion;
         
         /// <summary>
-        /// Control dropDownListCrearFacturaBodega.
+        /// Control textBoxCrearFacturaBodega.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList dropDownListCrearFacturaBodega;
+        protected global::System.Web.UI.WebControls.TextBox textBoxCrearFacturaBodega;
         
         /// <summary>
         /// Control textBoxCrearFacturaVendedor.
@@ -454,15 +454,6 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.DropDownList dropDownListCrearFacturaCliente;
         
         /// <summary>
-        /// Control botonCrearFacturaCancelar.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonCrearFacturaCancelar;
-        
-        /// <summary>
         /// Control botonCrearFacturaGuardar.
         /// </summary>
         /// <remarks>
@@ -470,6 +461,15 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlButton botonCrearFacturaGuardar;
+        
+        /// <summary>
+        /// Control botonCrearFacturaCancelar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonCrearFacturaCancelar;
         
         /// <summary>
         /// Control inputUsername.
