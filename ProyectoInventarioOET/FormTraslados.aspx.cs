@@ -19,8 +19,10 @@ namespace ProyectoInventarioOET
         // Atributos
         private static Boolean seConsulto = false;                              // True si se consulto y se debe visitar la base de datos
         private static Object[] idArrayTraslados;                               // Array de llaves que no se muestran en el grid de consultas
-        private static Object[] idArrayProductos;                               // Array de llaves que no se muestran en el grid de productos
-        private static Object[] idArrayAgregarProductos;                        // Array de llaves que no se muestran en el grid de agregar productos
+        private static Object[] idArrayProductosOrigen;                         // Array de llaves que no se muestran en el grid de productos, de bodega origen
+        private static Object[] idArrayProductosDestino;                        // Array de llaves que no se muestran en el grid de productos, de bodega destino
+        private static Object[] idArrayAgregarProductosOrigen;                  // Array de llaves que no se muestran en el grid de agregar productos, de bodega origen
+        private static Object[] idArrayAgregarProductosDestino;                 // Array de llaves que no se muestran en el grid de agregar productos, de bodega destino
         private static DataTable tablaAgregarProductos;                         // Tabla en memoria de los productos agregables
         private static DataTable tablaProductos;                                // Tabla en memoria de los productos agregados
         private static int modo = (int)Modo.Inicial;                            // Modo actual de interfaz
@@ -316,21 +318,20 @@ namespace ProyectoInventarioOET
 
 
             // Agregar detalles a entidad
-            /*
             int i = 0;
             foreach (DataRow row in tablaProductos.Rows)
             {
                 Double cantAjuste = Double.Parse(((TextBox)gridViewProductos.Rows[i].FindControl("textTraslados")).Text);
 
                 traslado = new Object[6];
-                traslado[0] = traslado[1] = "";
+                traslado[0] = traslado[1] = traslado[3] = "";
                 traslado[2] = cantAjuste;
-                traslado[3] = idArrayProductos[i];
-                traslado[4] = cantAjuste - Double.Parse(row["Cantidad Actual"].ToString());
+                traslado[4] = idArrayProductosOrigen[i];
+                traslado[5] = idArrayProductosDestino[i];
 
                 nuevo.agregarDetalle(traslado);
                 ++i;
-            }*/
+            }
 
 
             String[] error = controladoraTraslados.insertarTraslado(nuevo);
@@ -544,7 +545,8 @@ namespace ProyectoInventarioOET
             gridViewProductos.DataSource = tablaLimpia;
             gridViewProductos.DataBind();
 
-            idArrayProductos = new Object[0];
+            idArrayProductosOrigen = new Object[0];
+            idArrayProductosDestino = new Object[0];
             tablaProductos = tablaProducto();
         }
 
@@ -566,10 +568,12 @@ namespace ProyectoInventarioOET
 
                 if (productos.Rows.Count > 0)
                 {
-                    idArrayAgregarProductos = new Object[productos.Rows.Count];
+                    idArrayAgregarProductosOrigen = new Object[productos.Rows.Count];
+                    idArrayAgregarProductosDestino = new Object[productos.Rows.Count];
                     foreach (DataRow fila in productos.Rows)
                     {
-                        idArrayAgregarProductos[i] = fila[0];
+                        idArrayAgregarProductosOrigen[i] = fila[6];
+                        idArrayAgregarProductosDestino[i] = fila[7];
                         datos[0] = fila[1].ToString();
                         datos[1] = fila[2].ToString();
                         datos[2] = Convert.ToDouble(fila[3].ToString());
@@ -805,13 +809,21 @@ namespace ProyectoInventarioOET
                     gridViewAgregarProductos.DataBind();
 
                     // Actualizar listas de Ids
-                    List<Object> temp = new List<Object>(idArrayProductos);
-                    temp.Add(idArrayAgregarProductos[indice]);
-                    idArrayProductos = temp.ToArray();
+                    List<Object> temp = new List<Object>(idArrayProductosOrigen);
+                    temp.Add(idArrayProductosOrigen[indice]);
+                    idArrayProductosOrigen = temp.ToArray();
 
-                    temp = new List<Object>(idArrayAgregarProductos);
+                    temp = new List<Object>(idArrayProductosDestino);
+                    temp.Add(idArrayProductosDestino[indice]);
+                    idArrayProductosDestino = temp.ToArray();
+
+                    temp = new List<Object>(idArrayAgregarProductosOrigen);
                     temp.RemoveAt(indice);
-                    idArrayAgregarProductos = temp.ToArray();
+                    idArrayAgregarProductosOrigen = temp.ToArray();
+
+                    temp = new List<Object>(idArrayAgregarProductosDestino);
+                    temp.RemoveAt(indice);
+                    idArrayAgregarProductosDestino = temp.ToArray();
 
                     //Response.Redirect("FormTraslados.aspx");
                     break;
