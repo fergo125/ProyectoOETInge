@@ -169,16 +169,15 @@ namespace ProyectoInventarioOET
          */
         protected void cambiarModo()
         {
-            //Código común (que debe ejecutarse en la mayoría de modos, en la minoría luego es arreglado en el switch)
-            //Reduce un poco la eficiencia, pero simplifica el código bastante
-            PanelConsultarFacturas.Visible = false;
-            PanelConsultarFacturaEspecifica.Visible = false;
-            //PanelGridConsultas.Visible = false;
-            //hay que hacerlo directo con el panel, porque si no la paginacion no sirve
-            this.tituloGrid.Visible = false;
-            PanelCrearFactura.Visible = false;
-            botonCambioSesion.Visible = false;      //Estos dos botones sólo deben ser visibles
-            botonAjusteEntrada.Visible = false;     //durante la creación de facturas
+            //Código común (que debe ejecutarse en la mayoría de modos, en la minoría luego es arreglado en el switch) Reduce un poco la eficiencia, pero simplifica el código bastante
+            PanelConsultarFacturas.Visible = false;             //Consulta general
+            PanelConsultarFacturaEspecifica.Visible = false;    //Consulta específica
+            tituloGrid.Visible = false;                         //Grid de consulta
+            gridViewFacturas.Visible = false;                   //Grid de consulta
+            PanelCrearFactura.Visible = false;                  //Crear factura
+            botonCambioSesion.Visible = false;                  //Cambio sesión rápido
+            botonAjusteEntrada.Visible = false;                 //Ajuste inventario rápido
+            //PanelGridConsultas.Visible = false; //hay que hacerlo directo con el panel, porque si no la paginacion no sirve
 
             //Código específico para cada modo
             switch (modo)
@@ -191,27 +190,24 @@ namespace ProyectoInventarioOET
                     PanelConsultarFacturas.Visible = true;
                     //this.gridViewFacturas.Visible = false;
                     //this.tituloGrid.Visible = false;
-                    llenarGrid();
+                    //llenarGrid();
                     break;
                 case Modo.Insercion:
                     tituloAccionFacturas.InnerText = "Ingrese los datos de la nueva factura";
                     PanelCrearFactura.Visible = true;
                     botonCambioSesion.Visible = true;  //Estos dos botones sólo deben ser visibles
                     botonAjusteEntrada.Visible = true; //durante la creación de facturas
-
                     break;
                 case Modo.Modificacion:
-                    tituloAccionFacturas.InnerText = "Ingrese los nuevos datos para la factura";
+                    tituloAccionFacturas.InnerText = "Ingrese los nuevos datos para la factura"; //TODO: revisar este mensaje, ya que no se pueden modificar, sólo anular
                     PanelConsultarFacturaEspecifica.Visible = true;
                     habilitarCampos(true);
                     break;
                 case Modo.Consultado:
                     tituloAccionFacturas.InnerText = "Detalles de la factura";
                     PanelConsultarFacturaEspecifica.Visible = true;
-                    //PanelGridConsultas.Visible = true;
-                    //hay que hacerlo directo con el panel, porque si no la paginacion no sirve
-                    this.gridViewFacturas.Visible = true;
-                    this.tituloGrid.Visible = true;
+                    gridViewFacturas.Visible = true;
+                    tituloGrid.Visible = true;
                     cargarDropdownListsConsulta();
                     llenarGrid();
                     habilitarCampos(false);
@@ -405,13 +401,11 @@ namespace ProyectoInventarioOET
             String codigoBodega = dropDownListConsultaBodega.SelectedValue;
             String codigoVendedor = dropDownListConsultaVendedor.SelectedValue;
 
-            DataTable tabla = tablaFacturas();
+            DataTable tabla = crearTablaFacturas();
             int indiceNuevaFactura = -1;
             int i = 0;
-
             try
             {
-                // Cargar facturas
                 Object[] datos = new Object[5];
                 DataTable facturas = controladoraVentas.consultarFacturas((this.Master as SiteMaster).Usuario.Perfil, codigoVendedor, codigoBodega, codigoEstacion);
                 facturasConsultadas = facturas;
@@ -579,7 +573,7 @@ namespace ProyectoInventarioOET
         /*
          * ???
          */
-        protected DataTable tablaFacturas() 
+        protected DataTable crearTablaFacturas() 
         {
             DataTable tabla = new DataTable();
             DataColumn column;
@@ -610,7 +604,6 @@ namespace ProyectoInventarioOET
             tabla.Columns.Add(column);
 
             return tabla;
-
         }
 
         /*
@@ -729,7 +722,6 @@ namespace ProyectoInventarioOET
             cargarDropdownListsConsulta();
             this.gridViewFacturas.Visible = false;
             this.tituloGrid.Visible = false;
-                    
             cambiarModo();
         }
 
@@ -741,9 +733,8 @@ namespace ProyectoInventarioOET
         {
             llenarGrid();
             //PanelGridConsultas.Visible = true;
-            //hay que hacerlo directo con el panel, porque si no la paginacion no sirve
-            this.gridViewFacturas.Visible = true;
-            this.tituloGrid.Visible = true;
+            gridViewFacturas.Visible = true;
+            tituloGrid.Visible = true;
             tituloAccionFacturas.InnerText = "Seleccione una factura para ver su información detallada";
             //Aquí NO se debe inovcar cambiarModo, ya que el modo no cambia
         }
@@ -797,8 +788,10 @@ namespace ProyectoInventarioOET
         protected void gridViewFacturas_CambioPagina(Object sender, GridViewPageEventArgs e)
         {
             llenarGrid();
-            this.gridViewFacturas.PageIndex = e.NewPageIndex;
-            this.gridViewFacturas.DataBind();
+            gridViewFacturas.PageIndex = e.NewPageIndex;
+            gridViewFacturas.DataBind();
+            tituloGrid.Visible = true;
+            gridViewFacturas.Visible = true;
         }
 
         /*

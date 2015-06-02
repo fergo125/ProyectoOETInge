@@ -85,59 +85,73 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         /*
          * ???
          */
-        public DataTable consultarFacturas(String perfil, String idUsuario, String idBodega, String idEstacion)
+        public DataTable consultarFacturas(String perfil, String idVendedor, String idBodega, String idEstacion)
         {
             String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                if (perfil.Equals("Vendedor"))
-                    command.CommandText = "select * from " + esquema + "registro_facturas_venta where " + esquema + "registro_facturas_venta.vendedor = '" + idUsuario + "'";
-                else
+                String consulta = "SELECT * FROM " + esquema + "REGISTRO_FACTURAS_VENTA";
+                if(idVendedor != "All" || idBodega != "All" || idEstacion != "All") //Se debe parametrizar con alguno de los 3
                 {
-                    if (perfil.Equals("Supervisor"))
-                    {
-                        if (idUsuario.Equals("All"))
-                            command.CommandText = "select * from " + esquema + "registro_facturas_venta where " + esquema + "registro_facturas_venta.bodega = '" + idBodega + "'";
-                        else
-                            command.CommandText = "select * from " + esquema + "registro_facturas_venta where " + esquema + "registro_facturas_venta.bodega = '" + idBodega + "' and registro_facturas_venta.vendedor='" + idUsuario + "'";
-                    }
-                    else
-                    {
-                        if (perfil.Equals("Administrador local"))
-                        {
-                            if (idBodega.Equals("All"))
-                                command.CommandText = "select * from registro_facturas_venta where estacion = '" + idEstacion + "'";
-                            else
-                            {
-                                if (idUsuario.Equals("All"))
-                                    command.CommandText = "select * from " + esquema + "registro_facturas_venta where " + esquema + "registro_facturas_venta.estacion = '" + idEstacion + "' and registro_facturas_venta.bodega = '" + idBodega + "'";
-                                else
-                                    command.CommandText = "select * from " + esquema + "registro_facturas_venta where " + esquema + "registro_facturas_venta.estacion = '" + idEstacion + "' and registro_facturas_venta.bodega = '" + idBodega + "' and registro_facturas_venta.vendedor='" + idUsuario + "'";
-                            }
-                        }
-                        else
-                        {
-                            if (idEstacion.Equals("All"))
-                                command.CommandText = "select * from registro_facturas_venta";
-                            else
-                            {
-                                if (idBodega.Equals("All"))
-                                    command.CommandText = "select * from registro_facturas_venta where estacion = '" + idEstacion + "'";
-                                else
-                                {
-                                    if (idUsuario.Equals("All"))
-                                        command.CommandText = "select * from " + esquema + "registro_facturas_venta where " + esquema + "registro_facturas_venta.estacion = '" + idEstacion + "' and registro_facturas_venta.bodega = '" + idBodega + "'";
-                                    else
-                                        command.CommandText = "select * from " + esquema + "registro_facturas_venta where " + esquema + "registro_facturas_venta.estacion = '" + idEstacion + "' and registro_facturas_venta.bodega = '" + idBodega + "' and registro_facturas_venta.vendedor='" + idUsuario + "'";
-                                }
-                            }
-                        }
-                    }
+                    consulta = consulta + " WHERE ";
+                    if(idVendedor != "All")
+                        consulta = consulta + "VENDEDOR = '" + idVendedor + "' AND ";
+                    if (idBodega != "All")
+                        consulta = consulta + "BODEGA = '" + idBodega + "' AND ";
+                    if (idEstacion != "All")
+                        consulta = consulta + "ESTACION = '" + idEstacion + "' AND ";
+                    consulta = consulta.Substring(0, consulta.Length - 5); //se le quita el último pedazo de " AND "
                 }
+                command.CommandText = consulta;
                 OracleDataReader reader = command.ExecuteReader();
-               resultado.Load(reader);
+                resultado.Load(reader);
+
+                //if (perfil.Equals("Vendedor"))
+                //    command.CommandText = "select * from " + esquema + "registro_facturas_venta where " + esquema + "registro_facturas_venta.vendedor = '" + idVendedor + "'";
+                //else
+                //{
+                //    if (perfil.Equals("Supervisor"))
+                //    {
+                //        if (idVendedor.Equals("All"))
+                //            command.CommandText = "select * from " + esquema + "registro_facturas_venta where " + esquema + "registro_facturas_venta.bodega = '" + idBodega + "'";
+                //        else
+                //            command.CommandText = "select * from " + esquema + "registro_facturas_venta where " + esquema + "registro_facturas_venta.bodega = '" + idBodega + "' and registro_facturas_venta.vendedor='" + idVendedor + "'";
+                //    }
+                //    else
+                //    {
+                //        if (perfil.Equals("Administrador local"))
+                //        {
+                //            if (idBodega.Equals("All"))
+                //                command.CommandText = "select * from registro_facturas_venta where estacion = '" + idEstacion + "'";
+                //            else
+                //            {
+                //                if (idVendedor.Equals("All"))
+                //                    command.CommandText = "select * from " + esquema + "registro_facturas_venta where " + esquema + "registro_facturas_venta.estacion = '" + idEstacion + "' and registro_facturas_venta.bodega = '" + idBodega + "'";
+                //                else
+                //                    command.CommandText = "select * from " + esquema + "registro_facturas_venta where " + esquema + "registro_facturas_venta.estacion = '" + idEstacion + "' and registro_facturas_venta.bodega = '" + idBodega + "' and registro_facturas_venta.vendedor='" + idVendedor + "'";
+                //            }
+                //        }
+                //        else
+                //        {
+                //            if (idEstacion.Equals("All"))
+                //                command.CommandText = "select * from registro_facturas_venta";
+                //            else
+                //            {
+                //                if (idBodega.Equals("All"))
+                //                    command.CommandText = "select * from registro_facturas_venta where estacion = '" + idEstacion + "'";
+                //                else
+                //                {
+                //                    if (idVendedor.Equals("All"))
+                //                        command.CommandText = "select * from " + esquema + "registro_facturas_venta where " + esquema + "registro_facturas_venta.estacion = '" + idEstacion + "' and registro_facturas_venta.bodega = '" + idBodega + "'";
+                //                    else
+                //                        command.CommandText = "select * from " + esquema + "registro_facturas_venta where " + esquema + "registro_facturas_venta.estacion = '" + idEstacion + "' and registro_facturas_venta.bodega = '" + idBodega + "' and registro_facturas_venta.vendedor='" + idVendedor + "'";
+                //                }
+                //            }
+                //        }
+                //    }
+                //}
             }
             catch (OracleException e)
             {
