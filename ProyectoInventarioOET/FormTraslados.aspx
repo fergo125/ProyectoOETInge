@@ -99,7 +99,8 @@
                                 </asp:ButtonField>
                                 <asp:TemplateField HeaderText="Cantidad" >
                                     <ItemTemplate>
-                                        <asp:TextBox ID="textTraslados" runat="server" ReadOnly="false"></asp:TextBox>
+                                        <asp:TextBox ID="textTraslados" runat="server" ReadOnly="false"></asp:TextBox> 
+                                                
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>

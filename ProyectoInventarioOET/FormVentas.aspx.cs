@@ -854,7 +854,7 @@ namespace ProyectoInventarioOET
 
         protected void dropDownListCrearFacturaEstacion_SelectedIndexChanged(object sender, EventArgs e)
         {
-            cargarBodegas(this.dropDownListCrearFacturaBodega);
+           // cargarBodegas(this.dropDownListCrearFacturaBodega);
         }
 
         /*
