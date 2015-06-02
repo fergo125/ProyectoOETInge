@@ -84,7 +84,7 @@ namespace ProyectoInventarioOET.Modulo_Entradas
                 OracleCommand command = conexionBD.CreateCommand();
                 command.CommandText = "SELECT *  "
                 + " FROM " + esquema + "PRODUCTO_ORDENADOS "
-                + " WHERE IDORDENDECOMPRA= " + " '" + id + "' ";
+                + " WHERE IDORDENDECOMPRA= " + " '" + id + "'";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
 
@@ -162,5 +162,54 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             }
             return resultado;
         }
+        public String[] insertarEntrada(EntidadEntrada entrada, DataTable productosAsociados)
+        {
+            String esquema = "Inventarios.";
+            //bool existenteEnBD = false;
+
+            String[] res = new String[4];
+            entrada.IdEntrada= generarID();
+            res[3] = entrada.IdEntrada;
+                try
+                {
+                    OracleCommand command = conexionBD.CreateCommand();
+                    command.CommandText = "insert into cat_entradas values("+
+                        "'"+ entrada.IdEntrada +"'"+
+                        "'" + entrada.IdFactura + "'"+
+                        "'" + entrada.IdEncargado+ "'" +
+                        "'" + entrada.Bodega+ "'" +
+                        "'" + entrada.FechEntrada+ "'" 
+                        +")";
+                    OracleDataReader reader = command.ExecuteReader();
+
+                    if (productosAsociados.Rows.Count > 0)
+                    {
+                        foreach (DataRow fila in productosAsociados.Rows)
+                        {
+                            command = conexionBD.CreateCommand();
+                            command.CommandText = "insert into cat_entradas_productos values(" +
+                                "'" + generarID() + "'" +
+                                "'" + entrada.IdEntrada + "'" +
+                                "'" + fila[0] + "'" +
+                                "'" + fila[1] + "'" +
+                                "'" + fila[2] + "'" 
+                                + ")";
+                             reader = command.ExecuteReader();
+                            
+                        }
+                    }
+                    res[0] = "success";
+                    res[1] = "Éxito:";
+                    res[2] = "Entrada agregada al sistema.";
+                }
+                catch (OracleException e)
+                {
+                    res[0] = "danger";
+                    res[1] = "Error:";
+                    res[2] = "Entrada no agregada, intente nuevamente.";
+                }
+            return res;
+        }
+
     }
 }

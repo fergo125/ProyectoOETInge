@@ -8,6 +8,7 @@ using System.Web.UI.WebControls;
 using ProyectoInventarioOET.App_Code;
 using ProyectoInventarioOET.App_Code.Modulo_Ajustes;
 using ProyectoInventarioOET.Modulo_Seguridad;
+using ProyectoInventarioOET.Modulo_Productos_Locales;
 
 
 namespace ProyectoInventarioOET
@@ -28,6 +29,7 @@ namespace ProyectoInventarioOET
         private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
         private static ControladoraDatosGenerales controladoraDatosGenerales;   // Controladora de datos generales
         private static ControladoraAjustes controladoraAjustes;                 // Controladora del modulo ajustes
+        private static ControladoraProductoLocal controladoraProductosLocales;  // Controladora de catálogos locales
         private static EntidadAjustes ajusteConsultado;                         // El ajuste mostrado en pantalla
         private static bool[] signos;
 
@@ -48,6 +50,7 @@ namespace ProyectoInventarioOET
 
                 controladoraAjustes = new ControladoraAjustes();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
+                controladoraProductosLocales = new ControladoraProductoLocal();
 
                 /*
                 //Seguridad
@@ -666,6 +669,8 @@ namespace ProyectoInventarioOET
             String codigo = "";
             Object[] ajuste = obtenerDatosAjuste();
             EntidadAjustes nueva = new EntidadAjustes(ajuste);
+            DataTable productoDeBodega;
+            bool alerta = false;
 
             // Agregar detalles a entidad
 
@@ -680,22 +685,28 @@ namespace ProyectoInventarioOET
                 ajuste[3] = idArrayProductos[i];
                 ajuste[4] = cantAjuste - Double.Parse(row["Cantidad Actual"].ToString());
                 nueva.agregarDetalle(ajuste);
+                productoDeBodega = controladoraProductosLocales.consultarMinimoMaximoProductoEnBodega(idArrayProductos[i].ToString());
+                alerta |= cantAjuste <= Convert.ToInt32(productoDeBodega.Rows[0][0].ToString()) || cantAjuste >= Convert.ToInt32(productoDeBodega.Rows[0][1].ToString());
                 ++i;
             }
 
             String[] error = controladoraAjustes.insertarAjuste(nueva); 
-
             codigo = Convert.ToString(error[3]);
-            mostrarMensaje(error[0], error[1], error[2]);
             if (error[0].Contains("success"))
             {
                 llenarGrid();
+                if (alerta)
+                {
+                    error[0] = "warning";
+                    error[2] += "\nUno o más productos han salido de sus límites permitidos, revise el catálogo local. (Nivel máximo o mínimo)";
+                }
             }
             else
             {
                 codigo = "";
                 modo = (int)Modo.Insercion;
             }
+            mostrarMensaje(error[0], error[1], error[2]);
             return codigo;
         }
 
