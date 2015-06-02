@@ -35,13 +35,12 @@ namespace ProyectoInventarioOET
         protected void Page_Load(object sender, EventArgs e)
         {
             mensajeAlerta.Visible = false;
+            //Elementos visuales
+            ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
+            labelAlerta.Text = "";
           
             if (!IsPostBack)
             {
-                //Elementos visuales
-                ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
-                    labelAlerta.Text = "";
-               
                 controladoraBodegas = new ControladoraBodegas();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
                 //Seguridad

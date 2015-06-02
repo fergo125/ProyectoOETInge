@@ -489,10 +489,10 @@ namespace ProyectoInventarioOET
             textBoxFacturaConsultadActividad.Value = facturaConsultada.Actividad;
 
             textBoxFacturaConsultadaEstado.Items.Clear();
-            textBoxFacturaConsultadaEstado.Items.Add(new ListItem("Activa", "Activa"));
-            textBoxFacturaConsultadaEstado.Items.Add(new ListItem("Anulada", "Anulada"));
+            textBoxFacturaConsultadaEstado.Items.Add(new ListItem("Activa", "1"));
+            textBoxFacturaConsultadaEstado.Items.Add(new ListItem("Anulada", "5"));
 
-            if (facturaConsultada.Estado.Equals("Activa"))
+            if (facturaConsultada.Estado.Equals("1"))
                 textBoxFacturaConsultadaEstado.SelectedIndex = 0;
             else
                 textBoxFacturaConsultadaEstado.SelectedIndex = 1;
@@ -739,10 +739,11 @@ namespace ProyectoInventarioOET
          */
         protected void cargarPosiblesClientes()
         {
-            DataTable clientes = controladoraVentas.consultarMetodosPago();
+            DataTable clientes = controladoraVentas.consultarPosiblesClientes();
             if (clientes != null)
             {
                 dropDownListCrearFacturaCliente.Items.Clear();
+                dropDownListCrearFacturaCliente.Items.Add(new ListItem("", ""));
                 foreach (DataRow fila in clientes.Rows)
                     dropDownListCrearFacturaCliente.Items.Add(new ListItem(fila[0].ToString(), fila[1].ToString()));
             }
@@ -759,6 +760,7 @@ namespace ProyectoInventarioOET
             if (actividadesDisponibles != null)
             {
                 dropDownListCrearFacturaActividad.Items.Clear();
+                dropDownListCrearFacturaActividad.Items.Add(new ListItem("", ""));
                 foreach (DataRow fila in actividadesDisponibles.Rows)
                     dropDownListCrearFacturaActividad.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
             }

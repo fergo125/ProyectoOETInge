@@ -249,7 +249,7 @@
             </tr>
             <tr>
                 <td>Método de pago:</td>
-                <td colspan="3"><asp:DropDownList ID="dropDownListCrearFacturaMetodoPago" OnSelectedIndexChanged="dropDownListCrearFacturaMetodoPago_ValorCambiado" class="input input-fozkr-dropdownlist" runat="server" Width="90%" CssClass="form-control"></asp:DropDownList></td>
+                <td colspan="3"><asp:DropDownList ID="dropDownListCrearFacturaMetodoPago" OnSelectedIndexChanged="dropDownListCrearFacturaMetodoPago_ValorCambiado" AutoPostBack="true" class="input input-fozkr-dropdownlist" runat="server" Width="90%" CssClass="form-control"></asp:DropDownList></td>
             </tr>
             <tr>
                 <td>Cliente:</td>
