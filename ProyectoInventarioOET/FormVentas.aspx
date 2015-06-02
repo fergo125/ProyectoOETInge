@@ -191,8 +191,6 @@
             </tr>
             <tr>
                 <td colspan="4">
-                    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
-                        <ContentTemplate>
                             <%--<asp:GridView ID="gridViewCrearFacturaProductos" CssClass="table" runat="server" AllowPaging="True" PageSize="5" BorderColor="White" BorderStyle="Solid" BorderWidth="1px" GridLines="None" ShowHeaderWhenEmpty="True" AutoGenerateColumns="False">
                                 <Columns>
                                     <asp:TemplateField HeaderText="Seleccionar">
@@ -217,13 +215,13 @@
                                 <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White"/>
                                 <HeaderStyle CssClass="active" Font-Size="Small" Font-Bold="true" BackColor="Silver"/>
                             </asp:GridView>--%>
-                            <asp:GridView ID="gridViewCrearFacturaProductos" CssClass="table" runat="server" AllowPaging="True" PageSize="5" BorderColor="#ffffff" BorderStyle="Solid" BorderWidth="1px" GridLines="None" ShowHeaderWhenEmpty="True">
+                            <asp:GridView ID="gridViewCrearFacturaProductos" CssClass="table" runat="server" AllowPaging="True" PageSize="5" BorderColor="White" BorderStyle="Solid" BorderWidth="1px" GridLines="None" ShowHeaderWhenEmpty="True">
                                 <Columns>
-                                    <asp:TemplateField HeaderText="Seleccionar">
-                                        <ItemTemplate>
-                                            <asp:CheckBox ID="gridCrearFacturCheckBoxSeleccionarProducto" runat="server" />
-                                        </ItemTemplate>
-                                    </asp:TemplateField>
+							        <asp:TemplateField HeaderText="Seleccionar">
+								        <ItemTemplate>
+									        <asp:CheckBox ID="gridCrearFacturCheckBoxSeleccionarProducto" OnCheckedChanged="checkBoxCrearFacturaProductos_CheckedChanged" runat="server" AutoPostBack="true"/>
+								        </ItemTemplate>
+							        </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Cantidad">
                                         <ItemTemplate>
                                             <asp:TextBox ID="gridCrearFacturaCantidadProducto" runat="server" ReadOnly="false" Width="50px"></asp:TextBox>
@@ -236,28 +234,30 @@
                                 <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="Black"/>
                                 <HeaderStyle CssClass="active" Font-Size="Small" Font-Bold="true" BackColor="Silver"/>
                             </asp:GridView>
-                        </ContentTemplate>
-                    </asp:UpdatePanel>
                 </td>
             <tr>
                 <td colspan="4">
                     <button type="button" ID="botonCrearFacturaQuitarProducto" class="btn btn-danger-fozkr" href="#modalCancelarFactura" data-toggle="modal" style="float: left" disabled="disabled" runat="server">Quitar producto</button>
-                    <button type="button" ID="botonCrearFacturaDescuentoProducto" class="btn btn-warning-fozkr" onserverclick="Page_Load" style="float: left" disabled="disabled" runat="server">Aplicar descuento</button>
+                    <button type="button" ID="botonCrearFacturaEditarProducto" class="btn btn-warning-fozkr" onserverclick="Page_Load" style="float: left" disabled="disabled" runat="server">Editar producto</button>
                 </td>
             </tr>
             <tr>
-                <td></td>
+                <td>Tipo moneda: <asp:Label ID="labelCrearFacturaTipoMoneda" runat="server"></asp:Label></td>
+                <td><asp:Button ID="botonCrearFacturaSwitchPrecios" class="btn" runat="server" Text="Cambiar moneda ₡/$"/></td>
                 <td style="text-align: right;">Precio total:</td>
                 <td><asp:Label ID="labelCrearFacturaPrecioTotal" runat="server"></asp:Label></td>
-                <td><asp:Button ID="botonCrearFacturaSwitchPrecios" class="btn" runat="server" Text="Cambiar moneda ₡/$"/></td>
             </tr>
             <tr>
                 <td>Método de pago:</td>
-                <td colspan="3"><asp:DropDownList ID="dropDownListCrearFacturaMetodoPago" class="input input-fozkr-dropdownlist" runat="server" Width="90%" CssClass="form-control"></asp:DropDownList></td>
+                <td colspan="3"><asp:DropDownList ID="dropDownListCrearFacturaMetodoPago" OnSelectedIndexChanged="dropDownListCrearFacturaMetodoPago_ValorCambiado" class="input input-fozkr-dropdownlist" runat="server" Width="90%" CssClass="form-control"></asp:DropDownList></td>
             </tr>
             <tr>
                 <td>Cliente:</td>
                 <td colspan="3"><asp:DropDownList ID="dropDownListCrearFacturaCliente" class="input input-fozkr-dropdownlist" runat="server" Width="90%" CssClass="form-control"></asp:DropDownList></td>
+            </tr>
+            <tr>
+                <td>Actividad:</td>
+                <td colspan="3"><asp:DropDownList ID="dropDownListCrearFacturaActividad" class="input input-fozkr-dropdownlist" runat="server" Width="90%" CssClass="form-control"></asp:DropDownList></td>
             </tr>
             <tr>
                 <td colspan="4">

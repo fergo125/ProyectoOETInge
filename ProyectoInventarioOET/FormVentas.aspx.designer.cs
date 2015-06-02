@@ -400,15 +400,6 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlButton botonCrearFacturaAgregarProducto;
         
         /// <summary>
-        /// Control UpdatePanel1.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
-        
-        /// <summary>
         /// Control gridViewCrearFacturaProductos.
         /// </summary>
         /// <remarks>
@@ -427,22 +418,22 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlButton botonCrearFacturaQuitarProducto;
         
         /// <summary>
-        /// Control botonCrearFacturaDescuentoProducto.
+        /// Control botonCrearFacturaEditarProducto.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonCrearFacturaDescuentoProducto;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonCrearFacturaEditarProducto;
         
         /// <summary>
-        /// Control labelCrearFacturaPrecioTotal.
+        /// Control labelCrearFacturaTipoMoneda.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label labelCrearFacturaPrecioTotal;
+        protected global::System.Web.UI.WebControls.Label labelCrearFacturaTipoMoneda;
         
         /// <summary>
         /// Control botonCrearFacturaSwitchPrecios.
@@ -452,6 +443,15 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button botonCrearFacturaSwitchPrecios;
+        
+        /// <summary>
+        /// Control labelCrearFacturaPrecioTotal.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label labelCrearFacturaPrecioTotal;
         
         /// <summary>
         /// Control dropDownListCrearFacturaMetodoPago.
@@ -470,6 +470,15 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList dropDownListCrearFacturaCliente;
+        
+        /// <summary>
+        /// Control dropDownListCrearFacturaActividad.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList dropDownListCrearFacturaActividad;
         
         /// <summary>
         /// Control botonCrearFacturaGuardar.
