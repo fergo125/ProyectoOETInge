@@ -8,6 +8,7 @@ using System.Web.UI.WebControls;
 using ProyectoInventarioOET.Modulo_Entradas;
 using ProyectoInventarioOET.App_Code;
 using ProyectoInventarioOET.Modulo_Seguridad;
+using System.Text;
 
 
 namespace ProyectoInventarioOET
@@ -532,6 +533,8 @@ namespace ProyectoInventarioOET
             String producto;
             String costo;
             String cantidad;
+
+            String myString;
             for (int i = 0; i < gridFacturaNueva.Rows.Count; i++)
             {
                 GridViewRow row = gridFacturaNueva.Rows[i];
@@ -540,9 +543,12 @@ namespace ProyectoInventarioOET
 
                 if (estaSeleccionadoProducto)
                 {
+                    myString = producto = gridFacturaNueva.Rows[i].Cells[1].Text.ToString();
+                    byte[] bytes = Encoding.Default.GetBytes(myString);
+                    myString = Encoding.UTF8.GetString(bytes);
                     producto = gridFacturaNueva.Rows[i].Cells[1].Text.ToString();
-                    costo = gridFacturaNueva.Rows[i].Cells[2].Text.ToString();
-                    cantidad = gridFacturaNueva.Rows[i].Cells[3].Text.ToString();
+                    cantidad = gridFacturaNueva.Rows[i].Cells[2].Text.ToString();
+                    costo = gridFacturaNueva.Rows[i].Cells[3].Text.ToString();
                     
                     tablaProductosNuevos.Rows.RemoveAt(i);
                     this.inputCantidadProducto.Value = cantidad;
