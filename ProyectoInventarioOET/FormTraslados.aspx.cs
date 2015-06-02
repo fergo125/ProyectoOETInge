@@ -147,6 +147,7 @@ namespace ProyectoInventarioOET
                     gridViewProductos.Enabled = true;
                     gridViewProductos.Visible = true;
                     fieldsetConsulta.Visible = false;
+                    botonTipoConsulta.Disabled = false;
                     habilitarCampos(false);
                     gridViewProductos.Columns[1].Visible = true;
                     break;
@@ -168,6 +169,8 @@ namespace ProyectoInventarioOET
                     fieldsetConsulta.Visible = true;
                     habilitarCampos(false);
                     gridViewProductos.Columns[1].Visible = false;
+                    botonTipoConsulta.Disabled = true;
+                    /*
                     if( tipoConsulta )
                     {
                         dropDownConsultas.Items.FindByValue("Salidas").Selected = false;
@@ -179,7 +182,7 @@ namespace ProyectoInventarioOET
                         dropDownConsultas.Items.FindByValue("Entradas").Selected = false;
                         dropDownConsultas.Items.FindByValue("Salidas").Selected = true;
                     }
-                        
+                     */   
                     llenarGrid(tipoConsulta);
                     break;
 
@@ -195,7 +198,8 @@ namespace ProyectoInventarioOET
         protected void setDatosConsultados()
         {
             this.outputBodegaSalida.Value = trasladoConsultado.BodegaOrigen;
-            this.dropDownBodegaEntrada.SelectedValue = trasladoConsultado.BodegaDestino;
+            this.dropDownBodegaEntrada.SelectedItem.Selected = false;
+            dropDownBodegaEntrada.Items.FindByText(trasladoConsultado.BodegaDestino).Selected = true;
             this.outputUsuario.Value = trasladoConsultado.Usuario;
             this.outputFecha.Value = trasladoConsultado.Fecha.ToString();
             this.inputNotas.Text = trasladoConsultado.Notas;
@@ -300,9 +304,9 @@ namespace ProyectoInventarioOET
             datos[3] = (this.Master as SiteMaster).Usuario.Codigo;
             datos[4] = this.inputNotas.Text;
             datos[5] = (this.Master as SiteMaster).LlaveBodegaSesion;
-            datos[6] = dropDownBodegaEntrada.SelectedIndex;
+            datos[6] = dropDownBodegaEntrada.SelectedValue;
             datos[7] = (this.Master as SiteMaster).NombreBodegaSesion;
-            datos[8] = dropDownBodegaEntrada.SelectedValue;
+            datos[8] = dropDownBodegaEntrada.SelectedItem.Text;
             datos[9] = 0;
             return datos;
         }
@@ -810,11 +814,11 @@ namespace ProyectoInventarioOET
 
                     // Actualizar listas de Ids
                     List<Object> temp = new List<Object>(idArrayProductosOrigen);
-                    temp.Add(idArrayProductosOrigen[indice]);
+                    temp.Add(idArrayAgregarProductosOrigen[indice]);
                     idArrayProductosOrigen = temp.ToArray();
 
                     temp = new List<Object>(idArrayProductosDestino);
-                    temp.Add(idArrayProductosDestino[indice]);
+                    temp.Add(idArrayAgregarProductosDestino[indice]);
                     idArrayProductosDestino = temp.ToArray();
 
                     temp = new List<Object>(idArrayAgregarProductosOrigen);

@@ -55,6 +55,7 @@
     <!-- Fin del fieldset-->
 
     <br />
+
     
     <!-- Grid de productos a ajustar -->
     <div id="bloqueGridProductos" class="col-lg-12">
@@ -72,6 +73,8 @@
                                 <asp:TemplateField HeaderText="Ajustes" >
                                     <ItemTemplate>
                                         <asp:TextBox ID="textAjustes" runat="server" ReadOnly="false"></asp:TextBox>
+                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="textAjustes" ClientValidationFunction="changeColor" Display="Dynamic"
+                                                 ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="Solo se permiten números"  Font-Bold="true" ValidationExpression="\d+"></asp:RegularExpressionValidator>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>
