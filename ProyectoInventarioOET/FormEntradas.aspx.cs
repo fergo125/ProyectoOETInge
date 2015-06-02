@@ -487,11 +487,20 @@ namespace ProyectoInventarioOET
         protected void botonAgregarProductoFactura_Click(object sender, EventArgs e)
         {
             String producto = this.textBoxAutocompleteCrearFacturaBusquedaProducto.Text;
+            String productoEscogido = this.textBoxAutocompleteCrearFacturaBusquedaProducto.Text;
             String cantidad = this.inputCantidadProducto.Value.ToString();
             String costo = this.inputCostoProducto.Value.ToString();
 
+            //String[] resultado = new String[2];
+            //String codigoProductoEscogido = producto.Substring(producto.LastIndexOf('(') + 1);  //el código sin el primer paréntesis
+            //codigoProductoEscogido = codigoProductoEscogido.TrimEnd(')');                                       //el código
+            //producto = producto.Remove(producto.LastIndexOf('(') - 1);                  //nombre del producto (-1 al final por el espacio)
+            //resultado[0] = producto;
+            //resultado[1] = codigoProductoEscogido;
+            ////return resultado;
+
             Object[] datos = new Object[3];
-            datos[0] = producto;
+            datos[0] = productoEscogido;
             datos[1] = cantidad;
             datos[2] = costo;
             tablaProductosNuevos.Rows.Add(datos);

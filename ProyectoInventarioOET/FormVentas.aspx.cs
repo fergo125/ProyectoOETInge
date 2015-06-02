@@ -24,10 +24,11 @@ namespace ProyectoInventarioOET
         private static Modo modo = Modo.Inicial;                                //Indica en qué modo se encuentra la interfaz en un momento cualquiera, de éste depende cuáles elementos son visibles
         private static String permisos = "000000";                              //Permisos utilizados para el control de seguridad
         private static String codigoPerfilUsuario = "";                         //Indica el perfil del usuario, usado para acciones de seguridad para las cuales la string de permisos no basta
-        private static DataTable productosAgregados;
+        private static String tipoMonedaCrearFactura = "Colones";               //Indica el tipo de moneda que se está usando para crear facturas
+        private static DataTable productosAgregados;                            //Usada para llenar el grid de productos al crear una factura
         private static DataTable facturasConsultadas;                           //Usada para llenar el grid y para mostrar los detalles de cada factura específica
         private static EntidadFactura facturaConsultada;                        //???
-        private static Boolean seConsulto = false;                              //???
+        //private static Boolean seConsulto = false;                              //???
         private static Object[] idArray;                                        //Usada para llevar el control de las facturas consultadas
         private static ControladoraVentas controladoraVentas;                   //Para accesar las tablas del módulo y realizar las operaciones de consulta, inserción, modificación y anulación
         private static ControladoraAjustes controladoraAjustes;                 //???
@@ -192,10 +193,6 @@ namespace ProyectoInventarioOET
                     mostrarMensaje("warning", "Alerta: ", "Error de interfaz, el 'modo' de la interfaz no se ha reconocido: " + modo);
                     break;
             }
-<<<<<<< HEAD
-=======
-            //Page_Load(null, null);
->>>>>>> 0a6f7b6acae939095f148bdaaa2dd160eca9fe51
         }
 
         /*
