@@ -4,7 +4,7 @@
     <!-- Label para desplegar mensajes -->
     <br />
     <div>
-        <div ID="mensajeAlerta" class="" runat="server" Visible="false" style="margin-left:70%;">
+        <div ID="mensajeAlerta" class="" runat="server" Visible="false" style="margin-left:60%;">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <strong>
                 <asp:Label ID="labelTipoAlerta" runat="server" Text=""></asp:Label>
@@ -23,17 +23,17 @@
     <button runat="server" onserverclick="clickBotonConsultarFacturas" ID="botonConsultar" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Consultar Facturas</button>
     <button runat="server" onserverclick="clickBotonCrearFactura" ID="botonCrear" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Crear Factura</button>
     <button runat="server" onserverclick="botonModificar_ServerClick" ID="botonModificar" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Modificar Factura</button>
-    <a ID="botonAjusteEntrada" accesskey="A" href="#modalAjusteRapido" class="btn btn-info-fozkr" role="button" style="float: right" visible="true" data-toggle="modal" runat ="server">Ajuste rápido de entrada</a> 
-    <a ID="botonCambioSesion" accesskey="S" href="#modalCambioSesion" class="btn btn-info-fozkr" role="button" style="float: right" visible="true" data-toggle="modal" runat ="server">Cambio rápido de sesión</a>  
+    <a ID="botonAjusteEntrada" accesskey="A" href="#modalAjusteRapido" class="btn btn-info-fozkr" role="button" style="float: right" visible="false" data-toggle="modal" runat ="server">Ajuste rápido de entrada</a> 
+    <a ID="botonCambioSesion" accesskey="S" href="#modalCambioSesion" class="btn btn-info-fozkr" role="button" style="float: right" visible="false" data-toggle="modal" runat ="server">Cambio rápido de sesión</a>  
     <br />
     <br />
 
     <!-- Título de la acción que se está realizando -->
     <h3 ID="tituloAccionFacturas" runat="server"></h3>
-    <br />
 
     <!-- Panel para consultar facturas -->
     <asp:Panel ID="PanelConsultarFacturas" runat="server" Visible="false">
+        <br />
         <div class="row" ID="bloqueFormulario" runat="server">
             <div class="col-lg-12">
                 <div class="form-group col-lg-3">
@@ -84,12 +84,12 @@
                     <input type="text" ID="textBoxFacturaConsultadaConsecutivo" runat="server" class="form-control">
                 </td>
                 <td>
-                    <label for="FacturaConsultadaEstacion" class="control-label">Estación:</label>
-                    <input type="text" ID="textBoxFacturaConsultadaEstacion" runat="server" class="form-control">
-                </td>
-                <td>
                     <label for="FacturaConsultadaBodega" class="control-label">Bodega:</label>
                     <input type="text" ID="textBoxFacturaConsultadaBodega" runat="server" class="form-control">
+                </td>
+                <td>
+                    <label for="FacturaConsultadaEstacion" class="control-label">Estación:</label>
+                    <input type="text" ID="textBoxFacturaConsultadaEstacion" runat="server" class="form-control">
                 </td>
             </tr>
             <tr>
@@ -108,12 +108,12 @@
             </tr>
             <tr>
                 <td>
-                    <label for="FacturaConsultadaTipoMoneda" class="control-label">Tipo de moneda:</label>
-                    <input type="text" ID="textBoxFacturaConsultadaTipoMoneda" runat="server" class="form-control">
-                </td>
-                <td>
                     <label for="FacturaConsultadaMontoTotal" class="control-label">Monto total:</label>
                     <input type="text" ID="textBoxFacturaConsultadaMontoTotal" runat="server" class="form-control">
+                </td>
+                <td>
+                    <label for="FacturaConsultadaTipoMoneda" class="control-label">Tipo de moneda:</label>
+                    <input type="text" ID="textBoxFacturaConsultadaTipoMoneda" runat="server" class="form-control">
                 </td>
                 <td>
                     <label for="FacturaConsultadaMetodoPago" class="control-label">Método de pago:</label>
@@ -127,7 +127,7 @@
                 </td>
                 <td>
                     <label for="FacturaConsultadaEstado" class="control-label">Estado:</label>
-                    <asp:DropDownList ID="textBoxFacturaConsultadaEstado" class="input input-fozkr-dropdownlist" runat="server" Enabled="false" Width="90%" CssClass="form-control"></asp:DropDownList>
+                    <asp:DropDownList ID="textBoxFacturaConsultadaEstado" class="input input-fozkr-dropdownlist" runat="server" Enabled="false" CssClass="form-control"></asp:DropDownList>
                 </td>
             </tr>
         </table>
@@ -137,9 +137,7 @@
     <br />
     <br />
     <asp:Panel ID="PanelGridConsultarFacturas" runat="server"></asp:Panel>
-        <strong><div ID="tituloGrid" runat="server" tabindex="" class="control-label" style="text-align:center; font-size:larger; background-color: #C0C0C0;">Facturas en el sistema</div></strong>
-        <asp:UpdatePanel ID="UpdatePanelFacturas" runat="server">
-            <ContentTemplate>
+        <strong><div ID="tituloGrid" runat="server" tabindex="" class="control-label" style="text-align:center; font-size:larger; background-color: #C0C0C0;" visible="false">Facturas en el sistema</div></strong>
                 <asp:GridView ID="gridViewFacturas" Visible="false" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewFacturas_FilaSeleccionada" OnPageIndexChanging="gridViewFacturas_CambioPagina" runat="server" AllowPaging="true" PageSize="3" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
                     <Columns>
                         <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Consultar">
@@ -149,17 +147,19 @@
                     <RowStyle Font-Size="small" BackColor="White" ForeColor="Black"/>
                     <PagerStyle CssClass="paging" HorizontalAlign="Center"/>
                     <AlternatingRowStyle BackColor="#F8F8F8"/>
-                    <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White"/>
+                    <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="#7BC143"/>
                     <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver"/>
                 </asp:GridView>
+        <%--<asp:UpdatePanel ID="UpdatePanelFacturas" runat="server">
+            <ContentTemplate>
             </ContentTemplate>
             <Triggers>
-            <asp:AsyncPostBackTrigger ControlID="gridViewFacturas" EventName="RowCommand" />
+                <asp:AsyncPostBackTrigger ControlID="gridViewFacturas" EventName="RowCommand" />
             </Triggers>
-        </asp:UpdatePanel>
+        </asp:UpdatePanel>--%>
 
     <!-- Panel crear factura -->
-    <asp:Panel ID="PanelCrearFactura" runat="server" Visible="true">
+    <asp:Panel ID="PanelCrearFactura" runat="server" Visible="false">
         <table class="table table-bills-fozkr">
             <tr>
                 <td colspan="4">Fecha y hora:  <%: DateTime.Now.Date.ToShortDateString() %>,  <%: DateTime.Now.TimeOfDay.ToString().Substring(0,5) %></td></tr>

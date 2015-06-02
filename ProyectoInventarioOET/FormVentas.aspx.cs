@@ -64,77 +64,73 @@ namespace ProyectoInventarioOET
                     Response.Redirect("~/ErrorPages/404.html");
                 codigoPerfilUsuario = (this.Master as SiteMaster).Usuario.CodigoPerfil;
                 mostrarElementosSegunPermisos();
-
-
-                if (!seConsulto)
-                {
-                    modo = Modo.Inicial;
-                }
-                else
-                {
-                    if (facturaConsultada == null)
-                    {
-                        mostrarMensaje("warning", "Alerta: ", "No se pudo consultar la bodega.");
-                    }
-                    else
-                    {
-                        setDatosConsultados();
-                        seConsulto = false;
-                    }
-                }
-
-                
+                //if (!seConsulto)
+                //{
+                //    modo = Modo.Inicial;
+                //}
+                //else
+                //{
+                //    if (facturaConsultada == null)
+                //    {
+                //        mostrarMensaje("warning", "Alerta: ", "No se pudo consultar la bodega.");
+                //    }
+                //    else
+                //    {
+                //        setDatosConsultados();
+                //        seConsulto = false;
+                //    }
+                //}
             }
             //Si la página ya estaba cargada pero está siendo cargada de nuevo (porque se está realizando alguna acción que la refrezca/actualiza)
 
-            cambiarModo();
-            //código para probar algo
-            DataTable testTable = new DataTable();
-            DataRow testRow;
-            DataColumn column;
+            //cambiarModo();
+            ////código para probar algo
+            //DataTable testTable = new DataTable();
+            //DataRow testRow;
+            //DataColumn column;
 
-            column = new DataColumn();
-            column.DataType = Type.GetType("System.String");
-            column.ColumnName = "Nombre";
-            testTable.Columns.Add(column);
+            //column = new DataColumn();
+            //column.DataType = Type.GetType("System.String");
+            //column.ColumnName = "Nombre";
+            //testTable.Columns.Add(column);
 
-            column = new DataColumn();
-            column.DataType = Type.GetType("System.String");
-            column.ColumnName = "Código interno";
-            testTable.Columns.Add(column);
+            //column = new DataColumn();
+            //column.DataType = Type.GetType("System.String");
+            //column.ColumnName = "Código interno";
+            //testTable.Columns.Add(column);
 
-            column = new DataColumn();
-            column.DataType = Type.GetType("System.Int32");
-            column.ColumnName = "Precio unitario";
-            testTable.Columns.Add(column);
+            //column = new DataColumn();
+            //column.DataType = Type.GetType("System.Int32");
+            //column.ColumnName = "Precio unitario";
+            //testTable.Columns.Add(column);
 
-            column = new DataColumn();
-            column.DataType = Type.GetType("System.String");
-            column.ColumnName = "Impuesto";
-            testTable.Columns.Add(column);
+            //column = new DataColumn();
+            //column.DataType = Type.GetType("System.String");
+            //column.ColumnName = "Impuesto";
+            //testTable.Columns.Add(column);
 
-            column = new DataColumn();
-            column.DataType = Type.GetType("System.Int32");
-            column.ColumnName = "Descuento (%)";
-            testTable.Columns.Add(column);
+            //column = new DataColumn();
+            //column.DataType = Type.GetType("System.Int32");
+            //column.ColumnName = "Descuento (%)";
+            //testTable.Columns.Add(column);
 
-            testRow = testTable.NewRow();
-            testRow["Nombre"] = "Nombre de prueba";
-            testRow["Código interno"] = "CRO001";
-            testRow["Precio unitario"] = "500";
-            testRow["Impuesto"] = "Sí";
-            testRow["Descuento (%)"] = "0";
-            testTable.Rows.Add(testRow);
-            testRow = testTable.NewRow();
-            testRow["Nombre"] = "Nombre de prueba larguísimo de esos que ponen las unidades y la vara";
-            testRow["Código interno"] = "CRO002";
-            testRow["Precio unitario"] = "50000";
-            testRow["Impuesto"] = "Sí";
-            testRow["Descuento (%)"] = "0";
-            testTable.Rows.Add(testRow);
+            //testRow = testTable.NewRow();
+            //testRow["Nombre"] = "Nombre de prueba";
+            //testRow["Código interno"] = "CRO001";
+            //testRow["Precio unitario"] = "500";
+            //testRow["Impuesto"] = "Sí";
+            //testRow["Descuento (%)"] = "0";
+            //testTable.Rows.Add(testRow);
+            //testRow = testTable.NewRow();
+            //testRow["Nombre"] = "Nombre de prueba larguísimo de esos que ponen las unidades y la vara";
+            //testRow["Código interno"] = "CRO002";
+            //testRow["Precio unitario"] = "50000";
+            //testRow["Impuesto"] = "Sí";
+            //testRow["Descuento (%)"] = "0";
+            //testTable.Rows.Add(testRow);
 
-            gridViewCrearFacturaProductos.DataSource = testTable;
-            gridViewCrearFacturaProductos.DataBind();
+            //gridViewCrearFacturaProductos.DataSource = testTable;
+            //gridViewCrearFacturaProductos.DataBind();
 
             //DataControlField[] backupColumn = new DataControlField[100];
             //gridViewCrearFacturaProductos.Columns.CopyTo(backupColumn, 0);
@@ -208,14 +204,15 @@ namespace ProyectoInventarioOET
                     PanelConsultarFacturaEspecifica.Visible = true;
                     gridViewFacturas.Visible = true;
                     tituloGrid.Visible = true;
-                    cargarDropdownListsConsulta();
-                    llenarGrid();
-                    habilitarCampos(false);
+                    //cargarDropdownListsConsulta();
+                    //llenarGrid();
+                    //habilitarCampos(false);
                     break;
                 default:  //Algo salió mal
                     mostrarMensaje("warning", "Alerta: ", "Error de interfaz, el 'modo' de la interfaz no se ha reconocido: " + modo);
                     break;
             }
+            Page_Load(null, null);
         }
 
         /*
@@ -402,39 +399,39 @@ namespace ProyectoInventarioOET
             String codigoVendedor = dropDownListConsultaVendedor.SelectedValue;
 
             DataTable tabla = crearTablaFacturas();
-            int indiceNuevaFactura = -1;
-            int i = 0;
+            //int indiceNuevaFactura = -1;
             try
             {
                 Object[] datos = new Object[5];
-                DataTable facturas = controladoraVentas.consultarFacturas((this.Master as SiteMaster).Usuario.Perfil, codigoVendedor, codigoBodega, codigoEstacion);
-                facturasConsultadas = facturas;
-                if (facturas.Rows.Count > 0)
+                facturasConsultadas = controladoraVentas.consultarFacturas((this.Master as SiteMaster).Usuario.Perfil, codigoVendedor, codigoBodega, codigoEstacion);
+                if (facturasConsultadas.Rows.Count > 0)
                 {
-                    idArray = new Object[facturas.Rows.Count];
-                    foreach (DataRow fila in facturas.Rows)
+                    idArray = new Object[facturasConsultadas.Rows.Count];
+                    int i = 0;
+                    foreach (DataRow fila in facturasConsultadas.Rows)
                     {
                         idArray[i] = fila[0];
-                        datos[0] = fila[0].ToString();
-                        datos[1] = fila[1].ToString();
-                        datos[2] = controladoraSeguridad.consultarNombreDeUsuario(fila[6].ToString());
-                        datos[3] = fila[9].ToString();
-                        datos[4] = fila[8].ToString();
+                        datos[0] = fila[0].ToString();  //Consecutivo
+                        datos[1] = fila[1].ToString();  //Fecha y hora
+                        datos[2] = controladoraSeguridad.consultarNombreDeUsuario(fila[6].ToString());  //Vendedor
+                        datos[3] = fila[10].ToString(); //Monto total
+                        datos[4] = fila[9].ToString();  //Método de pago
                         tabla.Rows.Add(datos);
                         i++;
                     }
                 }
                 else
                 {
-                    datos[0] = "-";
-                    datos[1] = "-";
-                    datos[2] = "-";
-                    datos[3] = "-";
-                    datos[4] = "-";
-                    tabla.Rows.Add(datos);
+                    mostrarMensaje("warning", "Alerta", "No hay facturas asociadas a ese vendedor.");
+                    //datos[0] = "-";
+                    //datos[1] = "-";
+                    //datos[2] = "-";
+                    //datos[3] = "-";
+                    //datos[4] = "-";
+                    //tabla.Rows.Add(datos);
                 }
-                this.gridViewFacturas.DataSource = tabla;
-                this.gridViewFacturas.DataBind();
+                gridViewFacturas.DataSource = tabla;
+                gridViewFacturas.DataBind();
             }
             catch (Exception e)
             {
@@ -445,13 +442,12 @@ namespace ProyectoInventarioOET
         /*
          * Invocada al escoger una factura en el grid, se muestran todos los detalles de la misma en campos colocados arriba del grid.
          */
-        protected void cargarDatosFactura(String consecutivoSeleccionado)
-        {
-            facturaConsultada = controladoraVentas.consultarFactura(consecutivoSeleccionado);
-            setDatosConsultados();
-            PanelConsultarFacturaEspecifica.Visible = true;
-
-        }
+        //protected void cargarDatosFactura(String consecutivoSeleccionado)
+        //{
+        //    facturaConsultada = controladoraVentas.consultarFactura(consecutivoSeleccionado);
+        //    setDatosConsultados();
+        //    PanelConsultarFacturaEspecifica.Visible = true;
+        //}
 
         /*
          * ???
@@ -481,18 +477,20 @@ namespace ProyectoInventarioOET
         /*
          * ???
          */
-        protected void consultarFactura(String id)
+        protected void consultarFactura(String idFactura)
         {
             seConsulto = true;
             try
             {
-                facturaConsultada = controladoraVentas.consultarFactura(id);
-                modo = Modo.Consulta;
+                facturaConsultada = controladoraVentas.consultarFactura(idFactura);
+                setDatosConsultados();
+                habilitarCampos(false);
+                modo = Modo.Consultado;
             }
             catch
             {
                 facturaConsultada = null;
-                modo = Modo.Inicial;
+                modo = Modo.Consulta;
             }
             cambiarModo();
         }
@@ -518,14 +516,9 @@ namespace ProyectoInventarioOET
             textBoxFacturaConsultadaEstado.Items.Add(new ListItem("Anulada", "Anulada"));
 
             if (facturaConsultada.Estado.Equals("Activa"))
-            {
                 textBoxFacturaConsultadaEstado.SelectedIndex = 0;
-            }
             else
-            {
                 textBoxFacturaConsultadaEstado.SelectedIndex = 1;
-            }
-
         }
 
         /*
@@ -585,7 +578,7 @@ namespace ProyectoInventarioOET
 
             column = new DataColumn();
             column.DataType = Type.GetType("System.String");
-            column.ColumnName = "Fecha";
+            column.ColumnName = "Fecha y hora";
             tabla.Columns.Add(column);
 
             column = new DataColumn();
@@ -776,8 +769,7 @@ namespace ProyectoInventarioOET
                 case "Select":
                     String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewFacturas.PageIndex * this.gridViewFacturas.PageSize)]);
                     consultarFactura(codigo);
-                    modo = Modo.Consultado;
-                    Response.Redirect("FormVentas.aspx");
+                    //Response.Redirect("FormVentas.aspx");
                     break;
             }
         }
@@ -843,6 +835,9 @@ namespace ProyectoInventarioOET
             dropDownListConsultaVendedor.Items.Clear(); //para evitar que escoja vendedores cargados de bodegas anteriores
         }
 
+        /*
+         * ???
+         */
         protected void botonAceptarAjusteRapido_ServerClick(object sender, EventArgs e)
         {
             String productoEscogido = textBoxAutocompleteAjusteRapidoBusquedaProducto.Text;
@@ -875,6 +870,9 @@ namespace ProyectoInventarioOET
         
         }
 
+        /*
+         * ???
+         */
         protected void botonModificar_ServerClick(object sender, EventArgs e)
         {
             modo = Modo.Modificacion;

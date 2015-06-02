@@ -202,15 +202,6 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlInputText textBoxFacturaConsultadaConsecutivo;
         
         /// <summary>
-        /// Control textBoxFacturaConsultadaEstacion.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText textBoxFacturaConsultadaEstacion;
-        
-        /// <summary>
         /// Control textBoxFacturaConsultadaBodega.
         /// </summary>
         /// <remarks>
@@ -218,6 +209,15 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputText textBoxFacturaConsultadaBodega;
+        
+        /// <summary>
+        /// Control textBoxFacturaConsultadaEstacion.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText textBoxFacturaConsultadaEstacion;
         
         /// <summary>
         /// Control textBoxFacturaConsultadaFechaHora.
@@ -247,15 +247,6 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlInputText textBoxFacturaConsultadaCliente;
         
         /// <summary>
-        /// Control textBoxFacturaConsultadaTipoMoneda.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText textBoxFacturaConsultadaTipoMoneda;
-        
-        /// <summary>
         /// Control textBoxFacturaConsultadaMontoTotal.
         /// </summary>
         /// <remarks>
@@ -263,6 +254,15 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputText textBoxFacturaConsultadaMontoTotal;
+        
+        /// <summary>
+        /// Control textBoxFacturaConsultadaTipoMoneda.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText textBoxFacturaConsultadaTipoMoneda;
         
         /// <summary>
         /// Control textBoxFacturaConsultadaMetodoPago.
@@ -308,15 +308,6 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl tituloGrid;
-        
-        /// <summary>
-        /// Control UpdatePanelFacturas.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanelFacturas;
         
         /// <summary>
         /// Control gridViewFacturas.
