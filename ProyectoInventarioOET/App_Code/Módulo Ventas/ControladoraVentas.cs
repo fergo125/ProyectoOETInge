@@ -90,4 +90,10 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             return controladoraBDVentas.consultarTipoCambio();
         }
     }
+
+        public String[] anularFactura(EntidadFactura entidadFactura)
+        {
+            return controladoraBDVentas.anularFactura(entidadFactura);
+        }
+    }
 }

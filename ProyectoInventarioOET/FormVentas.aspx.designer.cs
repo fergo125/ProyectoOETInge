@@ -292,6 +292,24 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.DropDownList textBoxFacturaConsultadaEstado;
         
         /// <summary>
+        /// Control botonAceptarModificacionFacturaEspecifica.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonAceptarModificacionFacturaEspecifica;
+        
+        /// <summary>
+        /// Control botonCancelarModificacionFacturaEspecifica.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonCancelarModificacionFacturaEspecifica;
+        
+        /// <summary>
         /// Control PanelGridConsultarFacturas.
         /// </summary>
         /// <remarks>
