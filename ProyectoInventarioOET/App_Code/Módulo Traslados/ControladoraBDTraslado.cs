@@ -95,7 +95,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
 
 
 
-        public String[] insertarAjuste(EntidadTraslado nuevo)
+        public String[] insertarTraslado(EntidadTraslado nuevo)
         {
             String esquema = "Inventarios.";
             String[] res = new String[4];

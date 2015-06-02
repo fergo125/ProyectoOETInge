@@ -8,6 +8,7 @@ using System.Web.UI.WebControls;
 using ProyectoInventarioOET.App_Code;
 using ProyectoInventarioOET.App_Code.Modulo_Traslados;
 using ProyectoInventarioOET.App_Code.Modulo_Ajustes;
+using ProyectoInventarioOET.Modulo_Seguridad;
 
 namespace ProyectoInventarioOET
 {
@@ -129,7 +130,7 @@ namespace ProyectoInventarioOET
                     gridViewProductos.Columns[1].Visible = false;
                     break;
 
-                case (int)Modo.Modificacion: //insertar
+                case (int)Modo.Modificacion: //modificar
                     botonAgregar.Visible = false;
                     FieldsetTraslados.Visible = true;
                     botonAceptarTraslado.Visible = true;
@@ -144,7 +145,7 @@ namespace ProyectoInventarioOET
                     gridViewProductos.Enabled = true;
                     gridViewProductos.Visible = true;
                     fieldsetConsulta.Visible = false;
-                    habilitarCampos(true);
+                    habilitarCampos(false);
                     gridViewProductos.Columns[1].Visible = true;
                     break;
 
@@ -166,9 +167,17 @@ namespace ProyectoInventarioOET
                     habilitarCampos(false);
                     gridViewProductos.Columns[1].Visible = false;
                     if( tipoConsulta )
+                    {
+                        dropDownConsultas.Items.FindByValue("Salidas").Selected = false;
                         dropDownConsultas.Items.FindByValue("Entradas").Selected = true;
+                    }
+                        
                     else
+                    {
+                        dropDownConsultas.Items.FindByValue("Entradas").Selected = false;
                         dropDownConsultas.Items.FindByValue("Salidas").Selected = true;
+                    }
+                        
                     llenarGrid(tipoConsulta);
                     break;
 
@@ -275,6 +284,71 @@ namespace ProyectoInventarioOET
                 modo = (int)Modo.Inicial;
             }
             cambiarModo();
+        }
+
+        /*
+         * Retorna la información del traslado como un array de objetos
+         */
+        protected Object[] obtenerDatosTraslado()
+        {
+            Object[] datos = new Object[10];
+            datos[0] = "";
+            datos[1] = this.outputFecha.Value;
+            datos[2] = (this.Master as SiteMaster).Usuario.Nombre;
+            datos[3] = (this.Master as SiteMaster).Usuario.Codigo;
+            datos[4] = this.inputNotas.Text;
+            datos[5] = (this.Master as SiteMaster).LlaveBodegaSesion;
+            datos[6] = dropDownBodegaEntrada.SelectedIndex;
+            datos[7] = (this.Master as SiteMaster).NombreBodegaSesion;
+            datos[8] = dropDownBodegaEntrada.SelectedValue;
+            datos[9] = 0;
+            return datos;
+        }
+
+        /*
+         * Maneja la inserción de un nuevo traslado
+         */
+        protected String insertar()
+        {
+            String codigo = "";
+            Object[] traslado = obtenerDatosTraslado();
+            EntidadTraslado nuevo = new EntidadTraslado(traslado);
+
+
+            // Agregar detalles a entidad
+            /*
+            int i = 0;
+            foreach (DataRow row in tablaProductos.Rows)
+            {
+                Double cantAjuste = Double.Parse(((TextBox)gridViewProductos.Rows[i].FindControl("textTraslados")).Text);
+
+                traslado = new Object[6];
+                traslado[0] = traslado[1] = "";
+                traslado[2] = cantAjuste;
+                traslado[3] = idArrayProductos[i];
+                traslado[4] = cantAjuste - Double.Parse(row["Cantidad Actual"].ToString());
+
+                nuevo.agregarDetalle(traslado);
+                ++i;
+            }*/
+
+
+            String[] error = controladoraTraslados.insertarTraslado(nuevo);
+
+            codigo = Convert.ToString(error[3]);
+            mostrarMensaje(error[0], error[1], error[2]);
+            if (error[0].Contains("success"))
+            {
+                llenarGrid(false);
+                tipoConsulta = false;
+            }
+            else
+            {
+                codigo = "";
+                modo = (int)Modo.Insercion;
+            }
+
+            return codigo;
         }
 
         /*
@@ -607,7 +681,7 @@ namespace ProyectoInventarioOET
          */
         protected void gridViewProductos_Seleccion(object sender, GridViewCommandEventArgs e)
         {
-            
+            /*
             switch (e.CommandName)
             {
                 case "Select":
@@ -617,7 +691,7 @@ namespace ProyectoInventarioOET
                     modo = (int)Modo.Consultado;
                     Response.Redirect("FormTraslados.aspx");
                     break;
-            }
+            }*/
         }
 
         /*
@@ -625,7 +699,31 @@ namespace ProyectoInventarioOET
          */
         protected void botonAceptarTraslado_ServerClick(object sender, EventArgs e)
         {
-            
+            Boolean operacionCorrecta = true;
+            String codigoInsertado = "";
+
+            if (modo == (int)Modo.Insercion)
+            {
+                codigoInsertado = insertar();
+
+                if (codigoInsertado != "")
+                {
+                    operacionCorrecta = true;
+                    trasladoConsultado = controladoraTraslados.consultarTraslado(codigoInsertado);
+                    modo = (int)Modo.Consultado;
+                    habilitarCampos(false);
+                }
+                else
+                    operacionCorrecta = false;
+            }
+            else if (modo == (int)Modo.Modificacion)
+            {
+                //operacionCorrecta = modificar();
+            }
+            if (operacionCorrecta)
+            {
+                cambiarModo();
+            }
         }
 
         /*
@@ -684,7 +782,6 @@ namespace ProyectoInventarioOET
          */
         protected void gridViewAgregarProductos_Seleccion(object sender, GridViewCommandEventArgs e)
         {
-            /*
             switch (e.CommandName)
             {
                 case "Select":
@@ -719,7 +816,6 @@ namespace ProyectoInventarioOET
                     //Response.Redirect("FormTraslados.aspx");
                     break;
             }
-            */
         }
 
         protected void gridViewAgregarProductos_CambioPagina(Object sender, GridViewPageEventArgs e)

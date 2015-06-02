@@ -108,9 +108,9 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
         // lo demás se agrega automaticamente en la ControladoraBDTraslado
         // La EntidadDetalle debe tener obligatoriamente: El Cambio (Traslado), Y LO MAS IMPORTANTE!!!!
         // El Id BODEGA_PRODUCTO ORIGEN Y EL Id BODEGA_PRODUCTO DESTINO
-        public String[] insertarAjuste(EntidadTraslado nuevo)
+        public String[] insertarTraslado(EntidadTraslado nuevo)
         {
-            return controladoraBD.insertarAjuste(nuevo);
+            return controladoraBD.insertarTraslado(nuevo);
         }
 
         // DESCONGELA LOS PRODUCTOS DE LA BODEGA ORIGEN Y LOS SUMA A LA BODEGA DESTINO

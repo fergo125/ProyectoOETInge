@@ -79,5 +79,13 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             else
                 return controladoraBDVentas.asociadosABodega(idBodega); 
         }
+
+        /*
+         * Obtiene el máximo de descuento aplicable a la venta de un producto específico por parte de un empleado específico 
+         */
+        public int maximoDescuentoAplicable(String idProducto, String idVendedor)
+        {
+            return controladoraBDVentas.maximoDescuentoAplicable(idProducto,idVendedor);
+        }
     }
 }
