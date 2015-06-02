@@ -9,6 +9,7 @@ using ProyectoInventarioOET.App_Code;
 using ProyectoInventarioOET.App_Code.Modulo_Traslados;
 using ProyectoInventarioOET.App_Code.Modulo_Ajustes;
 using ProyectoInventarioOET.Modulo_Seguridad;
+using ProyectoInventarioOET.Modulo_Productos_Locales;
 
 namespace ProyectoInventarioOET
 {
@@ -29,6 +30,7 @@ namespace ProyectoInventarioOET
         private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
         private static ControladoraDatosGenerales controladoraDatosGenerales;   // Controladora de datos generales
         private static ControladoraTraslado controladoraTraslados;              // Controladora del modulo traslados
+        private static ControladoraProductoLocal controladoraProductoLocal;     // Controladora de los productos locales de una bodega
         private static EntidadTraslado trasladoConsultado;                      // El traslado mostrado en pantalla
         private static bool tipoConsulta;                                       // True si se esta viendo entradas, false si salidas
 
@@ -44,6 +46,7 @@ namespace ProyectoInventarioOET
 
                 controladoraTraslados = new ControladoraTraslado();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
+                controladoraProductoLocal = new ControladoraProductoLocal();
 
                 if (!seConsulto)
                 {
@@ -92,7 +95,6 @@ namespace ProyectoInventarioOET
                     gridViewProductos.Visible = false;
                     fieldsetConsulta.Visible = false;
                     habilitarCampos(false);
-                    gridViewProductos.Columns[1].Visible = false;
                     break;
 
                 case (int)Modo.Insercion: //insertar
@@ -112,7 +114,8 @@ namespace ProyectoInventarioOET
                     fieldsetConsulta.Visible = false;
                     dropDownEstado.Visible = false;
                     habilitarCampos(true);
-                    gridViewProductos.Columns[1].Visible = true;
+                    foreach (DataControlField col in gridViewProductos.Columns)
+                        col.Visible = true;
                     break;
 
                 case (int)Modo.Consulta://consultar
@@ -131,7 +134,6 @@ namespace ProyectoInventarioOET
                     gridViewProductos.Visible = false;
                     fieldsetConsulta.Visible = true;
                     habilitarCampos(false);
-                    gridViewProductos.Columns[1].Visible = false;
                     break;
 
                 case (int)Modo.Modificacion: //modificar
@@ -152,7 +154,8 @@ namespace ProyectoInventarioOET
                     dropDownEstado.Visible = true;
                     dropDownEstado.Enabled = true;
                     habilitarCampos(false);
-                    gridViewProductos.Columns[1].Visible = true;
+                    foreach (DataControlField col in gridViewProductos.Columns)
+                        col.Visible = false;
                     break;
 
                 case (int)Modo.Consultado://consultado, pero con los espacios bloqueados
@@ -173,7 +176,8 @@ namespace ProyectoInventarioOET
                     dropDownEstado.Visible = true;
                     dropDownEstado.Enabled = false;
                     habilitarCampos(false);
-                    gridViewProductos.Columns[1].Visible = false;
+                    foreach (DataControlField col in gridViewProductos.Columns)
+                        col.Visible = false;
                     /*
                     if( tipoConsulta )
                     {
@@ -330,7 +334,9 @@ namespace ProyectoInventarioOET
             String codigo = "";
             Object[] traslado = obtenerDatosTraslado();
             EntidadTraslado nuevo = new EntidadTraslado(traslado);
-
+            DataTable productoDeBodega;
+            bool alerta = false;
+            double saldoNuevo;
 
             // Agregar detalles a entidad
             int i = 0;
@@ -344,6 +350,10 @@ namespace ProyectoInventarioOET
                 traslado[4] = idArrayProductosOrigen[i];
                 traslado[5] = idArrayProductosDestino[i];
 
+                productoDeBodega = controladoraProductoLocal.consultarMinimoMaximoProductoEnBodega(idArrayProductosOrigen[i].ToString());
+                saldoNuevo = Convert.ToDouble(productoDeBodega.Rows[0][2].ToString()) - cantAjuste;
+                alerta |= cantAjuste <= Convert.ToDouble(productoDeBodega.Rows[0][0].ToString()) || cantAjuste >= Convert.ToDouble(productoDeBodega.Rows[0][1].ToString());
+
                 nuevo.agregarDetalle(traslado);
                 ++i;
             }
@@ -352,17 +362,22 @@ namespace ProyectoInventarioOET
             String[] error = controladoraTraslados.insertarTraslado(nuevo);
 
             codigo = Convert.ToString(error[3]);
-            mostrarMensaje(error[0], error[1], error[2]);
             if (error[0].Contains("success"))
             {
                 llenarGrid(false);
                 tipoConsulta = false;
+                if (alerta)
+                {
+                    error[0] = "warning";
+                    error[2] += "\nUno o más productos han salido de sus límites permitidos (nivel máximo o mínimo), revise el catálogo local.";
+                }
             }
             else
             {
                 codigo = "";
                 modo = (int)Modo.Insercion;
             }
+            mostrarMensaje(error[0], error[1], error[2]);
 
             return codigo;
         }
@@ -814,18 +829,22 @@ namespace ProyectoInventarioOET
          */
         protected void gridViewTraslados_Seleccion(object sender, GridViewCommandEventArgs e)
         {
-            switch (e.CommandName)
+            if (idArrayTraslados != null && idArrayTraslados.Count() > 0)
             {
-                case "Select":
-                    GridViewRow filaSeleccionada = this.gridViewTraslados.Rows[Convert.ToInt32(e.CommandArgument)];
-                    //String codigo = filaSeleccionada.Cells[0].Text.ToString();
-                    String codigo = Convert.ToString(idArrayTraslados[Convert.ToInt32(e.CommandArgument) + (this.gridViewTraslados.PageIndex * this.gridViewTraslados.PageSize)]);
-                    consultarTraslado(codigo);
-                    //controladoraTraslados.acertarTraslado(trasladoConsultado);
-                    modo = (int)Modo.Consultado;
-                    Response.Redirect("FormTraslados.aspx");
-                    break;
+                switch (e.CommandName)
+                {
+                    case "Select":
+                        GridViewRow filaSeleccionada = this.gridViewTraslados.Rows[Convert.ToInt32(e.CommandArgument)];
+                        //String codigo = filaSeleccionada.Cells[0].Text.ToString();
+                        String codigo = Convert.ToString(idArrayTraslados[Convert.ToInt32(e.CommandArgument) + (this.gridViewTraslados.PageIndex * this.gridViewTraslados.PageSize)]);
+                        consultarTraslado(codigo);
+                        //controladoraTraslados.acertarTraslado(trasladoConsultado);
+                        modo = (int)Modo.Consultado;
+                        Response.Redirect("FormTraslados.aspx");
+                        break;
+                }
             }
+            
         }
 
         /*
@@ -843,47 +862,50 @@ namespace ProyectoInventarioOET
          */
         protected void gridViewAgregarProductos_Seleccion(object sender, GridViewCommandEventArgs e)
         {
-            switch (e.CommandName)
+            if (idArrayAgregarProductosDestino != null && idArrayAgregarProductosDestino.Count() > 0)
             {
-                case "Select":
-                    int indice = Convert.ToInt32(e.CommandArgument) + (this.gridViewAgregarProductos.PageIndex * this.gridViewAgregarProductos.PageSize);
-                    DataRow seleccionada = tablaAgregarProductos.Rows[indice];
+                switch (e.CommandName)
+                {
+                    case "Select":
+                        int indice = Convert.ToInt32(e.CommandArgument) + (this.gridViewAgregarProductos.PageIndex * this.gridViewAgregarProductos.PageSize);
+                        DataRow seleccionada = tablaAgregarProductos.Rows[indice];
 
-                    // Sacamos datos pertinentes del producto
-                    Object[] datos = new Object[3];
-                    datos[0] = seleccionada["Nombre"];
-                    datos[1] = seleccionada["Codigo"];
-                    datos[2] = seleccionada["Cantidad Actual"];
+                        // Sacamos datos pertinentes del producto
+                        Object[] datos = new Object[3];
+                        datos[0] = seleccionada["Nombre"];
+                        datos[1] = seleccionada["Codigo"];
+                        datos[2] = seleccionada["Cantidad Actual"];
 
-                    // Agregar nueva tupla a tabla
-                    tablaProductos.Rows.Add(datos);
-                    gridViewProductos.DataSource = tablaProductos;
-                    gridViewProductos.DataBind();
+                        // Agregar nueva tupla a tabla
+                        tablaProductos.Rows.Add(datos);
+                        gridViewProductos.DataSource = tablaProductos;
+                        gridViewProductos.DataBind();
 
-                    // Eliminar vieja tupla de grid
-                    tablaAgregarProductos.Rows[Convert.ToInt32(e.CommandArgument) + (this.gridViewAgregarProductos.PageIndex * this.gridViewAgregarProductos.PageSize)].Delete();
-                    gridViewAgregarProductos.DataSource = tablaAgregarProductos;
-                    gridViewAgregarProductos.DataBind();
+                        // Eliminar vieja tupla de grid
+                        tablaAgregarProductos.Rows[Convert.ToInt32(e.CommandArgument) + (this.gridViewAgregarProductos.PageIndex * this.gridViewAgregarProductos.PageSize)].Delete();
+                        gridViewAgregarProductos.DataSource = tablaAgregarProductos;
+                        gridViewAgregarProductos.DataBind();
 
-                    // Actualizar listas de Ids
-                    List<Object> temp = new List<Object>(idArrayProductosOrigen);
-                    temp.Add(idArrayAgregarProductosOrigen[indice]);
-                    idArrayProductosOrigen = temp.ToArray();
+                        // Actualizar listas de Ids
+                        List<Object> temp = new List<Object>(idArrayProductosOrigen);
+                        temp.Add(idArrayAgregarProductosOrigen[indice]);
+                        idArrayProductosOrigen = temp.ToArray();
 
-                    temp = new List<Object>(idArrayProductosDestino);
-                    temp.Add(idArrayAgregarProductosDestino[indice]);
-                    idArrayProductosDestino = temp.ToArray();
+                        temp = new List<Object>(idArrayProductosDestino);
+                        temp.Add(idArrayAgregarProductosDestino[indice]);
+                        idArrayProductosDestino = temp.ToArray();
 
-                    temp = new List<Object>(idArrayAgregarProductosOrigen);
-                    temp.RemoveAt(indice);
-                    idArrayAgregarProductosOrigen = temp.ToArray();
+                        temp = new List<Object>(idArrayAgregarProductosOrigen);
+                        temp.RemoveAt(indice);
+                        idArrayAgregarProductosOrigen = temp.ToArray();
 
-                    temp = new List<Object>(idArrayAgregarProductosDestino);
-                    temp.RemoveAt(indice);
-                    idArrayAgregarProductosDestino = temp.ToArray();
+                        temp = new List<Object>(idArrayAgregarProductosDestino);
+                        temp.RemoveAt(indice);
+                        idArrayAgregarProductosDestino = temp.ToArray();
 
-                    //Response.Redirect("FormTraslados.aspx");
-                    break;
+                        //Response.Redirect("FormTraslados.aspx");
+                        break;
+                }
             }
         }
 

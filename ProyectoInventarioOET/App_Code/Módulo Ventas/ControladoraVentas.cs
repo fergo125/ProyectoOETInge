@@ -29,7 +29,7 @@ namespace ProyectoInventarioOET.Modulo_Ventas
          */
         public String[] insertarFactura(Object[] datosFactura)
         {
-            EntidadFactura factura = new EntidadFactura(datosFactura);
+            EntidadFacturaVenta factura = new EntidadFacturaVenta(datosFactura);
             return controladoraBDVentas.insertarFactura(factura);
         }
 
@@ -58,7 +58,7 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         /*
          * ???
          */
-        public EntidadFactura consultarFactura(String id)
+        public EntidadFacturaVenta consultarFactura(String id)
         {
             return controladoraBDVentas.consultarFactura(id);
         }
@@ -90,9 +90,36 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             return controladoraBDVentas.consultarTipoCambio();
         }
 
-        public String[] anularFactura(EntidadFactura entidadFactura)
+        /*
+         * 
+         */
+        public double consultarPrecioUnitario(String llaveProducto, String tipoMoneda)
+        {
+            return controladoraBDVentas.consultarPrecioUnitario(llaveProducto, tipoMoneda);
+        }
+
+        /*
+         * ???
+         */
+        public String[] anularFactura(EntidadFacturaVenta entidadFactura)
         {
             return controladoraBDVentas.anularFactura(entidadFactura);
+        }
+
+        /*
+         * Obtiene las posibles formas de pago.
+         */
+        public DataTable consultarMetodosPago()
+        {
+            return controladoraBDVentas.consultarMetodosPago();
+        }
+
+        /*
+         * Obtiene los posibles clientes para las ventas, dentro de los empleados de la OET.
+         */
+        public DataTable consultarPosiblesClientes()
+        {
+            return controladoraBDVentas.consultarClientes();
         }
     }
 }
