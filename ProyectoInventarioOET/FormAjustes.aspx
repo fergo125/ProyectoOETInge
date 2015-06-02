@@ -70,7 +70,7 @@
                                 <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Quitar">
                                     <ControlStyle CssClass="btn btn-default"></ControlStyle>
                                 </asp:ButtonField>
-                                <asp:TemplateField HeaderText="Ajustes" >
+                                <asp:TemplateField HeaderText="Cantidad Nueva" >
                                     <ItemTemplate>
                                         <asp:TextBox ID="textAjustes" runat="server" ReadOnly="false"></asp:TextBox>
                                                 <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="textAjustes" ClientValidationFunction="changeColor" Display="Dynamic"
