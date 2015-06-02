@@ -56,7 +56,8 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
                    + " FROM " + esquema + "TRASLADOS T, " + esquema + "SEG_USUARIO U, " + esquema + "CAT_BODEGA B1, " + esquema + "CAT_BODEGA B2 "
                    + " WHERE T.USUARIO_BODEGA = U.SEG_USUARIO "
                    + " AND  T.IDBODEGAORIGEN = B1.CAT_BODEGA"
-                   + " AND T.IDBODEGADESTINO = B2.CAT_BODEGA  ORDER BY T.FECHA DESC";
+                   + " AND T.IDBODEGADESTINO = B2.CAT_BODEGA"
+                   + " AND T.ID_TRASLADO = '" + idTraslado + "'";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado[0].Load(reader);
                 resultado[1] = consultarDetalles(idTraslado);

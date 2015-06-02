@@ -55,6 +55,7 @@
     <!-- Fin del fieldset-->
 
     <br />
+
     
     <!-- Grid de productos a ajustar -->
     <div id="bloqueGridProductos" class="col-lg-12">
@@ -72,13 +73,14 @@
                                 <asp:TemplateField HeaderText="Ajustes" >
                                     <ItemTemplate>
                                         <asp:TextBox ID="textAjustes" runat="server" ReadOnly="false"></asp:TextBox>
+                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="textAjustes" ClientValidationFunction="changeColor" Display="Dynamic"
+                                                 ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="Solo se permiten números"  Font-Bold="true" ValidationExpression="\d+"></asp:RegularExpressionValidator>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>
                             <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
                             <PagerStyle CssClass="paging" HorizontalAlign="Center" />
                             <AlternatingRowStyle BackColor="#F8F8F8" />
-                            <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
                             <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
                         </asp:GridView>
                     </ContentTemplate>
@@ -128,7 +130,6 @@
                             <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
                             <PagerStyle CssClass="paging" HorizontalAlign="Center" />
                             <AlternatingRowStyle BackColor="#F8F8F8" />
-                            <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
                             <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
                         </asp:GridView>
                     </ContentTemplate>

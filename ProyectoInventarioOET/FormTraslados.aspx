@@ -69,7 +69,11 @@
                 <input type="text" id="outputUsuario" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
                 <a id="botonAgregar" runat="server" href="#modalAgregarProducto" class="btn btn-success-fozkr" data-toggle="modal" role="button"><i class="fa fa-plus"></i> Agregar Producto</a>
             </div>
-            <div class="col-lg-2"></div>
+            <div class="col-lg-2">
+                <label for="dropDownEstado" class= "control-label"> Estado de Traslado: </label>      
+                <asp:DropDownList ID="dropDownEstado" runat="server" CssClass="form-control" AutoPostBack="true">
+                </asp:DropDownList><br>
+            </div>
             <div class="col-lg-5">
                 <label for="outputFecha" class= "control-label"> Fecha de creacion: </label>      
                 <input type="text" id="outputFecha" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
@@ -99,14 +103,13 @@
                                 </asp:ButtonField>
                                 <asp:TemplateField HeaderText="Cantidad" >
                                     <ItemTemplate>
-                                        <asp:TextBox ID="textTraslados" runat="server" ReadOnly="false"></asp:TextBox>
+                                        <asp:TextBox ID="textTraslados" runat="server" ReadOnly="false"></asp:TextBox> 
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>
                             <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
                             <PagerStyle CssClass="paging" HorizontalAlign="Center" />
                             <AlternatingRowStyle BackColor="#F8F8F8" />
-                            <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
                             <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
                         </asp:GridView>
                     </ContentTemplate>
@@ -153,7 +156,6 @@
                             <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
                             <PagerStyle CssClass="paging" HorizontalAlign="Center" />
                             <AlternatingRowStyle BackColor="#F8F8F8" />
-                            <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
                             <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
                         </asp:GridView>
                     </ContentTemplate>

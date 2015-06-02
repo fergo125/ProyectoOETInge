@@ -165,5 +165,27 @@ namespace ProyectoInventarioOET.Modulo_Productos_Locales
             }
             return resultado;
         }
+
+        /*
+         * Consulta el maximo y el minimo para un producto en una bodega especifica
+         */
+        public DataTable consultarMinimoMaximoProductoEnBodega(String idProductoEnBodega)
+        {
+            DataTable resultado = new DataTable();
+            String esquema = "Inventarios.";
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "SELECT MINIMO,MAXIMO,SALDO FROM " + esquema + "INV_BODEGA_PRODUCTOS WHERE INV_BODEGA_PRODUCTOS = '" + idProductoEnBodega + "'";
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
+            }
+            catch (Exception e)
+            {
+                resultado = null;
+            }
+
+            return resultado;
+        }
     }
 }
