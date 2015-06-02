@@ -670,6 +670,7 @@ namespace ProyectoInventarioOET
             Object[] ajuste = obtenerDatosAjuste();
             EntidadAjustes nueva = new EntidadAjustes(ajuste);
             DataTable productoDeBodega;
+            bool alerta = false;
 
             // Agregar detalles a entidad
 
@@ -685,8 +686,7 @@ namespace ProyectoInventarioOET
                 ajuste[4] = cantAjuste - Double.Parse(row["Cantidad Actual"].ToString());
                 nueva.agregarDetalle(ajuste);
                 productoDeBodega = controladoraProductosLocales.consultarMinimoMaximoProductoEnBodega(idArrayProductos[i].ToString());
-
-
+                alerta |= cantAjuste <= Convert.ToInt32(productoDeBodega.Rows[0][0].ToString()) || cantAjuste >= Convert.ToInt32(productoDeBodega.Rows[0][1].ToString());
                 ++i;
             }
 
@@ -695,6 +695,11 @@ namespace ProyectoInventarioOET
             if (error[0].Contains("success"))
             {
                 llenarGrid();
+                if (alerta)
+                {
+                    error[0] = "warning";
+                    error[2] += "\nUno o más productos han salido de sus límites permitidos, revise el catálogo local. (Nivel máximo o mínimo)";
+                }
             }
             else
             {

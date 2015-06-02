@@ -58,6 +58,7 @@ namespace ProyectoInventarioOET
                     else
                     {
                         cargarBodegas();
+                        cargarEstados();
                         setDatosConsultados();
 
                         seConsulto = false;
@@ -109,6 +110,7 @@ namespace ProyectoInventarioOET
                     gridViewProductos.Enabled = true;
                     gridViewProductos.Visible = true;
                     fieldsetConsulta.Visible = false;
+                    dropDownEstado.Visible = false;
                     habilitarCampos(true);
                     gridViewProductos.Columns[1].Visible = true;
                     break;
@@ -128,6 +130,7 @@ namespace ProyectoInventarioOET
                     gridViewProductos.Enabled = false;
                     gridViewProductos.Visible = false;
                     fieldsetConsulta.Visible = true;
+                    botonTipoConsulta.Disabled = false;
                     habilitarCampos(false);
                     gridViewProductos.Columns[1].Visible = false;
                     break;
@@ -147,7 +150,8 @@ namespace ProyectoInventarioOET
                     gridViewProductos.Enabled = true;
                     gridViewProductos.Visible = true;
                     fieldsetConsulta.Visible = false;
-                    botonTipoConsulta.Disabled = false;
+                    dropDownEstado.Visible = true;
+                    dropDownEstado.Enabled = true;
                     habilitarCampos(false);
                     gridViewProductos.Columns[1].Visible = true;
                     break;
@@ -159,7 +163,7 @@ namespace ProyectoInventarioOET
                     botonCancelarTraslado.Visible = false;
                     tituloAccionTraslados.InnerText = "Traslado seleccionado";
                     botonRealizarTraslado.Disabled = false;
-                    botonModificarTraslado.Disabled = false;
+                    botonModificarTraslado.Disabled = trasladoConsultado.Estado != "En Proceso";
                     botonConsultarTraslado.Disabled = true;
                     tituloGridProductos.Visible = true;
                     tituloGridConsulta.Visible = true;
@@ -167,6 +171,8 @@ namespace ProyectoInventarioOET
                     gridViewProductos.Enabled = false;
                     gridViewProductos.Visible = true;
                     fieldsetConsulta.Visible = true;
+                    dropDownEstado.Visible = true;
+                    dropDownEstado.Enabled = false;
                     habilitarCampos(false);
                     gridViewProductos.Columns[1].Visible = false;
                     botonTipoConsulta.Disabled = true;
@@ -198,8 +204,15 @@ namespace ProyectoInventarioOET
         protected void setDatosConsultados()
         {
             this.outputBodegaSalida.Value = trasladoConsultado.BodegaOrigen;
+
+            // Setear Bodega Destino
             this.dropDownBodegaEntrada.SelectedItem.Selected = false;
-            dropDownBodegaEntrada.Items.FindByText(trasladoConsultado.BodegaDestino).Selected = true;
+            this.dropDownBodegaEntrada.Items.FindByText(trasladoConsultado.BodegaDestino).Selected = true;
+
+            // Setear Estado
+            this.dropDownEstado.SelectedItem.Selected = false;
+            this.dropDownEstado.Items.FindByText(trasladoConsultado.Estado).Selected = true;
+
             this.outputUsuario.Value = trasladoConsultado.Usuario;
             this.outputFecha.Value = trasladoConsultado.Fecha.ToString();
             this.inputNotas.Text = trasladoConsultado.Notas;
@@ -354,6 +367,36 @@ namespace ProyectoInventarioOET
             }
 
             return codigo;
+        }
+
+        /*
+         * Maneja el cambio de estado de un traslado 
+         */
+        protected bool modificar()
+        {
+            Boolean res = true;
+            String[] error = {"warning", "Alerta: ", "No hubo cambios"};
+
+            if( dropDownEstado.SelectedValue == "1" )
+                error = controladoraTraslados.acertarTraslado(trasladoConsultado);
+            else
+                if( dropDownEstado.SelectedValue == "-1" )
+                    error = controladoraTraslados.rechazarTraslado(trasladoConsultado);
+
+            mostrarMensaje(error[0], error[1], error[2]);
+
+            if (error[0].Contains("success"))// si fue exitoso
+            {
+                llenarGrid(true);
+                trasladoConsultado = controladoraTraslados.consultarTraslado(trasladoConsultado.IdTraslado);
+                modo = (int)Modo.Consulta;
+            }
+            else
+            {
+                res = false;
+                modo = (int)Modo.Modificacion;
+            }
+            return res;
         }
 
         /*
@@ -610,6 +653,17 @@ namespace ProyectoInventarioOET
         }
 
         /*
+         * Maneja el cargado de estados a memoria
+         */
+        protected void cargarEstados()
+        {
+            this.dropDownEstado.Items.Clear();
+            this.dropDownEstado.Items.Add(new ListItem("En Proceso", "0"));
+            this.dropDownEstado.Items.Add(new ListItem("Rechazado", "-1"));
+            this.dropDownEstado.Items.Add(new ListItem("Aceptado", "1"));
+        }
+
+        /*
          * Maneja el cargado de bodegas a memoria, para seleccionar la bodega de destino
          */
         protected void cargarBodegas()
@@ -643,6 +697,7 @@ namespace ProyectoInventarioOET
             cambiarModo();
             limpiarCampos();
             cargarBodegas();
+            cargarEstados();
             llenarGridAgregarProductos();
             vaciarGridProductos();
 
@@ -726,7 +781,7 @@ namespace ProyectoInventarioOET
             }
             else if (modo == (int)Modo.Modificacion)
             {
-                //operacionCorrecta = modificar();
+                operacionCorrecta = modificar();
             }
             if (operacionCorrecta)
             {

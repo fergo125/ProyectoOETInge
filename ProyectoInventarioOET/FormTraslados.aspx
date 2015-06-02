@@ -69,7 +69,11 @@
                 <input type="text" id="outputUsuario" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
                 <a id="botonAgregar" runat="server" href="#modalAgregarProducto" class="btn btn-success-fozkr" data-toggle="modal" role="button"><i class="fa fa-plus"></i> Agregar Producto</a>
             </div>
-            <div class="col-lg-2"></div>
+            <div class="col-lg-2">
+                <label for="dropDownEstado" class= "control-label"> Estado de Traslado: </label>      
+                <asp:DropDownList ID="dropDownEstado" runat="server" CssClass="form-control" AutoPostBack="true">
+                </asp:DropDownList><br>
+            </div>
             <div class="col-lg-5">
                 <label for="outputFecha" class= "control-label"> Fecha de creacion: </label>      
                 <input type="text" id="outputFecha" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
