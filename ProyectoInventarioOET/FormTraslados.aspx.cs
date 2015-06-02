@@ -130,7 +130,6 @@ namespace ProyectoInventarioOET
                     gridViewProductos.Enabled = false;
                     gridViewProductos.Visible = false;
                     fieldsetConsulta.Visible = true;
-                    botonTipoConsulta.Disabled = false;
                     habilitarCampos(false);
                     gridViewProductos.Columns[1].Visible = false;
                     break;
@@ -163,7 +162,7 @@ namespace ProyectoInventarioOET
                     botonCancelarTraslado.Visible = false;
                     tituloAccionTraslados.InnerText = "Traslado seleccionado";
                     botonRealizarTraslado.Disabled = false;
-                    botonModificarTraslado.Disabled = trasladoConsultado.Estado != "En Proceso";
+                    botonModificarTraslado.Disabled = !(trasladoConsultado.BodegaDestino == (this.Master as SiteMaster).NombreBodegaSesion && trasladoConsultado.Estado == "En Proceso");
                     botonConsultarTraslado.Disabled = true;
                     tituloGridProductos.Visible = true;
                     tituloGridConsulta.Visible = true;
@@ -175,7 +174,6 @@ namespace ProyectoInventarioOET
                     dropDownEstado.Enabled = false;
                     habilitarCampos(false);
                     gridViewProductos.Columns[1].Visible = false;
-                    botonTipoConsulta.Disabled = true;
                     /*
                     if( tipoConsulta )
                     {
