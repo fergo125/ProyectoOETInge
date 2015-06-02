@@ -61,7 +61,7 @@ namespace ProyectoInventarioOET.Modulo_Bodegas
          */
         public DataTable consultarBodegasDeEstacion(String codigo)
         {
-            return controladoraBDBodegas.consultarBodegasDeEstacion(codigo);
+            return controladoraBDBodegas.consultarBodegasDeEstacion((codigo == "All" ? null : codigo));  //Si se pregunta por todas ("All"), se envía null para que entienda
         }
         /*
          * Obtiene la informacion de los productos que no pertenecen a la bodega especificada
