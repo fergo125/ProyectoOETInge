@@ -152,7 +152,7 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT NOMBRE,CANTIDAD,PRECIO_UNITARIO  FROM (SELECT * FROM CAT_ENTRADAS_PRODUCTOS JOIN INV_PRODUCTOS ON CAT_ENTRADAS_PRODUCTOS.CAT_PRODUCTOS = INV_PRODUCTOS.INV_PRODUCTOS) WHERE CAT_ENTRADAS" + "= '" + id + "'";
+                command.CommandText = "SELECT NOMBRE,CANTIDAD,PRECIO_UNITARIO  FROM (SELECT * FROM CAT_ENTRADAS_PRODUCTOS JOIN INV_PRODUCTOS ON CAT_ENTRADAS_PRODUCTOS.cat_productos = INV_PRODUCTOS.Codigo) WHERE CAT_ENTRADAS" + "= '" + id + "'";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
             }
@@ -170,15 +170,16 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             String[] res = new String[4];
             entrada.IdEntrada= generarID();
             res[3] = entrada.IdEntrada;
+      
                 try
                 {
                     OracleCommand command = conexionBD.CreateCommand();
                     command.CommandText = "insert into cat_entradas values("+
-                        ",'"+ entrada.IdEntrada +"'"+
+                        "'"+ entrada.IdEntrada +"'"+
                         ",'" + entrada.IdFactura + "'"+
                         ",'" + entrada.IdEncargado+ "'" +
                         ",'" + entrada.Bodega+ "'" +
-                        ",'" + entrada.FechEntrada+ "'" 
+                        ",'" + entrada.FechEntrada.ToString("dd-MMM-yyy")+ "'" 
                         +")";
                     OracleDataReader reader = command.ExecuteReader();
 
@@ -188,10 +189,10 @@ namespace ProyectoInventarioOET.Modulo_Entradas
                         {
                             command = conexionBD.CreateCommand();
                             command.CommandText = "insert into cat_entradas_productos values(" +
-                                ",'" + generarID() + "'" +
+                                "'" + generarID() + "'" +
                                 ",'" + entrada.IdEntrada + "'" +
                                 ",'" + fila[0] + "'" +
-                                ",'" + fila[1] + "'" +
+                                "," + fila[1] +
                                 ",'" + fila[2] + "'" 
                                 + ")";
                              reader = command.ExecuteReader();
