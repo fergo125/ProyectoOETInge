@@ -28,7 +28,7 @@ namespace ProyectoInventarioOET
         private static String tipoMonedaCrearFactura = "Colones";               //Indica el tipo de moneda que se está usando para crear facturas
         private static DataTable productosAgregados;                            //Usada para llenar el grid de productos al crear una factura
         private static DataTable facturasConsultadas;                           //Usada para llenar el grid y para mostrar los detalles de cada factura específica
-        private static EntidadFacturaVenta facturaConsultada;                        //???
+        private static EntidadFacturaVenta facturaConsultada;                   //???
         //private static Boolean seConsulto = false;                              //???
         private static Object[] idArray;                                        //Usada para llevar el control de las facturas consultadas
         private static ControladoraVentas controladoraVentas;                   //Para accesar las tablas del módulo y realizar las operaciones de consulta, inserción, modificación y anulación
@@ -51,12 +51,14 @@ namespace ProyectoInventarioOET
         protected void Page_Load(object sender, EventArgs e)
         {
             mensajeAlerta.Visible = false;
+            //Elementos visuales
+            ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
+                
             //Si es la primera vez que se carga la página
             if (!IsPostBack)
             {
-                //Elementos visuales
-                ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
-                
+                modo = Modo.Inicial;
+
                 //Controladoras
                 controladoraVentas = new ControladoraVentas();
                 controladoraBodegas = new ControladoraBodegas();
@@ -66,7 +68,7 @@ namespace ProyectoInventarioOET
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
 
                 //Seguridad
-                permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Facturacion"); //TODO: descomentar esto, está comentado sólo para pruebas
+                permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Facturacion");
                 if (permisos == "000000")
                     Response.Redirect("~/ErrorPages/404.html");
                 codigoPerfilUsuario = (this.Master as SiteMaster).Usuario.CodigoPerfil;
