@@ -92,7 +92,6 @@ namespace ProyectoInventarioOET
                     gridViewProductos.Visible = false;
                     fieldsetConsulta.Visible = false;
                     habilitarCampos(false);
-                    gridViewProductos.Columns[1].Visible = false;
                     break;
 
                 case (int)Modo.Insercion: //insertar
@@ -112,7 +111,8 @@ namespace ProyectoInventarioOET
                     fieldsetConsulta.Visible = false;
                     dropDownEstado.Visible = false;
                     habilitarCampos(true);
-                    gridViewProductos.Columns[1].Visible = true;
+                    foreach (DataControlField col in gridViewProductos.Columns)
+                        col.Visible = true;
                     break;
 
                 case (int)Modo.Consulta://consultar
@@ -131,7 +131,6 @@ namespace ProyectoInventarioOET
                     gridViewProductos.Visible = false;
                     fieldsetConsulta.Visible = true;
                     habilitarCampos(false);
-                    gridViewProductos.Columns[1].Visible = false;
                     break;
 
                 case (int)Modo.Modificacion: //modificar
@@ -152,7 +151,8 @@ namespace ProyectoInventarioOET
                     dropDownEstado.Visible = true;
                     dropDownEstado.Enabled = true;
                     habilitarCampos(false);
-                    gridViewProductos.Columns[1].Visible = true;
+                    foreach (DataControlField col in gridViewProductos.Columns)
+                        col.Visible = false;
                     break;
 
                 case (int)Modo.Consultado://consultado, pero con los espacios bloqueados
@@ -173,7 +173,8 @@ namespace ProyectoInventarioOET
                     dropDownEstado.Visible = true;
                     dropDownEstado.Enabled = false;
                     habilitarCampos(false);
-                    gridViewProductos.Columns[1].Visible = false;
+                    foreach (DataControlField col in gridViewProductos.Columns)
+                        col.Visible = false;
                     /*
                     if( tipoConsulta )
                     {

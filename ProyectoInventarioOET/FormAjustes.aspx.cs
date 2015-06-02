@@ -105,7 +105,6 @@ namespace ProyectoInventarioOET
                     gridViewProductos.Enabled = false;
                     gridViewProductos.Visible = false;
                     habilitarCampos(false);
-                    gridViewProductos.Columns[1].Visible = false;
                     break;
 
                 case (int)Modo.Insercion: //insertar
@@ -123,6 +122,8 @@ namespace ProyectoInventarioOET
                     gridViewProductos.Visible = true;
                     habilitarCampos(true);
                     gridViewProductos.Columns[1].Visible = true;
+                    foreach( DataControlField col in gridViewProductos.Columns )
+                        col.Visible = true;
                     break;
 
                 case (int)Modo.Consulta://consultar
@@ -139,7 +140,6 @@ namespace ProyectoInventarioOET
                     gridViewProductos.Enabled = false;
                     gridViewProductos.Visible = false;
                     habilitarCampos(false);
-                    gridViewProductos.Columns[1].Visible = false;
                     break;
 
                 case (int)Modo.Consultado://consultado, pero con los espacios bloqueados
@@ -156,7 +156,8 @@ namespace ProyectoInventarioOET
                     gridViewProductos.Enabled = false;
                     gridViewProductos.Visible = true;
                     habilitarCampos(false);
-                    gridViewProductos.Columns[1].Visible = false;
+                    foreach (DataControlField col in gridViewProductos.Columns)
+                        col.Visible = false;
                     llenarGrid();
                     break;
 
