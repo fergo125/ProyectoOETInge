@@ -593,18 +593,29 @@ namespace ProyectoInventarioOET
          */
         protected void gridViewProductos_Seleccion(object sender, GridViewCommandEventArgs e)
         {
-            /*
-            switch (e.CommandName)
+            if (idArrayProductos != null && idArrayProductos.Count() > 0)
             {
-                case "Select":
-                    GridViewRow filaSeleccionada = this.gridViewAjustes.Rows[Convert.ToInt32(e.CommandArgument)];
-                    //String codigo = filaSeleccionada.Cells[0].Text.ToString();
-                    String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewBodegas.PageIndex * this.gridViewBodegas.PageSize)]);
-                    consultarBodega(codigo);
-                    modo = (int)Modo.Consultado;
-                    Response.Redirect("FormAjustes.aspx");
-                    break;
-            }*/
+                switch (e.CommandName)
+                {
+                    case "Select":
+                        int indice = Convert.ToInt32(e.CommandArgument);
+
+                        // Eliminar vieja tupla de grid
+                        tablaProductos.Rows[indice].Delete();
+                        gridViewProductos.DataSource = tablaProductos;
+                        gridViewProductos.DataBind();
+
+                        // Actualizar listas de Ids
+                        List<Object> temp = new List<Object>(idArrayProductos);
+                        temp.RemoveAt(indice);
+                        idArrayProductos = temp.ToArray();
+
+                        if (idArrayProductos.Count() < 1)
+                            vaciarGridProductos();
+
+                        break;
+                }
+            }
         }
 
         /*
