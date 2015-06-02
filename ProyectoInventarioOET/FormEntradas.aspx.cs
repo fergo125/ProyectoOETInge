@@ -8,6 +8,7 @@ using System.Web.UI.WebControls;
 using ProyectoInventarioOET.Modulo_Entradas;
 using ProyectoInventarioOET.App_Code;
 using ProyectoInventarioOET.Modulo_Seguridad;
+using System.Text;
 
 
 namespace ProyectoInventarioOET
@@ -163,7 +164,7 @@ namespace ProyectoInventarioOET
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Costo Unitario";
+            columna.ColumnName = "Costo Total";
             tabla.Columns.Add(columna);
 
             return tabla;
@@ -209,7 +210,7 @@ namespace ProyectoInventarioOET
                 else
                 {
                     datos[0] = "-";
-                    datos[1] = "-";
+                    datos[1] = "No existen entradas para consultar.";
                     datos[2] = "-";
                     datos[3] = "-";
                     mostrarMensaje("warning", "Alerta", "No hay entradas almacenadas.");
@@ -263,10 +264,10 @@ namespace ProyectoInventarioOET
                 else
                 {
                     datos[0] = "-";
-                    datos[1] = "-";
+                    datos[1] = "No hay facturas disponibles";
                     datos[2] = "-";
                     datos[3] = "-";
-                    mostrarMensaje("warning", "Alerta", "No hay Facturas disponibles en este momento.");
+                    //mostrarMensaje("warning", "Alerta", "No hay Facturas disponibles en este momento.");
                     tabla.Rows.Add(datos);
                 }
 
@@ -301,7 +302,7 @@ namespace ProyectoInventarioOET
                         //idArray[i] = fila[0];
                         datos[0] = fila[2].ToString();
                         datos[1] = fila[3].ToString();
-                        datos[2] = fila[10].ToString();
+                        datos[2] = fila[5].ToString();
 
 
                         tabla.Rows.Add(datos);
@@ -312,11 +313,11 @@ namespace ProyectoInventarioOET
                         i++;
                     }
                 }
-                // No hay entradas almacenadas.
+
                 else
                 {
                     datos[0] = "-";
-                    datos[1] = "-";
+                    datos[1] = "No existe detalle para esta factura.";
                     datos[2] = "-";
                     tabla.Rows.Add(datos);
                 }
@@ -361,11 +362,11 @@ namespace ProyectoInventarioOET
                         i++;
                     }
                 }
-                // No hay entradas almacenadas.
+                // No hay productos asociados.
                 else
                 {
                     datos[0] = "-";
-                    datos[1] = "-";
+                    datos[1] = "No hay productos asociados.";
                     datos[2] = "-";
                     //datos[3] = "-";
                     tabla.Rows.Add(datos);
@@ -423,6 +424,10 @@ namespace ProyectoInventarioOET
         {
             modo = (int)Modo.Inicial;
             cambiarModo();
+            tablaProductosNuevos = new DataTable();
+            tablaProductosNuevos = tablaFacturaDetallada();
+            this.gridFacturaNueva.DataSource = tablaProductosNuevos;
+            this.gridFacturaNueva.DataBind();
             modo = (int)Modo.BusquedaFactura;
             cambiarModo();
         }
@@ -486,11 +491,20 @@ namespace ProyectoInventarioOET
         protected void botonAgregarProductoFactura_Click(object sender, EventArgs e)
         {
             String producto = this.textBoxAutocompleteCrearFacturaBusquedaProducto.Text;
+            String productoEscogido = this.textBoxAutocompleteCrearFacturaBusquedaProducto.Text;
             String cantidad = this.inputCantidadProducto.Value.ToString();
             String costo = this.inputCostoProducto.Value.ToString();
 
+            //String[] resultado = new String[2];
+            //String codigoProductoEscogido = producto.Substring(producto.LastIndexOf('(') + 1);  //el código sin el primer paréntesis
+            //codigoProductoEscogido = codigoProductoEscogido.TrimEnd(')');                                       //el código
+            //producto = producto.Remove(producto.LastIndexOf('(') - 1);                  //nombre del producto (-1 al final por el espacio)
+            //resultado[0] = producto;
+            //resultado[1] = codigoProductoEscogido;
+            ////return resultado;
+
             Object[] datos = new Object[3];
-            datos[0] = producto;
+            datos[0] = productoEscogido;
             datos[1] = cantidad;
             datos[2] = costo;
             tablaProductosNuevos.Rows.Add(datos);
@@ -509,7 +523,39 @@ namespace ProyectoInventarioOET
          */
         protected void botonAceptarEntrada_ServerClick(object sender, EventArgs e)
         {
+            //Boolean operacionCorrecta = true;
+            //String codigoInsertado = "";
+            //String[] resultado = new String[4];
 
+            //if (modo == (int)Modo.SeleccionProductos)
+            //{
+            //    String nombreNuevo = this.inputDescripcionActividad.Value.ToString();
+            //    EntidadActividad repetida = controladoraActividades.consultarActividadPorNombre(nombreNuevo);
+
+            //    if (repetida == null)
+            //    {
+            //        resultado = controladoraActividades.insertarDatos(nombreNuevo, Int32.Parse(this.comboBoxEstadosActividades.SelectedValue.ToString()));
+            //        codigoInsertado = resultado[3];
+
+            //        if (codigoInsertado != "" && resultado[1].Equals("Éxito"))
+            //        {
+            //            operacionCorrecta = true;
+            //            actividadConsultada = controladoraActividades.consultarActividad(codigoInsertado);
+            //            modo = (int)Modo.Consultado;
+            //            habilitarCampos(false);
+            //            mostrarMensaje(resultado[0], resultado[1], resultado[2]);
+            //        }
+            //        else
+            //            operacionCorrecta = false;
+
+            //        setDatosConsultados();
+            //    }
+            //    else
+            //    {
+            //        mostrarMensaje("warning", "Alerta", "El nombre de la actividad corresponde a una existente, por favor ingrese otro nombre.");
+            //        operacionCorrecta = false;
+            //    }
+            //}
         }
 
         /*
@@ -532,6 +578,7 @@ namespace ProyectoInventarioOET
             String producto;
             String costo;
             String cantidad;
+
             for (int i = 0; i < gridFacturaNueva.Rows.Count; i++)
             {
                 GridViewRow row = gridFacturaNueva.Rows[i];
@@ -540,9 +587,10 @@ namespace ProyectoInventarioOET
 
                 if (estaSeleccionadoProducto)
                 {
+
                     producto = gridFacturaNueva.Rows[i].Cells[1].Text.ToString();
-                    costo = gridFacturaNueva.Rows[i].Cells[2].Text.ToString();
-                    cantidad = gridFacturaNueva.Rows[i].Cells[3].Text.ToString();
+                    cantidad = gridFacturaNueva.Rows[i].Cells[2].Text.ToString();
+                    costo = gridFacturaNueva.Rows[i].Cells[3].Text.ToString();
                     
                     tablaProductosNuevos.Rows.RemoveAt(i);
                     this.inputCantidadProducto.Value = cantidad;

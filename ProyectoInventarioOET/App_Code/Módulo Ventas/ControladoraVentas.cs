@@ -37,15 +37,9 @@ namespace ProyectoInventarioOET.Modulo_Ventas
          * Invocada por la capa de interfaz para revisar si un producto que está intentando agregarse a una factura,
          * de verdad existe en la base de datos.
          */
-        public String verificarExistenciaProductoLocal(String idBodega, String productoEscogido)
+        public String verificarExistenciaProductoLocal(String idBodega, String nombreProductoEscogido, String codigoProductoEscogido)
         {
-            //Primero, obtener la llave desde el catálogo global usando esos dos valores (es necesario revisar ambos
-            //valores para asegurarse de que el usuario no cambio ninguno antes de dar click al botón). 
-            String codigoProductoEscogido = productoEscogido.Substring(productoEscogido.LastIndexOf('(') + 1);  //el código sin el primer paréntesis
-            codigoProductoEscogido = codigoProductoEscogido.TrimEnd(')');                                       //el código
-            productoEscogido = productoEscogido.Remove(productoEscogido.LastIndexOf('(') - 1);                  //nombre del producto (con un -1 al final por el espacio)
-            String llaveProducto = controladoraBDVentas.verificarExistenciaProductoGlobal(productoEscogido, codigoProductoEscogido);
-
+            String llaveProducto = controladoraBDVentas.verificarExistenciaProductoGlobal(nombreProductoEscogido, codigoProductoEscogido);
             //Luego, si el producto se existe, se usa su llave para verificar que existe en el catálogo local de la bodega
             //que se está usando como punto de venta.
             if (controladoraBDVentas.verificarExistenciaProductoLocal(llaveProducto, idBodega))
@@ -72,9 +66,33 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         /*
          * ???
          */
-        public DataTable asociadosABodega(String idBodega)
+        public DataTable asociadosABodegas(String idBodega, String idEstacion)
         {
-            return controladoraBDVentas.asociadosABodega(idBodega);
+            if (idBodega == "All")
+                return controladoraBDVentas.asociadosAEstacion(idEstacion); //Si se pregunta por todas ("All"), se consulta a nivel de estación
+            else
+                return controladoraBDVentas.asociadosABodega(idBodega); 
+        }
+
+        /*
+         * Obtiene el máximo de descuento aplicable a la venta de un producto específico por parte de un empleado específico 
+         */
+        public int maximoDescuentoAplicable(String idProducto, String idVendedor)
+        {
+            return controladoraBDVentas.maximoDescuentoAplicable(idProducto,idVendedor);
+        }
+
+        /*
+         * Obtiene la venta del tipo de cambio más reciente en la base de datos.
+         */
+        public double consultarTipoCambio()
+        {
+            return controladoraBDVentas.consultarTipoCambio();
+        }
+
+        public String[] anularFactura(EntidadFactura entidadFactura)
+        {
+            return controladoraBDVentas.anularFactura(entidadFactura);
         }
     }
 }

@@ -59,7 +59,8 @@
             </div>
             <div class="col-lg-5">
                 <label for="dropDownBodegaEntrada" class= "control-label"> Destino: </label>      
-                <input type="text" id="dropDownBodegaEntrada" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
+                <asp:DropDownList ID="dropDownBodegaEntrada" runat="server" CssClass="form-control" OnSelectedIndexChanged="dropDownBodegaEntrada_SelectedIndexChanged" AutoPostBack="true">
+                </asp:DropDownList><br>
             </div>
         </div>
         <div class="row">
@@ -98,7 +99,8 @@
                                 </asp:ButtonField>
                                 <asp:TemplateField HeaderText="Cantidad" >
                                     <ItemTemplate>
-                                        <asp:TextBox ID="textTraslados" runat="server" ReadOnly="false"></asp:TextBox>
+                                        <asp:TextBox ID="textTraslados" runat="server" ReadOnly="false"></asp:TextBox> 
+                                                
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>
