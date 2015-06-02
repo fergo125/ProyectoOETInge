@@ -9,6 +9,7 @@ using ProyectoInventarioOET.App_Code;
 using ProyectoInventarioOET.App_Code.Modulo_Traslados;
 using ProyectoInventarioOET.App_Code.Modulo_Ajustes;
 using ProyectoInventarioOET.Modulo_Seguridad;
+using ProyectoInventarioOET.Modulo_Productos_Locales;
 
 namespace ProyectoInventarioOET
 {
@@ -29,6 +30,7 @@ namespace ProyectoInventarioOET
         private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
         private static ControladoraDatosGenerales controladoraDatosGenerales;   // Controladora de datos generales
         private static ControladoraTraslado controladoraTraslados;              // Controladora del modulo traslados
+        private static ControladoraProductoLocal controladoraProductoLocal;     // Controladora de los productos locales de una bodega
         private static EntidadTraslado trasladoConsultado;                      // El traslado mostrado en pantalla
         private static bool tipoConsulta;                                       // True si se esta viendo entradas, false si salidas
 
@@ -44,6 +46,7 @@ namespace ProyectoInventarioOET
 
                 controladoraTraslados = new ControladoraTraslado();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
+                controladoraProductoLocal = new ControladoraProductoLocal();
 
                 if (!seConsulto)
                 {
@@ -332,7 +335,9 @@ namespace ProyectoInventarioOET
             String codigo = "";
             Object[] traslado = obtenerDatosTraslado();
             EntidadTraslado nuevo = new EntidadTraslado(traslado);
-
+            DataTable productoDeBodega;
+            bool alerta = false;
+            double saldoNuevo;
 
             // Agregar detalles a entidad
             int i = 0;
@@ -346,6 +351,10 @@ namespace ProyectoInventarioOET
                 traslado[4] = idArrayProductosOrigen[i];
                 traslado[5] = idArrayProductosDestino[i];
 
+                productoDeBodega = controladoraProductoLocal.consultarMinimoMaximoProductoEnBodega(idArrayProductosOrigen[i].ToString());
+                saldoNuevo = Convert.ToDouble(productoDeBodega.Rows[0][2].ToString()) - cantAjuste;
+                alerta |= cantAjuste <= Convert.ToDouble(productoDeBodega.Rows[0][0].ToString()) || cantAjuste >= Convert.ToDouble(productoDeBodega.Rows[0][1].ToString());
+
                 nuevo.agregarDetalle(traslado);
                 ++i;
             }
@@ -354,17 +363,22 @@ namespace ProyectoInventarioOET
             String[] error = controladoraTraslados.insertarTraslado(nuevo);
 
             codigo = Convert.ToString(error[3]);
-            mostrarMensaje(error[0], error[1], error[2]);
             if (error[0].Contains("success"))
             {
                 llenarGrid(false);
                 tipoConsulta = false;
+                if (alerta)
+                {
+                    error[0] = "warning";
+                    error[2] += "\nUno o más productos han salido de sus límites permitidos (nivel máximo o mínimo), revise el catálogo local.";
+                }
             }
             else
             {
                 codigo = "";
                 modo = (int)Modo.Insercion;
             }
+            mostrarMensaje(error[0], error[1], error[2]);
 
             return codigo;
         }

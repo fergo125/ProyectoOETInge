@@ -176,7 +176,7 @@ namespace ProyectoInventarioOET.Modulo_Productos_Locales
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT MINIMO,MAXIMO FROM " + esquema + "INV_BODEGA_PRODUCTOS WHERE INV_BODEGA_PRODUCTOS = '" + idProductoEnBodega + "'";
+                command.CommandText = "SELECT MINIMO,MAXIMO,SALDO FROM " + esquema + "INV_BODEGA_PRODUCTOS WHERE INV_BODEGA_PRODUCTOS = '" + idProductoEnBodega + "'";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
             }
