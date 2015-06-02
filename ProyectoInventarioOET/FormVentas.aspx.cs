@@ -852,11 +852,10 @@ namespace ProyectoInventarioOET
 
         }
 
-        //Este evento no debe darse.
-        //protected void dropDownListCrearFacturaEstacion_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    cargarBodegas(this.dropDownListCrearFacturaBodega);
-        //}
+        protected void dropDownListCrearFacturaEstacion_SelectedIndexChanged(object sender, EventArgs e)
+        {
+           // cargarBodegas(this.dropDownListCrearFacturaBodega);
+        }
 
         /*
          * ???
