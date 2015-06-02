@@ -414,12 +414,13 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         public DataTable consultarMetodosPago()
         {
             String esquema = "Reservas.";
-            DataTable metodosPago = null;
+            DataTable metodosPago = new DataTable(); ;
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
                 command.CommandText = "SELECT NOMBRE,ID FROM " + esquema + "FORMAPAGO ";
                 OracleDataReader reader = command.ExecuteReader();
+                metodosPago.Load(reader);
             }
             catch (OracleException e)
             {
@@ -434,12 +435,13 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         public DataTable consultarClientes()
         {
             String esquema = "Inventarios.";
-            DataTable posiblesClientes = null;
+            DataTable posiblesClientes = new DataTable(); ;
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
                 command.CommandText = "SELECT NOMBRE,SEG_USUARIO FROM " + esquema + "SEG_USUARIO ";
                 OracleDataReader reader = command.ExecuteReader();
+                posiblesClientes.Load(reader);
             }
             catch (OracleException e)
             {

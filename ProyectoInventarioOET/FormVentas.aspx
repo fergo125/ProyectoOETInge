@@ -245,7 +245,7 @@
                 <td>Tipo moneda: <asp:Label ID="labelCrearFacturaTipoMoneda" runat="server"></asp:Label></td>
                 <td><asp:Button ID="botonCrearFacturaSwitchPrecios" class="btn" runat="server" Text="Cambiar moneda ₡/$"/></td>
                 <td style="text-align: right;">Precio total:</td>
-                <td><asp:Label ID="labelCrearFacturaPrecioTotal" runat="server"></asp:Label></td>
+                <td><asp:Label ID="labelCrearFacturaPrecioTotal" runat="server" Text="0"></asp:Label></td>
             </tr>
             <tr>
                 <td>Método de pago:</td>
@@ -261,7 +261,7 @@
             </tr>
             <tr>
                 <td colspan="4">
-                    <button type="button" ID="botonCrearFacturaGuardar" class="btn btn-success-fozkr" onserverclick="Page_Load" runat="server">Guardar</button>
+                    <button type="button" ID="botonCrearFacturaGuardar" class="btn btn-success-fozkr" onserverclick="clickBotonbotonCrearFacturaGuardar" runat="server">Guardar</button>
                     <button type="button" ID="botonCrearFacturaCancelar" class="btn btn-danger-fozkr" href="#modalCancelarFactura" data-toggle="modal" runat="server">Cancelar</button>
                 </td>
             </tr>

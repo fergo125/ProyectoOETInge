@@ -510,6 +510,21 @@ namespace ProyectoInventarioOET
         }
 
         /*
+         * Obtiene una tabla con base en el grid de productos en la factura que se está creando.
+         */
+        protected DataTable obtenerProductosAgregados()
+        {
+            DataTable productos = crearTablaProductosDetallados();
+            DataRow detallesProducto;
+            foreach(GridViewRow fila in gridViewCrearFacturaProductos.Rows)
+            {
+                detallesProducto = productos.NewRow();
+                detallesProducto[0] = fila.Cells[0].ToString();
+            }
+            return productos;
+        }
+
+        /*
          * ???
          */
         protected Object[] obtenerDatos()
@@ -527,9 +542,9 @@ namespace ProyectoInventarioOET
             datosFactura[8] = dropDownListCrearFacturaCliente.SelectedValue;        //cliente usuario (llave)
             datosFactura[9] = dropDownListCrearFacturaActividad.SelectedValue;      //actividad (llave)
             datosFactura[10] = 1;                                                   //estado (1=activo por default)
-            datosFactura[11] = Convert.ToInt32(labelCrearFacturaPrecioTotal.Text);  //montoTotalColones
-            datosFactura[12] = (Convert.ToInt32(labelCrearFacturaPrecioTotal.Text) * Convert.ToInt32(textBoxCrearFacturaTipoCambio.Text));  //montoTotalDolares (colones * tipocambio)
-            datosFactura[13] = null;    //tabla de productos
+            datosFactura[11] = Convert.ToDouble(labelCrearFacturaPrecioTotal.Text);  //montoTotalColones
+            datosFactura[12] = (Convert.ToDouble(labelCrearFacturaPrecioTotal.Text) * Convert.ToInt32(textBoxCrearFacturaTipoCambio.Text));  //montoTotalDolares (colones * tipocambio)
+            datosFactura[13] = obtenerProductosAgregados();                         //tabla de productos
             return datosFactura;
         }
 
@@ -572,7 +587,7 @@ namespace ProyectoInventarioOET
         /*
          * ???
          */
-        protected DataTable crearTablaProdcutosFactura()
+        protected DataTable crearTablaProductosFactura()
         {
             productosAgregados = new DataTable();
             DataColumn column;
@@ -603,7 +618,53 @@ namespace ProyectoInventarioOET
             productosAgregados.Columns.Add(column);
 
             column = new DataColumn();
+            column.DataType = Type.GetType("System.Double");
+            column.ColumnName = "Total";
+            productosAgregados.Columns.Add(column);
+
+            return productosAgregados;
+        }
+
+        /*
+         * ???
+         */
+        protected DataTable crearTablaProductosDetallados()
+        {
+            productosAgregados = new DataTable();
+            DataColumn column;
+
+            column = new DataColumn();
+            column.DataType = Type.GetType("System.Int32");
+            column.ColumnName = "Cantidad";
+            productosAgregados.Columns.Add(column);
+
+            column = new DataColumn();
             column.DataType = Type.GetType("System.String");
+            column.ColumnName = "Nombre";
+            productosAgregados.Columns.Add(column);
+
+            column = new DataColumn();
+            column.DataType = Type.GetType("System.String");
+            column.ColumnName = "Código interno";
+            productosAgregados.Columns.Add(column);
+
+            column = new DataColumn();
+            column.DataType = Type.GetType("System.Double");
+            column.ColumnName = "Precio unitario";
+            productosAgregados.Columns.Add(column);
+
+            column = new DataColumn();
+            column.DataType = Type.GetType("System.String");
+            column.ColumnName = "Impuesto (13%)";
+            productosAgregados.Columns.Add(column);
+
+            column = new DataColumn();
+            column.DataType = Type.GetType("System.Int32");
+            column.ColumnName = "Descuento (%)";
+            productosAgregados.Columns.Add(column);
+
+            column = new DataColumn();
+            column.DataType = Type.GetType("System.Double");
             column.ColumnName = "Total";
             productosAgregados.Columns.Add(column);
 
@@ -824,7 +885,7 @@ namespace ProyectoInventarioOET
 
             modo = Modo.Insercion;
             cambiarModo();
-            productosAgregados = crearTablaProdcutosFactura(); //se crea una nueva tabla cada vez
+            productosAgregados = crearTablaProductosFactura(); //se crea una nueva tabla cada vez
             tipoMonedaCrearFactura = "Colones"; //por default
             labelCrearFacturaTipoMoneda.Text = tipoMonedaCrearFactura;
         }
@@ -844,18 +905,24 @@ namespace ProyectoInventarioOET
 
             if (llaveProductoEscogido != null)
             {
-                DataRow testRow;
-                testRow = productosAgregados.NewRow();
-                testRow["Nombre"] = nombreCodigoProductoEscogido[0];                                                                        //nombre
-                testRow["Código interno"] = nombreCodigoProductoEscogido[1];                                                                //código interno
-                testRow["Precio unitario"] = (controladoraVentas.consultarPrecioUnitario(llaveProductoEscogido, tipoMonedaCrearFactura));   //precio unitario (buscar en la BD)
-                testRow["Impuesto (13%)"] = "Sí";                                                                                           //impuesto (booleano)
-                testRow["Descuento (%)"] = "0";                                                                                             //descuento (siempre empieza con 0)
-                testRow["Total"] = testRow["Precio unitario"];                                                                              //total (empieza con precion unitario * 1)
-                productosAgregados.Rows.Add(testRow);
+                DataRow nuevoProducto;
+                nuevoProducto = productosAgregados.NewRow();
+                nuevoProducto["Nombre"] = nombreCodigoProductoEscogido[0];                                                                        //nombre
+                nuevoProducto["Código interno"] = nombreCodigoProductoEscogido[1];                                                                //código interno
+                nuevoProducto["Precio unitario"] = (controladoraVentas.consultarPrecioUnitario(llaveProductoEscogido, tipoMonedaCrearFactura));   //precio unitario (buscar en la BD)
+                nuevoProducto["Impuesto (13%)"] = "Sí";                                                                                           //impuesto (booleano)
+                nuevoProducto["Descuento (%)"] = "0";                                                                                             //descuento (siempre empieza con 0)
+                nuevoProducto["Total"] = nuevoProducto["Precio unitario"];                                                                        //total (empieza con precion unitario * 1)
+                productosAgregados.Rows.Add(nuevoProducto);
                 gridViewCrearFacturaProductos.DataSource = productosAgregados;
                 gridViewCrearFacturaProductos.DataBind();
+                textBoxAutocompleteCrearFacturaBusquedaProducto.Text = "";
+                //int totalahora = Convert.ToDouble(labelCrearFacturaPrecioTotal.Text);
+                //int precio = Convert.ToDouble(nuevoProducto["Precio unitario"]);
+                labelCrearFacturaPrecioTotal.Text = (Convert.ToDouble(labelCrearFacturaPrecioTotal.Text) + Convert.ToDouble(nuevoProducto["Precio unitario"])).ToString();
             }
+            else
+                mostrarMensaje("warning", "Alerta: ", "Ese producto no está asociado a la bodega " + (this.Master as SiteMaster).NombreBodegaSesion + " o no existe.");
         }
 
         /*
