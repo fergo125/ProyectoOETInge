@@ -688,43 +688,58 @@ namespace ProyectoInventarioOET
             Object[] ajuste = obtenerDatosAjuste();
             EntidadAjustes nueva = new EntidadAjustes(ajuste);
             DataTable productoDeBodega;
+            bool signo = signos[ dropdownTipo.SelectedIndex ];
             bool alerta = false;
 
             // Agregar detalles a entidad
 
             int i = 0;
-            foreach( DataRow row in tablaProductos.Rows )
+            try
             {
-                Double cantAjuste = Double.Parse(((TextBox)gridViewProductos.Rows[i].FindControl("textAjustes")).Text);
-
-                ajuste = new Object[5];
-                ajuste[0] = ajuste[1] = "";
-                ajuste[2] = cantAjuste;
-                ajuste[3] = idArrayProductos[i];
-                ajuste[4] = cantAjuste - Double.Parse(row["Cantidad Actual"].ToString());
-                nueva.agregarDetalle(ajuste);
-                productoDeBodega = controladoraProductosLocales.consultarMinimoMaximoProductoEnBodega(idArrayProductos[i].ToString());
-                alerta |= cantAjuste <= Convert.ToDouble(productoDeBodega.Rows[0][0].ToString()) || cantAjuste >= Convert.ToDouble(productoDeBodega.Rows[0][1].ToString());
-                ++i;
-            }
-
-            String[] error = controladoraAjustes.insertarAjuste(nueva); 
-            codigo = Convert.ToString(error[3]);
-            if (error[0].Contains("success"))
-            {
-                llenarGrid();
-                if (alerta)
+                foreach (DataRow row in tablaProductos.Rows)
                 {
-                    error[0] = "warning";
-                    error[2] += "\nUno o más productos han salido de sus límites permitidos (nivel máximo o mínimo), revise el catálogo local.";
+                    Double cantAjuste = Double.Parse(((TextBox)gridViewProductos.Rows[i].FindControl("textAjustes")).Text);
+
+                    ajuste = new Object[5];
+                    ajuste[0] = ajuste[1] = "";
+                    ajuste[2] = cantAjuste;
+                    ajuste[3] = idArrayProductos[i];
+                    ajuste[4] = cantAjuste - Double.Parse(row["Cantidad Actual"].ToString());
+
+                    if (!(signo ^ (Convert.ToDouble(ajuste[4]) < 0.0)))
+                        throw new AggregateException();
+
+                    nueva.agregarDetalle(ajuste);
+                    productoDeBodega = controladoraProductosLocales.consultarMinimoMaximoProductoEnBodega(idArrayProductos[i].ToString());
+                    alerta |= cantAjuste <= Convert.ToDouble(productoDeBodega.Rows[0][0].ToString()) || cantAjuste >= Convert.ToDouble(productoDeBodega.Rows[0][1].ToString());
+                    ++i;
                 }
+
+                String[] error = controladoraAjustes.insertarAjuste(nueva);
+                codigo = Convert.ToString(error[3]);
+                if (error[0].Contains("success"))
+                {
+                    llenarGrid();
+                    if (alerta)
+                    {
+                        error[0] = "warning";
+                        error[2] += "\nUno o más productos han salido de sus límites permitidos (nivel máximo o mínimo), revise el catálogo local.";
+                    }
+                }
+                else
+                {
+                    codigo = "";
+                    modo = (int)Modo.Insercion;
+                }
+
+                mostrarMensaje(error[0], error[1], error[2]);
             }
-            else
+            catch(AggregateException e)
             {
                 codigo = "";
                 modo = (int)Modo.Insercion;
+                mostrarMensaje("danger", "Error: ", "Está haciendo un ajuste incorrecto");
             }
-            mostrarMensaje(error[0], error[1], error[2]);
             return codigo;
         }
 
