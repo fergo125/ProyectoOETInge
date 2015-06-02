@@ -495,14 +495,6 @@ namespace ProyectoInventarioOET
             String cantidad = this.inputCantidadProducto.Value.ToString();
             String costo = this.inputCostoProducto.Value.ToString();
 
-            //String[] resultado = new String[2];
-            //String codigoProductoEscogido = producto.Substring(producto.LastIndexOf('(') + 1);  //el código sin el primer paréntesis
-            //codigoProductoEscogido = codigoProductoEscogido.TrimEnd(')');                                       //el código
-            //producto = producto.Remove(producto.LastIndexOf('(') - 1);                  //nombre del producto (-1 al final por el espacio)
-            //resultado[0] = producto;
-            //resultado[1] = codigoProductoEscogido;
-            ////return resultado;
-
             Object[] datos = new Object[3];
             datos[0] = productoEscogido;
             datos[1] = cantidad;
@@ -523,38 +515,58 @@ namespace ProyectoInventarioOET
          */
         protected void botonAceptarEntrada_ServerClick(object sender, EventArgs e)
         {
-            //Boolean operacionCorrecta = true;
-            //String codigoInsertado = "";
-            //String[] resultado = new String[4];
+            Boolean operacionCorrecta = true;
+            String codigoInsertado = "";
+            //String usuario = (this.Master as SiteMaster).Usuario.Usuario;
+            String usuario = "usuario";
+            String idFactura = facturaConsultada.IdFactura;
+            String fecha = DateTime.Now.ToString("h:mm:ss");
+            String[] resultado = new String[3];
+            String[] provisional = new String[2];
+            Object[] objetoEntrada = new Object[5];
+            Object[] datos = new Object[3];
+            DataTable tablaProductosConID = new DataTable();
+            tablaProductosConID = tablaFacturaDetallada();
+
 
             //if (modo == (int)Modo.SeleccionProductos)
             //{
-            //    String nombreNuevo = this.inputDescripcionActividad.Value.ToString();
-            //    EntidadActividad repetida = controladoraActividades.consultarActividadPorNombre(nombreNuevo);
+                try 
+                {
+                    objetoEntrada[0] = idFactura;
+                    objetoEntrada[1] = "";
+                    objetoEntrada[2] = fecha;
+                    objetoEntrada[3] = bodegaDeTrabajo;
+                    objetoEntrada[4] = usuario;
 
-            //    if (repetida == null)
-            //    {
-            //        resultado = controladoraActividades.insertarDatos(nombreNuevo, Int32.Parse(this.comboBoxEstadosActividades.SelectedValue.ToString()));
-            //        codigoInsertado = resultado[3];
+                    foreach (DataRow fila in tablaProductosNuevos.Rows)
+                    {
+                        provisional = obtenerCodigoDeProducto(fila[0].ToString());
+                        datos[0] = provisional[1];
+                        datos[1] = fila[1].ToString();
+                        datos[2] = fila[2].ToString();
 
-            //        if (codigoInsertado != "" && resultado[1].Equals("Éxito"))
-            //        {
-            //            operacionCorrecta = true;
-            //            actividadConsultada = controladoraActividades.consultarActividad(codigoInsertado);
-            //            modo = (int)Modo.Consultado;
-            //            habilitarCampos(false);
-            //            mostrarMensaje(resultado[0], resultado[1], resultado[2]);
-            //        }
-            //        else
-            //            operacionCorrecta = false;
+                        tablaProductosConID.Rows.Add(datos);
 
-            //        setDatosConsultados();
-            //    }
-            //    else
-            //    {
-            //        mostrarMensaje("warning", "Alerta", "El nombre de la actividad corresponde a una existente, por favor ingrese otro nombre.");
-            //        operacionCorrecta = false;
-            //    }
+                    }
+                    resultado = controladoraEntradas.insertarEntrada(objetoEntrada, tablaProductosConID);
+                    if (resultado[1] == "Éxito")
+                    {
+                        modo = (int)Modo.Inicial;
+                        operacionCorrecta = true;
+                    }
+                }
+                catch
+                {
+                    mostrarMensaje("warning", "Alerta", "No se pudo insertar la entrada.");
+                    operacionCorrecta = false;                
+                }
+
+                if (operacionCorrecta)
+                {
+                    cambiarModo();
+                    mostrarMensaje(resultado[0], resultado[1], resultado[2]);                   
+                }
             //}
         }
 
@@ -817,6 +829,18 @@ namespace ProyectoInventarioOET
             this.inputCantidadProducto.Value = "";
             this.inputCostoProducto.Value = "";
             this.textBoxAutocompleteCrearFacturaBusquedaProducto.Text = "";
+        }
+
+        private String[] obtenerCodigoDeProducto(String producto) 
+        {
+            String[] resultado = new String[2];
+            String codigoProductoEscogido = producto.Substring(producto.LastIndexOf('(') + 1);  //el código sin el primer paréntesis
+            codigoProductoEscogido = codigoProductoEscogido.TrimEnd(')');                                       //el código
+            producto = producto.Remove(producto.LastIndexOf('(') - 1);                  //nombre del producto (-1 al final por el espacio)
+            resultado[0] = producto;
+            resultado[1] = codigoProductoEscogido;
+            return resultado;        
+        
         }
 
         /*
