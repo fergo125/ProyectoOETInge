@@ -102,5 +102,9 @@ namespace ProyectoInventarioOET.Modulo_Entradas
         {
             return controladoraBDEntradas.consultarProductosEntrada(id);
         }
+        public String[] insertarEntrada(Object[] entrada, DataTable productosAsociados)
+        {
+            return controladoraBDEntradas.insertarEntrada(new EntidadEntrada(entrada), productosAsociados);
+        }
     }
 }

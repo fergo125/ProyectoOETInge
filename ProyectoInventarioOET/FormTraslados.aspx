@@ -104,14 +104,12 @@
                                 <asp:TemplateField HeaderText="Cantidad" >
                                     <ItemTemplate>
                                         <asp:TextBox ID="textTraslados" runat="server" ReadOnly="false"></asp:TextBox> 
-                                                
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>
                             <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
                             <PagerStyle CssClass="paging" HorizontalAlign="Center" />
                             <AlternatingRowStyle BackColor="#F8F8F8" />
-                            <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
                             <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
                         </asp:GridView>
                     </ContentTemplate>
@@ -158,7 +156,6 @@
                             <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
                             <PagerStyle CssClass="paging" HorizontalAlign="Center" />
                             <AlternatingRowStyle BackColor="#F8F8F8" />
-                            <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
                             <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
                         </asp:GridView>
                     </ContentTemplate>
