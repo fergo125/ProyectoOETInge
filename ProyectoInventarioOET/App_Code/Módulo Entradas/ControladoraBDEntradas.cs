@@ -84,7 +84,7 @@ namespace ProyectoInventarioOET.Modulo_Entradas
                 OracleCommand command = conexionBD.CreateCommand();
                 command.CommandText = "SELECT *  "
                 + " FROM " + esquema + "PRODUCTO_ORDENADOS "
-                + " WHERE IDORDENDECOMPRA= " + " '" + id + "' ";
+                + " WHERE IDORDENDECOMPRA= " + " '" + id + "'";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
 
@@ -162,5 +162,36 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             }
             return resultado;
         }
+        public String[] insertarEntrada(EntidadEntrada entrada, DataTable productosAsociados)
+        {
+            String esquema = "Inventarios.";
+            bool existenteEnBD = false;
+
+            String[] res = new String[4];
+            res[3] = entrada.IdEntrada;
+                try
+                {
+                    OracleCommand command = conexionBD.CreateCommand();
+                    command.CommandText = "insert into cat_entradas values("+
+                        "'"+ entrada.IdEntrada +"'"+
+                        "'" + entrada.IdFactura + "'"+
+                        "'" + entrada.IdEncargado+ "'" +
+                        "'" + entrada.Bodega+ "'" +
+                        "'" + entrada.FechEntrada+ "'" 
+                        +")";
+
+                    res[0] = "success";
+                    res[1] = "Éxito:";
+                    res[2] = "Bodega agregada al sistema.";
+                }
+                catch (OracleException e)
+                {
+                    res[0] = "danger";
+                    res[1] = "Error:";
+                    res[2] = "Bodega no agregada, intente nuevamente.";
+                }
+            return res;
+        }
+
     }
 }
