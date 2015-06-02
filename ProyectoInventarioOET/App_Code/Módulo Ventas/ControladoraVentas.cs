@@ -87,5 +87,10 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         {
             return controladoraBDVentas.maximoDescuentoAplicable(idProducto,idVendedor);
         }
+
+        public String[] anularFactura(EntidadFactura entidadFactura)
+        {
+            return controladoraBDVentas.anularFactura(entidadFactura);
+        }
     }
 }

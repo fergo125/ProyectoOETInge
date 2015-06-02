@@ -322,5 +322,39 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             catch (Exception){}
             return maximo;
         }
+
+
+        public String[] anularFactura(EntidadFactura factura)
+        {
+            String esquema = "Inventarios.";
+
+            String[] res = new String[4];
+            res[3] = factura.Consecutivo;
+
+                try
+                {
+                    OracleCommand command = conexionBD.CreateCommand();
+                    command.CommandText = "UPDATE " + esquema + "REGISTRO_FACTURAS_VENTA SET ESTADO = 'Anulada' WHERE CONSECUTIVO='" + factura.Consecutivo + "'";
+                    OracleDataReader reader = command.ExecuteReader();
+
+                    res[0] = "success";
+                    res[1] = "Éxito:";
+                    res[2] = "Factura anulada en el sistema.";
+                }
+                catch (OracleException e)
+                {
+                    if (e.Number == 2627)
+                    {
+                        res[0] = "danger";
+                        res[1] = "Error:";
+                        res[2] = "Factura no anulada, intente nuevamente.";
+                    }
+                }
+            
+
+            return res;
+        }
+
+
     }
 }

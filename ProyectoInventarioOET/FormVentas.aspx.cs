@@ -83,7 +83,7 @@ namespace ProyectoInventarioOET
             }
             //Si la página ya estaba cargada pero está siendo cargada de nuevo (porque se está realizando alguna acción que la refrezca/actualiza)
 
-            //cambiarModo();
+            cambiarModo();
             ////código para probar algo
             //DataTable testTable = new DataTable();
             //DataRow testRow;
@@ -180,10 +180,12 @@ namespace ProyectoInventarioOET
             {
                 case Modo.Inicial:
                     tituloAccionFacturas.InnerText = "Seleccione una opción";
+                    botonModificar.Disabled = true;
                     break;
                 case Modo.Consulta:
                     tituloAccionFacturas.InnerText = "Seleccione datos para consultar";
                     PanelConsultarFacturas.Visible = true;
+                    botonModificar.Disabled = true;
                     //this.gridViewFacturas.Visible = false;
                     //this.tituloGrid.Visible = false;
                     //llenarGrid();
@@ -193,10 +195,14 @@ namespace ProyectoInventarioOET
                     PanelCrearFactura.Visible = true;
                     botonCambioSesion.Visible = true;  //Estos dos botones sólo deben ser visibles
                     botonAjusteEntrada.Visible = true; //durante la creación de facturas
+                    botonModificar.Disabled = true;
                     break;
                 case Modo.Modificacion:
                     tituloAccionFacturas.InnerText = "Ingrese los nuevos datos para la factura"; //TODO: revisar este mensaje, ya que no se pueden modificar, sólo anular
                     PanelConsultarFacturaEspecifica.Visible = true;
+                    botonAceptarModificacionFacturaEspecifica.Visible = true;
+                    botonCancelarModificacionFacturaEspecifica.Visible = true;
+                    botonModificar.Disabled = true;
                     habilitarCampos(true);
                     break;
                 case Modo.Consultado:
@@ -204,6 +210,7 @@ namespace ProyectoInventarioOET
                     PanelConsultarFacturaEspecifica.Visible = true;
                     gridViewFacturas.Visible = true;
                     tituloGrid.Visible = true;
+                    botonModificar.Disabled = false;
                     //cargarDropdownListsConsulta();
                     //llenarGrid();
                     //habilitarCampos(false);
@@ -212,7 +219,7 @@ namespace ProyectoInventarioOET
                     mostrarMensaje("warning", "Alerta: ", "Error de interfaz, el 'modo' de la interfaz no se ha reconocido: " + modo);
                     break;
             }
-            Page_Load(null, null);
+            //Page_Load(null, null);
         }
 
         /*
@@ -526,17 +533,10 @@ namespace ProyectoInventarioOET
          */
         protected void habilitarCampos(bool habilitar)
         {
-            textBoxFacturaConsultadaConsecutivo.Disabled = !habilitar;
-            textBoxFacturaConsultadaEstacion.Disabled = !habilitar;
-            textBoxFacturaConsultadaBodega.Disabled = !habilitar; ;
-            textBoxFacturaConsultadaFechaHora.Disabled = !habilitar;
-            textBoxFacturaConsultadaVendedor.Disabled = !habilitar;
-            textBoxFacturaConsultadaCliente.Disabled = !habilitar;
-            textBoxFacturaConsultadaTipoMoneda.Disabled = !habilitar;
-            textBoxFacturaConsultadaMontoTotal.Disabled = !habilitar;
-            textBoxFacturaConsultadaMetodoPago.Disabled = !habilitar;
-            textBoxFacturaConsultadActividad.Disabled = !habilitar;
-            textBoxFacturaConsultadaEstado.Enabled = habilitar;
+                textBoxFacturaConsultadaEstado.Enabled = habilitar;
+                if (textBoxFacturaConsultadaEstado.SelectedValue.Equals("Anulada"))
+                    textBoxFacturaConsultadaEstado.Enabled = false;
+            
         }
 
         /*
@@ -877,6 +877,28 @@ namespace ProyectoInventarioOET
         {
             modo = Modo.Modificacion;
             cambiarModo();
+        }
+
+        protected void botonAceptarModificacionFacturaEspecifica_ServerClick(object sender, EventArgs e)
+        {
+            String[] error = controladoraVentas.anularFactura(facturaConsultada); 
+            mostrarMensaje(error[0], error[1], error[2]);
+
+            if (error[0].Contains("success"))// si fue exitoso
+            {
+                llenarGrid();
+                facturaConsultada = controladoraVentas.consultarFactura(facturaConsultada.Consecutivo);
+                modo = Modo.Consulta;
+            }
+            else
+            {
+                modo = Modo.Modificacion;
+            }
+        }
+
+        protected void botonCancelarModificacionFacturaEspecifica_ServerClick(object sender, EventArgs e)
+        {
+
         }
     }
 }

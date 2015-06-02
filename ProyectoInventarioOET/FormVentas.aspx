@@ -81,49 +81,49 @@
             <tr>
                 <td>
                     <label for="FacturaConsultadaConsecutivo" class="control-label">Consecutivo:</label>
-                    <input type="text" ID="textBoxFacturaConsultadaConsecutivo" runat="server" class="form-control">
+                    <input type="text" disabled="disabled" ID="textBoxFacturaConsultadaConsecutivo" runat="server" class="form-control">
                 </td>
                 <td>
                     <label for="FacturaConsultadaBodega" class="control-label">Bodega:</label>
-                    <input type="text" ID="textBoxFacturaConsultadaBodega" runat="server" class="form-control">
+                    <input type="text" disabled="disabled" ID="textBoxFacturaConsultadaBodega" runat="server" class="form-control">
                 </td>
                 <td>
                     <label for="FacturaConsultadaEstacion" class="control-label">Estación:</label>
-                    <input type="text" ID="textBoxFacturaConsultadaEstacion" runat="server" class="form-control">
+                    <input type="text" disabled="disabled" ID="textBoxFacturaConsultadaEstacion" runat="server" class="form-control">
                 </td>
             </tr>
             <tr>
                 <td>
                     <label for="FacturaConsultadaFechaHora" class="control-label">Fecha y hora:</label>
-                    <input type="text" ID="textBoxFacturaConsultadaFechaHora" runat="server" class="form-control">
+                    <input type="text" disabled="disabled" ID="textBoxFacturaConsultadaFechaHora" runat="server" class="form-control">
                 </td>
                 <td>
                     <label for="FacturaConsultadaVendedor" class="control-label">Vendedor:</label>
-                    <input type="text" ID="textBoxFacturaConsultadaVendedor" runat="server" class="form-control">
+                    <input type="text"  disabled="disabled" ID="textBoxFacturaConsultadaVendedor" runat="server" class="form-control">
                 </td>
                 <td>
                     <label for="FacturaConsultadaCliente" class="control-label">Cliente:</label>
-                    <input type="text" ID="textBoxFacturaConsultadaCliente" runat="server" class="form-control">
+                    <input type="text" disabled="disabled" ID="textBoxFacturaConsultadaCliente" runat="server" class="form-control">
                 </td>
             </tr>
             <tr>
                 <td>
                     <label for="FacturaConsultadaMontoTotal" class="control-label">Monto total:</label>
-                    <input type="text" ID="textBoxFacturaConsultadaMontoTotal" runat="server" class="form-control">
+                    <input type="text" disabled="disabled" ID="textBoxFacturaConsultadaMontoTotal" runat="server" class="form-control">
                 </td>
                 <td>
                     <label for="FacturaConsultadaTipoMoneda" class="control-label">Tipo de moneda:</label>
-                    <input type="text" ID="textBoxFacturaConsultadaTipoMoneda" runat="server" class="form-control">
+                    <input type="text" disabled="disabled" ID="textBoxFacturaConsultadaTipoMoneda" runat="server" class="form-control">
                 </td>
                 <td>
                     <label for="FacturaConsultadaMetodoPago" class="control-label">Método de pago:</label>
-                    <input type="text" ID="textBoxFacturaConsultadaMetodoPago" runat="server" class="form-control">
+                    <input type="text" disabled="disabled" ID="textBoxFacturaConsultadaMetodoPago" runat="server" class="form-control">
                 </td>
             </tr>
             <tr>
                 <td>
                     <label for="FacturaConsultadaActividad" class="control-label">Actividad:</label>
-                    <input type="text" ID="textBoxFacturaConsultadActividad" runat="server" class="form-control">
+                    <input type="text" disabled="disabled" ID="textBoxFacturaConsultadActividad" runat="server" class="form-control">
                 </td>
                 <td>
                     <label for="FacturaConsultadaEstado" class="control-label">Estado:</label>
@@ -132,6 +132,11 @@
             </tr>
         </table>
     </asp:Panel>
+
+    <button type="button" ID="botonAceptarModificacionFacturaEspecifica" class="btn btn-success-fozkr" visible="false" onserverclick="botonAceptarModificacionFacturaEspecifica_ServerClick" data-toggle="modal" runat="server">Aceptar</button>
+    <button type="button" ID="botonCancelarModificacionFacturaEspecifica" class="btn btn-danger-fozkr" visible="false" onserverclick="botonCancelarModificacionFacturaEspecifica_ServerClick" runat="server">Cancelar</button>
+                
+
 
     <!-- Panel con el grid de consultar facturas (se mantiene aparte para poder esconder los campos de consulta grupal y mostrar los de consulta individual, sin tocar el grid) -->
     <br />
