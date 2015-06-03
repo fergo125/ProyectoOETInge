@@ -304,7 +304,7 @@ namespace ProyectoInventarioOET
             try
             {
                 // Cargar bodegas
-                Object[] datos = new Object[5];
+                Object[] datos = new Object[6];
 
 
                 DataTable productos = controladoraAjustes.consultarProductosDeBodega((this.Master as SiteMaster).LlaveBodegaSesion);
@@ -318,8 +318,9 @@ namespace ProyectoInventarioOET
                         datos[0] = fila[1].ToString();
                         datos[1] = fila[2].ToString();
                         datos[2] = Convert.ToDouble(fila[3].ToString());
-                        datos[3] = Convert.ToDouble(fila[4].ToString());
-                        datos[4] = Convert.ToDouble(fila[5].ToString());
+                        datos[3] = fila[6].ToString();
+                        datos[4] = Convert.ToDouble(fila[4].ToString());
+                        datos[5] = Convert.ToDouble(fila[5].ToString());
                         tabla.Rows.Add(datos);
                         i++;
                     }
@@ -329,8 +330,9 @@ namespace ProyectoInventarioOET
                     datos[0] = "-";
                     datos[1] = "-";
                     datos[2] = "0";
-                    datos[3] = "0";
+                    datos[3] = "-";
                     datos[4] = "0";
+                    datos[5] = "0";
                     tabla.Rows.Add(datos);
                     mostrarMensaje("warning", "Atención: ", "No existen productos en la bodega actual.");
                 }
@@ -353,10 +355,11 @@ namespace ProyectoInventarioOET
         {
             DataTable tablaLimpia = tablaProducto();
 
-            Object[] datos = new Object[3];
+            Object[] datos = new Object[4];
             datos[0] = "-";
             datos[1] = "-";
             datos[2] = "0";
+            datos[3] = "-";
             tablaLimpia.Rows.Add(datos);
 
             gridViewProductos.DataSource = tablaLimpia;
@@ -415,6 +418,11 @@ namespace ProyectoInventarioOET
             columna.ColumnName = "Cantidad Actual";
             tabla.Columns.Add(columna);
 
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Unidad Métrica";
+            tabla.Columns.Add(columna);
+
             return tabla;
         }
 
@@ -465,6 +473,11 @@ namespace ProyectoInventarioOET
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.Double");
             columna.ColumnName = "Cantidad Actual";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Unidad Métrica";
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
@@ -632,10 +645,11 @@ namespace ProyectoInventarioOET
                         DataRow seleccionada = tablaAgregarProductos.Rows[indice];
 
                         // Sacamos datos pertinentes del producto
-                        Object[] datos = new Object[3];
+                        Object[] datos = new Object[4];
                         datos[0] = seleccionada["Nombre"];
                         datos[1] = seleccionada["Codigo"];
                         datos[2] = seleccionada["Cantidad Actual"];
+                        datos[3] = seleccionada["Unidad Métrica"];
 
                         // Agregar nueva tupla a tabla
                         tablaProductos.Rows.Add(datos);
