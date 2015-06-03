@@ -225,7 +225,10 @@
                                     <asp:TemplateField HeaderText="Cantidad">
                                         <ItemTemplate>
                                             <asp:TextBox ID="gridCrearFacturaCantidadProducto" runat="server" ReadOnly="false" Width="50px"></asp:TextBox>
+                                            <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="gridCrearFacturaCantidadProducto" ClientValidationFunction="changeColor" Display="Dynamic"
+                                                 ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="         Ingrese solo números enteros"  Font-Bold="true" ValidationExpression="\d+$"></asp:RegularExpressionValidator>
                                         </ItemTemplate>
+
                                     </asp:TemplateField>
                                 </Columns>
                                 <RowStyle Font-Size="small" BackColor="White" ForeColor="Black"/>
@@ -236,6 +239,7 @@
                             </asp:GridView>
                 </td>
             <tr>
+                
                 <td colspan="4">
                     <button type="button" ID="botonCrearFacturaQuitarProducto" class="btn btn-danger-fozkr" href="#modalCancelarFactura" data-toggle="modal" style="float: left" disabled="disabled" runat="server">Quitar producto</button>
                     <button type="button" ID="botonCrearFacturaEditarProducto" class="btn btn-warning-fozkr" onserverclick="Page_Load" style="float: left" disabled="disabled" runat="server">Editar producto</button>

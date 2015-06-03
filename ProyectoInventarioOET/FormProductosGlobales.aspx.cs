@@ -512,7 +512,11 @@ namespace ProyectoInventarioOET
             this.inputSaldo.Disabled = true;
             this.inputUnidades.Enabled = resp;
             this.inpuCategoria.Enabled = resp;
-            this.inputEstado.Enabled = resp && (permisos[2] == '1');
+            bool resp2 = false;
+            if ((int)Modo.Modificacion == modo) {
+                resp2 = productoConsultado.Existencia==0;
+            }
+            this.inputEstado.Enabled = resp2 && (permisos[2] == '1');
             this.inputVendible.Enabled = resp;
         }
         //*******************************************************************************

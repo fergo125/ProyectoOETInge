@@ -104,6 +104,8 @@
                                 <asp:TemplateField HeaderText="Cantidad" >
                                     <ItemTemplate>
                                         <asp:TextBox ID="textTraslados" runat="server" ReadOnly="false"></asp:TextBox> 
+                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="textTraslados" ClientValidationFunction="changeColor" Display="Dynamic"
+                                                 ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="Solo se permiten números válidos"  Font-Bold="true" ValidationExpression="^\d*(\.\d+)?$"></asp:RegularExpressionValidator>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>

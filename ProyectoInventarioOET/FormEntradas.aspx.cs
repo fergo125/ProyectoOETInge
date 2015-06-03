@@ -183,7 +183,7 @@ namespace ProyectoInventarioOET
             {
                 // Cargar entradas
                 Object[] datos = new Object[4];
-                bodegaDeTrabajo = "CRO44452";
+                bodegaDeTrabajo = "CRO44452";///////////////******************************//////////////////////////
                 DataTable entradas = controladoraEntradas.consultarEntradas(bodegaDeTrabajo);
 
                 if (entradas.Rows.Count > 0)
@@ -490,22 +490,37 @@ namespace ProyectoInventarioOET
          */
         protected void botonAgregarProductoFactura_Click(object sender, EventArgs e)
         {
-            String producto = this.textBoxAutocompleteCrearFacturaBusquedaProducto.Text;
+            //String producto = this.textBoxAutocompleteCrearFacturaBusquedaProducto.Text;
             String productoEscogido = this.textBoxAutocompleteCrearFacturaBusquedaProducto.Text;
             String cantidad = this.inputCantidadProducto.Value.ToString();
             String costo = this.inputCostoProducto.Value.ToString();
+            String[] provisional = new String[2];
+            provisional = obtenerCodigoDeProducto(productoEscogido);
+            bodegaDeTrabajo = "CRO44452";///////////////******************************//////////////////////////
 
-            Object[] datos = new Object[3];
-            datos[0] = productoEscogido;
-            datos[1] = cantidad;
-            datos[2] = costo;
-            tablaProductosNuevos.Rows.Add(datos);
+            DataTable producto = controladoraEntradas.consultarProductoDeBodega(bodegaDeTrabajo, provisional[1]);
 
-            this.botonEliminarProducto.Enabled = true;
-            this.botonModificarProducto.Enabled = true;
-            this.gridFacturaNueva.DataSource = tablaProductosNuevos;
-            this.gridFacturaNueva.DataBind();
-            limpiarCampos();
+            if (producto.Rows.Count == 0)
+            {
+                mostrarMensaje("warning", "Error", "El producto especificado no existe en la bodega, consulte al administrador del sistema.");
+            }
+            else
+            {
+                Object[] datos = new Object[3];
+                datos[0] = productoEscogido;
+                datos[1] = cantidad;
+                datos[2] = costo;
+                tablaProductosNuevos.Rows.Add(datos);
+
+                this.botonEliminarProducto.Enabled = true;
+                this.botonModificarProducto.Enabled = true;
+                this.botonAceptarEntrada.Disabled = false;
+                this.gridFacturaNueva.DataSource = tablaProductosNuevos;
+                this.gridFacturaNueva.DataBind();
+                limpiarCampos();            
+            }
+
+
         }
 
 
@@ -515,7 +530,7 @@ namespace ProyectoInventarioOET
          */
         protected void botonAceptarEntrada_ServerClick(object sender, EventArgs e)
         {
-            Boolean operacionCorrecta = true;
+            Boolean operacionCorrecta = false;
             String codigoInsertado = "";
             //String usuario = (this.Master as SiteMaster).Usuario.Usuario;
             String usuario = "usuario";
@@ -527,10 +542,10 @@ namespace ProyectoInventarioOET
             Object[] datos = new Object[3];
             DataTable tablaProductosConID = new DataTable();
             tablaProductosConID = tablaFacturaDetallada();
-            bodegaDeTrabajo = "CRO44452";
+            bodegaDeTrabajo = "CRO44452";///////////////******************************//////////////////////////
 
-            //if (modo == (int)Modo.SeleccionProductos)
-            //{
+            if (modo == (int)Modo.SeleccionProductos)
+            {
                 try 
                 {
                     objetoEntrada[1] = idFactura;
@@ -550,7 +565,7 @@ namespace ProyectoInventarioOET
 
                     }
                     resultado = controladoraEntradas.insertarEntrada(objetoEntrada, tablaProductosConID);
-                    if (resultado[1] == "Éxito")
+                    if (resultado[1] == "Éxito:")
                     {
                         modo = (int)Modo.Inicial;
                         operacionCorrecta = true;
@@ -564,10 +579,10 @@ namespace ProyectoInventarioOET
 
                 if (operacionCorrecta)
                 {
+                    mostrarMensaje(resultado[0], resultado[1], resultado[2]);
                     cambiarModo();
-                    mostrarMensaje(resultado[0], resultado[1], resultado[2]);                   
                 }
-            //}
+            }
         }
 
         /*
@@ -756,7 +771,7 @@ namespace ProyectoInventarioOET
                                                   // detallar los productos recibidos(Crear la entrada).
                     this.FieldsetEncabezadoFactura.Visible = true;
                     this.FieldsetCrearFactura.Visible = true;
-                    this.botonAceptarEntrada.Disabled = false;
+                    //this.botonAceptarEntrada.Disabled = false;
                     this.botonModificarProducto.Enabled = false;
                     this.botonEliminarProducto.Enabled = false;
                     break;
