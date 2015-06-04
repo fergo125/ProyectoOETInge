@@ -11,6 +11,7 @@ using ProyectoInventarioOET.Modulo_Seguridad;
 using ProyectoInventarioOET.Modulo_Actividades;
 using ProyectoInventarioOET.App_Code.Modulo_Ajustes;
 using ProyectoInventarioOET.App_Code;
+using ProyectoInventarioOET.Modulo_Productos_Locales;
 
 namespace ProyectoInventarioOET
 {
@@ -35,6 +36,7 @@ namespace ProyectoInventarioOET
         private static ControladoraSeguridad controladoraSeguridad;             //???
         private static ControladoraActividades controladoraActividades;         //Usada para consultar las actividades a las que se puede asociar una nueva factura
         private static ControladoraDatosGenerales controladoraDatosGenerales;   //Para accesar datos generales de la base de datos
+        private static ControladoraProductoLocal controladoraProductoLocal ;    //Para revisar existencias de productos
         
         //Importante:
         //Para el codigoPerfilUsuario (que se usa un poco hard-coded), los números son:
@@ -64,6 +66,7 @@ namespace ProyectoInventarioOET
                 controladoraAjustes = new ControladoraAjustes();
                 controladoraSeguridad = new ControladoraSeguridad();
                 controladoraActividades = new ControladoraActividades();
+                controladoraProductoLocal = new ControladoraProductoLocal();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
 
                 //Seguridad
@@ -636,14 +639,14 @@ namespace ProyectoInventarioOET
             String llaveProductoEscogido = controladoraVentas.verificarExistenciaProductoLocal((this.Master as SiteMaster).LlaveBodegaSesion, nombreCodigoProductoEscogido[0], nombreCodigoProductoEscogido[1]); //trae la llave
 
             //Cuarto, revisar que tenga existencia mayor a 0
-            //Blopa do this
+            double existencias = Convert.ToDouble(controladoraProductoLocal.consultarProductoDeBodega((this.Master as SiteMaster).LlaveBodegaSesion, nombreCodigoProductoEscogido[1]).Rows[0][7]);
 
             //Si el producto no fue agregado antes, existe, está localmente, y en estado activo, continuar
-            if (llaveProductoEscogido != null)
+            if (llaveProductoEscogido != null && existencias>0)
                 return llaveProductoEscogido; //todo salió bien
             else
             {
-                mostrarMensaje("warning", "Alerta: ", "Ese producto no está asociado a la bodega " + (this.Master as SiteMaster).NombreBodegaSesion + ", o no existe.");
+                mostrarMensaje("warning", "Alerta: ", "Ese producto no está asociado a la bodega " + (this.Master as SiteMaster).NombreBodegaSesion + ", o no existe, o no hay existencias.");
                 return null;
             }
         }
@@ -864,9 +867,29 @@ namespace ProyectoInventarioOET
             Object[] datosFactura = obtenerDatos();
             //revisar que las cantidades de cada producto no superen su existencia real local (usando funciones de controladoras)
             //Blopa, do this
+            DataTable productoConsultado;
+            bool alerta = false;
+            bool error = false;
+            for (int i = 0; i < productosAgregados.Rows.Count && !error; i++)
+            {
+                productoConsultado = controladoraProductoLocal.consultarProductoDeBodega((this.Master as SiteMaster).LlaveBodegaSesion,productosAgregados.Rows[i][2].ToString());
+                double cantidad = Convert.ToDouble(productosAgregados.Rows[i][0].ToString());
+                double existencias = Convert.ToDouble(productoConsultado.Rows[0][7]);
+                double minimo = Convert.ToDouble(productoConsultado.Rows[0][13]);
+                error = existencias < cantidad;
+                alerta |= (existencias - cantidad) >= minimo;
+            }
             //Con que un producto no cumpla esto, hay que mostrar un mensaje de error e interrumpir todo
-            String[] resultado = controladoraVentas.insertarFactura(datosFactura);
-            mostrarMensaje(resultado[0], resultado[1], resultado[2]);
+            if (!error)
+            {
+                String[] resultado = controladoraVentas.insertarFactura(datosFactura);
+                mostrarMensaje(resultado[0], resultado[1], resultado[2]);
+                if (alerta)
+                {
+                    resultado[0] = "warning";
+                    resultado[2] += "\nUno o más productos han salido de sus límites permitidos (nivel máximo o mínimo), revise el catálogo local.";
+                }
+            }
         }
 
         /*
