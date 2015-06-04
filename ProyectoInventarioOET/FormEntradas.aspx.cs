@@ -44,16 +44,16 @@ namespace ProyectoInventarioOET
             //Elementos visuales
             ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
             controladoraEntradas = new ControladoraEntradas();
-            //bodegaDeTrabajo = (this.Master as SiteMaster).LlaveBodegaSesion;
+            bodegaDeTrabajo = (this.Master as SiteMaster).LlaveBodegaSesion;
 
             mensajeAlerta.Visible = false;
             if (!IsPostBack)
             {
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
                 controladoraEntradas = new ControladoraEntradas();
-                permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Gestion de entradas");
+               permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Entradas de inventario");
                 if (permisos == "000000")
-                    //Response.Redirect("~/ErrorPages/404.html");
+                    Response.Redirect("~/ErrorPages/404.html");
 
                 // Esconder botones
                 mostrarBotonesSegunPermisos();
@@ -496,7 +496,7 @@ namespace ProyectoInventarioOET
             String costo = this.inputCostoProducto.Value.ToString();
             String[] provisional = new String[2];
             provisional = obtenerCodigoDeProducto(productoEscogido);
-            bodegaDeTrabajo = "CRO44452";///////////////******************************//////////////////////////
+            //bodegaDeTrabajo = "CRO44452";///////////////******************************//////////////////////////
 
             DataTable producto = controladoraEntradas.consultarProductoDeBodega(bodegaDeTrabajo, provisional[1]);
 
@@ -901,8 +901,8 @@ namespace ProyectoInventarioOET
          */
         protected void mostrarBotonesSegunPermisos()
         {
-            //botonConsultaActividades.Visible = (permisos[5] == '1');
-            //botonAgregarActividades.Visible = (permisos[4] == '1');
+            botonConsultaEntradas.Visible = (permisos[5] == '1');
+            botonAgregarEntradas.Visible = (permisos[4] == '1');
             //botonModificacionActividades.Visible = (permisos[3] == '1');
             //comboBoxEstadosActividades.Enabled = (permisos[2] == '1');
         }
