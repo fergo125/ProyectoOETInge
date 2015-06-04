@@ -33,20 +33,20 @@ namespace ProyectoInventarioOET.Modulo_Ventas
          */
         public EntidadFacturaVenta(Object[] datos)
         {
-            this.consecutivo = ""; // datos[0].ToString();
+            this.consecutivo = (datos[0] == null ? "" : datos[0].ToString()); //durante la creación se recibe null, durante la consulta no
             this.fechaYhora = datos[1].ToString();
-            this.estacion = datos[2].ToString();
-            this.bodega = datos[3].ToString();
+            this.bodega = datos[2].ToString();
+            this.estacion = datos[3].ToString();
             this.compania = datos[4].ToString();
-            this.vendedor = datos[5].ToString();
-            this.tipoMoneda = datos[6].ToString();
-            this.metodoPago = datos[7].ToString();
-            this.cliente = datos[8].ToString();
-            this.actividad = datos[9].ToString();
-            this.estado = datos[10].ToString().ToString();
-            this.montoTotalColones = Convert.ToDouble(datos[11].ToString());
-            this.montoTotalDolares = Convert.ToDouble(datos[12].ToString());
-            this.productos = (DataTable)datos[13];
+            this.actividad = datos[5].ToString();
+            this.vendedor = datos[6].ToString();
+            this.cliente = datos[7].ToString();
+            this.tipoMoneda = datos[8].ToString();
+            this.metodoPago = datos[9].ToString();
+            this.montoTotalColones = Convert.ToDouble(datos[10].ToString());
+            this.montoTotalDolares = Convert.ToDouble(datos[11].ToString());
+            this.estado = datos[12].ToString().ToString();
+            this.productos = (datos[13] == null ? null : (DataTable)datos[13]);
         }
 
         public String Consecutivo

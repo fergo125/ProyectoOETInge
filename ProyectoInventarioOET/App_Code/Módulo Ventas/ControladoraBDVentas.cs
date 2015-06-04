@@ -120,20 +120,20 @@ namespace ProyectoInventarioOET.Modulo_Ventas
                 String consulta = "SELECT * FROM " + esquema + "REGISTRO_FACTURAS_VENTA";
                 if (idVendedor != "All" || idBodega != "All" || idEstacion != "All") //Se debe parametrizar con alguno de los 3
                 {
-                    consulta = consulta + " WHERE ";
+                    consulta += " WHERE ";
                     if (idVendedor != "All")
-                        consulta = consulta + "VENDEDOR = '" + idVendedor + "' AND ";
+                        consulta += "VENDEDOR = '" + idVendedor + "' AND ";
                     if (idBodega != "All")
-                        consulta = consulta + "BODEGA = '" + idBodega + "' AND ";
+                        consulta += "BODEGA = '" + idBodega + "' AND ";
                     if (idEstacion != "All")
-                        consulta = consulta + "ESTACION = '" + idEstacion + "' AND ";
-                    consulta = consulta.Substring(0, consulta.Length - 5); //se le quita el último pedazo de " AND "
+                        consulta += "ESTACION = '" + idEstacion + "' AND ";
+                    consulta = consulta.Substring(0, consulta.Length - 5); //se le quita el último pedazo de " AND " que haya quedado
                 }
+                consulta += "ORDER BY CONSECUTIVO";
                 OracleCommand command = conexionBD.CreateCommand();
                 command.CommandText = consulta;
                 OracleDataReader reader = command.ExecuteReader();
-                if(reader.HasRows)
-                    resultado.Load(reader);
+                resultado.Load(reader);
             }
             catch (OracleException e)
             {
@@ -145,27 +145,26 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         /*
          * ???
          */
-        public EntidadFacturaVenta consultarFactura(String codigo)
+        public EntidadFacturaVenta consultarFactura(String llaveFactura)
         {
             String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
             EntidadFacturaVenta facturaConsultada = null;
-            Object[] datosConsultados = new Object[13];
+            Object[] datosConsultados = new Object[14];
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT * FROM " + esquema + "REGISTRO_FACTURAS_VENTA WHERE REGISTRO_FACTURAS_VENTA.CONSECUTIVO= '" + codigo + "'";
+                command.CommandText = "SELECT * FROM " + esquema + "REGISTRO_FACTURAS_VENTA WHERE CONSECUTIVO= '" + llaveFactura + "'";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
 
                 if (resultado.Rows.Count == 1)
                 {
-                    datosConsultados[0] = codigo;
-                    for (int i = 1; i < 12; i++)
+                    for (int i = 0; i < 13; i++)
                     {
                         datosConsultados[i] = resultado.Rows[0][i].ToString();
                     }
-
+                    datosConsultados[13] = consultarProductosDeFactura(llaveFactura); //productos asociados a factura
                     facturaConsultada = new EntidadFacturaVenta(datosConsultados);
                 }
             }
@@ -173,6 +172,27 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             {
             }
             return facturaConsultada;
+        }
+
+        /*
+         * Obtiene la lista de los productos asociados a una factura, dada una factura específica consultada.
+         */
+        private DataTable consultarProductosDeFactura(String llaveFactura)
+        {
+            String esquema = "Inventarios.";
+            DataTable resultado = new DataTable();
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "SELECT * FROM " + esquema + "REGISTRO_DETALLES_FACTURAS WHERE IDFACTURA= '" + llaveFactura + "'";
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
+            }
+            catch (OracleException e)
+            {
+                resultado = null;
+            }
+            return resultado;
         }
 
         /*
@@ -361,7 +381,9 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             return maximo;
         }
 
-
+        /*
+         * ???
+         */
         public String[] anularFactura(EntidadFacturaVenta factura)
         {
             String esquema = "Inventarios.";
@@ -392,7 +414,7 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         }
 
         /*
-         * 
+         * Obtiene las diferentes opciones de formas de pago para escoger una durante la creación de una factura.
          */
         public DataTable consultarMetodosPago()
         {
@@ -413,7 +435,7 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         }
 
         /*
-         * 
+         * Obtiene la lista de empleados de la OET para asociar uno como cliente durante la creación de una factura.
          */
         public DataTable consultarClientes()
         {
