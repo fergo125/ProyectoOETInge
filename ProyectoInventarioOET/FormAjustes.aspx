@@ -39,7 +39,7 @@
                 <input type="text" id="outputBodega" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
                 <label for="outputUsuario" class= "control-label"> Usuario responsable: </label>      
                 <input type="text" id="outputUsuario" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
-                <a id="botonAgregar" runat="server" href="#modalAgregarProducto" class="btn btn-success-fozkr" data-toggle="modal" role="button"><i class="fa fa-plus"></i> Agregar Producto</a>
+                <a id="botonAgregar" runat="server" data-target="#modalAgregarProducto" class="btn btn-success-fozkr" data-toggle="modal" role="button"><i class="fa fa-plus"></i> Agregar Producto</a>
             </div>
             <div class="col-lg-6">
                 <label for="dropdownTipo" class= "control-label"> Tipo de Ajuste*: </label>      
@@ -74,7 +74,7 @@
                                     <ItemTemplate>
                                         <asp:TextBox ID="textAjustes" runat="server" ReadOnly="false"></asp:TextBox>
                                                 <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="textAjustes" ClientValidationFunction="changeColor" Display="Dynamic"
-                                                 ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="Solo se permiten números"  Font-Bold="true" ValidationExpression="\d+"></asp:RegularExpressionValidator>
+                                                 ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="Solo se permiten números válidos"  Font-Bold="true" ValidationExpression="^\d*(\.\d+)?$"></asp:RegularExpressionValidator>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>
@@ -166,7 +166,7 @@
 
     <!-- Modal Agregar Producto -->
     <div class="modal fade" id="modalAgregarProducto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog" style="width:1000px">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

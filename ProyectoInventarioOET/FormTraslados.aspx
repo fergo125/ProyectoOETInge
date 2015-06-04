@@ -104,6 +104,8 @@
                                 <asp:TemplateField HeaderText="Cantidad" >
                                     <ItemTemplate>
                                         <asp:TextBox ID="textTraslados" runat="server" ReadOnly="false"></asp:TextBox> 
+                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="textTraslados" ClientValidationFunction="changeColor" Display="Dynamic"
+                                                 ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="Solo se permiten números válidos"  Font-Bold="true" ValidationExpression="^\d*(\.\d+)?$"></asp:RegularExpressionValidator>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>
@@ -191,7 +193,7 @@
 
     <!-- Modal Agregar Producto -->
     <div class="modal fade" id="modalAgregarProducto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog" style="width:1000px">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
