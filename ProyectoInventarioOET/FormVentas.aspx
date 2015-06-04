@@ -15,26 +15,26 @@
 
     <!-- Título del Form -->
     <div>
-        <h2 ID="TituloVentas" runat="server">Facturación</h2>
+        <h2 ID="TituloFormVentas" runat="server">Facturación</h2>
         <hr />
     </div>
 
     <!-- Botones principales -->
-    <button runat="server" onserverclick="clickBotonConsultarFacturas" ID="botonConsultar" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Consultar Facturas</button>
-    <button runat="server" onserverclick="clickBotonCrearFactura" ID="botonCrear" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Crear Factura</button>
-    <button runat="server" onserverclick="botonModificar_ServerClick" ID="botonModificar" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Modificar Factura</button>
+    <button runat="server" onserverclick="clickBotonConsultar" ID="botonConsultar" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Consultar Facturas</button>
+    <button runat="server" onserverclick="clickBotonCrear" ID="botonCrear" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Crear Factura</button>
+    <button runat="server" onserverclick="clickBotonModificar" ID="botonModificar" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Modificar Factura</button>
     <a ID="botonAjusteEntrada" accesskey="A" href="#modalAjusteRapido" class="btn btn-info-fozkr" role="button" style="float: right" visible="false" data-toggle="modal" runat ="server">Ajuste rápido de entrada</a> 
     <a ID="botonCambioSesion" accesskey="S" href="#modalCambioSesion" class="btn btn-info-fozkr" role="button" style="float: right" visible="false" data-toggle="modal" runat ="server">Cambio rápido de sesión</a>  
     <br />
     <br />
 
     <!-- Título de la acción que se está realizando -->
-    <h3 ID="tituloAccionFacturas" runat="server"></h3>
+    <h3 ID="tituloAccionForm" runat="server"></h3>
 
     <!-- Panel para consultar facturas -->
-    <asp:Panel ID="PanelConsultarFacturas" runat="server" Visible="false">
+    <asp:Panel ID="PanelConsultar" runat="server" Visible="false">
         <br />
-        <div class="row" ID="bloqueFormulario" runat="server">
+        <div class="row" runat="server">
             <div class="col-lg-12">
                 <div class="form-group col-lg-3">
                     <label for="ConsultaEstacion" class="control-label">Estación:</label>    
@@ -133,8 +133,8 @@
         </table>
     </asp:Panel>
 
-    <button type="button" ID="botonAceptarModificacionFacturaEspecifica" class="btn btn-success-fozkr" visible="false" onserverclick="botonAceptarModificacionFacturaEspecifica_ServerClick" data-toggle="modal" runat="server">Aceptar</button>
-    <button type="button" ID="botonCancelarModificacionFacturaEspecifica" class="btn btn-danger-fozkr" visible="false" onserverclick="botonCancelarModificacionFacturaEspecifica_ServerClick" runat="server">Cancelar</button>
+    <button type="button" ID="botonAceptarModificacionFacturaEspecifica" class="btn btn-success-fozkr" visible="false" onserverclick="clickBotonAceptarModificar" data-toggle="modal" runat="server">Aceptar</button>
+    <button type="button" ID="botonCancelarModificacionFacturaEspecifica" class="btn btn-danger-fozkr" visible="false" onserverclick="clickBotonCancelarModificar" runat="server">Cancelar</button>
                 
 
 
@@ -143,7 +143,7 @@
     <br />
     <%--<asp:Panel ID="PanelGridConsultarFacturas" runat="server"></asp:Panel>--%>
         <strong><div ID="tituloGrid" runat="server" tabindex="" class="control-label" style="text-align:center; font-size:larger; background-color: #C0C0C0;" visible="false">Facturas en el sistema</div></strong>
-                <asp:GridView ID="gridViewFacturas" Visible="false" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewFacturas_FilaSeleccionada" OnPageIndexChanging="gridViewFacturas_CambioPagina" runat="server" AllowPaging="true" PageSize="3" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                <asp:GridView ID="gridViewFacturas" Visible="false" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewFacturas_FilaSeleccionada" OnPageIndexChanging="gridViewFacturas_CambioPagina" runat="server" AllowPaging="true" PageSize="10" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
                     <Columns>
                         <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Consultar">
                             <ControlStyle CssClass="btn btn-default"></ControlStyle>
@@ -187,59 +187,35 @@
                 <td>Producto:</td>
                 <td colspan="2"><asp:TextBox ID="textBoxAutocompleteCrearFacturaBusquedaProducto" runat="server" CssClass="form-control" Width="100%"></asp:TextBox>
                 </td>
-                <td><button type="button" ID="botonCrearFacturaAgregarProducto" class="btn btn-success-fozkr" onserverclick="clickBotonAgregarProductoFactura" runat="server">Agregar Producto</button></td>
+                <td><button type="button" ID="botonCrearFacturaAgregarProducto" class="btn btn-success-fozkr" onserverclick="clickBotonAgregarProductoFacturaNueva" runat="server">Agregar Producto</button></td>
             </tr>
             <tr>
                 <td colspan="4">
-                            <%--<asp:GridView ID="gridViewCrearFacturaProductos" CssClass="table" runat="server" AllowPaging="True" PageSize="5" BorderColor="White" BorderStyle="Solid" BorderWidth="1px" GridLines="None" ShowHeaderWhenEmpty="True" AutoGenerateColumns="False">
-                                <Columns>
-                                    <asp:TemplateField HeaderText="Seleccionar">
-                                        <ItemTemplate>
-                                            <asp:CheckBox ID="CheckBox1" runat="server" />
-                                        </ItemTemplate>
-                                    </asp:TemplateField>
-                                    <asp:BoundField HeaderText="Nombre" />
-                                    <asp:BoundField HeaderText="Código interno" />
-                                    <asp:TemplateField HeaderText="Cantidad">
-                                        <ItemTemplate>
-                                            <asp:TextBox ID="gridCrearFacturaCantidadProducto" runat="server" ReadOnly="false" Width="50px"></asp:TextBox>
-                                        </ItemTemplate>
-                                    </asp:TemplateField>
-                                    <asp:BoundField HeaderText="Precio unitario" />
-                                    <asp:BoundField HeaderText="Impuesto" />
-                                    <asp:BoundField HeaderText="Descuento" />
-                                </Columns>
-                                <RowStyle Font-Size="small" BackColor="White" ForeColor="Black"/>
-                                <PagerStyle CssClass="paging" HorizontalAlign="Center"/>
-                                <AlternatingRowStyle BackColor="#F8F8F8"/>
-                                <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White"/>
-                                <HeaderStyle CssClass="active" Font-Size="Small" Font-Bold="true" BackColor="Silver"/>
-                            </asp:GridView>--%>
-                            <asp:GridView ID="gridViewCrearFacturaProductos" CssClass="table" runat="server" AllowPaging="True" PageSize="5" BorderColor="White" BorderStyle="Solid" BorderWidth="1px" GridLines="None" ShowHeaderWhenEmpty="True">
-                                <Columns>
-							        <asp:TemplateField HeaderText="Seleccionar">
-								        <ItemTemplate>
-									        <asp:CheckBox ID="gridCrearFacturCheckBoxSeleccionarProducto" OnCheckedChanged="checkBoxCrearFacturaProductos_CheckedChanged" runat="server" AutoPostBack="true"/>
-								        </ItemTemplate>
-							        </asp:TemplateField>
-                                    <asp:TemplateField HeaderText="Cantidad">
-                                        <ItemTemplate>
-                                            <asp:TextBox ID="gridCrearFacturaCantidadProducto" runat="server" ReadOnly="false" Width="50px"></asp:TextBox>
-                                            <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="gridCrearFacturaCantidadProducto" ClientValidationFunction="changeColor" Display="Dynamic"
-                                                 ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="         Ingrese solo números enteros"  Font-Bold="true" ValidationExpression="\d+$"></asp:RegularExpressionValidator>
-                                        </ItemTemplate>
-
-                                    </asp:TemplateField>
-                                </Columns>
-                                <RowStyle Font-Size="small" BackColor="White" ForeColor="Black"/>
-                                <PagerStyle CssClass="paging" HorizontalAlign="Center"/>
-                                <AlternatingRowStyle BackColor="#F8F8F8"/>
-                                <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="Black"/>
-                                <HeaderStyle CssClass="active" Font-Size="Small" Font-Bold="true" BackColor="Silver"/>
-                            </asp:GridView>
+                    <asp:Panel ID="PanelProductosFactura" runat="server" ScrollBars="Vertical" Height="300px">
+                    <asp:GridView ID="gridViewCrearFacturaProductos" CssClass="table" runat="server" AllowPaging="False" BorderColor="White" BorderStyle="Solid" BorderWidth="1px" GridLines="None" ShowHeaderWhenEmpty="True">
+                        <Columns>
+							<asp:TemplateField HeaderText="Seleccionar">
+								<ItemTemplate>
+									<asp:CheckBox ID="gridCrearFacturCheckBoxSeleccionarProducto" OnCheckedChanged="checkBoxCrearFacturaProductos_CheckedChanged" runat="server" AutoPostBack="true"/>
+								</ItemTemplate>
+							</asp:TemplateField>
+                            <asp:TemplateField HeaderText="Cantidad">
+                                <ItemTemplate>
+                                    <asp:TextBox ID="gridCrearFacturaCantidadProducto" runat="server" ReadOnly="false" Width="75%"></asp:TextBox>
+                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="gridCrearFacturaCantidadProducto" ClientValidationFunction="changeColor" Display="Dynamic"
+                                            ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="Ingrese solo números enteros"  Font-Bold="true" ValidationExpression="\d+$"></asp:RegularExpressionValidator>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                        </Columns>
+                        <RowStyle Font-Size="small" BackColor="White" ForeColor="Black"/>
+                        <PagerStyle CssClass="paging" HorizontalAlign="Center"/>
+                        <AlternatingRowStyle BackColor="#F8F8F8"/>
+                        <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="Black"/>
+                        <HeaderStyle CssClass="active" Font-Size="Small" Font-Bold="true" BackColor="Silver"/>
+                    </asp:GridView>
+                    </asp:Panel>
                 </td>
             <tr>
-                
                 <td colspan="4">
                     <button type="button" ID="botonCrearFacturaQuitarProducto" class="btn btn-danger-fozkr" href="#modalCancelarFactura" data-toggle="modal" style="float: left" disabled="disabled" runat="server">Eliminar producto</button>
                     <button type="button" ID="botonCrearFacturaEditarProducto" class="btn btn-warning-fozkr" onserverclick="Page_Load" style="float: left" disabled="disabled" runat="server">Editar producto</button>
@@ -247,7 +223,7 @@
             </tr>
             <tr>
                 <td>Tipo moneda: <asp:Label ID="labelCrearFacturaTipoMoneda" runat="server"></asp:Label></td>
-                <td><asp:Button ID="botonCrearFacturaSwitchPrecios" OnClick="clickBotonCampiarTipoMoneda" class="btn" runat="server" Text="Cambiar moneda ₡/$"/></td>
+                <td><asp:Button ID="botonCrearFacturaSwitchPrecios" OnClick="clickBotonCambiarTipoMoneda" class="btn" runat="server" Text="Cambiar moneda ₡/$"/></td>
                 <td style="text-align: right;">Precio total:</td>
                 <td><asp:Label ID="labelCrearFacturaPrecioTotal" runat="server" Text="0"></asp:Label></td>
             </tr>
@@ -265,13 +241,32 @@
             </tr>
             <tr>
                 <td colspan="4">
-                    <button type="button" ID="botonCrearFacturaGuardar" class="btn btn-success-fozkr" onserverclick="clickBotonbotonCrearFacturaGuardar" runat="server">Guardar</button>
+                    <button type="button" ID="botonCrearFacturaGuardar" class="btn btn-success-fozkr" onserverclick="clickBotonCrearGuardar" runat="server">Guardar</button>
                     <button type="button" ID="botonCrearFacturaCancelar" class="btn btn-danger-fozkr" href="#modalCancelarFactura" data-toggle="modal" runat="server">Cancelar</button>
                 </td>
             </tr>
         </table>
     </asp:Panel>
     
+    <!--Modal Cancelar-->
+    <div class="modal fade" id="modalCancelar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="modalTitle"><i class="fa fa-exclamation-triangle text-danger fa-2x"></i>Confirmar cancelación</h4>
+                </div>
+                <div class="modal-body">
+                    ¿Está seguro que desea cancelar la operación? Perdería todos los datos no guardados.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="botonAceptarModalCancelar" causesvalidation="false" class="btn btn-success-fozkr" runat="server" onserverclick="clickBotonCrearCancelarModal">Aceptar</button>
+                    <button type="button" id="botonCancelarModalCancelar" causesvalidation="false" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
+                </div>
+            </div>
+        </div>
+    </div>
+
      <!--Modal Cambio de sesión-->
     <div class="modal fade" ID="modalCambioSesion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -295,7 +290,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" ID="botonAceptarCambioUsuario" class="btn btn-success-fozkr" onserverclick="botonAceptarCambioUsuario_ServerClick" runat="server">Aceptar</button>
+                    <button type="button" ID="botonAceptarCambioUsuario" class="btn btn-success-fozkr" onserverclick="clickBotonAceptarCambioUsuario" runat="server">Aceptar</button>
                     <button type="button" ID="botonCancelarCambioUsuario" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
                 </div>
             </div>
@@ -312,7 +307,7 @@
                 </div>
                 <div class="modal-body">
                     Ingrese los datos con los que desea hacer el ajuste rápido de inventario.
-                <!-- Ingresar el producto y la cantidad -->
+                    <!-- Ingresar el producto y la cantidad -->
                     <br />
                     <br />
                     <label for="productoParaAjuste" class= "control-label"> Producto a ajustar: </label>     
@@ -322,7 +317,7 @@
                     <asp:TextBox ID="nuevaCantidadParaAjusteRapido" runat="server" CssClass="form-control" style="max-width:100%"></asp:TextBox>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" ID="botonAceptarAjusteRapido" class="btn btn-success-fozkr" onserverclick="botonAceptarAjusteRapido_ServerClick" runat="server">Aceptar</button>
+                    <button type="button" ID="botonAceptarAjusteRapido" class="btn btn-success-fozkr" onserverclick="clickBotonAceptarAjusteRapido" runat="server">Aceptar</button>
                     <button type="button" ID="botonCancelarAjusteRapido" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
                 </div>
             </div>

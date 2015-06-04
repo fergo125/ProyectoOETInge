@@ -40,13 +40,13 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.Label labelAlerta;
         
         /// <summary>
-        /// Control TituloVentas.
+        /// Control TituloFormVentas.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl TituloVentas;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl TituloFormVentas;
         
         /// <summary>
         /// Control botonConsultar.
@@ -94,31 +94,22 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlAnchor botonCambioSesion;
         
         /// <summary>
-        /// Control tituloAccionFacturas.
+        /// Control tituloAccionForm.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tituloAccionFacturas;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tituloAccionForm;
         
         /// <summary>
-        /// Control PanelConsultarFacturas.
+        /// Control PanelConsultar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel PanelConsultarFacturas;
-        
-        /// <summary>
-        /// Control bloqueFormulario.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl bloqueFormulario;
+        protected global::System.Web.UI.WebControls.Panel PanelConsultar;
         
         /// <summary>
         /// Control dropDownListConsultaEstacion.
@@ -391,6 +382,15 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlButton botonCrearFacturaAgregarProducto;
         
         /// <summary>
+        /// Control PanelProductosFactura.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel PanelProductosFactura;
+        
+        /// <summary>
         /// Control gridViewCrearFacturaProductos.
         /// </summary>
         /// <remarks>
@@ -488,6 +488,15 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlButton botonCrearFacturaCancelar;
+        
+        /// <summary>
+        /// Control botonAceptarModalCancelar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonAceptarModalCancelar;
         
         /// <summary>
         /// Control inputUsername.
