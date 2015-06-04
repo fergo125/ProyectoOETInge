@@ -47,38 +47,65 @@ namespace ProyectoInventarioOET.Modulo_Ventas
                 + factura.Estado + ")";
                 OracleDataReader reader = command.ExecuteReader();
 
-                //String tuplasAMeter = "";
-                //foreach (DataRow producto in factura.Productos.Rows)
-                // {
-                //     tuplasAMeter += " INTO REGISTRO_DETALLES_FACTURAS VALUES( "
-                //         + idSiguienteFactura +",'"
-                //         + producto[0].ToString() + "',"
-                //         + producto[1].ToString() + ","
-                //         + producto[2].ToString() + ","
-                //         + producto[3].ToString() + ","
-                //         + producto[4].ToString() + ","
-                //         + producto[5].ToString() + ","
-                //         + ") "; 
-                // }
-
-                //String insercion = "INSERT ALL " + tuplasAMeter + " SELECT * FROM dual";
-
-                //command = conexionBD.CreateCommand();
-                //command.CommandText = insercion;
-                //reader = command.ExecuteReader();
-
-                res[0] = "success";
-                res[1] = "Éxito:";
-                res[2] = "Factura agregada al sistema.";
+                if (insertarProductosFactura(idSiguienteFactura, factura.Productos))
+                {
+                    res[0] = "success";
+                    res[1] = "Éxito:";
+                    res[2] = "Factura agregada al sistema con éxito.";
+                }
+                else //hubo un error al intentar insertar los productos, pero la factura se insertó bien
+                {
+                    res[0] = "danger";
+                    res[1] = "Error:";
+                    res[2] = "Error al intentar insertar los productos de la factura en la base de datos. La factura fue insertada con éxito pero sus productos no.";
+                }
             }
             catch (OracleException e)
             {
                 res[0] = "danger";
                 res[1] = "Error:";
-                res[2] = "Factura no agregada.";
+                res[2] = "Error al intentar insertar la factura en la base de datos.";
             }
 
             return res;
+        }
+
+        /*
+         * Una vez que se inserta una factura general, se procede a insertar los detalles de la misma en otra tabla,
+         * se insertan los productos asociados a la misma usando la llave que se insertó con éxito previamente.
+         * Retorna true si logra insertar los productos con éxito, de lo contrario, retorna false.
+         */
+        private bool insertarProductosFactura(int idFactura, DataTable productos)
+        {
+            String esquema = "Inventarios.";
+            try
+            {
+                String tuplas = ""; //se agrega cada producto en una inserción por aparte para luego unirlas en un sólo query
+                foreach (DataRow producto in productos.Rows)
+                {
+                    tuplas += " INTO " + esquema + "REGISTRO_DETALLES_FACTURAS VALUES( "
+                        + idFactura + ", '"
+                        + producto[1].ToString() + "', "
+                        + producto[4].ToString() + ", "
+                        + producto[2].ToString() + ", "
+                        + producto[3].ToString() + ", "
+                        + producto[6].ToString() + ", "
+                        + producto[5].ToString() + ")";
+                }
+
+                String queryInsercion = "INSERT ALL" + tuplas + " SELECT * FROM DUAL"; //query unificado
+
+                OracleCommand command = conexionBD.CreateCommand();
+                command = conexionBD.CreateCommand();
+                command.CommandText = queryInsercion;
+                OracleDataReader reader = command.ExecuteReader();
+
+                return true;
+            }
+            catch (OracleException e)
+            {
+                return false;
+            }
         }
 
         /*

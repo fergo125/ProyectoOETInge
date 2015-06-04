@@ -473,11 +473,21 @@ namespace ProyectoInventarioOET
                 detallesProducto = productos.NewRow();
                 detallesProducto[0] = HttpUtility.HtmlDecode(fila.Cells[2].Text); //nombre
                 detallesProducto[1] = HttpUtility.HtmlDecode(fila.Cells[3].Text); //codigo interno
-                detallesProducto[2] = HttpUtility.HtmlDecode(fila.Cells[4].Text); //precio unitario
-                detallesProducto[3] = Convert.ToInt32(((TextBox)fila.FindControl("gridCrearFacturaCantidadProducto")).Text); //cantidad
-                detallesProducto[4] = HttpUtility.HtmlDecode(fila.Cells[5].Text); //impuesto
-                detallesProducto[5] = HttpUtility.HtmlDecode(fila.Cells[6].Text); //descuento
-                detallesProducto[6] = HttpUtility.HtmlDecode(fila.Cells[7].Text); //total
+                detallesProducto[6] = HttpUtility.HtmlDecode(fila.Cells[6].Text); //impuesto
+                detallesProducto[7] = HttpUtility.HtmlDecode(fila.Cells[7].Text); //total
+                detallesProducto[5] = (HttpUtility.HtmlDecode(fila.Cells[5].Text) == "No" ? 0 : 1); //descuento
+                detallesProducto[4] = Convert.ToInt32(((TextBox)fila.FindControl("gridCrearFacturaCantidadProducto")).Text); //cantidad
+                if(tipoMonedaCrearFactura == "Colones")
+                {
+                    detallesProducto[2] = HttpUtility.HtmlDecode(fila.Cells[4].Text); //precio unitario colones
+                    detallesProducto[3] = Math.Round((Convert.ToDouble(detallesProducto[2]) / Convert.ToInt32(textBoxCrearFacturaTipoCambio.Text)), 2, MidpointRounding.AwayFromZero); //precio unitario dólares
+                }
+                else //dólares
+                {
+                    detallesProducto[3] = HttpUtility.HtmlDecode(fila.Cells[4].Text); //precio unitario dólares
+                    detallesProducto[2] = Math.Round((Convert.ToDouble(detallesProducto[3]) * Convert.ToInt32(textBoxCrearFacturaTipoCambio.Text)), 2, MidpointRounding.AwayFromZero); //precio unitario colones
+                }
+                productos.Rows.Add(detallesProducto);
             }
             return productos;
         }
@@ -581,6 +591,11 @@ namespace ProyectoInventarioOET
 
             if (paraInsertar)
             {
+                column = new DataColumn();
+                column.DataType = Type.GetType("System.Double");
+                column.ColumnName = "Precio unitario dólares";
+                productosAgregados.Columns.Add(column);
+
                 column = new DataColumn();
                 column.DataType = Type.GetType("System.Int32");
                 column.ColumnName = "Cantidad";

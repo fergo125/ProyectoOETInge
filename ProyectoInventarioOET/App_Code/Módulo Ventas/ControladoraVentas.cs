@@ -29,6 +29,11 @@ namespace ProyectoInventarioOET.Modulo_Ventas
          */
         public String[] insertarFactura(Object[] datosFactura)
         {
+            DataTable productosConID = (DataTable)datosFactura[13];
+            foreach (DataRow fila in productosConID.Rows) //se reemplaza el código interno por la llave para insertar
+                fila[1] = controladoraBDVentas.verificarExistenciaProductoGlobal(fila[0].ToString(), fila[1].ToString());
+            datosFactura[13] = productosConID;
+
             EntidadFacturaVenta factura = new EntidadFacturaVenta(datosFactura);
             return controladoraBDVentas.insertarFactura(factura);
         }
@@ -40,10 +45,10 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         public String verificarExistenciaProductoLocal(String idBodega, String nombreProductoEscogido, String codigoProductoEscogido)
         {
             String llaveProducto = controladoraBDVentas.verificarExistenciaProductoGlobal(nombreProductoEscogido, codigoProductoEscogido);
-            //Luego, si el producto se existe, se usa su llave para verificar que existe en el catálogo local de la bodega
+            //Si el producto se existe, se usa su llave para verificar que existe en el catálogo local de la bodega
             //que se está usando como punto de venta.
             if (controladoraBDVentas.verificarExistenciaProductoLocal(llaveProducto, idBodega))
-                return llaveProducto; //Finalmente, se retorna nulo si el producto no se encuentra, y la llave del produto si sí se encuentra
+                return llaveProducto; //Finalmente, se retorna nulo si el producto no se encuentra, y la llave del producto si sí se encuentra
             return null;
         }
 

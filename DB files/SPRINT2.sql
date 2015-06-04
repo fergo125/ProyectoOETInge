@@ -156,11 +156,12 @@ estado number
 
 CREATE TABLE REGISTRO_DETALLES_FACTURAS(
 idFactura int REFERENCES REGISTRO_FACTURAS_VENTA(consecutivo),
-idProducto varchar2(20),
+idProducto varchar2(50),
 cantidad int,
 precioUnitarioColones float, 
 precioUnitarioDolares float,
-descuento int
+descuento int,
+impuesto varchar2(2)
 );
 
 
