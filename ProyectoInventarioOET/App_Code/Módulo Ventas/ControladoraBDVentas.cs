@@ -29,10 +29,10 @@ namespace ProyectoInventarioOET.Modulo_Ventas
 
             try
             {
-                int idSiguienteFactura = getCantidadFacturas();
+                int idSiguienteFactura = getUltimoConsecutivo() + 1;
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "INSERT INTO " + esquema + "REGISTRO_FACTURAS_VENTA (CONSECUTIVO, FECHA, BODEGA, ESTACION, COMPAÑIA, ACTIVIDAD, VENDEDOR, CLIENTE, TIPOMONEDA, METODOPAGO, MONTOTOTAL, ESTADO) VALUES ("
-                + (idSiguienteFactura + 1) + ",'"
+                command.CommandText = "INSERT INTO " + esquema + "REGISTRO_FACTURAS_VENTA (CONSECUTIVO, FECHAHORA, BODEGA, ESTACION, COMPAÑIA, ACTIVIDAD, VENDEDOR, CLIENTE, TIPOMONEDA, METODOPAGO, MONTOTOTALCOLONES, MONTOTOTALDOLARES, ESTADO) VALUES ("
+                + idSiguienteFactura + ",'"
                 + factura.FechaHora + "','"
                 + factura.Bodega + "','"
                 + factura.Estacion + "','"
@@ -42,31 +42,30 @@ namespace ProyectoInventarioOET.Modulo_Ventas
                 + factura.Cliente + "','"
                 + factura.TipoMoneda + "','"
                 + factura.MetodoPago + "',"
-                + factura.MontoTotalColones + ",'"
-                + factura.Estado + "')";
+                + factura.MontoTotalDolares + ","
+                + factura.MontoTotalColones + ","
+                + factura.Estado + ")";
                 OracleDataReader reader = command.ExecuteReader();
 
+                //String tuplasAMeter = "";
+                //foreach (DataRow producto in factura.Productos.Rows)
+                // {
+                //     tuplasAMeter += " INTO REGISTRO_DETALLES_FACTURAS VALUES( "
+                //         + idSiguienteFactura +",'"
+                //         + producto[0].ToString() + "',"
+                //         + producto[1].ToString() + ","
+                //         + producto[2].ToString() + ","
+                //         + producto[3].ToString() + ","
+                //         + producto[4].ToString() + ","
+                //         + producto[5].ToString() + ","
+                //         + ") "; 
+                // }
 
-                String tuplasAMeter = "";
-                /* foreach (DataRow producto in factura.Productos.Rows)
-                 {
-                     tuplasAMeter += " INTO REGISTRO_DETALLES_FACTURAS VALUES( "
-                         + idSiguienteFactura +",'"
-                         + producto[0].ToString() + "',"
-                         + producto[1].ToString() + ","
-                         + producto[2].ToString() + ","
-                         + producto[3].ToString() + ","
-                         + producto[4].ToString() + ","
-                         + producto[5].ToString() + ","
-                         + ") "; 
-                 }*/
+                //String insercion = "INSERT ALL " + tuplasAMeter + " SELECT * FROM dual";
 
-                String insercion = "INSERT ALL " + tuplasAMeter + " SELECT * FROM dual";
-
-                command = conexionBD.CreateCommand();
-                command.CommandText = insercion;
-                reader = command.ExecuteReader();
-
+                //command = conexionBD.CreateCommand();
+                //command.CommandText = insercion;
+                //reader = command.ExecuteReader();
 
                 res[0] = "success";
                 res[1] = "Éxito:";
@@ -85,18 +84,17 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         /*
          * ???
          */
-        public DataTable consultarFacturas(String perfil, String idVendedor, String idBodega, String idEstacion)
+        public DataTable consultarFacturas(String idVendedor, String idBodega, String idEstacion)
         {
             String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
             try
             {
-                OracleCommand command = conexionBD.CreateCommand();
                 String consulta = "SELECT * FROM " + esquema + "REGISTRO_FACTURAS_VENTA";
-                if(idVendedor != "All" || idBodega != "All" || idEstacion != "All") //Se debe parametrizar con alguno de los 3
+                if (idVendedor != "All" || idBodega != "All" || idEstacion != "All") //Se debe parametrizar con alguno de los 3
                 {
                     consulta = consulta + " WHERE ";
-                    if(idVendedor != "All")
+                    if (idVendedor != "All")
                         consulta = consulta + "VENDEDOR = '" + idVendedor + "' AND ";
                     if (idBodega != "All")
                         consulta = consulta + "BODEGA = '" + idBodega + "' AND ";
@@ -104,54 +102,11 @@ namespace ProyectoInventarioOET.Modulo_Ventas
                         consulta = consulta + "ESTACION = '" + idEstacion + "' AND ";
                     consulta = consulta.Substring(0, consulta.Length - 5); //se le quita el último pedazo de " AND "
                 }
+                OracleCommand command = conexionBD.CreateCommand();
                 command.CommandText = consulta;
                 OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
-
-                //if (perfil.Equals("Vendedor"))
-                //    command.CommandText = "select * from " + esquema + "registro_facturas_venta where " + esquema + "registro_facturas_venta.vendedor = '" + idVendedor + "'";
-                //else
-                //{
-                //    if (perfil.Equals("Supervisor"))
-                //    {
-                //        if (idVendedor.Equals("All"))
-                //            command.CommandText = "select * from " + esquema + "registro_facturas_venta where " + esquema + "registro_facturas_venta.bodega = '" + idBodega + "'";
-                //        else
-                //            command.CommandText = "select * from " + esquema + "registro_facturas_venta where " + esquema + "registro_facturas_venta.bodega = '" + idBodega + "' and registro_facturas_venta.vendedor='" + idVendedor + "'";
-                //    }
-                //    else
-                //    {
-                //        if (perfil.Equals("Administrador local"))
-                //        {
-                //            if (idBodega.Equals("All"))
-                //                command.CommandText = "select * from registro_facturas_venta where estacion = '" + idEstacion + "'";
-                //            else
-                //            {
-                //                if (idVendedor.Equals("All"))
-                //                    command.CommandText = "select * from " + esquema + "registro_facturas_venta where " + esquema + "registro_facturas_venta.estacion = '" + idEstacion + "' and registro_facturas_venta.bodega = '" + idBodega + "'";
-                //                else
-                //                    command.CommandText = "select * from " + esquema + "registro_facturas_venta where " + esquema + "registro_facturas_venta.estacion = '" + idEstacion + "' and registro_facturas_venta.bodega = '" + idBodega + "' and registro_facturas_venta.vendedor='" + idVendedor + "'";
-                //            }
-                //        }
-                //        else
-                //        {
-                //            if (idEstacion.Equals("All"))
-                //                command.CommandText = "select * from registro_facturas_venta";
-                //            else
-                //            {
-                //                if (idBodega.Equals("All"))
-                //                    command.CommandText = "select * from registro_facturas_venta where estacion = '" + idEstacion + "'";
-                //                else
-                //                {
-                //                    if (idVendedor.Equals("All"))
-                //                        command.CommandText = "select * from " + esquema + "registro_facturas_venta where " + esquema + "registro_facturas_venta.estacion = '" + idEstacion + "' and registro_facturas_venta.bodega = '" + idBodega + "'";
-                //                    else
-                //                        command.CommandText = "select * from " + esquema + "registro_facturas_venta where " + esquema + "registro_facturas_venta.estacion = '" + idEstacion + "' and registro_facturas_venta.bodega = '" + idBodega + "' and registro_facturas_venta.vendedor='" + idVendedor + "'";
-                //                }
-                //            }
-                //        }
-                //    }
-                //}
+                if(reader.HasRows)
+                    resultado.Load(reader);
             }
             catch (OracleException e)
             {
@@ -241,11 +196,12 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         /*
          * ???
          */
-        public int getCantidadFacturas()
+        public int getUltimoConsecutivo()
         {
+            String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
             OracleCommand command = conexionBD.CreateCommand();
-            command.CommandText = "SELECT COUNT(*) FROM REGISTRO_FACTURAS_VENTA";
+            command.CommandText = "SELECT MAX(CONSECUTIVO) FROM " + esquema + "REGISTRO_FACTURAS_VENTA";
             OracleDataReader reader = command.ExecuteReader();
             resultado.Load(reader);
             return Convert.ToInt32(resultado.Rows[0][0].ToString());

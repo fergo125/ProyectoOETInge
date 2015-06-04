@@ -50,9 +50,9 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         /*
          * ???
          */
-        public DataTable consultarFacturas(String perfil, String idUsuario, String idBodega, String idEstacion)
+        public DataTable consultarFacturas(String idUsuario, String idBodega, String idEstacion)
         {
-            return controladoraBDVentas.consultarFacturas(perfil, idUsuario, idBodega, idEstacion);
+            return controladoraBDVentas.consultarFacturas(idUsuario, idBodega, idEstacion);
         }
 
         /*
@@ -91,11 +91,12 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         }
 
         /*
-         * 
+         * Obtiene el precio unitario, en colones o dólares, de un producto.
          */
         public double consultarPrecioUnitario(String llaveProducto, String tipoMoneda)
         {
-            return controladoraBDVentas.consultarPrecioUnitario(llaveProducto, tipoMoneda);
+            return Math.Round((controladoraBDVentas.consultarPrecioUnitario(llaveProducto, tipoMoneda)), 2, MidpointRounding.AwayFromZero);
+            //return controladoraBDVentas.consultarPrecioUnitario(llaveProducto, tipoMoneda);
         }
 
         /*

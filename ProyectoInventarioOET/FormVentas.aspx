@@ -141,7 +141,7 @@
     <!-- Panel con el grid de consultar facturas (se mantiene aparte para poder esconder los campos de consulta grupal y mostrar los de consulta individual, sin tocar el grid) -->
     <br />
     <br />
-    <asp:Panel ID="PanelGridConsultarFacturas" runat="server"></asp:Panel>
+    <%--<asp:Panel ID="PanelGridConsultarFacturas" runat="server"></asp:Panel>--%>
         <strong><div ID="tituloGrid" runat="server" tabindex="" class="control-label" style="text-align:center; font-size:larger; background-color: #C0C0C0;" visible="false">Facturas en el sistema</div></strong>
                 <asp:GridView ID="gridViewFacturas" Visible="false" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewFacturas_FilaSeleccionada" OnPageIndexChanging="gridViewFacturas_CambioPagina" runat="server" AllowPaging="true" PageSize="3" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
                     <Columns>
@@ -237,13 +237,13 @@
                 </td>
             <tr>
                 <td colspan="4">
-                    <button type="button" ID="botonCrearFacturaQuitarProducto" class="btn btn-danger-fozkr" href="#modalCancelarFactura" data-toggle="modal" style="float: left" disabled="disabled" runat="server">Quitar producto</button>
+                    <button type="button" ID="botonCrearFacturaQuitarProducto" class="btn btn-danger-fozkr" href="#modalCancelarFactura" data-toggle="modal" style="float: left" disabled="disabled" runat="server">Eliminar producto</button>
                     <button type="button" ID="botonCrearFacturaEditarProducto" class="btn btn-warning-fozkr" onserverclick="Page_Load" style="float: left" disabled="disabled" runat="server">Editar producto</button>
                 </td>
             </tr>
             <tr>
                 <td>Tipo moneda: <asp:Label ID="labelCrearFacturaTipoMoneda" runat="server"></asp:Label></td>
-                <td><asp:Button ID="botonCrearFacturaSwitchPrecios" class="btn" runat="server" Text="Cambiar moneda ₡/$"/></td>
+                <td><asp:Button ID="botonCrearFacturaSwitchPrecios" OnClick="clickBotonCampiarTipoMoneda" class="btn" runat="server" Text="Cambiar moneda ₡/$"/></td>
                 <td style="text-align: right;">Precio total:</td>
                 <td><asp:Label ID="labelCrearFacturaPrecioTotal" runat="server" Text="0"></asp:Label></td>
             </tr>

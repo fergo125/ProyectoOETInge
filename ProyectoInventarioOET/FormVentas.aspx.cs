@@ -26,11 +26,10 @@ namespace ProyectoInventarioOET
         private static String permisos = "000000";                              //Permisos utilizados para el control de seguridad
         private static String codigoPerfilUsuario = "";                         //Indica el perfil del usuario, usado para acciones de seguridad para las cuales la string de permisos no basta
         private static String tipoMonedaCrearFactura = "Colones";               //Indica el tipo de moneda que se está usando para crear facturas
+        private static Object[] idArray;                                        //Usada para llevar el control de las facturas consultadas
         private static DataTable productosAgregados;                            //Usada para llenar el grid de productos al crear una factura
         private static DataTable facturasConsultadas;                           //Usada para llenar el grid y para mostrar los detalles de cada factura específica
         private static EntidadFacturaVenta facturaConsultada;                   //???
-        //private static Boolean seConsulto = false;                              //???
-        private static Object[] idArray;                                        //Usada para llevar el control de las facturas consultadas
         private static ControladoraVentas controladoraVentas;                   //Para accesar las tablas del módulo y realizar las operaciones de consulta, inserción, modificación y anulación
         private static ControladoraAjustes controladoraAjustes;                 //???
         private static ControladoraBodegas controladoraBodegas;                 //???
@@ -58,6 +57,7 @@ namespace ProyectoInventarioOET
             if (!IsPostBack)
             {
                 modo = Modo.Inicial;
+                cambiarModo();
 
                 //Controladoras
                 controladoraVentas = new ControladoraVentas();
@@ -73,54 +73,8 @@ namespace ProyectoInventarioOET
                     Response.Redirect("~/ErrorPages/404.html");
                 codigoPerfilUsuario = (this.Master as SiteMaster).Usuario.CodigoPerfil;
                 mostrarElementosSegunPermisos();
-                //if (!seConsulto)
-                //{
-                //    modo = Modo.Inicial;
-                //}
-                //else
-                //{
-                //    if (facturaConsultada == null)
-                //    {
-                //        mostrarMensaje("warning", "Alerta: ", "No se pudo consultar la bodega.");
-                //    }
-                //    else
-                //    {
-                //        setDatosConsultados();
-                //        seConsulto = false;
-                //    }
-                //}
             }
-            //Si la página ya estaba cargada pero está siendo cargada de nuevo (porque se está realizando alguna acción que la refrezca/actualiza)
-
-            cambiarModo();
-            ////código para probar algo
-            
-            //testRow = testTable.NewRow();
-            //testRow["Nombre"] = "Nombre de prueba";
-            //testRow["Código interno"] = "CRO001";
-            //testRow["Precio unitario"] = "500";
-            //testRow["Impuesto"] = "Sí";
-            //testRow["Descuento (%)"] = "0";
-            //testTable.Rows.Add(testRow);
-            //testRow = testTable.NewRow();
-            //testRow["Nombre"] = "Nombre de prueba larguísimo de esos que ponen las unidades y la vara";
-            //testRow["Código interno"] = "CRO002";
-            //testRow["Precio unitario"] = "50000";
-            //testRow["Impuesto"] = "Sí";
-            //testRow["Descuento (%)"] = "0";
-            //testTable.Rows.Add(testRow);
-
-            //gridViewCrearFacturaProductos.DataSource = testTable;
-            //gridViewCrearFacturaProductos.DataBind();
-
-            //DataControlField[] backupColumn = new DataControlField[100];
-            //gridViewCrearFacturaProductos.Columns.CopyTo(backupColumn, 0);
-            //gridViewCrearFacturaProductos.Columns.Insert(0, backupColumn[0]);
-            //DataControlField backup = gridViewCrearFacturaProductos.Columns[1];
-            //gridViewCrearFacturaProductos.Columns.RemoveAt(1);
-            //gridViewCrearFacturaProductos.Columns.Add(backup);
-            //gridViewCrearFacturaProductos.Columns.Add(backup);
-            //gridViewCrearFacturaProductos.Columns["Seleccionar"].DisplayIndex = 0;
+            //cambiarModo();
         }
 
         /*
@@ -152,6 +106,7 @@ namespace ProyectoInventarioOET
             tituloGrid.Visible = false;                         //Grid de consulta
             gridViewFacturas.Visible = false;                   //Grid de consulta
             PanelCrearFactura.Visible = false;                  //Crear factura
+            botonModificar.Disabled = true;                     //Modificar factura
             botonCambioSesion.Visible = false;                  //Cambio sesión rápido
             botonAjusteEntrada.Visible = false;                 //Ajuste inventario rápido
             //PanelGridConsultas.Visible = false; //hay que hacerlo directo con el panel, porque si no la paginacion no sirve
@@ -161,12 +116,10 @@ namespace ProyectoInventarioOET
             {
                 case Modo.Inicial:
                     tituloAccionFacturas.InnerText = "Seleccione una opción";
-                    botonModificar.Disabled = true;
                     break;
                 case Modo.Consulta:
                     tituloAccionFacturas.InnerText = "Seleccione datos para consultar";
                     PanelConsultarFacturas.Visible = true;
-                    botonModificar.Disabled = true;
                     //this.gridViewFacturas.Visible = false;
                     //this.tituloGrid.Visible = false;
                     //llenarGrid();
@@ -176,14 +129,12 @@ namespace ProyectoInventarioOET
                     PanelCrearFactura.Visible = true;
                     botonCambioSesion.Visible = true;  //Estos dos botones sólo deben ser visibles
                     botonAjusteEntrada.Visible = true; //durante la creación de facturas
-                    botonModificar.Disabled = true;
                     break;
                 case Modo.Modificacion:
                     tituloAccionFacturas.InnerText = "Ingrese los nuevos datos para la factura"; //TODO: revisar este mensaje, ya que no se pueden modificar, sólo anular
                     PanelConsultarFacturaEspecifica.Visible = true;
                     botonAceptarModificacionFacturaEspecifica.Visible = true;
                     botonCancelarModificacionFacturaEspecifica.Visible = true;
-                    botonModificar.Disabled = true;
                     habilitarCampos(true);
                     break;
                 case Modo.Consultado:
@@ -385,12 +336,13 @@ namespace ProyectoInventarioOET
             String codigoBodega = dropDownListConsultaBodega.SelectedValue;
             String codigoVendedor = dropDownListConsultaVendedor.SelectedValue;
 
-            DataTable tabla = crearTablaFacturas();
+            DataTable tablaFacturas = crearTablaFacturasConsultadas(); //tabla que se usará para el grid
             //int indiceNuevaFactura = -1;
             try
             {
-                Object[] datos = new Object[5];
-                facturasConsultadas = controladoraVentas.consultarFacturas((this.Master as SiteMaster).Usuario.Perfil, codigoVendedor, codigoBodega, codigoEstacion);
+                Object[] datos = new Object[6];
+                facturasConsultadas = null; //tabla atributo que se usará para almacenar toda la consulta
+                facturasConsultadas = controladoraVentas.consultarFacturas(codigoVendedor, codigoBodega, codigoEstacion);
                 if (facturasConsultadas.Rows.Count > 0)
                 {
                     idArray = new Object[facturasConsultadas.Rows.Count];
@@ -402,8 +354,9 @@ namespace ProyectoInventarioOET
                         datos[1] = fila[1].ToString();  //Fecha y hora
                         datos[2] = controladoraSeguridad.consultarNombreDeUsuario(fila[6].ToString());  //Vendedor
                         datos[3] = fila[10].ToString(); //Monto total
-                        datos[4] = fila[9].ToString();  //Método de pago
-                        tabla.Rows.Add(datos);
+                        datos[4] = fila[8].ToString();  //Tipo moneda
+                        datos[5] = fila[9].ToString();  //Método de pago
+                        tablaFacturas.Rows.Add(datos);
                         i++;
                     }
                 }
@@ -417,7 +370,7 @@ namespace ProyectoInventarioOET
                     //datos[4] = "-";
                     //tabla.Rows.Add(datos);
                 }
-                gridViewFacturas.DataSource = tabla;
+                gridViewFacturas.DataSource = tablaFacturas;
                 gridViewFacturas.DataBind();
             }
             catch (Exception e)
@@ -489,8 +442,8 @@ namespace ProyectoInventarioOET
             textBoxFacturaConsultadActividad.Value = facturaConsultada.Actividad;
 
             textBoxFacturaConsultadaEstado.Items.Clear();
-            textBoxFacturaConsultadaEstado.Items.Add(new ListItem("Activa", "1"));
-            textBoxFacturaConsultadaEstado.Items.Add(new ListItem("Anulada", "5"));
+            textBoxFacturaConsultadaEstado.Items.Add(new ListItem("Activa", "1"));//en la BD el valor de "activo" es 1
+            textBoxFacturaConsultadaEstado.Items.Add(new ListItem("Anulada", "5")); //en la BD el valor de "anulado" es 5
 
             if (facturaConsultada.Estado.Equals("1"))
                 textBoxFacturaConsultadaEstado.SelectedIndex = 0;
@@ -503,10 +456,9 @@ namespace ProyectoInventarioOET
          */
         protected void habilitarCampos(bool habilitar)
         {
-                textBoxFacturaConsultadaEstado.Enabled = habilitar;
-                if (textBoxFacturaConsultadaEstado.SelectedValue.Equals("Anulada"))
-                    textBoxFacturaConsultadaEstado.Enabled = false;
-            
+            textBoxFacturaConsultadaEstado.Enabled = habilitar;
+            if (textBoxFacturaConsultadaEstado.SelectedValue.Equals("5"))  //en la BD el valor de "anulado" es 5
+                textBoxFacturaConsultadaEstado.Enabled = false;
         }
 
         /*
@@ -514,12 +466,18 @@ namespace ProyectoInventarioOET
          */
         protected DataTable obtenerProductosAgregados()
         {
-            DataTable productos = crearTablaProductosDetallados();
+            DataTable productos = crearTablaProductosFactura(true); //con la columna de cantidad
             DataRow detallesProducto;
             foreach(GridViewRow fila in gridViewCrearFacturaProductos.Rows)
             {
                 detallesProducto = productos.NewRow();
-                detallesProducto[0] = fila.Cells[0].ToString();
+                detallesProducto[0] = HttpUtility.HtmlDecode(fila.Cells[2].Text); //nombre
+                detallesProducto[1] = HttpUtility.HtmlDecode(fila.Cells[3].Text); //codigo interno
+                detallesProducto[2] = HttpUtility.HtmlDecode(fila.Cells[4].Text); //precio unitario
+                detallesProducto[3] = Convert.ToInt32(((TextBox)fila.FindControl("gridCrearFacturaCantidadProducto")).Text); //cantidad
+                detallesProducto[4] = HttpUtility.HtmlDecode(fila.Cells[5].Text); //impuesto
+                detallesProducto[5] = HttpUtility.HtmlDecode(fila.Cells[6].Text); //descuento
+                detallesProducto[6] = HttpUtility.HtmlDecode(fila.Cells[7].Text); //total
             }
             return productos;
         }
@@ -529,21 +487,30 @@ namespace ProyectoInventarioOET
          */
         protected Object[] obtenerDatos()
         {
+            String[] datosEstacion = controladoraDatosGenerales.consultarEstacionDeBodega(((this.Master as SiteMaster).LlaveBodegaSesion));
             //datos[1] = DateTime.Now.ToString("dd:MMM:yy");
             Object[] datosFactura = new Object[14];
             datosFactura[0] = null;                                                 //consecutivo, se autogenera al insertar a nivel de BD
-            datosFactura[1] = DateTime.Now.Date.ToShortDateString() + DateTime.Now.TimeOfDay.ToString().Substring(0, 5); //fecha y hora
-            datosFactura[2] = textBoxCrearFacturaEstacion.Text;                     //estacion
-            datosFactura[3] = textBoxCrearFacturaBodega.Text;                       //bodega
+            datosFactura[1] = DateTime.Now.Date.ToString("dd/MMM/yyyy") + ' ' + DateTime.Now.ToString("hh:mm:ss tt"); //fecha y hora
+            datosFactura[2] = datosEstacion[1];                                     //estacion (llave)
+            datosFactura[3] = ((this.Master as SiteMaster).LlaveBodegaSesion);      //bodega (llave)
             datosFactura[4] = "02";                                                 //compania, siempre esintro (llave)
-            datosFactura[5] = textBoxCrearFacturaVendedor.Text;                     //vendedor
+            datosFactura[5] = ((this.Master as SiteMaster).Usuario.Codigo);         //vendedor (llave)
             datosFactura[6] = labelCrearFacturaTipoMoneda.Text;                     //tipo moneda
             datosFactura[7] = dropDownListCrearFacturaMetodoPago.SelectedValue;     //metodo de pago (llave)
             datosFactura[8] = dropDownListCrearFacturaCliente.SelectedValue;        //cliente usuario (llave)
             datosFactura[9] = dropDownListCrearFacturaActividad.SelectedValue;      //actividad (llave)
             datosFactura[10] = 1;                                                   //estado (1=activo por default)
-            datosFactura[11] = Convert.ToDouble(labelCrearFacturaPrecioTotal.Text);  //montoTotalColones
-            datosFactura[12] = (Convert.ToDouble(labelCrearFacturaPrecioTotal.Text) * Convert.ToInt32(textBoxCrearFacturaTipoCambio.Text));  //montoTotalDolares (colones * tipocambio)
+            if (tipoMonedaCrearFactura == "Colones")
+            {
+                datosFactura[11] = Convert.ToDouble(labelCrearFacturaPrecioTotal.Text.Substring(2));  //montoTotalColones (substring para omitir el símbolo de la moneda)
+                datosFactura[12] = Math.Round((Convert.ToDouble(datosFactura[11]) / Convert.ToInt32(textBoxCrearFacturaTipoCambio.Text)), 2, MidpointRounding.AwayFromZero);  //montoTotalDolares (colones / tipocambio)
+            }
+            else //"Dólares"
+            {
+                datosFactura[12] = Convert.ToDouble(labelCrearFacturaPrecioTotal.Text.Substring(2));  //montoTotalDolares (substring para omitir el símbolo de la moneda)
+                datosFactura[11] = Math.Round((Convert.ToDouble(datosFactura[11]) * Convert.ToInt32(textBoxCrearFacturaTipoCambio.Text)), 2, MidpointRounding.AwayFromZero);  //montoTotalColones (dólares * tipocambio)
+            }
             datosFactura[13] = obtenerProductosAgregados();                         //tabla de productos
             return datosFactura;
         }
@@ -551,7 +518,7 @@ namespace ProyectoInventarioOET
         /*
          * ???
          */
-        protected DataTable crearTablaFacturas() 
+        protected DataTable crearTablaFacturasConsultadas() 
         {
             DataTable tabla = new DataTable();
             DataColumn column;
@@ -578,6 +545,11 @@ namespace ProyectoInventarioOET
 
             column = new DataColumn();
             column.DataType = Type.GetType("System.String");
+            column.ColumnName = "Tipo moneda";
+            tabla.Columns.Add(column);
+
+            column = new DataColumn();
+            column.DataType = Type.GetType("System.String");
             column.ColumnName = "Método de pago";
             tabla.Columns.Add(column);
 
@@ -587,7 +559,7 @@ namespace ProyectoInventarioOET
         /*
          * ???
          */
-        protected DataTable crearTablaProductosFactura()
+        protected DataTable crearTablaProductosFactura(bool paraInsertar)
         {
             productosAgregados = new DataTable();
             DataColumn column;
@@ -607,51 +579,13 @@ namespace ProyectoInventarioOET
             column.ColumnName = "Precio unitario";
             productosAgregados.Columns.Add(column);
 
-            column = new DataColumn();
-            column.DataType = Type.GetType("System.String");
-            column.ColumnName = "Impuesto (13%)";
-            productosAgregados.Columns.Add(column);
-
-            column = new DataColumn();
-            column.DataType = Type.GetType("System.Int32");
-            column.ColumnName = "Descuento (%)";
-            productosAgregados.Columns.Add(column);
-
-            column = new DataColumn();
-            column.DataType = Type.GetType("System.Double");
-            column.ColumnName = "Total";
-            productosAgregados.Columns.Add(column);
-
-            return productosAgregados;
-        }
-
-        /*
-         * ???
-         */
-        protected DataTable crearTablaProductosDetallados()
-        {
-            productosAgregados = new DataTable();
-            DataColumn column;
-
-            column = new DataColumn();
-            column.DataType = Type.GetType("System.Int32");
-            column.ColumnName = "Cantidad";
-            productosAgregados.Columns.Add(column);
-
-            column = new DataColumn();
-            column.DataType = Type.GetType("System.String");
-            column.ColumnName = "Nombre";
-            productosAgregados.Columns.Add(column);
-
-            column = new DataColumn();
-            column.DataType = Type.GetType("System.String");
-            column.ColumnName = "Código interno";
-            productosAgregados.Columns.Add(column);
-
-            column = new DataColumn();
-            column.DataType = Type.GetType("System.Double");
-            column.ColumnName = "Precio unitario";
-            productosAgregados.Columns.Add(column);
+            if (paraInsertar)
+            {
+                column = new DataColumn();
+                column.DataType = Type.GetType("System.Int32");
+                column.ColumnName = "Cantidad";
+                productosAgregados.Columns.Add(column);
+            }
 
             column = new DataColumn();
             column.DataType = Type.GetType("System.String");
@@ -670,35 +604,6 @@ namespace ProyectoInventarioOET
 
             return productosAgregados;
         }
-
-        /*
-         * ???
-         */
-        //protected void cargarEstaciones() 
-        //{
-        //    EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
-        //    DataTable estaciones = controladoraDatosGenerales.consultarEstaciones();
-
-        //    if (estaciones.Rows.Count > 0)
-        //    {
-        //        this.dropDownListCrearFacturaEstacion.Items.Clear();
-        //        foreach (DataRow fila in estaciones.Rows)
-        //        {
-        //            if ((usuarioActual.CodigoPerfil.Equals("1"))||(usuarioActual.IdEstacion.Equals(fila[0])))
-        //            {
-        //                this.dropDownListCrearFacturaEstacion.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
-        //            }
-        //        }
-        //    }
-        //    if ((usuarioActual.CodigoPerfil.Equals("1")))
-        //    {
-        //        dropDownListCrearFacturaEstacion.Enabled = true;
-        //    }
-        //    else
-        //    {
-        //        dropDownListCrearFacturaEstacion.Enabled = false;
-        //    }
-        //}
 
         /*
          * ???
@@ -829,6 +734,34 @@ namespace ProyectoInventarioOET
                 mostrarMensaje("warning", "Alerta: ", "Error al intentar cargar las actividades en el sistema.");
         }
 
+        /*
+         * Invocada cuando se agregan productos o se cambia el tipo de moneda durante la creación de una factura.
+         */
+        protected void actualizarPreciosTotales()
+        {
+            double precioTotal = 0;
+            foreach (GridViewRow fila in gridViewCrearFacturaProductos.Rows) //actualiza el "total" de cada fila del grid y va sumando para ponerlo al final
+                precioTotal += Convert.ToDouble((fila.Cells[7].Text = fila.Cells[4].Text.ToString())); //total = unitario (falta multiplicar por cantidad)
+            labelCrearFacturaPrecioTotal.Text = ((labelCrearFacturaTipoMoneda.Text == "Colones" ? "₡ " : "$ ") + precioTotal.ToString());
+        }
+
+        /*
+         * El manejo de precios y totales se realiza en el grid directamente, sin embargo al agregarle nuevos productos se usa
+         * la tabla atributo "productosAgregados" (con DataBind), por lo que ésta debe actualizarse también al actualizar el grid.
+         * Se utiliza "HttpUtility.HtmlDecode" porque html a veces corrompe caracteres especiales
+         */
+        protected void actualizarTablaProductosSegunGrid()
+        {
+            for(int i=0; i<gridViewCrearFacturaProductos.Rows.Count; ++i)
+            {
+                productosAgregados.Rows[i][0] = HttpUtility.HtmlDecode(gridViewCrearFacturaProductos.Rows[i].Cells[2].Text); //nombre
+                productosAgregados.Rows[i][1] = HttpUtility.HtmlDecode(gridViewCrearFacturaProductos.Rows[i].Cells[3].Text); //codigo interno
+                productosAgregados.Rows[i][2] = HttpUtility.HtmlDecode(gridViewCrearFacturaProductos.Rows[i].Cells[4].Text); //precio unitario
+                productosAgregados.Rows[i][3] = HttpUtility.HtmlDecode(gridViewCrearFacturaProductos.Rows[i].Cells[5].Text); //impuesto
+                productosAgregados.Rows[i][4] = HttpUtility.HtmlDecode(gridViewCrearFacturaProductos.Rows[i].Cells[6].Text); //descuento
+                productosAgregados.Rows[i][5] = HttpUtility.HtmlDecode(gridViewCrearFacturaProductos.Rows[i].Cells[7].Text); //total
+            }
+        }
 
 
 
@@ -885,7 +818,7 @@ namespace ProyectoInventarioOET
 
             modo = Modo.Insercion;
             cambiarModo();
-            productosAgregados = crearTablaProductosFactura(); //se crea una nueva tabla cada vez
+            productosAgregados = crearTablaProductosFactura(false); //se crea una nueva tabla cada vez, sin la columna de cantidad
             tipoMonedaCrearFactura = "Colones"; //por default
             labelCrearFacturaTipoMoneda.Text = tipoMonedaCrearFactura;
         }
@@ -897,14 +830,24 @@ namespace ProyectoInventarioOET
          */
         protected void clickBotonAgregarProductoFactura(object sender, EventArgs e)
         {
-            //Primero, obtener la llave desde el catálogo global usando esos dos valores (es necesario revisar ambos
-            //valores para asegurarse de que el usuario no cambio ninguno antes de dar click al botón).
+            //Primero, obtener la llave desde el catálogo global usando el nombre y el código interno (es necesario revisar ambos valores para
+            //asegurarse de que el usuario no cambio ninguno antes de dar click al botón).
             String productoEscogido = textBoxAutocompleteCrearFacturaBusquedaProducto.Text;
             String[] nombreCodigoProductoEscogido = separarNombreCodigoProductoEscogido(productoEscogido);
             String llaveProductoEscogido = controladoraVentas.verificarExistenciaProductoLocal((this.Master as SiteMaster).LlaveBodegaSesion, nombreCodigoProductoEscogido[0], nombreCodigoProductoEscogido[1]);
 
+            //Si el producto existe, está localmente, y en estado activo, continuar //TODO: revisar su existencia real también!
             if (llaveProductoEscogido != null)
             {
+                //Revisar si el producto no está ya en el grid, si ya lo está, notificar al usuario y no seguir
+                foreach (GridViewRow fila in gridViewCrearFacturaProductos.Rows)
+                {
+                    if (fila.Cells[3].Text == nombreCodigoProductoEscogido[1]) //si el código interno se repite
+                    {
+                        mostrarMensaje("warning", "Alerta: ", "Ese producto ya fue agregado a la factura. En lugar de agregarlo de nuevo puede modificar su cantidad.");
+                        return;
+                    }
+                }
                 DataRow nuevoProducto;
                 nuevoProducto = productosAgregados.NewRow();
                 nuevoProducto["Nombre"] = nombreCodigoProductoEscogido[0];                                                                        //nombre
@@ -912,14 +855,16 @@ namespace ProyectoInventarioOET
                 nuevoProducto["Precio unitario"] = (controladoraVentas.consultarPrecioUnitario(llaveProductoEscogido, tipoMonedaCrearFactura));   //precio unitario (buscar en la BD)
                 nuevoProducto["Impuesto (13%)"] = "Sí";                                                                                           //impuesto (booleano)
                 nuevoProducto["Descuento (%)"] = "0";                                                                                             //descuento (siempre empieza con 0)
-                nuevoProducto["Total"] = nuevoProducto["Precio unitario"];                                                                        //total (empieza con precion unitario * 1)
+                nuevoProducto["Total"] = nuevoProducto["Precio unitario"];                                                                        //total (empieza con precio unitario * 1)
                 productosAgregados.Rows.Add(nuevoProducto);
                 gridViewCrearFacturaProductos.DataSource = productosAgregados;
                 gridViewCrearFacturaProductos.DataBind();
                 textBoxAutocompleteCrearFacturaBusquedaProducto.Text = "";
-                //int totalahora = Convert.ToDouble(labelCrearFacturaPrecioTotal.Text);
-                //int precio = Convert.ToDouble(nuevoProducto["Precio unitario"]);
-                labelCrearFacturaPrecioTotal.Text = (Convert.ToDouble(labelCrearFacturaPrecioTotal.Text) + Convert.ToDouble(nuevoProducto["Precio unitario"])).ToString();
+                actualizarPreciosTotales();
+                //buscarlo en el grid para poner automáticamente cantidad 1
+                foreach (GridViewRow fila in gridViewCrearFacturaProductos.Rows)
+                    if (fila.Cells[3].Text == nombreCodigoProductoEscogido[1]) //si el código interno se repite
+                        ((TextBox)fila.FindControl("gridCrearFacturaCantidadProducto")).Text = "1";
             }
             else
                 mostrarMensaje("warning", "Alerta: ", "Ese producto no está asociado a la bodega " + (this.Master as SiteMaster).NombreBodegaSesion + " o no existe.");
@@ -931,6 +876,25 @@ namespace ProyectoInventarioOET
         protected void clickBotonbotonCrearFacturaGuardar(object sender, EventArgs e)
         {
             Object[] datosFactura = obtenerDatos();
+            String[] resultado = controladoraVentas.insertarFactura(datosFactura);
+            mostrarMensaje(resultado[0], resultado[1], resultado[2]);
+        }
+
+        /*
+         * Invocada cuando se desea cambiar el tipo de moneda de la factura, afecta toda la lista de precios y el total.
+         * Se usa "Math.Round" para redondear, a 2 decimales, con MidpointRounding.AwayFromZero para mayor exactitud.
+         */
+        protected void clickBotonCampiarTipoMoneda(object sender, EventArgs e)
+        {
+            foreach (GridViewRow fila in gridViewCrearFacturaProductos.Rows)
+                if(labelCrearFacturaTipoMoneda.Text == "Colones") //pasar a dólares
+                    fila.Cells[4].Text = (Math.Round((Convert.ToDouble(fila.Cells[4].Text) / Convert.ToDouble(textBoxCrearFacturaTipoCambio.Text)), 2, MidpointRounding.AwayFromZero)).ToString(); //fila[4] es el precio unitario
+                else //pasar a colones
+                    fila.Cells[4].Text = (Math.Round((Convert.ToDouble(fila.Cells[4].Text) * Convert.ToDouble(textBoxCrearFacturaTipoCambio.Text)), 2, MidpointRounding.AwayFromZero)).ToString(); //fila[4] es el precio unitario
+            
+            labelCrearFacturaTipoMoneda.Text = (labelCrearFacturaTipoMoneda.Text == "Colones" ? "Dólares" : "Colones");
+            actualizarPreciosTotales();
+            actualizarTablaProductosSegunGrid();
         }
 
         /*
@@ -954,7 +918,7 @@ namespace ProyectoInventarioOET
          */
         protected void gridViewFacturas_CambioPagina(Object sender, GridViewPageEventArgs e)
         {
-            llenarGrid();
+            llenarGrid(); //súper ineficiente, TODO: buscar cómo evitar esto
             gridViewFacturas.PageIndex = e.NewPageIndex;
             gridViewFacturas.DataBind();
             tituloGrid.Visible = true;
@@ -1078,6 +1042,9 @@ namespace ProyectoInventarioOET
         {
             botonCrearFacturaQuitarProducto.Disabled = !((CheckBox)sender).Checked;
             botonCrearFacturaEditarProducto.Disabled = !((CheckBox)sender).Checked;
+            foreach (GridViewRow fila in gridViewCrearFacturaProductos.Rows)
+                if (((CheckBox)fila.FindControl("gridCrearFacturCheckBoxSeleccionarProducto")).Checked && ((CheckBox)fila.FindControl("gridCrearFacturCheckBoxSeleccionarProducto") != (CheckBox)sender))
+                    ((CheckBox)fila.FindControl("gridCrearFacturCheckBoxSeleccionarProducto")).Checked = false;
         }
 
         /*

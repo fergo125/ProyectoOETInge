@@ -33,7 +33,7 @@ namespace ProyectoInventarioOET.Modulo_Ventas
          */
         public EntidadFacturaVenta(Object[] datos)
         {
-            this.consecutivo = datos[0].ToString();
+            this.consecutivo = ""; // datos[0].ToString();
             this.fechaYhora = datos[1].ToString();
             this.estacion = datos[2].ToString();
             this.bodega = datos[3].ToString();
@@ -46,7 +46,7 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             this.estado = datos[10].ToString().ToString();
             this.montoTotalColones = Convert.ToDouble(datos[11].ToString());
             this.montoTotalDolares = Convert.ToDouble(datos[12].ToString());
-            this.productos = null; //(DataTable)datos[13];
+            this.productos = (DataTable)datos[13];
         }
 
         public String Consecutivo
