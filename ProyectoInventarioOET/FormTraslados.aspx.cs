@@ -340,44 +340,62 @@ namespace ProyectoInventarioOET
 
             // Agregar detalles a entidad
             int i = 0;
-            foreach (DataRow row in tablaProductos.Rows)
+            try
             {
-                Double cantAjuste = Double.Parse(((TextBox)gridViewProductos.Rows[i].FindControl("textTraslados")).Text);
+                if (idArrayProductosDestino.Count() < 1)
+                    throw new NoNullAllowedException();
 
-                traslado = new Object[6];
-                traslado[0] = traslado[1] = traslado[3] = "";
-                traslado[2] = cantAjuste;
-                traslado[4] = idArrayProductosOrigen[i];
-                traslado[5] = idArrayProductosDestino[i];
-
-                productoDeBodega = controladoraProductoLocal.consultarMinimoMaximoProductoEnBodega(idArrayProductosOrigen[i].ToString());
-                saldoNuevo = Convert.ToDouble(productoDeBodega.Rows[0][2].ToString()) - cantAjuste;
-                alerta |= cantAjuste <= Convert.ToDouble(productoDeBodega.Rows[0][0].ToString()) || cantAjuste >= Convert.ToDouble(productoDeBodega.Rows[0][1].ToString());
-
-                nuevo.agregarDetalle(traslado);
-                ++i;
-            }
-
-
-            String[] error = controladoraTraslados.insertarTraslado(nuevo);
-
-            codigo = Convert.ToString(error[3]);
-            if (error[0].Contains("success"))
-            {
-                llenarGrid(false);
-                tipoConsulta = false;
-                if (alerta)
+                foreach (DataRow row in tablaProductos.Rows)
                 {
-                    error[0] = "warning";
-                    error[2] += "\nUno o más productos han salido de sus límites permitidos (nivel máximo o mínimo), revise el catálogo local.";
+                    Double cantAjuste = Double.Parse(((TextBox)gridViewProductos.Rows[i].FindControl("textTraslados")).Text);
+
+                    traslado = new Object[6];
+                    traslado[0] = traslado[1] = traslado[3] = "";
+                    traslado[2] = cantAjuste;
+                    traslado[4] = idArrayProductosOrigen[i];
+                    traslado[5] = idArrayProductosDestino[i];
+
+                    productoDeBodega = controladoraProductoLocal.consultarMinimoMaximoProductoEnBodega(idArrayProductosOrigen[i].ToString());
+                    saldoNuevo = Convert.ToDouble(productoDeBodega.Rows[0][2].ToString()) - cantAjuste;
+                    alerta |= cantAjuste <= Convert.ToDouble(productoDeBodega.Rows[0][0].ToString()) || cantAjuste >= Convert.ToDouble(productoDeBodega.Rows[0][1].ToString());
+
+                    nuevo.agregarDetalle(traslado);
+                    ++i;
                 }
+
+
+                String[] error = controladoraTraslados.insertarTraslado(nuevo);
+
+                codigo = Convert.ToString(error[3]);
+                if (error[0].Contains("success"))
+                {
+                    llenarGrid(false);
+                    tipoConsulta = false;
+                    if (alerta)
+                    {
+                        error[0] = "warning";
+                        error[2] += "\nUno o más productos han salido de sus límites permitidos (nivel máximo o mínimo), revise el catálogo local.";
+                    }
+                }
+                else
+                {
+                    codigo = "";
+                    modo = (int)Modo.Insercion;
+                }
+                mostrarMensaje(error[0], error[1], error[2]);
             }
-            else
+            catch (AggregateException e)
             {
                 codigo = "";
                 modo = (int)Modo.Insercion;
+                mostrarMensaje("danger", "Error: ", "Está haciendo un traslado con más inventario de la cuenta");
             }
-            mostrarMensaje(error[0], error[1], error[2]);
+            catch (NoNullAllowedException e)
+            {
+                codigo = "";
+                modo = (int)Modo.Insercion;
+                mostrarMensaje("danger", "Error: ", "No puede realizarse un traslado sin productos");
+            }
 
             return codigo;
         }
