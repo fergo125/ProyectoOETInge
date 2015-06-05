@@ -46,8 +46,7 @@ namespace ProyectoInventarioOET
             //Elementos visuales
             ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
             controladoraEntradas = new ControladoraEntradas();
-            bodegaDeTrabajo = (this.Master as SiteMaster).LlaveBodegaSesion;
-
+            bodegaDeTrabajo = (this.Master as SiteMaster).LlaveBodegaSesion;            
             mensajeAlerta.Visible = false;
             if (!IsPostBack)
             {
@@ -59,7 +58,7 @@ namespace ProyectoInventarioOET
 
                 // Esconder botones
                 mostrarBotonesSegunPermisos();
-
+                modo = (int)Modo.Inicial;
 
                 tablaProductosNuevos = new DataTable();
                 tablaProductosNuevos = tablaFacturaDetallada();
@@ -454,9 +453,11 @@ namespace ProyectoInventarioOET
         protected void botonMostrarFacturas_Click(object sender, EventArgs e)
         {
             facturaBuscada = "Todas";
-            //modo = (int)Modo.SeleccionFactura;
-            //cambiarModo();
-            this.gridViewFacturas.Visible = true;
+            modo = (int)Modo.Inicial;
+            cambiarModo();
+            modo = (int)Modo.BusquedaFactura;
+            cambiarModo();
+            //this.gridViewFacturas.Visible = true;
             llenarGridFacturas();
         }
 
@@ -828,7 +829,7 @@ namespace ProyectoInventarioOET
                     this.botonCancelarEntrada.Visible = true;
                     this.FieldsetGridEntradas.Visible = false;
                     this.FieldsetGridFacturas.Visible = true;
-                    tituloAccionEntradas.InnerText = "";
+                    tituloAccionEntradas.InnerText = "Seleccione o busque una factura";
                     break;
 
                 case (int)Modo.SeleccionProductos: // Visualiza la información de la factura seleccionada y permite 
@@ -839,6 +840,7 @@ namespace ProyectoInventarioOET
                     this.botonModificarProducto.Enabled = false;
                     this.botonEliminarProducto.Enabled = false;
                     this.FieldsetGridFacturas.Visible = false;
+                    tituloAccionEntradas.InnerText = "Seleccione los productos entrantes";
                     break;
 
                 case (int)Modo.EntradaConsultada:
