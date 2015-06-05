@@ -27,6 +27,8 @@ namespace ProyectoInventarioOET
         private static String permisos = "000000";                              //Permisos utilizados para el control de seguridad
         private static String codigoPerfilUsuario = "";                         //Indica el perfil del usuario, usado para acciones de seguridad para las cuales la string de permisos no basta
         private static Object[] idArray;                                        //Usada para llevar el control de las facturas consultadas
+        private static List<bool> checksProductos;                              //Usada para guardar cuáles checks han sido marcados en el grid de productos durante el proceso de creación
+        private static List<int> cantidadesProductos;                           //Usada para guardar las cantidades en los textboxes del grid de productos durante el proceso de creación //TODO: usar esto
         private static DataTable productosAgregados;                            //Usada para llenar el grid de productos al crear una factura
         private static DataTable facturasConsultadas;                           //Usada para llenar el grid y para mostrar los detalles de cada factura específica
         private static EntidadFacturaVenta facturaConsultada;                   //???
@@ -34,7 +36,7 @@ namespace ProyectoInventarioOET
         private static ControladoraAjustes controladoraAjustes;                 //???
         private static ControladoraBodegas controladoraBodegas;                 //???
         private static ControladoraSeguridad controladoraSeguridad;             //???
-        private static ControladoraActividades controladoraActividades;         //Usada para consultar las actividades a las que se puede asociar una nueva factura
+        private static ControladoraActividades controladoraActividades;         //Para consultar las actividades a las que se puede asociar una nueva factura
         private static ControladoraDatosGenerales controladoraDatosGenerales;   //Para accesar datos generales de la base de datos
         private static ControladoraProductoLocal controladoraProductoLocal ;    //Para revisar existencias de productos
         
@@ -53,9 +55,8 @@ namespace ProyectoInventarioOET
             mensajeAlerta.Visible = false;
             //Elementos visuales
             ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
-                
-            //Si es la primera vez que se carga la página
-            if (!IsPostBack)
+
+            if (!IsPostBack) //Si es la primera vez que se carga la página
             {
                 modo = Modo.Inicial;
                 cambiarModo();
@@ -75,6 +76,11 @@ namespace ProyectoInventarioOET
                     Response.Redirect("~/ErrorPages/404.html");
                 codigoPerfilUsuario = (this.Master as SiteMaster).Usuario.CodigoPerfil;
                 mostrarElementosSegunPermisos();
+            }
+            else //si la página fue refrezcada por algún elemento
+            {
+                if ((checksProductos.Count > 0) && (cantidadesProductos.Count > 0))
+                    restaurarCheckBoxesYCantidades();
             }
         }
 
@@ -102,7 +108,7 @@ namespace ProyectoInventarioOET
         protected void cambiarModo()
         {
             //Código común (que debe ejecutarse en la mayoría de modos, en la minoría luego es arreglado en el switch) Reduce un poco la eficiencia, pero simplifica el código bastante
-            PanelConsultar.Visible = false;             //Consulta general
+            PanelConsultar.Visible = false;                     //Consulta general
             PanelConsultarFacturaEspecifica.Visible = false;    //Consulta específica
             tituloGrid.Visible = false;                         //Grid de consulta
             gridViewFacturas.Visible = false;                   //Grid de consulta
@@ -642,7 +648,7 @@ namespace ProyectoInventarioOET
             double existencias = Convert.ToDouble(controladoraProductoLocal.consultarProductoDeBodega((this.Master as SiteMaster).LlaveBodegaSesion, nombreCodigoProductoEscogido[1]).Rows[0][7]);
 
             //Si el producto no fue agregado antes, existe, está localmente, y en estado activo, continuar
-            if (llaveProductoEscogido != null && existencias>0)
+            if ((llaveProductoEscogido != null) && (existencias > 0))
                 return llaveProductoEscogido; //todo salió bien
             else
             {
@@ -673,6 +679,7 @@ namespace ProyectoInventarioOET
             foreach (GridViewRow fila in gridViewCrearFacturaProductos.Rows)
                 if (fila.Cells[3].Text == nombreCodigoProductoEscogido[1]) //si el código interno se repite
                     ((TextBox)fila.FindControl("gridCrearFacturaCantidadProducto")).Text = "1";
+            cantidadesProductos.Add(1); //agregar la existencia inicial (1)
         }
 
         /*
@@ -710,7 +717,6 @@ namespace ProyectoInventarioOET
         protected Object[] obtenerDatos()
         {
             String[] datosEstacion = controladoraDatosGenerales.consultarEstacionDeBodega(((this.Master as SiteMaster).LlaveBodegaSesion));
-            //datos[1] = DateTime.Now.ToString("dd:MMM:yy");
             Object[] datosFactura = new Object[14];
             datosFactura[0] = null;                                                 //consecutivo, se autogenera al insertar a nivel de BD
             datosFactura[1] = DateTime.Now.Date.ToString("dd/MMM/yyyy") + ' ' + DateTime.Now.ToString("hh:mm:ss tt"); //fecha y hora
@@ -768,6 +774,18 @@ namespace ProyectoInventarioOET
             return productos;
         }
 
+        /*
+         * Al darse el PageLoad, se borran los checkboxes marcados, por lo que se usa la lista de booleanos para restaurarlos.
+         */
+        protected void restaurarCheckBoxesYCantidades() //TODO: probar esto
+        {
+            for (int i = 0; i < gridViewCrearFacturaProductos.Rows.Count; ++i)
+            {
+                ((CheckBox)gridViewCrearFacturaProductos.Rows[i].FindControl("gridCrearFacturCheckBoxSeleccionarProducto")).Checked = checksProductos[i];
+                ((TextBox)gridViewCrearFacturaProductos.Rows[i].FindControl("gridCrearFacturaCantidadProducto")).Text = cantidadesProductos[i].ToString();
+            }
+        }
+
 
 
 
@@ -802,7 +820,7 @@ namespace ProyectoInventarioOET
             gridViewFacturas.Visible = true;
             tituloGrid.Visible = true;
             tituloAccionForm.InnerText = "Seleccione una factura para ver su información detallada";
-            //Aquí NO se debe inovcar cambiarModo, ya que el modo no cambia
+            //Aquí NO se debe invocar cambiarModo, ya que el modo no cambia
         }
 
         /*
@@ -1048,15 +1066,33 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * Habilita los botones de quitar o editar el producto en el grid.
+         * Maneja el evento en el que se marca o desmarca un checkbox de seleccionar un producto en el grid durante la creación de una factura.
+         * Si se marca deben desmarcarse los demás checkboxes. También guarda el estado de todos para poder usar los botones de eliminar y editar.
          */
-        protected void checkBoxCrearFacturaProductos_CheckedChanged(object sender, EventArgs e)
+        protected void checkBoxCrearFacturaProductos_CheckCambiado(object sender, EventArgs e)
         {
             botonCrearFacturaQuitarProducto.Disabled = !((CheckBox)sender).Checked;
             botonCrearFacturaEditarProducto.Disabled = !((CheckBox)sender).Checked;
+            checksProductos.Clear();
             foreach (GridViewRow fila in gridViewCrearFacturaProductos.Rows)
+            {
+                //Primero, desmarcar todos los otros checkboxes al marcar uno nuevo (también se hace al desmarcar pero parece ser bastante rápido)
                 if (((CheckBox)fila.FindControl("gridCrearFacturCheckBoxSeleccionarProducto")).Checked && ((CheckBox)fila.FindControl("gridCrearFacturCheckBoxSeleccionarProducto") != (CheckBox)sender))
                     ((CheckBox)fila.FindControl("gridCrearFacturCheckBoxSeleccionarProducto")).Checked = false;
+                //Segundo, guardar el estado de cada checkbox
+                checksProductos.Add(((CheckBox)fila.FindControl("gridCrearFacturCheckBoxSeleccionarProducto")).Checked);
+            }
+        }
+
+        /*
+         * Maneja el evento en el que se modifica la cantidad de un producto que está en la nueva factura, guarda todas las cantidades
+         * para poder restaurarlas al darse el pageload.
+         */
+        protected void textBoxCrearFacturaProductosCantidad_TextoCambiado(object sender, EventArgs e)
+        {
+            cantidadesProductos.Clear();
+            foreach (GridViewRow fila in gridViewCrearFacturaProductos.Rows) //TODO: buscar una manera más eficiente
+                cantidadesProductos.Add(Convert.ToInt32(((TextBox)fila.FindControl("gridCrearFacturaCantidadProducto")).Text));
         }
     }
 }

@@ -142,26 +142,19 @@
     <br />
     <br />
     <%--<asp:Panel ID="PanelGridConsultarFacturas" runat="server"></asp:Panel>--%>
-        <strong><div ID="tituloGrid" runat="server" tabindex="" class="control-label" style="text-align:center; font-size:larger; background-color: #C0C0C0;" visible="false">Facturas en el sistema</div></strong>
-                <asp:GridView ID="gridViewFacturas" Visible="false" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewFacturas_FilaSeleccionada" OnPageIndexChanging="gridViewFacturas_CambioPagina" runat="server" AllowPaging="true" PageSize="10" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
-                    <Columns>
-                        <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Consultar">
-                            <ControlStyle CssClass="btn btn-default"></ControlStyle>
-                        </asp:ButtonField>
-                    </Columns>
-                    <RowStyle Font-Size="small" BackColor="White" ForeColor="Black"/>
-                    <PagerStyle CssClass="paging" HorizontalAlign="Center"/>
-                    <AlternatingRowStyle BackColor="#F8F8F8"/>
-                    <SelectedRowStyle CssClass="info" Font-Bold="false" ForeColor="Black"/>
-                    <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver"/>
-                </asp:GridView>
-        <%--<asp:UpdatePanel ID="UpdatePanelFacturas" runat="server">
-            <ContentTemplate>
-            </ContentTemplate>
-            <Triggers>
-                <asp:AsyncPostBackTrigger ControlID="gridViewFacturas" EventName="RowCommand" />
-            </Triggers>
-        </asp:UpdatePanel>--%>
+    <strong><div ID="tituloGrid" runat="server" tabindex="" class="control-label" style="text-align:center; font-size:larger; background-color: #C0C0C0;" visible="false">Facturas en el sistema</div></strong>
+        <asp:GridView ID="gridViewFacturas" Visible="false" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewFacturas_FilaSeleccionada" OnPageIndexChanging="gridViewFacturas_CambioPagina" runat="server" AllowPaging="true" PageSize="10" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+            <Columns>
+                <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Consultar">
+                    <ControlStyle CssClass="btn btn-default"></ControlStyle>
+                </asp:ButtonField>
+            </Columns>
+            <RowStyle Font-Size="small" BackColor="White" ForeColor="Black"/>
+            <PagerStyle CssClass="paging" HorizontalAlign="Center"/>
+            <AlternatingRowStyle BackColor="#F8F8F8"/>
+            <SelectedRowStyle CssClass="info" Font-Bold="false" ForeColor="Black"/>
+            <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver"/>
+        </asp:GridView>
 
     <!-- Panel crear factura -->
     <asp:Panel ID="PanelCrearFactura" runat="server" Visible="false">
@@ -191,17 +184,17 @@
             </tr>
             <tr>
                 <td colspan="4">
-                    <asp:Panel ID="PanelProductosFactura" runat="server" ScrollBars="Vertical" Height="300px">
+                    <asp:Panel ID="PanelCrearFacturaProductos" runat="server" ScrollBars="Vertical" Height="300px">
                     <asp:GridView ID="gridViewCrearFacturaProductos" CssClass="table" runat="server" AllowPaging="False" BorderColor="White" BorderStyle="Solid" BorderWidth="1px" GridLines="None" ShowHeaderWhenEmpty="True">
                         <Columns>
 							<asp:TemplateField HeaderText="Seleccionar">
 								<ItemTemplate>
-									<asp:CheckBox ID="gridCrearFacturCheckBoxSeleccionarProducto" OnCheckedChanged="checkBoxCrearFacturaProductos_CheckedChanged" runat="server" AutoPostBack="true"/>
+									<asp:CheckBox ID="gridCrearFacturaCheckBoxSeleccionarProducto" OnCheckedChanged="checkBoxCrearFacturaProductos_CheckCambiado" runat="server" AutoPostBack="true"/>
 								</ItemTemplate>
 							</asp:TemplateField>
                             <asp:TemplateField HeaderText="Cantidad">
                                 <ItemTemplate>
-                                    <asp:TextBox ID="gridCrearFacturaCantidadProducto" runat="server" ReadOnly="false" Width="75%"></asp:TextBox>
+                                    <asp:TextBox ID="gridCrearFacturaCantidadProducto" OnTextChanged="textBoxCrearFacturaProductosCantidad_TextoCambiado" ReadOnly="false" Width="75%" runat="server"></asp:TextBox>
                                     <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="gridCrearFacturaCantidadProducto" ClientValidationFunction="changeColor" Display="Dynamic"
                                             ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="Ingrese solo números enteros"  Font-Bold="true" ValidationExpression="\d+$"></asp:RegularExpressionValidator>
                                 </ItemTemplate>
@@ -249,19 +242,19 @@
     </asp:Panel>
     
     <!--Modal Cancelar-->
-    <div class="modal fade" id="modalCancelar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" ID="modalCancelar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="modalTitle"><i class="fa fa-exclamation-triangle text-danger fa-2x"></i>Confirmar cancelación</h4>
+                    <h4 class="modal-title" ID="modalTitle"><i class="fa fa-exclamation-triangle text-danger fa-2x"></i>Confirmar cancelación</h4>
                 </div>
                 <div class="modal-body">
                     ¿Está seguro que desea cancelar la operación? Perdería todos los datos no guardados.
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="botonAceptarModalCancelar" causesvalidation="false" class="btn btn-success-fozkr" runat="server" onserverclick="clickBotonCrearCancelarModal">Aceptar</button>
-                    <button type="button" id="botonCancelarModalCancelar" causesvalidation="false" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
+                    <button type="button" ID="botonAceptarModalCancelar" causesvalidation="false" class="btn btn-success-fozkr" runat="server" onserverclick="clickBotonCrearCancelarModal">Aceptar</button>
+                    <button type="button" ID="botonCancelarModalCancelar" causesvalidation="false" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
                 </div>
             </div>
         </div>
