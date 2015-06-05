@@ -34,6 +34,8 @@ namespace ProyectoInventarioOET
         private static EntidadFactura facturaConsultada;                        // Almacena la factura que se consultó.
         private static ControladoraSeguridad controladoraSeguridad;             // Ayuda con funciones de seguridad
         private static DataTable tablaProductosNuevos;                          // Tabla persistente con los productos que están siendo ingresados.
+        private static double totalFactura;
+        private static double totalFacturaConsultada;
 
         /*
          * Maneja las acciones que se ejecutan cuando se carga la página, establecer el modo de operación, 
@@ -57,8 +59,14 @@ namespace ProyectoInventarioOET
 
                 // Esconder botones
                 mostrarBotonesSegunPermisos();
+
+
                 tablaProductosNuevos = new DataTable();
                 tablaProductosNuevos = tablaFacturaDetallada();
+                entradaConsultada = null;
+                facturaConsultada = null;
+                totalFactura = 0;
+                //totalFacturaConsultada = 0;
                 if (!seConsulto)
                 {
                     modo = (int)Modo.Inicial;
@@ -67,7 +75,7 @@ namespace ProyectoInventarioOET
                 {
                     if (entradaConsultada == null)
                     {
-                        mostrarMensaje("warning", "Alerta: ", "No se pudo consultar la entrada.");
+                        //mostrarMensaje("warning", "Alerta: ", "No se pudo consultar la entrada.");
                     }
                     else
                     {
@@ -78,6 +86,11 @@ namespace ProyectoInventarioOET
 
             }
             cambiarModo();
+            //if (tablaProductosNuevos.Rows.Count == 0)
+            //{
+            //    this.botonAceptarEntrada.Disabled = true;
+            
+            //}
         }
 
         //Construcción y llenado de las distintas tablas que se muestran en la interfaz.
@@ -183,7 +196,7 @@ namespace ProyectoInventarioOET
             {
                 // Cargar entradas
                 Object[] datos = new Object[4];
-                bodegaDeTrabajo = "CRO44452";///////////////******************************//////////////////////////
+                //bodegaDeTrabajo = "CRO44452";///////////////******************************//////////////////////////
                 DataTable entradas = controladoraEntradas.consultarEntradas(bodegaDeTrabajo);
 
                 if (entradas.Rows.Count > 0)
@@ -429,6 +442,8 @@ namespace ProyectoInventarioOET
             this.gridFacturaNueva.DataSource = tablaProductosNuevos;
             this.gridFacturaNueva.DataBind();
             modo = (int)Modo.BusquedaFactura;
+            facturaBuscada = "Todas";
+            llenarGridFacturas();
             cambiarModo();
         }
 
@@ -439,8 +454,9 @@ namespace ProyectoInventarioOET
         protected void botonMostrarFacturas_Click(object sender, EventArgs e)
         {
             facturaBuscada = "Todas";
-            modo = (int)Modo.SeleccionFactura;
-            cambiarModo();
+            //modo = (int)Modo.SeleccionFactura;
+            //cambiarModo();
+            this.gridViewFacturas.Visible = true;
             llenarGridFacturas();
         }
 
@@ -450,8 +466,8 @@ namespace ProyectoInventarioOET
         protected void botonBuscarFactura_Click(object sender, EventArgs e)
         {
             facturaBuscada = this.barraDeBusquedaFactura.Value.ToString();
-            modo = (int)Modo.SeleccionFactura;
-            cambiarModo();
+            //modo = (int)Modo.SeleccionFactura;
+            //cambiarModo();
             llenarGridFacturas();
         }
 
@@ -484,6 +500,91 @@ namespace ProyectoInventarioOET
 
         }
 
+
+
+
+
+        /*
+         * Se dispara para completar la entrada con los productos seleccionados.
+         */
+        protected void botonAceptarEntrada_ServerClick(object sender, EventArgs e)
+        {
+            if (totalFactura > (facturaConsultada.Total + 1) || totalFactura < (facturaConsultada.Total - 1)) 
+            {
+                mostrarMensaje("warning", "Alerta", "La diferencia entre el total de la factura nueva y el de la factura consultada no puede ser superior a 1 colón.");
+                if (tablaProductosNuevos.Rows.Count > 0)
+                {
+                    this.botonEliminarProducto.Enabled = true;
+                    this.botonModificarProducto.Enabled = true;
+                }      
+            }
+            else
+            {
+                Boolean operacionCorrecta = false;
+                String codigoInsertado = "";
+                String usuario = (this.Master as SiteMaster).Usuario.Usuario;
+                //String usuario = "usuario";
+                String idFactura = facturaConsultada.IdFactura;
+                String fecha = DateTime.Now.ToString("h:mm:ss");
+                String[] resultado = new String[3];
+                String[] provisional = new String[2];
+                Object[] objetoEntrada = new Object[5];
+                Object[] datos = new Object[3];
+                DataTable tablaProductosConID = new DataTable();
+                tablaProductosConID = tablaFacturaDetallada();
+                //bodegaDeTrabajo = "CRO44452";///////////////******************************//////////////////////////
+
+                if (modo == (int)Modo.SeleccionProductos)
+                {
+                    try
+                    {
+                        objetoEntrada[1] = idFactura;
+                        objetoEntrada[0] = "";
+                        objetoEntrada[4] = fecha;
+                        objetoEntrada[3] = bodegaDeTrabajo;
+                        objetoEntrada[2] = usuario;
+
+                        foreach (DataRow fila in tablaProductosNuevos.Rows)
+                        {
+                            provisional = obtenerCodigoDeProducto(fila[0].ToString());
+                            datos[0] = provisional[1];
+                            datos[1] = fila[1].ToString();
+                            datos[2] = fila[2].ToString();
+
+                            tablaProductosConID.Rows.Add(datos);
+
+                        }
+                        resultado = controladoraEntradas.insertarEntrada(objetoEntrada, tablaProductosConID);
+                        if (resultado[1] == "Éxito:")
+                        {
+                            modo = (int)Modo.Inicial;
+                            operacionCorrecta = true;
+                        }
+                    }
+                    catch (Exception t)
+                    {
+                        mostrarMensaje("warning", "Alerta", "No se pudo insertar la entrada.");
+                        operacionCorrecta = false;
+                    }
+
+                    if (operacionCorrecta)
+                    {
+                        mostrarMensaje(resultado[0], resultado[1], resultado[2]);
+                        cambiarModo();
+                    }
+                }
+            }
+        }
+
+        /*
+         * Regresa la interfaz a modo inicial en caso de darse una cancelación de una acción (inserción).
+         */
+        protected void botonAceptarModalCancelar_ServerClick(object sender, EventArgs e)
+        {
+            modo = (int)Modo.Inicial;
+            cambiarModo();
+        }
+
         /*
          * Toma la información del producto elegido y lo agrega a la entrada que se está 
          * trabajando.
@@ -511,90 +612,19 @@ namespace ProyectoInventarioOET
                 datos[1] = cantidad;
                 datos[2] = costo;
                 tablaProductosNuevos.Rows.Add(datos);
-
+                actualizarTotalFactura(Convert.ToDouble(costo));
+                outputTotalFacturaNueva.InnerText = totalFactura.ToString();
                 this.botonEliminarProducto.Enabled = true;
                 this.botonModificarProducto.Enabled = true;
                 this.botonAceptarEntrada.Disabled = false;
                 this.gridFacturaNueva.DataSource = tablaProductosNuevos;
                 this.gridFacturaNueva.DataBind();
-                limpiarCampos();            
+                limpiarCampos();
+                mostrarMensaje("success", "Éxito:", "El producto fue agregado exitosamente.");
             }
 
 
         }
-
-
-
-        /*
-         * Se dispara para completar la entrada con los productos seleccionados.
-         */
-        protected void botonAceptarEntrada_ServerClick(object sender, EventArgs e)
-        {
-            Boolean operacionCorrecta = false;
-            String codigoInsertado = "";
-            //String usuario = (this.Master as SiteMaster).Usuario.Usuario;
-            String usuario = "usuario";
-            String idFactura = facturaConsultada.IdFactura;
-            String fecha = DateTime.Now.ToString("h:mm:ss");
-            String[] resultado = new String[3];
-            String[] provisional = new String[2];
-            Object[] objetoEntrada = new Object[5];
-            Object[] datos = new Object[3];
-            DataTable tablaProductosConID = new DataTable();
-            tablaProductosConID = tablaFacturaDetallada();
-            bodegaDeTrabajo = "CRO44452";///////////////******************************//////////////////////////
-
-            if (modo == (int)Modo.SeleccionProductos)
-            {
-                try 
-                {
-                    objetoEntrada[1] = idFactura;
-                    objetoEntrada[0] = "";
-                    objetoEntrada[4] = fecha;
-                    objetoEntrada[3] = bodegaDeTrabajo;
-                    objetoEntrada[2] = usuario;
-
-                    foreach (DataRow fila in tablaProductosNuevos.Rows)
-                    {
-                        provisional = obtenerCodigoDeProducto(fila[0].ToString());
-                        datos[0] = provisional[1];
-                        datos[1] = fila[1].ToString();
-                        datos[2] = fila[2].ToString();
-
-                        tablaProductosConID.Rows.Add(datos);
-
-                    }
-                    resultado = controladoraEntradas.insertarEntrada(objetoEntrada, tablaProductosConID);
-                    if (resultado[1] == "Éxito:")
-                    {
-                        modo = (int)Modo.Inicial;
-                        operacionCorrecta = true;
-                    }
-                }
-                catch (Exception t)
-                {
-                    mostrarMensaje("warning", "Alerta", "No se pudo insertar la entrada.");
-                    operacionCorrecta = false;                
-                }
-
-                if (operacionCorrecta)
-                {
-                    mostrarMensaje(resultado[0], resultado[1], resultado[2]);
-                    cambiarModo();
-                }
-            }
-        }
-
-        /*
-         * Regresa la interfaz a modo inicial en caso de darse una cancelación de una acción (inserción).
-         */
-        protected void botonAceptarModalCancelar_ServerClick(object sender, EventArgs e)
-        {
-            modo = (int)Modo.Inicial;
-            cambiarModo();
-        }
-
-
 
         /*
          * Permite modificar el costo, cantidad o hasta el producto que se eligió en la creación
@@ -603,19 +633,20 @@ namespace ProyectoInventarioOET
         protected void botonModificarProducto_Click(object sender, EventArgs e)
         {
             String producto;
-            String costo;
+            String costo = "";
             String cantidad;
+            bool estaSeleccionadoProducto = false;
 
             for (int i = 0; i < gridFacturaNueva.Rows.Count; i++)
             {
                 GridViewRow row = gridFacturaNueva.Rows[i];
-                bool estaSeleccionadoProducto = ((CheckBox)row.FindControl("checkBoxProductos")).Checked;
+                estaSeleccionadoProducto = ((CheckBox)row.FindControl("checkBoxProductos")).Checked;
 
 
                 if (estaSeleccionadoProducto)
                 {
 
-                    producto = gridFacturaNueva.Rows[i].Cells[1].Text.ToString();
+                    producto = HttpUtility.HtmlDecode(gridFacturaNueva.Rows[i].Cells[1].Text.ToString());
                     cantidad = gridFacturaNueva.Rows[i].Cells[2].Text.ToString();
                     costo = gridFacturaNueva.Rows[i].Cells[3].Text.ToString();
                     
@@ -624,7 +655,23 @@ namespace ProyectoInventarioOET
                     this.inputCostoProducto.Value = costo;
                     this.textBoxAutocompleteCrearFacturaBusquedaProducto.Text = producto;
 
+                    double restarCosto = Convert.ToDouble(costo) * -1;
+                    actualizarTotalFactura(restarCosto);
+                    outputTotalFacturaNueva.InnerText = totalFactura.ToString();
                 }
+            }
+
+            if (!estaSeleccionadoProducto)
+            {
+                mostrarMensaje("warning", "Aviso", "Seleccione un producto para modificar.");            
+            
+            }
+
+
+            if (tablaProductosNuevos.Rows.Count > 0)
+            {
+                this.botonEliminarProducto.Enabled = true;
+                this.botonModificarProducto.Enabled = true;
             }
         }
 
@@ -634,18 +681,39 @@ namespace ProyectoInventarioOET
          */
         protected void botonEliminarProducto_Click(object sender, EventArgs e)
         {
+            String costo = "";
+            bool estaSeleccionadoProducto = false;
             for (int i = 0; i < gridFacturaNueva.Rows.Count; i++)
             {
                 GridViewRow row = gridFacturaNueva.Rows[i];
-                bool estaSeleccionadoProducto = ((CheckBox)row.FindControl("checkBoxProductos")).Checked;
+                estaSeleccionadoProducto = ((CheckBox)row.FindControl("checkBoxProductos")).Checked;
 
 
                 if (estaSeleccionadoProducto)
                 {
+                    costo = gridFacturaNueva.Rows[i].Cells[3].Text.ToString();
                     tablaProductosNuevos.Rows.RemoveAt(i);
                     this.gridFacturaNueva.DataSource = tablaProductosNuevos;
                     this.gridFacturaNueva.DataBind();
+
+                    double restarCosto = Convert.ToDouble(costo) * -1;
+                    actualizarTotalFactura(restarCosto);
+                    outputTotalFacturaNueva.InnerText = totalFactura.ToString();
+
                 }
+            }
+
+
+            if (!estaSeleccionadoProducto)
+            {
+                mostrarMensaje("warning", "Aviso", "Seleccione un producto para eliminar.");
+
+            }
+
+            if (tablaProductosNuevos.Rows.Count > 0)
+            {
+                this.botonEliminarProducto.Enabled = true;
+                this.botonModificarProducto.Enabled = true;
             }
         }
 
@@ -752,28 +820,25 @@ namespace ProyectoInventarioOET
 
 
                 case (int)Modo.BusquedaFactura: // Modo que permite buscar una factura por identificador o 
-                                                // seleccionando del listado general.
+                    // seleccionando del listado general.
                     this.botonAgregarEntradas.Disabled = true;
                     this.FielsetBuscarFactura.Visible = true;
                     this.botonAceptarEntrada.Visible = true;
                     this.botonAceptarEntrada.Disabled = true;
                     this.botonCancelarEntrada.Visible = true;
                     this.FieldsetGridEntradas.Visible = false;
+                    this.FieldsetGridFacturas.Visible = true;
                     tituloAccionEntradas.InnerText = "";
                     break;
 
-                case (int)Modo.SeleccionFactura: // Se presenta la lista con los resultados de la búsqueda para	
-                                                // elegir la que se desea trabajar.
-
-                    this.FieldsetGridFacturas.Visible = true;
-                    break;
                 case (int)Modo.SeleccionProductos: // Visualiza la información de la factura seleccionada y permite 
-                                                  // detallar los productos recibidos(Crear la entrada).
+                    // detallar los productos recibidos(Crear la entrada).
                     this.FieldsetEncabezadoFactura.Visible = true;
                     this.FieldsetCrearFactura.Visible = true;
                     //this.botonAceptarEntrada.Disabled = false;
                     this.botonModificarProducto.Enabled = false;
                     this.botonEliminarProducto.Enabled = false;
+                    this.FieldsetGridFacturas.Visible = false;
                     break;
 
                 case (int)Modo.EntradaConsultada:
@@ -790,7 +855,7 @@ namespace ProyectoInventarioOET
                     break;
 
                 default:
-                break;
+                    break;
             }
         }
 
@@ -821,6 +886,7 @@ namespace ProyectoInventarioOET
             outputImpuestos.InnerText = Convert.ToString(facturaConsultada.RetencionImpuestos);
             outputMoneda.InnerText = Convert.ToString(facturaConsultada.Moneda);
             outputTipoCambio.InnerText = Convert.ToString(facturaConsultada.TipoCambio);
+
         }
 
         /*
@@ -905,6 +971,10 @@ namespace ProyectoInventarioOET
             botonAgregarEntradas.Visible = (permisos[4] == '1');
             //botonModificacionActividades.Visible = (permisos[3] == '1');
             //comboBoxEstadosActividades.Enabled = (permisos[2] == '1');
+        }
+
+        private void actualizarTotalFactura(double cambio) {
+            totalFactura += cambio;        
         }
         
     }

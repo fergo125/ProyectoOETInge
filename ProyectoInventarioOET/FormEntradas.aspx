@@ -231,12 +231,14 @@
          de productos y la factura detallada que se está creando
      -->
     <fieldset id="FieldsetCrearFactura" runat="server" visible="false">
+        <h4>Utilice la barra de búsqueda para seleccionar los productos entrantes</h4>
+        <br />
         <div class="row">
             <div id="bloqueGridDetalleFactura" class="col-lg-4">
                  <div class="col-lg-12"><strong><div ID="Div1" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Detalle de la Factura Entrante</div></strong>
                     <asp:UpdatePanel ID="UpdatePanelDetalleFactura" runat="server">
                         <ContentTemplate>
-                            <asp:GridView ID="gridDetalleFactura" CssClass="table" OnPageIndexChanging="gridDetalleFactura_PageIndexChanging" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                            <asp:GridView ID="gridDetalleFactura" CssClass="table" OnPageIndexChanging="gridDetalleFactura_PageIndexChanging" runat="server" AllowPaging="True" PageSize="7" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
                                <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
                                <PagerStyle CssClass="paging" HorizontalAlign="Center" />
                                <AlternatingRowStyle BackColor="#F8F8F8" />
@@ -261,7 +263,7 @@
                                                 <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="inputCantidadProducto" ClientValidationFunction="changeColor" Display="Dynamic"
                                                  ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="Solo se permiten números enteros"  Font-Bold="true" ValidationExpression="\d+$"></asp:RegularExpressionValidator>
                 <br />
-                <label for="inputCostoProducto" class= "control-label">Costo:</label>      
+                <label for="inputCostoProducto" class= "control-label">Costo Total:</label>      
                 <input id="inputCostoProducto" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
                 
                                                 <asp:RegularExpressionValidator ID="RegularExpressionValidator2" ControlToValidate="inputCostoProducto" ClientValidationFunction="changeColor" Display="Dynamic"
@@ -274,7 +276,7 @@
                  <div class="col-lg-12"><strong><div ID="Div3" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Detalle de la Factura Consignada</div></strong>
                     <asp:UpdatePanel ID="UpdatePanelFacturaNueva" runat="server">
                         <ContentTemplate>
-                            <asp:GridView ID="gridFacturaNueva" CssClass="table" OnPageIndexChanging="gridFacturaNueva_PageIndexChanging" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                            <asp:GridView ID="gridFacturaNueva" CssClass="table" OnPageIndexChanging="gridFacturaNueva_PageIndexChanging" runat="server" AllowPaging="True" PageSize="7" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
 						        <Columns>
 							        <asp:TemplateField HeaderText="Seleccionar">
 								        <ItemTemplate>
@@ -294,8 +296,17 @@
                      </Triggers>
                   </asp:UpdatePanel>
                </div>  
-                <asp:Button ID="botonModificarProducto" runat="server" Text="Modificar" OnClick="botonModificarProducto_Click" CssClass="btn btn-warning-fozkr"/>                 
-                <asp:Button ID="botonEliminarProducto" runat="server" Text="Eliminar" OnClick="botonEliminarProducto_Click" CssClass="btn btn-warning-fozkr"/> 
+                <br />
+                <div class="row" style="margin-left:5%">
+                    <asp:Button ID="botonModificarProducto" runat="server" Text="Modificar" OnClick="botonModificarProducto_Click" CssClass="btn btn-warning-fozkr"/>                 
+                    <asp:Button ID="botonEliminarProducto" runat="server" Text="Eliminar" OnClick="botonEliminarProducto_Click" CssClass="btn btn-warning-fozkr"/> 
+                </div>
+                <br />
+                <div class="row" style="margin-left:5%">
+                    <label for="outputTotalFacturaNueva" class="control-label">Total de la Factura:</label>      
+                    <p id="outputTotalFacturaNueva" runat="server" class="form-control-static"></p>
+                </div>
+
             </div>
         </div>
 
