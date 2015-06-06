@@ -61,7 +61,9 @@
     <!-- Fin del fieldset-->
 
     <br />
-
+    <br />
+    <br />
+    <br />
     
     <!-- Grid de productos a ajustar -->
     <div id="bloqueGridProductos" class="col-lg-12">

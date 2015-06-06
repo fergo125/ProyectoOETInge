@@ -149,10 +149,10 @@ namespace ProyectoInventarioOET
                     botonCancelarAjustes.Visible = false;
                     tituloAccionAjustes.InnerText = "Ajuste seleccionado";
                     botonRealizarAjuste.Disabled = false;
-                    botonConsultarAjustes.Disabled = true;
+                    botonConsultarAjustes.Disabled = false;
                     tituloGridProductos.Visible = true;
-                    tituloGridConsulta.Visible = true;
-                    gridViewAjustes.Visible = true;
+                    tituloGridConsulta.Visible = false;
+                    gridViewAjustes.Visible = false;
                     gridViewProductos.Enabled = false;
                     gridViewProductos.Visible = true;
                     habilitarCampos(false);
@@ -176,6 +176,7 @@ namespace ProyectoInventarioOET
             this.outputUsuario.Value = ajusteConsultado.Usuario;
             this.outputFecha.Value = ajusteConsultado.Fecha.ToString();
             this.inputNotas.Text = ajusteConsultado.Notas;
+            this.outputBodega.Value = ((this.Master as SiteMaster).NombreBodegaSesion);
 
             // Manejo grid
             DataTable tabla = tablaProductoConsulta();
@@ -410,7 +411,7 @@ namespace ProyectoInventarioOET
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Codigo";
+            columna.ColumnName = "Código";
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
@@ -441,7 +442,7 @@ namespace ProyectoInventarioOET
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Codigo";
+            columna.ColumnName = "Código";
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
@@ -467,7 +468,7 @@ namespace ProyectoInventarioOET
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Codigo";
+            columna.ColumnName = "Código";
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
@@ -647,7 +648,7 @@ namespace ProyectoInventarioOET
                         // Sacamos datos pertinentes del producto
                         Object[] datos = new Object[4];
                         datos[0] = seleccionada["Nombre"];
-                        datos[1] = seleccionada["Codigo"];
+                        datos[1] = seleccionada["Código"];
                         datos[2] = seleccionada["Cantidad Actual"];
                         datos[3] = seleccionada["Unidad Métrica"];
 
@@ -710,9 +711,18 @@ namespace ProyectoInventarioOET
             int i = 0;
             try
             {
+                if (tablaProductos.Rows.Count ==0) { // Caso en que no se agrego nada
+                    throw new NoNullAllowedException();
+                }
                 foreach (DataRow row in tablaProductos.Rows)
                 {
+                    if (((TextBox)gridViewProductos.Rows[i].FindControl("textAjustes")).Text=="") // Caso en que no se especifico un ajuste
+                        throw new NullReferenceException();
+
                     Double cantAjuste = Double.Parse(((TextBox)gridViewProductos.Rows[i].FindControl("textAjustes")).Text);
+                    if( cantAjuste < 0 )
+                        throw new InvalidConstraintException();
+
 
                     ajuste = new Object[5];
                     ajuste[0] = ajuste[1] = "";
@@ -748,12 +758,31 @@ namespace ProyectoInventarioOET
 
                 mostrarMensaje(error[0], error[1], error[2]);
             }
-            catch(AggregateException e)
+            catch (NoNullAllowedException e)
             {
                 codigo = "";
                 modo = (int)Modo.Insercion;
-                mostrarMensaje("danger", "Error: ", "Está haciendo un ajuste incorrecto");
+                mostrarMensaje("danger", "Error: ", "No puede realizarse un ajuste sin productos");
             }
+            catch (AggregateException e)
+            {
+                codigo = "";
+                modo = (int)Modo.Insercion;
+                mostrarMensaje("danger", "Error: ", "La nueva cantidad de uno o más productos no concuerda con el tipo de ajuste");
+            }
+            catch (InvalidConstraintException e)
+            {
+                codigo = "";
+                modo = (int)Modo.Insercion;
+                mostrarMensaje("danger", "Error: ", "Está tratando de ajustar 0 instancias de un producto");
+            }
+            catch (NullReferenceException e)
+            {
+                codigo = "";
+                modo = (int)Modo.Insercion;
+                mostrarMensaje("danger", "Error: ", "Introducir cantidad a ajustar");
+            }
+
             return codigo;
         }
 
@@ -774,7 +803,7 @@ namespace ProyectoInventarioOET
                 {
                     operacionCorrecta = true;
                     ajusteConsultado = controladoraAjustes.consultarAjuste(codigoInsertado);
-                    modo = (int)Modo.Consultado;
+                    modo = (int)Modo.Inicial;
                     habilitarCampos(false);
                     cambiarModo();
                 }
