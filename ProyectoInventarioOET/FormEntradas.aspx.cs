@@ -14,7 +14,9 @@ using System.Text;
 namespace ProyectoInventarioOET
 {
     /*
-     * ???
+     * Clase interfaz que se encarga de todo lo relacionado con entradas, desde el punto de vista de las facturas que vienen del sistema
+     * de compras.
+     * Permite consultar entradas, crear entradas. Dependiendo de los permisos que tenga el perfil del usuario conectado.
      */
     public partial class FormEntradas : System.Web.UI.Page
     {
@@ -179,6 +181,11 @@ namespace ProyectoInventarioOET
             columna.ColumnName = "Costo Total";
             tabla.Columns.Add(columna);
 
+            //columna = new DataColumn();
+            //columna.DataType = System.Type.GetType("System.String");
+            //columna.ColumnName = "Costo Unitario";
+            //tabla.Columns.Add(columna);
+
             return tabla;
         }
 
@@ -293,7 +300,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * Llena la tabla con las facturas almacenadas en la base de datos.
+         * Llena la tabla con el detalle de la factura consultada.
          */
         protected void llenarGridDetalleFactura()
         {
@@ -343,6 +350,10 @@ namespace ProyectoInventarioOET
             }
         }
 
+
+        /*
+         * Llena la tabla con el detalle de la entrada consultada.
+         */
         protected void llenarGridProductos()
         {
             DataTable tabla = tablaFacturaDetallada();
@@ -609,9 +620,11 @@ namespace ProyectoInventarioOET
             else
             {
                 Object[] datos = new Object[3];
+                //Object[] datos = new Object[4];
                 datos[0] = productoEscogido;
                 datos[1] = cantidad;
                 datos[2] = costo;
+                //datos[3] = Convert.ToDouble(costo) / Convert.ToInt32(cantidad);
                 tablaProductosNuevos.Rows.Add(datos);
                 actualizarTotalFactura(Convert.ToDouble(costo));
                 outputTotalFacturaNueva.InnerText = totalFactura.ToString();
@@ -824,9 +837,6 @@ namespace ProyectoInventarioOET
                     // seleccionando del listado general.
                     this.botonAgregarEntradas.Disabled = true;
                     this.FielsetBuscarFactura.Visible = true;
-                    this.botonAceptarEntrada.Visible = true;
-                    this.botonAceptarEntrada.Disabled = true;
-                    this.botonCancelarEntrada.Visible = true;
                     this.FieldsetGridEntradas.Visible = false;
                     this.FieldsetGridFacturas.Visible = true;
                     tituloAccionEntradas.InnerText = "Seleccione o busque una factura";
@@ -837,6 +847,9 @@ namespace ProyectoInventarioOET
                     this.FieldsetEncabezadoFactura.Visible = true;
                     this.FieldsetCrearFactura.Visible = true;
                     //this.botonAceptarEntrada.Disabled = false;
+                    this.botonAceptarEntrada.Visible = true;
+                    this.botonAceptarEntrada.Disabled = true;
+                    this.botonCancelarEntrada.Visible = true;
                     this.botonModificarProducto.Enabled = false;
                     this.botonEliminarProducto.Enabled = false;
                     this.FieldsetGridFacturas.Visible = false;
