@@ -923,10 +923,33 @@ namespace ProyectoInventarioOET
         }
 
         /*
+         * Elimina el producto de la factura que esté marcado (seleccionado, con el checkbox).
+         */
+        protected void clickBotonCrearEliminarProducto(object sender, EventArgs e)
+        {
+            for(int i=0; i<gridViewCrearFacturaProductos.Rows.Count; ++i)
+            {
+                if(((CheckBox)gridViewCrearFacturaProductos.Rows[i].FindControl("gridCrearFacturaCheckBoxSeleccionarProducto")).Checked) //se encontró, eliminar esta fila de todo lado
+                {
+                    productosAgregados.Rows.RemoveAt(i);
+                    gridViewCrearFacturaProductos.DataSource = productosAgregados;
+                    gridViewCrearFacturaProductos.DataBind();
+                    break;
+                }
+            }
+        }
+
+        /*
          * Invocada cuando termina de hacer la factura y se envia a la base de datos.
          */
         protected void clickBotonCrearGuardar(object sender, EventArgs e)
         {
+            //Antes que nada, revisar que hayan productos, si no, no se puede guardar la factura
+            if(productosAgregados.Rows.Count < 1)
+            {
+                mostrarMensaje("warning", "Alerta: ", "No puede guardarse una factura vacía, sin productos.");
+                return;
+            }
             Object[] datosFactura = obtenerDatos();
             String[] resultado = controladoraVentas.insertarFactura(datosFactura);
             mostrarMensaje(resultado[0], resultado[1], resultado[2]);
