@@ -794,7 +794,7 @@ namespace ProyectoInventarioOET
             for (int i = 0; i < gridViewCrearFacturaProductos.Rows.Count; ++i)
             {
                 if (i < checksProductos.Count) //para evitar que intente accesar posiciones inexistentes
-                    ((CheckBox)gridViewCrearFacturaProductos.Rows[i].FindControl("gridCrearFacturCheckBoxSeleccionarProducto")).Checked = checksProductos[i];
+                    ((CheckBox)gridViewCrearFacturaProductos.Rows[i].FindControl("gridCrearFacturaCheckBoxSeleccionarProducto")).Checked = checksProductos[i];
                 if (i < cantidadesProductos.Count) //para evitar que intente accesar posiciones inexistentes
                     if (((TextBox)gridViewCrearFacturaProductos.Rows[i].FindControl("gridCrearFacturaCantidadProducto")).Text == "") //para evitar que borre lo nuevo
                         ((TextBox)gridViewCrearFacturaProductos.Rows[i].FindControl("gridCrearFacturaCantidadProducto")).Text = cantidadesProductos[i].ToString();
@@ -904,6 +904,30 @@ namespace ProyectoInventarioOET
             Object[] datosFactura = obtenerDatos();
             String[] resultado = controladoraVentas.insertarFactura(datosFactura);
             mostrarMensaje(resultado[0], resultado[1], resultado[2]);
+
+            //blopa
+            //DataTable productoConsultado;
+            //bool alerta = false;
+            //bool error = false;
+            //for (int i = 0; i < productosAgregados.Rows.Count && !error; i++)
+            //{
+            //    productoConsultado = controladoraProductoLocal.consultarProductoDeBodega((this.Master as SiteMaster).LlaveBodegaSesion, productosAgregados.Rows[i][2].ToString());
+            //    double cantidad = Convert.ToDouble(productosAgregados.Rows[i][0].ToString());
+            //    double existencias = Convert.ToDouble(productoConsultado.Rows[0][7]);
+            //    double minimo = Convert.ToDouble(productoConsultado.Rows[0][13]);
+            //    error = existencias < cantidad;
+            //    alerta |= (existencias - cantidad) >= minimo;
+            //}
+            ////Con que un producto no cumpla esto, hay que mostrar un mensaje de error e interrumpir todo
+            //if (!error)
+            //{
+
+            //    if (alerta)
+            //    {
+            //        resultado[0] = "warning";
+            //        resultado[2] += "\nUno o más productos han salido de sus límites permitidos (nivel máximo o mínimo), revise el catálogo local.";
+            //    }
+            //}
         }
 
         /*
@@ -1070,10 +1094,11 @@ namespace ProyectoInventarioOET
             foreach (GridViewRow fila in gridViewCrearFacturaProductos.Rows)
             {
                 //Primero, desmarcar todos los otros checkboxes al marcar uno nuevo (también se hace al desmarcar pero parece ser bastante rápido)
-                if (((CheckBox)fila.FindControl("gridCrearFacturCheckBoxSeleccionarProducto")).Checked && ((CheckBox)fila.FindControl("gridCrearFacturCheckBoxSeleccionarProducto") != (CheckBox)sender))
-                    ((CheckBox)fila.FindControl("gridCrearFacturCheckBoxSeleccionarProducto")).Checked = false;
+                CheckBox check = (CheckBox)fila.FindControl("gridCrearFacturaCheckBoxSeleccionarProducto");
+                if ((check.Checked) && (check != (CheckBox)sender))
+                    check.Checked = false;
                 //Segundo, guardar el estado de cada checkbox
-                checksProductos.Add(((CheckBox)fila.FindControl("gridCrearFacturCheckBoxSeleccionarProducto")).Checked);
+                checksProductos.Add(check.Checked);
             }
         }
 
@@ -1094,37 +1119,17 @@ namespace ProyectoInventarioOET
                     if (cantidadesProductos[i] > existenciaReal) //si se pretende vender más de lo que hay disponible
                     {
                         mostrarMensaje("danger", "Alerta: ", "La cantidad del producto '" + fila.Cells[2].Text + "' que intenta venderse es mayor a la existencia real en la bodega " + (this.Master as SiteMaster).NombreBodegaSesion + ". Esta factura no puede guardarse sin arreglar la cantidad.");
+                        ((TextBox)sender).ForeColor = System.Drawing.Color.Red;
                         botonCrearFacturaGuardar.Disabled = true;
                     }
                     else
+                    {
                         botonCrearFacturaGuardar.Disabled = false;
+                        ((TextBox)sender).ForeColor = System.Drawing.Color.Black;
+                    }
                 }
                 ++i;
             }
-
-            //blopa
-            //DataTable productoConsultado;
-            //bool alerta = false;
-            //bool error = false;
-            //for (int i = 0; i < productosAgregados.Rows.Count && !error; i++)
-            //{
-            //    productoConsultado = controladoraProductoLocal.consultarProductoDeBodega((this.Master as SiteMaster).LlaveBodegaSesion, productosAgregados.Rows[i][2].ToString());
-            //    double cantidad = Convert.ToDouble(productosAgregados.Rows[i][0].ToString());
-            //    double existencias = Convert.ToDouble(productoConsultado.Rows[0][7]);
-            //    double minimo = Convert.ToDouble(productoConsultado.Rows[0][13]);
-            //    error = existencias < cantidad;
-            //    alerta |= (existencias - cantidad) >= minimo;
-            //}
-            ////Con que un producto no cumpla esto, hay que mostrar un mensaje de error e interrumpir todo
-            //if (!error)
-            //{
-
-            //    if (alerta)
-            //    {
-            //        resultado[0] = "warning";
-            //        resultado[2] += "\nUno o más productos han salido de sus límites permitidos (nivel máximo o mínimo), revise el catálogo local.";
-            //    }
-            //}
         }
     }
 }
