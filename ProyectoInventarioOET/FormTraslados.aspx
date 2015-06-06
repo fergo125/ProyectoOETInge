@@ -71,9 +71,11 @@
                 <input type="text" id="outputUsuario" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
             </div>
             <div class="col-lg-2">
-                <label for="dropDownEstado" class= "control-label"> Estado de Traslado: </label>      
-                <asp:DropDownList ID="dropDownEstado" runat="server" CssClass="form-control" AutoPostBack="true">
-                </asp:DropDownList><br>
+                <fieldset id= "fieldsetEstado" runat="server" class="fieldset">
+                    <label  for="dropDownEstado" class= "control-label"> Estado de Traslado: </label>      
+                    <asp:DropDownList ID="dropDownEstado" runat="server" CssClass="form-control" AutoPostBack="true">
+                    </asp:DropDownList><br>
+                </fieldset>
             </div>
             <div class="col-lg-5">
                 <label for="outputFecha" class= "control-label"> Fecha de creacion: </label>      

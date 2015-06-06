@@ -112,7 +112,7 @@ namespace ProyectoInventarioOET
                     gridViewProductos.Enabled = true;
                     gridViewProductos.Visible = true;
                     fieldsetConsulta.Visible = false;
-                    dropDownEstado.Visible = false;
+                    fieldsetEstado.Visible = false;
                     habilitarCampos(true);
                     foreach (DataControlField col in gridViewProductos.Columns)
                         col.Visible = true;
@@ -151,7 +151,7 @@ namespace ProyectoInventarioOET
                     gridViewProductos.Enabled = true;
                     gridViewProductos.Visible = true;
                     fieldsetConsulta.Visible = false;
-                    dropDownEstado.Visible = true;
+                    fieldsetEstado.Visible = true;
                     dropDownEstado.Enabled = true;
                     habilitarCampos(false);
                     foreach (DataControlField col in gridViewProductos.Columns)
@@ -173,7 +173,7 @@ namespace ProyectoInventarioOET
                     gridViewProductos.Enabled = false;
                     gridViewProductos.Visible = true;
                     fieldsetConsulta.Visible = true;
-                    dropDownEstado.Visible = true;
+                    fieldsetEstado.Visible = true;
                     dropDownEstado.Enabled = false;
                     habilitarCampos(false);
                     foreach (DataControlField col in gridViewProductos.Columns)
@@ -221,7 +221,7 @@ namespace ProyectoInventarioOET
 
             // Manejo grid
             DataTable tabla = tablaProductoConsulta();
-            Object[] datos = new Object[3];
+            Object[] datos = new Object[4];
             if (trasladoConsultado.Detalles.Count > 0)
             {
                 foreach (EntidadDetalles elemento in trasladoConsultado.Detalles)
@@ -229,6 +229,7 @@ namespace ProyectoInventarioOET
                     datos[0] = elemento.NombreProducto;
                     datos[1] = elemento.Codigo;
                     datos[2] = elemento.Cambio;
+                    datos[3] = elemento.Unidades;
                     tabla.Rows.Add(datos);
                 }
             }
@@ -237,6 +238,7 @@ namespace ProyectoInventarioOET
                 datos[0] = "-";
                 datos[1] = "-";
                 datos[2] = 0;
+                datos[3] = "-";
                 tabla.Rows.Add(datos);
             }
 
@@ -342,6 +344,8 @@ namespace ProyectoInventarioOET
             int i = 0;
             try
             {
+                if( nuevo.IdBodegaDestino == nuevo.IdBodegaOrigen )
+                    throw new EvaluateException();
                 if (idArrayProductosDestino.Count() < 1)
                     throw new NoNullAllowedException();
 
@@ -414,7 +418,12 @@ namespace ProyectoInventarioOET
                 modo = (int)Modo.Insercion;
                 mostrarMensaje("danger", "Error: ", "Introducir cantidad a transferir");
             }
-
+            catch (EvaluateException e)
+            {
+                codigo = "";
+                modo = (int)Modo.Insercion;
+                mostrarMensaje("danger", "Error: ", "No se puede transferir a la misma bodega");
+            }
             return codigo;
         }
 
@@ -536,6 +545,11 @@ namespace ProyectoInventarioOET
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.Double");
             columna.ColumnName = "Cantidad Transferida";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Unidad Métrica";
             tabla.Columns.Add(columna);
 
             return tabla;
