@@ -894,6 +894,9 @@ namespace ProyectoInventarioOET
          */
         protected void clickBotonAgregarProductoFacturaNueva(object sender, EventArgs e)
         {
+            //Antes que nada, asegurarse de que el textbox tiene algo
+            if (textBoxAutocompleteCrearFacturaBusquedaProducto.Text == "")
+                return;
             //Primero, obtener nombre y código del producto ingresado
             String productoEscogido = textBoxAutocompleteCrearFacturaBusquedaProducto.Text;
             String[] nombreCodigoProductoEscogido = separarNombreCodigoProductoEscogido(productoEscogido);
