@@ -149,13 +149,15 @@ namespace ProyectoInventarioOET.Modulo_Productos_Locales
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();  //Cambio Carlos
-                command.CommandText = " SELECT B1.INV_PRODUCTOS, P.NOMBRE, P.CODIGO, B1.SALDO, B1.MINIMO, B1.MAXIMO, B1.INV_BODEGA_PRODUCTOS, B2.INV_BODEGA_PRODUCTOS "
-                                     + " FROM " + esquema + "INV_BODEGA_PRODUCTOS B1, " + esquema + "INV_BODEGA_PRODUCTOS B2, " + esquema + "INV_PRODUCTOS P "
+                command.CommandText = " SELECT B1.INV_PRODUCTOS, P.NOMBRE, P.CODIGO, B1.SALDO, B1.MINIMO, B1.MAXIMO, B1.INV_BODEGA_PRODUCTOS, B2.INV_BODEGA_PRODUCTOS, C.DESCRIPCION "
+                                     + " FROM " + esquema + "INV_BODEGA_PRODUCTOS B1, " + esquema + "INV_BODEGA_PRODUCTOS B2, " + esquema + "INV_PRODUCTOS P, " + esquema + "CAT_UNIDADES C "
                                      + " WHERE B1.CAT_BODEGA = '" + idBodegaOrigen + "' "
                                      + " AND B2.CAT_BODEGA = '" + idBodegaDestino + "' "
                                      + " AND B1.INV_PRODUCTOS = B2.INV_PRODUCTOS "
                                      + " AND B1.INV_PRODUCTOS = P.INV_PRODUCTOS "
-                                     + " AND B2.INV_PRODUCTOS = P.INV_PRODUCTOS ";   
+                                     + " AND B2.INV_PRODUCTOS = P.INV_PRODUCTOS "
+                                     + " AND P.CAT_UNIDADES = C.CAT_UNIDADES "
+                                     + " AND B1.SALDO > 0 ";   
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
             }

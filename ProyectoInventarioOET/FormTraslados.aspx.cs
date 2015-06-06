@@ -128,8 +128,8 @@ namespace ProyectoInventarioOET
                     botonModificarTraslado.Disabled = true;
                     botonConsultarTraslado.Disabled = true;
                     tituloGridProductos.Visible = false;
-                    tituloGridConsulta.Visible = true;
-                    gridViewTraslados.Visible = true;
+                    //tituloGridConsulta.Visible = true;
+                    //gridViewTraslados.Visible = true;
                     gridViewProductos.Enabled = false;
                     gridViewProductos.Visible = false;
                     fieldsetConsulta.Visible = true;
@@ -347,7 +347,11 @@ namespace ProyectoInventarioOET
 
                 foreach (DataRow row in tablaProductos.Rows)
                 {
+                    if (((TextBox)gridViewProductos.Rows[i].FindControl("textTraslados")).Text == "")
+                        throw new NullReferenceException();
                     Double cantAjuste = Double.Parse(((TextBox)gridViewProductos.Rows[i].FindControl("textTraslados")).Text);
+                    if( cantAjuste <= 0 )
+                        throw new InvalidConstraintException();
 
                     traslado = new Object[6];
                     traslado[0] = traslado[1] = traslado[3] = "";
@@ -357,6 +361,8 @@ namespace ProyectoInventarioOET
 
                     productoDeBodega = controladoraProductoLocal.consultarMinimoMaximoProductoEnBodega(idArrayProductosOrigen[i].ToString());
                     saldoNuevo = Convert.ToDouble(productoDeBodega.Rows[0][2].ToString()) - cantAjuste;
+                    if (saldoNuevo < 0)
+                        throw new ArgumentException();
                     alerta |= cantAjuste <= Convert.ToDouble(productoDeBodega.Rows[0][0].ToString()) || cantAjuste >= Convert.ToDouble(productoDeBodega.Rows[0][1].ToString());
 
                     nuevo.agregarDetalle(traslado);
@@ -384,17 +390,29 @@ namespace ProyectoInventarioOET
                 }
                 mostrarMensaje(error[0], error[1], error[2]);
             }
-            catch (AggregateException e)
-            {
-                codigo = "";
-                modo = (int)Modo.Insercion;
-                mostrarMensaje("danger", "Error: ", "Está haciendo un traslado con más inventario de la cuenta");
-            }
             catch (NoNullAllowedException e)
             {
                 codigo = "";
                 modo = (int)Modo.Insercion;
                 mostrarMensaje("danger", "Error: ", "No puede realizarse un traslado sin productos");
+            }
+            catch (ArgumentException e)
+            {
+                codigo = "";
+                modo = (int)Modo.Insercion;
+                mostrarMensaje("danger", "Error: ", "Uno o más productos quedarían en saldo negativo si realiza el traslado");
+            }
+            catch (InvalidConstraintException e)
+            {
+                codigo = "";
+                modo = (int)Modo.Insercion;
+                mostrarMensaje("danger", "Error: ", "Está tratando de trasladar 0 instancias de un producto");
+            }
+            catch (NullReferenceException e)
+            {
+                codigo = "";
+                modo = (int)Modo.Insercion;
+                mostrarMensaje("danger", "Error: ", "Introducir cantidad a transferir");
             }
 
             return codigo;
@@ -416,11 +434,11 @@ namespace ProyectoInventarioOET
 
             mostrarMensaje(error[0], error[1], error[2]);
 
-            if (error[0].Contains("success"))// si fue exitoso
+            if (error[0].Contains("success") || error[0].Contains("warning"))// si fue exitoso
             {
-                llenarGrid(true);
-                trasladoConsultado = controladoraTraslados.consultarTraslado(trasladoConsultado.IdTraslado);
-                modo = (int)Modo.Consulta;
+                //llenarGrid(true);
+                trasladoConsultado = null;
+                modo = (int)Modo.Inicial;
             }
             else
             {
@@ -489,6 +507,11 @@ namespace ProyectoInventarioOET
             columna.ColumnName = "Cantidad Actual";
             tabla.Columns.Add(columna);
 
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Unidad Métrica";
+            tabla.Columns.Add(columna);
+
             return tabla;
         }
 
@@ -512,7 +535,7 @@ namespace ProyectoInventarioOET
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.Double");
-            columna.ColumnName = "Ajuste de cambio";
+            columna.ColumnName = "Cantidad Transferida";
             tabla.Columns.Add(columna);
 
             return tabla;
@@ -539,6 +562,11 @@ namespace ProyectoInventarioOET
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.Double");
             columna.ColumnName = "Cantidad Actual";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Unidad Métrica";
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
@@ -614,11 +642,15 @@ namespace ProyectoInventarioOET
         {
             DataTable tablaLimpia = tablaProducto();
 
-            Object[] datos = new Object[3];
+            Object[] datos = new Object[4];
             datos[0] = "-";
             datos[1] = "-";
             datos[2] = "0";
+            datos[3] = "-";
             tablaLimpia.Rows.Add(datos);
+
+            gridViewProductos.Visible = false;
+            tituloGridProductos.Visible = false;
 
             gridViewProductos.DataSource = tablaLimpia;
             gridViewProductos.DataBind();
@@ -640,7 +672,7 @@ namespace ProyectoInventarioOET
             try
             {
                 // Cargar bodegas
-                Object[] datos = new Object[5];
+                Object[] datos = new Object[6];
 
                 DataTable productos = controladoraTraslados.consultarProductosTrasferibles((this.Master as SiteMaster).LlaveBodegaSesion, dropDownBodegaEntrada.SelectedValue);
 
@@ -655,8 +687,9 @@ namespace ProyectoInventarioOET
                         datos[0] = fila[1].ToString();
                         datos[1] = fila[2].ToString();
                         datos[2] = Convert.ToDouble(fila[3].ToString());
-                        datos[3] = Convert.ToDouble(fila[4].ToString());
-                        datos[4] = Convert.ToDouble(fila[5].ToString());
+                        datos[3] = fila[8].ToString();
+                        datos[4] = Convert.ToDouble(fila[4].ToString());
+                        datos[5] = Convert.ToDouble(fila[5].ToString());
                         tabla.Rows.Add(datos);
                         i++;
                     }
@@ -666,8 +699,9 @@ namespace ProyectoInventarioOET
                     datos[0] = "-";
                     datos[1] = "-";
                     datos[2] = "0";
-                    datos[3] = "0";
+                    datos[3] = "-";
                     datos[4] = "0";
+                    datos[5] = "0";
                     tabla.Rows.Add(datos);
                     mostrarMensaje("warning", "Atención: ", "No existen productos en la bodega actual.");
                 }
@@ -732,6 +766,8 @@ namespace ProyectoInventarioOET
             llenarGridAgregarProductos();
             vaciarGridProductos();
 
+            gridViewProductos.Visible = false;
+
             if ((this.Master as SiteMaster).Usuario != null)
                 outputUsuario.Value = (this.Master as SiteMaster).Usuario.Nombre;
             outputBodegaSalida.Value = (this.Master as SiteMaster).NombreBodegaSesion;
@@ -753,11 +789,13 @@ namespace ProyectoInventarioOET
          */
         protected void botonConsultarTraslado_ServerClick(object sender, EventArgs e)
         {
-            DataTable prueba = controladoraTraslados.consultarTraslados((this.Master as SiteMaster).LlaveBodegaSesion, false);
+            //DataTable prueba = controladoraTraslados.consultarTraslados((this.Master as SiteMaster).LlaveBodegaSesion, false);
             modo = (int)Modo.Consulta;
             cambiarModo();
 
-            // Enseñar una tabla vacia
+            // No enseñar una tabla vacia
+            tituloGridConsulta.Visible = false;
+            gridViewTraslados.Visible = false;
             DataTable tabla = tablaTraslados();
             Object[] datos = new Object[5];
             datos[0] = "-";
@@ -804,6 +842,32 @@ namespace ProyectoInventarioOET
             }
         }
 
+        protected void gridViewTraslados_RowCreated(object sender, GridViewRowEventArgs e)
+        {
+            GridViewRow row = e.Row;
+            // Intitialize TableCell list
+            List<TableCell> columns = new List<TableCell>();
+            int i = 0;
+            foreach (DataControlField column in gridViewProductos.Columns)
+            {
+                if (i == 0)
+                {
+                    //Get the first Cell /Column
+                    TableCell cell = row.Cells[1];
+                    // Then Remove it after
+                    row.Cells.Remove(cell);
+                    //And Add it to the List Collections
+                    columns.Add(cell);
+
+                }
+                i++;
+
+            }
+
+            // Add cells
+            row.Cells.AddRange(columns.ToArray());
+         }
+
         /*
          * Este método confirma las transacciones de traslados.
          */
@@ -819,9 +883,10 @@ namespace ProyectoInventarioOET
                 if (codigoInsertado != "")
                 {
                     operacionCorrecta = true;
-                    trasladoConsultado = controladoraTraslados.consultarTraslado(codigoInsertado);
-                    modo = (int)Modo.Consultado;
-                    habilitarCampos(false);
+                    //trasladoConsultado = controladoraTraslados.consultarTraslado(codigoInsertado);
+                    //modo = (int)Modo.Consultado;
+                    modo = (int)Modo.Inicial;
+                    //habilitarCampos(false);
                 }
                 else
                     operacionCorrecta = false;
@@ -856,6 +921,8 @@ namespace ProyectoInventarioOET
         {
             llenarGrid(dropDownConsultas.SelectedValue == "Entradas");
             tipoConsulta = dropDownConsultas.SelectedValue == "Entradas";
+            gridViewTraslados.Visible = true;
+            tituloGridConsulta.Visible = true;
         }
 
         /*
@@ -905,10 +972,15 @@ namespace ProyectoInventarioOET
                         DataRow seleccionada = tablaAgregarProductos.Rows[indice];
 
                         // Sacamos datos pertinentes del producto
-                        Object[] datos = new Object[3];
+                        Object[] datos = new Object[4];
                         datos[0] = seleccionada["Nombre"];
                         datos[1] = seleccionada["Codigo"];
                         datos[2] = seleccionada["Cantidad Actual"];
+                        datos[3] = seleccionada["Unidad Métrica"];
+
+                        // Hacerla visible
+                        gridViewProductos.Visible = true;
+                        tituloGridProductos.Visible = true;
 
                         // Agregar nueva tupla a tabla
                         tablaProductos.Rows.Add(datos);

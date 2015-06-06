@@ -42,9 +42,11 @@
                 </asp:DropDownList>
             </div>
             <div class="col-lg-1">
-                <button runat="server" onserverclick="botonTipoConsulta_ServerClick" id="botonTipoConsulta" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true">Aplicar</button>
+                <button runat="server" onserverclick="botonTipoConsulta_ServerClick" id="botonTipoConsulta" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true">Buscar</button>
             </div>
         </div>
+        <br />
+        <br />
     </fieldset>
 
     <!-- Fieldset para Traslados -->
@@ -67,7 +69,6 @@
             <div class="col-lg-5">
                 <label for="outputUsuario" class= "control-label"> Usuario responsable: </label>      
                 <input type="text" id="outputUsuario" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
-                <a id="botonAgregar" runat="server" href="#modalAgregarProducto" class="btn btn-success-fozkr" data-toggle="modal" role="button"><i class="fa fa-plus"></i> Agregar Producto</a>
             </div>
             <div class="col-lg-2">
                 <label for="dropDownEstado" class= "control-label"> Estado de Traslado: </label>      
@@ -80,7 +81,15 @@
             </div>
         </div>
         <div class="col-lg-12">
-            <asp:TextBox ID="inputNotas" runat="server" Rows="3" Width="100%" TextMode="MultiLine" style="resize:none"></asp:TextBox>
+            <label for="inputNotas" class= "control-label"> Anotaciones: </label>
+            <asp:TextBox ID="inputNotas" runat="server" Rows="3" Width="100%" TextMode="MultiLine" style="resize:none" MaxLength="140"></asp:TextBox>
+        </div>
+        <br />
+        <br />
+        <div class="row">
+            <div class="col-lg-5">
+                <a id="botonAgregar" runat="server" href="#modalAgregarProducto" class="btn btn-success-fozkr" data-toggle="modal" role="button"><i class="fa fa-plus"></i> Agregar Producto</a>
+            </div>
         </div>
     </fieldset>
     <!-- Fin del fieldset-->
@@ -96,7 +105,7 @@
                 <strong><div ID="tituloGridProductos" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Productos a Transferir</div></strong>
                 <asp:UpdatePanel ID="UpdatePanel2" runat="server">
                     <ContentTemplate>
-                        <asp:GridView ID="gridViewProductos" CssClass="table" OnRowCommand="gridViewProductos_Seleccion" runat="server" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                        <asp:GridView ID="gridViewProductos" CssClass="table" OnRowCommand="gridViewProductos_Seleccion" OnRowCreated="gridViewTraslados_RowCreated" runat="server" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
                             <Columns>
                                 <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Quitar">
                                     <ControlStyle CssClass="btn btn-default"></ControlStyle>
@@ -105,7 +114,7 @@
                                     <ItemTemplate>
                                         <asp:TextBox ID="textTraslados" runat="server" ReadOnly="false"></asp:TextBox> 
                                                 <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="textTraslados" ClientValidationFunction="changeColor" Display="Dynamic"
-                                                 ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="Solo se permiten números válidos"  Font-Bold="true" ValidationExpression="^\d*(\.\d+)?$"></asp:RegularExpressionValidator>
+                                                 ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="Solo se permiten números válidos"  Font-Bold="true" ValidationExpression="^\d+(\.\d+)?$"></asp:RegularExpressionValidator>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>

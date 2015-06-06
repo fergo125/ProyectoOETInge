@@ -126,7 +126,7 @@ create table  AJUSTES(
 	fecha                   date,
 	usuario_bodega          varchar2(30),
 	idBodega                varchar2(30),
-	notas                   varchar2(30)
+	notas                   varchar2(140)
 );
  
 create table DETALLES_AJUSTES (
@@ -214,7 +214,7 @@ create table  TRASLADOS(
 	idBodegaOrigen            varchar2(30),
 	idBodegaDestino           varchar2(30),
   estado                    number(1),
-	notas                     varchar2(30)
+	notas                     varchar2(140)
 );
  
 create table DETALLES_TRASLADO (

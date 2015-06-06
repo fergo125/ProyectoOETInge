@@ -51,8 +51,8 @@
         <div class="row">
             <div class="col-lg-6">
                 <label for="inputNotas" class= "control-label"> Notas: </label>      
-                <asp:TextBox ID="inputNotas" runat="server" Rows="3" Width="100%" TextMode="MultiLine" style="resize:none"></asp:TextBox>
-            </div>
+                <asp:TextBox ID="inputNotas" runat="server" Rows="3" Width="100%" TextMode="MultiLine" style="resize:none" MaxLength="140"></asp:TextBox>
+        </div>
             <div class="col-lg-6" style="text-align:center" >
                 <a id="botonAgregar" style="margin-top:5%" runat="server" data-target="#modalAgregarProducto" class="btn btn-success-fozkr" data-toggle="modal" role="button"><i class="fa fa-plus"></i> Agregar Producto</a>
             </div>

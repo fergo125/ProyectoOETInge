@@ -117,13 +117,13 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
 
                 res[0] = "success";
                 res[1] = "Éxito:";
-                res[2] = "Ajuste agregado al sistema.";
+                res[2] = "Traslado en trámite.";
             }
             catch (OracleException e)
             {
                 res[0] = "danger";
                 res[1] = "Error:";
-                res[2] = "Ajuste no agregado, intente nuevamente.";
+                res[2] = "Traslado no efectuado, revise e intente nuevamente.";
             }
 
             return res;
@@ -203,7 +203,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
             {
                 res[0] = "danger";
                 res[1] = "Error:";
-                res[2] = "Traslado no modificado, intente nuevamente.";
+                res[2] = "Error en traslado, intente nuevamente.";
             }
         }
 
@@ -239,7 +239,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
                 }
                 res[0] = "success";
                 res[1] = "Éxito:";
-                res[2] = "Ajuste agregado al sistema.";
+                res[2] = "Transacción efectuada.";
                 if (alerta)
                 {
                     res[0] = "warning";
