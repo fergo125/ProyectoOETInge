@@ -434,11 +434,11 @@ namespace ProyectoInventarioOET
 
             mostrarMensaje(error[0], error[1], error[2]);
 
-            if (error[0].Contains("success"))// si fue exitoso
+            if (error[0].Contains("success") || error[0].Contains("warning"))// si fue exitoso
             {
-                llenarGrid(true);
-                trasladoConsultado = controladoraTraslados.consultarTraslado(trasladoConsultado.IdTraslado);
-                modo = (int)Modo.Consulta;
+                //llenarGrid(true);
+                trasladoConsultado = null;
+                modo = (int)Modo.Inicial;
             }
             else
             {
@@ -530,7 +530,7 @@ namespace ProyectoInventarioOET
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.Double");
-            columna.ColumnName = "Ajuste de cambio";
+            columna.ColumnName = "Cantidad Transferida";
             tabla.Columns.Add(columna);
 
             return tabla;

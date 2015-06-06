@@ -155,7 +155,8 @@ namespace ProyectoInventarioOET.Modulo_Productos_Locales
                                      + " AND B2.CAT_BODEGA = '" + idBodegaDestino + "' "
                                      + " AND B1.INV_PRODUCTOS = B2.INV_PRODUCTOS "
                                      + " AND B1.INV_PRODUCTOS = P.INV_PRODUCTOS "
-                                     + " AND B2.INV_PRODUCTOS = P.INV_PRODUCTOS ";   
+                                     + " AND B2.INV_PRODUCTOS = P.INV_PRODUCTOS "
+                                     + " AND B1.SALDO > 0 ";   
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
             }

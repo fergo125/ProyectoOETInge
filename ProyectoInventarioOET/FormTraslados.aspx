@@ -45,6 +45,8 @@
                 <button runat="server" onserverclick="botonTipoConsulta_ServerClick" id="botonTipoConsulta" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true">Aplicar</button>
             </div>
         </div>
+        <br />
+        <br />
     </fieldset>
 
     <!-- Fieldset para Traslados -->
