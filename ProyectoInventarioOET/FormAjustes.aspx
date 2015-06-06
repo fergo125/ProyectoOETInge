@@ -39,7 +39,7 @@
                 <input type="text" id="outputBodega" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
                 <label for="outputUsuario" class= "control-label"> Usuario responsable: </label>      
                 <input type="text" id="outputUsuario" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
-                <a id="botonAgregar" runat="server" data-target="#modalAgregarProducto" class="btn btn-success-fozkr" data-toggle="modal" role="button"><i class="fa fa-plus"></i> Agregar Producto</a>
+                
             </div>
             <div class="col-lg-6">
                 <label for="dropdownTipo" class= "control-label"> Tipo de Ajuste*: </label>      
@@ -48,9 +48,15 @@
                 <input type="text" id="outputFecha" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
             </div>
         </div>
-        <div class="col-lg-12">
-            <asp:TextBox ID="inputNotas" runat="server" Rows="3" Width="100%" TextMode="MultiLine" style="resize:none" MaxLength="140"></asp:TextBox>
+        <div class="row">
+            <div class="col-lg-6">
+                <label for="inputNotas" class= "control-label"> Notas: </label>      
+                <asp:TextBox ID="inputNotas" runat="server" Rows="3" Width="100%" TextMode="MultiLine" style="resize:none" MaxLength="140"></asp:TextBox>
         </div>
+            <div class="col-lg-6" style="text-align:center" >
+                <a id="botonAgregar" style="margin-top:5%" runat="server" data-target="#modalAgregarProducto" class="btn btn-success-fozkr" data-toggle="modal" role="button"><i class="fa fa-plus"></i> Agregar Producto</a>
+            </div>
+         </div>
     </fieldset>
     <!-- Fin del fieldset-->
 

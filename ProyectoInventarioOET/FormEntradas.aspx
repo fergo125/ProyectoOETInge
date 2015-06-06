@@ -125,7 +125,7 @@
                 <asp:Button ID="botonBuscarFactura" runat="server" Text="Buscar" CssClass="btn btn-warning-fozkr" OnClick="botonBuscarFactura_Click"/>
             </div>
             <div class="col-lg-2">
-                <asp:Button ID="botonMostrarFacturas" runat="server" Text="Mostrar Todas" CssClass="btn btn-warning-fozkr" OnClick="botonMostrarFacturas_Click"/>
+                <asp:Button ID="botonMostrarFacturas" runat="server" Text="Mostrar Todas" CssClass="btn btn-info-fozkr" OnClick="botonMostrarFacturas_Click"/>
             </div>
         </div>
     </fieldset>
