@@ -61,21 +61,19 @@
     <asp:Panel ID="PanelConsultarFacturaEspecifica" runat="server" Visible="false">
         <table class="table table-fozkr">
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td style="width:20%"></td>
+                <td style="width:20%"></td>
+                <td style="width:20%"></td>
                 <td rowspan="6"> <%--Grid con los productos de la factura, tiene su propia "fila" (abarcando todas las demás) para encontrarlo fácilmente aquí en el aspx--%>
-                    <strong><div ID="divTituloGridProductosFactura" runat="server" tabindex="" class="control-label" style="text-align:center; font-size:larger; background-color: #C0C0C0;">Productos de la factura</div></strong>
-                    <asp:UpdatePanel ID="UpdatePanelFacturaConsultada" runat="server">
-                        <ContentTemplate>
-                            <asp:GridView ID="gridFacturaEspecificaProductos" CssClass="table" runat="server" AllowPaging="True" PageSize="10" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
-                               <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
-                               <PagerStyle CssClass="paging" HorizontalAlign="Center" />
-                               <AlternatingRowStyle BackColor="#F8F8F8" />
-                               <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
-                            </asp:GridView>
-                        </ContentTemplate>
-                    </asp:UpdatePanel>
+                    <asp:Panel ID="PanelGridProductosFacturaEspecifica" runat="server" Width="100%">
+                        <strong><div ID="divTituloGridProductosFactura" runat="server" tabindex="" class="control-label" style="text-align:center; font-size:larger; background-color: #C0C0C0;">Productos de la factura</div></strong>
+                        <asp:GridView ID="gridFacturaEspecificaProductos" CssClass="table" runat="server" AllowPaging="True" PageSize="10" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                            <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
+                            <PagerStyle CssClass="paging" HorizontalAlign="Center" />
+                            <AlternatingRowStyle BackColor="#F8F8F8" />
+                            <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
+                        </asp:GridView>
+                    </asp:Panel>
                 </td>
             </tr>
             <tr>

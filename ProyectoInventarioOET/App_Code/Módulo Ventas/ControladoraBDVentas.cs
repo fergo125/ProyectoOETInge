@@ -435,6 +435,29 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         }
 
         /*
+         * Obtiene el nombre de un método de pago dado su ID.
+         */
+        public String consultarMetodoDePago(String llaveMetodo)
+        {
+            String esquema = "Reservas.";
+            DataTable resultado = new DataTable(); ;
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "SELECT NOMBRE FROM " + esquema + "FORMAPAGO WHERE ID='" + llaveMetodo + "'";
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
+                if (resultado.Rows.Count == 1)
+                    return resultado.Rows[0][0].ToString();
+            }
+            catch (OracleException e)
+            {
+                return null;
+            }
+            return null;
+        }
+
+        /*
          * Obtiene la lista de empleados de la OET para asociar uno como cliente durante la creación de una factura.
          */
         public DataTable consultarClientes()

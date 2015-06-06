@@ -59,7 +59,7 @@ namespace ProyectoInventarioOET.Modulo_Productos_Locales
         /*
          * Consulta un producto en específico perteneciente a la bodega especificada. 
          */
-        public DataTable consultarProductoDeBodega(String idBodega, String idProducto)
+        public DataTable consultarProductoDeBodega(String idBodega, String codigoProducto)
         {
             String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
@@ -70,7 +70,7 @@ namespace ProyectoInventarioOET.Modulo_Productos_Locales
                 // costo col, costo dol, min, max, creador, creado, modifica, modificado, costo ult col, costo ult dol, idproveedor ult
                 command.CommandText = "SELECT B.NOMBRE, B.CODIGO, B.CODIGO_BARRAS, B.CAT_CATEGORIAS, B.INTENCION, B.CAT_UNIDADES, A.ESTADO, A.SALDO, B.IMPUESTO, B.PRECIO_C, B.PRECIO_D, "
                     + "A.COSTO_COLONES, A.COSTO_DOLARES, A.MINIMO, A.MAXIMO, A.CREA, A.CREADO, A.MODIFICA, A.MODIFICADO, A.COSTO_ULTIMA_COMPRA_C, A.COSTO_ULTIMA_COMPRA_D, A.IDPROVEEDOR_UC, "
-                    + "A.INV_BODEGA_PRODUCTOS FROM " + esquema + "INV_BODEGA_PRODUCTOS A, " + esquema + "INV_PRODUCTOS B WHERE A.INV_PRODUCTOS = B.INV_PRODUCTOS AND A.CAT_BODEGA = '" + idBodega + "' AND B.CODIGO = '" + idProducto + "'";
+                    + "A.INV_BODEGA_PRODUCTOS FROM " + esquema + "INV_BODEGA_PRODUCTOS A, " + esquema + "INV_PRODUCTOS B WHERE A.INV_PRODUCTOS = B.INV_PRODUCTOS AND A.CAT_BODEGA = '" + idBodega + "' AND B.CODIGO = '" + codigoProducto + "'";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
             }

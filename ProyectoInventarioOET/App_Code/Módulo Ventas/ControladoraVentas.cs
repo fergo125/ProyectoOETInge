@@ -121,6 +121,14 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         }
 
         /*
+         * Obtiene el nombre de un método de pago dado su ID.
+         */
+        public String consultarMetodoDePago(String llaveMetodo)
+        {
+            return controladoraBDVentas.consultarMetodoDePago(llaveMetodo);
+        }
+
+        /*
          * Obtiene los posibles clientes para las ventas, dentro de los empleados de la OET.
          */
         public DataTable consultarPosiblesClientes()

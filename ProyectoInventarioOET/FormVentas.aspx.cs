@@ -12,6 +12,7 @@ using ProyectoInventarioOET.Modulo_Actividades;
 using ProyectoInventarioOET.App_Code.Modulo_Ajustes;
 using ProyectoInventarioOET.App_Code;
 using ProyectoInventarioOET.Modulo_Productos_Locales;
+using ProyectoInventarioOET.Modulo_ProductosGlobales;
 
 namespace ProyectoInventarioOET
 {
@@ -39,6 +40,7 @@ namespace ProyectoInventarioOET
         private static ControladoraActividades controladoraActividades;         //Para consultar las actividades a las que se puede asociar una nueva factura
         private static ControladoraDatosGenerales controladoraDatosGenerales;   //Para accesar datos generales de la base de datos
         private static ControladoraProductoLocal controladoraProductoLocal ;    //Para revisar existencias de productos
+        private static ControladoraProductosGlobales controladoraProductoGlobal;//Para consultar nombre y otra información de los productos al desplegar facturas
         
         //Importante:
         //Para el codigoPerfilUsuario (que se usa un poco hard-coded), los números son:
@@ -69,6 +71,7 @@ namespace ProyectoInventarioOET
                 controladoraSeguridad = new ControladoraSeguridad();
                 controladoraActividades = new ControladoraActividades();
                 controladoraProductoLocal = new ControladoraProductoLocal();
+                controladoraProductoGlobal = new ControladoraProductosGlobales();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
 
                 //Seguridad
@@ -432,6 +435,10 @@ namespace ProyectoInventarioOET
          */
         protected void setDatosConsultados()
         {
+            textBoxFacturaConsultadaEstado.Items.Clear();
+            textBoxFacturaConsultadaEstado.Items.Add(new ListItem("Activa", "1"));//en la BD el valor de "activo" es 1
+            textBoxFacturaConsultadaEstado.Items.Add(new ListItem("Anulada", "5")); //en la BD el valor de "anulado" es 5
+            //datos generales de la factura
             textBoxFacturaConsultadaConsecutivo.Value = facturaConsultada.Consecutivo;
             textBoxFacturaConsultadaEstacion.Value = controladoraSeguridad.consultarNombreDeEstacion(facturaConsultada.Estacion);
             textBoxFacturaConsultadaBodega.Value = controladoraSeguridad.consultarNombreDeBodega(facturaConsultada.Bodega);
@@ -440,17 +447,27 @@ namespace ProyectoInventarioOET
             textBoxFacturaConsultadaCliente.Value = facturaConsultada.Cliente;
             textBoxFacturaConsultadaTipoMoneda.Value = facturaConsultada.TipoMoneda;
             textBoxFacturaConsultadaMontoTotal.Value = facturaConsultada.MontoTotalColones.ToString();
-            textBoxFacturaConsultadaMetodoPago.Value = facturaConsultada.MetodoPago;
+            textBoxFacturaConsultadaMetodoPago.Value = controladoraVentas.consultarMetodoDePago(facturaConsultada.MetodoPago);
             textBoxFacturaConsultadActividad.Value = facturaConsultada.Actividad;
-
-            textBoxFacturaConsultadaEstado.Items.Clear();
-            textBoxFacturaConsultadaEstado.Items.Add(new ListItem("Activa", "1"));//en la BD el valor de "activo" es 1
-            textBoxFacturaConsultadaEstado.Items.Add(new ListItem("Anulada", "5")); //en la BD el valor de "anulado" es 5
-
-            if (facturaConsultada.Estado.Equals("1"))
-                textBoxFacturaConsultadaEstado.SelectedIndex = 0;
-            else
-                textBoxFacturaConsultadaEstado.SelectedIndex = 1;
+            textBoxFacturaConsultadaEstado.SelectedIndex = (facturaConsultada.Estado.Equals("1") ? 0 : 1);
+            //datos de los productos de la factura
+            DataTable productosAsociados = crearTablaProductosFactura(true, true);
+            EntidadProductoGlobal productoConsultado;
+            DataRow filaNuevaProducto;
+            foreach(DataRow fila in facturaConsultada.Productos.Rows)
+            {
+                productoConsultado = controladoraProductoGlobal.consultarProductoGlobal(fila[1].ToString()); //se consulta usando la llave
+                filaNuevaProducto = productosAgregados.NewRow();
+                filaNuevaProducto["Nombre"] = productoConsultado.Nombre;                                                //nombre
+                filaNuevaProducto["Código interno"] = productoConsultado.Codigo;                                        //código interno
+                filaNuevaProducto["Precio unitario"] = (facturaConsultada.TipoMoneda == "Colones" ? fila[3] : fila[4]); //precio unitario (buscar en la BD)
+                filaNuevaProducto["Cantidad"] = fila[2];                                                                //cantidad
+                filaNuevaProducto["Impuesto (13%)"] = (fila[6].ToString() == "1" ? "Sí" : "No");                        //impuesto (booleano)
+                filaNuevaProducto["Descuento (%)"] = fila[5];                                                           //descuento
+                productosAsociados.Rows.Add(filaNuevaProducto);
+            }
+            gridFacturaEspecificaProductos.DataSource = productosAsociados;
+            gridFacturaEspecificaProductos.DataBind();
         }
 
         /*
@@ -508,7 +525,7 @@ namespace ProyectoInventarioOET
          * Crea una DataTable para conservar los productos agregados a la factura, o para almacenar toda la información de los mismos que se encuentra
          * en el grid durante el proceso de inserción.
          */
-        protected DataTable crearTablaProductosFactura(bool paraInsertar)
+        protected DataTable crearTablaProductosFactura(bool paraInsertar, bool paraMostrar)
         {
             productosAgregados = new DataTable();
             DataColumn column;
@@ -530,10 +547,13 @@ namespace ProyectoInventarioOET
 
             if (paraInsertar)
             {
-                column = new DataColumn();
-                column.DataType = Type.GetType("System.Double");
-                column.ColumnName = "Precio unitario dólares";
-                productosAgregados.Columns.Add(column);
+                if (!paraMostrar)
+                {
+                    column = new DataColumn();
+                    column.DataType = Type.GetType("System.Double");
+                    column.ColumnName = "Precio unitario dólares";
+                    productosAgregados.Columns.Add(column);
+                }
 
                 column = new DataColumn();
                 column.DataType = Type.GetType("System.Int32");
@@ -551,10 +571,13 @@ namespace ProyectoInventarioOET
             column.ColumnName = "Descuento (%)";
             productosAgregados.Columns.Add(column);
 
-            column = new DataColumn();
-            column.DataType = Type.GetType("System.Double");
-            column.ColumnName = "Total";
-            productosAgregados.Columns.Add(column);
+            if (!paraMostrar)
+            {
+                column = new DataColumn();
+                column.DataType = Type.GetType("System.Double");
+                column.ColumnName = "Total";
+                productosAgregados.Columns.Add(column);
+            }
 
             return productosAgregados;
         }
@@ -760,7 +783,7 @@ namespace ProyectoInventarioOET
          */
         protected DataTable obtenerProductosAgregados()
         {
-            DataTable productos = crearTablaProductosFactura(true); //con la columna de cantidad
+            DataTable productos = crearTablaProductosFactura(true, false); //con la columna de cantidad
             DataRow detallesProducto;
             foreach (GridViewRow fila in gridViewCrearFacturaProductos.Rows)
             {
@@ -856,7 +879,7 @@ namespace ProyectoInventarioOET
 
             modo = Modo.Insercion;
             cambiarModo();
-            productosAgregados = crearTablaProductosFactura(false); //se crea una nueva tabla cada vez, sin la columna de cantidad
+            productosAgregados = crearTablaProductosFactura(false, false); //se crea una nueva tabla cada vez, sin la columna de cantidad
             labelCrearFacturaTipoMoneda.Text = "Colones"; //por default
 
             //Se limpian para que no conserven datos de facturas anteriores
