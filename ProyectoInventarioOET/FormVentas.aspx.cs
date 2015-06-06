@@ -628,7 +628,7 @@ namespace ProyectoInventarioOET
          * -Revisar que el producto exista en el catálogo global (el usuario puede modificar el texto después de escogerlo en el autocomplete, o escribir lo que sea en realidad)
          * -Revisar que el producto esté asociado al catálogo local de la bodega de trabajo (esto puede filtrarse en el autocomplete de una vez, TODO: hacer eso en el sprint 3)
          * -Revisar que el producto esté activo en ese catálogo (se hace al mismo tiempo que en la consulta anterior)
-         * -Revisar que el producto tenga existencia mayor a 0 (TODO: hacer esto)
+         * -Revisar que el producto tenga existencia mayor a 1
          * -Revisar que el producto no haya sido agregado ya a la factura
          * Si todo sale bien, retorna la llave del producto para continuar agregando.
          */
@@ -646,20 +646,24 @@ namespace ProyectoInventarioOET
                 }
             }
             
-            //Tercero, obtener la llave desde el catálogo global usando el nombre y el código interno para revisar si existe global y localmente, y si está activo
+            //Segundo, obtener la llave desde el catálogo global usando el nombre y el código interno para revisar si existe global y localmente, y si está activo
             String llaveProductoEscogido = controladoraVentas.verificarExistenciaProductoLocal((this.Master as SiteMaster).LlaveBodegaSesion, nombreCodigoProductoEscogido[0], nombreCodigoProductoEscogido[1]); //trae la llave
-
-            //Cuarto, revisar que tenga existencia mayor a 0
-            double existencias = Convert.ToDouble(controladoraProductoLocal.consultarProductoDeBodega((this.Master as SiteMaster).LlaveBodegaSesion, nombreCodigoProductoEscogido[1]).Rows[0][7]);
-
-            //Si el producto no fue agregado antes, existe, está localmente, y en estado activo, continuar
-            if ((llaveProductoEscogido != null) && (existencias > 0))
-                return llaveProductoEscogido; //todo salió bien
-            else
+            if(llaveProductoEscogido == null)
             {
-                mostrarMensaje("warning", "Alerta: ", "Ese producto no está asociado a la bodega " + (this.Master as SiteMaster).NombreBodegaSesion + ", o no existe, o no hay existencias.");
+                mostrarMensaje("warning", "Alerta: ", "Ese producto no está asociado a la bodega " + (this.Master as SiteMaster).NombreBodegaSesion + ", o no existe.");
                 return null;
             }
+
+            //Tercero, revisar que tenga existencia mayor a 0
+            double existencia = Convert.ToDouble(controladoraProductoLocal.consultarProductoDeBodega((this.Master as SiteMaster).LlaveBodegaSesion, nombreCodigoProductoEscogido[1]).Rows[0][7]);
+            if(existencia < 1) //la cantidad default es 1
+            {
+                mostrarMensaje("warning", "Alerta: ", "No hay suficiente existencia de ese producto disponible para venta en la bodega " + (this.Master as SiteMaster).NombreBodegaSesion + ".");
+                return null;
+            }
+
+            //Si el producto no fue agregado antes, existe, está localmente, en estado activo, y con existencia, continuar
+            return llaveProductoEscogido; //todo salió bien
         }
 
         /*
@@ -898,31 +902,8 @@ namespace ProyectoInventarioOET
         protected void clickBotonCrearGuardar(object sender, EventArgs e)
         {
             Object[] datosFactura = obtenerDatos();
-            //revisar que las cantidades de cada producto no superen su existencia real local (usando funciones de controladoras)
-            //Blopa, do this
-            DataTable productoConsultado;
-            bool alerta = false;
-            bool error = false;
-            for (int i = 0; i < productosAgregados.Rows.Count && !error; i++)
-            {
-                productoConsultado = controladoraProductoLocal.consultarProductoDeBodega((this.Master as SiteMaster).LlaveBodegaSesion,productosAgregados.Rows[i][2].ToString());
-                double cantidad = Convert.ToDouble(productosAgregados.Rows[i][0].ToString());
-                double existencias = Convert.ToDouble(productoConsultado.Rows[0][7]);
-                double minimo = Convert.ToDouble(productoConsultado.Rows[0][13]);
-                error = existencias < cantidad;
-                alerta |= (existencias - cantidad) >= minimo;
-            }
-            //Con que un producto no cumpla esto, hay que mostrar un mensaje de error e interrumpir todo
-            if (!error)
-            {
-                String[] resultado = controladoraVentas.insertarFactura(datosFactura);
-                mostrarMensaje(resultado[0], resultado[1], resultado[2]);
-                if (alerta)
-                {
-                    resultado[0] = "warning";
-                    resultado[2] += "\nUno o más productos han salido de sus límites permitidos (nivel máximo o mínimo), revise el catálogo local.";
-                }
-            }
+            String[] resultado = controladoraVentas.insertarFactura(datosFactura);
+            mostrarMensaje(resultado[0], resultado[1], resultado[2]);
         }
 
         /*
@@ -1102,9 +1083,48 @@ namespace ProyectoInventarioOET
          */
         protected void textBoxCrearFacturaProductosCantidad_TextoCambiado(object sender, EventArgs e)
         {
-            cantidadesProductos.Clear();
-            foreach (GridViewRow fila in gridViewCrearFacturaProductos.Rows) //TODO: buscar una manera más eficiente
-                cantidadesProductos.Add(Convert.ToInt32(((TextBox)fila.FindControl("gridCrearFacturaCantidadProducto")).Text));
+            int i = 0;
+            foreach (GridViewRow fila in gridViewCrearFacturaProductos.Rows)
+            {
+                if(((TextBox)fila.FindControl("gridCrearFacturaCantidadProducto")) == (TextBox)sender) //es la fila donde está el textbox que fue cambiado
+                {
+                    cantidadesProductos[i] = Convert.ToInt32(((TextBox)sender).Text); //se actualiza la cantidad
+                    //Revisar que la nueva cantidad no supere la existencia real local (usando funciones de controladoras)
+                    double existenciaReal = Convert.ToDouble(controladoraProductoLocal.consultarProductoDeBodega((this.Master as SiteMaster).LlaveBodegaSesion, fila.Cells[3].Text).Rows[0][7]);
+                    if (cantidadesProductos[i] > existenciaReal) //si se pretende vender más de lo que hay disponible
+                    {
+                        mostrarMensaje("danger", "Alerta: ", "La cantidad del producto '" + fila.Cells[2].Text + "' que intenta venderse es mayor a la existencia real en la bodega " + (this.Master as SiteMaster).NombreBodegaSesion + ". Esta factura no puede guardarse sin arreglar la cantidad.");
+                        botonCrearFacturaGuardar.Disabled = true;
+                    }
+                    else
+                        botonCrearFacturaGuardar.Disabled = false;
+                }
+                ++i;
+            }
+
+            //blopa
+            //DataTable productoConsultado;
+            //bool alerta = false;
+            //bool error = false;
+            //for (int i = 0; i < productosAgregados.Rows.Count && !error; i++)
+            //{
+            //    productoConsultado = controladoraProductoLocal.consultarProductoDeBodega((this.Master as SiteMaster).LlaveBodegaSesion, productosAgregados.Rows[i][2].ToString());
+            //    double cantidad = Convert.ToDouble(productosAgregados.Rows[i][0].ToString());
+            //    double existencias = Convert.ToDouble(productoConsultado.Rows[0][7]);
+            //    double minimo = Convert.ToDouble(productoConsultado.Rows[0][13]);
+            //    error = existencias < cantidad;
+            //    alerta |= (existencias - cantidad) >= minimo;
+            //}
+            ////Con que un producto no cumpla esto, hay que mostrar un mensaje de error e interrumpir todo
+            //if (!error)
+            //{
+
+            //    if (alerta)
+            //    {
+            //        resultado[0] = "warning";
+            //        resultado[2] += "\nUno o más productos han salido de sus límites permitidos (nivel máximo o mínimo), revise el catálogo local.";
+            //    }
+            //}
         }
     }
 }
