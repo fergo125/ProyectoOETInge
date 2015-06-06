@@ -58,6 +58,7 @@ namespace ProyectoInventarioOET
 
             if (!IsPostBack) //Si es la primera vez que se carga la página
             {
+                //Modo
                 modo = Modo.Inicial;
                 cambiarModo();
 
@@ -76,11 +77,15 @@ namespace ProyectoInventarioOET
                     Response.Redirect("~/ErrorPages/404.html");
                 codigoPerfilUsuario = (this.Master as SiteMaster).Usuario.CodigoPerfil;
                 mostrarElementosSegunPermisos();
+
+                //Otros
+                checksProductos = new List<bool>();
+                cantidadesProductos = new List<int>();
             }
             else //si la página fue refrezcada por algún elemento
             {
-                if ((checksProductos.Count > 0) && (cantidadesProductos.Count > 0))
-                    restaurarCheckBoxesYCantidades();
+                //if ((checksProductos.Count > 0) || (cantidadesProductos.Count > 0))
+                //    restaurarCheckBoxesYCantidades();
             }
         }
 
@@ -676,10 +681,13 @@ namespace ProyectoInventarioOET
             textBoxAutocompleteCrearFacturaBusquedaProducto.Text = "";
             actualizarPreciosTotales();
             //buscarlo en el grid para poner automáticamente cantidad 1
-            foreach (GridViewRow fila in gridViewCrearFacturaProductos.Rows)
-                if (fila.Cells[3].Text == nombreCodigoProductoEscogido[1]) //si el código interno se repite
-                    ((TextBox)fila.FindControl("gridCrearFacturaCantidadProducto")).Text = "1";
+            //foreach (GridViewRow fila in gridViewCrearFacturaProductos.Rows)
+            //    if (fila.Cells[3].Text == nombreCodigoProductoEscogido[1]) //si el código interno se repite
+            //        ((TextBox)fila.FindControl("gridCrearFacturaCantidadProducto")).Text = "1";
             cantidadesProductos.Add(1); //agregar la existencia inicial (1)
+            //Con el databind se borran las cantidades, entonces se restauran, y se pone la nueva default
+            if ((checksProductos.Count > 0) || (cantidadesProductos.Count > 0))
+                restaurarCheckBoxesYCantidades();
         }
 
         /*
@@ -777,12 +785,15 @@ namespace ProyectoInventarioOET
         /*
          * Al darse el PageLoad, se borran los checkboxes marcados, por lo que se usa la lista de booleanos para restaurarlos.
          */
-        protected void restaurarCheckBoxesYCantidades() //TODO: probar esto
+        protected void restaurarCheckBoxesYCantidades()
         {
             for (int i = 0; i < gridViewCrearFacturaProductos.Rows.Count; ++i)
             {
-                ((CheckBox)gridViewCrearFacturaProductos.Rows[i].FindControl("gridCrearFacturCheckBoxSeleccionarProducto")).Checked = checksProductos[i];
-                ((TextBox)gridViewCrearFacturaProductos.Rows[i].FindControl("gridCrearFacturaCantidadProducto")).Text = cantidadesProductos[i].ToString();
+                if (i < checksProductos.Count) //para evitar que intente accesar posiciones inexistentes
+                    ((CheckBox)gridViewCrearFacturaProductos.Rows[i].FindControl("gridCrearFacturCheckBoxSeleccionarProducto")).Checked = checksProductos[i];
+                if (i < cantidadesProductos.Count) //para evitar que intente accesar posiciones inexistentes
+                    if (((TextBox)gridViewCrearFacturaProductos.Rows[i].FindControl("gridCrearFacturaCantidadProducto")).Text == "") //para evitar que borre lo nuevo
+                        ((TextBox)gridViewCrearFacturaProductos.Rows[i].FindControl("gridCrearFacturaCantidadProducto")).Text = cantidadesProductos[i].ToString();
             }
         }
 
@@ -843,6 +854,10 @@ namespace ProyectoInventarioOET
             cambiarModo();
             productosAgregados = crearTablaProductosFactura(false); //se crea una nueva tabla cada vez, sin la columna de cantidad
             labelCrearFacturaTipoMoneda.Text = "Colones"; //por default
+
+            //Se limpian para que no conserven datos de facturas anteriores
+            checksProductos.Clear();
+            cantidadesProductos.Clear();
         }
 
         /*
@@ -961,12 +976,11 @@ namespace ProyectoInventarioOET
         protected void clickBotonAceptarCambioUsuario(object sender, EventArgs e)
         {
             // Consulta al usuario
-            /*EntidadUsuario usuario = controladoraSeguridad.consultarUsuario(inputUsername.Value, inputPassword.Value);
+            EntidadUsuario usuario = controladoraSeguridad.consultarUsuario(inputUsername.Value, inputPassword.Value);
 
             if (usuario != null)
             {
                 // Si me retorna un usuario valido
-
                 // Hacer el usuario logueado visible a todas los modulos
                 (this.Master as SiteMaster).Usuario = usuario;
                 // Redirigir a pagina principal
@@ -975,10 +989,8 @@ namespace ProyectoInventarioOET
             {
                 // Si no me retorna un usuario valido, advertir
                 //mostrarMensaje();
-            }* */
-
-            String[] resultado = controladoraVentas.insertarFactura(obtenerDatos());
-
+            }
+            //String[] resultado = controladoraVentas.insertarFactura(obtenerDatos());
         }
 
         /*
