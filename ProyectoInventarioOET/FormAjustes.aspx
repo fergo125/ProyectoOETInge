@@ -49,7 +49,7 @@
             </div>
         </div>
         <div class="col-lg-12">
-            <asp:TextBox ID="inputNotas" runat="server" Rows="3" Width="100%" TextMode="MultiLine" style="resize:none"></asp:TextBox>
+            <asp:TextBox ID="inputNotas" runat="server" Rows="3" Width="100%" TextMode="MultiLine" style="resize:none" MaxLength="140"></asp:TextBox>
         </div>
     </fieldset>
     <!-- Fin del fieldset-->

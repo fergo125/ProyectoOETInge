@@ -347,7 +347,11 @@ namespace ProyectoInventarioOET
 
                 foreach (DataRow row in tablaProductos.Rows)
                 {
+                    if (((TextBox)gridViewProductos.Rows[i].FindControl("textTraslados")).Text == "")
+                        throw new NullReferenceException();
                     Double cantAjuste = Double.Parse(((TextBox)gridViewProductos.Rows[i].FindControl("textTraslados")).Text);
+                    if( cantAjuste <= 0 )
+                        throw new InvalidConstraintException();
 
                     traslado = new Object[6];
                     traslado[0] = traslado[1] = traslado[3] = "";
@@ -357,6 +361,8 @@ namespace ProyectoInventarioOET
 
                     productoDeBodega = controladoraProductoLocal.consultarMinimoMaximoProductoEnBodega(idArrayProductosOrigen[i].ToString());
                     saldoNuevo = Convert.ToDouble(productoDeBodega.Rows[0][2].ToString()) - cantAjuste;
+                    if (saldoNuevo < 0)
+                        throw new ArgumentException();
                     alerta |= cantAjuste <= Convert.ToDouble(productoDeBodega.Rows[0][0].ToString()) || cantAjuste >= Convert.ToDouble(productoDeBodega.Rows[0][1].ToString());
 
                     nuevo.agregarDetalle(traslado);
@@ -384,17 +390,29 @@ namespace ProyectoInventarioOET
                 }
                 mostrarMensaje(error[0], error[1], error[2]);
             }
-            catch (AggregateException e)
-            {
-                codigo = "";
-                modo = (int)Modo.Insercion;
-                mostrarMensaje("danger", "Error: ", "Está haciendo un traslado con más inventario de la cuenta");
-            }
             catch (NoNullAllowedException e)
             {
                 codigo = "";
                 modo = (int)Modo.Insercion;
                 mostrarMensaje("danger", "Error: ", "No puede realizarse un traslado sin productos");
+            }
+            catch (ArgumentException e)
+            {
+                codigo = "";
+                modo = (int)Modo.Insercion;
+                mostrarMensaje("danger", "Error: ", "Uno o más productos quedarían en saldo negativo si realiza el traslado");
+            }
+            catch (InvalidConstraintException e)
+            {
+                codigo = "";
+                modo = (int)Modo.Insercion;
+                mostrarMensaje("danger", "Error: ", "Está tratando de trasladar 0 instancias de un producto");
+            }
+            catch (NullReferenceException e)
+            {
+                codigo = "";
+                modo = (int)Modo.Insercion;
+                mostrarMensaje("danger", "Error: ", "Introducir cantidad a transferir");
             }
 
             return codigo;
@@ -819,9 +837,10 @@ namespace ProyectoInventarioOET
                 if (codigoInsertado != "")
                 {
                     operacionCorrecta = true;
-                    trasladoConsultado = controladoraTraslados.consultarTraslado(codigoInsertado);
-                    modo = (int)Modo.Consultado;
-                    habilitarCampos(false);
+                    //trasladoConsultado = controladoraTraslados.consultarTraslado(codigoInsertado);
+                    //modo = (int)Modo.Consultado;
+                    modo = (int)Modo.Inicial;
+                    //habilitarCampos(false);
                 }
                 else
                     operacionCorrecta = false;
