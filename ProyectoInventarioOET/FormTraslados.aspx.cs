@@ -128,8 +128,8 @@ namespace ProyectoInventarioOET
                     botonModificarTraslado.Disabled = true;
                     botonConsultarTraslado.Disabled = true;
                     tituloGridProductos.Visible = false;
-                    tituloGridConsulta.Visible = true;
-                    gridViewTraslados.Visible = true;
+                    //tituloGridConsulta.Visible = true;
+                    //gridViewTraslados.Visible = true;
                     gridViewProductos.Enabled = false;
                     gridViewProductos.Visible = false;
                     fieldsetConsulta.Visible = true;
@@ -638,6 +638,9 @@ namespace ProyectoInventarioOET
             datos[2] = "0";
             tablaLimpia.Rows.Add(datos);
 
+            gridViewProductos.Visible = false;
+            tituloGridProductos.Visible = false;
+
             gridViewProductos.DataSource = tablaLimpia;
             gridViewProductos.DataBind();
 
@@ -750,6 +753,8 @@ namespace ProyectoInventarioOET
             llenarGridAgregarProductos();
             vaciarGridProductos();
 
+            gridViewProductos.Visible = false;
+
             if ((this.Master as SiteMaster).Usuario != null)
                 outputUsuario.Value = (this.Master as SiteMaster).Usuario.Nombre;
             outputBodegaSalida.Value = (this.Master as SiteMaster).NombreBodegaSesion;
@@ -771,11 +776,13 @@ namespace ProyectoInventarioOET
          */
         protected void botonConsultarTraslado_ServerClick(object sender, EventArgs e)
         {
-            DataTable prueba = controladoraTraslados.consultarTraslados((this.Master as SiteMaster).LlaveBodegaSesion, false);
+            //DataTable prueba = controladoraTraslados.consultarTraslados((this.Master as SiteMaster).LlaveBodegaSesion, false);
             modo = (int)Modo.Consulta;
             cambiarModo();
 
-            // Enseñar una tabla vacia
+            // No enseñar una tabla vacia
+            tituloGridConsulta.Visible = false;
+            gridViewTraslados.Visible = false;
             DataTable tabla = tablaTraslados();
             Object[] datos = new Object[5];
             datos[0] = "-";
@@ -875,6 +882,8 @@ namespace ProyectoInventarioOET
         {
             llenarGrid(dropDownConsultas.SelectedValue == "Entradas");
             tipoConsulta = dropDownConsultas.SelectedValue == "Entradas";
+            gridViewTraslados.Visible = true;
+            tituloGridConsulta.Visible = true;
         }
 
         /*
@@ -928,6 +937,10 @@ namespace ProyectoInventarioOET
                         datos[0] = seleccionada["Nombre"];
                         datos[1] = seleccionada["Codigo"];
                         datos[2] = seleccionada["Cantidad Actual"];
+
+                        // Hacerla visible
+                        gridViewProductos.Visible = true;
+                        tituloGridProductos.Visible = true;
 
                         // Agregar nueva tupla a tabla
                         tablaProductos.Rows.Add(datos);
