@@ -87,11 +87,12 @@ namespace ProyectoInventarioOET
 
             }
             cambiarModo();
-            //if (tablaProductosNuevos.Rows.Count == 0)
-            //{
-            //    this.botonAceptarEntrada.Disabled = true;
-            
-            //}
+            if (tablaProductosNuevos.Rows.Count != 0)
+            {
+                this.botonEliminarProducto.Enabled = true;
+                this.botonModificarProducto.Enabled = true;
+
+            }
         }
 
         //Construcción y llenado de las distintas tablas que se muestran en la interfaz.
@@ -181,10 +182,10 @@ namespace ProyectoInventarioOET
             columna.ColumnName = "Costo Total";
             tabla.Columns.Add(columna);
 
-            //columna = new DataColumn();
-            //columna.DataType = System.Type.GetType("System.String");
-            //columna.ColumnName = "Costo Unitario";
-            //tabla.Columns.Add(columna);
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Costo Unitario";
+            tabla.Columns.Add(columna);
 
             return tabla;
         }
@@ -202,7 +203,6 @@ namespace ProyectoInventarioOET
             {
                 // Cargar entradas
                 Object[] datos = new Object[4];
-                //bodegaDeTrabajo = "CRO44452";///////////////******************************//////////////////////////
                 DataTable entradas = controladoraEntradas.consultarEntradas(bodegaDeTrabajo);
 
                 if (entradas.Rows.Count > 0)
@@ -310,7 +310,7 @@ namespace ProyectoInventarioOET
             try
             {
                 // Cargar facturas
-                Object[] datos = new Object[3];
+                Object[] datos = new Object[4];
                 DataTable facturas = controladoraEntradas.consultarDetalleFactura(facturaConsultada.IdOrdenDeCompra);
 
                 if (facturas.Rows.Count > 0)
@@ -322,7 +322,7 @@ namespace ProyectoInventarioOET
                         datos[0] = fila[2].ToString();
                         datos[1] = fila[3].ToString();
                         datos[2] = fila[5].ToString();
-
+                        datos[3] = Convert.ToDouble(fila[5].ToString()) / Convert.ToDouble(fila[3].ToString());
 
                         tabla.Rows.Add(datos);
                         //if (entradaConsultada != null && (fila[0].Equals(entradaConsultada.Codigo)))
@@ -338,6 +338,7 @@ namespace ProyectoInventarioOET
                     datos[0] = "-";
                     datos[1] = "No existe detalle para esta factura.";
                     datos[2] = "-";
+                    datos[3] = "-";
                     tabla.Rows.Add(datos);
                 }
 
@@ -346,7 +347,7 @@ namespace ProyectoInventarioOET
             }
             catch (Exception e)
             {
-                mostrarMensaje("warning", "Alerta", "Error al llenar la tabla de Facturas.");
+                mostrarMensaje("warning", "Alerta", "Error al llenar la tabla con el detalle.");
             }
         }
 
@@ -362,7 +363,7 @@ namespace ProyectoInventarioOET
             try
             {
                 // Cargar entradas
-                Object[] datos = new Object[3];
+                Object[] datos = new Object[4];
                 DataTable facturas = controladoraEntradas.consultarProductosEntrada(entradaConsultada.IdEntrada);
 
                 if (facturas.Rows.Count > 0)
@@ -370,11 +371,10 @@ namespace ProyectoInventarioOET
                     idArrayFactura = new Object[facturas.Rows.Count];
                     foreach (DataRow fila in facturas.Rows)
                     {
-                        //idArrayFactura[i] = fila[0];
                         datos[0] = fila[0].ToString();
                         datos[1] = fila[1].ToString();
                         datos[2] = fila[2].ToString();
-
+                        datos[3] = Convert.ToDouble(fila[2].ToString()) / Convert.ToDouble(fila[1].ToString());
 
 
                         tabla.Rows.Add(datos);
@@ -391,7 +391,7 @@ namespace ProyectoInventarioOET
                     datos[0] = "-";
                     datos[1] = "No hay productos asociados.";
                     datos[2] = "-";
-                    //datos[3] = "-";
+                    datos[3] = "-";
                     tabla.Rows.Add(datos);
                 }
 
@@ -400,7 +400,7 @@ namespace ProyectoInventarioOET
             }
             catch (Exception e)
             {
-                mostrarMensaje("warning", "Alerta", "Error al llenar la tabla de Facturas.");
+                mostrarMensaje("warning", "Alerta", "Error al llenar la tabla con el detalle.");
             }
         }
 
@@ -544,7 +544,6 @@ namespace ProyectoInventarioOET
                 Object[] datos = new Object[3];
                 DataTable tablaProductosConID = new DataTable();
                 tablaProductosConID = tablaFacturaDetallada();
-                //bodegaDeTrabajo = "CRO44452";///////////////******************************//////////////////////////
 
                 if (modo == (int)Modo.SeleccionProductos)
                 {
@@ -609,22 +608,33 @@ namespace ProyectoInventarioOET
             String costo = this.inputCostoProducto.Value.ToString();
             String[] provisional = new String[2];
             provisional = obtenerCodigoDeProducto(productoEscogido);
-            //bodegaDeTrabajo = "CRO44452";///////////////******************************//////////////////////////
+            bool repetido = false;
 
             DataTable producto = controladoraEntradas.consultarProductoDeBodega(bodegaDeTrabajo, provisional[1]);
+
+            foreach (DataRow fila in tablaProductosNuevos.Rows)
+            {
+                if (productoEscogido == fila[0].ToString())
+                {
+                    repetido = true;
+                }            
+            }
 
             if (producto.Rows.Count == 0)
             {
                 mostrarMensaje("warning", "Error", "El producto especificado no existe en la bodega, consulte al administrador del sistema.");
+            } else if (repetido)
+            {
+                mostrarMensaje("warning", "Error", "El producto especificado ya fue ingresado, seleccione otro o actualice las cantidades.");            
             }
             else
             {
-                Object[] datos = new Object[3];
-                //Object[] datos = new Object[4];
+                //Object[] datos = new Object[3];
+                Object[] datos = new Object[4];
                 datos[0] = productoEscogido;
                 datos[1] = cantidad;
                 datos[2] = costo;
-                //datos[3] = Convert.ToDouble(costo) / Convert.ToInt32(cantidad);
+                datos[3] = Convert.ToDouble(costo) / Convert.ToDouble(cantidad);
                 tablaProductosNuevos.Rows.Add(datos);
                 actualizarTotalFactura(Convert.ToDouble(costo));
                 outputTotalFacturaNueva.InnerText = totalFactura.ToString();

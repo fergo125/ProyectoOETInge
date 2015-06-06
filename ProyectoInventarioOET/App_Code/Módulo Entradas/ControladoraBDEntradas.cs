@@ -60,7 +60,7 @@ namespace ProyectoInventarioOET.Modulo_Entradas
                 {
                     command.CommandText = "SELECT *"
                         + "FROM compras.facturas full outer join INVENTARIOS.cat_entradas on compras.facturas.idfactura = inventarios.cat_entradas.factura"
-                        + " where INVENTARIOS.cat_entradas.cat_entradas is null" + "like " + id +"%";
+                        + " where INVENTARIOS.cat_entradas.cat_entradas is null and compras.facturas.idfactura" + " like '" + id +"%'";
                     OracleDataReader reader = command.ExecuteReader();
                     resultado.Load(reader);
                 }
@@ -196,7 +196,11 @@ namespace ProyectoInventarioOET.Modulo_Entradas
                                 ",'" + fila[2] + "'" 
                                 + ")";
                              reader = command.ExecuteReader();
-                            
+
+                            command = conexionBD.CreateCommand();
+                            command.CommandText = "update INV_BODEGA_PRODUCTOS set saldo = saldo + " + fila[1]
+                                + " where inv_productos = '" + fila[0] + "' and cat_bodega = '" + entrada.Bodega + "' ";
+                            reader = command.ExecuteReader();
                         }
                     }
                     res[0] = "success";
