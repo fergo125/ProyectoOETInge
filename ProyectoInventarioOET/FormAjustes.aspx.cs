@@ -115,11 +115,11 @@ namespace ProyectoInventarioOET
                     tituloAccionAjustes.InnerText = "Ingrese datos";
                     botonRealizarAjuste.Disabled = true;
                     botonConsultarAjustes.Disabled = false;
-                    tituloGridProductos.Visible = true;
+                    tituloGridProductos.Visible = false;
                     tituloGridConsulta.Visible = false;
                     gridViewAjustes.Visible = false;
                     gridViewProductos.Enabled = true;
-                    gridViewProductos.Visible = true;
+                    gridViewProductos.Visible = false;
                     habilitarCampos(true);
                     gridViewProductos.Columns[1].Visible = true;
                     foreach( DataControlField col in gridViewProductos.Columns )
@@ -581,6 +581,7 @@ namespace ProyectoInventarioOET
                 switch (e.CommandName)
                 {
                     case "Select":
+                        
                         GridViewRow filaSeleccionada = this.gridViewAjustes.Rows[Convert.ToInt32(e.CommandArgument)];
                         //String codigo = filaSeleccionada.Cells[0].Text.ToString();
                         String codigo = Convert.ToString(idArrayAjustes[Convert.ToInt32(e.CommandArgument) + (this.gridViewAjustes.PageIndex * this.gridViewAjustes.PageSize)]);
@@ -626,6 +627,7 @@ namespace ProyectoInventarioOET
 
                         if (idArrayProductos.Count() < 1)
                             vaciarGridProductos();
+                        mostrarGridParaCorrecciones();
 
                         break;
                 }
@@ -637,6 +639,7 @@ namespace ProyectoInventarioOET
          */
         protected void gridViewAgregarProductos_Seleccion(object sender, GridViewCommandEventArgs e)
         {
+            mostrarGridParaCorrecciones();
             if (idArrayAgregarProductos != null && idArrayAgregarProductos.Count() > 0)
             {
                 switch (e.CommandName)
@@ -730,9 +733,12 @@ namespace ProyectoInventarioOET
                     ajuste[3] = idArrayProductos[i];
                     ajuste[4] = cantAjuste - Double.Parse(row["Cantidad Actual"].ToString());
 
-                    if (!(signo ^ (Convert.ToDouble(ajuste[4]) < 0.0)))
+                    if (!(signo ^ (Convert.ToDouble(ajuste[4]) <= 0.0)))
                         throw new AggregateException();
 
+                    if ( (Convert.ToDouble(ajuste[4]) == 0.0))  // Caso salida
+                        throw new AggregateException();
+                    
                     nueva.agregarDetalle(ajuste);
                     productoDeBodega = controladoraProductosLocales.consultarMinimoMaximoProductoEnBodega(idArrayProductos[i].ToString());
                     alerta |= cantAjuste <= Convert.ToDouble(productoDeBodega.Rows[0][0].ToString()) || cantAjuste >= Convert.ToDouble(productoDeBodega.Rows[0][1].ToString());
@@ -762,24 +768,28 @@ namespace ProyectoInventarioOET
             {
                 codigo = "";
                 modo = (int)Modo.Insercion;
+                mostrarGridParaCorrecciones();
                 mostrarMensaje("danger", "Error: ", "No puede realizarse un ajuste sin productos");
             }
             catch (AggregateException e)
             {
                 codigo = "";
                 modo = (int)Modo.Insercion;
+                mostrarGridParaCorrecciones();
                 mostrarMensaje("danger", "Error: ", "La nueva cantidad de uno o más productos no concuerda con el tipo de ajuste");
             }
             catch (InvalidConstraintException e)
             {
                 codigo = "";
                 modo = (int)Modo.Insercion;
-                mostrarMensaje("danger", "Error: ", "Está tratando de ajustar 0 instancias de un producto");
+                mostrarGridParaCorrecciones();
+                mostrarMensaje("danger", "Error: ", "La nueva cantidad de uno o más productos no puede ser negativa");
             }
             catch (NullReferenceException e)
             {
                 codigo = "";
                 modo = (int)Modo.Insercion;
+                mostrarGridParaCorrecciones();
                 mostrarMensaje("danger", "Error: ", "Introducir cantidad a ajustar");
             }
 
@@ -830,6 +840,37 @@ namespace ProyectoInventarioOET
             llenarGridAgregarProductos();
             this.gridViewAgregarProductos.PageIndex = e.NewPageIndex;
             this.gridViewAgregarProductos.DataBind();
+        }
+
+        protected void mostrarGridParaCorrecciones() {
+            this.gridViewProductos.Visible = true;
+            this.tituloGridProductos.Visible = true;
+        }
+
+        protected void gridViewProductos_RowCreated(object sender, GridViewRowEventArgs e)
+        {
+            GridViewRow row = e.Row;
+            // Intitialize TableCell list
+            List<TableCell> columns = new List<TableCell>();
+            int i = 0;
+            foreach (DataControlField column in gridViewProductos.Columns)
+            {
+                if (i == 0)
+                {
+                    //Get the first Cell /Column
+                    TableCell cell = row.Cells[1];
+                    // Then Remove it after
+                    row.Cells.Remove(cell);
+                    //And Add it to the List Collections
+                    columns.Add(cell);
+
+                }
+                i++;
+
+            }
+
+            // Add cells
+            row.Cells.AddRange(columns.ToArray());
         }
     }
 }
