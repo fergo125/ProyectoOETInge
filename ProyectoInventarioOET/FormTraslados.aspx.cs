@@ -829,6 +829,32 @@ namespace ProyectoInventarioOET
             }
         }
 
+        protected void gridViewTraslados_RowCreated(object sender, GridViewRowEventArgs e)
+        {
+            GridViewRow row = e.Row;
+            // Intitialize TableCell list
+            List<TableCell> columns = new List<TableCell>();
+            int i = 0;
+            foreach (DataControlField column in gridViewProductos.Columns)
+            {
+                if (i == 0)
+                {
+                    //Get the first Cell /Column
+                    TableCell cell = row.Cells[1];
+                    // Then Remove it after
+                    row.Cells.Remove(cell);
+                    //And Add it to the List Collections
+                    columns.Add(cell);
+
+                }
+                i++;
+
+            }
+
+            // Add cells
+            row.Cells.AddRange(columns.ToArray());
+         }
+
         /*
          * Este método confirma las transacciones de traslados.
          */
