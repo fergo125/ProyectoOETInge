@@ -95,6 +95,7 @@ namespace ProyectoInventarioOET
                     botonAgregar.Visible = false;
                     FieldsetAjustes.Visible = false;
                     botonAceptarAjustes.Visible = false;
+                    FieldsetGridAjustes.Visible = false;
                     botonCancelarAjustes.Visible = false;
                     tituloAccionAjustes.InnerText = "Seleccione una opción";
                     botonRealizarAjuste.Disabled = false;
@@ -119,6 +120,7 @@ namespace ProyectoInventarioOET
                     tituloGridConsulta.Visible = false;
                     gridViewAjustes.Visible = false;
                     gridViewProductos.Enabled = true;
+                    FieldsetGridAjustes.Visible = false;
                     gridViewProductos.Visible = false;
                     habilitarCampos(true);
                     gridViewProductos.Columns[1].Visible = true;
@@ -137,6 +139,7 @@ namespace ProyectoInventarioOET
                     tituloGridProductos.Visible = false;
                     tituloGridConsulta.Visible = true;
                     gridViewAjustes.Visible = true;
+                    FieldsetGridAjustes.Visible = true;
                     gridViewProductos.Enabled = false;
                     gridViewProductos.Visible = false;
                     habilitarCampos(false);
@@ -150,6 +153,7 @@ namespace ProyectoInventarioOET
                     tituloAccionAjustes.InnerText = "Ajuste seleccionado";
                     botonRealizarAjuste.Disabled = false;
                     botonConsultarAjustes.Disabled = false;
+                    FieldsetGridAjustes.Visible = false;
                     tituloGridProductos.Visible = true;
                     tituloGridConsulta.Visible = false;
                     gridViewAjustes.Visible = false;
@@ -539,6 +543,8 @@ namespace ProyectoInventarioOET
         {
             llenarGrid();
             modo = (int)Modo.Consulta;
+            this.bodega.Value = (this.Master as SiteMaster).NombreBodegaSesion;
+            this.estacion.Value = controladoraDatosGenerales.consultarEstacionDeBodega((this.Master as SiteMaster).LlaveBodegaSesion)[0];
             cambiarModo();
         }
 

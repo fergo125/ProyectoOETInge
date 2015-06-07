@@ -23,9 +23,7 @@
 
     <!-- Botones -->
     <button runat="server" onserverclick="botonConsultarAjustes_ServerClick"  id="botonConsultarAjustes" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true"><i class="fa fa-bars"></i> Consultar Ajustes</button>
-    <button runat="server" onserverclick="botonRealizarAjuste_ServerClick" id="botonRealizarAjuste" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true"><i class="fa fa-pencil"></i> Crear Ajuste</button>
-    <br />
-    <br />
+    <button runat="server" onserverclick="botonRealizarAjuste_ServerClick" id="botonRealizarAjuste" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true"><i class="fa fa-pencil"></i> Crear Ajuste</button> <br> <br>
 
     <!-- Titulo dinamico de la pagina -->
     <h3 id="tituloAccionAjustes" runat="server">Seleccione una opción</h3>
@@ -49,27 +47,28 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-12">
                 <label for="inputNotas" class= "control-label"> Notas: </label>      
                 <asp:TextBox ID="inputNotas" runat="server" Rows="3" Width="100%" TextMode="MultiLine" style="resize:none" MaxLength="140"></asp:TextBox>
-        </div>
-            <div class="col-lg-6" style="text-align:center" >
-                <a id="botonAgregar" style="margin-top:5%" runat="server" data-target="#modalAgregarProducto" class="btn btn-success-fozkr" data-toggle="modal" role="button"><i class="fa fa-plus"></i> Agregar Producto</a>
             </div>
-         </div>
+        </div>
+            <div class="row" >
+                <br><br>
+                <div class="col-lg-12">
+                <a id="botonAgregar" runat="server" data-target="#modalAgregarProducto" class="btn btn-success-fozkr" data-toggle="modal" role="button"><i class="fa fa-plus"></i> Agregar Producto</a> 
+                </div>
+            </div>
     </fieldset>
     <!-- Fin del fieldset-->
 
-    <br />
-    <br />
-    <br />
-    <br />
-    
+   
     <!-- Grid de productos a ajustar -->
     <div id="bloqueGridProductos" class="col-lg-12">
         <fieldset id="Fieldset2" runat="server" class="fieldset">
             <!-- Gridview -->
             <div class="col-lg-12">
+                <br>
+                <br>
                 <strong><div ID="tituloGridProductos" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Productos a Cambiar</div></strong>
                 <asp:UpdatePanel ID="UpdatePanel2" runat="server">
                     <ContentTemplate>
@@ -101,8 +100,6 @@
     </div>
     <!-- Fin Grid de productos a ajustar -->
 
-    <br />
-
     <!-- Botones de aceptar y cancelar-->
     <div class="col-lg-12" id="bloqueBotones">
         <div class ="row">
@@ -114,22 +111,28 @@
     </div>
     <!-- Fin del bloque de botones-->
 
-    <br />
-    <br />
-
-
-
-
 
     <!-- Grid de consultas -->
     <div id="bloqueGridAjustes" class="col-lg-12">
         <fieldset id="FieldsetGridAjustes" runat="server" class="fieldset">
             <!-- Gridview de consultar -->
+            <div class="row">
+         <div class="col-lg-6">
+                <label for="estacion" class= "control-label"> Estación: </label>      
+                <input type="text" id="estacion" class="form-control" runat="server" style="max-width:100%" disabled="disabled"><br>                
+            </div>
+            <div class="col-lg-6">
+                <label for="bodega" class= "control-label"> Bodega: </label>      
+                <input type="text" id="bodega" class="form-control" runat="server" style="max-width:100%" disabled="disabled"><br>
+            </div>
+        </div>
+            <br>
+            <br>
             <div class="col-lg-12">
                 <strong><div ID="tituloGridConsulta" runat="server" visible="false" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Ajustes en Bodega</div></strong>
                 <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
                     <ContentTemplate>
-                        <asp:GridView ID="gridViewAjustes" CssClass="table" OnRowCommand="gridViewAjustes_Seleccion" OnPageIndexChanging="gridViewAjustes_CambioPagina" runat="server" AllowPaging="True" PageSize="15" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                        <asp:GridView ID="gridViewAjustes" CssClass="table" OnRowCommand="gridViewAjustes_Seleccion" OnPageIndexChanging="gridViewAjustes_CambioPagina" runat="server" AllowPaging="True" PageSize="10" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
                             <Columns>
                                 <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Consultar">
                                     <ControlStyle CssClass="btn btn-default"></ControlStyle>
