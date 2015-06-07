@@ -778,28 +778,28 @@ namespace ProyectoInventarioOET
                 codigo = "";
                 modo = (int)Modo.Insercion;
                 mostrarGridParaCorrecciones();
-                mostrarMensaje("danger", "Error: ", "No puede realizarse un ajuste sin productos");
+                mostrarMensaje("danger", "Error: ", "No puede realizarse un ajuste sin productos.");
             }
             catch (AggregateException e)
             {
                 codigo = "";
                 modo = (int)Modo.Insercion;
                 mostrarGridParaCorrecciones();
-                mostrarMensaje("danger", "Error: ", "La nueva cantidad de uno o más productos no concuerda con el tipo de ajuste");
+                mostrarMensaje("danger", "Error: ", "La nueva cantidad de uno o más productos no concuerda con el tipo de ajuste.");
             }
             catch (InvalidConstraintException e)
             {
                 codigo = "";
                 modo = (int)Modo.Insercion;
                 mostrarGridParaCorrecciones();
-                mostrarMensaje("danger", "Error: ", "La nueva cantidad de uno o más productos no puede ser negativa");
+                mostrarMensaje("danger", "Error: ", "La nueva cantidad de uno o más productos no puede ser negativa.");
             }
             catch (NullReferenceException e)
             {
                 codigo = "";
                 modo = (int)Modo.Insercion;
                 mostrarGridParaCorrecciones();
-                mostrarMensaje("danger", "Error: ", "Introducir cantidad a ajustar");
+                mostrarMensaje("danger", "Error: ", "Introducir cantidad a ajustar.");
             }
 
             return codigo;
