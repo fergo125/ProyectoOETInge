@@ -192,8 +192,8 @@
 							</asp:TemplateField>
                             <asp:TemplateField HeaderText="Cantidad">
                                 <ItemTemplate>
-                                    <asp:TextBox ID="gridCrearFacturaCantidadProducto" OnTextChanged="textBoxCrearFacturaProductosCantidad_TextoCambiado" ReadOnly="false" Width="75%" CausesValidation="true" AutoPostBack="true" runat="server"></asp:TextBox>
-                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="gridCrearFacturaCantidadProducto" ClientValidationFunction="changeColor" Display="Dynamic"
+                                    <asp:TextBox ID="gridCrearFacturaTextBoxCantidadProducto" OnTextChanged="textBoxCrearFacturaProductosCantidad_TextoCambiado" ReadOnly="false" Width="75%" CausesValidation="true" AutoPostBack="true" runat="server"></asp:TextBox>
+                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="gridCrearFacturaTextBoxCantidadProducto" ClientValidationFunction="changeColor" Display="Dynamic"
                                             ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="Ingrese solo números enteros" Font-Bold="true" ValidationExpression="\d+$"></asp:RegularExpressionValidator>
                                 </ItemTemplate>
                             </asp:TemplateField>
@@ -208,8 +208,8 @@
                 </td>
             <tr>
                 <td colspan="4">
-                    <button type="button" ID="botonCrearFacturaQuitarProducto" class="btn btn-danger-fozkr" onserverclick="clickBotonCrearEliminarProducto" style="float: left" disabled="disabled" runat="server">Eliminar producto</button>
-                    <button type="button" ID="botonCrearFacturaEditarProducto" class="btn btn-warning-fozkr" onserverclick="Page_Load" style="float: left" disabled="disabled" runat="server">Editar producto</button>
+                    <button type="button" ID="botonCrearFacturaEliminarProducto" class="btn btn-danger-fozkr" onserverclick="clickBotonCrearEliminarProducto" style="float: left" disabled="disabled" runat="server">Eliminar producto</button>
+                    <button type="button" ID="botonCrearFacturaModificarProducto" class="btn btn-warning-fozkr" href="#modalModificarProducto" data-toggle="modal" style="float: left" disabled="disabled" runat="server">Modificar producto</button>
                 </td>
             </tr>
             <tr>
@@ -258,7 +258,41 @@
         </div>
     </div>
 
-     <!--Modal Cambio de sesión-->
+    <!--Modal Modificar producto-->
+    <div class="modal fade" ID="modalModificarProducto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" ID="modalTitleModificarProducto"><i></i>Modificar producto</h4>
+                </div>
+                <div class="modal-body">
+                    Seleccione un porcentaje de descuento para el producto o cambie su impuesto
+                </div>
+                <table class="table-fozkr" style="margin-left: 10%; width: 80%">
+                    <tr>
+                        <td>
+                            <label class= "control-label">Descuento:</label>
+                            <asp:DropDownList ID="dropdownlistModalModificarProductoDescuento" CssClass="form-control" Width="75%" runat="server"></asp:DropDownList>
+                        </td>
+                        <td>
+                            <label class= "control-label">Impuesto:</label>
+                            <asp:DropDownList ID="dropdownlistModalModificarProductoImpuesto" CssClass="form-control" Width="75%" runat="server">
+                                <asp:ListItem Value="Sí">Sí</asp:ListItem>
+                                <asp:ListItem Value="No">No</asp:ListItem>
+                            </asp:DropDownList>
+                        </td>
+                    </tr>
+                </table>
+                <div class="modal-footer">
+                    <button type="button" ID="botonAceptarModalModificarProducto" class="btn btn-success-fozkr" onserverclick="clickBotonCrearModalAceptar" runat="server">Aceptar</button>
+                    <button type="button" ID="botonCancelarModalModificarProducto" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Modal Cambio de sesión-->
     <div class="modal fade" ID="modalCambioSesion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

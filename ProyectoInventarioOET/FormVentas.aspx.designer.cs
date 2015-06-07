@@ -400,22 +400,22 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.GridView gridViewCrearFacturaProductos;
         
         /// <summary>
-        /// Control botonCrearFacturaQuitarProducto.
+        /// Control botonCrearFacturaEliminarProducto.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonCrearFacturaQuitarProducto;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonCrearFacturaEliminarProducto;
         
         /// <summary>
-        /// Control botonCrearFacturaEditarProducto.
+        /// Control botonCrearFacturaModificarProducto.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonCrearFacturaEditarProducto;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonCrearFacturaModificarProducto;
         
         /// <summary>
         /// Control labelCrearFacturaTipoMoneda.
@@ -497,6 +497,33 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlButton botonAceptarModalCancelar;
+        
+        /// <summary>
+        /// Control dropdownlistModalModificarProductoDescuento.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList dropdownlistModalModificarProductoDescuento;
+        
+        /// <summary>
+        /// Control dropdownlistModalModificarProductoImpuesto.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList dropdownlistModalModificarProductoImpuesto;
+        
+        /// <summary>
+        /// Control botonAceptarModalModificarProducto.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonAceptarModalModificarProducto;
         
         /// <summary>
         /// Control inputUsername.

@@ -706,26 +706,34 @@ namespace ProyectoInventarioOET
             gridViewCrearFacturaProductos.DataSource = productosAgregados;
             gridViewCrearFacturaProductos.DataBind();
             textBoxAutocompleteCrearFacturaBusquedaProducto.Text = "";
-            actualizarPreciosTotales();
-            //buscarlo en el grid para poner automáticamente cantidad 1
-            //foreach (GridViewRow fila in gridViewCrearFacturaProductos.Rows)
-            //    if (fila.Cells[3].Text == nombreCodigoProductoEscogido[1]) //si el código interno se repite
-            //        ((TextBox)fila.FindControl("gridCrearFacturaCantidadProducto")).Text = "1";
             cantidadesProductos.Add(1); //agregar la existencia inicial (1)
             //Con el databind se borran las cantidades, entonces se restauran, y se pone la nueva default
             if ((checksProductos.Count > 0) || (cantidadesProductos.Count > 0))
                 restaurarCheckBoxesYCantidades();
+            actualizarPreciosTotales();
         }
 
         /*
          * Invocada cuando se agregan productos o se cambia el tipo de moneda durante la creación de una factura.
+         * Se calcula el descuento antes que el impuesto.
          */
         protected void actualizarPreciosTotales()
         {
             double precioTotal = 0;
+            double precioProducto = 0;
             foreach (GridViewRow fila in gridViewCrearFacturaProductos.Rows) //actualiza el "total" de cada fila del grid y va sumando para ponerlo al final
-                precioTotal += Convert.ToDouble((fila.Cells[7].Text = fila.Cells[4].Text.ToString())); //total = unitario (falta multiplicar por cantidad)
+            {
+                String cantidad = ((TextBox)fila.FindControl("gridCrearFacturaTextBoxCantidadProducto")).Text;
+                precioProducto = Convert.ToDouble(Convert.ToDouble(fila.Cells[4].Text) * Convert.ToInt32(cantidad)); //precio = precio unitario * cantidad
+                if(fila.Cells[6].Text != "0") //si tiene descuento
+                    precioProducto -= (precioProducto * (Convert.ToInt32(fila.Cells[6].Text) / 100)); //se le resta
+                if (fila.Cells[5].Text != "No") //si tiene impuesto
+                    precioProducto += (precioProducto * 0.13); //se le suma
+                fila.Cells[7].Text = precioProducto.ToString(); //se actualiza el total en la línea de la factura
+                precioTotal += precioProducto; //se actualiza el total de toda la factura
+            }
             labelCrearFacturaPrecioTotal.Text = ((labelCrearFacturaTipoMoneda.Text == "Colones" ? "₡ " : "$ ") + precioTotal.ToString());
+            actualizarTablaProductosSegunGrid();
         }
 
         /*
@@ -793,7 +801,7 @@ namespace ProyectoInventarioOET
                 detallesProducto[6] = HttpUtility.HtmlDecode(fila.Cells[6].Text); //impuesto
                 detallesProducto[7] = HttpUtility.HtmlDecode(fila.Cells[7].Text); //total
                 detallesProducto[5] = (HttpUtility.HtmlDecode(fila.Cells[5].Text) == "No" ? 0 : 1); //descuento
-                detallesProducto[4] = Convert.ToInt32(((TextBox)fila.FindControl("gridCrearFacturaCantidadProducto")).Text); //cantidad
+                detallesProducto[4] = Convert.ToInt32(((TextBox)fila.FindControl("gridCrearFacturaTextBoxCantidadProducto")).Text); //cantidad
                 if (labelCrearFacturaTipoMoneda.Text == "Colones")
                 {
                     detallesProducto[2] = HttpUtility.HtmlDecode(fila.Cells[4].Text); //precio unitario colones
@@ -819,8 +827,8 @@ namespace ProyectoInventarioOET
                 if (i < checksProductos.Count) //para evitar que intente accesar posiciones inexistentes
                     ((CheckBox)gridViewCrearFacturaProductos.Rows[i].FindControl("gridCrearFacturaCheckBoxSeleccionarProducto")).Checked = checksProductos[i];
                 if (i < cantidadesProductos.Count) //para evitar que intente accesar posiciones inexistentes
-                    if (((TextBox)gridViewCrearFacturaProductos.Rows[i].FindControl("gridCrearFacturaCantidadProducto")).Text == "") //para evitar que borre lo nuevo
-                        ((TextBox)gridViewCrearFacturaProductos.Rows[i].FindControl("gridCrearFacturaCantidadProducto")).Text = cantidadesProductos[i].ToString();
+                    if (((TextBox)gridViewCrearFacturaProductos.Rows[i].FindControl("gridCrearFacturaTextBoxCantidadProducto")).Text == "") //para evitar que borre lo nuevo
+                        ((TextBox)gridViewCrearFacturaProductos.Rows[i].FindControl("gridCrearFacturaTextBoxCantidadProducto")).Text = cantidadesProductos[i].ToString();
             }
         }
 
@@ -940,6 +948,25 @@ namespace ProyectoInventarioOET
                 }
             }
             restaurarCheckBoxesYCantidades();
+        }
+
+        /*
+         * Edita las propiedades de descuento e impuesto del producto seleccionado.
+         */
+        protected void clickBotonCrearModalAceptar(object sender, EventArgs e)
+        {
+            for(int i=0; i<gridViewCrearFacturaProductos.Rows.Count; ++i)
+            {
+                if(((CheckBox)gridViewCrearFacturaProductos.Rows[i].FindControl("gridCrearFacturaCheckBoxSeleccionarProducto")).Checked) //se encontró la fila
+                {
+                    productosAgregados.Rows[i][4] = dropdownlistModalModificarProductoDescuento.SelectedValue;
+                    productosAgregados.Rows[i][3] = dropdownlistModalModificarProductoImpuesto.SelectedValue;
+                    gridViewCrearFacturaProductos.DataSource = productosAgregados;
+                    gridViewCrearFacturaProductos.DataBind();
+                    restaurarCheckBoxesYCantidades();
+                    break;
+                }
+            }
         }
 
         /*
@@ -1140,17 +1167,25 @@ namespace ProyectoInventarioOET
          */
         protected void checkBoxCrearFacturaProductos_CheckCambiado(object sender, EventArgs e)
         {
-            botonCrearFacturaQuitarProducto.Disabled = !((CheckBox)sender).Checked;
-            botonCrearFacturaEditarProducto.Disabled = !((CheckBox)sender).Checked;
+            botonCrearFacturaEliminarProducto.Disabled = !((CheckBox)sender).Checked;
+            botonCrearFacturaModificarProducto.Disabled = !((CheckBox)sender).Checked;
             checksProductos.Clear();
             foreach (GridViewRow fila in gridViewCrearFacturaProductos.Rows)
             {
-                //Primero, desmarcar todos los otros checkboxes al marcar uno nuevo (también se hace al desmarcar pero parece ser bastante rápido)
+                //Primero, desmarcar todos los otros checkboxes al marcar uno nuevo
                 CheckBox check = (CheckBox)fila.FindControl("gridCrearFacturaCheckBoxSeleccionarProducto");
-                if ((check.Checked) && (check != (CheckBox)sender))
+                if (((CheckBox)sender).Checked && (check.Checked) && (check != (CheckBox)sender))
                     check.Checked = false;
                 //Segundo, guardar el estado de cada checkbox
                 checksProductos.Add(check.Checked);
+                //Tercero, cargar los posibles porcentajes de descuento del producto dentro del modal desde ya
+                if(check == (CheckBox)sender) //se encontró la fila
+                {
+                    int maximoDescuento = controladoraVentas.maximoDescuentoAplicable(controladoraVentas.verificarExistenciaProductoLocal((this.Master as SiteMaster).LlaveBodegaSesion, fila.Cells[2].ToString(), fila.Cells[3].ToString()), (this.Master as SiteMaster).Usuario.Codigo);
+                    dropdownlistModalModificarProductoDescuento.Items.Clear();
+                    for (int i = 0; i <= maximoDescuento; ++i)
+                        dropdownlistModalModificarProductoDescuento.Items.Add(new ListItem(i + "%",i.ToString()));
+                }
             }
         }
 
@@ -1163,13 +1198,14 @@ namespace ProyectoInventarioOET
             int i = 0;
             foreach (GridViewRow fila in gridViewCrearFacturaProductos.Rows)
             {
-                if(((TextBox)fila.FindControl("gridCrearFacturaCantidadProducto")) == (TextBox)sender) //es la fila donde está el textbox que fue cambiado
+                if (((TextBox)fila.FindControl("gridCrearFacturaTextBoxCantidadProducto")) == (TextBox)sender) //es la fila donde está el textbox que fue cambiado
                 {
                     try
                     {
                         cantidadesProductos[i] = Convert.ToInt32(((TextBox)sender).Text); //se actualiza la cantidad
                         //Revisar que la nueva cantidad no supere la existencia real local (usando funciones de controladoras)
                         double existenciaReal = Convert.ToDouble(controladoraProductoLocal.consultarProductoDeBodega((this.Master as SiteMaster).LlaveBodegaSesion, fila.Cells[3].Text).Rows[0][7]);
+                        actualizarPreciosTotales(); //actualiza la línea final de la factura
                         if (cantidadesProductos[i] > existenciaReal) //si se pretende vender más de lo que hay disponible
                         {
                             mostrarMensaje("danger", "Alerta: ", "La cantidad del producto '" + fila.Cells[2].Text + "' que intenta venderse es mayor a la existencia real en la bodega " + (this.Master as SiteMaster).NombreBodegaSesion + ". Esta factura no puede guardarse sin arreglar la cantidad.");
