@@ -27,11 +27,11 @@ namespace ProyectoInventarioOET
         private static Modo modo = Modo.Inicial;                                //Indica en qué modo se encuentra la interfaz en un momento cualquiera, de éste depende cuáles elementos son visibles
         private static String permisos = "000000";                              //Permisos utilizados para el control de seguridad
         private static String codigoPerfilUsuario = "";                         //Indica el perfil del usuario, usado para acciones de seguridad para las cuales la string de permisos no basta
-        private static Object[] idArray;                                        //Usada para llevar el control de las facturas consultadas
-        private static List<bool> checksProductos;                              //Usada para guardar cuáles checks han sido marcados en el grid de productos durante el proceso de creación
-        private static List<int> cantidadesProductos;                           //Usada para guardar las cantidades en los textboxes del grid de productos durante el proceso de creación //TODO: usar esto
-        private static DataTable productosAgregados;                            //Usada para llenar el grid de productos al crear una factura
-        private static DataTable facturasConsultadas;                           //Usada para llenar el grid y para mostrar los detalles de cada factura específica
+        private static Object[] idArray;                                        //Para llevar el control de las facturas consultadas
+        private static List<bool> checksProductos;                              //Para guardar cuáles checks han sido marcados en el grid de productos durante el proceso de creación
+        private static List<int> cantidadesProductos;                           //Para guardar las cantidades en los textboxes del grid de productos durante el proceso de creación //TODO: usar esto
+        private static DataTable productosAgregados;                            //Para llenar el grid de productos al crear una factura
+        private static DataTable facturasConsultadas;                           //Para llenar el grid y para mostrar los detalles de cada factura específica
         private static EntidadFacturaVenta facturaConsultada;                   //???
         private static ControladoraVentas controladoraVentas;                   //Para accesar las tablas del módulo y realizar las operaciones de consulta, inserción, modificación y anulación
         private static ControladoraAjustes controladoraAjustes;                 //???
@@ -1138,18 +1138,18 @@ namespace ProyectoInventarioOET
         /*
          * ???
          */
-        protected void dropDownListConsultaBodega_SelectedIndexChanged(object sender, EventArgs e)
+        protected void dropDownListConsultaEstacion_ValorCambiado(object sender, EventArgs e)
         {
-            cargarAsociadosABodegas(dropDownListConsultaBodega.SelectedValue);
+            cargarBodegas(this.dropDownListConsultaBodega);
+            dropDownListConsultaVendedor.Items.Clear(); //para evitar que escoja vendedores cargados de bodegas anteriores
         }
 
         /*
          * ???
          */
-        protected void dropDownListConsultaEstacion_SelectedIndexChanged(object sender, EventArgs e)
+        protected void dropDownListConsultaBodega_ValorCambiado(object sender, EventArgs e)
         {
-            cargarBodegas(this.dropDownListConsultaBodega);
-            dropDownListConsultaVendedor.Items.Clear(); //para evitar que escoja vendedores cargados de bodegas anteriores
+            cargarAsociadosABodegas(dropDownListConsultaBodega.SelectedValue);
         }
 
         /*

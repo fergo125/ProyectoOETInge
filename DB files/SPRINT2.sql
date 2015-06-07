@@ -83,6 +83,33 @@ SELECT INV_PRODUCTOS, SALDO
 FROM inv_bodega_productos
 where inv_productos = 'PITAN130012015092529441001';
 
+--Trigger que actualiza la existencia(saldo) local de los productos involucrados en una factura de venta nueva.
+CREATE OR REPLACE TRIGGER "TRIGGER_ACTUALIZA_SALDO_VENTA" AFTER INSERT ON REGISTRO_DETALLES_FACTURAS
+  FOR EACH ROW
+  DECLARE
+      VAR_CANTIDADVENDIDA NUMBER(15,2);
+      VAR_CANTIDADEXISTENTE NUMBER(15,2);
+  BEGIN
+      -- Se obtiene la cantidad que fue vendida de cada producto
+      VAR_CANTIDADVENDIDA := :NEW.CANTIDAD;
+      --Se obtiene la cantidad existente desde antes para luego restarle
+      SELECT  SALDO
+      INTO    VAR_CANTIDADEXISTENTE
+      FROM    INV_BODEGA_PRODUCTOS
+      WHERE   INV_PRODUCTOS = :NEW.IDPRODUCTO;
+      --Se actualiza
+      UPDATE  INV_BODEGA_PRODUCTOS 
+      SET     SALDO = VAR_CANTIDADEXISTENTE - VAR_CANTIDADVENDIDA
+      WHERE   INV_PRODUCTOS = :NEW.IDPRODUCTO AND CAT_BODEGA = (SELECT  BODEGA
+                                                                FROM    REGISTRO_FACTURAS_VENTA
+                                                                WHERE   CONSECUTIVO = :NEW.IDFACTURA);
+END;
+--PRUEBAS:
+SELECT  * FROM  INV_BODEGA_PRODUCTOS  WHERE CAT_BODEGA='PITAN129012015101713605001' AND INV_PRODUCTOS='PITAN130012015150910658107'
+--Usando la factura 15 existente
+INSERT INTO  REGISTRO_DETALLES_FACTURAS
+VALUES(15, 'PITAN130012015150910658107', 2, 540, 1, 0, 1)
+--COMMIT
 
 -- Creación de Tabla para modulo de Entradas
 CREATE TABLE CAT_ENTRADAS
