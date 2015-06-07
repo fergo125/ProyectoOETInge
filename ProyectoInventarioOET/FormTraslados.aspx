@@ -22,9 +22,9 @@
     </div>
 
     <!-- Botones -->
-    <button runat="server" onserverclick="botonRealizarTraslado_ServerClick" id="botonRealizarTraslado" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true"><i class="fa fa-pencil"></i> Nuevo Traslado</button>
-    <button runat="server" onserverclick="botonModificarTraslado_ServerClick" id="botonModificarTraslado" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true"><i class="fa fa-wrench"></i> Modificar Traslado</button>
     <button runat="server" onserverclick="botonConsultarTraslado_ServerClick"  id="botonConsultarTraslado" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true"><i class="fa fa-bars"></i> Consultar Traslados</button>
+    <button runat="server" onserverclick="botonRealizarTraslado_ServerClick" id="botonRealizarTraslado" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true"><i class="fa fa-pencil"></i> Crear Traslado</button>
+    <button runat="server" onserverclick="botonModificarTraslado_ServerClick" id="botonModificarTraslado" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true"><i class="fa fa-wrench"></i> Modificar Traslado</button>
     <br />
     <br />
 

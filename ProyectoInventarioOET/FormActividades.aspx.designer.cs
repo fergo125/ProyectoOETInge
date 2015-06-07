@@ -49,6 +49,15 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl TituloActividades;
         
         /// <summary>
+        /// Control botonConsultaActividades.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonConsultaActividades;
+        
+        /// <summary>
         /// Control botonAgregarActividades.
         /// </summary>
         /// <remarks>
@@ -65,15 +74,6 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlButton botonModificacionActividades;
-        
-        /// <summary>
-        /// Control botonConsultaActividades.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonConsultaActividades;
         
         /// <summary>
         /// Control tituloAccionActividades.

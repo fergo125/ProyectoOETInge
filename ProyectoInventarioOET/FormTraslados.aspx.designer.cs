@@ -49,6 +49,15 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl TituloTraslados;
         
         /// <summary>
+        /// Control botonConsultarTraslado.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonConsultarTraslado;
+        
+        /// <summary>
         /// Control botonRealizarTraslado.
         /// </summary>
         /// <remarks>
@@ -65,15 +74,6 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlButton botonModificarTraslado;
-        
-        /// <summary>
-        /// Control botonConsultarTraslado.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonConsultarTraslado;
         
         /// <summary>
         /// Control tituloAccionTraslados.

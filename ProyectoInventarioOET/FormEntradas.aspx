@@ -20,9 +20,9 @@
     </div>
 
     <!-- Botones de acciones de la interfaz -->
-
-    <button runat="server" onserverclick="botonAgregarEntradas_ServerClick" causesvalidation="false" id="botonAgregarEntradas" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true">Nueva Entrada</button>
+    
     <button runat="server" onserverclick="botonConsultaEntradas_ServerClick" causesvalidation="false"  id="botonConsultaEntradas" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true">Consultar Entradas</button>
+    <button runat="server" onserverclick="botonAgregarEntradas_ServerClick" causesvalidation="false" id="botonAgregarEntradas" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true">Crear Entrada</button>
     <br />
     <br />
 
@@ -121,7 +121,7 @@
                 <input id="barraDeBusquedaFactura" class="form-control" type="search" placeholder="Ingresa el código de la Factura" runat="server" >
             </div>
             <div class="col-lg-1">
-                <asp:Button ID="botonBuscarFactura" runat="server" Text="Buscar" CssClass="btn btn-warning-fozkr" OnClick="botonBuscarFactura_Click"/>
+                <asp:Button ID="botonBuscarFactura" runat="server" Text="Buscar" CssClass="btn btn-info-fozkr" OnClick="botonBuscarFactura_Click"/>
             </div>
             <div class="col-lg-2">
                 <asp:Button ID="botonMostrarFacturas" runat="server" Text="Mostrar Todas" CssClass="btn btn-info-fozkr" OnClick="botonMostrarFacturas_Click"/>
@@ -267,7 +267,7 @@
                                                 <asp:RegularExpressionValidator ID="RegularExpressionValidator2" ControlToValidate="inputCostoProducto" ClientValidationFunction="changeColor" Display="Dynamic"
                                                  ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="Solo se permiten números válidos"  Font-Bold="true" ValidationExpression="^\d*(\.\d+)?$"></asp:RegularExpressionValidator>
                 <br />
-                <asp:Button ID="botonAgregarProductoFactura" runat="server" Text="Agregar a Factura" CssClass="btn btn-warning-fozkr" OnClick="botonAgregarProductoFactura_Click"/>
+                <asp:Button ID="botonAgregarProductoFactura" runat="server" Text="Agregar a Factura" CssClass="btn btn-success-fozkr" OnClick="botonAgregarProductoFactura_Click"/>
             </div>
 
             <div id="bloqueGridFacturaNueva" class="col-lg-5">
@@ -297,7 +297,7 @@
                 <br />
                 <div class="row" style="margin-left:5%">
                     <asp:Button ID="botonModificarProducto" runat="server" Text="Modificar" OnClick="botonModificarProducto_Click" CssClass="btn btn-warning-fozkr"/>                 
-                    <asp:Button ID="botonEliminarProducto" runat="server" Text="Eliminar" OnClick="botonEliminarProducto_Click" CssClass="btn btn-warning-fozkr"/> 
+                    <asp:Button ID="botonEliminarProducto" runat="server" Text="Eliminar" OnClick="botonEliminarProducto_Click" CssClass="btn btn-danger-fozkr"/> 
                 </div>
                 <br />
                 <div class="row" style="margin-left:5%">

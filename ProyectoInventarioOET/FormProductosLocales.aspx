@@ -19,9 +19,9 @@
     </div>
 
     <!-- Botones de acción -->
+    <button runat="server" onserverclick="botonConsultarBodega_ServerClick" id="botonConsultarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" disabled="disabled" visible="false">Consultar Catálogo</button>
     <button runat="server" onserverclick="botonAsociarBodega_ServerClick" id="botonAsociarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" disabled="disabled" visible="false">Asociar a Catálogo</button>
     <button runat="server" onserverclick="botonModificarProductoLocal_ServerClick" id="botonModificarProductoLocal" class=" btn btn-info-fozkr" type="button" style="float: left" disabled="disabled" visible="false">Modificar Producto</button>
-    <button runat="server" onserverclick="botonConsultarBodega_ServerClick" id="botonConsultarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" disabled="disabled" visible="false">Consultar Catálogo</button>
     <br />
     <br />
     <br />
@@ -218,8 +218,8 @@
          <div class="col-lg-12" id="bloqueBotones" runat="server">
             <div class =" row">
                 <div class="text-center">
-                    <a runat="server" href="#modalAsociar" id="botonAsociarProducto" class="btn btn-success-fozkr" role="button" data-toggle="modal">Enviar</a>
-                    <a runat="server" href="#modalDesactivar" id="botonDesactivarProducto" class="btn btn-success-fozkr" role="button" data-toggle="modal">Enviar</a>
+                    <a runat="server" href="#modalAsociar" id="botonAsociarProducto" class="btn btn-success-fozkr" role="button" data-toggle="modal">Guardar</a>
+                    <a runat="server" href="#modalDesactivar" id="botonDesactivarProducto" class="btn btn-success-fozkr" role="button" data-toggle="modal">Guardar</a>
                     <a runat="server" href="#modalCancelar" id="botonCancelarProductoGlobal" class="btn btn-danger-fozkr" role="button" data-toggle="modal" >Cancelar</a>
                 </div>
             </div>

@@ -49,15 +49,6 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl TituloEntradas;
         
         /// <summary>
-        /// Control botonAgregarEntradas.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonAgregarEntradas;
-        
-        /// <summary>
         /// Control botonConsultaEntradas.
         /// </summary>
         /// <remarks>
@@ -65,6 +56,15 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlButton botonConsultaEntradas;
+        
+        /// <summary>
+        /// Control botonAgregarEntradas.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonAgregarEntradas;
         
         /// <summary>
         /// Control tituloAccionEntradas.

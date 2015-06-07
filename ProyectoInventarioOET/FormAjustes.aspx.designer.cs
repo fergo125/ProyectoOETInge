@@ -49,15 +49,6 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl TituloAjustes;
         
         /// <summary>
-        /// Control botonRealizarAjuste.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonRealizarAjuste;
-        
-        /// <summary>
         /// Control botonConsultarAjustes.
         /// </summary>
         /// <remarks>
@@ -65,6 +56,15 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlButton botonConsultarAjustes;
+        
+        /// <summary>
+        /// Control botonRealizarAjuste.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonRealizarAjuste;
         
         /// <summary>
         /// Control tituloAccionAjustes.
