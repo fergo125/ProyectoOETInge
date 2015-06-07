@@ -113,7 +113,7 @@ namespace ProyectoInventarioOET
                     FieldsetAjustes.Visible = true;
                     botonAceptarAjustes.Visible = true;
                     botonCancelarAjustes.Visible = true;
-                    tituloAccionAjustes.InnerText = "Ingrese datos";
+                    tituloAccionAjustes.InnerText = "Ingrese los datos del nuevo ajuste";
                     botonRealizarAjuste.Disabled = true;
                     botonConsultarAjustes.Disabled = false;
                     tituloGridProductos.Visible = false;
@@ -363,8 +363,8 @@ namespace ProyectoInventarioOET
             Object[] datos = new Object[4];
             datos[0] = "-";
             datos[1] = "-";
-            datos[2] = "0";
-            datos[3] = "-";
+            datos[2] = "-";
+            datos[3] = "0";
             tablaLimpia.Rows.Add(datos);
 
             gridViewProductos.DataSource = tablaLimpia;
@@ -384,12 +384,12 @@ namespace ProyectoInventarioOET
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Tipo de Ajuste";
+            columna.ColumnName = "Tipo de ajuste";
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.DateTime");
-            columna.ColumnName = "Fecha";
+            columna.ColumnName = "Fecha y hora";
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
@@ -419,14 +419,16 @@ namespace ProyectoInventarioOET
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Unidad Métrica";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.Double");
             columna.ColumnName = "Cantidad Actual";
             tabla.Columns.Add(columna);
 
-            columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Unidad Métrica";
-            tabla.Columns.Add(columna);
+
 
             return tabla;
         }
@@ -487,12 +489,12 @@ namespace ProyectoInventarioOET
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.Double");
-            columna.ColumnName = "Minimo";
+            columna.ColumnName = "Nivel Mínimo";
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.Double");
-            columna.ColumnName = "Maximo";
+            columna.ColumnName = "Nivel Máximo";
             tabla.Columns.Add(columna);
 
             return tabla;
@@ -658,8 +660,9 @@ namespace ProyectoInventarioOET
                         Object[] datos = new Object[4];
                         datos[0] = seleccionada["Nombre"];
                         datos[1] = seleccionada["Código"];
-                        datos[2] = seleccionada["Cantidad Actual"];
-                        datos[3] = seleccionada["Unidad Métrica"];
+                        datos[2] = seleccionada["Unidad Métrica"];
+                        datos[3] = seleccionada["Cantidad Actual"];
+                        
 
                         // Agregar nueva tupla a tabla
                         tablaProductos.Rows.Add(datos);

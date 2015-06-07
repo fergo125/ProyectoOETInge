@@ -33,16 +33,16 @@
     <fieldset id= "FieldsetAjustes" runat="server" class="fieldset">
         <div class="row">
             <div class="col-lg-6">
-                <label for="outputBodega" class= "control-label"> Bodega actual: </label>      
+                <label for="outputBodega" class= "control-label"> Bodega Actual: </label>      
                 <input type="text" id="outputBodega" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
-                <label for="outputUsuario" class= "control-label"> Usuario responsable: </label>      
+                <label for="outputUsuario" class= "control-label"> Usuario Responsable: </label>      
                 <input type="text" id="outputUsuario" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
                 
             </div>
             <div class="col-lg-6">
-                <label for="dropdownTipo" class= "control-label"> Tipo de Ajuste*: </label>      
+                <label for="dropdownTipo" class= "control-label"> Tipo de Ajuste: </label>      
                 <asp:DropDownList id="dropdownTipo" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control"></asp:DropDownList><br>
-                <label for="outputFecha" class= "control-label"> Fecha de creacion: </label>      
+                <label for="outputFecha" class= "control-label"> Fecha y hora de Creación: </label>      
                 <input type="text" id="outputFecha" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
             </div>
         </div>
@@ -74,7 +74,7 @@
                     <ContentTemplate>
                         <asp:GridView ID="gridViewProductos" CssClass="table" OnRowCreated="gridViewProductos_RowCreated" OnRowCommand="gridViewProductos_Seleccion" runat="server" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
                             <Columns>
-                                <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Quitar">
+                                <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Eliminar">
                                     <ControlStyle CssClass="btn btn-default"></ControlStyle>
                                 </asp:ButtonField>
                                 <asp:TemplateField HeaderText="Cantidad Nueva" >
