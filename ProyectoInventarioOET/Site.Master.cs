@@ -21,9 +21,9 @@ namespace ProyectoInventarioOET
         private const string AntiXsrfTokenKey = "__AntiXsrfToken";          //Tokens usados para protección contra ataques XSRF
         private const string AntiXsrfUserNameKey = "__AntiXsrfUserName";    //Tokens usados para protección contra ataques XSRF
         private string _antiXsrfTokenValue;                                 //Tokens usados para protección contra ataques XSRF
-        private static EntidadUsuario usuarioLogueado;              //Instancia que almacena la información del usuario conectado
-        private static String llaveBodegaSesion;                           //Llave de la bodega local utilizada en la sesion
-        private static String nombreBodegaSesion;                          //Nombre de la bodega local utilizada en la sesion
+        private static EntidadUsuario usuarioLogueado;                      //Instancia que almacena la información del usuario conectado
+        private static String llaveBodegaSesion;                            //Llave de la bodega local utilizada en la sesion
+        private static String nombreBodegaSesion;                           //Nombre de la bodega local utilizada en la sesion
 
         /*
          * Código de inicialización, aparentemente se ejecuta sólo una vez.
@@ -130,6 +130,8 @@ namespace ProyectoInventarioOET
         public void cerrarSesion(object sender, EventArgs e)
         {
             usuarioLogueado = null;
+            llaveBodegaSesion = null;
+            nombreBodegaSesion = null;
             esconderLinks(true);
             Response.Redirect("Default.aspx");
         }

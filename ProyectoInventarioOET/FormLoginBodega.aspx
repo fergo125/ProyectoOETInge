@@ -45,7 +45,7 @@
                 <br />
                 <div class="form-group">
                     <div class="col-md-offset-5 col-md-10">
-                        <asp:Button runat="server" ID="EnviarBodegaLocal" Text="Guardar" CssClass="btn btn-success-fozkr" OnClick="EnviarBodegaLocal_Click" />
+                        <asp:Button runat="server" ID="EnviarBodegaLocal" Text="Aceptar" CssClass="btn btn-success-fozkr" OnClick="EnviarBodegaLocal_Click" />
                     </div>
                 </div>
             </div>
