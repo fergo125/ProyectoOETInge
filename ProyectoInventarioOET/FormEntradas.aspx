@@ -186,7 +186,7 @@
                     </div>
 
                     <div class="form-group col-lg-3">
-                        <label for="outputImpuestos" class="control-label">Moneda:</label>      
+                        <label for="outputImpuestos" class="control-label">Tipo de Moneda:</label>      
                         <p id="outputMoneda" runat="server" class="form-control-static"></p>
                     </div>
 
@@ -196,15 +196,15 @@
                     </div>
 
                     <div class="form-group col-lg-3">
-                        <label for="outputSubtotal" class= "control-label">SubTotal:</label>      
-                        <p id="outputSubtotal" runat="server" class="form-control-static"></p>
-                    </div>
-
-                    <div class="form-group col-lg-3">
                         <label for="outputDescuento" class= "control-label">Descuento:</label>      
                         <p id="outputDescuento" runat="server" class="form-control-static"></p>
                     </div>
 
+                    <div class="form-group col-lg-3">
+                        <label for="outputSubtotal" class= "control-label">SubTotal:</label>      
+                        <p id="outputSubtotal" runat="server" class="form-control-static"></p>
+                    </div>
+                    
                     <div class="form-group col-lg-3">
                         <label for="outputTotal" class= "control-label">Total:</label>      
                         <p id="outputTotal" runat="server" class="form-control-static"></p>
@@ -259,13 +259,13 @@
                 <input id="inputCantidadProducto" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
                 
                                                 <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="inputCantidadProducto" ClientValidationFunction="changeColor" Display="Dynamic"
-                                                 ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="Solo se permiten números enteros"  Font-Bold="true" ValidationExpression="\d+$"></asp:RegularExpressionValidator>
+                                                 ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="Sólo se permiten números enteros"  Font-Bold="true" ValidationExpression="\d+$"></asp:RegularExpressionValidator>
                 <br />
                 <label for="inputCostoProducto" class= "control-label">Costo Total:</label>      
                 <input id="inputCostoProducto" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
                 
                                                 <asp:RegularExpressionValidator ID="RegularExpressionValidator2" ControlToValidate="inputCostoProducto" ClientValidationFunction="changeColor" Display="Dynamic"
-                                                 ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="Solo se permiten números válidos"  Font-Bold="true" ValidationExpression="^\d*(\.\d+)?$"></asp:RegularExpressionValidator>
+                                                 ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="Sólo se permiten números enteros"  Font-Bold="true" ValidationExpression="^\d*(\.\d+)?$"></asp:RegularExpressionValidator>
                 <br />
                 <asp:Button ID="botonAgregarProductoFactura" runat="server" Text="Agregar a Factura" CssClass="btn btn-success-fozkr" OnClick="botonAgregarProductoFactura_Click"/>
             </div>
