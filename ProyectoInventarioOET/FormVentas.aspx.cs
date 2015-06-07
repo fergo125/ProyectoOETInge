@@ -931,12 +931,15 @@ namespace ProyectoInventarioOET
             {
                 if(((CheckBox)gridViewCrearFacturaProductos.Rows[i].FindControl("gridCrearFacturaCheckBoxSeleccionarProducto")).Checked) //se encontró, eliminar esta fila de todo lado
                 {
-                    productosAgregados.Rows.RemoveAt(i);
+                    productosAgregados.Rows.RemoveAt(i); //se remueve de la tabla
+                    checksProductos.RemoveAt(i); //se remueve de la lista de booleanos de checks
+                    cantidadesProductos.RemoveAt(i); //se remueve de la lista de cantidades
                     gridViewCrearFacturaProductos.DataSource = productosAgregados;
-                    gridViewCrearFacturaProductos.DataBind();
+                    gridViewCrearFacturaProductos.DataBind(); //se refrezca el grid
                     break;
                 }
             }
+            restaurarCheckBoxesYCantidades();
         }
 
         /*
@@ -1162,20 +1165,28 @@ namespace ProyectoInventarioOET
             {
                 if(((TextBox)fila.FindControl("gridCrearFacturaCantidadProducto")) == (TextBox)sender) //es la fila donde está el textbox que fue cambiado
                 {
-                    cantidadesProductos[i] = Convert.ToInt32(((TextBox)sender).Text); //se actualiza la cantidad
-                    //Revisar que la nueva cantidad no supere la existencia real local (usando funciones de controladoras)
-                    double existenciaReal = Convert.ToDouble(controladoraProductoLocal.consultarProductoDeBodega((this.Master as SiteMaster).LlaveBodegaSesion, fila.Cells[3].Text).Rows[0][7]);
-                    if (cantidadesProductos[i] > existenciaReal) //si se pretende vender más de lo que hay disponible
+                    try
                     {
-                        mostrarMensaje("danger", "Alerta: ", "La cantidad del producto '" + fila.Cells[2].Text + "' que intenta venderse es mayor a la existencia real en la bodega " + (this.Master as SiteMaster).NombreBodegaSesion + ". Esta factura no puede guardarse sin arreglar la cantidad.");
-                        ((TextBox)sender).ForeColor = System.Drawing.Color.Red;
-                        botonCrearFacturaGuardar.Disabled = true;
+                        cantidadesProductos[i] = Convert.ToInt32(((TextBox)sender).Text); //se actualiza la cantidad
+                        //Revisar que la nueva cantidad no supere la existencia real local (usando funciones de controladoras)
+                        double existenciaReal = Convert.ToDouble(controladoraProductoLocal.consultarProductoDeBodega((this.Master as SiteMaster).LlaveBodegaSesion, fila.Cells[3].Text).Rows[0][7]);
+                        if (cantidadesProductos[i] > existenciaReal) //si se pretende vender más de lo que hay disponible
+                        {
+                            mostrarMensaje("danger", "Alerta: ", "La cantidad del producto '" + fila.Cells[2].Text + "' que intenta venderse es mayor a la existencia real en la bodega " + (this.Master as SiteMaster).NombreBodegaSesion + ". Esta factura no puede guardarse sin arreglar la cantidad.");
+                            ((TextBox)sender).ForeColor = System.Drawing.Color.Red; //para alertar al usuario
+                            botonCrearFacturaGuardar.Disabled = true;
+                        }
+                        else
+                        {
+                            botonCrearFacturaGuardar.Disabled = false;
+                            ((TextBox)sender).ForeColor = System.Drawing.Color.Black; //para volver a la normalidad
+                        }
                     }
-                    else
+                    catch (Exception x)
                     {
-                        botonCrearFacturaGuardar.Disabled = false;
-                        ((TextBox)sender).ForeColor = System.Drawing.Color.Black;
+                        return; //se maneja como excepción que la textbox contenga algo no numérico, como ya se maneja en tiempo real, aquí no se hace nada
                     }
+                    break; //sólo se hace una vez
                 }
                 ++i;
             }

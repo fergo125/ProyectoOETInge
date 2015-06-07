@@ -192,9 +192,9 @@
 							</asp:TemplateField>
                             <asp:TemplateField HeaderText="Cantidad">
                                 <ItemTemplate>
-                                    <asp:TextBox ID="gridCrearFacturaCantidadProducto" OnTextChanged="textBoxCrearFacturaProductosCantidad_TextoCambiado" ReadOnly="false" Width="75%" AutoPostBack="true" runat="server"></asp:TextBox>
+                                    <asp:TextBox ID="gridCrearFacturaCantidadProducto" OnTextChanged="textBoxCrearFacturaProductosCantidad_TextoCambiado" ReadOnly="false" Width="75%" CausesValidation="true" AutoPostBack="true" runat="server"></asp:TextBox>
                                     <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="gridCrearFacturaCantidadProducto" ClientValidationFunction="changeColor" Display="Dynamic"
-                                            ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="Ingrese solo números enteros"  Font-Bold="true" ValidationExpression="\d+$"></asp:RegularExpressionValidator>
+                                            ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="Ingrese solo números enteros" Font-Bold="true" ValidationExpression="\d+$"></asp:RegularExpressionValidator>
                                 </ItemTemplate>
                             </asp:TemplateField>
                         </Columns>
