@@ -346,6 +346,15 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl outputDescuento;
         
         /// <summary>
+        /// Control outputImpuestos.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl outputImpuestos;
+        
+        /// <summary>
         /// Control outputSubtotal.
         /// </summary>
         /// <remarks>
@@ -362,15 +371,6 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl outputTotal;
-        
-        /// <summary>
-        /// Control outputImpuestos.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl outputImpuestos;
         
         /// <summary>
         /// Control FieldsetCrearFactura.
@@ -407,6 +407,15 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gridDetalleFactura;
+        
+        /// <summary>
+        /// Control outputTotalFacturaEntrante.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl outputTotalFacturaEntrante;
         
         /// <summary>
         /// Control textBoxAutocompleteCrearFacturaBusquedaProducto.
@@ -479,6 +488,15 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel UpdatePanelFacturaNueva;
+        
+        /// <summary>
+        /// Control PanelCrearFacturaProductos.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel PanelCrearFacturaProductos;
         
         /// <summary>
         /// Control gridFacturaNueva.

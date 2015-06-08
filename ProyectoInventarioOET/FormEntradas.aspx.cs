@@ -50,6 +50,7 @@ namespace ProyectoInventarioOET
             controladoraEntradas = new ControladoraEntradas();
             bodegaDeTrabajo = (this.Master as SiteMaster).LlaveBodegaSesion;            
             mensajeAlerta.Visible = false;
+            controladoraSeguridad = new ControladoraSeguridad();
             if (!IsPostBack)
             {
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
@@ -213,7 +214,7 @@ namespace ProyectoInventarioOET
                         idArrayEntrada[i] = fila[0];
                         datos[0] = fila[0].ToString();
                         datos[1] = fila[1].ToString();
-                        datos[2] = fila[2].ToString();
+                        datos[2] = controladoraSeguridad.consultarNombreDeUsuario(fila[2].ToString());
                         datos[3] = fila[4].ToString();
 
 
@@ -228,12 +229,12 @@ namespace ProyectoInventarioOET
                 // No hay entradas almacenadas.
                 else
                 {
-                    datos[0] = "-";
-                    datos[1] = "No existen entradas para consultar.";
-                    datos[2] = "-";
-                    datos[3] = "-";
+                    //datos[0] = "-";
+                    //datos[1] = "No existen entradas para consultar.";
+                    //datos[2] = "-";
+                    //datos[3] = "-";
                     mostrarMensaje("warning", "Alerta", "No hay entradas almacenadas.");
-                    tabla.Rows.Add(datos);
+                    //tabla.Rows.Add(datos);
                 }
 
                 this.gridViewEntradas.DataSource = tabla;
@@ -282,12 +283,12 @@ namespace ProyectoInventarioOET
                 // No hay entradas almacenadas.
                 else
                 {
-                    datos[0] = "-";
-                    datos[1] = "No hay facturas disponibles";
-                    datos[2] = "-";
-                    datos[3] = "-";
-                    //mostrarMensaje("warning", "Alerta", "No hay Facturas disponibles en este momento.");
-                    tabla.Rows.Add(datos);
+                    //datos[0] = "-";
+                    //datos[1] = "No hay facturas disponibles";
+                    //datos[2] = "-";
+                    //datos[3] = "-";
+                    mostrarMensaje("warning", "Alerta", "No hay Facturas disponibles en este momento.");
+                    //tabla.Rows.Add(datos);
                 }
 
                 this.gridViewFacturas.DataSource = tabla;
@@ -344,6 +345,7 @@ namespace ProyectoInventarioOET
 
                 this.gridDetalleFactura.DataSource = tabla;
                 this.gridDetalleFactura.DataBind();
+                this.outputTotalFacturaEntrante.InnerText = facturaConsultada.Total.ToString();
             }
             catch (Exception e)
             {
@@ -534,7 +536,7 @@ namespace ProyectoInventarioOET
             {
                 Boolean operacionCorrecta = false;
                 String codigoInsertado = "";
-                String usuario = (this.Master as SiteMaster).Usuario.Usuario;
+                String usuario = (this.Master as SiteMaster).Usuario.Codigo;
                 //String usuario = "usuario";
                 String idFactura = facturaConsultada.IdFactura;
                 String fecha = DateTime.Now.ToString("h:mm:ss");
@@ -634,7 +636,7 @@ namespace ProyectoInventarioOET
                 datos[0] = productoEscogido;
                 datos[1] = cantidad;
                 datos[2] = costo;
-                datos[3] = Convert.ToDouble(costo) / Convert.ToDouble(cantidad);
+                datos[3] = Math.Truncate((Convert.ToDouble(costo) / Convert.ToDouble(cantidad))*100)/100;
                 tablaProductosNuevos.Rows.Add(datos);
                 actualizarTotalFactura(Convert.ToDouble(costo));
                 outputTotalFacturaNueva.InnerText = totalFactura.ToString();
@@ -871,12 +873,14 @@ namespace ProyectoInventarioOET
                     this.FieldsetGridEntradas.Visible = false;
                     this.FieldsetGridProductosDeEntrada.Visible = true;
                     this.gridViewEntradas.Visible = true;
+                    tituloAccionEntradas.InnerText = "";
                     break;
 
                 case (int)Modo.SeleccionEntrada:
                     tituloAccionEntradas.InnerText = "";
                     this.FieldsetGridEntradas.Visible = true;
                     this.FieldsetEncabezadoFactura.Visible = false;
+                    tituloAccionEntradas.InnerText = "Seleccione una entrada a consultar";
                     break;
 
                 default:
