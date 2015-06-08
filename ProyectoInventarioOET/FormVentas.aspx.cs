@@ -41,7 +41,8 @@ namespace ProyectoInventarioOET
         private static ControladoraDatosGenerales controladoraDatosGenerales;   //Para accesar datos generales de la base de datos
         private static ControladoraProductoLocal controladoraProductoLocal ;    //Para revisar existencias de productos
         private static ControladoraProductosGlobales controladoraProductoGlobal;//Para consultar nombre y otra información de los productos al desplegar facturas
-        
+        object pagina;
+        EventArgs events;
         //Importante:
         //Para el codigoPerfilUsuario (que se usa un poco hard-coded), los números son:
         //1 = Administrador global
@@ -57,6 +58,9 @@ namespace ProyectoInventarioOET
             mensajeAlerta.Visible = false;
             //Elementos visuales
             ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
+
+            pagina = sender;
+            events = e;
 
             if (!IsPostBack) //Si es la primera vez que se carga la página
             {
@@ -1060,6 +1064,7 @@ namespace ProyectoInventarioOET
         protected void clickBotonAceptarCambioUsuario(object sender, EventArgs e)
         {
             // Consulta al usuario
+            EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
             EntidadUsuario usuario = controladoraSeguridad.consultarUsuario(inputUsername.Value, inputPassword.Value);
 
             if (usuario != null)
@@ -1067,14 +1072,14 @@ namespace ProyectoInventarioOET
                 // Si me retorna un usuario valido
                 // Hacer el usuario logueado visible a todas los modulos
                 (this.Master as SiteMaster).Usuario = usuario;
+                (this.Master as SiteMaster).cambiarSesion(usuario.Nombre,usuario.Perfil,(this.Master as SiteMaster).NombreBodegaSesion);
+                this.textBoxCrearFacturaVendedor.Text = (this.Master as SiteMaster).Usuario.Nombre;
                 // Redirigir a pagina principal
             }
             else
             {
-                // Si no me retorna un usuario valido, advertir
-                //mostrarMensaje();
+                mostrarMensaje("danger", "Error: ", "Credenciales inválidas ingresadas para cambio de usuario.");
             }
-            //String[] resultado = controladoraVentas.insertarFactura(obtenerDatos());
         }
 
         /*
@@ -1097,9 +1102,10 @@ namespace ProyectoInventarioOET
             EntidadAjustes nuevoAjusteRapido = new EntidadAjustes(datos);
             
             datos = new Object[5];
-            datos[0] = datos[1] = "";
+            datos[0] = nombreCodigoProductoEscogido[0];
+            datos[1] = nombreCodigoProductoEscogido[1];
             datos[2] = Convert.ToInt32(nuevaCantidadParaAjusteRapido.Text);
-            datos[3] = productoEscogido;
+            datos[3] = controladoraVentas.getLlaveProductoBodega(llaveProductoEscogido);
             datos[4] = Convert.ToInt32(nuevaCantidadParaAjusteRapido.Text);
 
             nuevoAjusteRapido.agregarDetalle(datos);

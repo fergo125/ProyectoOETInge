@@ -280,6 +280,30 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             return llaveProducto;
         }
 
+
+        public String getLlaveProductoBodega(String idProducto) 
+        {
+            String esquema = "Inventarios.";
+            String llaveProducto = null;
+            DataTable resultado = new DataTable();
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = "SELECT INV_BODEGA_PRODUCTOS FROM " + esquema + "INV_BODEGA_PRODUCTOS WHERE INV_PRODUCTOS = '" + idProducto + "'"; 
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
+                if (resultado.Rows.Count == 1)
+                {
+                    llaveProducto = resultado.Rows[0][0].ToString();
+                }
+            }
+            catch (Exception e)
+            {
+                llaveProducto = null;
+            }
+            return llaveProducto;
+        }
+
         /*
          * Invocada para revisar si un producto existente, se encuentra asociado o no a una bodega punto de venta, y si se encuentra en estado
          * activo. Parte del proceso de agregar un producto a una factura de venta.

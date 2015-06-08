@@ -139,9 +139,11 @@ namespace ProyectoInventarioOET
         /*
          * ???
          */
-        protected void cambiarSesion(object sender, EventArgs e)
+        public void cambiarSesion(String nombre, String perfil, String nombreBodegaSesion)
         {
+            this.linkNombreUsuarioLogueado.InnerText = nombre + " (" + perfil + ") " + nombreBodegaSesion;
         }
+
 
         //Importante:
         //Para el codigoPerfilUsuario (que se usa un poco hard-coded), los números son:

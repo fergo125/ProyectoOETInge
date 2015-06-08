@@ -128,6 +128,11 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             return controladoraBDVentas.consultarMetodoDePago(llaveMetodo);
         }
 
+        public String getLlaveProductoBodega(String idProducto)
+        {
+            return controladoraBDVentas.getLlaveProductoBodega(idProducto);
+        }
+
         /*
          * Obtiene los posibles clientes para las ventas, dentro de los empleados de la OET.
          */

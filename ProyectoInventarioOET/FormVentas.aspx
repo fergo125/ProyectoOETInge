@@ -315,7 +315,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" ID="botonAceptarCambioUsuario" class="btn btn-success-fozkr" onserverclick="clickBotonAceptarCambioUsuario" runat="server">Aceptar</button>
+                    <button type="button" ID="botonAceptarCambioUsuario" class="btn btn-success-fozkr"  onserverclick="clickBotonAceptarCambioUsuario"   runat="server">Aceptar</button>
                     <button type="button" ID="botonCancelarCambioUsuario" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
                 </div>
             </div>
