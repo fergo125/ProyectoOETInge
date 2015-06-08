@@ -22,7 +22,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
             try 
             {
                 OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT * FROM CAT_TIPO_MOVIMIENTO";
+                command.CommandText = "SELECT * FROM CAT_TIPO_MOVIMIENTO WHERE CAT_TIPO_MOVIMIENTO <> 'CYCLO106062012145550408008'";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado.Load(reader);
             }

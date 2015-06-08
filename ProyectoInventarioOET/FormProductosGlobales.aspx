@@ -20,9 +20,9 @@
     </div>
 
     <!-- Botones principales que permiten las funciones de insertar, modificar y consultar -->
-    <button runat="server" onserverclick="botonAgregarProductos_ServerClick" id="botonAgregarProductos" class=" btn btn-info-fozkr" type="button" style="float: left">Nuevo Producto</button>
-    <button runat="server" onserverclick="botonModificacionProductos_ServerClick" id="botonModificacionProductos" class=" btn btn-info-fozkr" type="button" style="float: left">Modificar Producto</button>
     <button runat="server" id="botonConsultaProductos" causesvalidation="false" onserverclick="botonConsultaProductos_ServerClick" class=" btn btn-info-fozkr" type="button" style="float: left">Consultar Productos</button>
+    <button runat="server" onserverclick="botonAgregarProductos_ServerClick" id="botonAgregarProductos" class=" btn btn-info-fozkr" type="button" style="float: left">Crear Producto</button>
+    <button runat="server" onserverclick="botonModificacionProductos_ServerClick" id="botonModificacionProductos" class=" btn btn-info-fozkr" type="button" style="float: left">Modificar Producto</button>
 
     <br />
     <br />
@@ -141,7 +141,7 @@
                 </div>
 <%--                <span class="glyphicon glyphicon-search" runat="server"></span>--%>
                 <div class="col-lg-2">
-                    <asp:Button ID="Button1" runat="server" Text="Buscar" CssClass="btn btn-warning-fozkr" OnClick="botonBuscar_ServerClick"/>
+                    <asp:Button ID="Button1" runat="server" Text="Buscar" CssClass="btn btn-info-fozkr" OnClick="botonBuscar_ServerClick"/>
                 </div>
                 <%--<Button ID="botonBuscar" runat="server" Text="Buscar" onserverclick="botonBuscar_ServerClick" value="sds" title="ewrwer" name="ppp" />--%>
 
@@ -191,7 +191,7 @@
     <div class="col-lg-12" id="bloqueBotones" runat="server">
         <div class =" row">
             <div class="text-center">
-                <button runat="server" onserverclick="botonAceptarProductoGlobal_ServerClick" id="botonAceptarProductoGlobal" class="btn btn-success-fozkr" type="button">Enviar</button>
+                <button runat="server" onserverclick="botonAceptarProductoGlobal_ServerClick" id="botonAceptarProductoGlobal" class="btn btn-success-fozkr" type="button">Guardar</button>
                 <a id="botonCancelarProductoGlobal" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server">Cancelar</a>
             </div>
         </div>

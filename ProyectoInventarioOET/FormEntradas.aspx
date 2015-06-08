@@ -20,9 +20,9 @@
     </div>
 
     <!-- Botones de acciones de la interfaz -->
-
-    <button runat="server" onserverclick="botonAgregarEntradas_ServerClick" causesvalidation="false" id="botonAgregarEntradas" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true">Nueva Entrada</button>
+    
     <button runat="server" onserverclick="botonConsultaEntradas_ServerClick" causesvalidation="false"  id="botonConsultaEntradas" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true">Consultar Entradas</button>
+    <button runat="server" onserverclick="botonAgregarEntradas_ServerClick" causesvalidation="false" id="botonAgregarEntradas" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true">Crear Entrada</button>
     <br />
     <br />
 
@@ -44,7 +44,6 @@
                        <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
                        <PagerStyle CssClass="paging" HorizontalAlign="Center" />
                        <AlternatingRowStyle BackColor="#F8F8F8" />
-                       <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="Green" />
                        <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
                   </asp:GridView>
 <%--             </ContentTemplate>
@@ -122,10 +121,10 @@
                 <input id="barraDeBusquedaFactura" class="form-control" type="search" placeholder="Ingresa el código de la Factura" runat="server" >
             </div>
             <div class="col-lg-1">
-                <asp:Button ID="botonBuscarFactura" runat="server" Text="Buscar" CssClass="btn btn-warning-fozkr" OnClick="botonBuscarFactura_Click"/>
+                <asp:Button ID="botonBuscarFactura" runat="server" Text="Buscar" CssClass="btn btn-info-fozkr" OnClick="botonBuscarFactura_Click"/>
             </div>
             <div class="col-lg-2">
-                <asp:Button ID="botonMostrarFacturas" runat="server" Text="Mostrar Todas" CssClass="btn btn-warning-fozkr" OnClick="botonMostrarFacturas_Click"/>
+                <asp:Button ID="botonMostrarFacturas" runat="server" Text="Mostrar Todas" CssClass="btn btn-info-fozkr" OnClick="botonMostrarFacturas_Click"/>
             </div>
         </div>
     </fieldset>
@@ -148,7 +147,6 @@
                        <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
                        <PagerStyle CssClass="paging" HorizontalAlign="Center" />
                        <AlternatingRowStyle BackColor="#F8F8F8" />
-                       <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="Green" />
                        <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
                   </asp:GridView>
 <%--             </ContentTemplate>
@@ -188,7 +186,7 @@
                     </div>
 
                     <div class="form-group col-lg-3">
-                        <label for="outputImpuestos" class="control-label">Moneda:</label>      
+                        <label for="outputImpuestos" class="control-label">Tipo de Moneda:</label>      
                         <p id="outputMoneda" runat="server" class="form-control-static"></p>
                     </div>
 
@@ -198,25 +196,25 @@
                     </div>
 
                     <div class="form-group col-lg-3">
-                        <label for="outputSubtotal" class= "control-label">SubTotal:</label>      
-                        <p id="outputSubtotal" runat="server" class="form-control-static"></p>
-                    </div>
-
-                    <div class="form-group col-lg-3">
                         <label for="outputDescuento" class= "control-label">Descuento:</label>      
                         <p id="outputDescuento" runat="server" class="form-control-static"></p>
                     </div>
+                     <div class="form-group col-lg-3">
+                        <label for="outputImpuestos" class="control-label">Retención de Impuestos:</label>      
+                        <p id="outputImpuestos" runat="server" class="form-control-static"></p>
+                    </div>
 
+                    <div class="form-group col-lg-3">
+                        <label for="outputSubtotal" class= "control-label">SubTotal:</label>      
+                        <p id="outputSubtotal" runat="server" class="form-control-static"></p>
+                    </div>
+                    
                     <div class="form-group col-lg-3">
                         <label for="outputTotal" class= "control-label">Total:</label>      
                         <p id="outputTotal" runat="server" class="form-control-static"></p>
                     </div>
 
-                    <div class="form-group col-lg-3">
-                        <label for="outputImpuestos" class="control-label">Retención de Impuestos:</label>      
-                        <p id="outputImpuestos" runat="server" class="form-control-static"></p>
-                    </div>
-
+                   
                 </div>       
             </div>
 
@@ -231,12 +229,14 @@
          de productos y la factura detallada que se está creando
      -->
     <fieldset id="FieldsetCrearFactura" runat="server" visible="false">
+        <h4>Utilice la barra de búsqueda para seleccionar los productos entrantes</h4>
+        <br />
         <div class="row">
             <div id="bloqueGridDetalleFactura" class="col-lg-4">
                  <div class="col-lg-12"><strong><div ID="Div1" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Detalle de la Factura Entrante</div></strong>
                     <asp:UpdatePanel ID="UpdatePanelDetalleFactura" runat="server">
                         <ContentTemplate>
-                            <asp:GridView ID="gridDetalleFactura" CssClass="table" OnPageIndexChanging="gridDetalleFactura_PageIndexChanging" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                            <asp:GridView ID="gridDetalleFactura" CssClass="table" OnPageIndexChanging="gridDetalleFactura_PageIndexChanging" runat="server" AllowPaging="True" PageSize="7" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
                                <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
                                <PagerStyle CssClass="paging" HorizontalAlign="Center" />
                                <AlternatingRowStyle BackColor="#F8F8F8" />
@@ -249,7 +249,12 @@
                      </Triggers>
                   </asp:UpdatePanel>
                </div>     
+            <div class="row" style="margin-left:5%">
+                    <label for="outputTotalFacturaEntrante" class="control-label">Total de la Factura entrante:</label>      
+                    <p id="outputTotalFacturaEntrante" runat="server" class="form-control-static"></p>
             </div>
+            </div>
+
 
             <div class="row col-lg-3">
                 <label class= "control-label">Buscar producto:</label>
@@ -257,18 +262,25 @@
                 <br />
                 <label for="inputCantidadProducto" class= "control-label">Cantidad:</label>      
                 <input id="inputCantidadProducto" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
+                
+                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="inputCantidadProducto" ClientValidationFunction="changeColor" Display="Dynamic"
+                                                 ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="Sólo se permiten números enteros"  Font-Bold="true" ValidationExpression="[1-9]+[0-9]*$"></asp:RegularExpressionValidator>
                 <br />
-                <label for="inputCostoProducto" class= "control-label">Costo:</label>      
+                <label for="inputCostoProducto" class= "control-label">Costo Total:</label>      
                 <input id="inputCostoProducto" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
+                
+                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator2" ControlToValidate="inputCostoProducto" ClientValidationFunction="changeColor" Display="Dynamic"
+                                                 ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="Sólo se permiten números enteros"  Font-Bold="true" ValidationExpression="(([1-9]+\d*(\.\d)*)|([0]\.[1-9]+)|([1-9]+(\.[0])*))?$"></asp:RegularExpressionValidator>
                 <br />
-                <asp:Button ID="botonAgregarProductoFactura" runat="server" Text="Agregar a Factura" CssClass="btn btn-warning-fozkr" OnClick="botonAgregarProductoFactura_Click"/>
+                <asp:Button ID="botonAgregarProductoFactura" runat="server" Text="Agregar a Factura" CssClass="btn btn-success-fozkr" OnClick="botonAgregarProductoFactura_Click"/>
             </div>
 
             <div id="bloqueGridFacturaNueva" class="col-lg-5">
                  <div class="col-lg-12"><strong><div ID="Div3" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Detalle de la Factura Consignada</div></strong>
                     <asp:UpdatePanel ID="UpdatePanelFacturaNueva" runat="server">
                         <ContentTemplate>
-                            <asp:GridView ID="gridFacturaNueva" CssClass="table" OnPageIndexChanging="gridFacturaNueva_PageIndexChanging" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                                                <asp:Panel ID="PanelCrearFacturaProductos" runat="server" ScrollBars="Vertical" Height="300px">
+                            <asp:GridView ID="gridFacturaNueva" CssClass="table" OnPageIndexChanging="gridFacturaNueva_PageIndexChanging" runat="server" AllowPaging="false"  BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
 						        <Columns>
 							        <asp:TemplateField HeaderText="Seleccionar">
 								        <ItemTemplate>
@@ -282,14 +294,24 @@
                                <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
                                <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
                           </asp:GridView>
+                                                    </asp:Panel>
                      </ContentTemplate>
                      <Triggers>
                         <asp:AsyncPostBackTrigger ControlID="gridFacturaNueva" EventName="RowCommand" />
                      </Triggers>
                   </asp:UpdatePanel>
                </div>  
-                <asp:Button ID="botonModificarProducto" runat="server" Text="Modificar" OnClick="botonModificarProducto_Click" CssClass="btn btn-warning-fozkr"/>                 
-                <asp:Button ID="botonEliminarProducto" runat="server" Text="Eliminar" OnClick="botonEliminarProducto_Click" CssClass="btn btn-warning-fozkr"/> 
+                <br />
+                <div class="row" style="margin-left:5%">
+                    <asp:Button ID="botonModificarProducto" runat="server" Text="Modificar" OnClick="botonModificarProducto_Click" CssClass="btn btn-warning-fozkr"/>                 
+                    <asp:Button ID="botonEliminarProducto" runat="server" Text="Eliminar" OnClick="botonEliminarProducto_Click" CssClass="btn btn-danger-fozkr"/> 
+                </div>
+                <br />
+                <div class="row" style="margin-left:5%">
+                    <label for="outputTotalFacturaNueva" class="control-label">Total de la Factura:</label>      
+                    <p id="outputTotalFacturaNueva" runat="server" class="form-control-static"></p>
+                </div>
+
             </div>
         </div>
 
@@ -301,7 +323,7 @@
     <div class="col-lg-12" id="bloqueBotones">
         <div class =" row">
             <div class="text-center">
-                <button runat="server" onserverclick="botonAceptarEntrada_ServerClick" id="botonAceptarEntrada" class="btn btn-success-fozkr" type="button"><i class="fa fa-pencil-square-o"></i>Enviar</button>
+                <button runat="server" onserverclick="botonAceptarEntrada_ServerClick" id="botonAceptarEntrada" class="btn btn-success-fozkr" type="button"><i class="fa fa-pencil-square-o"></i>Guardar</button>
                 <a id="botonCancelarEntrada" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cancelar</a>                
             </div>
         </div>

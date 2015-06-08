@@ -9,43 +9,44 @@ namespace ProyectoInventarioOET.Modulo_Ventas
     /*
      * Entidad Factura, clase encargada de encapsulador la información acerca de las facturas asociadas a transacciones de venta.
      */
-    public class EntidadFactura
+    public class EntidadFacturaVenta
     {
         //Atributos
         private String consecutivo;
-        private String fecha;
-        private String bodega;
+        private String fechaYhora;
         private String estacion;
-        private String compañia;
-        private String actividad;
+        private String bodega;
+        private String compania;
         private String vendedor;
-        private String cliente;
         private String tipoMoneda;
-        private int impuesto;
         private String metodoPago;
-        private DataTable productos;
-        private double montoTotal;
+        private String cliente;
+        private String actividad;
         private String estado;
+        private double montoTotalColones;
+        private double montoTotalDolares;
+        private DataTable productos;
 
 
         /*
          * Constructor de la clase, recibe datos iniciales para crear una instancia de factura.
          */
-        public EntidadFactura(Object[] datos)
+        public EntidadFacturaVenta(Object[] datos)
         {
-            this.consecutivo = datos[0].ToString();
-            this.fecha = datos[1].ToString();
+            this.consecutivo = (datos[0] == null ? "" : datos[0].ToString()); //durante la creación se recibe null, durante la consulta no
+            this.fechaYhora = datos[1].ToString();
             this.bodega = datos[2].ToString();
             this.estacion = datos[3].ToString();
-            this.compañia = datos[4].ToString();
+            this.compania = datos[4].ToString();
             this.actividad = datos[5].ToString();
             this.vendedor = datos[6].ToString();
             this.cliente = datos[7].ToString();
             this.tipoMoneda = datos[8].ToString();
             this.metodoPago = datos[9].ToString();
-            this.montoTotal = Convert.ToDouble(datos[10].ToString());
-            this.estado = datos[11].ToString().ToString();
-            this.productos = null; //(DataTable)datos[7];
+            this.montoTotalColones = Convert.ToDouble(datos[10].ToString());
+            this.montoTotalDolares = Convert.ToDouble(datos[11].ToString());
+            this.estado = datos[12].ToString().ToString();
+            this.productos = (datos[13] == null ? null : (DataTable)datos[13]);
         }
 
         public String Consecutivo
@@ -55,10 +56,10 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         }
 
 
-        public String Fecha
+        public String FechaHora
         {
-            get { return fecha; }
-            set { fecha = value; }
+            get { return fechaYhora; }
+            set { fechaYhora = value; }
         }
 
         public String Estacion
@@ -73,16 +74,10 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             set { bodega = value; }
         }
 
-        public String Compañia
+        public String Compania
         {
-            get { return compañia; }
-            set { compañia = value; }
-        }
-
-        public String Actividad
-        {
-            get { return actividad; }
-            set { actividad = value; }
+            get { return compania; }
+            set { compania = value; }
         }
 
         public String Vendedor
@@ -91,22 +86,10 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             set { vendedor = value; }
         }
 
-        public String Cliente
-        {
-            get { return cliente; }
-            set { cliente = value; }
-        }
-
         public String TipoMoneda
         {
             get { return tipoMoneda; }
             set { tipoMoneda = value; }
-        }
-
-        public int Impuesto
-        {
-            get { return impuesto; }
-            set { impuesto = value; }
         }
 
         public String MetodoPago
@@ -115,22 +98,40 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             set { metodoPago = value; }
         }
 
-        public DataTable Productos
+        public String Cliente
         {
-            get { return productos; }
-            set { productos = value; }
+            get { return cliente; }
+            set { cliente = value; }
         }
 
-        public double MontoTotal
+        public String Actividad
         {
-            get { return montoTotal; }
-            set { montoTotal = value; }
+            get { return actividad; }
+            set { actividad = value; }
         }
 
         public String Estado
         {
             get { return estado; }
             set { estado = value; }
+        }
+
+        public double MontoTotalColones
+        {
+            get { return montoTotalColones; }
+            set { montoTotalColones = value; }
+        }
+
+        public double MontoTotalDolares
+        {
+            get { return montoTotalDolares; }
+            set { montoTotalDolares = value; }
+        }
+
+        public DataTable Productos
+        {
+            get { return productos; }
+            set { productos = value; }
         }
 
         /*

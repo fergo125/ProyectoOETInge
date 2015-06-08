@@ -56,7 +56,8 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
                    + " FROM " + esquema + "TRASLADOS T, " + esquema + "SEG_USUARIO U, " + esquema + "CAT_BODEGA B1, " + esquema + "CAT_BODEGA B2 "
                    + " WHERE T.USUARIO_BODEGA = U.SEG_USUARIO "
                    + " AND  T.IDBODEGAORIGEN = B1.CAT_BODEGA"
-                   + " AND T.IDBODEGADESTINO = B2.CAT_BODEGA  ORDER BY T.FECHA DESC";
+                   + " AND T.IDBODEGADESTINO = B2.CAT_BODEGA"
+                   + " AND T.ID_TRASLADO = '" + idTraslado + "'";
                 OracleDataReader reader = command.ExecuteReader();
                 resultado[0].Load(reader);
                 resultado[1] = consultarDetalles(idTraslado);
@@ -116,13 +117,13 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
 
                 res[0] = "success";
                 res[1] = "Éxito:";
-                res[2] = "Ajuste agregado al sistema.";
+                res[2] = "Traslado en trámite.";
             }
             catch (OracleException e)
             {
                 res[0] = "danger";
                 res[1] = "Error:";
-                res[2] = "Ajuste no agregado, intente nuevamente.";
+                res[2] = "Traslado no efectuado, revise e intente nuevamente.";
             }
 
             return res;
@@ -202,7 +203,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
             {
                 res[0] = "danger";
                 res[1] = "Error:";
-                res[2] = "Traslado no modificado, intente nuevamente.";
+                res[2] = "Error en traslado, intente nuevamente.";
             }
         }
 
@@ -210,6 +211,9 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
         public String[] modificarTraslado(EntidadTraslado traslado, int estado) {
             String esquema = "Inventarios.";
             String[] res = new String[3];
+            DataTable productoLocal = new DataTable();
+            bool alerta = false;
+            double cantAjuste;
             try
             {
                 OracleCommand command = conexionBD.CreateCommand();
@@ -219,10 +223,28 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
                 OracleDataReader reader = command.ExecuteReader();
                 foreach (EntidadDetalles detalle in traslado.Detalles){
                     desCongelarProducto(detalle.IdProductoBodegaOrigen, detalle.IdProductoBodegaDestino, detalle.Cambio, estado);
+                    if (estado == 1)
+                    { // acepta
+                        command.CommandText = "SELECT MINIMO,MAXIMO,SALDO FROM " + esquema + "INV_BODEGA_PRODUCTOS WHERE INV_BODEGA_PRODUCTOS = '" + detalle.IdProductoBodegaDestino + "'";
+                    }
+                    else
+                    { //rechaza
+                        command.CommandText = "SELECT MINIMO,MAXIMO,SALDO FROM " + esquema + "INV_BODEGA_PRODUCTOS WHERE INV_BODEGA_PRODUCTOS = '" + detalle.IdProductoBodegaOrigen + "'";
+                    }
+                    reader = command.ExecuteReader();
+                    productoLocal.Load(reader);
+                    cantAjuste = Convert.ToDouble(productoLocal.Rows[0][0].ToString());
+                    if (estado == 1) { cantAjuste += detalle.Cambio; } else { cantAjuste -= detalle.Cambio; }
+                    alerta |= cantAjuste <= Convert.ToDouble(productoLocal.Rows[0][0].ToString()) || cantAjuste >= Convert.ToDouble(productoLocal.Rows[0][1].ToString());
                 }
                 res[0] = "success";
                 res[1] = "Éxito:";
-                res[2] = "Ajuste agregado al sistema.";
+                res[2] = "Transacción efectuada.";
+                if (alerta)
+                {
+                    res[0] = "warning";
+                    res[2] += "\nUno o más productos han salido de sus límites permitidos (nivel máximo o mínimo), revise el catálogo local.";
+                }
             }
             catch (OracleException e)
             {

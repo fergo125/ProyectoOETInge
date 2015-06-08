@@ -22,9 +22,9 @@
     </div>
 
     <!-- Botones -->
-    <button runat="server" onserverclick="botonRealizarTraslado_ServerClick" id="botonRealizarTraslado" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true"><i class="fa fa-pencil"></i> Nuevo Traslado</button>
-    <button runat="server" onserverclick="botonModificarTraslado_ServerClick" id="botonModificarTraslado" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true"><i class="fa fa-wrench"></i> Modificar Traslado</button>
     <button runat="server" onserverclick="botonConsultarTraslado_ServerClick"  id="botonConsultarTraslado" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true"><i class="fa fa-bars"></i> Consultar Traslados</button>
+    <button runat="server" onserverclick="botonRealizarTraslado_ServerClick" id="botonRealizarTraslado" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true"><i class="fa fa-pencil"></i> Crear Traslado</button>
+    <button runat="server" onserverclick="botonModificarTraslado_ServerClick" id="botonModificarTraslado" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true"><i class="fa fa-wrench"></i> Modificar Traslado</button>
     <br />
     <br />
 
@@ -42,9 +42,11 @@
                 </asp:DropDownList>
             </div>
             <div class="col-lg-1">
-                <button runat="server" onserverclick="botonTipoConsulta_ServerClick" id="botonTipoConsulta" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true">Aplicar</button>
+                <button runat="server" onserverclick="botonTipoConsulta_ServerClick" id="botonTipoConsulta" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true">Buscar</button>
             </div>
         </div>
+        <br />
+        <br />
     </fieldset>
 
     <!-- Fieldset para Traslados -->
@@ -67,16 +69,29 @@
             <div class="col-lg-5">
                 <label for="outputUsuario" class= "control-label"> Usuario responsable: </label>      
                 <input type="text" id="outputUsuario" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
-                <a id="botonAgregar" runat="server" href="#modalAgregarProducto" class="btn btn-success-fozkr" data-toggle="modal" role="button"><i class="fa fa-plus"></i> Agregar Producto</a>
             </div>
-            <div class="col-lg-2"></div>
+            <div class="col-lg-2">
+                <fieldset id= "fieldsetEstado" runat="server" class="fieldset">
+                    <label  for="dropDownEstado" class= "control-label"> Estado de Traslado: </label>      
+                    <asp:DropDownList ID="dropDownEstado" runat="server" CssClass="form-control" AutoPostBack="true">
+                    </asp:DropDownList><br>
+                </fieldset>
+            </div>
             <div class="col-lg-5">
                 <label for="outputFecha" class= "control-label"> Fecha de creacion: </label>      
                 <input type="text" id="outputFecha" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
             </div>
         </div>
         <div class="col-lg-12">
-            <asp:TextBox ID="inputNotas" runat="server" Rows="3" Width="100%" TextMode="MultiLine" style="resize:none"></asp:TextBox>
+            <label for="inputNotas" class= "control-label"> Anotaciones: </label>
+            <asp:TextBox ID="inputNotas" runat="server" Rows="3" Width="100%" TextMode="MultiLine" style="resize:none" MaxLength="140"></asp:TextBox>
+        </div>
+        <br />
+        <br />
+        <div class="row">
+            <div class="col-lg-5">
+                <a id="botonAgregar" runat="server" href="#modalAgregarProducto" class="btn btn-success-fozkr" data-toggle="modal" role="button"><i class="fa fa-plus"></i> Agregar Producto</a>
+            </div>
         </div>
     </fieldset>
     <!-- Fin del fieldset-->
@@ -92,7 +107,7 @@
                 <strong><div ID="tituloGridProductos" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Productos a Transferir</div></strong>
                 <asp:UpdatePanel ID="UpdatePanel2" runat="server">
                     <ContentTemplate>
-                        <asp:GridView ID="gridViewProductos" CssClass="table" OnRowCommand="gridViewProductos_Seleccion" runat="server" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                        <asp:GridView ID="gridViewProductos" CssClass="table" OnRowCommand="gridViewProductos_Seleccion" OnRowCreated="gridViewTraslados_RowCreated" runat="server" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
                             <Columns>
                                 <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Quitar">
                                     <ControlStyle CssClass="btn btn-default"></ControlStyle>
@@ -100,14 +115,14 @@
                                 <asp:TemplateField HeaderText="Cantidad" >
                                     <ItemTemplate>
                                         <asp:TextBox ID="textTraslados" runat="server" ReadOnly="false"></asp:TextBox> 
-                                                
+                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="textTraslados" ClientValidationFunction="changeColor" Display="Dynamic"
+                                                 ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="Solo se permiten números válidos"  Font-Bold="true" ValidationExpression="^\d+(\.\d+)?$"></asp:RegularExpressionValidator>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>
                             <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
                             <PagerStyle CssClass="paging" HorizontalAlign="Center" />
                             <AlternatingRowStyle BackColor="#F8F8F8" />
-                            <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
                             <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
                         </asp:GridView>
                     </ContentTemplate>
@@ -154,7 +169,6 @@
                             <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
                             <PagerStyle CssClass="paging" HorizontalAlign="Center" />
                             <AlternatingRowStyle BackColor="#F8F8F8" />
-                            <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
                             <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
                         </asp:GridView>
                     </ContentTemplate>
@@ -190,7 +204,7 @@
 
     <!-- Modal Agregar Producto -->
     <div class="modal fade" id="modalAgregarProducto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog" style="width:1000px">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

@@ -41,10 +41,11 @@ namespace ProyectoInventarioOET
          */
         protected void Page_Load(object sender, EventArgs e)
         {
+            //Elementos visuales
+            ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
+
             if (!IsPostBack)
             {
-                //Elementos visuales
-                ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
                 modo = (int)Modo.Inicial;
                 controladoraBodegas = new ControladoraBodegas();
                 controladoraProductoLocal = new ControladoraProductoLocal();
@@ -473,14 +474,14 @@ namespace ProyectoInventarioOET
                         datos[5] = "";
                         try
                         {
-                            if (Convert.ToInt32(datos[2].ToString()) <= Convert.ToInt32(datos[3].ToString()))
+                            if (Convert.ToDouble(datos[2].ToString()) <= Convert.ToDouble(datos[3].ToString()))
                             {
                                 datos[5] = "Debajo del mínimo";
 
                             }
                             else
                             {
-                                if (Convert.ToInt32(datos[2].ToString()) >= Convert.ToInt32(datos[4].ToString()))
+                                if (Convert.ToDouble(datos[2].ToString()) >= Convert.ToDouble(datos[4].ToString()))
                                 {
                                     datos[5] = "Encima del máximo";
                                 }

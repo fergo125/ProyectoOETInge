@@ -83,6 +83,33 @@ SELECT INV_PRODUCTOS, SALDO
 FROM inv_bodega_productos
 where inv_productos = 'PITAN130012015092529441001';
 
+--Trigger que actualiza la existencia(saldo) local de los productos involucrados en una factura de venta nueva.
+CREATE OR REPLACE TRIGGER "TRIGGER_ACTUALIZA_SALDO_VENTA" AFTER INSERT ON REGISTRO_DETALLES_FACTURAS
+  FOR EACH ROW
+  DECLARE
+      VAR_CANTIDADVENDIDA NUMBER(15,2);
+      VAR_CANTIDADEXISTENTE NUMBER(15,2);
+  BEGIN
+      -- Se obtiene la cantidad que fue vendida de cada producto
+      VAR_CANTIDADVENDIDA := :NEW.CANTIDAD;
+      --Se obtiene la cantidad existente desde antes para luego restarle
+      SELECT  SALDO
+      INTO    VAR_CANTIDADEXISTENTE
+      FROM    INV_BODEGA_PRODUCTOS
+      WHERE   INV_PRODUCTOS = :NEW.IDPRODUCTO;
+      --Se actualiza
+      UPDATE  INV_BODEGA_PRODUCTOS 
+      SET     SALDO = VAR_CANTIDADEXISTENTE - VAR_CANTIDADVENDIDA
+      WHERE   INV_PRODUCTOS = :NEW.IDPRODUCTO AND CAT_BODEGA = (SELECT  BODEGA
+                                                                FROM    REGISTRO_FACTURAS_VENTA
+                                                                WHERE   CONSECUTIVO = :NEW.IDFACTURA);
+END;
+--PRUEBAS:
+SELECT  * FROM  INV_BODEGA_PRODUCTOS  WHERE CAT_BODEGA='PITAN129012015101713605001' AND INV_PRODUCTOS='PITAN130012015150910658107'
+--Usando la factura 15 existente
+INSERT INTO  REGISTRO_DETALLES_FACTURAS
+VALUES(15, 'PITAN130012015150910658107', 2, 540, 1, 0, 1)
+--COMMIT
 
 -- Creación de Tabla para modulo de Entradas
 CREATE TABLE CAT_ENTRADAS
@@ -126,7 +153,7 @@ create table  AJUSTES(
 	fecha                   date,
 	usuario_bodega          varchar2(30),
 	idBodega                varchar2(30),
-	notas                   varchar2(30)
+	notas                   varchar2(140)
 );
  
 create table DETALLES_AJUSTES (
@@ -140,7 +167,7 @@ create table DETALLES_AJUSTES (
 
 CREATE TABLE REGISTRO_FACTURAS_VENTA(
 consecutivo int NOT NULL PRIMARY KEY,
-fecha DATE,
+fechahora TIMESTAMP,
 bodega varchar(30),
 estacion varchar2(30),
 compañia varchar2(30),
@@ -149,16 +176,19 @@ vendedor varchar2(40),
 cliente varchar2(40),
 tipoMoneda varchar2(10),
 metodoPago varchar2(30),
-montoTotal float
+montoTotalColones float,
+montoTotalDolares float,
+estado number
 );
 
 CREATE TABLE REGISTRO_DETALLES_FACTURAS(
 idFactura int REFERENCES REGISTRO_FACTURAS_VENTA(consecutivo),
-idProducto varchar2(20),
+idProducto varchar2(50),
 cantidad int,
 precioUnitarioColones float, 
 precioUnitarioDolares float,
-descuento int
+descuento int,
+impuesto varchar2(2)
 );
 
 
@@ -211,7 +241,7 @@ create table  TRASLADOS(
 	idBodegaOrigen            varchar2(30),
 	idBodegaDestino           varchar2(30),
   estado                    number(1),
-	notas                     varchar2(30)
+	notas                     varchar2(140)
 );
  
 create table DETALLES_TRASLADO (
@@ -266,3 +296,7 @@ UPDATE INV_PRODUCTOS SET DESCUENTO_MAXIMO = 20;
 ALTER TABLE SEG_USUARIO ADD DESCUENTO_MAXIMO INT;
 UPDATE SEG_USUARIO SET DESCUENTO_MAXIMO = 0;
 
+
+--Poner precios de prueba para todos los productos
+UPDATE INV_PRODUCTOS SET PRECIO_C = COSTO_COLONES;
+UPDATE INV_PRODUCTOS SET PRECIO_D = COSTO_DOLARES;

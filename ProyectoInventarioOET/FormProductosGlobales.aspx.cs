@@ -33,10 +33,11 @@ namespace ProyectoInventarioOET
         protected void Page_Load(object sender, EventArgs e)
         {
             mensajeAlerta.Visible = false;
+            //Elementos visuales
+            ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
+
             if (!IsPostBack)
             {
-                //Elementos visuales
-                ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
                 controladora = new ControladoraProductosGlobales();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
                 permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Catalogo general de productos");
@@ -511,7 +512,11 @@ namespace ProyectoInventarioOET
             this.inputSaldo.Disabled = true;
             this.inputUnidades.Enabled = resp;
             this.inpuCategoria.Enabled = resp;
-            this.inputEstado.Enabled = resp && (permisos[2] == '1');
+            bool resp2 = false;
+            if ((int)Modo.Modificacion == modo) {
+                resp2 = productoConsultado.Existencia==0;
+            }
+            this.inputEstado.Enabled = resp2 && (permisos[2] == '1');
             this.inputVendible.Enabled = resp;
         }
         //*******************************************************************************

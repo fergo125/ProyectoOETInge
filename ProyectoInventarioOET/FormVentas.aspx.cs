@@ -5,11 +5,14 @@ using System.Data;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using ProyectoInventarioOET.Modulo_Seguridad;
 using ProyectoInventarioOET.Modulo_Ventas;
 using ProyectoInventarioOET.Modulo_Bodegas;
+using ProyectoInventarioOET.Modulo_Seguridad;
+using ProyectoInventarioOET.Modulo_Actividades;
 using ProyectoInventarioOET.App_Code.Modulo_Ajustes;
 using ProyectoInventarioOET.App_Code;
+using ProyectoInventarioOET.Modulo_Productos_Locales;
+using ProyectoInventarioOET.Modulo_ProductosGlobales;
 
 namespace ProyectoInventarioOET
 {
@@ -24,24 +27,27 @@ namespace ProyectoInventarioOET
         private static Modo modo = Modo.Inicial;                                //Indica en qué modo se encuentra la interfaz en un momento cualquiera, de éste depende cuáles elementos son visibles
         private static String permisos = "000000";                              //Permisos utilizados para el control de seguridad
         private static String codigoPerfilUsuario = "";                         //Indica el perfil del usuario, usado para acciones de seguridad para las cuales la string de permisos no basta
-        private static String tipoMonedaCrearFactura = "Colones";               //Indica el tipo de moneda que se está usando para crear facturas
-        private static DataTable productosAgregados;                            //Usada para llenar el grid de productos al crear una factura
-        private static DataTable facturasConsultadas;                           //Usada para llenar el grid y para mostrar los detalles de cada factura específica
-        private static EntidadFactura facturaConsultada;                        //???
-        //private static Boolean seConsulto = false;                              //???
-        private static Object[] idArray;                                        //Usada para llevar el control de las facturas consultadas
+        private static Object[] idArray;                                        //Para llevar el control de las facturas consultadas
+        private static List<bool> checksProductos;                              //Para guardar cuáles checks han sido marcados en el grid de productos durante el proceso de creación
+        private static List<int> cantidadesProductos;                           //Para guardar las cantidades en los textboxes del grid de productos durante el proceso de creación //TODO: usar esto
+        private static DataTable productosAgregados;                            //Para llenar el grid de productos al crear una factura
+        private static DataTable facturasConsultadas;                           //Para llenar el grid y para mostrar los detalles de cada factura específica
+        private static EntidadFacturaVenta facturaConsultada;                   //???
         private static ControladoraVentas controladoraVentas;                   //Para accesar las tablas del módulo y realizar las operaciones de consulta, inserción, modificación y anulación
         private static ControladoraAjustes controladoraAjustes;                 //???
         private static ControladoraBodegas controladoraBodegas;                 //???
         private static ControladoraSeguridad controladoraSeguridad;             //???
+        private static ControladoraActividades controladoraActividades;         //Para consultar las actividades a las que se puede asociar una nueva factura
         private static ControladoraDatosGenerales controladoraDatosGenerales;   //Para accesar datos generales de la base de datos
+        private static ControladoraProductoLocal controladoraProductoLocal ;    //Para revisar existencias de productos
+        private static ControladoraProductosGlobales controladoraProductoGlobal;//Para consultar nombre y otra información de los productos al desplegar facturas
         
         //Importante:
         //Para el codigoPerfilUsuario (que se usa un poco hard-coded), los números son:
-        //1. Administrador global
-        //2. Administrador local
-        //3. Supervisor
-        //4. Vendedor
+        //1 = Administrador global
+        //2 = Administrador local
+        //3 = Supervisor
+        //4 = Vendedor
 
         /*
          * Función invocada cada vez que se carga la página, encargada de invocar a las funciones que actualizan los elementos visuales de la página.
@@ -49,71 +55,41 @@ namespace ProyectoInventarioOET
         protected void Page_Load(object sender, EventArgs e)
         {
             mensajeAlerta.Visible = false;
-            //Si es la primera vez que se carga la página
-            if (!IsPostBack)
+            //Elementos visuales
+            ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
+
+            if (!IsPostBack) //Si es la primera vez que se carga la página
             {
-                //Elementos visuales
-                ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
+                //Modo
+                modo = Modo.Inicial;
+                cambiarModo();
+
                 //Controladoras
-                controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
-                controladoraSeguridad = new ControladoraSeguridad();
                 controladoraVentas = new ControladoraVentas();
                 controladoraBodegas = new ControladoraBodegas();
                 controladoraAjustes = new ControladoraAjustes();
+                controladoraSeguridad = new ControladoraSeguridad();
+                controladoraActividades = new ControladoraActividades();
+                controladoraProductoLocal = new ControladoraProductoLocal();
+                controladoraProductoGlobal = new ControladoraProductosGlobales();
+                controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
+
                 //Seguridad
-                permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Facturacion"); //TODO: descomentar esto, está comentado sólo para pruebas
+                permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Facturacion");
                 if (permisos == "000000")
                     Response.Redirect("~/ErrorPages/404.html");
                 codigoPerfilUsuario = (this.Master as SiteMaster).Usuario.CodigoPerfil;
                 mostrarElementosSegunPermisos();
-                //if (!seConsulto)
-                //{
-                //    modo = Modo.Inicial;
-                //}
-                //else
-                //{
-                //    if (facturaConsultada == null)
-                //    {
-                //        mostrarMensaje("warning", "Alerta: ", "No se pudo consultar la bodega.");
-                //    }
-                //    else
-                //    {
-                //        setDatosConsultados();
-                //        seConsulto = false;
-                //    }
-                //}
+
+                //Otros
+                checksProductos = new List<bool>();
+                cantidadesProductos = new List<int>();
             }
-            //Si la página ya estaba cargada pero está siendo cargada de nuevo (porque se está realizando alguna acción que la refrezca/actualiza)
-
-            cambiarModo();
-            ////código para probar algo
-            
-            //testRow = testTable.NewRow();
-            //testRow["Nombre"] = "Nombre de prueba";
-            //testRow["Código interno"] = "CRO001";
-            //testRow["Precio unitario"] = "500";
-            //testRow["Impuesto"] = "Sí";
-            //testRow["Descuento (%)"] = "0";
-            //testTable.Rows.Add(testRow);
-            //testRow = testTable.NewRow();
-            //testRow["Nombre"] = "Nombre de prueba larguísimo de esos que ponen las unidades y la vara";
-            //testRow["Código interno"] = "CRO002";
-            //testRow["Precio unitario"] = "50000";
-            //testRow["Impuesto"] = "Sí";
-            //testRow["Descuento (%)"] = "0";
-            //testTable.Rows.Add(testRow);
-
-            //gridViewCrearFacturaProductos.DataSource = testTable;
-            //gridViewCrearFacturaProductos.DataBind();
-
-            //DataControlField[] backupColumn = new DataControlField[100];
-            //gridViewCrearFacturaProductos.Columns.CopyTo(backupColumn, 0);
-            //gridViewCrearFacturaProductos.Columns.Insert(0, backupColumn[0]);
-            //DataControlField backup = gridViewCrearFacturaProductos.Columns[1];
-            //gridViewCrearFacturaProductos.Columns.RemoveAt(1);
-            //gridViewCrearFacturaProductos.Columns.Add(backup);
-            //gridViewCrearFacturaProductos.Columns.Add(backup);
-            //gridViewCrearFacturaProductos.Columns["Seleccionar"].DisplayIndex = 0;
+            else //si la página fue refrezcada por algún elemento
+            {
+                //if ((checksProductos.Count > 0) || (cantidadesProductos.Count > 0))
+                //    restaurarCheckBoxesYCantidades();
+            }
         }
 
         /*
@@ -130,7 +106,7 @@ namespace ProyectoInventarioOET
             dropDownListConsultaEstacion.Enabled = (Convert.ToInt32(codigoPerfilUsuario) <= 1);    //Sólo si es administrador global, puede escoger una estación
             dropDownListConsultaBodega.Enabled = (Convert.ToInt32(codigoPerfilUsuario) <= 2);      //Sólo si es administrador global, o administrador local, puede escoger una bodega
             dropDownListConsultaVendedor.Enabled = (Convert.ToInt32(codigoPerfilUsuario) <= 3);    //Sólo si es administrador global, o administrador local, o supervisor, puede escoger un vendedor
-            //dropdownEstado.Enabled = (permisos[2] == '1');
+            //dropdownEstado.Enabled = (permisos[2] == '1'); //TODO: revisar esto
         }
 
         /*
@@ -140,11 +116,12 @@ namespace ProyectoInventarioOET
         protected void cambiarModo()
         {
             //Código común (que debe ejecutarse en la mayoría de modos, en la minoría luego es arreglado en el switch) Reduce un poco la eficiencia, pero simplifica el código bastante
-            PanelConsultarFacturas.Visible = false;             //Consulta general
+            PanelConsultar.Visible = false;                     //Consulta general
             PanelConsultarFacturaEspecifica.Visible = false;    //Consulta específica
             tituloGrid.Visible = false;                         //Grid de consulta
             gridViewFacturas.Visible = false;                   //Grid de consulta
             PanelCrearFactura.Visible = false;                  //Crear factura
+            botonModificar.Disabled = true;                     //Modificar factura
             botonCambioSesion.Visible = false;                  //Cambio sesión rápido
             botonAjusteEntrada.Visible = false;                 //Ajuste inventario rápido
             //PanelGridConsultas.Visible = false; //hay que hacerlo directo con el panel, porque si no la paginacion no sirve
@@ -153,41 +130,31 @@ namespace ProyectoInventarioOET
             switch (modo)
             {
                 case Modo.Inicial:
-                    tituloAccionFacturas.InnerText = "Seleccione una opción";
-                    botonModificar.Disabled = true;
+                    tituloAccionForm.InnerText = "Seleccione una opción";
                     break;
                 case Modo.Consulta:
-                    tituloAccionFacturas.InnerText = "Seleccione datos para consultar";
-                    PanelConsultarFacturas.Visible = true;
-                    botonModificar.Disabled = true;
-                    //this.gridViewFacturas.Visible = false;
-                    //this.tituloGrid.Visible = false;
-                    //llenarGrid();
+                    tituloAccionForm.InnerText = "Seleccione datos para consultar";
+                    PanelConsultar.Visible = true;
                     break;
                 case Modo.Insercion:
-                    tituloAccionFacturas.InnerText = "Ingrese los datos de la nueva factura";
+                    tituloAccionForm.InnerText = "Ingrese los datos de la nueva factura";
                     PanelCrearFactura.Visible = true;
                     botonCambioSesion.Visible = true;  //Estos dos botones sólo deben ser visibles
                     botonAjusteEntrada.Visible = true; //durante la creación de facturas
-                    botonModificar.Disabled = true;
                     break;
                 case Modo.Modificacion:
-                    tituloAccionFacturas.InnerText = "Ingrese los nuevos datos para la factura"; //TODO: revisar este mensaje, ya que no se pueden modificar, sólo anular
+                    tituloAccionForm.InnerText = "Ingrese los nuevos datos para la factura"; //TODO: revisar este mensaje, ya que no se pueden modificar, sólo anular
                     PanelConsultarFacturaEspecifica.Visible = true;
                     botonAceptarModificacionFacturaEspecifica.Visible = true;
                     botonCancelarModificacionFacturaEspecifica.Visible = true;
-                    botonModificar.Disabled = true;
                     habilitarCampos(true);
                     break;
                 case Modo.Consultado:
-                    tituloAccionFacturas.InnerText = "Detalles de la factura";
+                    tituloAccionForm.InnerText = "Detalles de la factura";
                     PanelConsultarFacturaEspecifica.Visible = true;
                     gridViewFacturas.Visible = true;
                     tituloGrid.Visible = true;
                     botonModificar.Disabled = false;
-                    //cargarDropdownListsConsulta();
-                    //llenarGrid();
-                    //habilitarCampos(false);
                     break;
                 default:  //Algo salió mal
                     mostrarMensaje("warning", "Alerta: ", "Error de interfaz, el 'modo' de la interfaz no se ha reconocido: " + modo);
@@ -218,7 +185,8 @@ namespace ProyectoInventarioOET
             //Campos de consulta individual
 
             //Campos de creación
-
+            productosAgregados = null;
+            gridViewCrearFacturaProductos.DataBind();
         }
 
         /*
@@ -227,11 +195,6 @@ namespace ProyectoInventarioOET
          */
         protected void cargarDropdownListsConsulta()
         {
-            //Limpiar la lista de opciones para que no se acumulen
-            //dropDownListConsultaEstacion.Items.Clear();
-            //dropDownListConsultaBodega.Items.Clear();
-            //dropDownListConsultaVendedor.Items.Clear();
-
             //Switch para cargar los datos default y los datos escogibles
             switch (Convert.ToInt32((this.Master as SiteMaster).Usuario.CodigoPerfil))
             {
@@ -268,46 +231,6 @@ namespace ProyectoInventarioOET
                 default:
                     break;
             }
-
-            //switch original
-            //switch (Convert.ToInt32((this.Master as SiteMaster).Usuario.CodigoPerfil)) //TODO, revisar esto
-            //{
-            //    case 4: //Vendedor
-            //        //Se pone al vendedor automáticamente
-            //        dropDownListConsultaVendedor.Items.Add(new ListItem((this.Master as SiteMaster).Usuario.Nombre, (this.Master as SiteMaster).Usuario.Codigo));
-            //        dropDownListConsultaVendedor.SelectedIndex = 0;
-            //        dropDownListConsultaVendedor.Enabled = false;
-            //        //Se pone la bodega automáticamente
-            //        dropDownListConsultaBodega.Items.Add(new ListItem( (this.Master as SiteMaster).NombreBodegaSesion, (this.Master as SiteMaster).LlaveBodegaSesion));
-            //        dropDownListConsultaBodega.SelectedIndex = 0;
-            //        dropDownListConsultaBodega.Enabled = false;
-            //        cargarEstacionesConsulta();
-            //        dropDownListConsultaEstacion.Enabled = false;
-            //        break;
-            //    case 3: //Supervisor
-            //        cargarAsociadosABodega((this.Master as SiteMaster).LlaveBodegaSesion);
-            //        dropDownListConsultaBodega.Items.Add(new ListItem( (this.Master as SiteMaster).NombreBodegaSesion, (this.Master as SiteMaster).LlaveBodegaSesion));
-            //        dropDownListConsultaBodega.SelectedIndex = 0;
-            //        dropDownListConsultaBodega.Enabled = false;
-            //        cargarEstacionesConsulta();
-            //        dropDownListConsultaEstacion.Enabled = false;
-            //        break;  
-            //    case 2: //Administrador local
-            //        cargarAsociadosABodega((this.Master as SiteMaster).LlaveBodegaSesion);
-            //        cargarEstacionesConsulta();
-            //        dropDownListConsultaEstacion.Enabled = false;
-            //        cargarBodegas(this.dropDownListConsultaBodega);
-            //        dropDownListConsultaBodega.SelectedIndex = 1;
-            //        break;
-            //    default:
-            //        cargarAsociadosABodega((this.Master as SiteMaster).LlaveBodegaSesion);
-            //        cargarEstacionesConsulta();
-            //        dropDownListConsultaEstacion.SelectedIndex = 0;
-            //        cargarBodegas(this.dropDownListConsultaBodega);
-            //        dropDownListConsultaBodega.SelectedIndex = 1;
-            //        //Administrador global y cualquier otro, este switch es extendible a más perfiles
-            //        break;
-            //}
         }
 
         /*
@@ -366,71 +289,47 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * Invocada al consultar facturas, dependiendo de los parámetros de consulta se muestran facturas asociadas a:
-         * -Una estación o todas
-         * -Una bodega de esa estación, o todas las bodegas de esa estación
-         * -Un vendedor de esa bodega, o todos los vendedores de esa bodega
+         * Obtiene desde la base de datos la lista de las estaciones que existen,
+         * para que el administrador global pueda escoger una y consultar sus facturas.
          */
-        protected void llenarGrid()
+        protected void cargarEstacionesConsulta()
         {
-            //Importante: estos dropdownlists pueden contener una entidad específica o la palabra "Todas"/"Todos", en el segundo caso se envía "All", la controladora debe entenderlo
-            String codigoEstacion = dropDownListConsultaEstacion.SelectedValue;
-            String codigoBodega = dropDownListConsultaBodega.SelectedValue;
-            String codigoVendedor = dropDownListConsultaVendedor.SelectedValue;
-
-            DataTable tabla = crearTablaFacturas();
-            //int indiceNuevaFactura = -1;
-            try
+            dropDownListConsultaEstacion.Items.Clear();
+            EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
+            DataTable estaciones = controladoraDatosGenerales.consultarEstaciones();
+            if (estaciones.Rows.Count > 0)
             {
-                Object[] datos = new Object[5];
-                facturasConsultadas = controladoraVentas.consultarFacturas((this.Master as SiteMaster).Usuario.Perfil, codigoVendedor, codigoBodega, codigoEstacion);
-                if (facturasConsultadas.Rows.Count > 0)
-                {
-                    idArray = new Object[facturasConsultadas.Rows.Count];
-                    int i = 0;
-                    foreach (DataRow fila in facturasConsultadas.Rows)
-                    {
-                        idArray[i] = fila[0];
-                        datos[0] = fila[0].ToString();  //Consecutivo
-                        datos[1] = fila[1].ToString();  //Fecha y hora
-                        datos[2] = controladoraSeguridad.consultarNombreDeUsuario(fila[6].ToString());  //Vendedor
-                        datos[3] = fila[10].ToString(); //Monto total
-                        datos[4] = fila[9].ToString();  //Método de pago
-                        tabla.Rows.Add(datos);
-                        i++;
-                    }
-                }
-                else
-                {
-                    mostrarMensaje("warning", "Alerta", "No hay facturas asociadas a ese vendedor.");
-                    //datos[0] = "-";
-                    //datos[1] = "-";
-                    //datos[2] = "-";
-                    //datos[3] = "-";
-                    //datos[4] = "-";
-                    //tabla.Rows.Add(datos);
-                }
-                gridViewFacturas.DataSource = tabla;
-                gridViewFacturas.DataBind();
-            }
-            catch (Exception e)
-            {
-                mostrarMensaje("warning", "Alerta", "No hay conexión a la base de datos.");
+                dropDownListConsultaEstacion.Items.Add(new ListItem("Todas", "All"));
+                foreach (DataRow fila in estaciones.Rows)
+                    if ((usuarioActual.CodigoPerfil.Equals("1")) || (usuarioActual.IdEstacion.Equals(fila[0])))
+                        this.dropDownListConsultaEstacion.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
             }
         }
 
         /*
-         * Invocada al escoger una factura en el grid, se muestran todos los detalles de la misma en campos colocados arriba del grid.
+         * Obtiene desde la base de datos la lista de las bodegas asociadas a una estación (o a todas),
+         * para que el administrador global, o el administrador local pueda escoger y consultar sus facturas.
          */
-        //protected void cargarDatosFactura(String consecutivoSeleccionado)
-        //{
-        //    facturaConsultada = controladoraVentas.consultarFactura(consecutivoSeleccionado);
-        //    setDatosConsultados();
-        //    PanelConsultarFacturaEspecifica.Visible = true;
-        //}
+        protected void cargarBodegas(DropDownList dropdown)
+        {
+            dropdown.Items.Clear();
+            EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
+            DataTable bodegas = null;
+            if (dropdown == dropDownListConsultaBodega)
+            {
+                dropdown.Items.Add(new ListItem("Todas", "All"));
+                bodegas = controladoraBodegas.consultarBodegasDeEstacion(dropDownListConsultaEstacion.SelectedValue);
+            }
+            if (bodegas.Rows.Count > 0)
+            {
+                foreach (DataRow fila in bodegas.Rows)
+                    dropdown.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
+            }
+        }
 
         /*
-         * ???
+         * Obtiene desde la base de datos la lista de los vendedores asociados a una bodega (o a todas),
+         * para que el administrador global, o el administrador local, o el supervisor pueda escoger y consultar sus facturas.
          */
         protected void cargarAsociadosABodegas(String idBodega)
         {
@@ -448,9 +347,65 @@ namespace ProyectoInventarioOET
             foreach (DataRow fila in vendedores.Rows)
             {
                 dropDownListConsultaVendedor.Items.Add(new ListItem(controladoraSeguridad.consultarNombreDeUsuario(fila[0].ToString()), fila[0].ToString()));
-                if(fila[0].ToString() == (this.Master as SiteMaster).Usuario.Codigo)
+                if (fila[0].ToString() == (this.Master as SiteMaster).Usuario.Codigo)
                     dropDownListConsultaVendedor.SelectedIndex = i;
                 ++i;
+            }
+        }
+
+        /*
+         * Invocada al consultar facturas, dependiendo de los parámetros de consulta se muestran facturas asociadas a:
+         * -Una estación o todas
+         * -Una bodega de esa estación, o todas las bodegas de esa estación
+         * -Un vendedor de esa bodega, o todos los vendedores de esa bodega
+         */
+        protected void llenarGrid()
+        {
+            //Importante: estos dropdownlists pueden contener una entidad específica o la palabra "Todas"/"Todos", en el segundo caso se envía "All", la controladora debe entenderlo
+            String codigoEstacion = dropDownListConsultaEstacion.SelectedValue;
+            String codigoBodega = dropDownListConsultaBodega.SelectedValue;
+            String codigoVendedor = dropDownListConsultaVendedor.SelectedValue;
+
+            DataTable tablaFacturas = crearTablaFacturasConsultadas(); //tabla que se usará para el grid
+            try
+            {
+                Object[] datos = new Object[6];
+                facturasConsultadas = null; //tabla atributo que se usará para almacenar toda la consulta
+                facturasConsultadas = controladoraVentas.consultarFacturas(codigoVendedor, codigoBodega, codigoEstacion);
+                if (facturasConsultadas.Rows.Count > 0)
+                {
+                    idArray = new Object[facturasConsultadas.Rows.Count];
+                    int i = 0;
+                    foreach (DataRow fila in facturasConsultadas.Rows)
+                    {
+                        idArray[i] = fila[0];
+                        datos[0] = fila[0].ToString();  //Consecutivo
+                        datos[1] = fila[1].ToString();  //Fecha y hora
+                        datos[2] = controladoraSeguridad.consultarNombreDeUsuario(fila[6].ToString());  //Vendedor
+                        datos[3] = fila[10].ToString(); //Monto total
+                        datos[4] = fila[8].ToString();  //Tipo moneda
+                        datos[5] = fila[9].ToString();  //Método de pago
+                        tablaFacturas.Rows.Add(datos);
+                        i++;
+                    }
+                }
+                else
+                {
+                    mostrarMensaje("warning", "Alerta", "No hay facturas asociadas a ese vendedor.");
+                    //evitar esto ya que crea una fila con un botón de consultar, el cual provoca que el sistema se caiga ya que consulta una tupla vacía
+                    //datos[0] = "-";
+                    //datos[1] = "-";
+                    //datos[2] = "-";
+                    //datos[3] = "-";
+                    //datos[4] = "-";
+                    //tabla.Rows.Add(datos);
+                }
+                gridViewFacturas.DataSource = tablaFacturas;
+                gridViewFacturas.DataBind();
+            }
+            catch (Exception e)
+            {
+                mostrarMensaje("warning", "Alerta", "No hay conexión a la base de datos.");
             }
         }
 
@@ -459,7 +414,6 @@ namespace ProyectoInventarioOET
          */
         protected void consultarFactura(String idFactura)
         {
-            //seConsulto = true;
             try
             {
                 facturaConsultada = controladoraVentas.consultarFactura(idFactura);
@@ -471,6 +425,7 @@ namespace ProyectoInventarioOET
             {
                 facturaConsultada = null;
                 modo = Modo.Consulta;
+                mostrarMensaje("danger", "Error: ", "Error al intentar cargar los datos de esa factura específica.");
             }
             cambiarModo();
         }
@@ -480,25 +435,39 @@ namespace ProyectoInventarioOET
          */
         protected void setDatosConsultados()
         {
+            textBoxFacturaConsultadaEstado.Items.Clear();
+            textBoxFacturaConsultadaEstado.Items.Add(new ListItem("Activa", "1"));//en la BD el valor de "activo" es 1
+            textBoxFacturaConsultadaEstado.Items.Add(new ListItem("Anulada", "5")); //en la BD el valor de "anulado" es 5
+            //datos generales de la factura
             textBoxFacturaConsultadaConsecutivo.Value = facturaConsultada.Consecutivo;
             textBoxFacturaConsultadaEstacion.Value = controladoraSeguridad.consultarNombreDeEstacion(facturaConsultada.Estacion);
             textBoxFacturaConsultadaBodega.Value = controladoraSeguridad.consultarNombreDeBodega(facturaConsultada.Bodega);
-            textBoxFacturaConsultadaFechaHora.Value = facturaConsultada.Fecha;
+            textBoxFacturaConsultadaFechaHora.Value = facturaConsultada.FechaHora;
             textBoxFacturaConsultadaVendedor.Value = controladoraSeguridad.consultarNombreDeUsuario(facturaConsultada.Vendedor);
             textBoxFacturaConsultadaCliente.Value = facturaConsultada.Cliente;
             textBoxFacturaConsultadaTipoMoneda.Value = facturaConsultada.TipoMoneda;
-            textBoxFacturaConsultadaMontoTotal.Value = facturaConsultada.MontoTotal.ToString();
-            textBoxFacturaConsultadaMetodoPago.Value = facturaConsultada.MetodoPago;
+            textBoxFacturaConsultadaMontoTotal.Value = facturaConsultada.MontoTotalColones.ToString();
+            textBoxFacturaConsultadaMetodoPago.Value = controladoraVentas.consultarMetodoDePago(facturaConsultada.MetodoPago);
             textBoxFacturaConsultadActividad.Value = facturaConsultada.Actividad;
-
-            textBoxFacturaConsultadaEstado.Items.Clear();
-            textBoxFacturaConsultadaEstado.Items.Add(new ListItem("Activa", "Activa"));
-            textBoxFacturaConsultadaEstado.Items.Add(new ListItem("Anulada", "Anulada"));
-
-            if (facturaConsultada.Estado.Equals("Activa"))
-                textBoxFacturaConsultadaEstado.SelectedIndex = 0;
-            else
-                textBoxFacturaConsultadaEstado.SelectedIndex = 1;
+            textBoxFacturaConsultadaEstado.SelectedIndex = (facturaConsultada.Estado.Equals("1") ? 0 : 1);
+            //datos de los productos de la factura
+            DataTable productosAsociados = crearTablaProductosFactura(true, true);
+            EntidadProductoGlobal productoConsultado;
+            DataRow filaNuevaProducto;
+            foreach(DataRow fila in facturaConsultada.Productos.Rows)
+            {
+                productoConsultado = controladoraProductoGlobal.consultarProductoGlobal(fila[1].ToString()); //se consulta usando la llave
+                filaNuevaProducto = productosAgregados.NewRow();
+                filaNuevaProducto["Nombre"] = productoConsultado.Nombre;                                                //nombre
+                filaNuevaProducto["Código interno"] = productoConsultado.Codigo;                                        //código interno
+                filaNuevaProducto["Precio unitario"] = (facturaConsultada.TipoMoneda == "Colones" ? fila[3] : fila[4]); //precio unitario (buscar en la BD)
+                filaNuevaProducto["Cantidad"] = fila[2];                                                                //cantidad
+                filaNuevaProducto["Impuesto (13%)"] = (fila[6].ToString() == "1" ? "Sí" : "No");                        //impuesto (booleano)
+                filaNuevaProducto["Descuento (%)"] = fila[5];                                                           //descuento
+                productosAsociados.Rows.Add(filaNuevaProducto);
+            }
+            gridFacturaEspecificaProductos.DataSource = productosAsociados;
+            gridFacturaEspecificaProductos.DataBind();
         }
 
         /*
@@ -506,40 +475,15 @@ namespace ProyectoInventarioOET
          */
         protected void habilitarCampos(bool habilitar)
         {
-                textBoxFacturaConsultadaEstado.Enabled = habilitar;
-                if (textBoxFacturaConsultadaEstado.SelectedValue.Equals("Anulada"))
-                    textBoxFacturaConsultadaEstado.Enabled = false;
-            
+            textBoxFacturaConsultadaEstado.Enabled = habilitar;
+            if (textBoxFacturaConsultadaEstado.SelectedValue.Equals("5"))  //en la BD el valor de "anulado" es 5
+                textBoxFacturaConsultadaEstado.Enabled = false;
         }
 
         /*
          * ???
          */
-        protected Object[] obtenerDatos()
-        {
-            Object[] datos = new Object[13];
-            EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
-            datos[0] = "";
-            datos[1] = DateTime.Now.ToString("dd:MMM:yy");
-            datos[2] = (this.Master as SiteMaster).LlaveBodegaSesion;
-            datos[3] = textBoxCrearFacturaEstacion.Text;
-            datos[4] = "02";
-            datos[5] = "";
-            datos[6] = usuarioActual.Codigo;
-            datos[7] = dropDownListCrearFacturaCliente.SelectedValue;
-            datos[8] = textBoxCrearFacturaTipoCambio.Text;
-            datos[9] = dropDownListCrearFacturaMetodoPago.SelectedValue;
-            datos[10] = 456.6;
-            datos[11] = "Activo";  
-            datos[12] = null;
-            return datos;
-        
-        }
-
-        /*
-         * ???
-         */
-        protected DataTable crearTablaFacturas() 
+        protected DataTable crearTablaFacturasConsultadas() 
         {
             DataTable tabla = new DataTable();
             DataColumn column;
@@ -566,6 +510,11 @@ namespace ProyectoInventarioOET
 
             column = new DataColumn();
             column.DataType = Type.GetType("System.String");
+            column.ColumnName = "Tipo moneda";
+            tabla.Columns.Add(column);
+
+            column = new DataColumn();
+            column.DataType = Type.GetType("System.String");
             column.ColumnName = "Método de pago";
             tabla.Columns.Add(column);
 
@@ -573,9 +522,10 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Crea una DataTable para conservar los productos agregados a la factura, o para almacenar toda la información de los mismos que se encuentra
+         * en el grid durante el proceso de inserción.
          */
-        protected DataTable crearTablaProdcutosFactura()
+        protected DataTable crearTablaProductosFactura(bool paraInsertar, bool paraMostrar)
         {
             productosAgregados = new DataTable();
             DataColumn column;
@@ -591,13 +541,29 @@ namespace ProyectoInventarioOET
             productosAgregados.Columns.Add(column);
 
             column = new DataColumn();
-            column.DataType = Type.GetType("System.Int32");
+            column.DataType = Type.GetType("System.Double");
             column.ColumnName = "Precio unitario";
             productosAgregados.Columns.Add(column);
 
+            if (paraInsertar)
+            {
+                if (!paraMostrar)
+                {
+                    column = new DataColumn();
+                    column.DataType = Type.GetType("System.Double");
+                    column.ColumnName = "Precio unitario dólares";
+                    productosAgregados.Columns.Add(column);
+                }
+
+                column = new DataColumn();
+                column.DataType = Type.GetType("System.Int32");
+                column.ColumnName = "Cantidad";
+                productosAgregados.Columns.Add(column);
+            }
+
             column = new DataColumn();
             column.DataType = Type.GetType("System.String");
-            column.ColumnName = "Impuesto";
+            column.ColumnName = "Impuesto (13%)";
             productosAgregados.Columns.Add(column);
 
             column = new DataColumn();
@@ -605,104 +571,266 @@ namespace ProyectoInventarioOET
             column.ColumnName = "Descuento (%)";
             productosAgregados.Columns.Add(column);
 
+            if (!paraMostrar)
+            {
+                column = new DataColumn();
+                column.DataType = Type.GetType("System.Double");
+                column.ColumnName = "Total";
+                productosAgregados.Columns.Add(column);
+            }
+
             return productosAgregados;
         }
 
         /*
-         * ???
+         * Separa la string de un producto escogido en una barra de autocomplete en sus dos partes, nombre y código ([0] y [1] respectivamente).
          */
-        //protected void cargarEstaciones() 
-        //{
-        //    EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
-        //    DataTable estaciones = controladoraDatosGenerales.consultarEstaciones();
-
-        //    if (estaciones.Rows.Count > 0)
-        //    {
-        //        this.dropDownListCrearFacturaEstacion.Items.Clear();
-        //        foreach (DataRow fila in estaciones.Rows)
-        //        {
-        //            if ((usuarioActual.CodigoPerfil.Equals("1"))||(usuarioActual.IdEstacion.Equals(fila[0])))
-        //            {
-        //                this.dropDownListCrearFacturaEstacion.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
-        //            }
-        //        }
-        //    }
-        //    if ((usuarioActual.CodigoPerfil.Equals("1")))
-        //    {
-        //        dropDownListCrearFacturaEstacion.Enabled = true;
-        //    }
-        //    else
-        //    {
-        //        dropDownListCrearFacturaEstacion.Enabled = false;
-        //    }
-        //}
+        protected String[] separarNombreCodigoProductoEscogido(String productoEscogido)
+        {
+            String[] resultado = new String[2];
+            String codigoProductoEscogido = productoEscogido.Substring(productoEscogido.LastIndexOf('(') + 1);  //el código sin el primer paréntesis
+            codigoProductoEscogido = codigoProductoEscogido.TrimEnd(')');                                       //el código
+            productoEscogido = productoEscogido.Remove(productoEscogido.LastIndexOf('(') - 1);                  //nombre del producto (-1 al final por el espacio)
+            resultado[0] = productoEscogido;
+            resultado[1] = codigoProductoEscogido;
+            return resultado;
+        }
 
         /*
-         * ???
+         * Consulta en la BD las diferentes formas de pago para cargarlas en el dropdownlist.
          */
-        protected void cargarEstacionesConsulta()
+        protected void cargarMetodosPago()
         {
-            dropDownListConsultaEstacion.Items.Clear();
-            EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
-            DataTable estaciones = controladoraDatosGenerales.consultarEstaciones();
-            //int i=0;
-            if (estaciones.Rows.Count > 0)
+            DataTable metodosPago = controladoraVentas.consultarMetodosPago();
+            if(metodosPago != null)
             {
-                dropDownListConsultaEstacion.Items.Add(new ListItem("Todas", "All"));
-                //i++;
-                foreach (DataRow fila in estaciones.Rows)
+                dropDownListCrearFacturaMetodoPago.Items.Clear();
+                foreach (DataRow fila in metodosPago.Rows)
+                    dropDownListCrearFacturaMetodoPago.Items.Add(new ListItem(fila[0].ToString(), fila[1].ToString()));
+            }
+            else
+                mostrarMensaje("warning", "Alerta: ", "Error al intentar cargar los métodos de pago.");
+        }
+
+        /*
+         * Consulta en la BD las diferentes formas de pago para cargarlas en el dropdownlist.
+         */
+        protected void cargarPosiblesClientes()
+        {
+            DataTable clientes = controladoraVentas.consultarPosiblesClientes();
+            if (clientes != null)
+            {
+                dropDownListCrearFacturaCliente.Items.Clear();
+                dropDownListCrearFacturaCliente.Items.Add(new ListItem("", ""));
+                foreach (DataRow fila in clientes.Rows)
+                    dropDownListCrearFacturaCliente.Items.Add(new ListItem(fila[0].ToString(), fila[1].ToString()));
+            }
+            else
+                mostrarMensaje("warning", "Alerta: ", "Error al intentar cargar los posibles clientes.");
+        }
+
+        /*
+         * Consulta en la BD las diferentes actividades a las que se puede asociar la factura.
+         */
+        protected void cargarActividades()
+        {
+            DataTable actividadesDisponibles = controladoraActividades.consultarActividades();
+            if (actividadesDisponibles != null)
+            {
+                dropDownListCrearFacturaActividad.Items.Clear();
+                dropDownListCrearFacturaActividad.Items.Add(new ListItem("", ""));
+                foreach (DataRow fila in actividadesDisponibles.Rows)
+                    dropDownListCrearFacturaActividad.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
+            }
+            else
+                mostrarMensaje("warning", "Alerta: ", "Error al intentar cargar las actividades en el sistema.");
+        }
+
+        /*
+         * Se realizan todas las verificaciones necesarias antes de agregar un producto a una factura, las cuales son:
+         * -Revisar que el producto exista en el catálogo global (el usuario puede modificar el texto después de escogerlo en el autocomplete, o escribir lo que sea en realidad)
+         * -Revisar que el producto esté asociado al catálogo local de la bodega de trabajo (esto puede filtrarse en el autocomplete de una vez, TODO: hacer eso en el sprint 3)
+         * -Revisar que el producto esté activo en ese catálogo (se hace al mismo tiempo que en la consulta anterior)
+         * -Revisar que el producto tenga existencia mayor a 1
+         * -Revisar que el producto no haya sido agregado ya a la factura
+         * Si todo sale bien, retorna la llave del producto para continuar agregando.
+         */
+        protected String verificarProductoNuevo(String[] nombreCodigoProductoEscogido)
+        {
+            //Prmero, revisar que el producto no haya sido agregado ya a la factura
+            gridViewCrearFacturaProductos.DataSource = productosAgregados; //se refrezca el grid ya que aparentemente en el pageload se vacía
+            gridViewCrearFacturaProductos.DataBind();
+            foreach (GridViewRow fila in gridViewCrearFacturaProductos.Rows)
+            {
+                if (fila.Cells[3].Text == nombreCodigoProductoEscogido[1]) //si el código interno se repite
                 {
-                    if ((usuarioActual.CodigoPerfil.Equals("1")) || (usuarioActual.IdEstacion.Equals(fila[0])))
-                    {
-                        this.dropDownListConsultaEstacion.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
-                        //if ((usuarioActual.IdEstacion.Equals(fila[0])) && (!usuarioActual.CodigoPerfil.Equals("1")))
-                        //{
-                        //    this.dropDownListConsultaEstacion.SelectedIndex = i;
-                        //}
-                        //i++;
-                    }
+                    mostrarMensaje("warning", "Alerta: ", "Ese producto ya fue agregado a la factura. En lugar de agregarlo de nuevo puede modificar su cantidad.");
+                    return null;
                 }
+            }
+            
+            //Segundo, obtener la llave desde el catálogo global usando el nombre y el código interno para revisar si existe global y localmente, y si está activo
+            String llaveProductoEscogido = controladoraVentas.verificarExistenciaProductoLocal((this.Master as SiteMaster).LlaveBodegaSesion, nombreCodigoProductoEscogido[0], nombreCodigoProductoEscogido[1]); //trae la llave
+            if(llaveProductoEscogido == null)
+            {
+                mostrarMensaje("warning", "Alerta: ", "Ese producto no está asociado a la bodega " + (this.Master as SiteMaster).NombreBodegaSesion + ", o no existe.");
+                return null;
+            }
+
+            //Tercero, revisar que tenga existencia mayor a 0
+            double existencia = Convert.ToDouble(controladoraProductoLocal.consultarProductoDeBodega((this.Master as SiteMaster).LlaveBodegaSesion, nombreCodigoProductoEscogido[1]).Rows[0][7]);
+            if(existencia < 1) //la cantidad default es 1
+            {
+                mostrarMensaje("warning", "Alerta: ", "No hay suficiente existencia de ese producto disponible para venta en la bodega " + (this.Master as SiteMaster).NombreBodegaSesion + ".");
+                return null;
+            }
+
+            //Si el producto no fue agregado antes, existe, está localmente, en estado activo, y con existencia, continuar
+            return llaveProductoEscogido; //todo salió bien
+        }
+
+        /*
+         * Agrega un producto a la tabla de productos en la factura y actualiza el grid también, una vez que ya se verificó que se puede.
+         */
+        protected void agregarProductoAFactura(String[] nombreCodigoProductoEscogido, String llaveProductoEscogido)
+        {
+            DataRow nuevoProducto;
+            nuevoProducto = productosAgregados.NewRow();
+            nuevoProducto["Nombre"] = nombreCodigoProductoEscogido[0];                                       //nombre
+            nuevoProducto["Código interno"] = nombreCodigoProductoEscogido[1];                               //código interno
+            nuevoProducto["Precio unitario"] = (controladoraVentas.consultarPrecioUnitario(llaveProductoEscogido, labelCrearFacturaTipoMoneda.Text)); //precio unitario (buscar en la BD)
+            nuevoProducto["Impuesto (13%)"] = "Sí";                                                          //impuesto (booleano)
+            nuevoProducto["Descuento (%)"] = "0";                                                            //descuento (siempre empieza con 0)
+            nuevoProducto["Total"] = nuevoProducto["Precio unitario"];                                       //total (empieza con precio unitario * 1)
+            productosAgregados.Rows.Add(nuevoProducto);
+            gridViewCrearFacturaProductos.DataSource = productosAgregados;
+            gridViewCrearFacturaProductos.DataBind();
+            textBoxAutocompleteCrearFacturaBusquedaProducto.Text = "";
+            cantidadesProductos.Add(1); //agregar la existencia inicial (1)
+            //Con el databind se borran las cantidades, entonces se restauran, y se pone la nueva default
+            if ((checksProductos.Count > 0) || (cantidadesProductos.Count > 0))
+                restaurarCheckBoxesYCantidades();
+            actualizarPreciosTotales();
+        }
+
+        /*
+         * Invocada cuando se agregan productos o se cambia el tipo de moneda durante la creación de una factura.
+         * Se calcula el descuento antes que el impuesto.
+         */
+        protected void actualizarPreciosTotales()
+        {
+            double precioTotal = 0;
+            double precioProducto = 0;
+            foreach (GridViewRow fila in gridViewCrearFacturaProductos.Rows) //actualiza el "total" de cada fila del grid y va sumando para ponerlo al final
+            {
+                String cantidad = ((TextBox)fila.FindControl("gridCrearFacturaTextBoxCantidadProducto")).Text;
+                precioProducto = Convert.ToDouble(Convert.ToDouble(fila.Cells[4].Text) * Convert.ToInt32(cantidad)); //precio = precio unitario * cantidad
+                if(fila.Cells[6].Text != "0") //si tiene descuento
+                    precioProducto -= (precioProducto * (Convert.ToInt32(fila.Cells[6].Text) / 100)); //se le resta
+                if (fila.Cells[5].Text != "No") //si tiene impuesto
+                    precioProducto += (precioProducto * 0.13); //se le suma
+                fila.Cells[7].Text = precioProducto.ToString(); //se actualiza el total en la línea de la factura
+                precioTotal += precioProducto; //se actualiza el total de toda la factura
+            }
+            labelCrearFacturaPrecioTotal.Text = ((labelCrearFacturaTipoMoneda.Text == "Colones" ? "₡ " : "$ ") + precioTotal.ToString());
+            actualizarTablaProductosSegunGrid();
+        }
+
+        /*
+         * El manejo de precios y totales se realiza en el grid directamente, sin embargo al agregarle nuevos productos se usa
+         * la tabla atributo "productosAgregados" (con DataBind), por lo que ésta debe actualizarse también al actualizar el grid.
+         * Se utiliza "HttpUtility.HtmlDecode" porque html a veces corrompe caracteres especiales
+         */
+        protected void actualizarTablaProductosSegunGrid()
+        {
+            for(int i=0; i<gridViewCrearFacturaProductos.Rows.Count; ++i)
+            {
+                productosAgregados.Rows[i][0] = HttpUtility.HtmlDecode(gridViewCrearFacturaProductos.Rows[i].Cells[2].Text); //nombre
+                productosAgregados.Rows[i][1] = HttpUtility.HtmlDecode(gridViewCrearFacturaProductos.Rows[i].Cells[3].Text); //codigo interno
+                productosAgregados.Rows[i][2] = HttpUtility.HtmlDecode(gridViewCrearFacturaProductos.Rows[i].Cells[4].Text); //precio unitario
+                productosAgregados.Rows[i][3] = HttpUtility.HtmlDecode(gridViewCrearFacturaProductos.Rows[i].Cells[5].Text); //impuesto
+                productosAgregados.Rows[i][4] = HttpUtility.HtmlDecode(gridViewCrearFacturaProductos.Rows[i].Cells[6].Text); //descuento
+                productosAgregados.Rows[i][5] = HttpUtility.HtmlDecode(gridViewCrearFacturaProductos.Rows[i].Cells[7].Text); //total
             }
         }
 
         /*
          * ???
          */
-        protected void cargarBodegas(DropDownList dropdown)
+        protected Object[] obtenerDatos()
         {
-            dropdown.Items.Clear();
-            EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
-            DataTable bodegas = null;
-            if (dropdown == dropDownListConsultaBodega)
+            String[] datosEstacion = controladoraDatosGenerales.consultarEstacionDeBodega(((this.Master as SiteMaster).LlaveBodegaSesion));
+            Object[] datosFactura = new Object[14];
+            datosFactura[0] = null;                                                 //consecutivo, se autogenera al insertar a nivel de BD
+            datosFactura[1] = DateTime.Now.Date.ToString("dd/MMM/yyyy") + ' ' + DateTime.Now.ToString("hh:mm:ss tt"); //fecha y hora
+            datosFactura[2] = ((this.Master as SiteMaster).LlaveBodegaSesion);      //bodega (llave)
+            datosFactura[3] = datosEstacion[1];                                     //estacion (llave)
+            datosFactura[4] = "02";                                                 //compania, siempre esintro (llave)
+            datosFactura[5] = dropDownListCrearFacturaActividad.SelectedValue;      //actividad (llave)
+            datosFactura[6] = ((this.Master as SiteMaster).Usuario.Codigo);         //vendedor (llave)
+            datosFactura[7] = dropDownListCrearFacturaCliente.SelectedValue;        //cliente usuario (llave)
+            datosFactura[8] = labelCrearFacturaTipoMoneda.Text;                     //tipo moneda
+            datosFactura[9] = dropDownListCrearFacturaMetodoPago.SelectedValue;     //metodo de pago (llave)
+            datosFactura[12] = 1;                                                   //estado (1=activo por default)
+            if (labelCrearFacturaTipoMoneda.Text == "Colones")
             {
-                dropdown.Items.Add(new ListItem("Todas", "All"));
-                bodegas = controladoraBodegas.consultarBodegasDeEstacion(dropDownListConsultaEstacion.SelectedValue);
+                datosFactura[10] = Convert.ToDouble(labelCrearFacturaPrecioTotal.Text.Substring(2));  //montoTotalColones (substring para omitir el símbolo de la moneda)
+                datosFactura[11] = Math.Round((Convert.ToDouble(datosFactura[11]) / Convert.ToInt32(textBoxCrearFacturaTipoCambio.Text)), 2, MidpointRounding.AwayFromZero);  //montoTotalDolares (colones / tipocambio)
             }
-            //else //esto no debería darse
-            //{
-            //    bodegas = controladoraBodegas.consultarBodegasDeEstacion(dropDownListCrearFacturaEstacion.SelectedValue);
-            //}
-            //int i = 0;
-            if (bodegas.Rows.Count > 0)
+            else //"Dólares"
             {
-                foreach (DataRow fila in bodegas.Rows)
-                {
-                    //if ((usuarioActual.Perfil.Equals("Administrador global")) || (usuarioActual.Perfil.Equals("Administrador local")) || fila[1].ToString().Equals((this.Master as SiteMaster).NombreBodegaSesion))
-                    //si se invoca esta función es porque ya se revisó la parte de seguridad
-                    dropdown.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
-                }
+                datosFactura[11] = Convert.ToDouble(labelCrearFacturaPrecioTotal.Text.Substring(2));  //montoTotalDolares (substring para omitir el símbolo de la moneda)
+                datosFactura[10] = Math.Round((Convert.ToDouble(datosFactura[11]) * Convert.ToInt32(textBoxCrearFacturaTipoCambio.Text)), 2, MidpointRounding.AwayFromZero);  //montoTotalColones (dólares * tipocambio)
             }
-            //if ((usuarioActual.Perfil.Equals("Administrador global")) || (usuarioActual.Perfil.Equals("Administrador local")))
-            //{
-            //    dropdown.Enabled = true;
-            //}
-            //else
-            //{
-            //    dropdown.Enabled = false;
-            //}
+            datosFactura[13] = obtenerProductosAgregados();                         //tabla de productos
+            return datosFactura;
         }
 
+        /*
+         * Obtiene una tabla con base en el grid de productos en la factura que se está creando.
+         */
+        protected DataTable obtenerProductosAgregados()
+        {
+            DataTable productos = crearTablaProductosFactura(true, false); //con la columna de cantidad
+            DataRow detallesProducto;
+            foreach (GridViewRow fila in gridViewCrearFacturaProductos.Rows)
+            {
+                detallesProducto = productos.NewRow();
+                detallesProducto[0] = HttpUtility.HtmlDecode(fila.Cells[2].Text); //nombre
+                detallesProducto[1] = HttpUtility.HtmlDecode(fila.Cells[3].Text); //codigo interno
+                detallesProducto[6] = HttpUtility.HtmlDecode(fila.Cells[6].Text); //impuesto
+                detallesProducto[7] = HttpUtility.HtmlDecode(fila.Cells[7].Text); //total
+                detallesProducto[5] = (HttpUtility.HtmlDecode(fila.Cells[5].Text) == "No" ? 0 : 1); //descuento
+                detallesProducto[4] = Convert.ToInt32(((TextBox)fila.FindControl("gridCrearFacturaTextBoxCantidadProducto")).Text); //cantidad
+                if (labelCrearFacturaTipoMoneda.Text == "Colones")
+                {
+                    detallesProducto[2] = HttpUtility.HtmlDecode(fila.Cells[4].Text); //precio unitario colones
+                    detallesProducto[3] = Math.Round((Convert.ToDouble(detallesProducto[2]) / Convert.ToInt32(textBoxCrearFacturaTipoCambio.Text)), 2, MidpointRounding.AwayFromZero); //precio unitario dólares
+                }
+                else //dólares
+                {
+                    detallesProducto[3] = HttpUtility.HtmlDecode(fila.Cells[4].Text); //precio unitario dólares
+                    detallesProducto[2] = Math.Round((Convert.ToDouble(detallesProducto[3]) * Convert.ToInt32(textBoxCrearFacturaTipoCambio.Text)), 2, MidpointRounding.AwayFromZero); //precio unitario colones
+                }
+                productos.Rows.Add(detallesProducto);
+            }
+            return productos;
+        }
 
+        /*
+         * Al darse el PageLoad, se borran los checkboxes marcados, por lo que se usa la lista de booleanos para restaurarlos.
+         */
+        protected void restaurarCheckBoxesYCantidades()
+        {
+            for (int i = 0; i < gridViewCrearFacturaProductos.Rows.Count; ++i)
+            {
+                if (i < checksProductos.Count) //para evitar que intente accesar posiciones inexistentes
+                    ((CheckBox)gridViewCrearFacturaProductos.Rows[i].FindControl("gridCrearFacturaCheckBoxSeleccionarProducto")).Checked = checksProductos[i];
+                if (i < cantidadesProductos.Count) //para evitar que intente accesar posiciones inexistentes
+                    if (((TextBox)gridViewCrearFacturaProductos.Rows[i].FindControl("gridCrearFacturaTextBoxCantidadProducto")).Text == "") //para evitar que borre lo nuevo
+                        ((TextBox)gridViewCrearFacturaProductos.Rows[i].FindControl("gridCrearFacturaTextBoxCantidadProducto")).Text = cantidadesProductos[i].ToString();
+            }
+        }
 
 
 
@@ -718,7 +846,7 @@ namespace ProyectoInventarioOET
          * Invocada cuando se da click al botón de "Consultar Facturas", muestra el panel de escoger datos para consultar, NO muestra el grid.
          * Para mostrar el panel, pone la interfaz en modo de consulta y luego se invoca la función de cambiarModo.
          */
-        protected void clickBotonConsultarFacturas(object sender, EventArgs e)
+        protected void clickBotonConsultar(object sender, EventArgs e)
         {
             modo = Modo.Consulta;
             cargarDropdownListsConsulta();
@@ -737,37 +865,34 @@ namespace ProyectoInventarioOET
             //PanelGridConsultas.Visible = true;
             gridViewFacturas.Visible = true;
             tituloGrid.Visible = true;
-            tituloAccionFacturas.InnerText = "Seleccione una factura para ver su información detallada";
-            //Aquí NO se debe inovcar cambiarModo, ya que el modo no cambia
+            tituloAccionForm.InnerText = "Seleccione una factura para ver su información detallada";
+            //Aquí NO se debe invocar cambiarModo, ya que el modo no cambia
         }
 
         /*
          * Invocada cuando se da click al botón de "Consultar", muestra el grid con los resultados de la consulta.
          * La interfz se mantiene en modo de consulta.
          */
-        protected void clickBotonCrearFactura(object sender, EventArgs e)
+        protected void clickBotonCrear(object sender, EventArgs e)
         {
+            limpiarCampos();
+            //Cargar datos default y opcionales
             textBoxCrearFacturaEstacion.Text = controladoraDatosGenerales.consultarEstacionDeBodega((this.Master as SiteMaster).LlaveBodegaSesion)[0]; //nombre de la estación a la que pertenece la bodega de trabajo
             textBoxCrearFacturaBodega.Text = (this.Master as SiteMaster).NombreBodegaSesion; //nombre de la bodega de trabajo (punto de venta)
             textBoxCrearFacturaVendedor.Text = (this.Master as SiteMaster).Usuario.Nombre;
             textBoxCrearFacturaTipoCambio.Text = controladoraVentas.consultarTipoCambio().ToString();
+            cargarMetodosPago();
+            //cargarPosiblesClientes();
+            cargarActividades();
+
             modo = Modo.Insercion;
             cambiarModo();
-            productosAgregados = crearTablaProdcutosFactura(); //se crea una nueva tabla cada vez
-        }
+            productosAgregados = crearTablaProductosFactura(false, false); //se crea una nueva tabla cada vez, sin la columna de cantidad
+            labelCrearFacturaTipoMoneda.Text = "Colones"; //por default
 
-        /*
-         * Separa la string de un producto escogido en una barra de autocomplete en sus dos partes, nombre y código ([0] y [1]).
-         */
-        protected String[] separarNombreCodigoProductoEscogido(String productoEscogido)
-        {
-            String[] resultado = new String[2];
-            String codigoProductoEscogido = productoEscogido.Substring(productoEscogido.LastIndexOf('(') + 1);  //el código sin el primer paréntesis
-            codigoProductoEscogido = codigoProductoEscogido.TrimEnd(')');                                       //el código
-            productoEscogido = productoEscogido.Remove(productoEscogido.LastIndexOf('(') - 1);                  //nombre del producto (-1 al final por el espacio)
-            resultado[0] = productoEscogido;
-            resultado[1] = codigoProductoEscogido;
-            return resultado;
+            //Se limpian para que no conserven datos de facturas anteriores
+            checksProductos.Clear();
+            cantidadesProductos.Clear();
         }
 
         /*
@@ -775,69 +900,171 @@ namespace ProyectoInventarioOET
          * (el usuario puede escribir lo que quiera, es un textbox), si existe se agrega al grid para luego editar
          * su cantidad y poder aplicarle descuentos (o quitarlo de la factura).
          */
-        protected void clickBotonAgregarProductoFactura(object sender, EventArgs e)
+        protected void clickBotonAgregarProductoFacturaNueva(object sender, EventArgs e)
         {
-            //Primero, obtener la llave desde el catálogo global usando esos dos valores (es necesario revisar ambos
-            //valores para asegurarse de que el usuario no cambio ninguno antes de dar click al botón).
+            //Antes que nada, asegurarse de que el textbox tiene algo
+            if (textBoxAutocompleteCrearFacturaBusquedaProducto.Text == "")
+                return;
+            //Primero, obtener nombre y código del producto ingresado
             String productoEscogido = textBoxAutocompleteCrearFacturaBusquedaProducto.Text;
             String[] nombreCodigoProductoEscogido = separarNombreCodigoProductoEscogido(productoEscogido);
-            String llaveProductoEscogido = controladoraVentas.verificarExistenciaProductoLocal((this.Master as SiteMaster).LlaveBodegaSesion, nombreCodigoProductoEscogido[0], nombreCodigoProductoEscogido[1]);
-
-            if (llaveProductoEscogido != null)
-            {
-                DataRow testRow;
-                testRow = productosAgregados.NewRow();
-                testRow["Nombre"] = nombreCodigoProductoEscogido[0];            //nombre
-                testRow["Código interno"] = nombreCodigoProductoEscogido[1];    //código interno
-                testRow["Precio unitario"] = "500";                             //precio unitario (buscar en la BD)
-                testRow["Impuesto"] = "Sí";                                     //impuesto (booleano)
-                testRow["Descuento (%)"] = "0";                                 //descuento (siempre empieza con 0)
-                productosAgregados.Rows.Add(testRow);
-                gridViewCrearFacturaProductos.DataSource = productosAgregados;
-                gridViewCrearFacturaProductos.DataBind();
-            }
+            //Segundo, verificar si se puede agregar, si sí, se agrega
+            if ((productoEscogido = verificarProductoNuevo(nombreCodigoProductoEscogido)) != null)
+                agregarProductoAFactura(nombreCodigoProductoEscogido, productoEscogido);
         }
 
         /*
-         * Invocada cuando se escoge una factura del grid de consultas para desplegar su información específica
-         * (en el panel de consulta específica, el cual ahora reemplazará visualmente al panel de escoger datos para consultar).
+         * Invocada cuando se desea cambiar el tipo de moneda de la factura, afecta toda la lista de precios y el total.
+         * Se usa "Math.Round" para redondear, a 2 decimales, con MidpointRounding.AwayFromZero para mayor exactitud.
          */
-        protected void gridViewFacturas_FilaSeleccionada(object sender, GridViewCommandEventArgs e)
+        protected void clickBotonCambiarTipoMoneda(object sender, EventArgs e)
         {
-            switch (e.CommandName)
+            foreach (GridViewRow fila in gridViewCrearFacturaProductos.Rows)
+                if (labelCrearFacturaTipoMoneda.Text == "Colones") //pasar a dólares
+                    fila.Cells[4].Text = (Math.Round((Convert.ToDouble(fila.Cells[4].Text) / Convert.ToDouble(textBoxCrearFacturaTipoCambio.Text)), 2, MidpointRounding.AwayFromZero)).ToString(); //fila[4] es el precio unitario
+                else //pasar a colones
+                    fila.Cells[4].Text = (Math.Round((Convert.ToDouble(fila.Cells[4].Text) * Convert.ToDouble(textBoxCrearFacturaTipoCambio.Text)), 2, MidpointRounding.AwayFromZero)).ToString(); //fila[4] es el precio unitario
+
+            labelCrearFacturaTipoMoneda.Text = (labelCrearFacturaTipoMoneda.Text == "Colones" ? "Dólares" : "Colones");
+            actualizarPreciosTotales();
+            actualizarTablaProductosSegunGrid();
+        }
+
+        /*
+         * Elimina el producto de la factura que esté marcado (seleccionado, con el checkbox).
+         */
+        protected void clickBotonCrearEliminarProducto(object sender, EventArgs e)
+        {
+            for(int i=0; i<gridViewCrearFacturaProductos.Rows.Count; ++i)
             {
-                case "Select":
-                    String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewFacturas.PageIndex * this.gridViewFacturas.PageSize)]);
-                    consultarFactura(codigo);
-                    //Response.Redirect("FormVentas.aspx");
+                if(((CheckBox)gridViewCrearFacturaProductos.Rows[i].FindControl("gridCrearFacturaCheckBoxSeleccionarProducto")).Checked) //se encontró, eliminar esta fila de todo lado
+                {
+                    productosAgregados.Rows.RemoveAt(i); //se remueve de la tabla
+                    checksProductos.RemoveAt(i); //se remueve de la lista de booleanos de checks
+                    cantidadesProductos.RemoveAt(i); //se remueve de la lista de cantidades
+                    gridViewCrearFacturaProductos.DataSource = productosAgregados;
+                    gridViewCrearFacturaProductos.DataBind(); //se refrezca el grid
                     break;
+                }
+            }
+            restaurarCheckBoxesYCantidades();
+        }
+
+        /*
+         * Edita las propiedades de descuento e impuesto del producto seleccionado.
+         */
+        protected void clickBotonCrearModalAceptar(object sender, EventArgs e)
+        {
+            for(int i=0; i<gridViewCrearFacturaProductos.Rows.Count; ++i)
+            {
+                if(((CheckBox)gridViewCrearFacturaProductos.Rows[i].FindControl("gridCrearFacturaCheckBoxSeleccionarProducto")).Checked) //se encontró la fila
+                {
+                    productosAgregados.Rows[i][4] = dropdownlistModalModificarProductoDescuento.SelectedValue;
+                    productosAgregados.Rows[i][3] = dropdownlistModalModificarProductoImpuesto.SelectedValue;
+                    gridViewCrearFacturaProductos.DataSource = productosAgregados;
+                    gridViewCrearFacturaProductos.DataBind();
+                    restaurarCheckBoxesYCantidades();
+                    break;
+                }
             }
         }
-        
+
         /*
-         * ???
+         * Invocada cuando termina de hacer la factura y se envia a la base de datos.
          */
-        protected void gridViewFacturas_CambioPagina(Object sender, GridViewPageEventArgs e)
+        protected void clickBotonCrearGuardar(object sender, EventArgs e)
         {
-            llenarGrid();
-            gridViewFacturas.PageIndex = e.NewPageIndex;
-            gridViewFacturas.DataBind();
-            tituloGrid.Visible = true;
-            gridViewFacturas.Visible = true;
+            //Antes que nada, revisar que hayan productos, si no, no se puede guardar la factura
+            if(productosAgregados.Rows.Count < 1)
+            {
+                mostrarMensaje("warning", "Alerta: ", "No puede guardarse una factura vacía, sin productos.");
+                return;
+            }
+            Object[] datosFactura = obtenerDatos();
+            String[] resultado = controladoraVentas.insertarFactura(datosFactura);
+            mostrarMensaje(resultado[0], resultado[1], resultado[2]);
+
+            //blopa
+            //DataTable productoConsultado;
+            //bool alerta = false;
+            //bool error = false;
+            //for (int i = 0; i < productosAgregados.Rows.Count && !error; i++)
+            //{
+            //    productoConsultado = controladoraProductoLocal.consultarProductoDeBodega((this.Master as SiteMaster).LlaveBodegaSesion, productosAgregados.Rows[i][2].ToString());
+            //    double cantidad = Convert.ToDouble(productosAgregados.Rows[i][0].ToString());
+            //    double existencias = Convert.ToDouble(productoConsultado.Rows[0][7]);
+            //    double minimo = Convert.ToDouble(productoConsultado.Rows[0][13]);
+            //    error = existencias < cantidad;
+            //    alerta |= (existencias - cantidad) >= minimo;
+            //}
+            ////Con que un producto no cumpla esto, hay que mostrar un mensaje de error e interrumpir todo
+            //if (!error)
+            //{
+
+            //    if (alerta)
+            //    {
+            //        resultado[0] = "warning";
+            //        resultado[2] += "\nUno o más productos han salido de sus límites permitidos (nivel máximo o mínimo), revise el catálogo local.";
+            //    }
+            //}
+        }
+
+        /*
+         * Invocada al dar click al botón de Cancelar durante el proceso de creación. Limpia los campos y vuelve al modo de creación.
+         */
+        protected void clickBotonCrearCancelarModal(object sender, EventArgs e)
+        {
+            clickBotonCrear(sender, e); //se hace prácticamente lo mismo en ambas funciones
         }
 
         /*
          * ???
          */
-        protected void botonAceptarCambioUsuario_ServerClick(object sender, EventArgs e)
+        protected void clickBotonModificar(object sender, EventArgs e)
+        {
+            modo = Modo.Modificacion;
+            cambiarModo();
+        }
+
+        /*
+         * ???
+         */
+        protected void clickBotonAceptarModificar(object sender, EventArgs e)
+        {
+            String[] error = controladoraVentas.anularFactura(facturaConsultada);
+            mostrarMensaje(error[0], error[1], error[2]);
+
+            if (error[0].Contains("success"))// si fue exitoso
+            {
+                llenarGrid();
+                facturaConsultada = controladoraVentas.consultarFactura(facturaConsultada.Consecutivo);
+                modo = Modo.Consulta;
+            }
+            else
+            {
+                modo = Modo.Modificacion;
+            }
+        }
+
+        /*
+         * ???
+         */
+        protected void clickBotonCancelarModificar(object sender, EventArgs e)
+        {
+
+        }
+
+        /*
+         * ???
+         */
+        protected void clickBotonAceptarCambioUsuario(object sender, EventArgs e)
         {
             // Consulta al usuario
-            /*EntidadUsuario usuario = controladoraSeguridad.consultarUsuario(inputUsername.Value, inputPassword.Value);
+            EntidadUsuario usuario = controladoraSeguridad.consultarUsuario(inputUsername.Value, inputPassword.Value);
 
             if (usuario != null)
             {
                 // Si me retorna un usuario valido
-
                 // Hacer el usuario logueado visible a todas los modulos
                 (this.Master as SiteMaster).Usuario = usuario;
                 // Redirigir a pagina principal
@@ -846,38 +1073,14 @@ namespace ProyectoInventarioOET
             {
                 // Si no me retorna un usuario valido, advertir
                 //mostrarMensaje();
-            }* */
-
-            String [] resultado = controladoraVentas.insertarFactura(obtenerDatos());
-
-        }
-
-        protected void dropDownListCrearFacturaEstacion_SelectedIndexChanged(object sender, EventArgs e)
-        {
-           // cargarBodegas(this.dropDownListCrearFacturaBodega);
+            }
+            //String[] resultado = controladoraVentas.insertarFactura(obtenerDatos());
         }
 
         /*
          * ???
          */
-        protected void dropDownListConsultaBodega_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            cargarAsociadosABodegas(dropDownListConsultaBodega.SelectedValue);
-        }
-
-        /*
-         * ???
-         */
-        protected void dropDownListConsultaEstacion_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            cargarBodegas(this.dropDownListConsultaBodega);
-            dropDownListConsultaVendedor.Items.Clear(); //para evitar que escoja vendedores cargados de bodegas anteriores
-        }
-
-        /*
-         * ???
-         */
-        protected void botonAceptarAjusteRapido_ServerClick(object sender, EventArgs e)
+        protected void clickBotonAceptarAjusteRapido(object sender, EventArgs e)
         {
             String productoEscogido = textBoxAutocompleteAjusteRapidoBusquedaProducto.Text;
             String[] nombreCodigoProductoEscogido = separarNombreCodigoProductoEscogido(productoEscogido);
@@ -899,46 +1102,130 @@ namespace ProyectoInventarioOET
             datos[3] = productoEscogido;
             datos[4] = Convert.ToInt32(nuevaCantidadParaAjusteRapido.Text);
 
-
             nuevoAjusteRapido.agregarDetalle(datos);
             String [] resultado = controladoraAjustes.insertarAjuste(nuevoAjusteRapido);
             mostrarMensaje(resultado[0],resultado[1],resultado[2]);
-        
-        
-        
-        
-        
+        }
+
+        /*
+         * Invocada cuando se escoge una factura del grid de consultas para desplegar su información específica
+         * (en el panel de consulta específica, el cual ahora reemplazará visualmente al panel de escoger datos para consultar).
+         */
+        protected void gridViewFacturas_FilaSeleccionada(object sender, GridViewCommandEventArgs e)
+        {
+            switch (e.CommandName)
+            {
+                case "Select":
+                    String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewFacturas.PageIndex * this.gridViewFacturas.PageSize)]);
+                    consultarFactura(codigo);
+                    //Response.Redirect("FormVentas.aspx");
+                    break;
+            }
         }
 
         /*
          * ???
          */
-        protected void botonModificar_ServerClick(object sender, EventArgs e)
+        protected void gridViewFacturas_CambioPagina(Object sender, GridViewPageEventArgs e)
         {
-            modo = Modo.Modificacion;
-            cambiarModo();
+            llenarGrid(); //súper ineficiente, TODO: buscar cómo evitar esto
+            gridViewFacturas.PageIndex = e.NewPageIndex;
+            gridViewFacturas.DataBind();
+            tituloGrid.Visible = true;
+            gridViewFacturas.Visible = true;
         }
 
-        protected void botonAceptarModificacionFacturaEspecifica_ServerClick(object sender, EventArgs e)
+        /*
+         * ???
+         */
+        protected void dropDownListConsultaEstacion_ValorCambiado(object sender, EventArgs e)
         {
-            String[] error = controladoraVentas.anularFactura(facturaConsultada); 
-            mostrarMensaje(error[0], error[1], error[2]);
+            cargarBodegas(this.dropDownListConsultaBodega);
+            dropDownListConsultaVendedor.Items.Clear(); //para evitar que escoja vendedores cargados de bodegas anteriores
+        }
 
-            if (error[0].Contains("success"))// si fue exitoso
+        /*
+         * ???
+         */
+        protected void dropDownListConsultaBodega_ValorCambiado(object sender, EventArgs e)
+        {
+            cargarAsociadosABodegas(dropDownListConsultaBodega.SelectedValue);
+        }
+
+        /*
+         * Cuando se escoja el método de pago "deducción de planilla", se debe cargar los empleados de la OET como posibles clientes.
+         */
+        protected void dropDownListCrearFacturaMetodoPago_ValorCambiado(object sender, EventArgs e)
+        {
+            //Deberia hacerse solo cuando escoja "deduccion de planilla"
+            cargarPosiblesClientes();
+        }
+
+        /*
+         * Maneja el evento en el que se marca o desmarca un checkbox de seleccionar un producto en el grid durante la creación de una factura.
+         * Si se marca deben desmarcarse los demás checkboxes. También guarda el estado de todos para poder usar los botones de eliminar y editar.
+         */
+        protected void checkBoxCrearFacturaProductos_CheckCambiado(object sender, EventArgs e)
+        {
+            botonCrearFacturaEliminarProducto.Disabled = !((CheckBox)sender).Checked;
+            botonCrearFacturaModificarProducto.Disabled = !((CheckBox)sender).Checked;
+            checksProductos.Clear();
+            foreach (GridViewRow fila in gridViewCrearFacturaProductos.Rows)
             {
-                llenarGrid();
-                facturaConsultada = controladoraVentas.consultarFactura(facturaConsultada.Consecutivo);
-                modo = Modo.Consulta;
-            }
-            else
-            {
-                modo = Modo.Modificacion;
+                //Primero, desmarcar todos los otros checkboxes al marcar uno nuevo
+                CheckBox check = (CheckBox)fila.FindControl("gridCrearFacturaCheckBoxSeleccionarProducto");
+                if (((CheckBox)sender).Checked && (check.Checked) && (check != (CheckBox)sender))
+                    check.Checked = false;
+                //Segundo, guardar el estado de cada checkbox
+                checksProductos.Add(check.Checked);
+                //Tercero, cargar los posibles porcentajes de descuento del producto dentro del modal desde ya
+                if(check == (CheckBox)sender) //se encontró la fila
+                {
+                    int maximoDescuento = controladoraVentas.maximoDescuentoAplicable(controladoraVentas.verificarExistenciaProductoLocal((this.Master as SiteMaster).LlaveBodegaSesion, fila.Cells[2].ToString(), fila.Cells[3].ToString()), (this.Master as SiteMaster).Usuario.Codigo);
+                    dropdownlistModalModificarProductoDescuento.Items.Clear();
+                    for (int i = 0; i <= maximoDescuento; ++i)
+                        dropdownlistModalModificarProductoDescuento.Items.Add(new ListItem(i + "%",i.ToString()));
+                }
             }
         }
 
-        protected void botonCancelarModificacionFacturaEspecifica_ServerClick(object sender, EventArgs e)
+        /*
+         * Maneja el evento en el que se modifica la cantidad de un producto que está en la nueva factura, guarda todas las cantidades
+         * para poder restaurarlas al darse el pageload.
+         */
+        protected void textBoxCrearFacturaProductosCantidad_TextoCambiado(object sender, EventArgs e)
         {
-
+            int i = 0;
+            foreach (GridViewRow fila in gridViewCrearFacturaProductos.Rows)
+            {
+                if (((TextBox)fila.FindControl("gridCrearFacturaTextBoxCantidadProducto")) == (TextBox)sender) //es la fila donde está el textbox que fue cambiado
+                {
+                    try
+                    {
+                        cantidadesProductos[i] = Convert.ToInt32(((TextBox)sender).Text); //se actualiza la cantidad
+                        //Revisar que la nueva cantidad no supere la existencia real local (usando funciones de controladoras)
+                        double existenciaReal = Convert.ToDouble(controladoraProductoLocal.consultarProductoDeBodega((this.Master as SiteMaster).LlaveBodegaSesion, fila.Cells[3].Text).Rows[0][7]);
+                        actualizarPreciosTotales(); //actualiza la línea final de la factura
+                        if (cantidadesProductos[i] > existenciaReal) //si se pretende vender más de lo que hay disponible
+                        {
+                            mostrarMensaje("danger", "Alerta: ", "La cantidad del producto '" + fila.Cells[2].Text + "' que intenta venderse es mayor a la existencia real en la bodega " + (this.Master as SiteMaster).NombreBodegaSesion + ". Esta factura no puede guardarse sin arreglar la cantidad.");
+                            ((TextBox)sender).ForeColor = System.Drawing.Color.Red; //para alertar al usuario
+                            botonCrearFacturaGuardar.Disabled = true;
+                        }
+                        else
+                        {
+                            botonCrearFacturaGuardar.Disabled = false;
+                            ((TextBox)sender).ForeColor = System.Drawing.Color.Black; //para volver a la normalidad
+                        }
+                    }
+                    catch (Exception x)
+                    {
+                        return; //se maneja como excepción que la textbox contenga algo no numérico, como ya se maneja en tiempo real, aquí no se hace nada
+                    }
+                    break; //sólo se hace una vez
+                }
+                ++i;
+            }
         }
     }
 }

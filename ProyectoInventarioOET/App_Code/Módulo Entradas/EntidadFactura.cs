@@ -16,8 +16,8 @@ namespace ProyectoInventarioOET.Modulo_Entradas
         private String moneda;
         private double tipoCambio;
         private String idProvedor;
-        private int subtotal;
-        private int total;
+        private double subtotal;
+        private double total;
         private int descuento;
         private int retencionImpuestos;
         private int detallado;
@@ -32,8 +32,8 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             moneda = datos[5].ToString();
             tipoCambio = Convert.ToDouble( datos[6].ToString());
             idProvedor = datos[7].ToString();
-            subtotal = Convert.ToInt32( datos[8]);
-            total = Convert.ToInt32( datos[9]);
+            subtotal = Convert.ToDouble(datos[8]);
+            total = Convert.ToDouble(datos[9]);
             descuento = Convert.ToInt32( datos[10]);
             retencionImpuestos = Convert.ToInt32( datos[11]);
             detallado = Convert.ToInt32(datos[12]);
@@ -77,13 +77,13 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             get { return tipoCambio; }
             set { tipoCambio = value; }
         }
-        public int SubTotal
+        public double SubTotal
         {
             get { return subtotal; }
             set { subtotal = value; }
         }
 
-        public int Total
+        public double Total
         {
             get { return total; }
             set { total = value; }

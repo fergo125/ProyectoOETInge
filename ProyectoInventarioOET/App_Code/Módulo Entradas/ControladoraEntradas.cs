@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using ProyectoInventarioOET.Modulo_ProductosGlobales;
+using ProyectoInventarioOET.Modulo_Productos_Locales;
 
 namespace ProyectoInventarioOET.Modulo_Entradas
 {
@@ -14,6 +15,7 @@ namespace ProyectoInventarioOET.Modulo_Entradas
         private ControladoraBDEntradas controladoraBDEntradas;    // Instancia de la controladora de base
         // de datos para realizar operaciones allí.
         private ControladoraProductosGlobales controladoraProductosGlobales;
+        private ControladoraProductoLocal controladoraProductoLocal;
 
         /*
          * Constructor.
@@ -22,6 +24,7 @@ namespace ProyectoInventarioOET.Modulo_Entradas
         {
             controladoraBDEntradas = new ControladoraBDEntradas();
             controladoraProductosGlobales = new ControladoraProductosGlobales();
+            controladoraProductoLocal = new ControladoraProductoLocal();
         }
 
         /*
@@ -101,6 +104,18 @@ namespace ProyectoInventarioOET.Modulo_Entradas
         public DataTable consultarProductosEntrada(string id)
         {
             return controladoraBDEntradas.consultarProductosEntrada(id);
+        }
+        public String[] insertarEntrada(Object[] entrada, DataTable productosAsociados)
+        {
+            return controladoraBDEntradas.insertarEntrada(new EntidadEntrada(entrada), productosAsociados);
+        }
+
+        /*
+         * Consulta la existencia de un producto específico perteneciente a una bodega.
+         */
+        public DataTable consultarProductoDeBodega(String idBodega, String idProducto)
+        {
+            return controladoraProductoLocal.consultarProductoDeBodega(idBodega, idProducto);
         }
     }
 }

@@ -29,7 +29,12 @@ namespace ProyectoInventarioOET.Modulo_Ventas
          */
         public String[] insertarFactura(Object[] datosFactura)
         {
-            EntidadFactura factura = new EntidadFactura(datosFactura);
+            DataTable productosConID = (DataTable)datosFactura[13];
+            foreach (DataRow fila in productosConID.Rows) //se reemplaza el código interno por la llave para insertar
+                fila[1] = controladoraBDVentas.verificarExistenciaProductoGlobal(fila[0].ToString(), fila[1].ToString());
+            datosFactura[13] = productosConID;
+
+            EntidadFacturaVenta factura = new EntidadFacturaVenta(datosFactura);
             return controladoraBDVentas.insertarFactura(factura);
         }
 
@@ -40,25 +45,25 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         public String verificarExistenciaProductoLocal(String idBodega, String nombreProductoEscogido, String codigoProductoEscogido)
         {
             String llaveProducto = controladoraBDVentas.verificarExistenciaProductoGlobal(nombreProductoEscogido, codigoProductoEscogido);
-            //Luego, si el producto se existe, se usa su llave para verificar que existe en el catálogo local de la bodega
+            //Si el producto se existe, se usa su llave para verificar que existe en el catálogo local de la bodega
             //que se está usando como punto de venta.
             if (controladoraBDVentas.verificarExistenciaProductoLocal(llaveProducto, idBodega))
-                return llaveProducto; //Finalmente, se retorna nulo si el producto no se encuentra, y la llave del produto si sí se encuentra
+                return llaveProducto; //Finalmente, se retorna nulo si el producto no se encuentra, y la llave del producto si sí se encuentra
             return null;
         }
 
         /*
          * ???
          */
-        public DataTable consultarFacturas(String perfil, String idUsuario, String idBodega, String idEstacion)
+        public DataTable consultarFacturas(String idUsuario, String idBodega, String idEstacion)
         {
-            return controladoraBDVentas.consultarFacturas(perfil, idUsuario, idBodega, idEstacion);
+            return controladoraBDVentas.consultarFacturas(idUsuario, idBodega, idEstacion);
         }
 
         /*
          * ???
          */
-        public EntidadFactura consultarFactura(String id)
+        public EntidadFacturaVenta consultarFactura(String id)
         {
             return controladoraBDVentas.consultarFactura(id);
         }
@@ -90,9 +95,45 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             return controladoraBDVentas.consultarTipoCambio();
         }
 
-        public String[] anularFactura(EntidadFactura entidadFactura)
+        /*
+         * Obtiene el precio unitario, en colones o dólares, de un producto.
+         */
+        public double consultarPrecioUnitario(String llaveProducto, String tipoMoneda)
+        {
+            return Math.Round((controladoraBDVentas.consultarPrecioUnitario(llaveProducto, tipoMoneda)), 2, MidpointRounding.AwayFromZero);
+            //return controladoraBDVentas.consultarPrecioUnitario(llaveProducto, tipoMoneda);
+        }
+
+        /*
+         * ???
+         */
+        public String[] anularFactura(EntidadFacturaVenta entidadFactura)
         {
             return controladoraBDVentas.anularFactura(entidadFactura);
+        }
+
+        /*
+         * Obtiene las posibles formas de pago.
+         */
+        public DataTable consultarMetodosPago()
+        {
+            return controladoraBDVentas.consultarMetodosPago();
+        }
+
+        /*
+         * Obtiene el nombre de un método de pago dado su ID.
+         */
+        public String consultarMetodoDePago(String llaveMetodo)
+        {
+            return controladoraBDVentas.consultarMetodoDePago(llaveMetodo);
+        }
+
+        /*
+         * Obtiene los posibles clientes para las ventas, dentro de los empleados de la OET.
+         */
+        public DataTable consultarPosiblesClientes()
+        {
+            return controladoraBDVentas.consultarClientes();
         }
     }
 }

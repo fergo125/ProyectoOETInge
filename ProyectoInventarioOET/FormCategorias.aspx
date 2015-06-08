@@ -20,9 +20,9 @@
 
 
     <!-- Botones -->
-    <button runat="server" onserverclick="botonAgregarCategoria_ServerClick"  id="botonAgregarCategoria"  class=" btn btn-info-fozkr" type="button" style="float: left" visible="false">Nueva Categoría</button>
-    <button runat="server" onserverclick="botonModificacionCategoria_ServerClick" id="botonModificacionCategoria" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false">Modificar Categoría</button>
     <button runat="server" causesvalidation="false" onserverclick="botonConsultaCategoria_ServerClick" id="botonConsultaCategoria"  class=" btn btn-info-fozkr" type="button" style="float: left" visible="false">Consultar Categorías</button>
+    <button runat="server" onserverclick="botonAgregarCategoria_ServerClick"  id="botonAgregarCategoria"  class=" btn btn-info-fozkr" type="button" style="float: left" visible="false">Crear Categoría</button>
+    <button runat="server" onserverclick="botonModificacionCategoria_ServerClick" id="botonModificacionCategoria" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false">Modificar Categoría</button>
 
 
     <br />
@@ -107,7 +107,7 @@
 <%--    Botones de aceptar y cancelar acción--%> 
     <div class= "row" id="bloqueBotones" visible="true" runat="server">
         <div class="text-center">
-            <button id="botonAceptar" class="btn btn-success-fozkr" type="button" runat="server" onserverclick="botonAceptarCategoria_ServerClick" > Enviar </button>
+            <button id="botonAceptar" class="btn btn-success-fozkr" type="button" runat="server" onserverclick="botonAceptarCategoria_ServerClick" > Guardar</button>
             <a id="botonCancelar" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cancelar</a>
         </div>
     </div>

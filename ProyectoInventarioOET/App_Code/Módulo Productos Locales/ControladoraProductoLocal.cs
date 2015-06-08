@@ -77,5 +77,14 @@ namespace ProyectoInventarioOET.Modulo_Productos_Locales
         {
             return controladoraBD.consultarProductosDeBodega(idBodegaOrigen, idBodegaDestino);
         }
+
+        /*
+         * Consulta el maximo y el minimo para un producto en una bodega especifica
+         */
+        public DataTable consultarMinimoMaximoProductoEnBodega(String idProductoEnBodega)
+        {
+            return controladoraBD.consultarMinimoMaximoProductoEnBodega(idProductoEnBodega);
+        }
+
     }
 }
