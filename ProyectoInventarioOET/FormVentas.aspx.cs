@@ -32,11 +32,11 @@ namespace ProyectoInventarioOET
         private static List<int> cantidadesProductos;                           //Para guardar las cantidades en los textboxes del grid de productos durante el proceso de creación //TODO: usar esto
         private static DataTable productosAgregados;                            //Para llenar el grid de productos al crear una factura
         private static DataTable facturasConsultadas;                           //Para llenar el grid y para mostrar los detalles de cada factura específica
-        private static EntidadFacturaVenta facturaConsultada;                   //???
+        private static EntidadFacturaVenta facturaConsultada;                   //Entidad de factura para almacenar la consulta de la base de datos
         private static ControladoraVentas controladoraVentas;                   //Para accesar las tablas del módulo y realizar las operaciones de consulta, inserción, modificación y anulación
-        private static ControladoraAjustes controladoraAjustes;                 //???
-        private static ControladoraBodegas controladoraBodegas;                 //???
-        private static ControladoraSeguridad controladoraSeguridad;             //???
+        private static ControladoraAjustes controladoraAjustes;                 //Controladora de ajustes para trabajar con los ajustes de factura
+        private static ControladoraBodegas controladoraBodegas;                 //Controlaodra de bodegas para tramitar las existencias de productos en bodega
+        private static ControladoraSeguridad controladoraSeguridad;             //Controladora de seguridad para la comprobación de permisos de usuario y para el cambio de sesión
         private static ControladoraActividades controladoraActividades;         //Para consultar las actividades a las que se puede asociar una nueva factura
         private static ControladoraDatosGenerales controladoraDatosGenerales;   //Para accesar datos generales de la base de datos
         private static ControladoraProductoLocal controladoraProductoLocal ;    //Para revisar existencias de productos
@@ -414,7 +414,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Método de controladora que consulta la factura de la base de datos con la llave seleccionada
          */
         protected void consultarFactura(String idFactura)
         {
@@ -435,7 +435,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Método de interfaz que pone en los datos de la factura consultada en la interfaz
          */
         protected void setDatosConsultados()
         {
@@ -475,7 +475,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Método de interfaz que habilita o deshabilita la casilla de estado; el resto de casillas siempre están bloqueadas
          */
         protected void habilitarCampos(bool habilitar)
         {
@@ -485,7 +485,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Creación de la tabla para unir al grid donde irán los datos principales de la factura 
          */
         protected DataTable crearTablaFacturasConsultadas() 
         {
@@ -759,7 +759,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Método de interfaz que toma los datos de la interfaz y los almacena en un vector para trabajar de manera encapsulada
          */
         protected Object[] obtenerDatos()
         {
@@ -1022,7 +1022,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Evento de disparo que cambia el modo a modificacón tras haber presionado el botón Modificar para iniciar un cambio
          */
         protected void clickBotonModificar(object sender, EventArgs e)
         {
@@ -1031,7 +1031,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Método que consolida el cambio a la factura
          */
         protected void clickBotonAceptarModificar(object sender, EventArgs e)
         {
@@ -1051,7 +1051,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Método de cancelar modificación
          */
         protected void clickBotonCancelarModificar(object sender, EventArgs e)
         {
@@ -1059,7 +1059,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Evento que hace el cambio de usuario rápido
          */
         protected void clickBotonAceptarCambioUsuario(object sender, EventArgs e)
         {
@@ -1083,7 +1083,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Método que realiza el ajuste rápido 
          */
         protected void clickBotonAceptarAjusteRapido(object sender, EventArgs e)
         {
@@ -1092,11 +1092,11 @@ namespace ProyectoInventarioOET
             String llaveProductoEscogido = controladoraVentas.verificarExistenciaProductoLocal((this.Master as SiteMaster).LlaveBodegaSesion, nombreCodigoProductoEscogido[0], nombreCodigoProductoEscogido[1]);
 
             Object[] datos = new Object[6];
-            datos[0] = "CYCLO106062012145550408008";
+            datos[0] = "CYCLO106062012145550408008"; //Todas las ventas están asociadas a ESYNTRO
             datos[1] = DateTime.Now.ToString("dd-MMM-yy");
             datos[2] = (this.Master as SiteMaster).Usuario.Nombre;
             datos[3] = (this.Master as SiteMaster).Usuario.Codigo;
-            datos[4] = "Ajuste realizado para permitir una venta";
+            datos[4] = "Ajuste realizado para permitir una venta"; //Todos los ajustes rápidos son de esta categoría; no se deberia pedir al usuario que indique el tipo, siempre es fijo
             datos[5] = (this.Master as SiteMaster).LlaveBodegaSesion;
 
             EntidadAjustes nuevoAjusteRapido = new EntidadAjustes(datos);
@@ -1124,17 +1124,16 @@ namespace ProyectoInventarioOET
                 case "Select":
                     String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewFacturas.PageIndex * this.gridViewFacturas.PageSize)]);
                     consultarFactura(codigo);
-                    //Response.Redirect("FormVentas.aspx");
                     break;
             }
         }
 
         /*
-         * ???
+         * Método que se encarga del cambio de página del grid
          */
         protected void gridViewFacturas_CambioPagina(Object sender, GridViewPageEventArgs e)
         {
-            llenarGrid(); //súper ineficiente, TODO: buscar cómo evitar esto
+            llenarGrid(); 
             gridViewFacturas.PageIndex = e.NewPageIndex;
             gridViewFacturas.DataBind();
             tituloGrid.Visible = true;
@@ -1142,7 +1141,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Evento que cada vez que se selecciona una estación, refresca las bodegas de esa estación
          */
         protected void dropDownListConsultaEstacion_ValorCambiado(object sender, EventArgs e)
         {
@@ -1151,7 +1150,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Evento que cada vez que se selecciona una bodega, refresca los asociados a esa bodega
          */
         protected void dropDownListConsultaBodega_ValorCambiado(object sender, EventArgs e)
         {
