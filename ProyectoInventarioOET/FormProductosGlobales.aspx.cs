@@ -25,6 +25,9 @@ namespace ProyectoInventarioOET
         private static ControladoraDatosGenerales controladoraDatosGenerales;   // Controladora para obtener datos generales
         private static ControladoraProductosGlobales controladora;              // Controladora para obtener datos y manejar lógica de negocio.
         private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
+        private static DataTable consulta;
+        private static String argumentoSorteo = "";
+        private static bool boolSorteo = false;
 
         /*
          * Maneja las acciones que se ejecutan cuando se carga la página, establecer el modo de operación, 
@@ -367,6 +370,7 @@ namespace ProyectoInventarioOET
 
                 this.gridViewProductosGlobales.DataSource = tabla;  // Se llena el grid con los datos de la BD
                 this.gridViewProductosGlobales.DataBind();
+                consulta = tabla;
                  if (productoConsultado != null)
                  {
                      //GridViewRow filaSeleccionada = this.gridViewProductosGlobales.Rows[indiceNuevoProductoGlobal];
@@ -533,6 +537,7 @@ namespace ProyectoInventarioOET
             modo = (int)Modo.Consulta;
             cambiarModo();
             habilitarCampos(false);
+            argumentoSorteo = "";
         }
 
         /* 
@@ -616,7 +621,8 @@ namespace ProyectoInventarioOET
          */
         protected void gridViewProductosGlobales_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
-            llenarGrid(null);
+            gridViewProductosGlobales.DataSource = consulta;
+            gridViewProductosGlobales.DataBind();
             this.gridViewProductosGlobales.PageIndex = e.NewPageIndex;
             this.gridViewProductosGlobales.DataBind();
         }
@@ -653,6 +659,34 @@ namespace ProyectoInventarioOET
             cambiarModo();
         }
 
+        /*
+         * Sorteo del grid
+         */
+        protected void grd_Sorting(object sender, GridViewSortEventArgs e)
+        {
+            if (e.SortExpression == argumentoSorteo)
+            {
+                if (boolSorteo == true)
+                    boolSorteo = false;
+                else
+                    boolSorteo = true;
+            }
+            else //New Column clicked so the default sort direction will be incorporated
+                boolSorteo = false;
+
+            argumentoSorteo = e.SortExpression; //Update the sort column
+            BindGrid(argumentoSorteo, boolSorteo);
+        }
+
+        /*
+         * Auxiliar para ordenar grid
+         */
+        public void BindGrid(string sortBy, bool inAsc)
+        {
+            consulta.DefaultView.Sort = sortBy + " " + (inAsc ? "DESC" : "ASC");
+            gridViewProductosGlobales.DataSource = consulta;
+            gridViewProductosGlobales.DataBind();
+        }
 
     }
 }
