@@ -332,7 +332,6 @@
                 </div>
                 <div class="modal-body">
                     Ingrese los datos con los que desea hacer el ajuste rápido de inventario.
-                    <!-- Ingresar el producto y la cantidad -->
                     <br />
                     <br />
                     <label for="productoParaAjuste" class= "control-label"> Producto a ajustar: </label>     
