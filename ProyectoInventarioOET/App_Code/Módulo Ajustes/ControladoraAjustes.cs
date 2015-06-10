@@ -10,19 +10,23 @@ using ProyectoInventarioOET.App_Code.Modulo_Traslados;
 
 namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
 {
+    /*
+     * Comunicación entre la Controladora de Base de Datos y la que maneja las operaciones de la interfaz.
+     */
     public class ControladoraAjustes
     {
 
-        // Las estaciones se cargan desde la 
-
         private ControladoraBDAjustes controladoraBD;
 
+
+        // Constructor
         public ControladoraAjustes() {
             controladoraBD = new ControladoraBDAjustes();
         }
         
-        //Metodo que trae las Bodegas de una estacion
-        // Es llamado en el evento del dropdown list de estacion
+        /* Metodo que trae las Bodegas de una estacion
+        * Es llamado en el evento del dropdown list de estacion
+         */
         public DataTable consultarBodegasDeEstacion(String codigo)
         {
             ControladoraBodegas controladoraBodegas = new ControladoraBodegas();
@@ -30,31 +34,43 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
         }
 
 
-        //Metodo que consulta los datos del catalogo local de la bodega (esta consulta se hace a la hora de 
-        // clickear el boton agregar producto
-        // Lo malo es que vienen todos los datos....
-
+        /* Método que consulta los datos del catalogo local de la bodega (esta consulta se hace a la hora de 
+        * clickear el boton agregar producto
+        * Lo malo es que vienen todos los datos....
+        */
         public DataTable consultarProductosDeBodega(String idBodega)
         {
             ControladoraProductoLocal controladoraProductoLocal = new ControladoraProductoLocal();
             return controladoraProductoLocal.consultarProductosDeBodegaAjustes(idBodega);
         }
 
+        /*
+         * Metodo encargado de comunicar con la controladoraBD y obtener el tipo de ajuste
+         */
         public DataTable tiposAjuste()
         {
             return controladoraBD.tiposAjuste();
         }
 
+        /*
+         * Metodo encargado de comunicar con la controladoraBD y obtener datos preliminares
+         * de todos los ajustes de una bodega
+         */
         public DataTable consultarAjustes(String idBodega) {
-            //ControladoraBDTraslado pruebaConsultarTraslados = new ControladoraBDTraslado();
-            //pruebaConsultarTraslados.consultaTraslados(idBodega);
             return controladoraBD.consultarAjustes(idBodega);
         }
 
+        /*
+        * Metodo encargado de comunicar con la controladoraBD y insertar los datos ingresados por el usuario
+        */
         public String[] insertarAjuste(EntidadAjustes nueva) {
             return controladoraBD.insertarAjuste(nueva);
         }
 
+        /*
+         * Metodo encargado de comunicar con la controladoraBD y obtener datos totales de un ajuste especifico
+         * tambien se encarga de encapsular los datos para un mejor manejo en la interfaz
+         */
         public EntidadAjustes consultarAjuste(String idAjuste)
         {
             
@@ -79,12 +95,6 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
                 datosProductos[3] = fila[3].ToString();
                 consultada.agregarDetalle(datosProductos);
             }
-
-            //consultada.IdBodega = "PITAN129012015101713605001";
-            //consultada.IdUsuario = "3";
-            //consultada.Notas = "PRUEBADEINSERCIONALOMACHO";
-
-            //controladoraBD.insertarAjuste(consultada);
             return consultada;
         }
 

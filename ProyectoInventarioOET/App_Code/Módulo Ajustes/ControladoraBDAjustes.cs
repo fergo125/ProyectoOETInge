@@ -8,9 +8,16 @@ using System.Text;
 
 namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
 {
+    /*
+     * Comunicación con la Base de Datos.
+     */
     public class ControladoraBDAjustes : ControladoraBD
     {
 
+        /*
+         * Método encargado de obtener los tipos de ajustes que se pueden realizar en el 
+         * inventario
+         */
         public DataTable tiposAjuste()
         {
             String esquema1 = "Inventarios.";
@@ -18,7 +25,6 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
             String esquema3 = "Tesoreria.";
             DataTable resultado = new DataTable();
             
-            /*Modificar para recibir como parametros*/
             try 
             {
                 OracleCommand command = conexionBD.CreateCommand();
@@ -34,6 +40,10 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
         }
 
 
+        /*
+         * Método encargado de consultar todos los ajustes de una bodega específica
+         * con los datos listos para ser desplegados por la interfaz
+         */
         public DataTable consultarAjustes(String idBodega)
         {
             String esquema = "Inventarios.";
@@ -42,7 +52,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
             try
             {
                 // Interfaz ocupa 3 cosas TipoMovimiento(Descripcion), Fecha, Usuario(Encargado)
-                // Yo agrego el ID de ajustes para la consulta individual
+                // Se trae el ID de ajustes para la consulta individual
                 OracleCommand command = conexionBD.CreateCommand();
                 command.CommandText = "SELECT AJ.ID_AJUSTES, M.DESCRIPCION, AJ.FECHA, U.NOMBRE"
                    + " FROM " + esquema + "AJUSTES AJ, " + esquema + "SEG_USUARIO U, " + esquema + "CAT_TIPO_MOVIMIENTO M"
@@ -60,6 +70,10 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
         }
 
 
+        /*
+         * Método encargado de consultar un ajuste específico basado en su ID
+         * con los datos listos para ser desplegados por la interfaz
+         */
         public DataTable[] consultarAjuste(String idAjuste)
         {
             String esquema = "Inventarios.";
@@ -77,9 +91,6 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
                 resultado[0] = new DataTable();
                 resultado[0].Load(reader);
                 resultado[1] = consultarDetalles(idAjuste);
-                int x = 9;
-                x = 8;
-                //actualizarProducto("PITAN102022015142627451180", 10, true); // PRUEBAAAA QUE FUNCIONA
             }
             catch (Exception e)
             {
@@ -88,6 +99,12 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
             return resultado;
         }
 
+        /*
+         * Método auxiliar de consultar los detalles de un ajuste específico
+         * con los datos listos para ser desplegados por la interfaz. Con detalles nos referimos a los productos 
+         * a los cuales se les ajusto su existencia. Este método es llamado en el consultarAjuste ya que dicho método devuelve 
+         * toda la informacion de un ajuste.
+         */
         private DataTable consultarDetalles(String idAjuste)
         {
             String esquema = "Inventarios.";
@@ -113,6 +130,10 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
         }
 
 
+        /*
+         * Método encargado de insertar un ajustes con los datos provenientes de la Entidad encapsulada en la interfaz,
+         * este método genera el ID e introduce la fecha actual.
+         */
         public String[] insertarAjuste(EntidadAjustes ajuste)
         {
             String esquema = "Inventarios.";
@@ -146,6 +167,11 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
             return res;
         }
 
+        /*
+         * Método auxiliar que se encarga de insertar en la tabla detalles de ajuste 
+         * (que son los ajustes individuales correspondientes a cada producto) esta tabla es producto de la relacion
+         * NM entre productos locales y ajustes
+         */
         private void insertarDetalle(String idAjuste, EntidadDetalles detallesProducto)
         {
             String esquema = "Inventarios.";
@@ -156,7 +182,10 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
             OracleDataReader reader = command.ExecuteReader();
         }
 
-        // Hay que hablar con LEO para ver si queremos el cambio o mejor el valor que va a ser actual. FUNCIONA CORRECTAMENTE
+
+        /*
+         * Método auxiliar que se encarga de actualizar la existencia del productos en el catalogo local
+         */ 
         private void actualizarProducto(String idBodegaProducto, double cambio)
         {
             String esquema = "Inventarios.";
