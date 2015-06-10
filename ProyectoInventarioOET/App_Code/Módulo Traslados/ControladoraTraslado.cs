@@ -9,19 +9,27 @@ using ProyectoInventarioOET.App_Code.Modulo_Ajustes;
 
 namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
 {
+
+    /*
+     * Comunicación entre la Controladora de Base de Datos y la que maneja las operaciones de la interfaz.
+     */
     public class ControladoraTraslado
     {
 
         private ControladoraBDTraslado controladoraBD;
-        
 
+
+        /* Constructor
+         *  Se instancia la controladora de Base de datos
+         */
         public ControladoraTraslado() {
             controladoraBD = new ControladoraBDTraslado();
         }
 
 
         /*
-         * CONSULTA DE LAS BODEGAS
+         * Método encargado de consultar las bodegas que el usuario y su rol pueden acceder
+         * se utiliza la controladora de bodegas para que no ocurra un translape de capas de diferentes modulos 
          */
 
         public DataTable consultarBodegas(String idUsuario, String rol)
@@ -32,10 +40,9 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
 
 
         /*
-         * CONSULTA DE LOS PRODUCTOS TRANSFERIBLES (PRODUCTOS QUE ESTEN EN AMBAS ESTACIONES)
-         * CONTIENE: EL ID DEL PRODUCTO GLOBAL, NOMBRE DEL PRODUCTO, CODIGO DEL PRODUCTO, SALDO EN LA BODEGA ORIGEN, 
-         * MINIMO EN LA BODEGA ORIGEN, MAXIMO EN LA BODEGA ORIGEN, 
-         * Y LOS MAS IMPORTANTES!!!! INV_BODEGA_PRODUCTOS DE ORIGEN, INV_BODEGA_PRODUCTOS DESTINO NECESARIOS PARA LA INSERCION
+         * Método encargado de la consulta de los productos transferibles (productos presentes y activos en ambas bodegas)
+         * Los datos devueltos pueden ser desplegables en la interfaz porque poseen datos humanamente significativos.
+         * Ademas de lo más importante a) INV_BODEGA_PRODUCTOS DE ORIGEN, b) INV_BODEGA_PRODUCTOS DESTINO necesarios para la inserción
          */
         public DataTable consultarProductosTrasferibles(String idBodegaOrigen, String idBodegaDestino)
         {
@@ -44,11 +51,10 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
         }
 
 
-        // CONSULTA DE TRASLADOS (NO INCLUYEN LOS DETALES DEL TRASLADO)
-        // RECORDAR     -1: Traslado Rechazado  0: Traslado Anulado    1: Traslado Aceptado
-        // RECORDAR     entrada=true  Traslados de entrada       entrada=false  Traslados de salida 
-        // La consulta esta parametrizada para devolver los traslados de entrada o de salida pero no ambos
-        // 
+        /*
+         * Método encargado de de consultar datos previos de los traslados de una bodega especifica, los traslados devueltos pueden ser de un 
+         * solo tipo: de entrada o de salida y para elegir cual se utiliza el booleano entrada (TRUE= entrada, FALSE= salida)
+         */
         public DataTable consultarTraslados(String idBodega, bool entrada)
         {
             DataTable traslados = controladoraBD.consultaTraslados(idBodega, entrada);
@@ -62,10 +68,12 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
             }
             return traslados;
         }
-        // CONSULTA DE TRASLADO MAS SUS RESPECTIVOS DETALLES (Los productos trasladados) 
-        // LA ENTIDAD DEVUELTA CONTIENE: NOTAS, FECHA, NOMBRE DEL RESPONSABLE, BODEGA ORIGEN, BODEGA DESTINO , ESTADO (SU DESCRIPCION)
-        // LOS DETALLES (Productos trasladados) tienen NOMBRE, CODIGO, CANTIDAD TRASLADADA (para despliegue) 
-        //                                      Y ID_PRODUCTODO_ORIGEN, ID_PRODUCTODO_ORIGEN (IMPORTANTE PARA ACEPTAR Y RECHAZAR UN TRASLADO!!!)
+
+        /*
+         * Método encargado de hacer una consulta total de un traslado especifico, dicha consulta incluye todos los productos 
+         * trasladados con su respectiva cantidad. Tambien se encapsula para un mejor manejo en la interfaz de los datos.
+         */
+        
         public EntidadTraslado consultarTraslado (String idTraslado)
         {
             Object[] datos = new Object[10];
@@ -103,24 +111,26 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
         }
 
 
-        // Este metodo hace 3 cosas 1) INSERTA EL NUEVO TRASLADO 2) INSERTA LOS DETALLES (Productos trasferibles) 3) RESTA LOS PRODUCTOS EN LA BODEGA ORIGEN Y LOS PONE EN LA COLUMNA CONGELADOS 
-        // La Entidad Traslado debe tener obligatoriamente:  ID DEL USUARIO, ID DE BODEGA ORIGEN, ID BODEGA DESTINO Y NOTAS
-        // lo demás se agrega automaticamente en la ControladoraBDTraslado
-        // La EntidadDetalle debe tener obligatoriamente: El Cambio (Traslado), Y LO MAS IMPORTANTE!!!!
-        // El Id BODEGA_PRODUCTO ORIGEN Y EL Id BODEGA_PRODUCTO DESTINO
+        /*
+         * Método encargado de insertar un translado proveniente de los datos ingresados por el usuario, dichos datos vienen
+         * encapsuldos en la entidad para facilitar su uso en la sentencia SQL
+         */
         public String[] insertarTraslado(EntidadTraslado nuevo)
         {
             return controladoraBD.insertarTraslado(nuevo);
         }
 
-        // DESCONGELA LOS PRODUCTOS DE LA BODEGA ORIGEN Y LOS SUMA A LA BODEGA DESTINO
-        // LEO este recibe la EntidadTraslado porque para aceptarlo debe ser previamente Consultado!
+        /* Método encargado de aceptar un traslado especifico que tendra como efecto 
+         * descongelar los productos de la bodega de origen y sumarlos a la bodega de destino
+        *   y cambiar el estado de dicho traslado
+        */ 
         public String[] acertarTraslado(EntidadTraslado aceptado) {
             return controladoraBD.modificarTraslado(aceptado, 1);
         }
 
-        // DESCONGELA LOS PRODUCTOS DE LA BODEGA ORIGEN Y LOS SUMA A LA BODEGA DESTINO
-        // LEO este recibe la EntidadTraslado porque para aceptarlo debe ser previamente Consultado!
+        /* Método encargado de rechazar un traslado especifico que tendra como efecto 
+         * descongelar y retornar la existencia de los productos de la bodega origen y cambiar el estado de dicho traslado
+        */
         public String[] rechazarTraslado(EntidadTraslado aceptado)
         {
             return controladoraBD.modificarTraslado(aceptado, -1);

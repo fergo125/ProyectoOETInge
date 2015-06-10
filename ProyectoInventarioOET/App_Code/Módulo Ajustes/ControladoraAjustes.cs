@@ -19,7 +19,9 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
         private ControladoraBDAjustes controladoraBD;
 
 
-        // Constructor
+        /* Constructor
+         *  Se instancia la controladora de Base de datos
+         */
         public ControladoraAjustes() {
             controladoraBD = new ControladoraBDAjustes();
         }
