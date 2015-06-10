@@ -9,6 +9,7 @@ using ProyectoInventarioOET.Modulo_Entradas;
 using ProyectoInventarioOET.App_Code;
 using ProyectoInventarioOET.Modulo_Seguridad;
 using System.Text;
+using ProyectoInventarioOET.Modulo_Bodegas;
 
 
 namespace ProyectoInventarioOET
@@ -38,7 +39,7 @@ namespace ProyectoInventarioOET
         private static DataTable tablaProductosNuevos;                          // Tabla persistente con los productos que están siendo ingresados.
         private static double totalFactura;
         private static double totalFacturaConsultada;
-
+        private static ControladoraBodegas controladoraBodegas;
         /*
          * Maneja las acciones que se ejecutan cuando se carga la página, establecer el modo de operación, 
          * cargar elementos de la interfaz, gestión de seguridad.
@@ -51,6 +52,7 @@ namespace ProyectoInventarioOET
             bodegaDeTrabajo = (this.Master as SiteMaster).LlaveBodegaSesion;            
             mensajeAlerta.Visible = false;
             controladoraSeguridad = new ControladoraSeguridad();
+            controladoraBodegas = new ControladoraBodegas();
             if (!IsPostBack)
             {
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
@@ -323,13 +325,8 @@ namespace ProyectoInventarioOET
                         datos[0] = fila[2].ToString();
                         datos[1] = fila[3].ToString();
                         datos[2] = fila[5].ToString();
-                        datos[3] = Convert.ToDouble(fila[5].ToString()) / Convert.ToDouble(fila[3].ToString());
-
+                        datos[3] = Math.Truncate( Convert.ToDouble(fila[5].ToString()) / Convert.ToDouble(fila[3].ToString())*100)/100;
                         tabla.Rows.Add(datos);
-                        //if (entradaConsultada != null && (fila[0].Equals(entradaConsultada.Codigo)))
-                        //{
-                        //    indiceNuevaActividad = i;
-                        //}
                         i++;
                     }
                 }
@@ -925,9 +922,8 @@ namespace ProyectoInventarioOET
         {
             outputEntrada.InnerText = Convert.ToString(entradaConsultada.IdEntrada);
             outputFacturaAsociada.InnerText = Convert.ToString(entradaConsultada.IdFactura);
-            //outputUsuario.InnerText = Convert.ToString(controladoraSeguridad.consultarNombreDeUsuario(entradaConsultada.IdEncargado));
-            outputUsuario.InnerText = Convert.ToString(entradaConsultada.IdEncargado);
-            outputBodega.InnerText = Convert.ToString(entradaConsultada.Bodega);
+            outputUsuario.InnerText = controladoraSeguridad.consultarNombreDeUsuario(Convert.ToString(entradaConsultada.IdEncargado));
+            outputBodega.InnerText = controladoraBodegas.consultarBodega(Convert.ToString(entradaConsultada.Bodega)).Nombre;
             outputFecha.InnerText = Convert.ToString(entradaConsultada.FechEntrada);
         }
 
