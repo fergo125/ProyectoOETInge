@@ -9,7 +9,7 @@ using System.Text;
 namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
 {
     /*
-     * Comunicación con la Base de Datos.
+     * Clase encargada de la comunicación entre el modulo de ajustes y la Base de Datos.
      */
     public class ControladoraBDAjustes : ControladoraBD
     {
