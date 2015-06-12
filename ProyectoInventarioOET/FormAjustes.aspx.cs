@@ -52,13 +52,12 @@ namespace ProyectoInventarioOET
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
                 controladoraProductosLocales = new ControladoraProductoLocal();
 
-                /*
-                //Seguridad
-                permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Gestion de bodegas");
+
+                permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Ajustes de inventario");
                 if (permisos == "000000")
                     Response.Redirect("~/ErrorPages/404.html");
                 mostrarBotonesSegunPermisos();
-                */
+                
 
                 if (!seConsulto)
                 {
@@ -843,6 +842,13 @@ namespace ProyectoInventarioOET
             limpiarCampos();
             ajusteConsultado = null;
         }
+
+        protected void mostrarBotonesSegunPermisos()
+        {
+            this.botonConsultarAjustes.Visible = (permisos[5] == '1');
+            this.botonRealizarAjuste.Visible = (permisos[4] == '1');
+        }
+
 
         protected void gridViewAgregarProductos_CambioPagina(Object sender, GridViewPageEventArgs e)
         {

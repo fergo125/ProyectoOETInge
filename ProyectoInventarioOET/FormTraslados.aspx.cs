@@ -48,6 +48,12 @@ namespace ProyectoInventarioOET
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
                 controladoraProductoLocal = new ControladoraProductoLocal();
 
+                permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Traslados de inventario");
+                if (permisos == "000000")
+                    Response.Redirect("~/ErrorPages/404.html");
+                mostrarBotonesSegunPermisos();
+
+
                 if (!seConsulto)
                 {
                     modo = (int)Modo.Inicial;
@@ -1035,5 +1041,14 @@ namespace ProyectoInventarioOET
             this.gridViewAgregarProductos.PageIndex = e.NewPageIndex;
             this.gridViewAgregarProductos.DataBind();
         }
+
+        protected void mostrarBotonesSegunPermisos()
+        {
+            this.botonConsultarTraslado.Visible = (permisos[5] == '1');
+            this.botonRealizarTraslado.Visible = (permisos[4] == '1');
+            this.botonModificarTraslado.Visible = (permisos[3] == '1');
+        }
+
+
     }
 }
