@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using Oracle.DataAccess.Client; //para conectarse a la base de datos manualmente con strings
@@ -22,12 +23,6 @@ namespace ProyectoInventarioOET
          */
         public ControladoraBD()
         {
-            if (conexionBD == null)
-            {
-                conexionBD = new OracleConnection();
-                conexionBD.ConnectionString = "Data Source=10.1.4.93;User ID=inventarios;Password=inventarios"; //en el futuro se podría leer esta string desde un archivo
-                conexionBD.Open();
-            }
         }
 
         /*
@@ -54,6 +49,41 @@ namespace ProyectoInventarioOET
             + DateTime.Now.Second.ToString("D2")
             + DateTime.Now.Millisecond.ToString("D3")
             + consecutivo.ToString("D3");
+        }
+
+        /*
+         * Método que a partir de cualquier instrucción SQL, abre una conexión a la base de datos, crea el comando a partir de la string SQL y ejecuta el comando.
+         * Absolutamente todas las instrucciones SQL pasan por aquí y son ejecutadas aquí, por lo que la inserción en las tablas de réplica se hace aquí.
+         */
+        protected DataTable ejecutarComandoSQL(String comandoSQL, bool esperaResultado)
+        {
+            //Primero, intentar abrir la conexión
+            conexionBD = new OracleConnection();
+            conexionBD.ConnectionString = "Data Source=10.1.4.93;User ID=inventarios;Password=inventarios"; //en el futuro se podría leer esta string desde un archivo
+            conexionBD.Open();
+            if (conexionBD.State == ConnectionState.Closed) //si no se logró abrir
+                return null; //retornar nulo de una vez para que se detecte el error en la invocación
+
+            //Segundo, intentar ejecutar la instrucción SQL
+            DataTable resultado = new DataTable();
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = comandoSQL;
+                //
+                //Insertar en la tabla de réplica aquí
+                //
+                OracleDataReader reader = command.ExecuteReader();
+                if (esperaResultado) //Si se trata de una consulta, se debe cargar lo que devuelva, de lo contrario, no
+                    resultado.Load(reader);
+            }
+            catch(Exception e) //error
+            {
+                resultado = null;
+            }
+            //Último, siempre cerrar la conexión
+            conexionBD.Close();
+            return resultado;
         }
     }
 }
