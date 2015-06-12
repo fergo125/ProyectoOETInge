@@ -73,7 +73,7 @@ namespace ProyectoInventarioOET.Modulo_Actividades
             resultado[3] = actividad.Codigo.ToString();
             String comandoSQL = "INSERT INTO " + esquema + "CAT_ACTIVIDAD (CAT_ACTIVIDAD,DESCRIPCION,ESTADO) VALUES ('" + actividad.Codigo + "','"
                 + actividad.Descripcion + "','" + (short)actividad.Estado + "')";
-            if(ejecutarComandoSQL(comandoSQL, false) != null)
+            if(ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
             {
                 resultado[0] = "success";
                 resultado[1] = "Éxito";
@@ -99,7 +99,7 @@ namespace ProyectoInventarioOET.Modulo_Actividades
             String[] resultado = new String[3];
             String comandoSQL = "UPDATE " + esquema + "CAT_ACTIVIDAD SET DESCRIPCION = '" + nuevaActividad.Descripcion + "',ESTADO = '"
                 + (short)nuevaActividad.Estado + "' WHERE DESCRIPCION = '" + actividad.Descripcion + "' AND ESTADO = " + actividad.Estado;
-            if(ejecutarComandoSQL(comandoSQL, false) != null)
+            if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
             {
                 resultado[0] = "success";
                 resultado[1] = "Éxito";
