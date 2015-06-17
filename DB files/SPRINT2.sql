@@ -118,7 +118,8 @@ CREATE TABLE CAT_ENTRADAS
   FACTURA         VARCHAR2(30),   -- No se sabe
   SEG_USUARIO     VARCHAR2(30),
   SEG_BODEGA      VARCHAR2(30),
-  FECHA           DATE
+  FECHA           DATE,
+  tipoMoneda      varchar2(10)
 );
 
 CREATE TABLE CAT_ENTRADAS_PRODUCTOS
@@ -127,7 +128,10 @@ CREATE TABLE CAT_ENTRADAS_PRODUCTOS
   CAT_ENTRADAS              VARCHAR2(30),
   CAT_PRODUCTOS             VARCHAR2(30),
   CANTIDAD                  NUMBER(10),
-  PRECIO_UNITARIO           NUMBER(10)
+  PRECIO_UNITARIO           NUMBER(10),
+  DESCUENTO                 NUMBER,
+  COSTO_TOTAL               NUMBER(10),
+  GRAVADO                   NUMBER(1)
 );
 
 --Asignación de códigos internos únicos para cada perfil para que el sistema
