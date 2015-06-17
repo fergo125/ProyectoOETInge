@@ -68,14 +68,6 @@ namespace ProyectoInventarioOET.Modulo_Actividades
         }
 
         /*
-         * Desactiva una actividad de la base de datos
-         */
-        public String[] desactivarActividad(EntidadActividad actividad)
-        {
-            return controladoraBDActividades.desactivarActividad(actividad);
-        }
-
-        /*
          * Consulta la información de todas las actividades
          */
         public DataTable consultarActividades()
