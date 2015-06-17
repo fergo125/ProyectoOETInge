@@ -15,8 +15,6 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
      */
     public class ControladoraBDTraslado : ControladoraBD
     {
-
-
         /*
          * Método encargado de consultar todos los traslados de una bodega específica
          * con los datos listos para ser desplegados por la interfaz, notar que segun el tipo de traslado (entrada i salida)
@@ -28,24 +26,15 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
             DataTable resultado = new DataTable();
             String tipoConsulta = entrada ? "T.IDBODEGADESTINO = '" + idBodega + "'" : "T.IDBODEGAORIGEN = '" + idBodega + "'";
 
-            try
-            {
-                // Interfaz ocupa 3 cosas TipoMovimiento(Descripcion), Fecha, Usuario(Encargado)
-                // Se agrega el ID de los traslados para la consulta individual
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT T.ID_TRASLADO, T.FECHA, U.NOMBRE, T.IDBODEGAORIGEN, T.IDBODEGADESTINO, B1.DESCRIPCION, B2.DESCRIPCION, T.ESTADO  "
-                   + " FROM " + esquema + "TRASLADOS T, " + esquema + "SEG_USUARIO U, " + esquema + "CAT_BODEGA B1, " + esquema + "CAT_BODEGA B2 "
-                   + " WHERE T.USUARIO_BODEGA = U.SEG_USUARIO "
-                   + " AND " + tipoConsulta
-                   + " AND  T.IDBODEGAORIGEN = B1.CAT_BODEGA" 
-                   + " AND T.IDBODEGADESTINO = B2.CAT_BODEGA  ORDER BY T.FECHA DESC"; 
-                OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
-            }
-            catch (Exception e)
-            {
-                resultado = null;
-            }
+            // Interfaz ocupa 3 cosas TipoMovimiento(Descripcion), Fecha, Usuario(Encargado)
+            // Se agrega el ID de los traslados para la consulta individual
+            String comandoSQL = "SELECT T.ID_TRASLADO, T.FECHA, U.NOMBRE, T.IDBODEGAORIGEN, T.IDBODEGADESTINO, B1.DESCRIPCION, B2.DESCRIPCION, T.ESTADO  "
+                + " FROM " + esquema + "TRASLADOS T, " + esquema + "SEG_USUARIO U, " + esquema + "CAT_BODEGA B1, " + esquema + "CAT_BODEGA B2 "
+                + " WHERE T.USUARIO_BODEGA = U.SEG_USUARIO "
+                + " AND " + tipoConsulta
+                + " AND  T.IDBODEGAORIGEN = B1.CAT_BODEGA" 
+                + " AND T.IDBODEGADESTINO = B2.CAT_BODEGA  ORDER BY T.FECHA DESC";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }
 
@@ -60,24 +49,14 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
             DataTable[] resultado = new DataTable[2];
             resultado[0] = new DataTable();
             resultado[1] = new DataTable();
-
-            try
-            {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT T.NOTAS, T.FECHA, U.NOMBRE, B1.DESCRIPCION, B2.DESCRIPCION, T.ESTADO  "
-                   + " FROM " + esquema + "TRASLADOS T, " + esquema + "SEG_USUARIO U, " + esquema + "CAT_BODEGA B1, " + esquema + "CAT_BODEGA B2 "
-                   + " WHERE T.USUARIO_BODEGA = U.SEG_USUARIO "
-                   + " AND  T.IDBODEGAORIGEN = B1.CAT_BODEGA"
-                   + " AND T.IDBODEGADESTINO = B2.CAT_BODEGA"
-                   + " AND T.ID_TRASLADO = '" + idTraslado + "'";
-                OracleDataReader reader = command.ExecuteReader();
-                resultado[0].Load(reader);
-                resultado[1] = consultarDetalles(idTraslado);
-            }
-            catch (Exception e)
-            {
-                resultado = null;
-            }
+            String comandoSQL = "SELECT T.NOTAS, T.FECHA, U.NOMBRE, B1.DESCRIPCION, B2.DESCRIPCION, T.ESTADO  "
+                + " FROM " + esquema + "TRASLADOS T, " + esquema + "SEG_USUARIO U, " + esquema + "CAT_BODEGA B1, " + esquema + "CAT_BODEGA B2 "
+                + " WHERE T.USUARIO_BODEGA = U.SEG_USUARIO "
+                + " AND  T.IDBODEGAORIGEN = B1.CAT_BODEGA"
+                + " AND T.IDBODEGADESTINO = B2.CAT_BODEGA"
+                + " AND T.ID_TRASLADO = '" + idTraslado + "'";
+            resultado[0] = ejecutarComandoSQL(comandoSQL, true);
+            resultado[1] = consultarDetalles(idTraslado);
             return resultado;
         }
 
@@ -89,23 +68,13 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
         {
             String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
-
-            try
-            {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT P.NOMBRE, P.CODIGO, D.TRASLADO, U.DESCRIPCION, D.INV_BODEGA_PRODUCTOSORIGEN, D.INV_BODEGA_PRODUCTOSDESTINO "
-                   + " FROM " + esquema + "DETALLES_TRASLADO D, " + esquema + "INV_BODEGA_PRODUCTOS B, " + esquema + "INV_PRODUCTOS P, " + esquema + "CAT_UNIDADES U "
-                   + " WHERE D.ID_TRASLADO = '" + idTraslado + "' "
-                   + " AND D.INV_BODEGA_PRODUCTOSORIGEN = B.INV_BODEGA_PRODUCTOS "
-                   + " AND B.INV_PRODUCTOS = P.INV_PRODUCTOS "
-                   + " AND P.CAT_UNIDADES = U.CAT_UNIDADES ";
-                OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
-            }
-            catch (Exception e)
-            {
-                resultado = null;
-            }
+            String comandoSQL = "SELECT P.NOMBRE, P.CODIGO, D.TRASLADO, U.DESCRIPCION, D.INV_BODEGA_PRODUCTOSORIGEN, D.INV_BODEGA_PRODUCTOSDESTINO "
+                + " FROM " + esquema + "DETALLES_TRASLADO D, " + esquema + "INV_BODEGA_PRODUCTOS B, " + esquema + "INV_PRODUCTOS P, " + esquema + "CAT_UNIDADES U "
+                + " WHERE D.ID_TRASLADO = '" + idTraslado + "' "
+                + " AND D.INV_BODEGA_PRODUCTOSORIGEN = B.INV_BODEGA_PRODUCTOS "
+                + " AND B.INV_PRODUCTOS = P.INV_PRODUCTOS "
+                + " AND P.CAT_UNIDADES = U.CAT_UNIDADES ";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }
 
@@ -117,34 +86,29 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
         public String[] insertarTraslado(EntidadTraslado nuevo)
         {
             String esquema = "Inventarios.";
-            String[] res = new String[4];
-            res[3] = generarID();
-            try
-            {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "INSERT INTO " + esquema + "TRASLADOS (ID_TRASLADO, FECHA, USUARIO_BODEGA, IDBODEGAORIGEN, IDBODEGADESTINO, ESTADO, NOTAS) "
-               + "VALUES ('" + res[3] + "', TO_DATE('" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "',  'dd/mm/yyyy hh24:mi:ss') , '"
+            String[] resultado = new String[4];
+            resultado[3] = generarID();
+            String comandoSQL = "INSERT INTO " + esquema + "TRASLADOS (ID_TRASLADO, FECHA, USUARIO_BODEGA, IDBODEGAORIGEN, IDBODEGADESTINO, ESTADO, NOTAS) "
+               + "VALUES ('" + resultado[3] + "', TO_DATE('" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "',  'dd/mm/yyyy hh24:mi:ss') , '"
                + nuevo.IdUsuario + "','" + nuevo.IdBodegaOrigen + "' , '" + nuevo.IdBodegaDestino + "' , " + 0 + ", '" + nuevo.Notas+ "' )";
-                OracleDataReader reader = command.ExecuteReader();
-
-                foreach (EntidadDetalles detallesProducto in nuevo.Detalles)
-                { // Por cada producto ingresarlo en el detalles traslado
-                    insertarDetalle(res[3], detallesProducto);
+            if(ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
+            {
+                foreach (EntidadDetalles detallesProducto in nuevo.Detalles) // Por cada producto ingresarlo en el detalles traslado
+                {
+                    insertarDetalle(resultado[3], detallesProducto);
                     congelarProducto(detallesProducto.IdProductoBodegaOrigen, detallesProducto.Cambio);
                 }
-
-                res[0] = "success";
-                res[1] = "Éxito:";
-                res[2] = "Traslado en trámite.";
+                resultado[0] = "success";
+                resultado[1] = "Éxito:";
+                resultado[2] = "Traslado en trámite.";
             }
-            catch (OracleException e)
+            else
             {
-                res[0] = "danger";
-                res[1] = "Error:";
-                res[2] = "Traslado no efectuado, revise e intente nuevamente.";
+                resultado[0] = "danger";
+                resultado[1] = "Error:";
+                resultado[2] = "Traslado no efectuado, revise e intente nuevamente.";
             }
-
-            return res;
+            return resultado;
         }
 
 
@@ -154,18 +118,11 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
         private void congelarProducto(String idProductoBodega, double traslado)
         {
             String esquema = "Inventarios.";
-            try
-            {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = " UPDATE " + esquema + "INV_BODEGA_PRODUCTOS "
-                                     + " SET SALDOCONGELADO = SALDOCONGELADO + " + traslado + " , "
-                                     + " SALDO = SALDO - " + traslado
-                                     + " WHERE INV_BODEGA_PRODUCTOS = '" + idProductoBodega+ "'";  
-                OracleDataReader reader = command.ExecuteReader();
-            }
-            catch (OracleException e) {
-
-            }
+            String comandoSQL = " UPDATE " + esquema + "INV_BODEGA_PRODUCTOS "
+                + " SET SALDOCONGELADO = SALDOCONGELADO + " + traslado + " , "
+                + " SALDO = SALDO - " + traslado
+                + " WHERE INV_BODEGA_PRODUCTOS = '" + idProductoBodega+ "'";  
+            ejecutarComandoSQL(comandoSQL, false); //debería retornar un bool o algo
         }
 
 
@@ -175,38 +132,34 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
         */
         private void desCongelarProducto(String idProductoBodegaOrigen, String idProductoBodegaDestino, double traslado, int aceptarTraslado)
         {
-            String esquema = "Inventarios.";  
-            try
+            String esquema = "Inventarios.";
+            String comandoSQL = "";
+            if (aceptarTraslado>0)
             {
-                if (aceptarTraslado>0)
-                {
-                    OracleCommand command = conexionBD.CreateCommand();
-                    // Descongelar el Producto en la Bodega ORIGEN
-                    command.CommandText = " UPDATE " + esquema + "INV_BODEGA_PRODUCTOS "
-                                         + " SET SALDOCONGELADO = SALDOCONGELADO - " + traslado
-                                         + " WHERE INV_BODEGA_PRODUCTOS = '" + idProductoBodegaOrigen + "'";
-                    OracleDataReader reader = command.ExecuteReader();
-                    // SUMAR los productos a la Bogega DESTINO pues el traslado se completo!!
-                    command.CommandText = " UPDATE " + esquema + "INV_BODEGA_PRODUCTOS "
-                                        + " SET SALDO = SALDO + " + traslado
-                                        + " WHERE INV_BODEGA_PRODUCTOS = '" + idProductoBodegaDestino + "'";
-                    reader = command.ExecuteReader();
-                }
-                else {  // CASO DE RECHAZAR TRASLADO
-                    // Descongelar el Producto en la Bodega ORIGEN
-                    OracleCommand command = conexionBD.CreateCommand();
-                    command.CommandText = " UPDATE " + esquema + "INV_BODEGA_PRODUCTOS "
-                                         + " SET SALDOCONGELADO = SALDOCONGELADO - " + traslado
-                                         + " WHERE INV_BODEGA_PRODUCTOS = '" + idProductoBodegaOrigen + "'";
-                    OracleDataReader reader = command.ExecuteReader();
-                    // Devolver los productos a la Bogega Origen pues no se lograron trasladar
-                    command.CommandText = " UPDATE " + esquema + "INV_BODEGA_PRODUCTOS "
-                                        + " SET SALDO = SALDO + " + traslado
-                                        + " WHERE INV_BODEGA_PRODUCTOS = '" + idProductoBodegaOrigen + "'";
-                    reader = command.ExecuteReader();
-                }
+                // Descongelar el Producto en la Bodega ORIGEN
+                comandoSQL = " UPDATE " + esquema + "INV_BODEGA_PRODUCTOS "
+                    + " SET SALDOCONGELADO = SALDOCONGELADO - " + traslado
+                    + " WHERE INV_BODEGA_PRODUCTOS = '" + idProductoBodegaOrigen + "'";
+                ejecutarComandoSQL(comandoSQL, false); //debería retornar un bool o algo
+                // SUMAR los productos a la Bogega DESTINO pues el traslado se completo!!
+                comandoSQL = " UPDATE " + esquema + "INV_BODEGA_PRODUCTOS "
+                    + " SET SALDO = SALDO + " + traslado
+                    + " WHERE INV_BODEGA_PRODUCTOS = '" + idProductoBodegaDestino + "'";
+                ejecutarComandoSQL(comandoSQL, false); //debería retornar un bool o algo
             }
-            catch (OracleException e)  {             }
+            else  // CASO DE RECHAZAR TRASLADO
+            {
+                // Descongelar el Producto en la Bodega ORIGEN
+                comandoSQL = " UPDATE " + esquema + "INV_BODEGA_PRODUCTOS "
+                    + " SET SALDOCONGELADO = SALDOCONGELADO - " + traslado
+                    + " WHERE INV_BODEGA_PRODUCTOS = '" + idProductoBodegaOrigen + "'";
+                ejecutarComandoSQL(comandoSQL, false); //debería retornar un bool o algo
+                // Devolver los productos a la Bogega Origen pues no se lograron trasladar
+                comandoSQL = " UPDATE " + esquema + "INV_BODEGA_PRODUCTOS "
+                    + " SET SALDO = SALDO + " + traslado
+                    + " WHERE INV_BODEGA_PRODUCTOS = '" + idProductoBodegaOrigen + "'";
+                ejecutarComandoSQL(comandoSQL, false); //debería retornar un bool o algo
+            }
         }
 
         /*
@@ -217,17 +170,15 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
         {
             String esquema = "Inventarios.";
             String[] res = new String[3];
-            try
+            String comandoSQL = " INSERT INTO " + esquema + "DETALLES_TRASLADO "
+                + " VALUES ('" + idTraslado +"', '" + detallesProducto.IdProductoBodegaDestino + "', '"+ detallesProducto.IdProductoBodegaOrigen +"' , " +detallesProducto.Cambio+ ")";
+            if(ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
             {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = " INSERT INTO " + esquema + "DETALLES_TRASLADO "
-                                     + " VALUES ('" + idTraslado +"', '" + detallesProducto.IdProductoBodegaDestino + "', '"+ detallesProducto.IdProductoBodegaOrigen +"' , " +detallesProducto.Cambio+ ")";
-                OracleDataReader reader = command.ExecuteReader();
                 res[0] = "success";
                 res[1] = "Éxito:";
                 res[2] = "Ajuste agregado al sistema.";
             }
-            catch (OracleException e)
+            else
             {
                 res[0] = "danger";
                 res[1] = "Error:";
@@ -245,27 +196,24 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
             DataTable productoLocal = new DataTable();
             bool alerta = false;
             double cantAjuste;
-            try
+            String comandoSQL = " UPDATE " + esquema + "TRASLADOS "
+                + " SET ESTADO = " + estado 
+                + " WHERE ID_TRASLADO = '" + traslado.IdTraslado + "'" ;
+            if(ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
             {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = " UPDATE " + esquema + "TRASLADOS "
-                                     + " SET ESTADO = " + estado 
-                                     + " WHERE ID_TRASLADO = '" + traslado.IdTraslado + "'" ;
-                OracleDataReader reader = command.ExecuteReader();
-                foreach (EntidadDetalles detalle in traslado.Detalles){
+                foreach (EntidadDetalles detalle in traslado.Detalles)
+                {
                     desCongelarProducto(detalle.IdProductoBodegaOrigen, detalle.IdProductoBodegaDestino, detalle.Cambio, estado);
-                    if (estado == 1)
-                    { // acepta
-                        command.CommandText = "SELECT MINIMO,MAXIMO,SALDO FROM " + esquema + "INV_BODEGA_PRODUCTOS WHERE INV_BODEGA_PRODUCTOS = '" + detalle.IdProductoBodegaDestino + "'";
-                    }
-                    else
-                    { //rechaza
-                        command.CommandText = "SELECT MINIMO,MAXIMO,SALDO FROM " + esquema + "INV_BODEGA_PRODUCTOS WHERE INV_BODEGA_PRODUCTOS = '" + detalle.IdProductoBodegaOrigen + "'";
-                    }
-                    reader = command.ExecuteReader();
-                    productoLocal.Load(reader);
+                    if (estado == 1) // acepta
+                        comandoSQL = "SELECT MINIMO,MAXIMO,SALDO FROM " + esquema + "INV_BODEGA_PRODUCTOS WHERE INV_BODEGA_PRODUCTOS = '" + detalle.IdProductoBodegaDestino + "'";
+                    else //rechaza
+                        comandoSQL = "SELECT MINIMO,MAXIMO,SALDO FROM " + esquema + "INV_BODEGA_PRODUCTOS WHERE INV_BODEGA_PRODUCTOS = '" + detalle.IdProductoBodegaOrigen + "'";
+                    productoLocal = ejecutarComandoSQL(comandoSQL, true);
                     cantAjuste = Convert.ToDouble(productoLocal.Rows[0][0].ToString());
-                    if (estado == 1) { cantAjuste += detalle.Cambio; } else { cantAjuste -= detalle.Cambio; }
+                    if (estado == 1)
+                        cantAjuste += detalle.Cambio;
+                    else
+                        cantAjuste -= detalle.Cambio;
                     alerta |= cantAjuste <= Convert.ToDouble(productoLocal.Rows[0][0].ToString()) || cantAjuste >= Convert.ToDouble(productoLocal.Rows[0][1].ToString());
                 }
                 res[0] = "success";
@@ -277,7 +225,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
                     res[2] += "\nUno o más productos han salido de sus límites permitidos (nivel máximo o mínimo), revise el catálogo local.";
                 }
             }
-            catch (OracleException e)
+            else
             {
                 res[0] = "danger";
                 res[1] = "Error:";
@@ -285,7 +233,5 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
             }
             return res;
         }
-
-
     }
 }
