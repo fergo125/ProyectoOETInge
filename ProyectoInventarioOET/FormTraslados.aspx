@@ -36,6 +36,10 @@
     <fieldset id= "fieldsetConsulta" runat="server" class="fieldset">
         <div class="row">
             <div class="col-lg-4">
+                <label for="outputBodegaConsulta" class= "control-label"> Bodega actual: </label>      
+                <input type="text" id="outputBodegaConsulta" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
+            </div>
+            <div class="col-lg-4">
                 <asp:DropDownList id="dropDownConsultas" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
                     <asp:ListItem>Entradas</asp:ListItem>
                     <asp:ListItem>Salidas</asp:ListItem>
