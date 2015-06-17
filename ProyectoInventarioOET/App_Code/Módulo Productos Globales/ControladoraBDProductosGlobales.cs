@@ -27,30 +27,21 @@ namespace ProyectoInventarioOET.Modulo_ProductosGlobales
             DataTable resultado = new DataTable();
             EntidadProductoGlobal productoConsultado = null;
             Object[] datosConsultados = new Object[14];
-            try
+            String comandoSQL = "SELECT P.CODIGO, P.CODIGO_BARRAS, P.NOMBRE, P.COSTO_COLONES, P.CAT_CATEGORIAS, P.CAT_UNIDADES, P.SALDO, "
+                + "P.ESTADO, P.COSTO_DOLARES, P.IMPUESTO, P.INTENCION, P.PRECIO_C, P.PRECIO_D, P.INV_PRODUCTOS "
+                + "FROM " + esquema + "INV_PRODUCTOS P WHERE INV_PRODUCTOS = '" + id + "'";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
+            if (resultado.Rows.Count == 1)
             {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT P.CODIGO, P.CODIGO_BARRAS, P.NOMBRE, P.COSTO_COLONES, P.CAT_CATEGORIAS, P.CAT_UNIDADES, P.SALDO, "
-                    + "P.ESTADO, P.COSTO_DOLARES, P.IMPUESTO, P.INTENCION, P.PRECIO_C, P.PRECIO_D, P.INV_PRODUCTOS "
-                    + "FROM " + esquema + "INV_PRODUCTOS P WHERE INV_PRODUCTOS = '" + id + "'";
-                OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
-
-                if (resultado.Rows.Count == 1)
-                {
-                    datosConsultados[0] = id;
-                    for (int i = 0; i < 14; i++)
-                    {  
-                        datosConsultados[i] = resultado.Rows[0][i].ToString();
-                    }
-                    productoConsultado = new EntidadProductoGlobal(datosConsultados);
-                }
+                datosConsultados[0] = id;
+                for (int i = 0; i < 14; i++)
+                    datosConsultados[i] = resultado.Rows[0][i].ToString();
+                productoConsultado = new EntidadProductoGlobal(datosConsultados);
             }
-            catch (Exception e)
+            else
             {
                 productoConsultado = null;
             }
-
             return productoConsultado;
         }
 
@@ -62,13 +53,9 @@ namespace ProyectoInventarioOET.Modulo_ProductosGlobales
         public string[] insertarProductoGlobal(EntidadProductoGlobal productoGlobal)
         {
             String esquema = "Inventarios.";
-            String[] res = new String[4]; // Vector que contiene la información sobre el resultado de la transacción en la base de datos
-            res[3] = generarID();
-            try
-            {
-                DataTable resultado = new DataTable();
-                OracleCommand command = conexionBD.CreateCommand();
-                String aux = "INSERT INTO " + esquema + "INV_PRODUCTOS ( NOMBRE, CODIGO, CODIGO_BARRAS, CAT_CATEGORIAS, INTENCION, CAT_UNIDADES, ESTADO,  "
+            String[] resultado = new String[4]; // Vector que contiene la información sobre el resultado de la transacción en la base de datos
+            resultado[3] = generarID();
+            String comandoSQL = "INSERT INTO " + esquema + "INV_PRODUCTOS ( NOMBRE, CODIGO, CODIGO_BARRAS, CAT_CATEGORIAS, INTENCION, CAT_UNIDADES, ESTADO,  "
                 + "SALDO, IMPUESTO, PRECIO_C, PRECIO_D, COSTO_COLONES , COSTO_DOLARES , INV_PRODUCTOS, CREA, CREADO ) VALUES ( '"
                 + productoGlobal.Nombre + "' , '" + productoGlobal.Codigo + "' , '"
                 + productoGlobal.CodigoDeBarras + "' , '" + productoGlobal.Categoria + "' , '"
@@ -76,74 +63,64 @@ namespace ProyectoInventarioOET.Modulo_ProductosGlobales
                 + (short) productoGlobal.Estado + " , " + productoGlobal.Existencia + " , "
                 + productoGlobal.Impuesto + " , " + productoGlobal.PrecioColones + " , "
                 + productoGlobal.PrecioDolares + " , " + productoGlobal.CostoColones + " , "
-                + productoGlobal.CostoDolares + " , '" + res[3] + "' , '" + productoGlobal.Usuario +
+                + productoGlobal.CostoDolares + " , '" + resultado[3] + "' , '" + productoGlobal.Usuario +
                 "' , TO_DATE('" + productoGlobal.Fecha.ToString("MM/dd/yyyy HH:mm:ss") + "', 'mm/dd/yyyy hh24:mi:ss') ) ";
-
-
-                command.CommandText = aux; 
-                OracleDataReader reader = command.ExecuteReader();
-
-                res[0] = "success";
-                res[1] = "Éxito:";
-                res[2] = "Producto agregado al catálogo general.";
+            if(ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
+            {
+                resultado[0] = "success";
+                resultado[1] = "Éxito:";
+                resultado[2] = "Producto agregado al catálogo general.";
             }
-            catch (SqlException e)
+            else
             {
                 // Como la llave es generada se puede volver a intentar
-                res[0] = "danger";
-                res[1] = "Error:";
-                res[2] = "Producto no agregado, intente nuevamente.";
+                resultado[0] = "danger";
+                resultado[1] = "Error:";
+                resultado[2] = "Producto no agregado, intente nuevamente.";
             }
-            return res;
+            return resultado;
         }
 
         /*
         * Método encargado de modificar los datos de un producto global específico(en forma de entidad) con los nuevos 
-        * datos ingresados por el usuario mediante el envío de un comando SQL a Oracle 
+        * datos ingresados por el usuario mediante el envío de un comando SQL a Oracle.
         */
         public string[] modificarProductoGlobal(EntidadProductoGlobal productoGlobalViejo, EntidadProductoGlobal productoGlobalNuevo)
         {
             String esquema = "Inventarios.";
-            String[] res = new String[4]; // Vector que contiene la información sobre el resultado de la transacción en la base de datos
-            res[3] = productoGlobalViejo.Inv_Productos.ToString();
-            try
+            String[] resultado = new String[4]; // Vector que contiene la información sobre el resultado de la transacción en la base de datos
+            resultado[3] = productoGlobalViejo.Inv_Productos.ToString();
+            String comandoSQL = "UPDATE " + esquema + "INV_PRODUCTOS "
+                + "SET CAT_CATEGORIAS = '" + productoGlobalNuevo.Categoria + "' , "
+                + " CODIGO = '" + productoGlobalNuevo.Codigo + "' , "
+                + " CODIGO_BARRAS = '" + productoGlobalNuevo.CodigoDeBarras + "' , "
+                + " COSTO_COLONES = " + productoGlobalNuevo.CostoColones + " , "
+                + " COSTO_DOLARES = " + productoGlobalNuevo.CostoDolares +  " , "
+                + " ESTADO = " + productoGlobalNuevo.Estado + " , "
+                + " SALDO = " + productoGlobalNuevo.Existencia + " , "
+                + " IMPUESTO = " + productoGlobalNuevo.Impuesto + " , "
+                + " INTENCION = '" + productoGlobalNuevo.Intencion + "' , "
+                + " NOMBRE = '" + productoGlobalNuevo.Nombre + "' , "
+                + " PRECIO_C = " + productoGlobalNuevo.PrecioColones + " , "
+                + " PRECIO_D= " + productoGlobalNuevo.PrecioDolares + " , "
+                + " CAT_UNIDADES = '" + productoGlobalNuevo.Unidades + "' , "
+                + " MODIFICA = '" + productoGlobalNuevo.Usuario + "' , "
+                + " MODIFICADO = TO_DATE('" + productoGlobalNuevo.Fecha.ToString("MM/dd/yyyy HH:mm:ss") + "', 'mm/dd/yyyy hh24:mi:ss') "
+                + "WHERE INV_PRODUCTOS = '" + productoGlobalViejo.Inv_Productos + "' ";
+            if(ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
             {
-                DataTable resultado = new DataTable();
-                OracleCommand command = conexionBD.CreateCommand();
-                String aux = "UPDATE " + esquema + "INV_PRODUCTOS "
-                                    + "SET CAT_CATEGORIAS = '" + productoGlobalNuevo.Categoria + "' , "
-                                    + " CODIGO = '" + productoGlobalNuevo.Codigo + "' , "
-                                    + " CODIGO_BARRAS = '" + productoGlobalNuevo.CodigoDeBarras + "' , "
-                                    + " COSTO_COLONES = " + productoGlobalNuevo.CostoColones + " , "
-                                    + " COSTO_DOLARES = " + productoGlobalNuevo.CostoDolares +  " , "
-                                    + " ESTADO = " + productoGlobalNuevo.Estado + " , "
-                                    + " SALDO = " + productoGlobalNuevo.Existencia + " , "
-                                    + " IMPUESTO = " + productoGlobalNuevo.Impuesto + " , "
-                                    + " INTENCION = '" + productoGlobalNuevo.Intencion + "' , "
-                                    + " NOMBRE = '" + productoGlobalNuevo.Nombre + "' , "
-                                    + " PRECIO_C = " + productoGlobalNuevo.PrecioColones + " , "
-                                    + " PRECIO_D= " + productoGlobalNuevo.PrecioDolares + " , "
-                                    + " CAT_UNIDADES = '" + productoGlobalNuevo.Unidades + "' , "
-                                    + " MODIFICA = '" + productoGlobalNuevo.Usuario + "' , "
-                                    + " MODIFICADO = TO_DATE('" + productoGlobalNuevo.Fecha.ToString("MM/dd/yyyy HH:mm:ss") + "', 'mm/dd/yyyy hh24:mi:ss') "
-                                    + "WHERE INV_PRODUCTOS = '" + productoGlobalViejo.Inv_Productos + "' ";
-
-
-                command.CommandText = aux;
-                OracleDataReader reader = command.ExecuteReader();
-
-                res[0] = "success";
-                res[1] = "Éxito:";
-                res[2] = "Producto modificado en el sistema.";
+                resultado[0] = "success";
+                resultado[1] = "Éxito:";
+                resultado[2] = "Producto modificado en el sistema.";
             }
-            catch (OracleException e)
+            else
             {
                 // Como la llave es generada se puede volver a intentar
-                res[0] = "danger";
-                res[1] = "Error:";
-                res[2] = "Producto no modificado, intente nuevamente.";
+                resultado[0] = "danger";
+                resultado[1] = "Error:";
+                resultado[2] = "Producto no modificado, intente nuevamente.";
             }
-            return res;
+            return resultado;
         }
         /*
          * Método encargado de desactivar un producto global (en forma de entidad) 
@@ -152,29 +129,25 @@ namespace ProyectoInventarioOET.Modulo_ProductosGlobales
         public string[] desactivarProductoGlobal(EntidadProductoGlobal productoGlobal)
         {
             String esquema = "Inventarios.";
-            String[] res = new String[4];
-            res[3] = productoGlobal.Codigo.ToString(); // Vector que contiene la información sobre el resultado de la transacción en la base de datos
-            try
+            String[] resultado = new String[4];
+            resultado[3] = productoGlobal.Codigo.ToString(); // Vector que contiene la información sobre el resultado de la transacción en la base de datos
+            String comandoSQL = "UPDATE " + esquema + "INV_PRODUCTOS "
+                + "SET ESTADO = " + productoGlobal.Estado.ToString()
+                + "WHERE INV_PRODUCTOS = " + productoGlobal.Inv_Productos;
+            if(ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
             {
-                DataTable resultado = new DataTable();
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "UPDATE " + esquema + "INV_PRODUCTOS "
-                                      + "SET ESTADO = " + productoGlobal.Estado.ToString()
-                                      + "WHERE INV_PRODUCTOS = " + productoGlobal.Inv_Productos;
-                OracleDataReader reader = command.ExecuteReader();
-
-                res[0] = "success";
-                res[1] = "Éxito:";
-                res[2] = "Producto desactivado en el sistema.";
+                resultado[0] = "success";
+                resultado[1] = "Éxito:";
+                resultado[2] = "Producto desactivado en el sistema.";
             }
-            catch (SqlException e)
+            else
             {
                 // Como la llave es generada se puede volver a intentar
-                res[0] = "danger";
-                res[1] = "Error:";
-                res[2] = "Producto no desactivado, intente nuevamente.";
+                resultado[0] = "danger";
+                resultado[1] = "Error:";
+                resultado[2] = "Producto no desactivado, intente nuevamente.";
             }
-            return res;
+            return resultado;
         }
 
         /*
@@ -186,19 +159,9 @@ namespace ProyectoInventarioOET.Modulo_ProductosGlobales
         {
             String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
-
-            try
-            {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText =   "SELECT P.INV_PRODUCTOS, P.NOMBRE, P.CODIGO, P.CAT_CATEGORIAS, P.ESTADO  "
-                   + "FROM " + esquema + "INV_PRODUCTOS P";
-                OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
-            }
-            catch (Exception e)
-            {
-                resultado = null;
-            }
+            String comandoSQL =   "SELECT P.INV_PRODUCTOS, P.NOMBRE, P.CODIGO, P.CAT_CATEGORIAS, P.ESTADO  "
+                + "FROM " + esquema + "INV_PRODUCTOS P";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }
 
@@ -210,21 +173,11 @@ namespace ProyectoInventarioOET.Modulo_ProductosGlobales
         {
             String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
-
-            try
-            {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT P.INV_PRODUCTOS, P.NOMBRE, P.CODIGO, P.CAT_CATEGORIAS, P.ESTADO  "
+            String comandoSQL = "SELECT P.INV_PRODUCTOS, P.NOMBRE, P.CODIGO, P.CAT_CATEGORIAS, P.ESTADO  "
                 + " FROM " + esquema + "INV_PRODUCTOS P "
                 + " WHERE UPPER(P.NOMBRE) LIKE " + " '" + query.ToUpper() + "%'"
-                + " OR UPPER(P.CODIGO) LIKE "     + " '" + query.ToUpper() + "%'";
-                OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
-            }
-            catch (Exception e)
-            {
-                resultado = null;
-            }
+                + " OR UPPER(P.CODIGO) LIKE " + " '" + query.ToUpper() + "%'";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }
     }
