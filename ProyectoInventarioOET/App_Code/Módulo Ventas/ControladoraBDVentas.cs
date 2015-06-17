@@ -27,26 +27,23 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             String esquema = "Inventarios.";
             String[] res = new String[4];
 
-            try
+            int idSiguienteFactura = getUltimoConsecutivo() + 1;
+            String comandoSQL = "INSERT INTO " + esquema + "REGISTRO_FACTURAS_VENTA (CONSECUTIVO, FECHAHORA, BODEGA, ESTACION, COMPAÑIA, ACTIVIDAD, VENDEDOR, CLIENTE, TIPOMONEDA, METODOPAGO, MONTOTOTALCOLONES, MONTOTOTALDOLARES, ESTADO) VALUES ("
+            + idSiguienteFactura + ",'"
+            + factura.FechaHora + "','"
+            + factura.Bodega + "','"
+            + factura.Estacion + "','"
+            + factura.Compania + "','"
+            + factura.Actividad + "','"
+            + factura.Vendedor + "','"
+            + factura.Cliente + "','"
+            + factura.TipoMoneda + "','"
+            + factura.MetodoPago + "',"
+            + factura.MontoTotalDolares + ","
+            + factura.MontoTotalColones + ","
+            + factura.Estado + ")";
+            if(ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
             {
-                int idSiguienteFactura = getUltimoConsecutivo() + 1;
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "INSERT INTO " + esquema + "REGISTRO_FACTURAS_VENTA (CONSECUTIVO, FECHAHORA, BODEGA, ESTACION, COMPAÑIA, ACTIVIDAD, VENDEDOR, CLIENTE, TIPOMONEDA, METODOPAGO, MONTOTOTALCOLONES, MONTOTOTALDOLARES, ESTADO) VALUES ("
-                + idSiguienteFactura + ",'"
-                + factura.FechaHora + "','"
-                + factura.Bodega + "','"
-                + factura.Estacion + "','"
-                + factura.Compania + "','"
-                + factura.Actividad + "','"
-                + factura.Vendedor + "','"
-                + factura.Cliente + "','"
-                + factura.TipoMoneda + "','"
-                + factura.MetodoPago + "',"
-                + factura.MontoTotalDolares + ","
-                + factura.MontoTotalColones + ","
-                + factura.Estado + ")";
-                OracleDataReader reader = command.ExecuteReader();
-
                 if (insertarProductosFactura(idSiguienteFactura, factura.Productos))
                 {
                     res[0] = "success";
@@ -60,13 +57,12 @@ namespace ProyectoInventarioOET.Modulo_Ventas
                     res[2] = "Error al intentar insertar los productos de la factura en la base de datos. La factura fue insertada con éxito pero sus productos no.";
                 }
             }
-            catch (OracleException e)
+            else
             {
                 res[0] = "danger";
                 res[1] = "Error:";
                 res[2] = "Error al intentar insertar la factura en la base de datos.";
             }
-
             return res;
         }
 
@@ -78,34 +74,23 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         private bool insertarProductosFactura(int idFactura, DataTable productos)
         {
             String esquema = "Inventarios.";
-            try
+            String tuplas = ""; //se agrega cada producto en una inserción por aparte para luego unirlas en un sólo query
+            foreach (DataRow producto in productos.Rows)
             {
-                String tuplas = ""; //se agrega cada producto en una inserción por aparte para luego unirlas en un sólo query
-                foreach (DataRow producto in productos.Rows)
-                {
-                    tuplas += " INTO " + esquema + "REGISTRO_DETALLES_FACTURAS VALUES( "
-                        + idFactura + ", '"
-                        + producto[1].ToString() + "', "
-                        + producto[4].ToString() + ", "
-                        + producto[2].ToString() + ", "
-                        + producto[3].ToString() + ", "
-                        + producto[6].ToString() + ", "
-                        + producto[5].ToString() + ")";
-                }
+                tuplas += " INTO " + esquema + "REGISTRO_DETALLES_FACTURAS VALUES( "
+                    + idFactura + ", '"
+                    + producto[1].ToString() + "', "
+                    + producto[4].ToString() + ", "
+                    + producto[2].ToString() + ", "
+                    + producto[3].ToString() + ", "
+                    + producto[6].ToString() + ", "
+                    + producto[5].ToString() + ")";
+            }
 
-                String queryInsercion = "INSERT ALL" + tuplas + " SELECT * FROM DUAL"; //query unificado
-
-                OracleCommand command = conexionBD.CreateCommand();
-                command = conexionBD.CreateCommand();
-                command.CommandText = queryInsercion;
-                OracleDataReader reader = command.ExecuteReader();
-
+            String comandoSQL = "INSERT ALL" + tuplas + " SELECT * FROM DUAL"; //query unificado
+            if (ejecutarComandoSQL(comandoSQL, false) != null)
                 return true;
-            }
-            catch (OracleException e)
-            {
-                return false;
-            }
+            return false;
         }
 
         /*
@@ -115,30 +100,20 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         {
             String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
-            try
+            String comandoSQL = "SELECT * FROM " + esquema + "REGISTRO_FACTURAS_VENTA";
+            if (idVendedor != "All" || idBodega != "All" || idEstacion != "All") //Se debe parametrizar con alguno de los 3
             {
-                String consulta = "SELECT * FROM " + esquema + "REGISTRO_FACTURAS_VENTA";
-                if (idVendedor != "All" || idBodega != "All" || idEstacion != "All") //Se debe parametrizar con alguno de los 3
-                {
-                    consulta += " WHERE ";
-                    if (idVendedor != "All")
-                        consulta += "VENDEDOR = '" + idVendedor + "' AND ";
-                    if (idBodega != "All")
-                        consulta += "BODEGA = '" + idBodega + "' AND ";
-                    if (idEstacion != "All")
-                        consulta += "ESTACION = '" + idEstacion + "' AND ";
-                    consulta = consulta.Substring(0, consulta.Length - 5); //se le quita el último pedazo de " AND " que haya quedado
-                }
-                consulta += "ORDER BY CONSECUTIVO";
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = consulta;
-                OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
+                comandoSQL += " WHERE ";
+                if (idVendedor != "All")
+                    comandoSQL += "VENDEDOR = '" + idVendedor + "' AND ";
+                if (idBodega != "All")
+                    comandoSQL += "BODEGA = '" + idBodega + "' AND ";
+                if (idEstacion != "All")
+                    comandoSQL += "ESTACION = '" + idEstacion + "' AND ";
+                comandoSQL = comandoSQL.Substring(0, comandoSQL.Length - 5); //se le quita el último pedazo de " AND " que haya quedado
             }
-            catch (OracleException e)
-            {
-                resultado = null;
-            }
+            comandoSQL += "ORDER BY CONSECUTIVO";
+            resultado =  ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }
 
@@ -151,25 +126,14 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             DataTable resultado = new DataTable();
             EntidadFacturaVenta facturaConsultada = null;
             Object[] datosConsultados = new Object[14];
-            try
+            String comandoSQL = "SELECT * FROM " + esquema + "REGISTRO_FACTURAS_VENTA WHERE CONSECUTIVO= '" + llaveFactura + "'";
+            resultado =  ejecutarComandoSQL(comandoSQL, true);
+            if (resultado.Rows.Count == 1)
             {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT * FROM " + esquema + "REGISTRO_FACTURAS_VENTA WHERE CONSECUTIVO= '" + llaveFactura + "'";
-                OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
-
-                if (resultado.Rows.Count == 1)
-                {
-                    for (int i = 0; i < 13; i++)
-                    {
-                        datosConsultados[i] = resultado.Rows[0][i].ToString();
-                    }
-                    datosConsultados[13] = consultarProductosDeFactura(llaveFactura); //productos asociados a factura
-                    facturaConsultada = new EntidadFacturaVenta(datosConsultados);
-                }
-            }
-            catch (OracleException e)
-            {
+                for (int i = 0; i < 13; i++)
+                    datosConsultados[i] = resultado.Rows[0][i].ToString();
+                datosConsultados[13] = consultarProductosDeFactura(llaveFactura); //productos asociados a factura
+                facturaConsultada = new EntidadFacturaVenta(datosConsultados);
             }
             return facturaConsultada;
         }
@@ -181,17 +145,8 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         {
             String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
-            try
-            {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT * FROM " + esquema + "REGISTRO_DETALLES_FACTURAS WHERE IDFACTURA= '" + llaveFactura + "'";
-                OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
-            }
-            catch (OracleException e)
-            {
-                resultado = null;
-            }
+            String comandoSQL = "SELECT * FROM " + esquema + "REGISTRO_DETALLES_FACTURAS WHERE IDFACTURA= '" + llaveFactura + "'";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }
 
@@ -202,17 +157,8 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         {
             String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
-            try
-            {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT UNIQUE SEG_USUARIO FROM " + esquema + "SEG_USUARIO_BODEGA WHERE CAT_BODEGA = '" + idBodega + "'";
-                OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
-            }
-            catch (OracleException e)
-            {
-                resultado = null;
-            }
+            String comandoSQL = "SELECT UNIQUE SEG_USUARIO FROM " + esquema + "SEG_USUARIO_BODEGA WHERE CAT_BODEGA = '" + idBodega + "'";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }
 
@@ -223,20 +169,13 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         {
             String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
-            try
-            {
-                OracleCommand command = conexionBD.CreateCommand();
-                if(idEstacion == "All")
-                    command.CommandText = "SELECT UNIQUE SEG_USUARIO FROM " + esquema + "SEG_USUARIO_BODEGA"; //si se consultó de todas las estaciones, mostrar todos los vendedores
-                else
-                    command.CommandText = "SELECT UNIQUE SEG_USUARIO FROM " + esquema + "SEG_USUARIO_BODEGA WHERE ESTACION = '" + idEstacion + "'";
-                OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
-            }
-            catch (OracleException e)
-            {
-                resultado = null;
-            }
+            String comandoSQL = "";
+            OracleCommand command = conexionBD.CreateCommand();
+            if(idEstacion == "All")
+                comandoSQL = "SELECT UNIQUE SEG_USUARIO FROM " + esquema + "SEG_USUARIO_BODEGA"; //si se consultó de todas las estaciones, mostrar todos los vendedores
+            else
+                comandoSQL = "SELECT UNIQUE SEG_USUARIO FROM " + esquema + "SEG_USUARIO_BODEGA WHERE ESTACION = '" + idEstacion + "'";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }
 
@@ -247,11 +186,11 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         {
             String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
-            OracleCommand command = conexionBD.CreateCommand();
-            command.CommandText = "SELECT MAX(CONSECUTIVO) FROM " + esquema + "REGISTRO_FACTURAS_VENTA";
-            OracleDataReader reader = command.ExecuteReader();
-            resultado.Load(reader);
-            return Convert.ToInt32(resultado.Rows[0][0].ToString());
+            String comandoSQL = "SELECT MAX(CONSECUTIVO) FROM " + esquema + "REGISTRO_FACTURAS_VENTA";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
+            if(resultado.Rows.Count == 1)
+                return Convert.ToInt32(resultado.Rows[0][0].ToString());
+            return -1;
         }
 
         /*
@@ -262,21 +201,10 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             String esquema = "Inventarios.";
             String llaveProducto = null;
             DataTable resultado = new DataTable();
-            try
-            {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT INV_PRODUCTOS FROM " + esquema + "INV_PRODUCTOS WHERE CODIGO = '" + codigoProducto + "' AND NOMBRE = (REPLACE('" + nombreProducto + "', '\\', '')) AND ESTADO = 1"; //se usa el replace de oracle porque si no entonces no quita el backslash
-                OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
-                if (resultado.Rows.Count == 1)
-                {
-                    llaveProducto = resultado.Rows[0][0].ToString();
-                }
-            }
-            catch (Exception e)
-            {
-                llaveProducto = null;
-            }
+            String comandoSQL = "SELECT INV_PRODUCTOS FROM " + esquema + "INV_PRODUCTOS WHERE CODIGO = '" + codigoProducto + "' AND NOMBRE = (REPLACE('" + nombreProducto + "', '\\', '')) AND ESTADO = 1"; //se usa el replace de oracle porque si no entonces no quita el backslash
+            resultado = ejecutarComandoSQL(comandoSQL, true);
+            if (resultado.Rows.Count == 1)
+                llaveProducto = resultado.Rows[0][0].ToString();
             return llaveProducto;
         }
 
@@ -286,21 +214,10 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             String esquema = "Inventarios.";
             String llaveProducto = null;
             DataTable resultado = new DataTable();
-            try
-            {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT INV_BODEGA_PRODUCTOS FROM " + esquema + "INV_BODEGA_PRODUCTOS WHERE INV_PRODUCTOS = '" + idProducto + "'"; 
-                OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
-                if (resultado.Rows.Count == 1)
-                {
-                    llaveProducto = resultado.Rows[0][0].ToString();
-                }
-            }
-            catch (Exception e)
-            {
-                llaveProducto = null;
-            }
+            String comandoSQL = "SELECT INV_BODEGA_PRODUCTOS FROM " + esquema + "INV_BODEGA_PRODUCTOS WHERE INV_PRODUCTOS = '" + idProducto + "'";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
+            if (resultado.Rows.Count == 1)
+                llaveProducto = resultado.Rows[0][0].ToString();
             return llaveProducto;
         }
 
@@ -313,21 +230,10 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             String esquema = "Inventarios.";
             bool valido = false; //se considera valido si existe y si está en estado activo
             DataTable resultado = new DataTable();
-            try
-            {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT ESTADO FROM " + esquema + "INV_BODEGA_PRODUCTOS WHERE INV_PRODUCTOS = '" + llaveProducto + "' AND CAT_BODEGA = '" + llaveBodega + "'";
-                OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
-                if (resultado.Rows.Count == 1)
-                {
-                    valido = (resultado.Rows[0][0].ToString() == "1" ? true : false);
-                }
-            }
-            catch (Exception e)
-            {
-                valido = false;
-            }
+            String comandoSQL = "SELECT ESTADO FROM " + esquema + "INV_BODEGA_PRODUCTOS WHERE INV_PRODUCTOS = '" + llaveProducto + "' AND CAT_BODEGA = '" + llaveBodega + "'";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
+            if (resultado.Rows.Count == 1)
+                valido = (resultado.Rows[0][0].ToString() == "1" ? true : false);
             return valido;
         }
 
@@ -338,22 +244,11 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         {
             String esquema = "Reservas.";
             DataTable resultado = new DataTable();
-            double ventaDolar = 0;
-            try
-            {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT VENTA FROM " + esquema + "TIPOCAMBIO WHERE DEL = (SELECT MAX(DEL) FROM RESERVAS.TIPOCAMBIO)";
-                OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
-                if (resultado.Rows.Count == 1)
-                {
-                    ventaDolar = Convert.ToDouble(resultado.Rows[0][0]);
-                }
-            }
-            catch (Exception e)
-            {
-                ventaDolar = -1;
-            }
+            double ventaDolar = -1;
+            String comandoSQL = "SELECT VENTA FROM " + esquema + "TIPOCAMBIO WHERE DEL = (SELECT MAX(DEL) FROM RESERVAS.TIPOCAMBIO)";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
+            if (resultado.Rows.Count == 1)
+                ventaDolar = Convert.ToDouble(resultado.Rows[0][0]);
             return ventaDolar;
         }
 
@@ -364,25 +259,15 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         {
             String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
-            double precioUnitario = 0;
-            try
-            {
-                OracleCommand command = conexionBD.CreateCommand();
-                if(tipoMoneda == "Colones")
-                    command.CommandText = "SELECT PRECIO_C FROM " + esquema + "INV_PRODUCTOS WHERE INV_PRODUCTOS = '" + llaveProducto + "'";
-                else //Dolares
-                    command.CommandText = "SELECT PRECIO_D FROM " + esquema + "INV_PRODUCTOS WHERE INV_PRODUCTOS = '" + llaveProducto + "'";
-                OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
-                if (resultado.Rows.Count == 1)
-                {
-                    precioUnitario = Convert.ToDouble(resultado.Rows[0][0]);
-                }
-            }
-            catch (Exception e)
-            {
-                precioUnitario = -1;
-            }
+            double precioUnitario = -1;
+            String comandoSQL = "";
+            if(tipoMoneda == "Colones")
+                comandoSQL = "SELECT PRECIO_C FROM " + esquema + "INV_PRODUCTOS WHERE INV_PRODUCTOS = '" + llaveProducto + "'";
+            else //Dolares
+                comandoSQL = "SELECT PRECIO_D FROM " + esquema + "INV_PRODUCTOS WHERE INV_PRODUCTOS = '" + llaveProducto + "'";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
+            if (resultado.Rows.Count == 1)
+                precioUnitario = Convert.ToDouble(resultado.Rows[0][0]);
             return precioUnitario;
         }
 
@@ -391,17 +276,12 @@ namespace ProyectoInventarioOET.Modulo_Ventas
          */
         public int maximoDescuentoAplicable(String idProducto, String idVendedor)
         {
-            int maximo=0;
-            try
-            {
-                DataTable resultado = new DataTable();
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT MIN(DESCUENTO_MAXIMO) FROM ((SELECT DESCUENTO_MAXIMO FROM INV_PRODUCTOS WHERE INV_PRODUCTOS = '" + idProducto + "') UNION ALL (SELECT DESCUENTO_MAXIMO FROM SEG_USUARIO WHERE SEG_USUARIO = '" + idVendedor + "'))";
-                OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
+            int maximo = 0;
+            DataTable resultado = new DataTable();
+            String comandoSQL = "SELECT MIN(DESCUENTO_MAXIMO) FROM ((SELECT DESCUENTO_MAXIMO FROM INV_PRODUCTOS WHERE INV_PRODUCTOS = '" + idProducto + "') UNION ALL (SELECT DESCUENTO_MAXIMO FROM SEG_USUARIO WHERE SEG_USUARIO = '" + idVendedor + "'))";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
+            if (resultado.Rows.Count == 1) 
                 maximo = Convert.ToInt32(resultado.Rows[0][0].ToString());
-            }
-            catch (Exception){}
             return maximo;
         }
 
@@ -411,30 +291,22 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         public String[] anularFactura(EntidadFacturaVenta factura)
         {
             String esquema = "Inventarios.";
-
-            String[] res = new String[4];
-            res[3] = factura.Consecutivo;
-
-            try
+            String[] resultado = new String[4];
+            resultado[3] = factura.Consecutivo;
+            String comandoSQL = "UPDATE " + esquema + "REGISTRO_FACTURAS_VENTA SET ESTADO = 'Anulada' WHERE CONSECUTIVO='" + factura.Consecutivo + "'";
+            if(ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
             {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "UPDATE " + esquema + "REGISTRO_FACTURAS_VENTA SET ESTADO = 'Anulada' WHERE CONSECUTIVO='" + factura.Consecutivo + "'";
-                OracleDataReader reader = command.ExecuteReader();
-
-                res[0] = "success";
-                res[1] = "Éxito:";
-                res[2] = "Factura anulada en el sistema.";
+                resultado[0] = "success";
+                resultado[1] = "Éxito:";
+                resultado[2] = "Factura anulada en el sistema.";
             }
-            catch (OracleException e)
+            else
             {
-                if (e.Number == 2627)
-                {
-                    res[0] = "danger";
-                    res[1] = "Error:";
-                    res[2] = "Factura no anulada, intente nuevamente.";
-                }
+                resultado[0] = "danger";
+                resultado[1] = "Error:";
+                resultado[2] = "Factura no anulada, intente nuevamente.";
             }
-            return res;
+            return resultado;
         }
 
         /*
@@ -444,17 +316,8 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         {
             String esquema = "Reservas.";
             DataTable metodosPago = new DataTable(); ;
-            try
-            {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT NOMBRE,ID FROM " + esquema + "FORMAPAGO ";
-                OracleDataReader reader = command.ExecuteReader();
-                metodosPago.Load(reader);
-            }
-            catch (OracleException e)
-            {
-                metodosPago = null;
-            }
+            String comandoSQL = "SELECT NOMBRE,ID FROM " + esquema + "FORMAPAGO ";
+            metodosPago = ejecutarComandoSQL(comandoSQL, true);
             return metodosPago;
         }
 
@@ -464,20 +327,11 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         public String consultarMetodoDePago(String llaveMetodo)
         {
             String esquema = "Reservas.";
-            DataTable resultado = new DataTable(); ;
-            try
-            {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT NOMBRE FROM " + esquema + "FORMAPAGO WHERE ID='" + llaveMetodo + "'";
-                OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
-                if (resultado.Rows.Count == 1)
-                    return resultado.Rows[0][0].ToString();
-            }
-            catch (OracleException e)
-            {
-                return null;
-            }
+            DataTable resultado = new DataTable();
+            String comandoSQL = "SELECT NOMBRE FROM " + esquema + "FORMAPAGO WHERE ID='" + llaveMetodo + "'";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
+            if (resultado.Rows.Count == 1)
+                return resultado.Rows[0][0].ToString();
             return null;
         }
 
@@ -488,17 +342,8 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         {
             String esquema = "Inventarios.";
             DataTable posiblesClientes = new DataTable(); ;
-            try
-            {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT NOMBRE,SEG_USUARIO FROM " + esquema + "SEG_USUARIO ";
-                OracleDataReader reader = command.ExecuteReader();
-                posiblesClientes.Load(reader);
-            }
-            catch (OracleException e)
-            {
-                posiblesClientes = null;
-            }
+            String comandoSQL = "SELECT NOMBRE,SEG_USUARIO FROM " + esquema + "SEG_USUARIO ";
+            posiblesClientes = ejecutarComandoSQL(comandoSQL, true);
             return posiblesClientes;
         }
     }
