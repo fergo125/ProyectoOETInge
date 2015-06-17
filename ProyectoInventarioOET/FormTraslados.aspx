@@ -78,7 +78,7 @@
                 </fieldset>
             </div>
             <div class="col-lg-5">
-                <label for="outputFecha" class= "control-label"> Fecha de creacion: </label>      
+                <label for="outputFecha" class= "control-label"> Fecha y hora de creacion: </label>      
                 <input type="text" id="outputFecha" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
             </div>
         </div>

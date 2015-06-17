@@ -488,7 +488,7 @@ namespace ProyectoInventarioOET
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.DateTime");
-            columna.ColumnName = "Fecha";
+            columna.ColumnName = "Fecha y Hora";
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
