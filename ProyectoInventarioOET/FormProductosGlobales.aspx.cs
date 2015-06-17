@@ -66,6 +66,7 @@ namespace ProyectoInventarioOET
                         cargarUnidades();
                         cargarVendible();
                         cargarCategorias();
+                        cargarImpuesto();
                         presentarDatos();
                         seConsulto = false;
                     }
@@ -204,6 +205,18 @@ namespace ProyectoInventarioOET
             inputVendible.Items.Add(new ListItem("Para venta", null));   
         }
 
+        protected void cargarImpuesto()
+        {
+            inputImpuesto.Items.Clear();
+            DataTable impuesto = controladoraDatosGenerales.consultarBooleanos();
+            foreach (DataRow fila in impuesto.Rows)
+            {
+                inputImpuesto.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
+            }
+
+        
+        }
+
         /*
         * Carga las posibles unidades para un producto en el 'comboBox' establecido para esto.
         */
@@ -263,7 +276,7 @@ namespace ProyectoInventarioOET
             datos[6] = this.inputSaldo.Value;
             datos[7] = this.inputEstado.SelectedValue;
             datos[8] = this.inputCostoDolares.Value;
-            datos[9] = this.inputImpuesto.Value;
+            datos[9] = this.inputImpuesto.SelectedValue;
             datos[10] = this.inputVendible.SelectedValue;
             datos[11] = this.inputPrecioColones.Value;
             datos[12] = this.inputPrecioDolares.Value;
@@ -359,6 +372,9 @@ namespace ProyectoInventarioOET
                          }
                         id++;
                     }
+                    DataView sort = new DataView(tabla);
+                    sort.Sort = "Código";
+                    tabla = sort.ToTable();
                 }
                 else
                 {
@@ -395,7 +411,7 @@ namespace ProyectoInventarioOET
                 this.inpuCategoria.SelectedValue = productoConsultado.Categoria;
                 this.inputUnidades.SelectedValue = productoConsultado.Unidades.ToString();
                 this.inputSaldo.Value = productoConsultado.Existencia.ToString();
-                this.inputImpuesto.Value = productoConsultado.Impuesto.ToString();
+                this.inputImpuesto.SelectedValue = productoConsultado.Impuesto.ToString();
                 this.inputPrecioColones.Value = productoConsultado.PrecioColones.ToString();
                 this.inputPrecioDolares.Value = productoConsultado.PrecioDolares.ToString();
                 this.inputCostoColones.Value = productoConsultado.CostoColones.ToString();
@@ -492,7 +508,7 @@ namespace ProyectoInventarioOET
             this.inputCostoDolares.Value = "";
             this.inputPrecioColones.Value = "";
             this.inputPrecioDolares.Value = "";
-            this.inputImpuesto.Value = "";
+            this.inputImpuesto.SelectedValue = null;
             this.inputSaldo.Value = "";
             this.inputUnidades.SelectedValue = null;
             this.inpuCategoria.SelectedValue = null;
@@ -512,7 +528,7 @@ namespace ProyectoInventarioOET
             this.inputCostoDolares.Disabled = true;
             this.inputPrecioColones.Disabled = !resp;
             this.inputPrecioDolares.Disabled = !resp;
-            this.inputImpuesto.Disabled = !resp;
+            this.inputImpuesto.Enabled = resp;
             this.inputSaldo.Disabled = true;
             this.inputUnidades.Enabled = resp;
             this.inpuCategoria.Enabled = resp;
@@ -569,6 +585,7 @@ namespace ProyectoInventarioOET
             cargarUnidades();
             cargarVendible();
             cargarCategorias();
+            cargarImpuesto();
             limpiarCampos();
             habilitarCampos(true);
         }
