@@ -488,7 +488,7 @@ namespace ProyectoInventarioOET
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.DateTime");
-            columna.ColumnName = "Fecha";
+            columna.ColumnName = "Fecha y Hora";
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
@@ -812,6 +812,7 @@ namespace ProyectoInventarioOET
             //DataTable prueba = controladoraTraslados.consultarTraslados((this.Master as SiteMaster).LlaveBodegaSesion, false);
             modo = (int)Modo.Consulta;
             cambiarModo();
+            outputBodegaConsulta.Value = (this.Master as SiteMaster).NombreBodegaSesion;
 
             // No enseñar una tabla vacia
             tituloGridConsulta.Visible = false;
