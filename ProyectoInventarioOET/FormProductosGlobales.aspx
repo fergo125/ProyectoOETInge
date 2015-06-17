@@ -89,9 +89,9 @@
             </div>
 
              <div class="form-group col-lg-6">
-                <asp:RequiredFieldValidator CssClass="label label-danger" runat=server ControlToValidate=inputImpuesto ErrorMessage=""> </asp:RequiredFieldValidator>
                 <label for="inputImpuesto" class= "control-label">Impuesto:</label>
-                 <input type="text" id= "inputImpuesto" class="form-control" style="max-width:100%" runat="server" pattern="[0-9]{2}" title="Porcentaje entre 0% a 99%"><br>
+                 <asp:DropDownList ID="inputImpuesto" runat="server" Cssclass="form-control"></asp:DropDownList>
+                 <%--<input type="text" id= "inputImpuesto" class="form-control" style="max-width:100%" runat="server" pattern="[0-9]{2}" title="Porcentaje entre 0% a 99%"><br>--%>
             </div>
             </div>
             
