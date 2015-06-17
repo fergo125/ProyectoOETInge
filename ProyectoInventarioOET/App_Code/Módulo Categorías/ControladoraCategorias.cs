@@ -50,14 +50,6 @@ namespace ProyectoInventarioOET.Modulo_Categorias
         }
 
         /*
-         * Desactiva una categoria de la base de datos.
-         */
-        public String[] desactivarcategoria(EntidadCategoria categoria)
-        {
-            return controladoraBDCategorias.desactivarCategoria(categoria);
-        }
-
-        /*
          * Consulta la información de todas las categorias.
          */
         public DataTable consultarCategorias()

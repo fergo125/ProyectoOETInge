@@ -85,14 +85,14 @@ namespace ProyectoInventarioOET.Modulo_Bodegas
                 }
             }
 
-            String[] res = new String[4];
-            res[3] = bodega.Codigo;
+            String[] resultado = new String[4];
+            resultado[3] = bodega.Codigo;
 
             if ((existenteEnBD)&&(nuevaBodega.Nombre!=bodega.Nombre))
             {
-                res[0] = "danger";
-                res[1] = "Error: ";
-                res[2] = "Ya existe una bodega con ese nombre en la base de datos.";
+                resultado[0] = "danger";
+                resultado[1] = "Error: ";
+                resultado[2] = "Ya existe una bodega con ese nombre en la base de datos.";
             }
             else
             {
@@ -103,19 +103,19 @@ namespace ProyectoInventarioOET.Modulo_Bodegas
                     + bodega.Estacion + "' AND ESTADO = " + bodega.Estado + " AND CAT_INTENCIONUSO = " + bodega.IntencionUso;
                 if(ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
                 {
-                    res[0] = "success";
-                    res[1] = "Éxito:";
-                    res[2] = "Bodega modificada en el sistema.";
+                    resultado[0] = "success";
+                    resultado[1] = "Éxito:";
+                    resultado[2] = "Bodega modificada en el sistema.";
                 }
                 else
                 {
-                    res[0] = "danger";
-                    res[1] = "Error:";
-                    res[2] = "Bodega no modificada, intente nuevamente.";
+                    resultado[0] = "danger";
+                    resultado[1] = "Error:";
+                    resultado[2] = "Bodega no modificada, intente nuevamente.";
                 }
             }
                 
-            return res;
+            return resultado;
         }
 
         /*
