@@ -18,6 +18,8 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
         private String unidades;            // Descripcion de las unidades del producto
         private String idProductoBodegaDestino; // id de la bodega destino (caso traslado)
         private String idProductoBodegaOrigen; // id de la bodega destino (caso traslado)
+        private double cantidadPrevia;
+        private double cantidadNueva; 
 
 
         /*
@@ -104,6 +106,23 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
             {
                 get { return unidades; }
                 set { unidades = value; }
+            }
+
+            /*
+            * Método para obtener y establecer las unidades del producto.
+            */
+            public double CantidadPrevia
+            {
+                get { return cantidadPrevia; }
+                set { cantidadPrevia = value; }
+            }
+            /*
+     * Método para obtener y establecer las unidades del producto.
+     */
+            public double CantidadNueva
+            {
+                get { return cantidadNueva; }
+                set { cantidadNueva = value; }
             }
 
 

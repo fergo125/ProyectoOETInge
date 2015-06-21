@@ -77,6 +77,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
             String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
             String comandoSQL = "SELECT P.NOMBRE, P.CODIGO, D.CAMBIO, B.INV_BODEGA_PRODUCTOS, B.SALDO, U.DESCRIPCION "
+            //String comandoSQL = "SELECT P.NOMBRE, P.CODIGO, D.CANTIDADNUEVA - D.CANTIDADPREVIA, B.INV_BODEGA_PRODUCTOS, B.SALDO, U.DESCRIPCION "
                 + " FROM " + esquema + "DETALLES_AJUSTES D, " + esquema + "INV_BODEGA_PRODUCTOS B, " + esquema + "INV_PRODUCTOS P, " + esquema + "CAT_UNIDADES U "
                 + " WHERE D.ID_AJUSTES = '" + idAjuste + "' "
                 + " AND D.INV_BODEGA_PRODUCTOS = B.INV_BODEGA_PRODUCTOS "
@@ -106,6 +107,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
                 {
                     insertarDetalle(resultado[3], detallesProducto);
                     actualizarProducto(detallesProducto.IdProductoBodega, detallesProducto.Cambio);
+                    //actualizarProducto(detallesProducto.IdProductoBodega, detallesProducto.CantidadNueva);
                 }
                 resultado[0] = "success";
                 resultado[1] = "Éxito:";
@@ -130,17 +132,21 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
             String esquema = "Inventarios.";
             String comandoSQL = "INSERT INTO " + esquema + "DETALLES_AJUSTES (ID_AJUSTES, INV_BODEGA_PRODUCTOS, CAMBIO) VALUES ('" + idAjuste
                 + "','" + detallesProducto.IdProductoBodega + "', " + detallesProducto.Cambio + " )";
+
+           // String comandoSQL = "INSERT INTO " + esquema + "DETALLES_AJUSTES (ID_AJUSTES, INV_BODEGA_PRODUCTOS, CANTIDAD_PREVIA, CANTIDAD_NUEVA) VALUES ('" + idAjuste
+            // + "','" + detallesProducto.IdProductoBodega + "', " + detallesProducto.CantidadPrevia + "', " + detallesProducto.CantidadNueva + " )";
+
             ejecutarComandoSQL(comandoSQL, false);
         }
 
         /*
          * Método auxiliar que se encarga de actualizar la existencia del productos en el catalogo local
          */ 
-        private void actualizarProducto(String idBodegaProducto, double cambio)
+        private void actualizarProducto(String idBodegaProducto, double nuevaCantidad)
         {
             String esquema = "Inventarios.";
             String comandoSQL = "UPDATE " + esquema + "INV_BODEGA_PRODUCTOS "
-                                   + " SET SALDO = " + cambio
+                                   + " SET SALDO = " + nuevaCantidad
                                    + " WHERE INV_BODEGA_PRODUCTOS = '" + idBodegaProducto + "'";
             ejecutarComandoSQL(comandoSQL, false);
         }
