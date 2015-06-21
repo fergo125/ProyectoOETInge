@@ -338,9 +338,9 @@ namespace ProyectoInventarioOET
             int id = 0; // Es la posicion en donde se guardan los iD'  
             try
             {
-                DataTable productosGlobales;
+               
                 Object[] datos = new Object[4];
-
+                DataTable productosGlobales;
                 if (query == null)
                 {
                     productosGlobales = controladora.consultarProductosGlobales(); //Se trae el resultado de todos los productos
@@ -700,9 +700,36 @@ namespace ProyectoInventarioOET
          */
         public void BindGrid(string sortBy, bool inAsc)
         {
-            consulta.DefaultView.Sort = sortBy + " " + (inAsc ? "DESC" : "ASC");
+            agregarID();
+            consulta.DefaultView.Sort = sortBy + " " + (inAsc ? "DESC" : "ASC"); //Ordena
+            actualizarIDs();
             gridViewProductosGlobales.DataSource = consulta;
             gridViewProductosGlobales.DataBind();
+        }
+
+        public void agregarID() {
+            DataColumn columna;
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "id";
+            consulta.Columns.Add(columna);
+            int i = 0;
+            foreach (DataRow fila in consulta.Rows) {
+                fila[4] = idArray[i];
+                i++;
+            }
+        }
+
+        public void actualizarIDs()
+        {
+            int i = 0;
+            foreach (DataRow fila in consulta.Rows)
+            {
+                idArray[i] = fila[4];
+                i++;
+            }
+            consulta.Columns.Remove("id");
         }
 
     }
