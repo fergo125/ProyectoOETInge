@@ -88,8 +88,6 @@ namespace ProyectoInventarioOET
                 textoObligatorioBodega.Visible = false;
                 mensajeAlerta.Visible = false;
                 tituloAccion.InnerText = "Seleccione una opción";
-                
-
 
             }
             else if (modo == (int)Modo.Modificacion)
