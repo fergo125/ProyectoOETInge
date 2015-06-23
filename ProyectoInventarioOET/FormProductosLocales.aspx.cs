@@ -548,6 +548,7 @@ namespace ProyectoInventarioOET
             labelTipoAlerta.Text = alerta + " ";
             labelAlerta.Text = mensaje;
             FormProductosLocales.mensaje = true;
+            ScriptManager.RegisterStartupScript(Page, this.GetType(), "ScrollPage", "window.scroll(0,0);", true);
         }
 
         /*

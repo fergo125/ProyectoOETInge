@@ -35,6 +35,7 @@ namespace ProyectoInventarioOET
             labelTipoAlerta.Text = alerta + " ";
             labelAlerta.Text = mensaje;
             mensajeAlerta.Visible = true;
+            ScriptManager.RegisterStartupScript(Page, this.GetType(), "ScrollPage", "window.scroll(0,0);", true);
         }
 
         // Carga las bodegas que puede seleccionar el usuario

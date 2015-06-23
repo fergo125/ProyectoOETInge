@@ -62,6 +62,7 @@ namespace ProyectoInventarioOET
             labelTipoAlerta.Text = "Error:";
             labelAlerta.Text = "Nombre de usuario o contraseña inválidos";
             mensajeAlerta.Visible = true;
+            ScriptManager.RegisterStartupScript(Page, this.GetType(), "ScrollPage", "window.scroll(0,0);", true);
         }
     }
 }
