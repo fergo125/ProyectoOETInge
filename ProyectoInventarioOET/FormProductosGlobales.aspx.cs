@@ -372,9 +372,6 @@ namespace ProyectoInventarioOET
                          }
                         id++;
                     }
-                    DataView sort = new DataView(tabla);
-                    sort.Sort = "Código";
-                    tabla = sort.ToTable();
                 }
                 else
                 {
@@ -701,7 +698,9 @@ namespace ProyectoInventarioOET
         public void BindGrid(string sortBy, bool inAsc)
         {
             agregarID();
-            consulta.DefaultView.Sort = sortBy + " " + (inAsc ? "DESC" : "ASC"); //Ordena
+            DataView aux = new DataView (consulta);
+            aux.Sort = sortBy + " " + (inAsc ? "DESC" : "ASC"); //Ordena
+            consulta = aux.ToTable();
             actualizarIDs();
             gridViewProductosGlobales.DataSource = consulta;
             gridViewProductosGlobales.DataBind();
