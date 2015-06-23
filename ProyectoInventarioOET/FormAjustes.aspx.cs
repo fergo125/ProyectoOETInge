@@ -191,6 +191,7 @@ namespace ProyectoInventarioOET
                     datos[0] = elemento.NombreProducto;
                     datos[1] = elemento.Codigo;
                     datos[2] = elemento.Cambio;
+                    //datos[2] = elemento.CantidadNueva - elemento.CantidadPrevia;
                     tabla.Rows.Add(datos);
                 }
             }
@@ -740,8 +741,11 @@ namespace ProyectoInventarioOET
                     ajuste[2] = cantAjuste;
                     ajuste[3] = idArrayProductos[i];
                     ajuste[4] = cantAjuste - Double.Parse(row["Cantidad Actual"].ToString());
+                    //ajuste[4] = cantAjuste; // Cantidad nueva
+                    //ajuste[5] =  Double.Parse(row["Cantidad Actual"].ToString());  //Cantidad previa
 
-                    if (!(signo ^ (Convert.ToDouble(ajuste[4]) <= 0.0)))
+                    // EL SIGNO NO VA A IMPORTAR HACER EL REFACTORING
+                    if (!(signo ^ (Convert.ToDouble(ajuste[4]) <= 0.0)))  //El signo probablemente no va a importar
                         throw new AggregateException();
 
                     if ( (Convert.ToDouble(ajuste[4]) == 0.0))  // Caso salida

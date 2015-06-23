@@ -28,10 +28,8 @@ namespace ProyectoInventarioOET.App_Code
         {
             String esquema = "Reservas.";
             DataTable resultado = new DataTable();
-            OracleCommand command = conexionBD.CreateCommand();
-            command.CommandText = "SELECT * FROM " + esquema + "ANFITRIONA";
-            OracleDataReader reader = command.ExecuteReader();
-            resultado.Load(reader);
+            String comandoSQL = "SELECT * FROM " + esquema + "ANFITRIONA";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }
     }

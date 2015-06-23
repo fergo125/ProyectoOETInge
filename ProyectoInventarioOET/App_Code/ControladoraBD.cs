@@ -23,10 +23,6 @@ namespace ProyectoInventarioOET
          */
         public ControladoraBD()
         {
-            //Primero, intentar abrir la conexión
-            conexionBD = new OracleConnection();
-            conexionBD.ConnectionString = "Data Source=10.1.4.93;User ID=inventarios;Password=inventarios"; //en el futuro se podría leer esta string desde un archivo
-            conexionBD.Open();
         }
 
         /*
