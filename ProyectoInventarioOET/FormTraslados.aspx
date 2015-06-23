@@ -35,8 +35,7 @@
     <!-- DropDown de modo de consultas -->
     <fieldset id= "fieldsetConsulta" runat="server" class="fieldset">
         <div class="row">
-            <div class="col-lg-4">
-                <label for="outputBodegaConsulta" class= "control-label"> Bodega actual: </label>      
+            <div class="col-lg-4">    
                 <input type="text" id="outputBodegaConsulta" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
             </div>
             <div class="col-lg-4">
