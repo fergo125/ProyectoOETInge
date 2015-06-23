@@ -116,7 +116,7 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             String[] res = new String[4];
             entrada.IdEntrada= generarID();
             res[3] = entrada.IdEntrada;
-            String comandoSQL = "insert into cat_entradas values("+
+            String comandoSQL = "insert into "+esquema+"cat_entradas values("+
                         "'"+ entrada.IdEntrada +"'"+
                         ",'" + entrada.IdFactura + "'"+
                         ",'" + entrada.IdEncargado+ "'" +
@@ -129,7 +129,7 @@ namespace ProyectoInventarioOET.Modulo_Entradas
                 {
                     foreach (DataRow fila in productosAsociados.Rows)
                     {
-                        comandoSQL = "insert into cat_entradas_productos values(" +
+                        comandoSQL = "insert into" +esquema+"cat_entradas_productos values(" +
                             "'" + generarID() + "'" +
                             ",'" + entrada.IdEntrada + "'" +
                             ",'" + fila[0] + "'" +
