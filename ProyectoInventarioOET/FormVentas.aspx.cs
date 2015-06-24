@@ -41,8 +41,8 @@ namespace ProyectoInventarioOET
         private static ControladoraDatosGenerales controladoraDatosGenerales;   //Para accesar datos generales de la base de datos
         private static ControladoraProductoLocal controladoraProductoLocal ;    //Para revisar existencias de productos
         private static ControladoraProductosGlobales controladoraProductoGlobal;//Para consultar nombre y otra información de los productos al desplegar facturas
-        object pagina;
-        EventArgs events;
+        //object pagina;
+        //EventArgs events;
         //Importante:
         //Para el codigoPerfilUsuario (que se usa un poco hard-coded), los números son:
         //1 = Administrador global
@@ -234,8 +234,14 @@ namespace ProyectoInventarioOET
                 default:
                     break;
             }
+            //Todos los perfiles pueden escoger estos criterios extra, se limpian, se cargan igual que al crear, pero se ocupa hacer algunos arreglos para consulta
             dropDownListConsultaMetodoPago.Items.Clear();
             dropDownListConsultaCliente.Items.Clear();
+            cargarMetodosPago(dropDownListConsultaMetodoPago);
+            cargarPosiblesClientes(dropDownListConsultaCliente);
+            dropDownListConsultaMetodoPago.Items.Insert(0, (new ListItem("Todos", "All"))); //En el caso de métodos de pago, se ocupa insertar la opción de "todos" al tope
+            dropDownListConsultaCliente.Items[0].Text = "Todos";    //En el caso de los posibles clientes, se reemplaza la opción de dejar el campo vacío por
+            dropDownListConsultaCliente.Items[0].Value = "All";     //escoger "todos" los clientes, lo mismo que decir cualquier cliente
         }
 
         /*
@@ -370,13 +376,15 @@ namespace ProyectoInventarioOET
             String codigoEstacion = dropDownListConsultaEstacion.SelectedValue;
             String codigoBodega = dropDownListConsultaBodega.SelectedValue;
             String codigoVendedor = dropDownListConsultaVendedor.SelectedValue;
+            String codigoMetodoPago = dropDownListConsultaMetodoPago.SelectedValue;
+            String codigoCliente = dropDownListConsultaCliente.SelectedValue;
 
             DataTable tablaFacturas = crearTablaFacturasConsultadas(); //tabla que se usará para el grid
             try
             {
                 Object[] datos = new Object[6];
                 facturasConsultadas = null; //tabla atributo que se usará para almacenar toda la consulta
-                facturasConsultadas = controladoraVentas.consultarFacturas(codigoVendedor, codigoBodega, codigoEstacion);
+                facturasConsultadas = controladoraVentas.consultarFacturas(codigoVendedor, codigoBodega, codigoEstacion, codigoMetodoPago, codigoCliente);
                 if (facturasConsultadas.Rows.Count > 0)
                 {
                     idArray = new Object[facturasConsultadas.Rows.Count];
@@ -612,6 +620,7 @@ namespace ProyectoInventarioOET
                 dropdownlist.Items.Clear();
                 foreach (DataRow fila in metodosPago.Rows)
                     dropdownlist.Items.Add(new ListItem(fila[0].ToString(), fila[1].ToString()));
+                dropdownlist.Items.Add(new ListItem("Varios (definidos al crear la factura)", "VARIOS"));
             }
             else
                 mostrarMensaje("warning", "Alerta: ", "Error al intentar cargar los métodos de pago.");
@@ -1245,5 +1254,30 @@ namespace ProyectoInventarioOET
                 ++i;
             }
         }
+
+        /*
+         * Intento fallido de poner el textbox de cantidad de los productos en algún punto medio de cada fila.
+         * No hacer.
+         */
+        //protected void gridViewCrearFacturaProductos_FilaCreada()
+        //{
+        //    //GridViewRow row = gridViewCrearFacturaProductos.Rows[gridViewCrearFacturaProductos.Rows.Count - 1];
+        //    foreach (GridViewRow row in gridViewCrearFacturaProductos.Rows)
+        //    {
+        //        List<TableCell> columns = new List<TableCell>();
+        //        TableCell cantidad = row.Cells[1];
+        //        int i = 0;
+        //        foreach (DataControlFieldCell column in row.Cells)
+        //        {
+        //            TableCell cell = row.Cells[i];
+        //            if (i == 4) columns.Add(cantidad);
+        //            if (i != 1) columns.Add(cell);
+        //            ++i;
+        //        }
+        //        for (int k = 0; k < columns.Count; ++k)
+        //            row.Cells.Remove(columns[k]);
+        //        row.Cells.AddRange(columns.ToArray());
+        //    }
+        //}
     }
 }
