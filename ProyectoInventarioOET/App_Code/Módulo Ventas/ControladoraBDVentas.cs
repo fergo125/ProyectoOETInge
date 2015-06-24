@@ -39,8 +39,8 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             + factura.Cliente + "','"
             + factura.TipoMoneda + "','"
             + factura.MetodoPago + "',"
-            + factura.MontoTotalDolares + ","
             + factura.MontoTotalColones + ","
+            + factura.MontoTotalDolares + ","
             + factura.Estado + ")";
             if(ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
             {
