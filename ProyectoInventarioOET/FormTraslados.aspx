@@ -41,7 +41,7 @@
             </div>
             <div class="col-lg-4">
                 <label for="outputBodegaConsulta" class= "control-label"> Tipo de Traslado: </label>
-                <asp:DropDownList id="dropDownConsultas" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
+                <asp:DropDownList id="dropDownConsultas" AutoPostBack="true" OnSelectedIndexChanged="dropDownConsultas_SelectedIndexChanged" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
                     <asp:ListItem>Entrantes</asp:ListItem>
                     <asp:ListItem>Salientes</asp:ListItem>
                 </asp:DropDownList>
@@ -58,14 +58,14 @@
     <fieldset id= "FieldsetTraslados" runat="server" class="fieldset">
         <div class="row">
             <div class="col-lg-5">
-                <label for="outputBodegaSalida" class= "control-label"> Origen: </label>      
+                <label for="outputBodegaSalida" class= "control-label"> Bodega Origen: </label>      
                 <input type="text" id="outputBodegaSalida" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
             </div>
             <div class="col-lg-2">
                 <h3 style="text-align:center"><i class="fa fa-long-arrow-right fa-2x"></i></h3>
             </div>
             <div class="col-lg-5">
-                <label for="dropDownBodegaEntrada" class= "control-label"> Destino: </label>      
+                <label for="dropDownBodegaEntrada" class= "control-label"> Bodega Destino: </label>      
                 <asp:DropDownList ID="dropDownBodegaEntrada" runat="server" CssClass="form-control" OnSelectedIndexChanged="dropDownBodegaEntrada_SelectedIndexChanged" AutoPostBack="true">
                 </asp:DropDownList><br>
             </div>
@@ -106,7 +106,7 @@
 
     <!-- Grid de productos a transferir -->
     <div id="bloqueGridProductos" class="col-lg-12">
-        <fieldset id="Fieldset2" runat="server" class="fieldset">
+        <fieldset id="FieldsetGridProductos" runat="server" class="fieldset">
             <!-- Gridview -->
             <div class="col-lg-12">
                 <strong><div ID="tituloGridProductos" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Productos a Transferir</div></strong>
@@ -114,7 +114,7 @@
                     <ContentTemplate>
                         <asp:GridView ID="gridViewProductos" CssClass="table" OnRowCommand="gridViewProductos_Seleccion" OnRowCreated="gridViewTraslados_RowCreated" runat="server" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
                             <Columns>
-                                <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Quitar">
+                                <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Eliminar">
                                     <ControlStyle CssClass="btn btn-default"></ControlStyle>
                                 </asp:ButtonField>
                                 <asp:TemplateField HeaderText="Cantidad" >
