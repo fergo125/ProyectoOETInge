@@ -442,23 +442,23 @@ namespace ProyectoInventarioOET
             Boolean res = true;
             String[] error = {"warning", "Alerta: ", "No hubo cambios"};
 
-            if( dropDownEstado.SelectedValue == "1" )
+            if (dropDownEstado.SelectedValue == "1")
                 error = controladoraTraslados.acertarTraslado(trasladoConsultado);
             else
-                if( dropDownEstado.SelectedValue == "-1" )
+                if (dropDownEstado.SelectedValue == "-1")
                     error = controladoraTraslados.rechazarTraslado(trasladoConsultado);
-
+                else
+                    res = false;
+            trasladoConsultado.Estado = dropDownEstado.SelectedValue;
             mostrarMensaje(error[0], error[1], error[2]);
 
-            if (error[0].Contains("success") || error[0].Contains("warning"))// si fue exitoso
+            if (res && (error[0].Contains("success") || error[0].Contains("warning") ))// si fue exitoso
             {
                 //llenarGrid(true);
-                trasladoConsultado = null;
-                modo = (int)Modo.Inicial;
+                modo = (int)Modo.Consultado;
             }
             else
             {
-                res = false;
                 modo = (int)Modo.Modificacion;
             }
             return res;

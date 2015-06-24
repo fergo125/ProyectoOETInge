@@ -244,6 +244,9 @@
                         </fieldset>         
                     </div>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" id="botonCerrarModal" class="btn btn-danger-fozkr" data-dismiss="modal">Cerrar</button>
+                </div>
             </div>
         </div>
     </div>
