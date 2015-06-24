@@ -941,8 +941,8 @@ namespace ProyectoInventarioOET
          */
         protected void botonTipoConsulta_ServerClick(object sender, EventArgs e)
         {
-            llenarGrid(dropDownConsultas.SelectedValue == "Entradas");
-            tipoConsulta = dropDownConsultas.SelectedValue == "Entradas";
+            llenarGrid(dropDownConsultas.SelectedValue == "Entrantes");
+            tipoConsulta = dropDownConsultas.SelectedValue == "Entrantes";
             gridViewTraslados.Visible = true;
             tituloGridConsulta.Visible = true;
         }
@@ -975,7 +975,7 @@ namespace ProyectoInventarioOET
          */
         protected void gridViewTraslados_CambioPagina(Object sender, GridViewPageEventArgs e)
         {
-            llenarGrid(dropDownConsultas.SelectedValue == "Entradas");
+            llenarGrid(dropDownConsultas.SelectedValue == "Entrantes");
             this.gridViewTraslados.PageIndex = e.NewPageIndex;
             this.gridViewTraslados.DataBind();
         }

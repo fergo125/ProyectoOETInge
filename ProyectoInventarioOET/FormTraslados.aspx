@@ -36,16 +36,18 @@
     <fieldset id= "fieldsetConsulta" runat="server" class="fieldset">
         <div class="row">
             <div class="col-lg-4">    
+                <label for="outputBodegaConsulta" class= "control-label"> Bodega Actual: </label>
                 <input type="text" id="outputBodegaConsulta" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
             </div>
             <div class="col-lg-4">
+                <label for="outputBodegaConsulta" class= "control-label"> Tipo de Traslado: </label>
                 <asp:DropDownList id="dropDownConsultas" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
-                    <asp:ListItem>Entradas</asp:ListItem>
-                    <asp:ListItem>Salidas</asp:ListItem>
+                    <asp:ListItem>Entrantes</asp:ListItem>
+                    <asp:ListItem>Salientes</asp:ListItem>
                 </asp:DropDownList>
             </div>
             <div class="col-lg-1">
-                <button runat="server" onserverclick="botonTipoConsulta_ServerClick" id="botonTipoConsulta" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true">Consultar</button>
+                <button runat="server" onserverclick="botonTipoConsulta_ServerClick" id="botonTipoConsulta" class=" btn btn-info-fozkr" type="button" style="float: left;margin-top:35%" visible="true">Consultar</button>
             </div>
         </div>
         <br />
@@ -75,7 +77,7 @@
             </div>
             <div class="col-lg-2">
                 <fieldset id= "fieldsetEstado" runat="server" class="fieldset">
-                    <label  for="dropDownEstado" class= "control-label"> Estado de Traslado: </label>      
+                    <label for="dropDownEstado" class= "control-label"> Estado de Traslado: </label>
                     <asp:DropDownList ID="dropDownEstado" runat="server" CssClass="form-control" AutoPostBack="true">
                     </asp:DropDownList><br>
                 </fieldset>
