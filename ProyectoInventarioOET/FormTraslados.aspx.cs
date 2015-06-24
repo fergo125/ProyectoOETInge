@@ -132,7 +132,7 @@ namespace ProyectoInventarioOET
                     tituloAccionTraslados.InnerText = "Seleccione un traslado";
                     botonRealizarTraslado.Disabled = false;
                     botonModificarTraslado.Disabled = true;
-                    botonConsultarTraslado.Disabled = true;
+                    botonConsultarTraslado.Disabled = false;
                     tituloGridProductos.Visible = false;
                     //tituloGridConsulta.Visible = true;
                     //gridViewTraslados.Visible = true;
@@ -172,13 +172,13 @@ namespace ProyectoInventarioOET
                     tituloAccionTraslados.InnerText = "Traslado seleccionado";
                     botonRealizarTraslado.Disabled = false;
                     botonModificarTraslado.Disabled = !(trasladoConsultado.BodegaDestino == (this.Master as SiteMaster).NombreBodegaSesion && trasladoConsultado.Estado == "En Proceso");
-                    botonConsultarTraslado.Disabled = true;
+                    botonConsultarTraslado.Disabled = false;
                     tituloGridProductos.Visible = true;
                     tituloGridConsulta.Visible = true;
                     gridViewTraslados.Visible = true;
                     gridViewProductos.Enabled = false;
                     gridViewProductos.Visible = true;
-                    fieldsetConsulta.Visible = true;
+                    fieldsetConsulta.Visible = false;
                     fieldsetEstado.Visible = true;
                     dropDownEstado.Enabled = false;
                     habilitarCampos(false);
@@ -515,7 +515,7 @@ namespace ProyectoInventarioOET
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Codigo";
+            columna.ColumnName = "Código";
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
@@ -546,7 +546,7 @@ namespace ProyectoInventarioOET
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Codigo";
+            columna.ColumnName = "Código";
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
@@ -577,7 +577,7 @@ namespace ProyectoInventarioOET
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Codigo";
+            columna.ColumnName = "Código";
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
@@ -1008,7 +1008,7 @@ namespace ProyectoInventarioOET
                         // Sacamos datos pertinentes del producto
                         Object[] datos = new Object[4];
                         datos[0] = seleccionada["Nombre"];
-                        datos[1] = seleccionada["Codigo"];
+                        datos[1] = seleccionada["Código"];
                         datos[2] = seleccionada["Cantidad Actual"];
                         datos[3] = seleccionada["Unidad Métrica"];
 

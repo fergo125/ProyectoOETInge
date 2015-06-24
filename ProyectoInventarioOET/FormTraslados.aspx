@@ -58,14 +58,14 @@
     <fieldset id= "FieldsetTraslados" runat="server" class="fieldset">
         <div class="row">
             <div class="col-lg-5">
-                <label for="outputBodegaSalida" class= "control-label"> Origen: </label>      
+                <label for="outputBodegaSalida" class= "control-label"> Bodega Origen: </label>      
                 <input type="text" id="outputBodegaSalida" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
             </div>
             <div class="col-lg-2">
                 <h3 style="text-align:center"><i class="fa fa-long-arrow-right fa-2x"></i></h3>
             </div>
             <div class="col-lg-5">
-                <label for="dropDownBodegaEntrada" class= "control-label"> Destino: </label>      
+                <label for="dropDownBodegaEntrada" class= "control-label"> Bodega Destino: </label>      
                 <asp:DropDownList ID="dropDownBodegaEntrada" runat="server" CssClass="form-control" OnSelectedIndexChanged="dropDownBodegaEntrada_SelectedIndexChanged" AutoPostBack="true">
                 </asp:DropDownList><br>
             </div>
@@ -114,7 +114,7 @@
                     <ContentTemplate>
                         <asp:GridView ID="gridViewProductos" CssClass="table" OnRowCommand="gridViewProductos_Seleccion" OnRowCreated="gridViewTraslados_RowCreated" runat="server" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
                             <Columns>
-                                <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Quitar">
+                                <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Eliminar">
                                     <ControlStyle CssClass="btn btn-default"></ControlStyle>
                                 </asp:ButtonField>
                                 <asp:TemplateField HeaderText="Cantidad" >
