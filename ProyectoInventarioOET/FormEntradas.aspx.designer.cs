@@ -463,6 +463,24 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.RegularExpressionValidator RegularExpressionValidator2;
         
         /// <summary>
+        /// Control inputDescuentoProducto.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText inputDescuentoProducto;
+        
+        /// <summary>
+        /// Control dropdownlistProductoImpuesto.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList dropdownlistProductoImpuesto;
+        
+        /// <summary>
         /// Control botonAgregarProductoFactura.
         /// </summary>
         /// <remarks>
