@@ -263,15 +263,31 @@
                 <label for="inputCantidadProducto" class= "control-label">Cantidad:</label>      
                 <input id="inputCantidadProducto" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
                 
-                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="inputCantidadProducto" ClientValidationFunction="changeColor" Display="Dynamic"
-                                                 ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="Sólo se permiten números enteros"  Font-Bold="true" ValidationExpression="[1-9]+[0-9]*$"></asp:RegularExpressionValidator>
+                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="inputCantidadProducto" ClientValidationFunction="changeColor" Display="Dynamic"
+                ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="Sólo se permiten números enteros"  Font-Bold="true" ValidationExpression="[1-9]+[0-9]*$"></asp:RegularExpressionValidator>
+
                 <br />
                 <label for="inputCostoProducto" class= "control-label">Costo Total:</label>      
                 <input id="inputCostoProducto" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
+                                
+                <asp:RegularExpressionValidator ID="RegularExpressionValidator2" ControlToValidate="inputCostoProducto" ClientValidationFunction="changeColor" Display="Dynamic"
+                ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="Sólo se permiten números enteros"  Font-Bold="true" ValidationExpression="(([1-9]+\d*(\.\d)*)|([0]\.[1-9]+)|([1-9]+(\.[0])*))?$"></asp:RegularExpressionValidator>
                 
-                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator2" ControlToValidate="inputCostoProducto" ClientValidationFunction="changeColor" Display="Dynamic"
-                                                 ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="Sólo se permiten números enteros"  Font-Bold="true" ValidationExpression="(([1-9]+\d*(\.\d)*)|([0]\.[1-9]+)|([1-9]+(\.[0])*))?$"></asp:RegularExpressionValidator>
                 <br />
+
+                <label for="inputDescuentoProducto" class= "control-label">Descuento (monetario o porcentual):</label>      
+                <input id="inputDescuentoProducto" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
+                
+                <br />
+
+                <label class= "control-label">Impuesto:</label>
+                <asp:DropDownList ID="dropdownlistProductoImpuesto" CssClass="form-control" Width="75%" runat="server">
+                    <asp:ListItem Value="Sí">Sí</asp:ListItem>
+                    <asp:ListItem Value="No">No</asp:ListItem>
+                </asp:DropDownList>
+
+                <br />
+
                 <asp:Button ID="botonAgregarProductoFactura" runat="server" Text="Agregar a Factura" CssClass="btn btn-success-fozkr" OnClick="botonAgregarProductoFactura_Click"/>
             </div>
 

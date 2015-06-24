@@ -132,7 +132,7 @@ namespace ProyectoInventarioOET
                     tituloAccionTraslados.InnerText = "Seleccione un traslado";
                     botonRealizarTraslado.Disabled = false;
                     botonModificarTraslado.Disabled = true;
-                    botonConsultarTraslado.Disabled = true;
+                    botonConsultarTraslado.Disabled = false;
                     tituloGridProductos.Visible = false;
                     //tituloGridConsulta.Visible = true;
                     //gridViewTraslados.Visible = true;
@@ -172,13 +172,13 @@ namespace ProyectoInventarioOET
                     tituloAccionTraslados.InnerText = "Traslado seleccionado";
                     botonRealizarTraslado.Disabled = false;
                     botonModificarTraslado.Disabled = !(trasladoConsultado.BodegaDestino == (this.Master as SiteMaster).NombreBodegaSesion && trasladoConsultado.Estado == "En Proceso");
-                    botonConsultarTraslado.Disabled = true;
+                    botonConsultarTraslado.Disabled = false;
                     tituloGridProductos.Visible = true;
                     tituloGridConsulta.Visible = true;
                     gridViewTraslados.Visible = true;
                     gridViewProductos.Enabled = false;
                     gridViewProductos.Visible = true;
-                    fieldsetConsulta.Visible = true;
+                    fieldsetConsulta.Visible = false;
                     fieldsetEstado.Visible = true;
                     dropDownEstado.Enabled = false;
                     habilitarCampos(false);
@@ -442,23 +442,23 @@ namespace ProyectoInventarioOET
             Boolean res = true;
             String[] error = {"warning", "Alerta: ", "No hubo cambios"};
 
-            if( dropDownEstado.SelectedValue == "1" )
+            if (dropDownEstado.SelectedValue == "1")
                 error = controladoraTraslados.acertarTraslado(trasladoConsultado);
             else
-                if( dropDownEstado.SelectedValue == "-1" )
+                if (dropDownEstado.SelectedValue == "-1")
                     error = controladoraTraslados.rechazarTraslado(trasladoConsultado);
-
+                else
+                    res = false;
+            trasladoConsultado.Estado = dropDownEstado.SelectedValue;
             mostrarMensaje(error[0], error[1], error[2]);
 
-            if (error[0].Contains("success") || error[0].Contains("warning"))// si fue exitoso
+            if (res && (error[0].Contains("success") || error[0].Contains("warning") ))// si fue exitoso
             {
                 //llenarGrid(true);
-                trasladoConsultado = null;
-                modo = (int)Modo.Inicial;
+                modo = (int)Modo.Consultado;
             }
             else
             {
-                res = false;
                 modo = (int)Modo.Modificacion;
             }
             return res;
@@ -515,7 +515,7 @@ namespace ProyectoInventarioOET
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Codigo";
+            columna.ColumnName = "Código";
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
@@ -546,7 +546,7 @@ namespace ProyectoInventarioOET
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Codigo";
+            columna.ColumnName = "Código";
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
@@ -577,7 +577,7 @@ namespace ProyectoInventarioOET
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Codigo";
+            columna.ColumnName = "Código";
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
@@ -937,6 +937,18 @@ namespace ProyectoInventarioOET
         }
 
         /*
+         * Método que, al cambiar el valor seleccionado del dropDown, limpia el grid.
+         */
+        protected void dropDownConsultas_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            gridViewTraslados.Visible = false;
+            tituloGridConsulta.Visible = false;
+            FieldsetTraslados.Visible = false;
+            FieldsetGridProductos.Visible = false;
+            modo = (int)Modo.Consulta;
+        }
+
+        /*
          * Método que consulta los traslados, dependiendo del tipo seleccionado
          */
         protected void botonTipoConsulta_ServerClick(object sender, EventArgs e)
@@ -996,7 +1008,7 @@ namespace ProyectoInventarioOET
                         // Sacamos datos pertinentes del producto
                         Object[] datos = new Object[4];
                         datos[0] = seleccionada["Nombre"];
-                        datos[1] = seleccionada["Codigo"];
+                        datos[1] = seleccionada["Código"];
                         datos[2] = seleccionada["Cantidad Actual"];
                         datos[3] = seleccionada["Unidad Métrica"];
 
