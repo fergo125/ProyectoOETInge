@@ -218,7 +218,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
                 }
                 res[0] = "success";
                 res[1] = "Éxito:";
-                res[2] = "Transacción efectuada.";
+                res[2] = "Translado " + ( estado == 1 ? "aceptado" : "rechazado" ) + ".";
                 if (alerta)
                 {
                     res[0] = "warning";
