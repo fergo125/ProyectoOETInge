@@ -21,22 +21,30 @@ namespace ProyectoInventarioOET.Modulo_Entradas
         private int descuento;
         private int retencionImpuestos;
         private int detallado;
+        private String responsable;
+        private String estacion;
+        private String compania;
+        private DateTime fechaDeIngreso;
 
         public EntidadFactura(Object[] datos)
         {
             idFactura = datos[0].ToString();
-            idOrdenDeCompra = datos[1].ToString();
-            fechaPago = Convert.ToDateTime( datos[2]).Date;
-            plazoDePago = Convert.ToInt32(datos[3]);
-            tipoDePago = Convert.ToString( datos[4]);
-            moneda = datos[5].ToString();
-            tipoCambio = Convert.ToDouble( datos[6].ToString());
-            idProvedor = datos[7].ToString();
-            subtotal = Convert.ToDouble(datos[8]);
-            total = Convert.ToDouble(datos[9]);
-            descuento = Convert.ToInt32( datos[10]);
-            retencionImpuestos = Convert.ToInt32( datos[11]);
-            detallado = Convert.ToInt32(datos[12]);
+            fechaPago = Convert.ToDateTime( datos[1]).Date;
+            plazoDePago = Convert.ToInt32(datos[2]);
+            tipoDePago = Convert.ToString( datos[3]);
+            moneda = datos[4].ToString();
+            tipoCambio = Convert.ToDouble( datos[5].ToString());
+            idProvedor = datos[6].ToString();
+            subtotal = Convert.ToDouble(datos[7]);
+            total = Convert.ToDouble(datos[8]);
+            descuento = Convert.ToInt32( datos[9]);
+            retencionImpuestos = Convert.ToInt32( datos[10]);
+            detallado = Convert.ToInt32(datos[11]);
+            responsable = Convert.ToString(datos[12]);
+            estacion = Convert.ToString(datos[13]);
+            compania = Convert.ToString(datos[14]);
+            fechaDeIngreso = Convert.ToDateTime(datos[15]);
+
         }
 
         public String IdFactura
@@ -103,6 +111,25 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             get { return detallado; }
             set { detallado = value; }
         }
-
+        public string Responsable
+        {
+            get { return responsable; }
+            set { responsable = value; }
+        }
+        public string Estacion
+        {
+            get { return estacion; }
+            set { estacion = value; }
+        }
+        public string Compania
+        {
+            get { return compania; }
+            set { compania = value; }
+        }
+        public DateTime FechaDeIngreso
+        {
+            get { return fechaDeIngreso; }
+            set { fechaDeIngreso = value; }
+        }
     }
 }
