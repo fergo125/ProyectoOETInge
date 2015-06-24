@@ -216,6 +216,17 @@
                     <h4 class="modal-title" id="modalTitle2"><i class="fa fa-plus fa-lg"></i> Agregar un producto</h4>
                 </div>
                 <div class="modal-body">
+                    <!-- Bara de búsqueda -->
+                    <div class="row">
+                        <div class="col-lg-10">
+                            <input id="barraDeBusqueda" style="margin-left:5%" class="form-control" type="search" placeholder="Ingresa una palabra o código" runat="server" >
+                        </div>
+                        <div class="col-lg-2">
+                            <asp:Button ID="botonBuscar" style="margin-left:20%" runat="server" Text="Buscar" CssClass="btn btn-info-fozkr" />
+                        </div>
+                    </div>
+                    <br />
+                    <br />
                     <!-- Grid de consultas -->
                     <div id="bloqueGridAgregarProductos" class="col-lg-12">
                         <fieldset id="Fieldset3" runat="server" class="fieldset">

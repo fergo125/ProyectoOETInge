@@ -65,3 +65,4 @@ C:\Users\b27219\Source\Repos\ProyectoOETInge\ProyectoInventarioOET\bin\ProyectoI
 C:\Users\b27219\Source\Repos\ProyectoOETInge\ProyectoInventarioOET\bin\ProyectoInventarioOET.pdb
 C:\Users\b27219\Source\Repos\ProyectoOETInge\ProyectoInventarioOET\obj\Debug\ProyectoInventarioOET.dll
 C:\Users\b27219\Source\Repos\ProyectoOETInge\ProyectoInventarioOET\obj\Debug\ProyectoInventarioOET.pdb
+C:\Users\b27219\Source\Repos\ProyectoOETInge\ProyectoInventarioOET\obj\Debug\ProyectoInventarioOET.csprojResolveAssemblyReference.cache
