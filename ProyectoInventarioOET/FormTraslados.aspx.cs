@@ -937,6 +937,18 @@ namespace ProyectoInventarioOET
         }
 
         /*
+         * Método que, al cambiar el valor seleccionado del dropDown, limpia el grid.
+         */
+        protected void dropDownConsultas_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            gridViewTraslados.Visible = false;
+            tituloGridConsulta.Visible = false;
+            FieldsetTraslados.Visible = false;
+            FieldsetGridProductos.Visible = false;
+            modo = (int)Modo.Consulta;
+        }
+
+        /*
          * Método que consulta los traslados, dependiendo del tipo seleccionado
          */
         protected void botonTipoConsulta_ServerClick(object sender, EventArgs e)

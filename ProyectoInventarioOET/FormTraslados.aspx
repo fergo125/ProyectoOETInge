@@ -41,7 +41,7 @@
             </div>
             <div class="col-lg-4">
                 <label for="outputBodegaConsulta" class= "control-label"> Tipo de Traslado: </label>
-                <asp:DropDownList id="dropDownConsultas" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
+                <asp:DropDownList id="dropDownConsultas" AutoPostBack="true" OnSelectedIndexChanged="dropDownConsultas_SelectedIndexChanged" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
                     <asp:ListItem>Entrantes</asp:ListItem>
                     <asp:ListItem>Salientes</asp:ListItem>
                 </asp:DropDownList>
@@ -106,7 +106,7 @@
 
     <!-- Grid de productos a transferir -->
     <div id="bloqueGridProductos" class="col-lg-12">
-        <fieldset id="Fieldset2" runat="server" class="fieldset">
+        <fieldset id="FieldsetGridProductos" runat="server" class="fieldset">
             <!-- Gridview -->
             <div class="col-lg-12">
                 <strong><div ID="tituloGridProductos" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Productos a Transferir</div></strong>
