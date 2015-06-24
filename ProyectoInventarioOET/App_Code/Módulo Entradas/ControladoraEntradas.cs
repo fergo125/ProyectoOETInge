@@ -55,12 +55,12 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             EntidadFactura factura = null;
             
             DataTable resultado = controladoraBDEntradas.consultarFactura(id);
-            Object[] datosConsultados = new Object[13];
+            Object[] datosConsultados = new Object[16];
 
             if (resultado.Rows.Count == 1)
             {
                 datosConsultados[0] = resultado.Rows[0][0].ToString();
-                for (int i = 1; i < 13; i++)
+                for (int i = 1; i < 16; i++)
                 {
                     datosConsultados[i] = resultado.Rows[0][i].ToString();
                 }
