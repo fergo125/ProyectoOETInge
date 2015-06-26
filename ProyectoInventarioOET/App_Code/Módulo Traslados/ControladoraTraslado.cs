@@ -44,10 +44,10 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
          * Los datos devueltos pueden ser desplegables en la interfaz porque poseen datos humanamente significativos.
          * Ademas de lo más importante a) INV_BODEGA_PRODUCTOS DE ORIGEN, b) INV_BODEGA_PRODUCTOS DESTINO necesarios para la inserción
          */
-        public DataTable consultarProductosTrasferibles(String idBodegaOrigen, String idBodegaDestino)
+        public DataTable consultarProductosTrasferibles(String idBodegaOrigen, String idBodegaDestino, String query)
         {
             ControladoraProductoLocal controladoraProductoLocal = new ControladoraProductoLocal();
-            return controladoraProductoLocal.consultarProductosDeBodega(idBodegaOrigen, idBodegaDestino);
+            return controladoraProductoLocal.consultarProductosDeBodega(idBodegaOrigen, idBodegaDestino, query);
         }
 
 

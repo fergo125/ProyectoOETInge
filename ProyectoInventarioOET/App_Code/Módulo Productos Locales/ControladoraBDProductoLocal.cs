@@ -108,7 +108,7 @@ namespace ProyectoInventarioOET.Modulo_Productos_Locales
         /*
          * ???
          */
-        public DataTable consultarProductosDeBodega(string idBodegaOrigen, string idBodegaDestino)
+        public DataTable consultarProductosDeBodega(string idBodegaOrigen, string idBodegaDestino, String query)
         {
             String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
@@ -120,7 +120,8 @@ namespace ProyectoInventarioOET.Modulo_Productos_Locales
                 + " AND B1.INV_PRODUCTOS = P.INV_PRODUCTOS "
                 + " AND B2.INV_PRODUCTOS = P.INV_PRODUCTOS "
                 + " AND P.CAT_UNIDADES = C.CAT_UNIDADES "
-                + " AND B1.SALDO > 0 ";   
+                + " AND B1.SALDO > 0 "
+                + ( query != "" ? " AND ( UPPER(P.NOMBRE) LIKE " + " '" + query.ToUpper() + "%'" + " OR UPPER(P.CODIGO) LIKE " + " '" + query.ToUpper() + "%' ) " : "" );
             resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }

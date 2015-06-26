@@ -222,7 +222,7 @@
                             <input id="barraDeBusqueda" style="margin-left:5%" class="form-control" type="search" placeholder="Ingresa una palabra o código" runat="server" >
                         </div>
                         <div class="col-lg-2">
-                            <asp:Button ID="botonBuscar" style="margin-left:20%" runat="server" Text="Buscar" CssClass="btn btn-info-fozkr" />
+                            <asp:Button ID="botonBuscar" style="margin-left:20%" runat="server" Text="Buscar" CssClass="btn btn-info-fozkr" OnClick="botonBuscar_OnClick"/>
                         </div>
                     </div>
                     <br />
@@ -268,6 +268,12 @@
     <script type = "text/javascript">
         function setCurrentTab() {
             document.getElementById("linkFormInventario").className = "active";
+        }
+    </script>
+    <script type="text/javascript">
+        function openModal()
+        {
+            $('#modalAgregarProducto').modal('show');
         }
     </script>
 </asp:Content>

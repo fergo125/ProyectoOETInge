@@ -33,6 +33,7 @@ namespace ProyectoInventarioOET
         private static ControladoraProductoLocal controladoraProductoLocal;     // Controladora de los productos locales de una bodega
         private static EntidadTraslado trasladoConsultado;                      // El traslado mostrado en pantalla
         private static bool tipoConsulta;                                       // True si se esta viendo entradas, false si salidas
+        private static String stringBusqueda;                                   // String que se está siendo buscado
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -684,7 +685,7 @@ namespace ProyectoInventarioOET
         /*
          * Carga datos del grid de productos agregables
          */
-        protected void llenarGridAgregarProductos()
+        protected void llenarGridAgregarProductos(String query)
         {
 
             DataTable tabla = tablaAgregarProducto();
@@ -695,7 +696,7 @@ namespace ProyectoInventarioOET
                 // Cargar bodegas
                 Object[] datos = new Object[6];
 
-                DataTable productos = controladoraTraslados.consultarProductosTrasferibles((this.Master as SiteMaster).LlaveBodegaSesion, dropDownBodegaEntrada.SelectedValue);
+                DataTable productos = controladoraTraslados.consultarProductosTrasferibles((this.Master as SiteMaster).LlaveBodegaSesion, dropDownBodegaEntrada.SelectedValue, query);
 
                 if (productos.Rows.Count > 0)
                 {
@@ -724,7 +725,8 @@ namespace ProyectoInventarioOET
                     datos[4] = "0";
                     datos[5] = "0";
                     tabla.Rows.Add(datos);
-                    mostrarMensaje("warning", "Atención: ", "No existen productos en la bodega actual.");
+                    if( query == "" )
+                        mostrarMensaje("warning", "Atención: ", "No existen productos en la bodega actual.");
                 }
 
                 this.gridViewAgregarProductos.DataSource = tabla;
@@ -770,8 +772,9 @@ namespace ProyectoInventarioOET
          */
         protected void dropDownBodegaEntrada_SelectedIndexChanged(object sender, EventArgs e)
         {
+            stringBusqueda = "";
             vaciarGridProductos();
-            llenarGridAgregarProductos();
+            llenarGridAgregarProductos(stringBusqueda);
         }
 
         /*
@@ -780,11 +783,12 @@ namespace ProyectoInventarioOET
         protected void botonRealizarTraslado_ServerClick(object sender, EventArgs e)
         {
             modo = (int)Modo.Insercion;
+            stringBusqueda = "";
             cambiarModo();
             limpiarCampos();
             cargarBodegas();
             cargarEstados();
-            llenarGridAgregarProductos();
+            llenarGridAgregarProductos(stringBusqueda);
             vaciarGridProductos();
 
             gridViewProductos.Visible = false;
@@ -993,6 +997,16 @@ namespace ProyectoInventarioOET
         }
 
         /*
+         * Maneja la búsqueda para el usuario.
+         */
+        protected void botonBuscar_OnClick(object sender, EventArgs e)
+        {
+            stringBusqueda = barraDeBusqueda.Value;
+            llenarGridAgregarProductos(stringBusqueda);
+        }
+        
+
+        /*
          * Método que maneja la selección de un traslado en el grid de agregar productos.
          */
         protected void gridViewAgregarProductos_Seleccion(object sender, GridViewCommandEventArgs e)
@@ -1051,7 +1065,7 @@ namespace ProyectoInventarioOET
 
         protected void gridViewAgregarProductos_CambioPagina(Object sender, GridViewPageEventArgs e)
         {
-            llenarGridAgregarProductos();
+            llenarGridAgregarProductos(stringBusqueda);
             this.gridViewAgregarProductos.PageIndex = e.NewPageIndex;
             this.gridViewAgregarProductos.DataBind();
         }
