@@ -88,5 +88,25 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         {
             return controladoraBDSeguridad.consultarNombreDeEstacion(id);
         }
+
+        // Retorna si un String es una contraseña valida
+        public bool contrasenaEsValida(String pass)
+        {
+            bool result = pass.Length>=8,mayuscula=false, minuscula=false, numero=false;
+            if (result)
+            {
+                CharEnumerator recorrido = pass.GetEnumerator();
+                char a = 'a', z = 'z', am = 'A', zm = 'Z', zero = '0', nueve = '9';
+                while (recorrido.MoveNext())
+                {
+                    minuscula |= (recorrido.Current >= a && recorrido.Current <= z);
+                    mayuscula |= (recorrido.Current >= am && recorrido.Current <= zm);
+                    numero |= (recorrido.Current >= zero && recorrido.Current <= nueve);
+                }
+                result = minuscula && mayuscula && numero;
+            }
+            return result;
+        }
+
     }
 }

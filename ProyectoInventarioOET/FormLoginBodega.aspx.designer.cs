@@ -91,7 +91,7 @@ namespace ProyectoInventarioOET {
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText inputActual;
+        protected global::System.Web.UI.WebControls.TextBox inputActual;
         
         /// <summary>
         /// Control inputNueva.
@@ -100,7 +100,7 @@ namespace ProyectoInventarioOET {
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText inputNueva;
+        protected global::System.Web.UI.WebControls.TextBox inputNueva;
         
         /// <summary>
         /// Control inputNuevaConfirmacion.
@@ -109,7 +109,7 @@ namespace ProyectoInventarioOET {
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText inputNuevaConfirmacion;
+        protected global::System.Web.UI.WebControls.TextBox inputNuevaConfirmacion;
         
         /// <summary>
         /// Control botonAceptarModalCambiar.

@@ -13,6 +13,7 @@ namespace ProyectoInventarioOET
     public partial class FormBodegaLocal : System.Web.UI.Page
     {
         private static ControladoraBodegas controladoraBodegas;                 // Controladora de Bodegas
+        private static ControladoraSeguridad controladoraSeguridad;             // Controladora para obtener datos de usuario
         private static Object[] idArray;                                        // Arreglo de ID's de bodega
 
         protected void Page_Load(object sender, EventArgs e)
@@ -20,7 +21,7 @@ namespace ProyectoInventarioOET
             if (!IsPostBack)
             {
                 mensajeAlerta.Visible = false;
-
+                controladoraSeguridad = new ControladoraSeguridad();
                 controladoraBodegas = new ControladoraBodegas();
                 cargarBodegas();
 
@@ -88,5 +89,20 @@ namespace ProyectoInventarioOET
             (this.Master as SiteMaster).cerrarSesion(null,null);
             Response.Redirect("Default.aspx");
         }
+
+        // Aceptar cambio de contraseña
+        protected void botonAceptarModalCambiar_Click(object sender, EventArgs e)
+        {
+            EntidadUsuario usuario = controladoraSeguridad.consultarUsuario((this.Master as SiteMaster).Usuario.Usuario,inputActual.Text.ToString());
+            if (usuario != null && 
+                controladoraSeguridad.contrasenaEsValida(inputNueva.Text.ToString()) && 
+                inputNueva.Text.ToString().Equals(inputNuevaConfirmacion.Text.ToString()))
+            {
+
+                bool test = true;
+
+            }
+        }
+
     }
 }
