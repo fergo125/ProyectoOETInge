@@ -169,6 +169,11 @@
                         <label for="outputFactura" class= "control-label">Factura:</label>      
                         <p id="outputFactura" runat="server" class="form-control-static"></p>
                     </div>
+
+                    <div class= "form-group col-lg-3">
+                        <label for="outputProveedor" class= "control-label">Proveedor:</label>      
+                        <p id="outputProveedor" runat="server" class="form-control-static"></p>
+                    </div>
             
                     <div class="form-group col-lg-3">
                         <label for="outputFechaPago" class= "control-label">Fecha de Pago:</label>      

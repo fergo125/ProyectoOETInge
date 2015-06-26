@@ -158,5 +158,24 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             }
             return res;
         }
+
+        public String consultarNombreProveedor(string idProveedor)
+        {
+            String esquema = "Compras.";
+            DataTable consultado = new DataTable();
+            String resultado = "";
+            String comandoSQL = "select NOMBRE from "+ esquema + "V_PROVEEDOR where IDPROVEEDOR = '" + idProveedor + "'";
+
+            consultado = ejecutarComandoSQL(comandoSQL, true);
+            if (consultado.Rows.Count > 0) 
+            {
+                foreach (DataRow fila in consultado.Rows)
+                {
+                    resultado = fila[0].ToString();
+                }            
+            }
+
+            return resultado;
+        }
     }
 }

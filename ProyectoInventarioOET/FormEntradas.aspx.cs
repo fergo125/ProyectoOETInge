@@ -146,7 +146,7 @@ namespace ProyectoInventarioOET
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Orden de Compra";
+            columna.ColumnName = "Proveedor";
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
@@ -157,6 +157,11 @@ namespace ProyectoInventarioOET
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
             columna.ColumnName = "Tipo de Pago";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Moneda";
             tabla.Columns.Add(columna);
 
             return tabla;
@@ -221,22 +226,13 @@ namespace ProyectoInventarioOET
 
 
                         tabla.Rows.Add(datos);
-                        //if (entradaConsultada != null && (fila[0].Equals(entradaConsultada.Codigo)))
-                        //{
-                        //    indiceNuevaActividad = i;
-                        //}
                         i++;
                     }
                 }
                 // No hay entradas almacenadas.
                 else
                 {
-                    //datos[0] = "-";
-                    //datos[1] = "No existen entradas para consultar.";
-                    //datos[2] = "-";
-                    //datos[3] = "-";
                     mostrarMensaje("warning", "Alerta", "No hay entradas almacenadas.");
-                    //tabla.Rows.Add(datos);
                 }
 
                 this.gridViewEntradas.DataSource = tabla;
@@ -259,7 +255,7 @@ namespace ProyectoInventarioOET
             try
             {
                 // Cargar entradas
-                Object[] datos = new Object[4];
+                Object[] datos = new Object[5];
                 DataTable facturas = controladoraEntradas.buscarFacturas(facturaBuscada);
 
                 if (facturas.Rows.Count > 0)
@@ -269,28 +265,20 @@ namespace ProyectoInventarioOET
                     {
                         idArrayFactura[i] = fila[0];
                         datos[0] = fila[0].ToString();
-                        datos[1] = fila[1].ToString();
-                        datos[2] = fila[2].ToString();
-                        datos[3] = fila[4].ToString();
+                        datos[1] = controladoraEntradas.consultarNombreProveedor(fila[6].ToString());
+                        datos[2] = fila[1].ToString();
+                        datos[3] = fila[3].ToString();
+                        datos[4] = fila[4].ToString();
 
 
                         tabla.Rows.Add(datos);
-                        //if (entradaConsultada != null && (fila[0].Equals(entradaConsultada.Codigo)))
-                        //{
-                        //    indiceNuevaActividad = i;
-                        //}
                         i++;
                     }
                 }
                 // No hay entradas almacenadas.
                 else
                 {
-                    //datos[0] = "-";
-                    //datos[1] = "No hay facturas disponibles";
-                    //datos[2] = "-";
-                    //datos[3] = "-";
                     mostrarMensaje("warning", "Alerta", "No hay Facturas disponibles en este momento.");
-                    //tabla.Rows.Add(datos);
                 }
 
                 this.gridViewFacturas.DataSource = tabla;
@@ -321,7 +309,6 @@ namespace ProyectoInventarioOET
                     //idArray = new Object[facturas.Rows.Count];
                     foreach (DataRow fila in facturas.Rows)
                     {
-                        //idArray[i] = fila[0];
                         datos[0] = fila[2].ToString();
                         datos[1] = fila[3].ToString();
                         datos[2] = fila[5].ToString();
@@ -377,10 +364,6 @@ namespace ProyectoInventarioOET
 
 
                         tabla.Rows.Add(datos);
-                        //if (entradaConsultada != null && (fila[0].Equals(entradaConsultada.Codigo)))
-                        //{
-                        //    indiceNuevaActividad = i;
-                        //}
                         i++;
                     }
                 }
@@ -904,13 +887,14 @@ namespace ProyectoInventarioOET
         protected void CompletarDatosFactura(EntidadFactura facturaConsultada)
         {
             outputFactura.InnerText = Convert.ToString(facturaConsultada.IdFactura);
+            outputProveedor.InnerText = Convert.ToString(controladoraEntradas.consultarNombreProveedor(facturaConsultada.IdProveedor));
             outputFechaPago.InnerText = Convert.ToString(facturaConsultada.FechaPago);
-            outputDescuento.InnerText = Convert.ToString(facturaConsultada.Descuento);
+            outputDescuento.InnerText = Convert.ToString(facturaConsultada.Descuento) + "%";
             outputTipoPago.InnerText = Convert.ToString(facturaConsultada.TipoDePago);
             outputPlazoPago.InnerText = Convert.ToString(facturaConsultada.PlazoDePago);
             outputSubtotal.InnerText = Convert.ToString(facturaConsultada.SubTotal);
             outputTotal.InnerText = Convert.ToString(facturaConsultada.Total);
-            outputImpuestos.InnerText = Convert.ToString(facturaConsultada.RetencionImpuestos);
+            outputImpuestos.InnerText = Convert.ToString(facturaConsultada.RetencionImpuestos) + "%";
             outputMoneda.InnerText = Convert.ToString(facturaConsultada.Moneda);
             outputTipoCambio.InnerText = Convert.ToString(facturaConsultada.TipoCambio);
 
