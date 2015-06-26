@@ -85,6 +85,11 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             get { return tipoCambio; }
             set { tipoCambio = value; }
         }
+        public String IdProveedor
+        {
+            get { return idProvedor; }
+            set { idProvedor = value; }
+        }
         public double SubTotal
         {
             get { return subtotal; }

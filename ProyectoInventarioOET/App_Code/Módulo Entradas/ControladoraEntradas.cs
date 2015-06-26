@@ -117,5 +117,13 @@ namespace ProyectoInventarioOET.Modulo_Entradas
         {
             return controladoraProductoLocal.consultarProductoDeBodega(idBodega, idProducto);
         }
+
+        /*
+         * Consulta el nombre del proveedor asociado a una factura para mostrarlo en el encabezado de esta.
+         */
+        public String consultarNombreProveedor(String idProveedor)
+        {
+            return controladoraBDEntradas.consultarNombreProveedor(idProveedor);
+        }
     }
 }

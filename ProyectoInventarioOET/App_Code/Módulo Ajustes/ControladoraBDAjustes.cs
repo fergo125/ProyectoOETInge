@@ -76,7 +76,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
         {
             String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
-            String comandoSQL = "SELECT P.NOMBRE, P.CODIGO, D.CAMBIO, B.INV_BODEGA_PRODUCTOS, B.SALDO, U.DESCRIPCION "
+            String comandoSQL = "SELECT P.NOMBRE, P.CODIGO, D.CANTIDADPREVIA, D.CANTIDADNUEVA, B.INV_BODEGA_PRODUCTOS, B.SALDO, U.DESCRIPCION "
             //String comandoSQL = "SELECT P.NOMBRE, P.CODIGO, D.CANTIDADNUEVA - D.CANTIDADPREVIA, B.INV_BODEGA_PRODUCTOS, B.SALDO, U.DESCRIPCION "
                 + " FROM " + esquema + "DETALLES_AJUSTES D, " + esquema + "INV_BODEGA_PRODUCTOS B, " + esquema + "INV_PRODUCTOS P, " + esquema + "CAT_UNIDADES U "
                 + " WHERE D.ID_AJUSTES = '" + idAjuste + "' "
@@ -106,7 +106,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
                 foreach(EntidadDetalles detallesProducto in  ajuste.Detalles) // Por cada producto meterlo en el detalles ajustes
                 {
                     insertarDetalle(resultado[3], detallesProducto);
-                    actualizarProducto(detallesProducto.IdProductoBodega, detallesProducto.Cambio);
+                    actualizarProducto(detallesProducto.IdProductoBodega, detallesProducto.CantidadNueva);
                     //actualizarProducto(detallesProducto.IdProductoBodega, detallesProducto.CantidadNueva);
                 }
                 resultado[0] = "success";
@@ -130,8 +130,8 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
         private void insertarDetalle(String idAjuste, EntidadDetalles detallesProducto)
         {
             String esquema = "Inventarios.";
-            String comandoSQL = "INSERT INTO " + esquema + "DETALLES_AJUSTES (ID_AJUSTES, INV_BODEGA_PRODUCTOS, CAMBIO) VALUES ('" + idAjuste
-                + "','" + detallesProducto.IdProductoBodega + "', " + detallesProducto.Cambio + " )";
+            String comandoSQL = "INSERT INTO " + esquema + "DETALLES_AJUSTES (ID_AJUSTES, INV_BODEGA_PRODUCTOS, CANTIDADPREVIA, CANTIDADNUEVA) VALUES ('" + idAjuste
+                + "','" + detallesProducto.IdProductoBodega + "', " + detallesProducto.CantidadPrevia + ", " + detallesProducto.CantidadNueva + " )";
 
            // String comandoSQL = "INSERT INTO " + esquema + "DETALLES_AJUSTES (ID_AJUSTES, INV_BODEGA_PRODUCTOS, CANTIDAD_PREVIA, CANTIDAD_NUEVA) VALUES ('" + idAjuste
             // + "','" + detallesProducto.IdProductoBodega + "', " + detallesProducto.CantidadPrevia + "', " + detallesProducto.CantidadNueva + " )";

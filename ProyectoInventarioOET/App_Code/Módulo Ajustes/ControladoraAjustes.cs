@@ -88,13 +88,15 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
 
             EntidadAjustes consultada = new EntidadAjustes(datos);
 
-            Object[] datosProductos = new Object[4];
+            Object[] datosProductos = new Object[6];
             foreach (DataRow fila in respuesta[1].Rows) // Varias filas que corresponden a los productos
             {  
                 datosProductos[0] = fila[0].ToString();
                 datosProductos[1] = fila[1].ToString();
                 datosProductos[2] = fila[2];  // Es la fecha
                 datosProductos[3] = fila[3].ToString();
+                datosProductos[4] = fila[2].ToString();
+                datosProductos[5] = fila[3].ToString();
                 consultada.agregarDetalle(datosProductos);
             }
             return consultada;
