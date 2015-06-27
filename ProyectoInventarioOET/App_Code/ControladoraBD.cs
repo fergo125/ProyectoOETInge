@@ -15,8 +15,8 @@ namespace ProyectoInventarioOET
     {
         //Atributos
         protected static OracleConnection conexionBD;   // Atributo estático compartido por todas las ControladorasBD para conectarse
-        protected static int consecutivo;               // Contador de # de transacciones ocurridas de inserción de tuplas a la base de datos
-                                                        // Entre 000 y 999
+        protected static int consecutivo;               // Contador de # de transacciones ocurridas de inserción de tuplas a la base de datos entre 000 y 999
+        protected static String nombreUsuarioLogueado;  // Usado para insertar en la tabla de réplica
 
         /*
          * Constructor, crea y abre la conexión sólo la primera vez que es necesario.
@@ -70,9 +70,7 @@ namespace ProyectoInventarioOET
             {
                 OracleCommand command = conexionBD.CreateCommand();
                 command.CommandText = comandoSQL;
-                //
-                //Insertar en la tabla de réplica aquí
-                //
+                insertarReplicaSQL(comandoSQL); //Insertar en la tabla de réplica aquí
                 OracleDataReader reader = command.ExecuteReader();
                 if (esperaResultado) //Si se trata de una consulta, se debe cargar lo que devuelva, de lo contrario, no
                     resultado.Load(reader);
@@ -84,6 +82,52 @@ namespace ProyectoInventarioOET
             //Último, siempre cerrar la conexión
             conexionBD.Close();
             return resultado;
+        }
+
+        /*
+         * Se inserta una réplica de cada comando SQL que se ejecuta en la base de datos.
+         */
+        protected bool insertarReplicaSQL(String comandoSQL)
+        {
+            //Primero prepara la consulta para obtener los servidores en los que debe insertar
+            String esquema = "Inventarios.";
+            String comandoSQLservidores = "SELECT * FROM " + esquema + "SERVIDORES WHERE REPLICAR = 'Y'";
+            DataTable resultado = new DataTable();
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = comandoSQLservidores;
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
+                //Luego por cada servidor, inserta una réplica del comando SQL
+                comandoSQL = comandoSQL.Replace("'", "''");
+                foreach (DataRow fila in resultado.Rows)
+                {
+                    String comandoSQLreplica = "INSERT INTO " + esquema + "REPLICA_SALIDA (TIRA_SQL, ESTADO, FECHA, USUARIO, SERVER) VALUES ("
+                        + "'" + comandoSQL + "', "
+                        + "'N', "
+                        + "'" + DateTime.Now.Date.ToString("dd/MMM/yyyy") + "', "
+                        + "'" + nombreUsuarioLogueado + "', "
+                        + "'" + fila[0] + "')";
+                    command = conexionBD.CreateCommand();
+                    command.CommandText = comandoSQLreplica;
+                    reader = command.ExecuteReader();
+                }
+                return true; //retorna true si todo salió bien
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+        }
+
+        /*
+         * Setter y getter de nombreUsuarioLogueado.
+         */
+        public String NombreUsuarioLogueado
+        {
+            get { return nombreUsuarioLogueado; }
+            set { nombreUsuarioLogueado = value; }
         }
     }
 }

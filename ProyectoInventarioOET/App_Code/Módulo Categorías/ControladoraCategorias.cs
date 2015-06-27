@@ -10,7 +10,7 @@ namespace ProyectoInventarioOET.Modulo_Categorias
     /*
      * ???
      */
-    public class ControladoraCategorias
+    public class ControladoraCategorias : Controladora
     {
         //Atributos
         private ControladoraBDCategorias controladoraBDCategorias;  //???
@@ -21,6 +21,7 @@ namespace ProyectoInventarioOET.Modulo_Categorias
         public ControladoraCategorias()
         {
             controladoraBDCategorias = new ControladoraBDCategorias();
+            controladoraBDCategorias.NombreUsuarioLogueado = (this.NombreUsuarioLogueado);
         }
 
         /*

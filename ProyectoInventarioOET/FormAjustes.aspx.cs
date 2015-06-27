@@ -54,6 +54,7 @@ namespace ProyectoInventarioOET
                 controladoraAjustes = new ControladoraAjustes();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
                 controladoraProductosLocales = new ControladoraProductoLocal();
+                controladoraProductosLocales.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
                 ajustesGuardados = new ArrayList();
 
 

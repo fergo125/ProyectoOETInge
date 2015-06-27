@@ -13,7 +13,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
     /*
      * Comunicación entre la Controladora de Base de Datos y la que maneja las operaciones de la interfaz.
      */
-    public class ControladoraTraslado
+    public class ControladoraTraslado : Controladora
     {
 
         private ControladoraBDTraslado controladoraBD;
@@ -22,8 +22,10 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
         /* Constructor
          *  Se instancia la controladora de Base de datos
          */
-        public ControladoraTraslado() {
+        public ControladoraTraslado()
+        {
             controladoraBD = new ControladoraBDTraslado();
+            controladoraBD.NombreUsuarioLogueado = (this.NombreUsuarioLogueado);
         }
 
 

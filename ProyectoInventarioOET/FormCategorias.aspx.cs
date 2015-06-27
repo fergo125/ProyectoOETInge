@@ -36,8 +36,9 @@ namespace ProyectoInventarioOET
 
             if (!IsPostBack)
             {
-                controladoraCategorias = new ControladoraCategorias();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
+                controladoraCategorias = new ControladoraCategorias();
+                controladoraCategorias.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
                 permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Gestion de actividades");
                 if (permisos == "000000")
                     Response.Redirect("~/ErrorPages/404.html");
