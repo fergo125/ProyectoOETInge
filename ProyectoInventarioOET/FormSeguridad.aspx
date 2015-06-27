@@ -26,16 +26,15 @@
     <br /><br />
     <!-- Fieldset de administracion de perfiles -->
     <fieldset id= "FieldsetBotonesPerfiles" class="fieldset" runat="server" visible="false">
-        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonCrearPerfil">Crear perfil</button>
         <button runat="server" type="button" class="btn btn-info-fozkr" id="botonConsultarPerfil">Consultar perfil</button>
+        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonCrearPerfil">Crear perfil</button>
         <button runat="server" type="button" class="btn btn-info-fozkr" id="botonModificarPerfil" disabled="disabled">Modificar perfil</button>
     </fieldset>
     <!-- Fieldset de administracion de usuarios -->
     <fieldset id= "FieldsetBotonesUsuarios" class="fieldset" runat="server" visible="false">
-        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonCrearUsuario">Crear usuario</button>
         <button runat="server" type="button" class="btn btn-info-fozkr" id="botonConsultarUsuario">Consultar usuario</button>
-        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonModificarUsuario" disabled="disabled">Modificar usuario</button>
-        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonAsociarPerfil">Asociar usuario a perfil</button>
+        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonCrearUsuario" onserverclick="botonCrearUsuario_ServerClick">Crear usuario</button>
+        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonAsociarPerfil" onserverclick="botonAsociarPerfil_ServerClick">Asociar usuario a perfil</button>
     </fieldset>
 
     <br />
@@ -47,12 +46,95 @@
 
     <!-- Fieldset de informacion de usuario (crear/consultar/modificar) -->
     <fieldset id="FieldsetUsuario" class="fieldset" runat="server" visible="false">
-
+        <div class="col-lg-12">
+            <div class="col-lg-4">
+                <div class="form-group col-lg-12" >
+                    <label for="inputUsuario" class= "control-label">Usuario:</label>      
+                    <input type="text" id="inputUsuario" class="form-control" style="max-width:100%"  runat="server">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group col-lg-12" >
+                    <label for="inputNombre" class= "control-label">Nombre de usuario:</label>      
+                    <input type="text" id="inputNombre" class="form-control" style="max-width:100%"  runat="server">
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="col-lg-4">
+                <div class= "form-group">
+                    <label for="inputPassword" class= "control-label">Contraseña:</label>
+                    <asp:TextBox runat="server" ID="inputPassword" TextMode="Password" CssClass="form-control"/>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class= "form-group">
+                    <label for="inputPasswordConfirm" class= "control-label">Confirmar contraseña:</label>
+                    <asp:TextBox runat="server" ID="inputPasswordConfirm" TextMode="Password" CssClass="form-control"/>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="col-lg-4">
+                <label for="inputEstacion" class="control-label">Seleccione estación:</label>
+                <asp:DropDownList ID="DropDownListEstacion" runat="server" CssClass="form-control">
+                </asp:DropDownList>
+            </div>
+            <div class="col-lg-4">
+                <label for="inputDescripcion" class="control-label">Seleccione su descripción:</label>
+                <asp:DropDownList ID="DropDownListDescripcion" runat="server" CssClass="form-control">
+                </asp:DropDownList>
+            </div>
+        </div>
     </fieldset>
 
     <!-- Fieldset de asociacion de usuario a perfil -->
     <fieldset id="FieldsetAsociarUsuario" class="fieldset" runat="server" visible="false">
-
+        <!-- DropDown Lists que cargan las estaciones disponibles y las bodegas pertenecientes a la estación seleccionada -->
+        <div class="row">
+            <div class="col-lg-4">
+                <label for="inputUsuario" class="control-label">Seleccione al usuario:</label>
+                <asp:DropDownList ID="DropDownListUsuario" runat="server" CssClass="form-control" AutoPostBack="true">
+                </asp:DropDownList>
+            </div>
+            <div class="col-lg-4">
+                <label for="inputPerfil" class="control-label">Seleccione perfil a asignar:</label>
+                <asp:DropDownList ID="DropDownListPerfil" runat="server" CssClass="form-control">
+                </asp:DropDownList>
+            </div>
+         </div>
     </fieldset>
+
+    <br />
+    <!-- Fieldset de botones de aceptar/cancelar -->
+    <fieldset id="FieldsetBotones" class="fieldset" runat="server" visible="false">
+        <div class="col-lg-12" id="bloqueBotones" runat="server">
+            <div class =" row">
+                <div class="text-center">
+                    <button runat="server" type="button" class="btn btn-success-fozkr" id="botonAceptar">Aceptar</button>
+                    <a runat="server" href="#modalCancelar" id="botonCancelarEverything" class="btn btn-danger-fozkr" role="button" data-toggle="modal">Cancelar</a>
+        </div></div></div>
+    </fieldset>
+
+    <br />
+
+    <!--Modal Cancelar-->
+    <div class="modal fade" id="modalCancelar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="modalTitle"><i class="fa fa-exclamation-triangle text-danger fa-2x"></i>Confirmar cancelación</h4>
+                </div>
+                <div class="modal-body">
+                    ¿Está seguro que desea cancelar los cambios? Perdería todos los datos no guardados.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="botonAceptarModalCancelar" class="btn btn-success-fozkr" runat="server" onserverclick="botonAceptarModalCancelar_ServerClick">Aceptar</button>
+                    <button type="button" id="botonCancelarModalCancelar" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
+                </div>
+            </div>
+        </div>
+    </div>
 
 </asp:Content>
