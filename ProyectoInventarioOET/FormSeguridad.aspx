@@ -35,6 +35,24 @@
         <button runat="server" type="button" class="btn btn-info-fozkr" id="botonCrearUsuario">Crear usuario</button>
         <button runat="server" type="button" class="btn btn-info-fozkr" id="botonConsultarUsuario">Consultar usuario</button>
         <button runat="server" type="button" class="btn btn-info-fozkr" id="botonModificarUsuario" disabled="disabled">Modificar usuario</button>
+        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonAsociarPerfil">Asociar usuario a perfil</button>
+    </fieldset>
+
+    <br />
+
+    <!-- Fieldset de informacion de perfil (crear/consultar/modificar) -->
+    <fieldset id="FieldsetPerfil" class="fieldset" runat="server" visible="false">
+
+    </fieldset>
+
+    <!-- Fieldset de informacion de usuario (crear/consultar/modificar) -->
+    <fieldset id="FieldsetUsuario" class="fieldset" runat="server" visible="false">
+
+    </fieldset>
+
+    <!-- Fieldset de asociacion de usuario a perfil -->
+    <fieldset id="FieldsetAsociarUsuario" class="fieldset" runat="server" visible="false">
+
     </fieldset>
 
 </asp:Content>
