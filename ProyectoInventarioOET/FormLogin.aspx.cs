@@ -26,7 +26,10 @@ namespace ProyectoInventarioOET
             if(!IsPostBack)
             {
                 controladora = new ControladoraSeguridad();
-                controladora.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
+                if ((this.Master as SiteMaster).Usuario == null)
+                    controladora.NombreUsuarioLogueado = ""; //en el caso de que el usuario no esté logueado, se pone nulo
+                else
+                    controladora.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
             }
         }
 
