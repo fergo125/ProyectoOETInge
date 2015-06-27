@@ -1185,6 +1185,16 @@ namespace ProyectoInventarioOET
         {
             //Deberia hacerse solo cuando escoja "deduccion de planilla"
             cargarPosiblesClientes(dropDownListCrearFacturaCliente);
+            if (dropDownListCrearFacturaMetodoPago.SelectedValue == "VARIOS")
+            {
+                botonCrearFacturaVariosMetodosPago.Visible = true;
+                dropDownListCrearFacturaMetodoPago.Style["width"] = "100%";
+            }
+            else
+            {
+                botonCrearFacturaVariosMetodosPago.Visible = false;
+                dropDownListCrearFacturaMetodoPago.Style["width"] = "160.5%%";
+            }
         }
 
         /*

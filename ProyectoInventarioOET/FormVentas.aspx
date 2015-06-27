@@ -246,6 +246,7 @@
                     </asp:GridView>
                     </asp:Panel>
                 </td>
+            </tr>
             <tr>
                 <td colspan="4">
                     <button type="button" ID="botonCrearFacturaEliminarProducto" class="btn btn-danger-fozkr" onserverclick="clickBotonCrearEliminarProducto" style="float: left" disabled="disabled" runat="server">Eliminar Producto</button>
@@ -260,7 +261,14 @@
             </tr>
             <tr>
                 <td>Método de pago:</td>
-                <td colspan="3"><asp:DropDownList ID="dropDownListCrearFacturaMetodoPago" OnSelectedIndexChanged="dropDownListCrearFacturaMetodoPago_ValorCambiado" AutoPostBack="true" class="input input-fozkr-dropdownlist" runat="server" Width="90%" CssClass="form-control"></asp:DropDownList></td>
+                <td colspan="3">
+                    <table style="margin-left: -1.5%;">
+                        <tr>
+                            <td><asp:DropDownList ID="dropDownListCrearFacturaMetodoPago" OnSelectedIndexChanged="dropDownListCrearFacturaMetodoPago_ValorCambiado" AutoPostBack="true" class="input input-fozkr-dropdownlist" runat="server" Width="160.5%" CssClass="form-control"></asp:DropDownList></td>
+                            <td><asp:Button ID="botonCrearFacturaVariosMetodosPago" href="#modalVariosMetodosPago" data-toggle="modal" class="btn" runat="server" Text="Escoger métodos" Visible="false"/></td>
+                        </tr>
+                    </table>
+                </td>
             </tr>
             <tr>
                 <td>Cliente:</td>
@@ -273,8 +281,7 @@
             <tr>
                 <td colspan="4">
                     <button type="button" ID="botonCrearFacturaGuardar" class="btn btn-success-fozkr" onserverclick="clickBotonCrearGuardar" runat="server">Guardar</button>
-                    <%--<button type="button" ID="botonCrearFacturaCancelar" class="btn btn-danger-fozkr" href="#modalCancelarFactura" data-toggle="modal" runat="server">Cancelar</button>--%>
-                    <button type="button" ID="Button1" class="btn btn-danger-fozkr" href="#modalVariosMetodosPago" data-toggle="modal" runat="server">Cancelar</button>
+                    <button type="button" id="botoncrearfacturacancelar" class="btn btn-danger-fozkr" href="#modalcancelarfactura" data-toggle="modal" runat="server">cancelar</button>
                 </td>
             </tr>
         </table>
@@ -308,19 +315,9 @@
                     <h4 class="modal-title" ID="modalVariosMetodosPagoTitulo"><i class="fa fa-exclamation-triangle text-danger fa-2x"></i>Escoger varios métodos de pago</h4>
                 </div>
                 <div class="modal-body">
-                    Escoja los diferentes métodos de pago usados y la cantidad pagada con cada uno.
+                    Escriba la cantidad pagada con cada uno (todos son opcionales)
                     <br />
                     <br />
-                    <div class="row" ID="Div1" runat="server">
-                        <div class="col-lg-12">
-                            <div class="form-group col-lg-8">
-                                <asp:DropDownList ID="dropDownList1" OnSelectedIndexChanged="dropDownListCrearFacturaMetodoPago_ValorCambiado" AutoPostBack="true" class="input input-fozkr-dropdownlist" runat="server" Width="90%" CssClass="form-control"></asp:DropDownList>
-                            </div>
-                            <div class="form-group col-lg-3">
-                                <button type="button" ID="botonVariosMetodosPagoAgregarMetodo" class="btn btn-success-fozkr" onserverclick="clickBotonAgregarProductoFacturaNueva" runat="server">Agregar Método</button>
-                            </div>
-                        </div>
-                    </div>
                     <asp:Panel ID="PanelmodalVariosMetodosPago" runat="server" ScrollBars="Vertical" Height="300px">
                     <asp:GridView ID="gridViewModalVariosMetodosPago" CssClass="table" runat="server" AllowPaging="False" BorderColor="White" BorderStyle="Solid" BorderWidth="1px" GridLines="None" ShowHeaderWhenEmpty="True">
                         <Columns>

@@ -508,6 +508,15 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.DropDownList dropDownListCrearFacturaMetodoPago;
         
         /// <summary>
+        /// Control botonCrearFacturaVariosMetodosPago.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button botonCrearFacturaVariosMetodosPago;
+        
+        /// <summary>
         /// Control dropDownListCrearFacturaCliente.
         /// </summary>
         /// <remarks>
@@ -535,13 +544,13 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlButton botonCrearFacturaGuardar;
         
         /// <summary>
-        /// Control Button1.
+        /// Control botoncrearfacturacancelar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton Button1;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botoncrearfacturacancelar;
         
         /// <summary>
         /// Control botonAceptarModalCancelar.
@@ -551,33 +560,6 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlButton botonAceptarModalCancelar;
-        
-        /// <summary>
-        /// Control Div1.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Div1;
-        
-        /// <summary>
-        /// Control dropDownList1.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList dropDownList1;
-        
-        /// <summary>
-        /// Control botonVariosMetodosPagoAgregarMetodo.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonVariosMetodosPagoAgregarMetodo;
         
         /// <summary>
         /// Control PanelmodalVariosMetodosPago.
