@@ -31,6 +31,17 @@ namespace ProyectoInventarioOET.App_Code
             resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }
+        /*
+         * Método que retorna una tabla con la información de los posibles estados para las entidades dentro del sistema.
+         */
+        public DataTable consultarEstadosAnular()
+        {
+            String esquema = "Tesoreria.";
+            DataTable resultado = new DataTable();
+            String comandoSQL = "SELECT * FROM " + esquema + "CAT_ESTADOS WHERE CAT_ESTADOS > 1 AND CAT_ESTADOS < 4";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
+            return resultado;
+        }
 
         /*
          * Método que retorna una tabla con la información de un subgrupo de los posibles estados para las entidades dentro del sistema,

@@ -13,7 +13,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
     /*
      * Comunicación entre la Controladora de Base de Datos y la que maneja las operaciones de la interfaz.
      */
-    public class ControladoraAjustes
+    public class ControladoraAjustes : Controladora
     {
 
         private ControladoraBDAjustes controladoraBD;
@@ -22,8 +22,10 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
         /* Constructor
          *  Se instancia la controladora de Base de datos
          */
-        public ControladoraAjustes() {
+        public ControladoraAjustes()
+        {
             controladoraBD = new ControladoraBDAjustes();
+            controladoraBD.NombreUsuarioLogueado = (this.NombreUsuarioLogueado);
         }
         
         /* Metodo que trae las Bodegas de una estacion
@@ -88,15 +90,15 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
 
             EntidadAjustes consultada = new EntidadAjustes(datos);
 
-            Object[] datosProductos = new Object[6];
+            Object[] datosProductos = new Object[7];
             foreach (DataRow fila in respuesta[1].Rows) // Varias filas que corresponden a los productos
             {  
-                datosProductos[0] = fila[0].ToString();
-                datosProductos[1] = fila[1].ToString();
-                datosProductos[2] = fila[2];  // Es la fecha
-                datosProductos[3] = fila[3].ToString();
-                datosProductos[4] = fila[2].ToString();
-                datosProductos[5] = fila[3].ToString();
+                datosProductos[0] = fila[0].ToString(); //Nombre del producto
+                datosProductos[1] = fila[1].ToString(); //Codigo del producto (CR0...)
+                datosProductos[2] = Double.Parse(fila[2].ToString()) - Double.Parse(fila[3].ToString());  // Cambio actual - previo
+                datosProductos[3] = fila[4].ToString(); // Id del producto en la bodega
+                datosProductos[4] = fila[2].ToString(); // Cantidad Previa al ajuste
+                datosProductos[5] = fila[3].ToString(); //Cantidad nueva
                 consultada.agregarDetalle(datosProductos);
             }
             return consultada;

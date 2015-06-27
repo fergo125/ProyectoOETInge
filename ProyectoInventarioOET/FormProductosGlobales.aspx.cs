@@ -41,8 +41,9 @@ namespace ProyectoInventarioOET
 
             if (!IsPostBack)
             {
-                controladora = new ControladoraProductosGlobales();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
+                controladora = new ControladoraProductosGlobales();
+                controladora.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
                 permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Catalogo general de productos");
                 if (permisos == "000000")
                     Response.Redirect("~/ErrorPages/404.html");

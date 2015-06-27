@@ -8,14 +8,13 @@ using ProyectoInventarioOET.Modulo_Productos_Locales;
 
 namespace ProyectoInventarioOET.Modulo_Entradas
 {
-    public class ControladoraEntradas
+    public class ControladoraEntradas : Controladora
     {
 
         //Atributos
-        private ControladoraBDEntradas controladoraBDEntradas;    // Instancia de la controladora de base
-        // de datos para realizar operaciones allí.
-        private ControladoraProductosGlobales controladoraProductosGlobales;
+        private ControladoraBDEntradas controladoraBDEntradas;                  // Instancia de la controladora de base de datos para realizar operaciones allí.
         private ControladoraProductoLocal controladoraProductoLocal;
+        private ControladoraProductosGlobales controladoraProductosGlobales;
 
         /*
          * Constructor.
@@ -23,8 +22,11 @@ namespace ProyectoInventarioOET.Modulo_Entradas
         public ControladoraEntradas()
         {
             controladoraBDEntradas = new ControladoraBDEntradas();
-            controladoraProductosGlobales = new ControladoraProductosGlobales();
             controladoraProductoLocal = new ControladoraProductoLocal();
+            controladoraProductosGlobales = new ControladoraProductosGlobales();
+            controladoraBDEntradas.NombreUsuarioLogueado = (this.NombreUsuarioLogueado);
+            controladoraProductoLocal.NombreUsuarioLogueado = (this.NombreUsuarioLogueado);
+            controladoraProductosGlobales.NombreUsuarioLogueado = (this.NombreUsuarioLogueado);
         }
 
         /*

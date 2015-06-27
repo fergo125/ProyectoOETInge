@@ -9,7 +9,7 @@ namespace ProyectoInventarioOET.Modulo_Productos_Locales
     /*
      * Clase de controladora de productos
      */
-    public class ControladoraProductoLocal
+    public class ControladoraProductoLocal : Controladora
     {
         //Atributos
         private ControladoraBDProductosLocales controladoraBD;  //???
@@ -21,6 +21,7 @@ namespace ProyectoInventarioOET.Modulo_Productos_Locales
         public ControladoraProductoLocal()
         {
             controladoraBD = new ControladoraBDProductosLocales();
+            controladoraBD.NombreUsuarioLogueado = (this.NombreUsuarioLogueado);
         }
 
         /*

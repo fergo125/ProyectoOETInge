@@ -23,6 +23,8 @@ namespace ProyectoInventarioOET
                 mensajeAlerta.Visible = false;
                 controladoraSeguridad = new ControladoraSeguridad();
                 controladoraBodegas = new ControladoraBodegas();
+                controladoraSeguridad.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
+                controladoraBodegas.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
                 cargarBodegas();
 
             }

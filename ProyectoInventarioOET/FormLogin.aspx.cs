@@ -26,6 +26,7 @@ namespace ProyectoInventarioOET
             if(!IsPostBack)
             {
                 controladora = new ControladoraSeguridad();
+                controladora.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
             }
         }
 
