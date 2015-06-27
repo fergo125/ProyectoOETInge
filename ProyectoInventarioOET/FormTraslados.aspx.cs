@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Web;
 using System.Data;
@@ -34,6 +35,7 @@ namespace ProyectoInventarioOET
         private static EntidadTraslado trasladoConsultado;                      // El traslado mostrado en pantalla
         private static bool tipoConsulta;                                       // True si se esta viendo entradas, false si salidas
         private static String stringBusqueda;                                   // String que se está siendo buscado
+        private static ArrayList trasladosGuardados;                            // Guarda temporalmente los valores de los campos editables del grid de productos
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -48,6 +50,7 @@ namespace ProyectoInventarioOET
                 controladoraTraslados = new ControladoraTraslado();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
                 controladoraProductoLocal = new ControladoraProductoLocal();
+                trasladosGuardados = new ArrayList();
 
                 permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Traslados de inventario");
                 if (permisos == "000000")
@@ -781,6 +784,42 @@ namespace ProyectoInventarioOET
         }
 
         /*
+         * Guarda los datos de los campos que son borrados al cambiar el dataGrid
+         */
+        protected void guardarDatos()
+        {
+            int i = 0;
+            trasladosGuardados.Clear();
+            foreach (GridViewRow row in gridViewProductos.Rows)
+            {
+                String valor = ((TextBox)gridViewProductos.Rows[i].FindControl("textTraslados")).Text; // Caso en que no se especifico un ajuste
+                valor = valor.Equals("") ? "-99" : valor;
+                try
+                {
+                    trasladosGuardados.Add(Double.Parse(valor));
+                }
+                catch
+                {
+                    trasladosGuardados.Add(-99.0);
+                }
+                ++i;
+            }
+        }
+
+        /*
+         * Repone los datos de los campos que son borrados al cambiar el dataGrid
+         */
+        private void reponerDatos()
+        {
+            int i = 0;
+            foreach (double current in trasladosGuardados)
+            {
+                ((TextBox)gridViewProductos.Rows[i].FindControl("textTraslados")).Text = current.ToString().Equals("-99") ? "" : current.ToString(); // Caso en que no se especifico un ajuste
+                ++i;
+            }
+        }
+
+        /*
          * Selección de bodega, esta invalida los productos anteriores.
          */
         protected void dropDownBodegaEntrada_SelectedIndexChanged(object sender, EventArgs e)
@@ -852,6 +891,7 @@ namespace ProyectoInventarioOET
          */
         protected void gridViewProductos_Seleccion(object sender, GridViewCommandEventArgs e)
         {
+            guardarDatos();
             if (idArrayProductosOrigen != null && idArrayProductosOrigen.Count() > 0)
             {
                 switch (e.CommandName)
@@ -860,9 +900,11 @@ namespace ProyectoInventarioOET
                         int indice = Convert.ToInt32(e.CommandArgument);
 
                         // Eliminar vieja tupla de grid
+                        trasladosGuardados.RemoveAt(indice);
                         tablaProductos.Rows[indice].Delete();
                         gridViewProductos.DataSource = tablaProductos;
                         gridViewProductos.DataBind();
+                        reponerDatos();
 
                         // Actualizar listas de Ids
                         List<Object> temp = new List<Object>(idArrayProductosOrigen);
@@ -1045,8 +1087,10 @@ namespace ProyectoInventarioOET
 
                         // Agregar nueva tupla a tabla
                         tablaProductos.Rows.Add(datos);
+                        guardarDatos();
                         gridViewProductos.DataSource = tablaProductos;
                         gridViewProductos.DataBind();
+                        reponerDatos();
 
                         // Eliminar vieja tupla de grid
                         tablaAgregarProductos.Rows[Convert.ToInt32(e.CommandArgument) + (this.gridViewAgregarProductos.PageIndex * this.gridViewAgregarProductos.PageSize)].Delete();
