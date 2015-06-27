@@ -101,6 +101,7 @@ namespace ProyectoInventarioOET
                     botonCancelarAjustes.Visible = false;
                     tituloAccionAjustes.InnerText = "Seleccione una opción";
                     botonRealizarAjuste.Disabled = false;
+                    botonModificarAjuste.Disabled = true;
                     botonConsultarAjustes.Disabled = false;
                     tituloGridProductos.Visible = false;
                     tituloGridConsulta.Visible = false;
@@ -117,6 +118,7 @@ namespace ProyectoInventarioOET
                     botonCancelarAjustes.Visible = true;
                     tituloAccionAjustes.InnerText = "Ingrese los datos del nuevo ajuste";
                     botonRealizarAjuste.Disabled = true;
+                    botonModificarAjuste.Disabled = true;
                     botonConsultarAjustes.Disabled = false;
                     tituloGridProductos.Visible = false;
                     tituloGridConsulta.Visible = false;
@@ -137,6 +139,7 @@ namespace ProyectoInventarioOET
                     botonCancelarAjustes.Visible = false;
                     tituloAccionAjustes.InnerText = "Seleccione un ajuste";
                     botonRealizarAjuste.Disabled = false;
+                    botonModificarAjuste.Disabled = true;
                     botonConsultarAjustes.Disabled = true;
                     tituloGridProductos.Visible = false;
                     tituloGridConsulta.Visible = true;
@@ -155,6 +158,7 @@ namespace ProyectoInventarioOET
                     tituloAccionAjustes.InnerText = "Ajuste seleccionado";
                     botonRealizarAjuste.Disabled = false;
                     botonConsultarAjustes.Disabled = false;
+                    botonModificarAjuste.Disabled = false;
                     FieldsetGridAjustes.Visible = false;
                     tituloGridProductos.Visible = true;
                     tituloGridConsulta.Visible = false;
@@ -943,5 +947,11 @@ namespace ProyectoInventarioOET
                 ++i;
             }
         }
+
+        protected void botonModificarAjuste_ServerClick(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }

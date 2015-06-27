@@ -151,5 +151,14 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
                                    + " WHERE INV_BODEGA_PRODUCTOS = '" + idBodegaProducto + "'";
             ejecutarComandoSQL(comandoSQL, false);
         }
+
+        public void anularAjuste (EntidadAjustes ajuste, String idAjuste)
+        {
+            String esquema = "Inventarios.";
+            String comandoSQL = "UPDATE " + esquema + "AJUSTE "
+                                   + " SET ANULABLE = " + 0  
+                                   + " WHERE ID_AJUSTE = '" + idAjuste + "'";
+            ejecutarComandoSQL(comandoSQL, false);
+        }
     }
 }
