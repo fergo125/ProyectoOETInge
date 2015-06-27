@@ -76,14 +76,17 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
         public EntidadAjustes consultarAjuste(String idAjuste)
         {
             
-            Object[] datos = new Object[5];
+            Object[] datos = new Object[8];
             DataTable[] respuesta = controladoraBD.consultarAjuste(idAjuste);
             foreach (DataRow fila in respuesta[0].Rows) {  //Solo seria una fila
-                datos[0] = fila[0].ToString();
-                datos[1] = fila[1].ToString();
-                datos[2] = fila[2];  // Es la fecha
-                datos[3] = fila[3].ToString(); // Es la bodega
-                datos[4] = fila[4].ToString();
+                datos[0] = fila[0].ToString(); //Tipo de ajuste (codigo)
+                datos[1] = fila[1].ToString(); // Fecha
+                datos[2] = fila[2];  // Es el usuario
+                datos[3] = fila[3].ToString(); // Es el id del usuario
+                datos[4] = fila[4].ToString(); // SOn las notas del ajuste
+                datos[5] = fila[5].ToString(); //Es el Id de la bodega
+                datos[6] = fila[7].ToString(); //Es el estado de la bodega    
+                datos[7] = fila[8].ToString(); //Es el anulable de la bodega     
             }
 
             EntidadAjustes consultada = new EntidadAjustes(datos);
@@ -100,6 +103,10 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
                 consultada.agregarDetalle(datosProductos);
             }
             return consultada;
+        }
+
+        public String[] anularAjuste(EntidadAjustes ajuste, String idAjuste) {
+            return controladoraBD.anularAjuste(ajuste, idAjuste); 
         }
 
     }

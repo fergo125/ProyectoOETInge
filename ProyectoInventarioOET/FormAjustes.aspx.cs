@@ -17,7 +17,7 @@ namespace ProyectoInventarioOET
     public partial class FormAjustes : System.Web.UI.Page
     {
 
-        enum Modo { Inicial, Consulta, Insercion, Consultado };
+        enum Modo { Inicial, Consulta, Insercion, Consultado, Modificacion };
 
         // Atributos
         private static Boolean seConsulto = false;                              // True si se consulto y se debe visitar la base de datos
@@ -34,6 +34,7 @@ namespace ProyectoInventarioOET
         private static EntidadAjustes ajusteConsultado;                         // El ajuste mostrado en pantalla
         private static bool[] signos;
         private static ArrayList ajustesGuardados;
+        private static String codigo;
 
         // DataTable bodegas = controladoraBodegas.consultarBodegasDeEstacion(idEstacion);
 
@@ -75,6 +76,7 @@ namespace ProyectoInventarioOET
                     else
                     {
                         cargarTipos();
+                        cargarEstados();
                         setDatosConsultados();
 
                         seConsulto = false;
@@ -158,10 +160,32 @@ namespace ProyectoInventarioOET
                     tituloAccionAjustes.InnerText = "Ajuste seleccionado";
                     botonRealizarAjuste.Disabled = false;
                     botonConsultarAjustes.Disabled = false;
-                    botonModificarAjuste.Disabled = false;
+                    botonModificarAjuste.Disabled = ajusteConsultado.Anulable == 1 ? false : true;  // Si es anulable;
+                    FieldsetGridAjustes.Visible = false;
+                    this.DropDownEstado.Enabled = false;
+                    tituloGridProductos.Visible = true;
+                    tituloGridConsulta.Visible = false;
+                    gridViewAjustes.Visible = false;
+                    gridViewProductos.Enabled = false;
+                    gridViewProductos.Visible = true;
+                    habilitarCampos(false);
+                    foreach (DataControlField col in gridViewProductos.Columns)
+                        col.Visible = false;
+                    llenarGrid();
+                    break;
+                case (int)Modo.Modificacion://consultado, pero con los espacios bloqueados
+                    botonAgregar.Visible = false;
+                    FieldsetAjustes.Visible = true;
+                    botonAceptarAjustes.Visible = true;
+                    botonCancelarAjustes.Visible = true;
+                    tituloAccionAjustes.InnerText = "Ajuste seleccionado";
+                    botonRealizarAjuste.Disabled = false;
+                    botonConsultarAjustes.Disabled = false;
+                    botonModificarAjuste.Disabled = true;
                     FieldsetGridAjustes.Visible = false;
                     tituloGridProductos.Visible = true;
                     tituloGridConsulta.Visible = false;
+                    this.DropDownEstado.Enabled = ajusteConsultado.Anulable == 1 ? true : false;  // Si es anulable
                     gridViewAjustes.Visible = false;
                     gridViewProductos.Enabled = false;
                     gridViewProductos.Visible = true;
@@ -187,6 +211,7 @@ namespace ProyectoInventarioOET
             this.outputFecha.Value = ajusteConsultado.Fecha.ToString();
             this.inputNotas.Text = ajusteConsultado.Notas;
             this.outputBodega.Value = ((this.Master as SiteMaster).NombreBodegaSesion);
+            this.DropDownEstado.SelectedIndex = ajusteConsultado.Estado==3?1:0;
 
             // Manejo grid
             DataTable tabla = tablaProductoConsulta();
@@ -531,6 +556,17 @@ namespace ProyectoInventarioOET
             dropdownTipo.SelectedIndex = 0;
         }
 
+        protected void cargarEstados()
+        {
+            DropDownEstado.Items.Clear();
+            DataTable estados = controladoraDatosGenerales.consultarEstadosAnular();
+            foreach (DataRow fila in estados.Rows)
+            {
+                DropDownEstado.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
+            }
+            DropDownEstado.SelectedIndex = 1;
+        }
+
 
         /*
          * Esto pasa la interfaz al modo de crear ajustes.
@@ -544,6 +580,7 @@ namespace ProyectoInventarioOET
             vaciarGridProductos();
 
             cargarTipos();
+            cargarEstados();
             if( (this.Master as SiteMaster).Usuario != null )
                 outputUsuario.Value = (this.Master as SiteMaster).Usuario.Nombre;
             outputBodega.Value = (this.Master as SiteMaster).NombreBodegaSesion;
@@ -604,7 +641,7 @@ namespace ProyectoInventarioOET
                         
                         GridViewRow filaSeleccionada = this.gridViewAjustes.Rows[Convert.ToInt32(e.CommandArgument)];
                         //String codigo = filaSeleccionada.Cells[0].Text.ToString();
-                        String codigo = Convert.ToString(idArrayAjustes[Convert.ToInt32(e.CommandArgument) + (this.gridViewAjustes.PageIndex * this.gridViewAjustes.PageSize)]);
+                        codigo = Convert.ToString(idArrayAjustes[Convert.ToInt32(e.CommandArgument) + (this.gridViewAjustes.PageIndex * this.gridViewAjustes.PageSize)]);
                         consultarAjuste(codigo);
                         modo = (int)Modo.Consultado;
                         Response.Redirect("FormAjustes.aspx");
@@ -850,6 +887,12 @@ namespace ProyectoInventarioOET
                 }
                 else
                     operacionCorrecta = false;
+            }  else {   // Caso Modificacion
+                if (this.DropDownEstado.SelectedIndex == 0) { // Se anula
+                    controladoraAjustes.anularAjuste(ajusteConsultado, codigo);                  
+                }
+                modo = (int)Modo.Inicial;
+                cambiarModo();
             }
         }
 
@@ -950,7 +993,8 @@ namespace ProyectoInventarioOET
 
         protected void botonModificarAjuste_ServerClick(object sender, EventArgs e)
         {
-
+            modo = (int)Modo.Modificacion;
+            cambiarModo();
         }
 
     }

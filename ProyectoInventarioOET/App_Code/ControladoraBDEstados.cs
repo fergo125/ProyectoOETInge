@@ -38,7 +38,7 @@ namespace ProyectoInventarioOET.App_Code
         {
             String esquema = "Tesoreria.";
             DataTable resultado = new DataTable();
-            String comandoSQL = "SELECT * FROM " + esquema + "CAT_ESTADOS WHERE CAT_ESTADOS > 1 AND CAT_ESTADOS < 4";
+            String comandoSQL = "SELECT * FROM " + esquema + "CAT_ESTADOS WHERE CAT_ESTADO > 1 AND CAT_ESTADO < 4";
             resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }

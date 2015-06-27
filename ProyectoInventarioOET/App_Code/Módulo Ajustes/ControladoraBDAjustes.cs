@@ -56,7 +56,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
         {
             String esquema = "Inventarios.";
             DataTable[] resultado = new DataTable[2];
-            String comandoSQL = "SELECT M.CAT_TIPO_MOVIMIENTO, AJ.FECHA, U.NOMBRE, U.SEG_USUARIO, AJ.NOTAS ,AJ.IDBODEGA, M.DESCRIPCION  "
+            String comandoSQL = "SELECT M.CAT_TIPO_MOVIMIENTO, AJ.FECHA, U.NOMBRE, U.SEG_USUARIO, AJ.NOTAS ,AJ.IDBODEGA, M.DESCRIPCION, AJ.ESTADO, AJ.ANULABLE  "
                 + " FROM " + esquema + "AJUSTES AJ, " + esquema + "SEG_USUARIO U, " + esquema + "CAT_TIPO_MOVIMIENTO M"
                 + " WHERE AJ.USUARIO_BODEGA = U.SEG_USUARIO "
                 + " AND AJ.CAT_TIPO_MOVIMIENTO = M.CAT_TIPO_MOVIMIENTO"
@@ -98,9 +98,9 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
             String[] resultado = new String[4];
             resultado[3] = generarID();
             String comandoSQL = "INSERT INTO " + esquema + 
-                "AJUSTES (ID_AJUSTES, CAT_TIPO_MOVIMIENTO, FECHA, USUARIO_BODEGA, IDBODEGA, NOTAS, ANULABLE) VALUES ('"
+                "AJUSTES (ID_AJUSTES, CAT_TIPO_MOVIMIENTO, FECHA, USUARIO_BODEGA, IDBODEGA, NOTAS, ANULABLE, ESTADO) VALUES ('"
                 + resultado[3] + "','" + ajuste.IdTipoAjuste + "', TO_DATE('" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "',  'dd/mm/yyyy hh24:mi:ss') , '"
-                + ajuste.IdUsuario  + "','" + ajuste.IdBodega + "' , '" + ajuste.Notas + "', " + 1 + ")";
+                + ajuste.IdUsuario  + "','" + ajuste.IdBodega + "' , '" + ajuste.Notas + "', " + 1 + " , " + 3 + ")";
             if(ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
             {
                 foreach(EntidadDetalles detallesProducto in  ajuste.Detalles) // Por cada producto meterlo en el detalles ajustes
@@ -152,13 +152,21 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
             ejecutarComandoSQL(comandoSQL, false);
         }
 
-        public void anularAjuste (EntidadAjustes ajuste, String idAjuste)
+        public String[] anularAjuste(EntidadAjustes ajuste, String idAjuste)
         {
+            String[] resultado = new String[4];
             String esquema = "Inventarios.";
-            String comandoSQL = "UPDATE " + esquema + "AJUSTE "
-                                   + " SET ANULABLE = " + 0  
-                                   + " WHERE ID_AJUSTE = '" + idAjuste + "'";
+            String comandoSQL = "UPDATE " + esquema + "AJUSTES "
+                                   + " SET ANULABLE = " + 0  + " , "
+                                   + " ESTADO = " + 2
+                                   + " WHERE ID_AJUSTES = '" + idAjuste + "'";
             ejecutarComandoSQL(comandoSQL, false);
+            foreach (EntidadDetalles detallesProducto in ajuste.Detalles) // Por cada producto meterlo en el detalles ajustes
+            {
+                actualizarProducto(detallesProducto.IdProductoBodega, detallesProducto.CantidadPrevia);
+            }
+
+            return resultado;
         }
     }
 }

@@ -54,7 +54,7 @@
             </div>
             <div class = "col-lg-3 ">
                  <label for="dropdownAnular" class= "control-label"> Estado: </label>      
-                <asp:DropDownList id="DropDownAnular" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
+                <asp:DropDownList id="DropDownEstado" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
                 </asp:DropDownList><br>
             </div>
         </div>

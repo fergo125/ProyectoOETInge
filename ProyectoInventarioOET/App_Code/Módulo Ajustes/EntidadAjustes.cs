@@ -16,7 +16,9 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
         private String idUsuario;   //iD del usuario responsable del ajuste
         private String notas;       // Notas realizadas sobre el ajuste 
         private String idBodega;    // Id de la bodega.
+        private int estado;
         private List<EntidadDetalles> detalles = new List<EntidadDetalles>(); // Lista de los productos trasladados
+        private int anulable; 
 
         /*
          * Constructor encargado de encapsular los datos de un ajuste
@@ -32,7 +34,8 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
             if (datos.Count() >= 6)
             {
                 this.idBodega = datos[5].ToString();
-                //this.idUsuario = datos[6].ToString();
+                this.estado = Int32.Parse( datos[6].ToString());
+                this.anulable = Int32.Parse(datos[7].ToString());
             }
         }
 
@@ -94,6 +97,23 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
         {
             get { return notas; }
             set { notas = value; }
+        }
+
+
+        /*
+         * Método para obtener y establecer las notas sobre el ajuste.
+         */
+        public int Estado
+        {
+            get { return estado; }
+            set { estado = value; }
+        }
+
+
+        public int Anulable
+        {
+            get { return anulable; }
+            set { anulable = value; }
         }
 
         /*
