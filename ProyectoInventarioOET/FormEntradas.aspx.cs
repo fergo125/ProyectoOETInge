@@ -310,7 +310,8 @@ namespace ProyectoInventarioOET
                         idArrayFactura[i] = fila[0];
                         datos[0] = fila[0].ToString();
                         datos[1] = controladoraEntradas.consultarNombreProveedor(fila[6].ToString());
-                        datos[2] = fila[1].ToString();
+                        //datos[2] = Convert.ToDateTime(fila[1]).Date.ToString("d", new CultureInfo("es-CR"));
+                        datos[2] = Convert.ToDateTime(fila[1]).Date.ToString("dd/MM/yyyy");
                         datos[3] = fila[3].ToString();
                         datos[4] = fila[4].ToString();
 
@@ -528,15 +529,15 @@ namespace ProyectoInventarioOET
             cambiarModo();
         }
 
-        protected void gridViewFacturas_Seleccion(object sender, GridViewCommandEventArgs e)
-        {
+        //protected void gridViewFacturas_Seleccion(object sender, GridViewCommandEventArgs e)
+        //{
 
-        }
+        //}
         
-        protected void gridViewFacturas_SelectedIndexChanged(object sender, EventArgs e)
-        {
+        //protected void gridViewFacturas_SelectedIndexChanged(object sender, EventArgs e)
+        //{
 
-        }
+        //}
 
 
 
@@ -631,8 +632,10 @@ namespace ProyectoInventarioOET
             String productoEscogido = this.textBoxAutocompleteCrearFacturaBusquedaProducto.Text;
             String cantidad = this.inputCantidadProducto.Value.ToString();
             String costo = this.inputCostoProducto.Value.ToString();
+            Double costoUnitario = 0.0;
             String descuento = this.inputDescuentoProducto.Value.ToString();
             String descuentoReal = "";
+            String impuesto = this.dropdownlistProductoImpuesto.SelectedValue.ToString();
             String[] provisional = new String[2];
             provisional = obtenerCodigoDeProducto(productoEscogido);
             bool repetido = false;
@@ -663,13 +666,23 @@ namespace ProyectoInventarioOET
 
                 if (descuentoReal != "Inválido")
                 {
+                    if ("Sí".Equals(impuesto))//TRAER IMPUESTO DE LA BD
+                    {
+                        Double costoTotalSinImpuesto = Convert.ToDouble(costo) - ((13 * Convert.ToDouble(costo)) / 100.0);
+                        costoUnitario = costoTotalSinImpuesto / Convert.ToDouble(cantidad);
+                    }
+                    else
+                    { 
+                        costoUnitario = Convert.ToDouble(costo) / Convert.ToDouble(cantidad);                    
+                    }
+
                     Object[] datos = new Object[6];
                     datos[0] = productoEscogido;
                     datos[1] = cantidad;
                     datos[2] = costo;
-                    datos[3] = Math.Truncate((Convert.ToDouble(costo) / Convert.ToDouble(cantidad)) * 100) / 100;
-                    //datos[4] =
-                    datos[5] = dropdownlistProductoImpuesto.SelectedValue;
+                    datos[3] = Math.Truncate((costoUnitario) * 100) / 100;
+                    datos[4] = dropdownlistProductoImpuesto.SelectedValue;
+                    datos[5] = Math.Truncate(Convert.ToDouble(descuentoReal) * 100) / 100;
                     tablaProductosNuevos.Rows.Add(datos);
                     actualizarTotalFactura(Convert.ToDouble(costo));
                     outputTotalFacturaNueva.InnerText = totalFactura.ToString();
@@ -691,7 +704,7 @@ namespace ProyectoInventarioOET
 
 
             }
-
+            this.botonAgregarProductoFactura.Text = "Agregar a Factura";
 
         }
 
@@ -703,17 +716,21 @@ namespace ProyectoInventarioOET
             if (descuento.Contains("%"))
             {
                 descuentoReal = descuento.Remove(descuento.LastIndexOf('%'));
-                if (Convert.ToInt32(descuentoReal) > 100)
+                if (Convert.ToDouble(descuentoReal) > 100)
                 {
                     descuentoReal = "Inválido";
                 }
             }
             else
             {
-                if (Convert.ToInt32(descuento) > Convert.ToInt32(costo))
+                if (Convert.ToDouble(descuento) > Convert.ToDouble(costo))
                 {
                     descuentoReal = "Inválido";
-                }            
+                }
+                else
+                {
+                    descuentoReal = descuento;
+                }
             }
 
             return descuentoReal;
@@ -729,6 +746,8 @@ namespace ProyectoInventarioOET
             String producto;
             String costo = "";
             String cantidad;
+            String descuento;
+            String impuesto;
             bool estaSeleccionadoProducto = false;
 
             for (int i = 0; i < gridFacturaNueva.Rows.Count; i++)
@@ -743,8 +762,12 @@ namespace ProyectoInventarioOET
                     producto = HttpUtility.HtmlDecode(gridFacturaNueva.Rows[i].Cells[1].Text.ToString());
                     cantidad = gridFacturaNueva.Rows[i].Cells[2].Text.ToString();
                     costo = gridFacturaNueva.Rows[i].Cells[3].Text.ToString();
+                    impuesto = gridFacturaNueva.Rows[i].Cells[5].Text.ToString();
+                    descuento = gridFacturaNueva.Rows[i].Cells[6].Text.ToString();
                     
                     tablaProductosNuevos.Rows.RemoveAt(i);
+                    this.dropdownlistProductoImpuesto.SelectedValue = impuesto;
+                    this.inputDescuentoProducto.Value = descuento;
                     this.inputCantidadProducto.Value = cantidad;
                     this.inputCostoProducto.Value = costo;
                     this.textBoxAutocompleteCrearFacturaBusquedaProducto.Text = producto;
@@ -767,6 +790,8 @@ namespace ProyectoInventarioOET
                 this.botonEliminarProducto.Enabled = true;
                 this.botonModificarProducto.Enabled = true;
             }
+
+            this.botonAgregarProductoFactura.Text = "Aceptar Modificación";
         }
 
         /*
@@ -976,7 +1001,7 @@ namespace ProyectoInventarioOET
         {
             outputFactura.InnerText = Convert.ToString(facturaConsultada.IdFactura);
             outputProveedor.InnerText = Convert.ToString(controladoraEntradas.consultarNombreProveedor(facturaConsultada.IdProveedor));
-            outputFechaPago.InnerText = Convert.ToString(facturaConsultada.FechaPago);
+            outputFechaPago.InnerText = facturaConsultada.FechaPago.Date.ToString("dd/MM/yyyy");
             outputDescuento.InnerText = Convert.ToString(facturaConsultada.Descuento) + "%";
             outputTipoPago.InnerText = Convert.ToString(facturaConsultada.TipoDePago);
             outputPlazoPago.InnerText = Convert.ToString(facturaConsultada.PlazoDePago);
@@ -1008,6 +1033,8 @@ namespace ProyectoInventarioOET
             this.inputCantidadProducto.Value = "";
             this.inputCostoProducto.Value = "";
             this.textBoxAutocompleteCrearFacturaBusquedaProducto.Text = "";
+            this.inputDescuentoProducto.Value = "";
+            this.dropdownlistProductoImpuesto.SelectedValue = "Sí";
         }
 
         private String[] obtenerCodigoDeProducto(String producto) 
