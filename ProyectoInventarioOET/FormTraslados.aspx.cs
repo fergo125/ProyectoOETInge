@@ -702,6 +702,8 @@ namespace ProyectoInventarioOET
                     idArrayAgregarProductosDestino = new Object[productos.Rows.Count];
                     foreach (DataRow fila in productos.Rows)
                     {
+                        if( !idArrayProductosDestino.Contains(fila[6]) )
+                        {
                         idArrayAgregarProductosOrigen[i] = fila[6];
                         idArrayAgregarProductosDestino[i] = fila[7];
                         datos[0] = fila[1].ToString();
@@ -712,6 +714,7 @@ namespace ProyectoInventarioOET
                         datos[5] = Convert.ToDouble(fila[5].ToString());
                         tabla.Rows.Add(datos);
                         i++;
+                        }
                     }
                 }
                 else
