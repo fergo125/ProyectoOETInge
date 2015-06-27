@@ -704,19 +704,29 @@ namespace ProyectoInventarioOET
                     idArrayAgregarProductosDestino = new Object[productos.Rows.Count];
                     foreach (DataRow fila in productos.Rows)
                     {
-                        if( !idArrayProductosDestino.Contains(fila[6]) )
+                        if( !idArrayProductosOrigen.Contains(fila[6]) )
                         {
-                        idArrayAgregarProductosOrigen[i] = fila[6];
-                        idArrayAgregarProductosDestino[i] = fila[7];
-                        datos[0] = fila[1].ToString();
-                        datos[1] = fila[2].ToString();
-                        datos[2] = Convert.ToDouble(fila[3].ToString());
-                        datos[3] = fila[8].ToString();
-                        datos[4] = Convert.ToDouble(fila[4].ToString());
-                        datos[5] = Convert.ToDouble(fila[5].ToString());
-                        tabla.Rows.Add(datos);
-                        i++;
+                            idArrayAgregarProductosOrigen[i] = fila[6];
+                            idArrayAgregarProductosDestino[i] = fila[7];
+                            datos[0] = fila[1].ToString();
+                            datos[1] = fila[2].ToString();
+                            datos[2] = Convert.ToDouble(fila[3].ToString());
+                            datos[3] = fila[8].ToString();
+                            datos[4] = Convert.ToDouble(fila[4].ToString());
+                            datos[5] = Convert.ToDouble(fila[5].ToString());
+                            tabla.Rows.Add(datos);
+                            i++;
                         }
+                    }
+                    if( idArrayAgregarProductosOrigen[0] == null )
+                    {
+                        datos[0] = "-";
+                        datos[1] = "-";
+                        datos[2] = "0";
+                        datos[3] = "-";
+                        datos[4] = "0";
+                        datos[5] = "0";
+                        tabla.Rows.Add(datos);
                     }
                 }
                 else
