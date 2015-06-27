@@ -120,7 +120,8 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
             String esquema = "Inventarios.";
             String comandoSQL = " UPDATE " + esquema + "INV_BODEGA_PRODUCTOS "
                 + " SET SALDOCONGELADO = SALDOCONGELADO + " + traslado + " , "
-                + " SALDO = SALDO - " + traslado
+                + " SALDO = SALDO - " + traslado + " , "
+                + " MODIFICADO =  TO_DATE('" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "',  'dd/mm/yyyy hh24:mi:ss') "
                 + " WHERE INV_BODEGA_PRODUCTOS = '" + idProductoBodega+ "'";  
             ejecutarComandoSQL(comandoSQL, false); //debería retornar un bool o algo
         }
@@ -138,12 +139,14 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
             {
                 // Descongelar el Producto en la Bodega ORIGEN
                 comandoSQL = " UPDATE " + esquema + "INV_BODEGA_PRODUCTOS "
-                    + " SET SALDOCONGELADO = SALDOCONGELADO - " + traslado
+                    + " SET SALDOCONGELADO = SALDOCONGELADO - " + traslado + " , " 
+                    + " MODIFICADO =  TO_DATE('" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "',  'dd/mm/yyyy hh24:mi:ss') "
                     + " WHERE INV_BODEGA_PRODUCTOS = '" + idProductoBodegaOrigen + "'";
                 ejecutarComandoSQL(comandoSQL, false); //debería retornar un bool o algo
                 // SUMAR los productos a la Bogega DESTINO pues el traslado se completo!!
                 comandoSQL = " UPDATE " + esquema + "INV_BODEGA_PRODUCTOS "
-                    + " SET SALDO = SALDO + " + traslado
+                    + " SET SALDO = SALDO + " + traslado + " , "
+                    + " MODIFICADO =  TO_DATE('" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "',  'dd/mm/yyyy hh24:mi:ss') "
                     + " WHERE INV_BODEGA_PRODUCTOS = '" + idProductoBodegaDestino + "'";
                 ejecutarComandoSQL(comandoSQL, false); //debería retornar un bool o algo
             }
@@ -151,12 +154,14 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
             {
                 // Descongelar el Producto en la Bodega ORIGEN
                 comandoSQL = " UPDATE " + esquema + "INV_BODEGA_PRODUCTOS "
-                    + " SET SALDOCONGELADO = SALDOCONGELADO - " + traslado
+                    + " SET SALDOCONGELADO = SALDOCONGELADO - " + traslado + " , "
+                    + " MODIFICADO =  TO_DATE('" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "',  'dd/mm/yyyy hh24:mi:ss') "
                     + " WHERE INV_BODEGA_PRODUCTOS = '" + idProductoBodegaOrigen + "'";
                 ejecutarComandoSQL(comandoSQL, false); //debería retornar un bool o algo
                 // Devolver los productos a la Bogega Origen pues no se lograron trasladar
                 comandoSQL = " UPDATE " + esquema + "INV_BODEGA_PRODUCTOS "
-                    + " SET SALDO = SALDO + " + traslado
+                    + " SET SALDO = SALDO + " + traslado + " , " 
+                    + " MODIFICADO =  TO_DATE('" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "',  'dd/mm/yyyy hh24:mi:ss') "
                     + " WHERE INV_BODEGA_PRODUCTOS = '" + idProductoBodegaOrigen + "'";
                 ejecutarComandoSQL(comandoSQL, false); //debería retornar un bool o algo
             }

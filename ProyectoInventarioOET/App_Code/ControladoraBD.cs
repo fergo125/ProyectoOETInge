@@ -15,8 +15,8 @@ namespace ProyectoInventarioOET
     {
         //Atributos
         protected static OracleConnection conexionBD;   // Atributo estático compartido por todas las ControladorasBD para conectarse
-        protected static int consecutivo;               // Contador de # de transacciones ocurridas de inserción de tuplas a la base de datos
-                                                        // Entre 000 y 999
+        protected static int consecutivo;               // Contador de # de transacciones ocurridas de inserción de tuplas a la base de datos entre 000 y 999
+        protected static String nombreUsuarioLogueado;  // Usado para insertar en la tabla de réplica
 
         /*
          * Constructor, crea y abre la conexión sólo la primera vez que es necesario.
@@ -84,6 +84,23 @@ namespace ProyectoInventarioOET
             //Último, siempre cerrar la conexión
             conexionBD.Close();
             return resultado;
+        }
+
+        /*
+         * 
+         */
+        protected bool insertarReplicaSQL(String comandoSQL)
+        {
+            return false;
+        }
+
+        /*
+         * Setter y getter de nombreUsuarioLogueado.
+         */
+        public String NombreUsuarioLogueado
+        {
+            get { return nombreUsuarioLogueado; }
+            set { nombreUsuarioLogueado = value; }
         }
     }
 }

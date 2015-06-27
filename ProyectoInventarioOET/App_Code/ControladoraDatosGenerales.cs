@@ -24,6 +24,7 @@ namespace ProyectoInventarioOET.App_Code
         private DataTable estaciones;                                           //Estaciones de la OET existentes
         private DataTable unidades;                                             //Posibles unidades métricas para los productos
         private DataTable estados;                                              //Posibles estados para todas las entidades del sistema
+        private DataTable estadosAnular;                                              //Posibles estados para todas las entidades del sistema
         private DataTable booleanos;                                            // Para construir dropdownlist booleanos
         private int tipoCambioCompra;                                           //Tipo de cambio colones a dólares
         private int tipoCambioVenta;                                            //Tipo de cambio dólares a colones
@@ -57,6 +58,7 @@ namespace ProyectoInventarioOET.App_Code
             ControladoraBDAnfitrionas controladoraAnfitriones = new ControladoraBDAnfitrionas();
 
             estados = controladoraEstados.consultarEstados();
+            estadosAnular = controladoraEstados.consultarEstadosAnular();
             impuesto = controladoraGeneral.consultarImpuesto();
             unidades = controladoraUnidades.consultarUnidades();
             estaciones = controladoraEstaciones.consultarEstaciones();
@@ -92,6 +94,11 @@ namespace ProyectoInventarioOET.App_Code
         public DataTable consultarEstadosActividad()
         {
             return estadosActividad;
+        }
+
+        public DataTable consultarEstadosAnular()
+        {
+            return estadosAnular;
         }
 
         /*

@@ -23,7 +23,8 @@
 
     <!-- Botones -->
     <button runat="server" onserverclick="botonConsultarAjustes_ServerClick"  id="botonConsultarAjustes" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true"><i class="fa fa-bars"></i> Consultar Ajustes</button>
-    <button runat="server" onserverclick="botonRealizarAjuste_ServerClick" id="botonRealizarAjuste" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true"><i class="fa fa-pencil"></i> Crear Ajuste</button> <br> <br>
+    <button runat="server" onserverclick="botonRealizarAjuste_ServerClick" id="botonRealizarAjuste" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true"><i class="fa fa-pencil"></i> Crear Ajuste</button> 
+    <button runat="server" onserverclick="botonModificarAjuste_ServerClick" id="botonModificarAjuste" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true"><i class="fa fa-wrench"></i> Modificar Ajuste</button> <br> <br>
 
     <!-- Titulo dinamico de la pagina -->
     <h3 id="tituloAccionAjustes" runat="server">Seleccione una opción</h3>
@@ -47,9 +48,14 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-9">
                 <label for="inputNotas" class= "control-label"> Notas: </label>      
                 <asp:TextBox ID="inputNotas" runat="server" Rows="3" Width="100%" TextMode="MultiLine" style="resize:none" MaxLength="140"></asp:TextBox>
+            </div>
+            <div class = "col-lg-3 ">
+                 <label for="dropdownAnular" class= "control-label"> Estado: </label>      
+                <asp:DropDownList id="DropDownAnular" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
+                </asp:DropDownList><br>
             </div>
         </div>
             <div class="row" >

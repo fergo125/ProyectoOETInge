@@ -98,15 +98,15 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
             String[] resultado = new String[4];
             resultado[3] = generarID();
             String comandoSQL = "INSERT INTO " + esquema + 
-                "AJUSTES (ID_AJUSTES, CAT_TIPO_MOVIMIENTO, FECHA, USUARIO_BODEGA, IDBODEGA, NOTAS) VALUES ('"
+                "AJUSTES (ID_AJUSTES, CAT_TIPO_MOVIMIENTO, FECHA, USUARIO_BODEGA, IDBODEGA, NOTAS, ANULABLE) VALUES ('"
                 + resultado[3] + "','" + ajuste.IdTipoAjuste + "', TO_DATE('" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "',  'dd/mm/yyyy hh24:mi:ss') , '"
-                + ajuste.IdUsuario  + "','" + ajuste.IdBodega + "' , '" + ajuste.Notas + "' )";
+                + ajuste.IdUsuario  + "','" + ajuste.IdBodega + "' , '" + ajuste.Notas + "', " + 1 + ")";
             if(ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
             {
                 foreach(EntidadDetalles detallesProducto in  ajuste.Detalles) // Por cada producto meterlo en el detalles ajustes
                 {
-                    insertarDetalle(resultado[3], detallesProducto);
                     actualizarProducto(detallesProducto.IdProductoBodega, detallesProducto.CantidadNueva);
+                    insertarDetalle(resultado[3], detallesProducto);
                     //actualizarProducto(detallesProducto.IdProductoBodega, detallesProducto.CantidadNueva);
                 }
                 resultado[0] = "success";
@@ -146,8 +146,18 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
         {
             String esquema = "Inventarios.";
             String comandoSQL = "UPDATE " + esquema + "INV_BODEGA_PRODUCTOS "
-                                   + " SET SALDO = " + nuevaCantidad
+                                   + " SET SALDO = " + nuevaCantidad + " , "
+                                   + " MODIFICADO =  TO_DATE('" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "',  'dd/mm/yyyy hh24:mi:ss') "
                                    + " WHERE INV_BODEGA_PRODUCTOS = '" + idBodegaProducto + "'";
+            ejecutarComandoSQL(comandoSQL, false);
+        }
+
+        public void anularAjuste (EntidadAjustes ajuste, String idAjuste)
+        {
+            String esquema = "Inventarios.";
+            String comandoSQL = "UPDATE " + esquema + "AJUSTE "
+                                   + " SET ANULABLE = " + 0  
+                                   + " WHERE ID_AJUSTE = '" + idAjuste + "'";
             ejecutarComandoSQL(comandoSQL, false);
         }
     }
