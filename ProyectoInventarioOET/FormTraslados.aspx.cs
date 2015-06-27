@@ -47,9 +47,11 @@ namespace ProyectoInventarioOET
             {
                 labelAlerta.Text = "";
 
-                controladoraTraslados = new ControladoraTraslado();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
+                controladoraTraslados = new ControladoraTraslado();
                 controladoraProductoLocal = new ControladoraProductoLocal();
+                controladoraTraslados.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
+                controladoraProductoLocal.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
                 trasladosGuardados = new ArrayList();
 
                 permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Traslados de inventario");

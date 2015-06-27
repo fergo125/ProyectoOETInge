@@ -77,6 +77,13 @@ namespace ProyectoInventarioOET
                 controladoraProductoLocal = new ControladoraProductoLocal();
                 controladoraProductoGlobal = new ControladoraProductosGlobales();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
+                controladoraVentas.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
+                controladoraBodegas.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
+                controladoraAjustes.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
+                controladoraSeguridad.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
+                controladoraActividades.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
+                controladoraProductoLocal.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
+                controladoraProductoGlobal.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
 
                 //Seguridad
                 permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Facturacion");

@@ -13,7 +13,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
     /*
      * Comunicación entre la Controladora de Base de Datos y la que maneja las operaciones de la interfaz.
      */
-    public class ControladoraAjustes
+    public class ControladoraAjustes : Controladora
     {
 
         private ControladoraBDAjustes controladoraBD;
@@ -22,8 +22,10 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
         /* Constructor
          *  Se instancia la controladora de Base de datos
          */
-        public ControladoraAjustes() {
+        public ControladoraAjustes()
+        {
             controladoraBD = new ControladoraBDAjustes();
+            controladoraBD.NombreUsuarioLogueado = (this.NombreUsuarioLogueado);
         }
         
         /* Metodo que trae las Bodegas de una estacion

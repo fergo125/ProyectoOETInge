@@ -9,7 +9,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
     /*
      * Controladora de Seguridad, encargada de las funciones de seguridad del sistema, también encripta/desencripta contraseñas.
      */
-    public class ControladoraSeguridad
+    public class ControladoraSeguridad : Controladora
     {
         //Atributos
         private ControladoraBDSeguridad controladoraBDSeguridad;    // Entidad de controladora de base de datos, usada para acceder a base de datos
@@ -21,6 +21,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         public ControladoraSeguridad()
         {
             controladoraBDSeguridad = new ControladoraBDSeguridad();
+            controladoraBDSeguridad.NombreUsuarioLogueado = (this.NombreUsuarioLogueado);
         }
 
         /*

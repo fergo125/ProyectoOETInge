@@ -70,9 +70,7 @@ namespace ProyectoInventarioOET
             {
                 OracleCommand command = conexionBD.CreateCommand();
                 command.CommandText = comandoSQL;
-                //
-                //Insertar en la tabla de réplica aquí
-                //
+                insertarReplicaSQL(comandoSQL); //Insertar en la tabla de réplica aquí
                 OracleDataReader reader = command.ExecuteReader();
                 if (esperaResultado) //Si se trata de una consulta, se debe cargar lo que devuelva, de lo contrario, no
                     resultado.Load(reader);
@@ -87,11 +85,39 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * 
+         * Se inserta una réplica de cada comando SQL que se ejecuta en la base de datos.
          */
         protected bool insertarReplicaSQL(String comandoSQL)
         {
-            return false;
+            //Primero prepara la consulta para obtener los servidores en los que debe insertar
+            String esquema = "Inventarios.";
+            String comandoSQLservidores = "SELECT * FROM " + esquema + "SERVIDORES WHERE REPLICAR = 'Y'";
+            DataTable resultado = new DataTable();
+            try
+            {
+                OracleCommand command = conexionBD.CreateCommand();
+                command.CommandText = comandoSQLservidores;
+                OracleDataReader reader = command.ExecuteReader();
+                resultado.Load(reader);
+                //Luego por cada servidor, inserta una réplica del comando SQL
+                foreach (DataRow fila in resultado.Rows)
+                {
+                    String comandoSQLreplica = "INSERT INTO " + esquema + "REPLICA_SALIDA (TIRA_SQL, ESTADO, FECHA, USUARIO, SERVER) VALUES ("
+                        + "'" + comandoSQL + "', "
+                        + "'N', "
+                        + "'" + DateTime.Now.Date.ToString("dd/MM/yyyy") + "', "
+                        + "'" + nombreUsuarioLogueado + "', "
+                        + "'" + fila[0] + "'";
+                    command = conexionBD.CreateCommand();
+                    command.CommandText = comandoSQLreplica;
+                    reader = command.ExecuteReader();
+                }
+                return true; //retorna true si todo salió bien
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
         }
 
         /*

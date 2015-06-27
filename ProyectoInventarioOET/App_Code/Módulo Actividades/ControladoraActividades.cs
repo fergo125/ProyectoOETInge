@@ -9,7 +9,7 @@ namespace ProyectoInventarioOET.Modulo_Actividades
     /*
      * Comunicación entre la Controladora de Base de Datos y la que maneja las operaciones de la interfaz.
      */
-    public class ControladoraActividades
+    public class ControladoraActividades : Controladora
     {
         //Atributos
         private ControladoraBDActividades controladoraBDActividades;    // Instancia de la controladora de base
@@ -21,6 +21,7 @@ namespace ProyectoInventarioOET.Modulo_Actividades
         public ControladoraActividades()
         {
             controladoraBDActividades = new ControladoraBDActividades();
+            controladoraBDActividades.NombreUsuarioLogueado = (this.NombreUsuarioLogueado);
         }
 
         /*

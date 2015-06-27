@@ -53,11 +53,14 @@ namespace ProyectoInventarioOET
             mensajeAlerta.Visible = false;
             controladoraSeguridad = new ControladoraSeguridad();
             controladoraBodegas = new ControladoraBodegas();
+            controladoraSeguridad.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
+            controladoraBodegas.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
             if (!IsPostBack)
             {
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
                 controladoraEntradas = new ControladoraEntradas();
-               permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Entradas de inventario");
+                controladoraEntradas.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
+                permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Entradas de inventario");
                 if (permisos == "000000")
                     Response.Redirect("~/ErrorPages/404.html");
 

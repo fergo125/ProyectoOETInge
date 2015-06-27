@@ -328,6 +328,7 @@
     <Compile Include="Account\RegisterExternalLogin.aspx.designer.cs">
       <DependentUpon>RegisterExternalLogin.aspx</DependentUpon>
     </Compile>
+    <Compile Include="App_Code\Controladora.cs" />
     <Compile Include="App_Code\ControladoraBDAnfitrionas.cs" />
     <Compile Include="App_Code\ControladoraBDEstaciones.cs" />
     <Compile Include="App_Code\ControladoraBDEstados.cs" />
