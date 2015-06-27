@@ -170,6 +170,37 @@ namespace ProyectoInventarioOET
         /*
          * Construye la tabla que se va a utilizar para mostrar la información del detalle de las Facturas entrantes.
          */
+        protected DataTable tablaFacturaEntranteDetallada()
+        {
+            DataTable tabla = new DataTable();
+            DataColumn columna;
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Producto";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Cantidad";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Costo Total";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Costo Unitario";
+            tabla.Columns.Add(columna);
+
+            return tabla;
+        }
+
+        /*
+         * Construye la tabla que se va a utilizar para mostrar la información del detalle de las Facturas entrantes.
+         */
         protected DataTable tablaFacturaDetallada()
         {
             DataTable tabla = new DataTable();
@@ -193,6 +224,16 @@ namespace ProyectoInventarioOET
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
             columna.ColumnName = "Costo Unitario";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Impuesto";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Descuento";
             tabla.Columns.Add(columna);
 
             return tabla;
@@ -295,19 +336,19 @@ namespace ProyectoInventarioOET
          */
         protected void llenarGridDetalleFactura()
         {
-            DataTable tabla = tablaFacturaDetallada();
+            DataTable tabla = tablaFacturaEntranteDetallada();
             int i = 0;
 
             try
             {
                 // Cargar facturas
                 Object[] datos = new Object[4];
-                DataTable facturas = controladoraEntradas.consultarDetalleFactura(facturaConsultada.IdOrdenDeCompra);
+                DataTable productos = controladoraEntradas.consultarDetalleFactura(facturaConsultada.IdFactura);
 
-                if (facturas.Rows.Count > 0)
+                if (productos.Rows.Count > 0)
                 {
                     //idArray = new Object[facturas.Rows.Count];
-                    foreach (DataRow fila in facturas.Rows)
+                    foreach (DataRow fila in productos.Rows)
                     {
                         datos[0] = fila[2].ToString();
                         datos[1] = fila[3].ToString();
@@ -517,7 +558,6 @@ namespace ProyectoInventarioOET
                 Boolean operacionCorrecta = false;
                 String codigoInsertado = "";
                 String usuario = (this.Master as SiteMaster).Usuario.Codigo;
-                //String usuario = "usuario";
                 String idFactura = facturaConsultada.IdFactura;
                 String fecha = DateTime.Now.ToString("h:mm:ss");
                 String[] resultado = new String[3];
@@ -588,47 +628,92 @@ namespace ProyectoInventarioOET
             String productoEscogido = this.textBoxAutocompleteCrearFacturaBusquedaProducto.Text;
             String cantidad = this.inputCantidadProducto.Value.ToString();
             String costo = this.inputCostoProducto.Value.ToString();
+            String descuento = this.inputDescuentoProducto.Value.ToString();
+            String descuentoReal = "";
             String[] provisional = new String[2];
             provisional = obtenerCodigoDeProducto(productoEscogido);
             bool repetido = false;
 
             DataTable producto = controladoraEntradas.consultarProductoDeBodega(bodegaDeTrabajo, provisional[1]);
 
-            foreach (DataRow fila in tablaProductosNuevos.Rows)
-            {
-                if (productoEscogido == fila[0].ToString())
-                {
-                    repetido = true;
-                }            
-            }
+            //foreach (DataRow fila in tablaProductosNuevos.Rows)
+            //{
+            //    if (productoEscogido == fila[0].ToString())
+            //    {
+            //        repetido = true;
+            //    }            
+            //}
 
             if (producto.Rows.Count == 0)
             {
                 mostrarMensaje("warning", "Error", "El producto especificado no existe en la bodega, consulte al administrador del sistema.");
-            } else if (repetido)
+            } //ojo que esta llave es extra
+
+            //} else if (repetido) SI PUEDE ESTAR REPETIDO EN CASO DE QUE SE COBRE 'X' CANTIDAD Y DEN DE REGALIA 'Y' CANTIDAD
+            //{
+            //    mostrarMensaje("warning", "Error", "El producto especificado ya fue ingresado, seleccione otro o actualice las cantidades.");            
+            //}
+
+            else
             {
-                mostrarMensaje("warning", "Error", "El producto especificado ya fue ingresado, seleccione otro o actualice las cantidades.");            
+                descuentoReal = verificarExtraerDescuento(descuento, costo).ToString();
+
+                if (descuentoReal != "Inválido")
+                {
+                    Object[] datos = new Object[6];
+                    datos[0] = productoEscogido;
+                    datos[1] = cantidad;
+                    datos[2] = costo;
+                    datos[3] = Math.Truncate((Convert.ToDouble(costo) / Convert.ToDouble(cantidad)) * 100) / 100;
+                    //datos[4] =
+                    datos[5] = dropdownlistProductoImpuesto.SelectedValue;
+                    tablaProductosNuevos.Rows.Add(datos);
+                    actualizarTotalFactura(Convert.ToDouble(costo));
+                    outputTotalFacturaNueva.InnerText = totalFactura.ToString();
+
+                    this.botonEliminarProducto.Enabled = true;
+                    this.botonModificarProducto.Enabled = true;
+                    this.botonAceptarEntrada.Disabled = false;
+                    this.gridFacturaNueva.DataSource = tablaProductosNuevos;
+                    this.gridFacturaNueva.DataBind();
+
+                    limpiarCampos();
+                    mostrarMensaje("success", "Éxito:", "El producto fue agregado exitosamente.");
+
+                }
+                else 
+                {
+                    mostrarMensaje("warning", "Error", "El descuento especificado no es válido.");
+                }
+
+
+            }
+
+
+        }
+
+        private String verificarExtraerDescuento(string descuento, string costo)
+        {
+            int tamano = descuento.Length;
+            String descuentoReal = "";
+
+            if (descuento.Contains("%"))
+            {
+                descuentoReal = descuento.Remove(descuento.LastIndexOf('%'));
+                if (Convert.ToInt32(descuentoReal) > 100)
+                {
+                    descuentoReal = "Inválido";
+                }
             }
             else
             {
-                //Object[] datos = new Object[3];
-                Object[] datos = new Object[4];
-                datos[0] = productoEscogido;
-                datos[1] = cantidad;
-                datos[2] = costo;
-                datos[3] = Math.Truncate((Convert.ToDouble(costo) / Convert.ToDouble(cantidad))*100)/100;
-                tablaProductosNuevos.Rows.Add(datos);
-                actualizarTotalFactura(Convert.ToDouble(costo));
-                outputTotalFacturaNueva.InnerText = totalFactura.ToString();
-                this.botonEliminarProducto.Enabled = true;
-                this.botonModificarProducto.Enabled = true;
-                this.botonAceptarEntrada.Disabled = false;
-                this.gridFacturaNueva.DataSource = tablaProductosNuevos;
-                this.gridFacturaNueva.DataBind();
-                limpiarCampos();
-                mostrarMensaje("success", "Éxito:", "El producto fue agregado exitosamente.");
+                if (Convert.ToInt32(descuento) > Convert.ToInt32(costo))
+                {
+                    descuentoReal = "Inválido";
+                }            
             }
 
+            return descuentoReal;
 
         }
 
