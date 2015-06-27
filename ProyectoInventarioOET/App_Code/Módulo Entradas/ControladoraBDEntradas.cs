@@ -156,7 +156,7 @@ namespace ProyectoInventarioOET.Modulo_Entradas
                         if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
                         {
                             comandoSQL = "update INV_BODEGA_PRODUCTOS set saldo = saldo + " + fila[1]
-                                + ", modificado = SYSDATE where inv_productos = '" + fila[0] + "' and cat_bodega = '" + entrada.Bodega + "' ";
+                                + ", MODIFICADO =  TO_DATE('" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "',  'dd/mm/yyyy hh24:mi:ss') where inv_productos = '" + fila[0] + "' and cat_bodega = '" + entrada.Bodega + "' ";
                             if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
                             {
                                 res[0] = "success";
