@@ -32,6 +32,15 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             return controladoraBDSeguridad.consultarUsuario(nombre, password);
         }
 
+        /*
+         * Modifica la contraseña de un usuario en especifico
+         */
+        public String[] modificarContrasena(String codigoInternoUsuario, String password)
+        {
+            //TODO: Encriptar password aqui**
+            return controladoraBDSeguridad.modificarContrasena(codigoInternoUsuario,password);
+        }
+
         public String consultarPermisosUsuario(String codigoPerfil, String interfaz)
         {
             return controladoraBDSeguridad.consultarPermisosUsuario(codigoPerfil, interfaz);

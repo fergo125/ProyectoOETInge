@@ -49,6 +49,23 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             }
             return usuario;
         }
+        /*
+         * Modifica la contraseña de un usuario en especifico basado en su codigo interno de la base de datos
+         */
+        public String[] modificarContrasena(String codigoInternoUsuario, String password)
+        {
+            String esquema = "Inventarios.";
+            String[] mensaje = new String[3];
+
+            String comandoSQL = "UPDATE "+esquema+"SEG_USUARIO SET CLAVE = '"+password+"' WHERE SEG_USUARIO = '"+codigoInternoUsuario+"'";
+            ejecutarComandoSQL(comandoSQL,false);
+
+            mensaje[0] = "success";
+            mensaje[1] = "Éxito";
+            mensaje[2] = "Modificación de contraseña realizada con éxito";
+
+            return mensaje;
+        }
 
         /*
          * Dado un código de perfil y el nombre de una interfaz, cargo los permisos de ese usuario en esa interfaz
