@@ -10,7 +10,7 @@
 namespace ProyectoInventarioOET {
     
     
-    public partial class FormBodegaLocal {
+    public partial class FormSeguridad {
         
         /// <summary>
         /// Control mensajeAlerta.
@@ -40,84 +40,138 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.Label labelAlerta;
         
         /// <summary>
-        /// Control TituloBodegaLocal.
+        /// Control TituloSeguridad.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl TituloBodegaLocal;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl TituloSeguridad;
         
         /// <summary>
-        /// Control botonCambiarContrasena.
+        /// Control botonPerfiles.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor botonCambiarContrasena;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonPerfiles;
         
         /// <summary>
-        /// Control CerrarSesion.
+        /// Control botonUsuarios.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button CerrarSesion;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonUsuarios;
         
         /// <summary>
-        /// Control DropDownListBodega.
+        /// Control FieldsetBotonesPerfiles.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownListBodega;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetBotonesPerfiles;
         
         /// <summary>
-        /// Control EnviarBodegaLocal.
+        /// Control botonCrearPerfil.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button EnviarBodegaLocal;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonCrearPerfil;
         
         /// <summary>
-        /// Control inputActual.
+        /// Control botonConsultarPerfil.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox inputActual;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonConsultarPerfil;
         
         /// <summary>
-        /// Control inputNueva.
+        /// Control botonModificarPerfil.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox inputNueva;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonModificarPerfil;
         
         /// <summary>
-        /// Control inputNuevaConfirmacion.
+        /// Control FieldsetBotonesUsuarios.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox inputNuevaConfirmacion;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetBotonesUsuarios;
         
         /// <summary>
-        /// Control botonAceptarModalCambiar.
+        /// Control botonCrearUsuario.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonAceptarModalCambiar;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonCrearUsuario;
+        
+        /// <summary>
+        /// Control botonConsultarUsuario.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonConsultarUsuario;
+        
+        /// <summary>
+        /// Control botonModificarUsuario.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonModificarUsuario;
+        
+        /// <summary>
+        /// Control botonAsociarPerfil.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonAsociarPerfil;
+        
+        /// <summary>
+        /// Control FieldsetPerfil.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetPerfil;
+        
+        /// <summary>
+        /// Control FieldsetUsuario.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetUsuario;
+        
+        /// <summary>
+        /// Control FieldsetAsociarUsuario.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetAsociarUsuario;
     }
 }

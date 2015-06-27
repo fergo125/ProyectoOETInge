@@ -69,20 +69,20 @@
                 <div class="modal-body">
                     Introduzca la información solicitada:<br /><br />
                     <div class= "form-group">
-                        <label for="inputActual" class= "control-label">Contraseña actual:</label>      
-                        <input type="text" id= "inputActual" class= "form-control" style= "max-width: 100%" runat="server">
+                        <label for="inputActual" class= "control-label">Contraseña actual:</label>
+                        <asp:TextBox runat="server" ID="inputActual" TextMode="Password" CssClass="form-control"/>
                     </div>
                     <div class= "form-group">
-                        <label for="inputNueva" class= "control-label">Contraseña nueva:</label>      
-                        <input type="text" id="inputNueva" class= "form-control" style= "max-width: 100%" runat="server">
+                        <label for="inputNueva" class= "control-label">Contraseña nueva:</label>
+                        <asp:TextBox runat="server" ID="inputNueva" TextMode="Password" CssClass="form-control"/>
                     </div>
                     <div class= "form-group">
                         <label for="inputNuevaConfirmacion" class= "control-label">Confirmar contraseña nueva:</label>      
-                        <input type="text" id="inputNuevaConfirmacion" class="form-control" style= "max-width: 100%" runat="server">
+                        <asp:TextBox runat="server" ID="inputNuevaConfirmacion" TextMode="Password" CssClass="form-control"/>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="botonAceptarModalCambiar" class="btn btn-success-fozkr" runat="server" onclick="boton_AceptarModalCambiar">Aceptar</button>
+                    <button type="button" id="botonAceptarModalCambiar" class="btn btn-success-fozkr" runat="server" onserverclick="botonAceptarModalCambiar_Click">Aceptar</button>
                     <button type="button" id="botonCancelarModalCambiar" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
                 </div>
             </div>

@@ -101,6 +101,7 @@ namespace ProyectoInventarioOET
                     botonCancelarAjustes.Visible = false;
                     tituloAccionAjustes.InnerText = "Seleccione una opción";
                     botonRealizarAjuste.Disabled = false;
+                    botonModificarAjuste.Disabled = true;
                     botonConsultarAjustes.Disabled = false;
                     tituloGridProductos.Visible = false;
                     tituloGridConsulta.Visible = false;
@@ -117,6 +118,7 @@ namespace ProyectoInventarioOET
                     botonCancelarAjustes.Visible = true;
                     tituloAccionAjustes.InnerText = "Ingrese los datos del nuevo ajuste";
                     botonRealizarAjuste.Disabled = true;
+                    botonModificarAjuste.Disabled = true;
                     botonConsultarAjustes.Disabled = false;
                     tituloGridProductos.Visible = false;
                     tituloGridConsulta.Visible = false;
@@ -137,6 +139,7 @@ namespace ProyectoInventarioOET
                     botonCancelarAjustes.Visible = false;
                     tituloAccionAjustes.InnerText = "Seleccione un ajuste";
                     botonRealizarAjuste.Disabled = false;
+                    botonModificarAjuste.Disabled = true;
                     botonConsultarAjustes.Disabled = true;
                     tituloGridProductos.Visible = false;
                     tituloGridConsulta.Visible = true;
@@ -155,6 +158,7 @@ namespace ProyectoInventarioOET
                     tituloAccionAjustes.InnerText = "Ajuste seleccionado";
                     botonRealizarAjuste.Disabled = false;
                     botonConsultarAjustes.Disabled = false;
+                    botonModificarAjuste.Disabled = false;
                     FieldsetGridAjustes.Visible = false;
                     tituloGridProductos.Visible = true;
                     tituloGridConsulta.Visible = false;
@@ -907,6 +911,9 @@ namespace ProyectoInventarioOET
             row.Cells.AddRange(columns.ToArray());
         }
 
+        /*
+         * Guarda los datos de los campos que son borrados al cambiar el dataGrid
+         */
         protected void guardarDatos()
         {
             int i = 0;
@@ -915,12 +922,22 @@ namespace ProyectoInventarioOET
             {
                 String valor = ((TextBox)gridViewProductos.Rows[i].FindControl("textAjustes")).Text; // Caso en que no se especifico un ajuste
                 valor = valor.Equals("") ? "-99" : valor;
-                ajustesGuardados.Add(Double.Parse(valor));
+                try
+                {
+                    ajustesGuardados.Add(Double.Parse(valor));
+                }
+                catch
+                {
+                    ajustesGuardados.Add(-99.0);
+                }
+                ++i;
                 ++i;
             }
         }
 
-
+        /*
+         * Repone los datos de los campos que son borrados al cambiar el dataGrid
+         */
         private void reponerDatos()
         {
             int i = 0;
@@ -930,5 +947,11 @@ namespace ProyectoInventarioOET
                 ++i;
             }
         }
+
+        protected void botonModificarAjuste_ServerClick(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }

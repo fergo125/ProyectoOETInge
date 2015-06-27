@@ -53,14 +53,31 @@ namespace ProyectoInventarioOET.Modulo_Entradas
          /*
 -         * Recibe el id de una factura y devuelve el detalle de la misma 
 -         */
-        public DataTable consultarDetalleFactura(String id)
+        public DataTable consultarDetalleFactura(String idFactura)
         {
             DataTable resultado = new DataTable();
+            String ordenDeCompra = "";
             String esquema = "Compras.";
-            String comandoSQL = "SELECT *  "
-                + " FROM " + esquema + "PRODUCTO_ORDENADOS "
-                + " WHERE IDORDENDECOMPRA= " + " '" + id + "'";
+            String comandoSQL = "SELECT IDORDENDECOMPRA "
+            + "FROM " + esquema + "FACTURAS_CON_OC"
+            + " WHERE IDFACTURA = '" + idFactura + "'";
             resultado = ejecutarComandoSQL(comandoSQL, true);
+
+
+            if (resultado.Rows.Count > 0)
+            {
+                foreach (DataRow fila in resultado.Rows)
+                {
+                    ordenDeCompra = fila[0].ToString();
+                }
+
+                resultado = new DataTable();
+                String comandoSQL2 = "SELECT *  "
+                    + " FROM " + esquema + "PRODUCTO_ORDENADOS "
+                    + " WHERE IDORDENDECOMPRA= " + " '" + ordenDeCompra + "'";
+                resultado = ejecutarComandoSQL(comandoSQL2, true);
+            }
+
             return resultado;
         }
 
@@ -139,7 +156,7 @@ namespace ProyectoInventarioOET.Modulo_Entradas
                         if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
                         {
                             comandoSQL = "update INV_BODEGA_PRODUCTOS set saldo = saldo + " + fila[1]
-                                + " where inv_productos = '" + fila[0] + "' and cat_bodega = '" + entrada.Bodega + "' ";
+                                + ", modificado = SYSDATE where inv_productos = '" + fila[0] + "' and cat_bodega = '" + entrada.Bodega + "' ";
                             if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
                             {
                                 res[0] = "success";
