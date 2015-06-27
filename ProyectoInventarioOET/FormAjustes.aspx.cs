@@ -128,6 +128,7 @@ namespace ProyectoInventarioOET
                     gridViewAjustes.Visible = false;
                     gridViewProductos.Enabled = true;
                     FieldsetGridAjustes.Visible = false;
+                    this.DropDownEstado.Enabled = false;
                     gridViewProductos.Visible = false;
                     habilitarCampos(true);
                     gridViewProductos.Columns[1].Visible = true;
@@ -161,6 +162,7 @@ namespace ProyectoInventarioOET
                     tituloAccionAjustes.InnerText = "Ajuste seleccionado";
                     botonRealizarAjuste.Disabled = false;
                     botonConsultarAjustes.Disabled = false;
+                    this.DropDownEstado.Enabled = false;
                     botonModificarAjuste.Disabled = ajusteConsultado.Anulable == 1 ? false : true;  // Si es anulable;
                     FieldsetGridAjustes.Visible = false;
                     this.DropDownEstado.Enabled = false;
@@ -750,7 +752,7 @@ namespace ProyectoInventarioOET
          */
         protected Object[] obtenerDatosAjuste()
         {
-            Object[] datos = new Object[6];
+            Object[] datos = new Object[8];
             bool fun = signos[this.dropdownTipo.SelectedIndex];
             datos[0] = this.dropdownTipo.SelectedValue;
             datos[1] = this.outputFecha.Value;
@@ -758,6 +760,8 @@ namespace ProyectoInventarioOET
             datos[3] = (this.Master as SiteMaster).Usuario.Codigo;
             datos[4] = this.inputNotas.Text;
             datos[5] = (this.Master as SiteMaster).LlaveBodegaSesion;
+            datos[6] = this.DropDownEstado.SelectedValue;
+            datos[7] = "";
             return datos;
         }
 
@@ -798,16 +802,7 @@ namespace ProyectoInventarioOET
                     ajuste[3] = idArrayProductos[i];
                     ajuste[4] = Double.Parse(row["Cantidad Actual"].ToString()); //Cantidad previa
                     ajuste[5] = cantAjuste;                                     // Cantidad despues del ajuste
-                    //ajuste[4] = cantAjuste; // Cantidad nueva
-                    //ajuste[5] =  Double.Parse(row["Cantidad Actual"].ToString());  //Cantidad previa
 
-                    // EL SIGNO NO VA A IMPORTAR HACER EL REFACTORING
-                    /*if (!(signo ^ (Convert.ToDouble(ajuste[4]) <= 0.0)))  //El signo probablemente no va a importar
-                        //throw new AggregateException();
-
-                    if ( (Convert.ToDouble(ajuste[4]) == 0.0))  // Caso salida
-                        //throw new AggregateException();
-                    */
                     nueva.agregarDetalle(ajuste);
                     productoDeBodega = controladoraProductosLocales.consultarMinimoMaximoProductoEnBodega(idArrayProductos[i].ToString());
                     alerta |= cantAjuste <= Convert.ToDouble(productoDeBodega.Rows[0][0].ToString()) || cantAjuste >= Convert.ToDouble(productoDeBodega.Rows[0][1].ToString());
@@ -974,7 +969,6 @@ namespace ProyectoInventarioOET
                 {
                     ajustesGuardados.Add(-99.0);
                 }
-                ++i;
                 ++i;
             }
         }

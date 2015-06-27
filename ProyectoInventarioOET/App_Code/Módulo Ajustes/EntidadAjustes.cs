@@ -35,7 +35,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
             {
                 this.idBodega = datos[5].ToString();
                 this.estado = Int32.Parse( datos[6].ToString());
-                this.anulable = Int32.Parse(datos[7].ToString());
+                this.anulable = datos[7].ToString().Equals("")?1:Int32.Parse(datos[7].ToString());
             }
         }
 
