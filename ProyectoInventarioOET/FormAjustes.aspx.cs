@@ -907,6 +907,9 @@ namespace ProyectoInventarioOET
             row.Cells.AddRange(columns.ToArray());
         }
 
+        /*
+         * Guarda los datos de los campos que son borrados al cambiar el dataGrid
+         */
         protected void guardarDatos()
         {
             int i = 0;
@@ -915,12 +918,22 @@ namespace ProyectoInventarioOET
             {
                 String valor = ((TextBox)gridViewProductos.Rows[i].FindControl("textAjustes")).Text; // Caso en que no se especifico un ajuste
                 valor = valor.Equals("") ? "-99" : valor;
-                ajustesGuardados.Add(Double.Parse(valor));
+                try
+                {
+                    ajustesGuardados.Add(Double.Parse(valor));
+                }
+                catch
+                {
+                    ajustesGuardados.Add(-99.0);
+                }
+                ++i;
                 ++i;
             }
         }
 
-
+        /*
+         * Repone los datos de los campos que son borrados al cambiar el dataGrid
+         */
         private void reponerDatos()
         {
             int i = 0;
