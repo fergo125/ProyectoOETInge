@@ -36,16 +36,18 @@
     <fieldset id= "fieldsetConsulta" runat="server" class="fieldset">
         <div class="row">
             <div class="col-lg-4">    
+                <label for="outputBodegaConsulta" class= "control-label"> Bodega Actual: </label>
                 <input type="text" id="outputBodegaConsulta" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
             </div>
             <div class="col-lg-4">
-                <asp:DropDownList id="dropDownConsultas" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
-                    <asp:ListItem>Entradas</asp:ListItem>
-                    <asp:ListItem>Salidas</asp:ListItem>
+                <label for="outputBodegaConsulta" class= "control-label"> Tipo de Traslado: </label>
+                <asp:DropDownList id="dropDownConsultas" AutoPostBack="true" OnSelectedIndexChanged="dropDownConsultas_SelectedIndexChanged" runat="server" DataSourceID="" DataTextField="" DataValueField="" CssClass="form-control">
+                    <asp:ListItem>Entrantes</asp:ListItem>
+                    <asp:ListItem>Salientes</asp:ListItem>
                 </asp:DropDownList>
             </div>
             <div class="col-lg-1">
-                <button runat="server" onserverclick="botonTipoConsulta_ServerClick" id="botonTipoConsulta" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true">Consultar</button>
+                <button runat="server" onserverclick="botonTipoConsulta_ServerClick" id="botonTipoConsulta" class=" btn btn-info-fozkr" type="button" style="float: left;margin-top:35%" visible="true">Consultar</button>
             </div>
         </div>
         <br />
@@ -56,14 +58,14 @@
     <fieldset id= "FieldsetTraslados" runat="server" class="fieldset">
         <div class="row">
             <div class="col-lg-5">
-                <label for="outputBodegaSalida" class= "control-label"> Origen: </label>      
+                <label for="outputBodegaSalida" class= "control-label"> Bodega Origen: </label>      
                 <input type="text" id="outputBodegaSalida" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
             </div>
             <div class="col-lg-2">
                 <h3 style="text-align:center"><i class="fa fa-long-arrow-right fa-2x"></i></h3>
             </div>
             <div class="col-lg-5">
-                <label for="dropDownBodegaEntrada" class= "control-label"> Destino: </label>      
+                <label for="dropDownBodegaEntrada" class= "control-label"> Bodega Destino: </label>      
                 <asp:DropDownList ID="dropDownBodegaEntrada" runat="server" CssClass="form-control" OnSelectedIndexChanged="dropDownBodegaEntrada_SelectedIndexChanged" AutoPostBack="true">
                 </asp:DropDownList><br>
             </div>
@@ -75,7 +77,7 @@
             </div>
             <div class="col-lg-2">
                 <fieldset id= "fieldsetEstado" runat="server" class="fieldset">
-                    <label  for="dropDownEstado" class= "control-label"> Estado de Traslado: </label>      
+                    <label for="dropDownEstado" class= "control-label"> Estado de Traslado: </label>
                     <asp:DropDownList ID="dropDownEstado" runat="server" CssClass="form-control" AutoPostBack="true">
                     </asp:DropDownList><br>
                 </fieldset>
@@ -104,7 +106,7 @@
 
     <!-- Grid de productos a transferir -->
     <div id="bloqueGridProductos" class="col-lg-12">
-        <fieldset id="Fieldset2" runat="server" class="fieldset">
+        <fieldset id="FieldsetGridProductos" runat="server" class="fieldset">
             <!-- Gridview -->
             <div class="col-lg-12">
                 <strong><div ID="tituloGridProductos" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Productos a Transferir</div></strong>
@@ -112,7 +114,7 @@
                     <ContentTemplate>
                         <asp:GridView ID="gridViewProductos" CssClass="table" OnRowCommand="gridViewProductos_Seleccion" OnRowCreated="gridViewTraslados_RowCreated" runat="server" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
                             <Columns>
-                                <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Quitar">
+                                <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Eliminar">
                                     <ControlStyle CssClass="btn btn-default"></ControlStyle>
                                 </asp:ButtonField>
                                 <asp:TemplateField HeaderText="Cantidad" >
@@ -214,6 +216,17 @@
                     <h4 class="modal-title" id="modalTitle2"><i class="fa fa-plus fa-lg"></i> Agregar un producto</h4>
                 </div>
                 <div class="modal-body">
+                    <!-- Bara de búsqueda -->
+                    <div class="row">
+                        <div class="col-lg-10">
+                            <input id="barraDeBusqueda" style="margin-left:5%" class="form-control" type="search" placeholder="Ingresa una palabra o código" runat="server" >
+                        </div>
+                        <div class="col-lg-2">
+                            <asp:Button ID="botonBuscar" style="margin-left:20%" runat="server" Text="Buscar" CssClass="btn btn-info-fozkr" OnClick="botonBuscar_OnClick"/>
+                        </div>
+                    </div>
+                    <br />
+                    <br />
                     <!-- Grid de consultas -->
                     <div id="bloqueGridAgregarProductos" class="col-lg-12">
                         <fieldset id="Fieldset3" runat="server" class="fieldset">
@@ -242,6 +255,9 @@
                         </fieldset>         
                     </div>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" id="botonCerrarModal" class="btn btn-danger-fozkr" data-dismiss="modal">Cerrar</button>
+                </div>
             </div>
         </div>
     </div>
@@ -252,6 +268,12 @@
     <script type = "text/javascript">
         function setCurrentTab() {
             document.getElementById("linkFormInventario").className = "active";
+        }
+    </script>
+    <script type="text/javascript">
+        function openModal()
+        {
+            $('#modalAgregarProducto').modal('show');
         }
     </script>
 </asp:Content>

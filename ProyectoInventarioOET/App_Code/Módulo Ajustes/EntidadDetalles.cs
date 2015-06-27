@@ -32,7 +32,8 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
                 this.cambio = Double.Parse(datos[2].ToString());
                 this.idProductoBodega = datos[3].ToString();
                 if( datos.Count() > 4 )
-                    this.final = Double.Parse(datos[4].ToString());
+                    this.cantidadPrevia = Double.Parse(datos[4].ToString());
+                    this.cantidadNueva = Double.Parse(datos[5].ToString());
             }
 
             /*

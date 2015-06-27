@@ -33,6 +33,7 @@ namespace ProyectoInventarioOET
         private static ControladoraProductoLocal controladoraProductoLocal;     // Controladora de los productos locales de una bodega
         private static EntidadTraslado trasladoConsultado;                      // El traslado mostrado en pantalla
         private static bool tipoConsulta;                                       // True si se esta viendo entradas, false si salidas
+        private static String stringBusqueda;                                   // String que se está siendo buscado
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -132,7 +133,7 @@ namespace ProyectoInventarioOET
                     tituloAccionTraslados.InnerText = "Seleccione un traslado";
                     botonRealizarTraslado.Disabled = false;
                     botonModificarTraslado.Disabled = true;
-                    botonConsultarTraslado.Disabled = true;
+                    botonConsultarTraslado.Disabled = false;
                     tituloGridProductos.Visible = false;
                     //tituloGridConsulta.Visible = true;
                     //gridViewTraslados.Visible = true;
@@ -172,13 +173,13 @@ namespace ProyectoInventarioOET
                     tituloAccionTraslados.InnerText = "Traslado seleccionado";
                     botonRealizarTraslado.Disabled = false;
                     botonModificarTraslado.Disabled = !(trasladoConsultado.BodegaDestino == (this.Master as SiteMaster).NombreBodegaSesion && trasladoConsultado.Estado == "En Proceso");
-                    botonConsultarTraslado.Disabled = true;
+                    botonConsultarTraslado.Disabled = false;
                     tituloGridProductos.Visible = true;
                     tituloGridConsulta.Visible = true;
                     gridViewTraslados.Visible = true;
                     gridViewProductos.Enabled = false;
                     gridViewProductos.Visible = true;
-                    fieldsetConsulta.Visible = true;
+                    fieldsetConsulta.Visible = false;
                     fieldsetEstado.Visible = true;
                     dropDownEstado.Enabled = false;
                     habilitarCampos(false);
@@ -294,6 +295,7 @@ namespace ProyectoInventarioOET
             labelTipoAlerta.Text = alerta + " ";
             labelAlerta.Text = mensaje;
             mensajeAlerta.Visible = true;
+            ScriptManager.RegisterStartupScript(Page, this.GetType(), "ScrollPage", "window.scroll(0,0);", true);
         }
 
         /*
@@ -441,23 +443,23 @@ namespace ProyectoInventarioOET
             Boolean res = true;
             String[] error = {"warning", "Alerta: ", "No hubo cambios"};
 
-            if( dropDownEstado.SelectedValue == "1" )
+            if (dropDownEstado.SelectedValue == "1")
                 error = controladoraTraslados.acertarTraslado(trasladoConsultado);
             else
-                if( dropDownEstado.SelectedValue == "-1" )
+                if (dropDownEstado.SelectedValue == "-1")
                     error = controladoraTraslados.rechazarTraslado(trasladoConsultado);
-
+                else
+                    res = false;
+            trasladoConsultado.Estado = dropDownEstado.SelectedValue;
             mostrarMensaje(error[0], error[1], error[2]);
 
-            if (error[0].Contains("success") || error[0].Contains("warning"))// si fue exitoso
+            if (res && (error[0].Contains("success") || error[0].Contains("warning") ))// si fue exitoso
             {
                 //llenarGrid(true);
-                trasladoConsultado = null;
-                modo = (int)Modo.Inicial;
+                modo = (int)Modo.Consultado;
             }
             else
             {
-                res = false;
                 modo = (int)Modo.Modificacion;
             }
             return res;
@@ -514,7 +516,7 @@ namespace ProyectoInventarioOET
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Codigo";
+            columna.ColumnName = "Código";
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
@@ -545,7 +547,7 @@ namespace ProyectoInventarioOET
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Codigo";
+            columna.ColumnName = "Código";
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
@@ -576,7 +578,7 @@ namespace ProyectoInventarioOET
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Codigo";
+            columna.ColumnName = "Código";
             tabla.Columns.Add(columna);
 
             columna = new DataColumn();
@@ -683,7 +685,7 @@ namespace ProyectoInventarioOET
         /*
          * Carga datos del grid de productos agregables
          */
-        protected void llenarGridAgregarProductos()
+        protected void llenarGridAgregarProductos(String query)
         {
 
             DataTable tabla = tablaAgregarProducto();
@@ -694,7 +696,7 @@ namespace ProyectoInventarioOET
                 // Cargar bodegas
                 Object[] datos = new Object[6];
 
-                DataTable productos = controladoraTraslados.consultarProductosTrasferibles((this.Master as SiteMaster).LlaveBodegaSesion, dropDownBodegaEntrada.SelectedValue);
+                DataTable productos = controladoraTraslados.consultarProductosTrasferibles((this.Master as SiteMaster).LlaveBodegaSesion, dropDownBodegaEntrada.SelectedValue, query);
 
                 if (productos.Rows.Count > 0)
                 {
@@ -726,7 +728,8 @@ namespace ProyectoInventarioOET
                     datos[4] = "0";
                     datos[5] = "0";
                     tabla.Rows.Add(datos);
-                    mostrarMensaje("warning", "Atención: ", "No existen productos en la bodega actual.");
+                    if( query == "" )
+                        mostrarMensaje("warning", "Atención: ", "No existen productos en la bodega actual.");
                 }
 
                 this.gridViewAgregarProductos.DataSource = tabla;
@@ -772,8 +775,9 @@ namespace ProyectoInventarioOET
          */
         protected void dropDownBodegaEntrada_SelectedIndexChanged(object sender, EventArgs e)
         {
+            stringBusqueda = "";
             vaciarGridProductos();
-            llenarGridAgregarProductos();
+            llenarGridAgregarProductos(stringBusqueda);
         }
 
         /*
@@ -782,11 +786,12 @@ namespace ProyectoInventarioOET
         protected void botonRealizarTraslado_ServerClick(object sender, EventArgs e)
         {
             modo = (int)Modo.Insercion;
+            stringBusqueda = "";
             cambiarModo();
             limpiarCampos();
             cargarBodegas();
             cargarEstados();
-            llenarGridAgregarProductos();
+            llenarGridAgregarProductos(stringBusqueda);
             vaciarGridProductos();
 
             gridViewProductos.Visible = false;
@@ -939,12 +944,24 @@ namespace ProyectoInventarioOET
         }
 
         /*
+         * Método que, al cambiar el valor seleccionado del dropDown, limpia el grid.
+         */
+        protected void dropDownConsultas_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            gridViewTraslados.Visible = false;
+            tituloGridConsulta.Visible = false;
+            FieldsetTraslados.Visible = false;
+            FieldsetGridProductos.Visible = false;
+            modo = (int)Modo.Consulta;
+        }
+
+        /*
          * Método que consulta los traslados, dependiendo del tipo seleccionado
          */
         protected void botonTipoConsulta_ServerClick(object sender, EventArgs e)
         {
-            llenarGrid(dropDownConsultas.SelectedValue == "Entradas");
-            tipoConsulta = dropDownConsultas.SelectedValue == "Entradas";
+            llenarGrid(dropDownConsultas.SelectedValue == "Entrantes");
+            tipoConsulta = dropDownConsultas.SelectedValue == "Entrantes";
             gridViewTraslados.Visible = true;
             tituloGridConsulta.Visible = true;
         }
@@ -977,10 +994,20 @@ namespace ProyectoInventarioOET
          */
         protected void gridViewTraslados_CambioPagina(Object sender, GridViewPageEventArgs e)
         {
-            llenarGrid(dropDownConsultas.SelectedValue == "Entradas");
+            llenarGrid(dropDownConsultas.SelectedValue == "Entrantes");
             this.gridViewTraslados.PageIndex = e.NewPageIndex;
             this.gridViewTraslados.DataBind();
         }
+
+        /*
+         * Maneja la búsqueda para el usuario.
+         */
+        protected void botonBuscar_OnClick(object sender, EventArgs e)
+        {
+            stringBusqueda = barraDeBusqueda.Value;
+            llenarGridAgregarProductos(stringBusqueda);
+        }
+        
 
         /*
          * Método que maneja la selección de un traslado en el grid de agregar productos.
@@ -998,7 +1025,7 @@ namespace ProyectoInventarioOET
                         // Sacamos datos pertinentes del producto
                         Object[] datos = new Object[4];
                         datos[0] = seleccionada["Nombre"];
-                        datos[1] = seleccionada["Codigo"];
+                        datos[1] = seleccionada["Código"];
                         datos[2] = seleccionada["Cantidad Actual"];
                         datos[3] = seleccionada["Unidad Métrica"];
 
@@ -1041,7 +1068,7 @@ namespace ProyectoInventarioOET
 
         protected void gridViewAgregarProductos_CambioPagina(Object sender, GridViewPageEventArgs e)
         {
-            llenarGridAgregarProductos();
+            llenarGridAgregarProductos(stringBusqueda);
             this.gridViewAgregarProductos.PageIndex = e.NewPageIndex;
             this.gridViewAgregarProductos.DataBind();
         }

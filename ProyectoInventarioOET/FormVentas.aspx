@@ -37,21 +37,61 @@
         <div class="row" runat="server">
             <div class="col-lg-12">
                 <div class="form-group col-lg-3">
-                    <label for="ConsultaEstacion" class="control-label">Estación:</label>    
-                    <asp:DropDownList ID="dropDownListConsultaEstacion" AutoPostBack="true" onselectedindexchanged="dropDownListConsultaEstacion_ValorCambiado"  class="input input-fozkr-dropdownlist" runat="server" Enabled="false" Width="90%" CssClass="form-control"></asp:DropDownList>
+                    <label for="ConsultaEstacion" class="control-label">Estación:</label>
+                    <asp:DropDownList ID="dropDownListConsultaEstacion" AutoPostBack="true" onselectedindexchanged="dropDownListConsultaEstacion_ValorCambiado" class="input input-fozkr-dropdownlist" runat="server" Enabled="false" Width="95%" CssClass="form-control"></asp:DropDownList>
                 </div>
                 <div class="form-group col-lg-3">
-                    <label for="ConsultaEstacion" class="control-label">Bodega:</label>    
-                    <asp:DropDownList ID="dropDownListConsultaBodega" AutoPostBack="true" onselectedindexchanged="dropDownListConsultaBodega_ValorCambiado" class="input input-fozkr-dropdownlist" runat="server" Enabled="false" Width="90%" CssClass="form-control"></asp:DropDownList>
+                    <label for="ConsultaEstacion" class="control-label">Bodega:</label>
+                    <asp:DropDownList ID="dropDownListConsultaBodega" AutoPostBack="true" onselectedindexchanged="dropDownListConsultaBodega_ValorCambiado" class="input input-fozkr-dropdownlist" runat="server" Enabled="false" Width="95%" CssClass="form-control"></asp:DropDownList>
                 </div>
                 <div class="form-group col-lg-3">
-                    <label for="ConsultaVendedor" class="control-label">Vendedor:</label>    
-                    <asp:DropDownList ID="dropDownListConsultaVendedor" class="input input-fozkr-dropdownlist" runat="server" Enabled="false" Width="90%" CssClass="form-control"></asp:DropDownList>
+                    <label for="ConsultaVendedor" class="control-label">Vendedor:</label>
+                    <asp:DropDownList ID="dropDownListConsultaVendedor" class="input input-fozkr-dropdownlist" runat="server" Enabled="false" Width="95%" CssClass="form-control"></asp:DropDownList>
                 </div>
-                <div class="form-group col-lg-3">
-                    <button runat="server" onserverclick="clickBotonEjecutarConsulta" ID="botonEjecutarConsulta" class="btn btn-info-fozkr" type="button" style="float:left; margin-top:9%;">
+                <div class="form-group col-lg-1" style="margin-top:2%;">
+                    <button runat="server" onserverclick="clickBotonEjecutarConsulta" ID="botonEjecutarConsulta" class="btn btn-info-fozkr" type="button">
                         <i></i>Consultar
                     </button>
+                </div>
+                <div class="form-group col-lg-2" style="margin-top:2.5%;">
+					<asp:CheckBox ID="checkboxConsultaDetalles" OnCheckedChanged="checkBoxConsultarDetalles_CheckCambiado" CssClass="input-fozkr-check" runat="server" AutoPostBack="true"/>
+                    <label for="ConsultaDetalles" class="control-label">Más detalles</label>    
+                </div>
+            </div>
+        </div>
+        <div class="row" visible="false" ID="detallesConsulta" runat="server">
+            <div class="col-lg-12">
+                <div class="form-group col-lg-3">
+                    <label for="ConsultaEstacion" class="control-label">Método de pago:</label>
+                    <asp:DropDownList ID="dropDownListConsultaMetodoPago" AutoPostBack="true" class="input input-fozkr-dropdownlist" runat="server" Enabled="true" Width="95%" CssClass="form-control"></asp:DropDownList>
+                </div>
+                <div class="form-group col-lg-3">
+                    <label for="ConsultaEstacion" class="control-label">Cliente:</label>
+                    <asp:DropDownList ID="dropDownListConsultaCliente" AutoPostBack="true" class="input input-fozkr-dropdownlist" runat="server" Enabled="true" Width="95%" CssClass="form-control"></asp:DropDownList>
+                </div>
+                <div class="form-group col-lg-3">
+                    <label for="ConsultaVendedor" class="control-label">Fecha inicial:</label>
+                    <table class="table-fozkr">
+                        <tr>
+                            <td><input id="textboxConsultaFechaInicio" disabled="disabled" class="form-control" type="text"/></td>
+                            <td><button runat="server" ID="botonConsultaCalendarioInicio" class="btn btn-default" type="button">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="form-group col-lg-3">
+                    <label for="ConsultaVendedor" class="control-label">Fecha final:</label>
+                    <table class="table-fozkr">
+                        <tr>
+                            <td><input id="textboxConsultaFechaFinal" disabled="disabled" class="form-control" type="text"/></td>
+                            <td><button runat="server" ID="botonConsultaCalendarioFinal" class="btn btn-default" type="button">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
@@ -208,8 +248,8 @@
                 </td>
             <tr>
                 <td colspan="4">
-                    <button type="button" ID="botonCrearFacturaEliminarProducto" class="btn btn-danger-fozkr" onserverclick="clickBotonCrearEliminarProducto" style="float: left" disabled="disabled" runat="server">Eliminar producto</button>
-                    <button type="button" ID="botonCrearFacturaModificarProducto" class="btn btn-warning-fozkr" href="#modalModificarProducto" data-toggle="modal" style="float: left" disabled="disabled" runat="server">Modificar producto</button>
+                    <button type="button" ID="botonCrearFacturaEliminarProducto" class="btn btn-danger-fozkr" onserverclick="clickBotonCrearEliminarProducto" style="float: left" disabled="disabled" runat="server">Eliminar Producto</button>
+                    <button type="button" ID="botonCrearFacturaModificarProducto" class="btn btn-warning-fozkr" href="#modalModificarProducto" data-toggle="modal" style="float: left" disabled="disabled" runat="server">Modificar Producto</button>
                 </td>
             </tr>
             <tr>
@@ -233,26 +273,84 @@
             <tr>
                 <td colspan="4">
                     <button type="button" ID="botonCrearFacturaGuardar" class="btn btn-success-fozkr" onserverclick="clickBotonCrearGuardar" runat="server">Guardar</button>
-                    <button type="button" ID="botonCrearFacturaCancelar" class="btn btn-danger-fozkr" href="#modalCancelarFactura" data-toggle="modal" runat="server">Cancelar</button>
+                    <%--<button type="button" ID="botonCrearFacturaCancelar" class="btn btn-danger-fozkr" href="#modalCancelarFactura" data-toggle="modal" runat="server">Cancelar</button>--%>
+                    <button type="button" ID="Button1" class="btn btn-danger-fozkr" href="#modalVariosMetodosPago" data-toggle="modal" runat="server">Cancelar</button>
                 </td>
             </tr>
         </table>
     </asp:Panel>
     
     <!--Modal Cancelar-->
-    <div class="modal fade" ID="modalCancelar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" ID="modalCancelarFactura" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" ID="modalTitle"><i class="fa fa-exclamation-triangle text-danger fa-2x"></i>Confirmar cancelación</h4>
+                    <h4 class="modal-title" ID="modalCancelarFacturaTitulo"><i class="fa fa-exclamation-triangle text-danger fa-2x"></i>Confirmar cancelación</h4>
                 </div>
                 <div class="modal-body">
                     ¿Está seguro que desea cancelar la operación? Perdería todos los datos no guardados.
                 </div>
                 <div class="modal-footer">
-                    <button type="button" ID="botonAceptarModalCancelar" causesvalidation="false" class="btn btn-success-fozkr" runat="server" onserverclick="clickBotonCrearCancelarModal">Aceptar</button>
+                    <button type="button" ID="botonAceptarModalCancelar" causesvalidation="false" class="btn btn-success-fozkr" runat="server" onserverclick="clickBotonAceptarModalCancelar">Aceptar</button>
                     <button type="button" ID="botonCancelarModalCancelar" causesvalidation="false" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!--Modal Métodos de pago-->
+    <div class="modal fade" ID="modalVariosMetodosPago" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" ID="modalVariosMetodosPagoTitulo"><i class="fa fa-exclamation-triangle text-danger fa-2x"></i>Escoger varios métodos de pago</h4>
+                </div>
+                <div class="modal-body">
+                    Escoja los diferentes métodos de pago usados y la cantidad pagada con cada uno.
+                    <br />
+                    <br />
+                    <div class="row" ID="Div1" runat="server">
+                        <div class="col-lg-12">
+                            <div class="form-group col-lg-8">
+                                <asp:DropDownList ID="dropDownList1" OnSelectedIndexChanged="dropDownListCrearFacturaMetodoPago_ValorCambiado" AutoPostBack="true" class="input input-fozkr-dropdownlist" runat="server" Width="90%" CssClass="form-control"></asp:DropDownList>
+                            </div>
+                            <div class="form-group col-lg-3">
+                                <button type="button" ID="botonVariosMetodosPagoAgregarMetodo" class="btn btn-success-fozkr" onserverclick="clickBotonAgregarProductoFacturaNueva" runat="server">Agregar Método</button>
+                            </div>
+                        </div>
+                    </div>
+                    <asp:Panel ID="PanelmodalVariosMetodosPago" runat="server" ScrollBars="Vertical" Height="300px">
+                    <asp:GridView ID="gridViewModalVariosMetodosPago" CssClass="table" runat="server" AllowPaging="False" BorderColor="White" BorderStyle="Solid" BorderWidth="1px" GridLines="None" ShowHeaderWhenEmpty="True">
+                        <Columns>
+							<asp:TemplateField HeaderText="Seleccionar">
+								<ItemTemplate>
+									<asp:CheckBox ID="gridViewModalVariosMetodosPagoSeleccionarMetodo" OnCheckedChanged="checkBoxCrearFacturaProductos_CheckCambiado" runat="server" AutoPostBack="true"/>
+								</ItemTemplate>
+							</asp:TemplateField>
+                            <asp:TemplateField HeaderText="Pago">
+                                <ItemTemplate>
+                                    <asp:TextBox ID="gridViewModalVariosMetodosPagoTextBoxPago" OnTextChanged="textBoxCrearFacturaProductosCantidad_TextoCambiado" ReadOnly="false" Width="75%" CausesValidation="true" AutoPostBack="true" runat="server"></asp:TextBox>
+                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="gridCrearFacturaTextBoxCantidadProducto" ClientValidationFunction="changeColor" Display="Dynamic"
+                                            ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="Ingrese solo números enteros" Font-Bold="true" ValidationExpression="\d+$"></asp:RegularExpressionValidator>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                        </Columns>
+                        <RowStyle Font-Size="small" BackColor="White" ForeColor="Black"/>
+                        <PagerStyle CssClass="paging" HorizontalAlign="Center"/>
+                        <AlternatingRowStyle BackColor="#F8F8F8"/>
+                        <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="Black"/>
+                        <HeaderStyle CssClass="active" Font-Size="Small" Font-Bold="true" BackColor="Silver"/>
+                    </asp:GridView>
+                    </asp:Panel>
+                    <button type="button" ID="Button3" class="btn btn-danger-fozkr" onserverclick="clickBotonCrearEliminarProducto" style="float: left" disabled="disabled" runat="server">Eliminar Método</button>
+                    <br />
+                    <br />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" ID="botonAceptarModalMetodosPago" causesvalidation="false" class="btn btn-success-fozkr" runat="server" onserverclick="clickBotonAceptarModalCancelar">Aceptar</button>
+                    <button type="button" ID="botonCancelarModalMetodosPago" causesvalidation="false" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
                 </div>
             </div>
         </div>
@@ -285,7 +383,7 @@
                     </tr>
                 </table>
                 <div class="modal-footer">
-                    <button type="button" ID="botonAceptarModalModificarProducto" class="btn btn-success-fozkr" onserverclick="clickBotonCrearModalAceptar" runat="server">Aceptar</button>
+                    <button type="button" ID="botonAceptarModalModificarProducto" class="btn btn-success-fozkr" onserverclick="clickBotonAceptarModalModificarProducto" runat="server">Aceptar</button>
                     <button type="button" ID="botonCancelarModalModificarProducto" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
                 </div>
             </div>

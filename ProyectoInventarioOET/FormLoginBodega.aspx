@@ -24,7 +24,10 @@
         <div class="col-md-12">
             <div class="form-horizontal">
                 <div class="form-group">
-                    <div class="col-md-offset-10 col-md-2">
+                    <div class="col-md-offset-8 col-md-2">
+                        <a runat="server" href="#modalCambiarContrasena" id="botonCambiarContrasena" class="btn btn-danger-fozkr" role="button" data-toggle="modal">Cambiar contraseña</a>
+                    </div>
+                    <div class="col-md-2">
                         <asp:Button runat="server" ID="CerrarSesion" Text="Cerrar sesión" CssClass="btn btn-danger-fozkr" OnClick="CerrarSesion_Click" />
                     </div>
                 </div>
@@ -55,5 +58,34 @@
     <br />
     <br />
     <br />
-
+    <!--Modal Cambiar Contraseña-->
+    <div class="modal fade" id="modalCambiarContrasena" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="modalTitleCambio"><i class="fa fa-exclamation-triangle text-danger fa-2x"></i>Cambio de Contraseña</h4>
+                </div>
+                <div class="modal-body">
+                    Introduzca la información solicitada:<br /><br />
+                    <div class= "form-group">
+                        <label for="inputActual" class= "control-label">Contraseña actual:</label>
+                        <asp:TextBox runat="server" ID="inputActual" TextMode="Password" CssClass="form-control"/>
+                    </div>
+                    <div class= "form-group">
+                        <label for="inputNueva" class= "control-label">Contraseña nueva:</label>
+                        <asp:TextBox runat="server" ID="inputNueva" TextMode="Password" CssClass="form-control"/>
+                    </div>
+                    <div class= "form-group">
+                        <label for="inputNuevaConfirmacion" class= "control-label">Confirmar contraseña nueva:</label>      
+                        <asp:TextBox runat="server" ID="inputNuevaConfirmacion" TextMode="Password" CssClass="form-control"/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="botonAceptarModalCambiar" class="btn btn-success-fozkr" runat="server" onserverclick="botonAceptarModalCambiar_Click">Aceptar</button>
+                    <button type="button" id="botonCancelarModalCambiar" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
+                </div>
+            </div>
+        </div>
+    </div>
 </asp:Content>

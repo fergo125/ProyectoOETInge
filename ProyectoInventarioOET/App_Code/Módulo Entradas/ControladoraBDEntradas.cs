@@ -40,7 +40,7 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             String comandoSQL = "";
             if ("Todas".Equals(id))
                 comandoSQL = "SELECT *"
-                    + "FROM " + esquema1 + "facturas full outer join" + esquema2 + "cat_entradas on " + esquema1 + "facturas.idfactura = " + esquema2 + "cat_entradas.factura"
+                    + "FROM " + esquema1 + "facturas full outer join " + esquema2 + "cat_entradas on " + esquema1 + "facturas.idfactura = " + esquema2 + "cat_entradas.factura"
                     + " where " + esquema2 + "cat_entradas.cat_entradas is null";
             else
                 comandoSQL = "SELECT *"
@@ -157,6 +157,25 @@ namespace ProyectoInventarioOET.Modulo_Entradas
                 res[2] = "Entrada no agregada, intente nuevamente.";
             }
             return res;
+        }
+
+        public String consultarNombreProveedor(string idProveedor)
+        {
+            String esquema = "Compras.";
+            DataTable consultado = new DataTable();
+            String resultado = "";
+            String comandoSQL = "select NOMBRE from "+ esquema + "V_PROVEEDOR where IDPROVEEDOR = '" + idProveedor + "'";
+
+            consultado = ejecutarComandoSQL(comandoSQL, true);
+            if (consultado.Rows.Count > 0) 
+            {
+                foreach (DataRow fila in consultado.Rows)
+                {
+                    resultado = fila[0].ToString();
+                }            
+            }
+
+            return resultado;
         }
     }
 }

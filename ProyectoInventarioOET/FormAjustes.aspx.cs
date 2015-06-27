@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Data;
 using System.Web;
@@ -32,6 +33,7 @@ namespace ProyectoInventarioOET
         private static ControladoraProductoLocal controladoraProductosLocales;  // Controladora de catálogos locales
         private static EntidadAjustes ajusteConsultado;                         // El ajuste mostrado en pantalla
         private static bool[] signos;
+        private static ArrayList ajustesGuardados;
 
         // DataTable bodegas = controladoraBodegas.consultarBodegasDeEstacion(idEstacion);
 
@@ -51,6 +53,7 @@ namespace ProyectoInventarioOET
                 controladoraAjustes = new ControladoraAjustes();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
                 controladoraProductosLocales = new ControladoraProductoLocal();
+                ajustesGuardados = new ArrayList();
 
 
                 permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Ajustes de inventario");
@@ -183,15 +186,15 @@ namespace ProyectoInventarioOET
 
             // Manejo grid
             DataTable tabla = tablaProductoConsulta();
-            Object[] datos = new Object[3];
+            Object[] datos = new Object[4];
             if (ajusteConsultado.Detalles.Count > 0)
             {
                 foreach (EntidadDetalles elemento in ajusteConsultado.Detalles)
                 {
                     datos[0] = elemento.NombreProducto;
                     datos[1] = elemento.Codigo;
-                    datos[2] = elemento.Cambio;
-                    //datos[2] = elemento.CantidadNueva - elemento.CantidadPrevia;
+                    datos[2] = elemento.CantidadPrevia;
+                    datos[3] = elemento.CantidadNueva;
                     tabla.Rows.Add(datos);
                 }
             }
@@ -241,6 +244,7 @@ namespace ProyectoInventarioOET
             labelTipoAlerta.Text = alerta + " ";
             labelAlerta.Text = mensaje;
             mensajeAlerta.Visible = true;
+            ScriptManager.RegisterStartupScript(Page, this.GetType(), "ScrollPage", "window.scroll(0,0);", true);
         }
 
         /*
@@ -453,9 +457,13 @@ namespace ProyectoInventarioOET
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.Double");
-            columna.ColumnName = "Ajuste de cambio";
+            columna.ColumnName = "Cantidad Previa";
             tabla.Columns.Add(columna);
 
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.Double");
+            columna.ColumnName = "Cantidad Nueva";
+            tabla.Columns.Add(columna);
             return tabla;
         }
 
@@ -612,10 +620,11 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * Método que maneja la selección de un ajuste en el grid de productos.
+         * Método que maneja la selección de un ajuste en el grid de productos. ELIMINAR
          */
         protected void gridViewProductos_Seleccion(object sender, GridViewCommandEventArgs e)
         {
+            guardarDatos();
             if (idArrayProductos != null && idArrayProductos.Count() > 0)
             {
                 switch (e.CommandName)
@@ -624,9 +633,11 @@ namespace ProyectoInventarioOET
                         int indice = Convert.ToInt32(e.CommandArgument);
 
                         // Eliminar vieja tupla de grid
+                        ajustesGuardados.RemoveAt(indice);
                         tablaProductos.Rows[indice].Delete();
                         gridViewProductos.DataSource = tablaProductos;
                         gridViewProductos.DataBind();
+                        reponerDatos();
 
                         // Actualizar listas de Ids
                         List<Object> temp = new List<Object>(idArrayProductos);
@@ -636,7 +647,7 @@ namespace ProyectoInventarioOET
                         if (idArrayProductos.Count() < 1)
                             vaciarGridProductos();
                         mostrarGridParaCorrecciones();
-
+                        //
                         break;
                 }
             }
@@ -666,8 +677,11 @@ namespace ProyectoInventarioOET
 
                         // Agregar nueva tupla a tabla
                         tablaProductos.Rows.Add(datos);
+                        guardarDatos();
                         gridViewProductos.DataSource = tablaProductos;
                         gridViewProductos.DataBind();
+                        reponerDatos();
+
 
                         // Eliminar vieja tupla de grid
                         tablaAgregarProductos.Rows[Convert.ToInt32(e.CommandArgument) + (this.gridViewAgregarProductos.PageIndex * this.gridViewAgregarProductos.PageSize)].Delete();
@@ -682,12 +696,12 @@ namespace ProyectoInventarioOET
                         temp = new List<Object>(idArrayAgregarProductos);
                         temp.RemoveAt(indice);
                         idArrayAgregarProductos = temp.ToArray();
-
                         //Response.Redirect("FormAjustes.aspx");
                         break;
                 }
             }
         }
+
 
         /*
          * Retorna la información del ajuste como un array de objetos
@@ -736,21 +750,22 @@ namespace ProyectoInventarioOET
                         throw new InvalidConstraintException();
 
 
-                    ajuste = new Object[5];
+                    ajuste = new Object[6];
                     ajuste[0] = ajuste[1] = "";
                     ajuste[2] = cantAjuste;
                     ajuste[3] = idArrayProductos[i];
-                    ajuste[4] = cantAjuste - Double.Parse(row["Cantidad Actual"].ToString());
+                    ajuste[4] = Double.Parse(row["Cantidad Actual"].ToString()); //Cantidad previa
+                    ajuste[5] = cantAjuste;                                     // Cantidad despues del ajuste
                     //ajuste[4] = cantAjuste; // Cantidad nueva
                     //ajuste[5] =  Double.Parse(row["Cantidad Actual"].ToString());  //Cantidad previa
 
                     // EL SIGNO NO VA A IMPORTAR HACER EL REFACTORING
-                    if (!(signo ^ (Convert.ToDouble(ajuste[4]) <= 0.0)))  //El signo probablemente no va a importar
-                        throw new AggregateException();
+                    /*if (!(signo ^ (Convert.ToDouble(ajuste[4]) <= 0.0)))  //El signo probablemente no va a importar
+                        //throw new AggregateException();
 
                     if ( (Convert.ToDouble(ajuste[4]) == 0.0))  // Caso salida
-                        throw new AggregateException();
-                    
+                        //throw new AggregateException();
+                    */
                     nueva.agregarDetalle(ajuste);
                     productoDeBodega = controladoraProductosLocales.consultarMinimoMaximoProductoEnBodega(idArrayProductos[i].ToString());
                     alerta |= cantAjuste <= Convert.ToDouble(productoDeBodega.Rows[0][0].ToString()) || cantAjuste >= Convert.ToDouble(productoDeBodega.Rows[0][1].ToString());
@@ -890,6 +905,30 @@ namespace ProyectoInventarioOET
 
             // Add cells
             row.Cells.AddRange(columns.ToArray());
+        }
+
+        protected void guardarDatos()
+        {
+            int i = 0;
+            ajustesGuardados.Clear();
+            foreach (GridViewRow row in gridViewProductos.Rows)
+            {
+                String valor = ((TextBox)gridViewProductos.Rows[i].FindControl("textAjustes")).Text; // Caso en que no se especifico un ajuste
+                valor = valor.Equals("") ? "-99" : valor;
+                ajustesGuardados.Add(Double.Parse(valor));
+                ++i;
+            }
+        }
+
+
+        private void reponerDatos()
+        {
+            int i = 0;
+            foreach (double current in ajustesGuardados)
+            {
+                ((TextBox)gridViewProductos.Rows[i].FindControl("textAjustes")).Text = current.ToString().Equals("-99") ? "" : current.ToString(); // Caso en que no se especifico un ajuste
+                ++i;
+            }
         }
     }
 }

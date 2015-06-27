@@ -305,6 +305,7 @@ namespace ProyectoInventarioOET
             labelTipoAlerta.Text = alerta + " ";
             labelAlerta.Text = mensaje;
             mensajeAlerta.Visible = true;
+            ScriptManager.RegisterStartupScript(Page, this.GetType(), "ScrollPage", "window.scroll(0,0);", true);
         }
 
         /*
@@ -382,12 +383,14 @@ namespace ProyectoInventarioOET
 
                 if (codigoInsertado == "success")
                 {
-                    //modo = (int)Modo.Consultado;
-                    //comboBoxEstadosActividades.SelectedValue = categoriaConsultada.Estado;
+                    modo = (int)Modo.Consultado;
+                    comboBoxEstadosActividades.SelectedValue = Convert.ToString(categoriaConsultada.Estado);
                     seConsulto = true;
                     mostrarMensaje("success", "Éxito:", "Categoría agregada al sistema.");
                     cargarEstados();
-                    //setDatosConsultados();
+
+                    llenarGrid();
+                    irAModo();
 
                 }
                 if(codigoInsertado == "repetido"){
@@ -486,12 +489,13 @@ namespace ProyectoInventarioOET
             
                 String[] error = controladoraCategorias.insertarDatos(nombre,estado);
 
-                codigo = Convert.ToString(error[3]);
+                codigo = Convert.ToString(error[2]);
                 categoriaConsultada = controladoraCategorias.consultarCategoria(codigo);
                 if (error[0].Contains("success"))
                 {
                     llenarGrid();
                     res = "success";
+
                 }
                 else
                 {
