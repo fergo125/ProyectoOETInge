@@ -22,7 +22,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         private String perfil;              // Perfil de permisos de la persona
         private String llavePerfil;         // Llave de BD del perfil usada para averiguar permisos
         private String codigoPerfil;        // Código interno de dicho perfil usado para operaciones de interfaz
-        private DateTime fechaCreacion;     // Fecha en la que el usuario fue creado
+        private DateTime? fechaCreacion;     // Fecha en la que el usuario fue creado
         private int estado;                 // Estado de la cuenta, una cuenta desactivada no debería poder utilizarse
         private String descripcionEstado;
         private String descripcionEstacion;
@@ -47,7 +47,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         }
 
         /*
-         * Constructor de la clase
+         * Constructor especial para consulata de un usuario especifico
          * Este método toma datos y los encapsula en la Entidad Usuario
          */
         public EntidadUsuario(DataTable cuenta, DataTable matriz)
@@ -61,7 +61,13 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             this.descripcionEstado = fila[5].ToString();
             this.descripcionEstacion = fila[6].ToString();
             this.descripcionAnfitriona = fila[7].ToString();
-            this.fechaCreacion = Convert.ToDateTime(fila[8].ToString());
+            try
+            {
+                this.fechaCreacion = Convert.ToDateTime(fila[8].ToString());
+            } catch (Exception e) {
+               this.fechaCreacion = null;
+            }
+
             this.matrixDePermisos = matriz;
         }
 
@@ -89,7 +95,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             set { clave = value; }
         }
 
-        public DateTime FechaCreacion
+        public DateTime? FechaCreacion
         {
             get { return fechaCreacion; }
             set { fechaCreacion = value; }

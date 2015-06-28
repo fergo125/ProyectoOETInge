@@ -118,6 +118,16 @@
 
     <br />
 
+
+    <!-- Grid de prueba para que blopa vea como vienen los permisos-->
+
+    <asp:GridView ID="gridPermisos" runat="server"></asp:GridView>
+
+    <!-- Grid de prueba para que blopa vea como vienen los permisos-->
+
+    <asp:GridView ID="gridCuentas" runat="server"></asp:GridView>
+
+
     <!--Modal Cancelar-->
     <div class="modal fade" id="modalCancelar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
