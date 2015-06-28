@@ -22,23 +22,33 @@ where inv_productos = 'PITAN130012015110927803059';
 
 --Trigger que actualiza la existencia(saldo) de cada producto en catalogo global cuando se modifica la existencia del mismo producto en el catalogo local 
                               
-create or replace trigger "GRUPO02"."INV_PRODUCTOS_TRIG_SALDO" AFTER UPDATE ON INV_BODEGA_PRODUCTOS 
-
-  FOR EACH ROW 
+create or replace trigger "INV_PRODUCTOS_TRIG_SALDO" BEFORE UPDATE OF SALDO ON INV_BODEGA_PRODUCTOS 
+FOR EACH ROW
   DECLARE
       var_diferencia number(15,2);
       var_actual number(15,2);
   BEGIN
       -- Se obtiene la diferencia entre la existencia nueva y vieja del catalogo local
-      var_diferencia := :new.saldo - :old.saldo;
+      IF :new.saldo <> :old.saldo THEN
       
-      SELECT saldo INTO var_actual
-      FROM inv_productos p
-      WHERE p.inv_productos = :old.inv_productos; 
-      
-      UPDATE inv_productos 
-      SET saldo = var_actual + var_diferencia
-      where inv_productos = :old.inv_productos;
+        var_diferencia := :new.saldo - :old.saldo;       
+        SELECT saldo INTO var_actual
+        FROM inv_productos p
+        WHERE p.inv_productos = :old.inv_productos; 
+       
+        UPDATE inv_productos 
+        SET saldo = var_actual + var_diferencia
+        where inv_productos = :old.inv_productos;       
+        
+        UPDATE AJUSTES
+        SET ANULABLE = 0
+        WHERE ANULABLE = 1
+        AND ID_AJUSTES IN ( SELECT DISTINCT D.ID_AJUSTES
+                            FROM	 DETALLES_AJUSTES D
+                            WHERE d.inv_bodega_productos = :old.inv_bodega_productos
+                            );       
+        
+      END IF;     
 END;
 
 --PRUEBA1: Se modifica localmente la cantidad de un producto (que solo esta en una bodega) -Actualmente tiene 1500-
@@ -164,7 +174,9 @@ create table  AJUSTES(
 	fecha                   date,
 	usuario_bodega          varchar2(30),
 	idBodega                varchar2(30),
-	notas                   varchar2(140)
+	notas                   varchar2(140),
+	anulable				number(2,0),
+	estado					number(2,0)	
 );
  
 create table DETALLES_AJUSTES (
