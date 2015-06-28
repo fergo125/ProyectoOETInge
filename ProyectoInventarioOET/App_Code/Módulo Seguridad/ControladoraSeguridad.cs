@@ -126,8 +126,58 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         public EntidadUsuario consultarCuenta(String idUsuario)
         {
             DataTable cuenta = controladoraBDSeguridad.consultarCuenta(idUsuario);
-            return new EntidadUsuario(cuenta);
+            DataTable permisos = crearMatrizPermisos(cuenta);
+            return new EntidadUsuario(cuenta, permisos);
         }
+
+        private DataTable crearMatrizPermisos(DataTable cuenta)
+        {
+            DataTable permisos = tablaPermisos();  
+            int i = 0;
+            DataRow nueva = permisos.NewRow();
+            foreach (DataRow fila in cuenta.Rows) {
+                nueva["Interfaz"] = fila[9].ToString();
+                String permiso = fila[10].ToString();
+                nueva["Consulta"] = permiso[5]=='1'?"X":"";
+                nueva["Creación"] = permiso[4] == '1' ? "X" : "";
+                nueva["Modificación"] = permiso[3] == '1' ? "X" : "";
+                permisos.Rows.Add(nueva);
+                nueva = permisos.NewRow();
+            }
+            return permisos;
+        }
+
+        /*
+         * Crea una datatable en el formato del grid de consultas
+         */
+        private DataTable tablaPermisos()
+        {
+            DataTable tabla = new DataTable();
+            DataColumn columna;
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Interfaz";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Consulta";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Creación";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Modificación";
+            tabla.Columns.Add(columna);
+
+            return tabla;
+        }
+
 
     }
 }

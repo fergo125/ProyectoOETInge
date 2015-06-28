@@ -27,6 +27,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         private String descripcionEstado;
         private String descripcionEstacion;
         private String descripcionAnfitriona;
+        private DataTable matrixDePermisos;
 
         /*
          * Constructor de la clase
@@ -49,17 +50,19 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
          * Constructor de la clase
          * Este método toma datos y los encapsula en la Entidad Usuario
          */
-        public EntidadUsuario(DataTable cuenta)
+        public EntidadUsuario(DataTable cuenta, DataTable matriz)
         {
             DataRow fila = cuenta.Rows[1];
             this.codigo = fila[0].ToString();
-            this.usuario = fila[1].ToString();
+            this.nombre = fila[1].ToString();
             this.perfil = fila[2].ToString();
             this.usuario = fila[3].ToString();
             this.clave = fila[4].ToString();
             this.descripcionEstado = fila[5].ToString();
             this.descripcionEstacion = fila[6].ToString();
             this.descripcionAnfitriona = fila[7].ToString();
+            this.fechaCreacion = Convert.ToDateTime(fila[8].ToString());
+            this.matrixDePermisos = matriz;
         }
 
         
@@ -158,6 +161,11 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             set { descripcionAnfitriona = value; }
         }
 
+        public DataTable MatrizPermisos
+        {
+            get { return matrixDePermisos; }
+            set { matrixDePermisos = value; }
+        }
         // Fin de metodos de acceso a datos
     }
 }

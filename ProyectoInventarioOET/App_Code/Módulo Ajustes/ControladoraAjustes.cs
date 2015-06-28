@@ -78,8 +78,9 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
          */
         public EntidadAjustes consultarAjuste(String idAjuste)
         {
-            ControladoraSeguridad segu = new ControladoraSeguridad();
+            /*ControladoraSeguridad segu = new ControladoraSeguridad(); //PRUEBA PARA CONSULTA DE CUENTAS
             DataTable test = segu.consultarCuentas();
+            EntidadUsuario test2 = segu.consultarCuenta("3");*/ 
             Object[] datos = new Object[8];
             DataTable[] respuesta = controladoraBD.consultarAjuste(idAjuste);
             foreach (DataRow fila in respuesta[0].Rows) {  //Solo seria una fila
