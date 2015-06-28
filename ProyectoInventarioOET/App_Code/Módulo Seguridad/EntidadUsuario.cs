@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data;
 using System.Web;
 
 namespace ProyectoInventarioOET.Modulo_Seguridad
@@ -23,6 +24,9 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         private String codigoPerfil;        // Código interno de dicho perfil usado para operaciones de interfaz
         private DateTime fechaCreacion;     // Fecha en la que el usuario fue creado
         private int estado;                 // Estado de la cuenta, una cuenta desactivada no debería poder utilizarse
+        private String descripcionEstado;
+        private String descripcionEstacion;
+        private String descripcionAnfitriona;
 
         /*
          * Constructor de la clase
@@ -38,9 +42,27 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             this.idEstacion = datos[5].ToString();
             this.anfitriona = datos[6].ToString();
             this.nombre = datos[7].ToString();
-            this.estado = Convert.ToInt32(datos[8].ToString());
+            this.estado = Convert.ToInt32(datos[8].ToString()); 
         }
 
+        /*
+         * Constructor de la clase
+         * Este método toma datos y los encapsula en la Entidad Usuario
+         */
+        public EntidadUsuario(DataTable cuenta)
+        {
+            DataRow fila = cuenta.Rows[1];
+            this.codigo = fila[0].ToString();
+            this.usuario = fila[1].ToString();
+            this.perfil = fila[2].ToString();
+            this.usuario = fila[3].ToString();
+            this.clave = fila[4].ToString();
+            this.descripcionEstado = fila[5].ToString();
+            this.descripcionEstacion = fila[6].ToString();
+            this.descripcionAnfitriona = fila[7].ToString();
+        }
+
+        
         /*
          * Métodos de acceso a datos
          * Permiten obtener o manipular los atributos encapsulados en Entidad Usuario
@@ -116,6 +138,24 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         {
             get { return codigoPerfil; }
             set { codigoPerfil = value; }
+        }
+
+        public String DescripcionEstado
+        {
+            get { return descripcionEstado; }
+            set { descripcionEstado = value; }
+        }
+
+        public String DescripcionEstacion
+        {
+            get { return descripcionEstacion; }
+            set { descripcionEstacion = value; }
+        }
+
+        public String DescripcionAnfitriona
+        {
+            get { return descripcionAnfitriona; }
+            set { descripcionAnfitriona = value; }
         }
 
         // Fin de metodos de acceso a datos

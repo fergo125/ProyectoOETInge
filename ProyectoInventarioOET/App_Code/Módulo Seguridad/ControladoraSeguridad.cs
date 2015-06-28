@@ -118,5 +118,16 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             return result;
         }
 
+        public DataTable consultarCuentas()
+        {
+            return controladoraBDSeguridad.consultarCuentas();
+        }
+
+        public EntidadUsuario consultarCuenta(String idUsuario)
+        {
+            DataTable cuenta = controladoraBDSeguridad.consultarCuenta(idUsuario);
+            return new EntidadUsuario(cuenta);
+        }
+
     }
 }
