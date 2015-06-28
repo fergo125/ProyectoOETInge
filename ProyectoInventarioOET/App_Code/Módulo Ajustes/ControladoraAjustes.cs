@@ -6,6 +6,7 @@ using System.Data;
 using ProyectoInventarioOET.Modulo_Bodegas;
 using ProyectoInventarioOET.Modulo_Productos_Locales;
 using ProyectoInventarioOET.App_Code.Modulo_Traslados;
+using ProyectoInventarioOET.Modulo_Seguridad;
 
 
 namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
@@ -77,7 +78,8 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
          */
         public EntidadAjustes consultarAjuste(String idAjuste)
         {
-            
+            ControladoraSeguridad segu = new ControladoraSeguridad();
+            DataTable test = segu.consultarCuentas();
             Object[] datos = new Object[8];
             DataTable[] respuesta = controladoraBD.consultarAjuste(idAjuste);
             foreach (DataRow fila in respuesta[0].Rows) {  //Solo seria una fila

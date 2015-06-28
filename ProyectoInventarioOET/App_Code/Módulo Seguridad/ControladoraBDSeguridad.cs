@@ -146,5 +146,21 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
                 nombre = resultado.Rows[0][0].ToString();
             return nombre;
         }
+
+
+        public DataTable consultarCuentas()
+        {
+            String esquema = "Inventarios.";
+            DataTable resultado = new DataTable();
+            String comandoSQL = "SELECT u.seg_usuario, u.nombre, p.nombre as perfil, e.descripcion as Estado "
+            + "FROM " + esquema + "seg_usuario U, " + esquema + "seg_perfil P, " + esquema + "seg_perfil_usuario PU, " + esquema + "cat_estados E"
+            + "WHERE u.seg_usuario = PU.seg_usuario"
+            + "AND PU.seg_perfil = p.seg_perfil"
+            + "AND e.valor = u.estado";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
+            return resultado;
+        }
+
+
     }
 }
