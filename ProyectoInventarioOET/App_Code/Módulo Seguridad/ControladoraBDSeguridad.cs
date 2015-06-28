@@ -161,6 +161,25 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             return resultado;
         }
 
+        public DataTable consultarCuenta(String idUsuario)
+        {
+            String esquemaI = "Inventarios.";
+            String esquemaR = "Reservas.";
+            DataTable resultado = new DataTable();
+            String comandoSQL = "SELECT u.seg_usuario, u.nombre, p.nombre ,u.usuario, u.clave, e.descripcion, r.nombre, af.nombre, sp.interfaz, sp.permisos"
+            + "FROM " + esquemaI + "seg_usuario U, " + esquemaI + "seg_perfil P, " + esquemaI + "seg_perfil_usuario PU, " + esquemaI + "cat_estados E, " + esquemaR + "estacion R, " + esquemaI + "seg_permisos SP, " + esquemaR + "anfitriona AF "
+            + " WHERE u.seg_usuario = '" + idUsuario + "' "
+            + " AND u.seg_usuario = PU.seg_usuario"
+            + " AND PU.seg_perfil = p.seg_perfil"
+            + " AND P.seg_perfil = sp.seg_perfil"
+            + " AND e.valor = u.estado"
+            + " AND af.id = u.anfitriona"
+            + " AND R.ID = u.idestacion";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
+            return resultado;
+        }
+
+
 
     }
 }

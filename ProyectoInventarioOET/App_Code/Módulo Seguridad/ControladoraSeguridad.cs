@@ -123,6 +123,11 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             return controladoraBDSeguridad.consultarCuentas();
         }
 
+        public EntidadUsuario consultarCuenta(String idUsuario)
+        {
+            DataTable cuenta = controladoraBDSeguridad.consultarCuenta(idUsuario);
+            return new EntidadUsuario(cuenta);
+        }
 
     }
 }
