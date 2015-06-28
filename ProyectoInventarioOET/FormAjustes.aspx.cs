@@ -49,6 +49,11 @@ namespace ProyectoInventarioOET
             //Elementos visuales
             ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
             mensajeAlerta.Visible = false;
+           // ScriptManager.RegisterStartupScript(this, GetType(), "test", "$('#modalAgregarProducto').modal('show');", true);
+            //ScriptManager.RegisterClientScriptBlock(this, GetType(), "test", "alert('11111');", true);
+            
+
+
 
             if (!IsPostBack)
             {
@@ -340,8 +345,8 @@ namespace ProyectoInventarioOET
          */
         protected void llenarGridAgregarProductos()
         {
-            
-            DataTable tabla = tablaAgregarProducto();
+
+            DataTable tablaProd = tablaAgregarProducto();
             int i = 0;
 
             try
@@ -364,7 +369,7 @@ namespace ProyectoInventarioOET
                         datos[3] = fila[6].ToString();
                         datos[4] = Convert.ToDouble(fila[4].ToString());
                         datos[5] = Convert.ToDouble(fila[5].ToString());
-                        tabla.Rows.Add(datos);
+                        tablaProd.Rows.Add(datos);
                         i++;
                     }
                 }
@@ -376,13 +381,13 @@ namespace ProyectoInventarioOET
                     datos[3] = "-";
                     datos[4] = "0";
                     datos[5] = "0";
-                    tabla.Rows.Add(datos);
+                    tablaProd.Rows.Add(datos);
                     mostrarMensaje("warning", "Atención: ", "No existen productos en la bodega actual.");
                 }
 
-                this.gridViewAgregarProductos.DataSource = tabla;
+                this.gridViewAgregarProductos.DataSource = tablaProd;
                 this.gridViewAgregarProductos.DataBind();
-                tablaAgregarProductos = tabla;
+                tablaAgregarProductos = tablaProd;
             }
             catch (Exception e)
             {
@@ -1049,6 +1054,20 @@ namespace ProyectoInventarioOET
                 i++;
             }
             tabla.Columns.Remove("id");
+        }
+
+        protected void botonBuscar_Click(object sender, EventArgs e)
+        {
+
+            String query = barraDeBusqueda.Value;
+            DataTable tmp = tablaAgregarProductos.Select("Nombre LIKE '%"+ query+ "%'").CopyToDataTable();
+            gridViewAgregarProductos.DataSource = tmp;
+            gridViewAgregarProductos.DataBind();
+            //ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "test", "mifuncion();", true);
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "test", "mifuncion();", true);
+            //ClientScript.RegisterStartupScript(this.GetType(), "name1", "setTimeout(function(){ mifuncion(); }, 250);",true);
+            //Page.ClientScript.RegisterStartupScript(this.GetType(), "test", "mifuncion();", true);
+            //Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "test", "mifuncion();", true); 
         }
 
 

@@ -25,7 +25,6 @@
     <button runat="server" onserverclick="botonConsultarAjustes_ServerClick"  id="botonConsultarAjustes" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true"><i class="fa fa-bars"></i> Consultar Ajustes</button>
     <button runat="server" onserverclick="botonRealizarAjuste_ServerClick" id="botonRealizarAjuste" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true"><i class="fa fa-pencil"></i> Crear Ajuste</button> 
     <button runat="server" onserverclick="botonModificarAjuste_ServerClick" id="botonModificarAjuste" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true"><i class="fa fa-wrench"></i> Modificar Ajuste</button> <br> <br>
-
     <!-- Titulo dinamico de la pagina -->
     <h3 id="tituloAccionAjustes" runat="server">Seleccione una opción</h3>
     <br />
@@ -34,7 +33,7 @@
     <fieldset id= "FieldsetAjustes" runat="server" class="fieldset">
         <div class="row">
             <div class="col-lg-6">
-                <label for="outputBodega" class= "control-label"> Bodega Actual: </label>      
+                <label for="outputBodega" class= "control-label" onclick="mifuncion()"> Bodega Actual: </label>      
                 <input type="text" id="outputBodega" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
                 <label for="outputUsuario" class= "control-label"> Usuario Responsable: </label>      
                 <input type="text" id="outputUsuario" class="form-control" required runat="server" style="max-width:100%" disabled="disabled"><br>
@@ -190,6 +189,17 @@
                     <h4 class="modal-title" id="modalTitle2"><i class="fa fa-plus fa-lg"></i> Agregar un producto</h4>
                 </div>
                 <div class="modal-body">
+                    <!-- Bara de búsqueda -->
+                    <div class="row">
+                        <div class="col-lg-10">
+                            <input id="barraDeBusqueda" style="margin-left:5%" class="form-control" type="search" placeholder="Ingresa una palabra o código" runat="server" >
+                        </div>
+                        <div class="col-lg-2">
+                            <asp:Button ID="botonBuscar" style="margin-left:20%" runat="server" Text="Buscar" CssClass="btn btn-info-fozkr" OnClick="botonBuscar_Click"/>
+                        </div>
+                    </div>
+                    <br />
+                    <br />
                     <!-- Grid de consultas -->
                     <div id="bloqueGridAgregarProductos" class="col-lg-12">
                         <fieldset id="Fieldset3" runat="server" class="fieldset">
@@ -219,7 +229,7 @@
                     </div>
                 </div>
                  <div class="modal-footer">
-                    <button type="button" id="botonCerrarModal" class="btn btn-danger-fozkr" data-dismiss="modal">Cerrar</button>                   
+                    <button type="button" id="botonCerrarModal" class="btn btn-danger-fozkr"  data-dismiss="modal">Cerrar</button>                   
                 </div>
             </div>
         </div>
@@ -233,4 +243,6 @@
             document.getElementById("linkFormInventario").className = "active";
         }
     </script>
+
+
 </asp:Content>
