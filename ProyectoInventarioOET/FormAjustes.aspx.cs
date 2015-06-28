@@ -35,6 +35,9 @@ namespace ProyectoInventarioOET
         private static bool[] signos;
         private static ArrayList ajustesGuardados;
         private static String codigo;
+        private static String argumentoSorteo = "";
+        private static bool boolSorteo = false;
+        private static DataTable tabla;
 
         // DataTable bodegas = controladoraBodegas.consultarBodegasDeEstacion(idEstacion);
 
@@ -284,7 +287,7 @@ namespace ProyectoInventarioOET
          */
         protected void llenarGrid()
         {
-            DataTable tabla = tablaAjustes();
+            tabla = tablaAjustes();
             int indiceNuevoAjuste = -1;
             int i = 0;
 
@@ -294,8 +297,7 @@ namespace ProyectoInventarioOET
                 Object[] datos = new Object[3];
 
                 DataTable ajustes = controladoraAjustes.consultarAjustes((this.Master as SiteMaster).LlaveBodegaSesion);
-                //DataTable ajustes = controladoraAjustes.consultarAjustes("PITAN129012015101713605001");
-
+                
                 if (ajustes.Rows.Count > 0)
                 {
                     idArrayAjustes = new Object[ajustes.Rows.Count];
@@ -658,8 +660,8 @@ namespace ProyectoInventarioOET
          */
         protected void gridViewAjustes_CambioPagina(Object sender, GridViewPageEventArgs e)
         {
-            llenarGrid();
             this.gridViewAjustes.PageIndex = e.NewPageIndex;
+            this.gridViewAjustes.DataSource = tabla;
             this.gridViewAjustes.DataBind();
         }
 
@@ -991,6 +993,64 @@ namespace ProyectoInventarioOET
             modo = (int)Modo.Modificacion;
             cambiarModo();
         }
+
+        protected void gridViewAjustes_Sorting(object sender, GridViewSortEventArgs e)
+        {
+            if (e.SortExpression == argumentoSorteo)
+            {
+                if (boolSorteo == true)
+                    boolSorteo = false;
+                else
+                    boolSorteo = true;
+            }
+            else //New Column clicked so the default sort direction will be incorporated
+                boolSorteo = false;
+
+            argumentoSorteo = e.SortExpression; //Update the sort column
+            BindGrid(argumentoSorteo, boolSorteo);
+        }
+
+        /*
+  * Auxiliar para ordenar grid
+  */
+        public void BindGrid(string sortBy, bool inAsc)
+        {
+            agregarID();
+            DataView aux = new DataView(tabla);
+            aux.Sort = sortBy + " " + (inAsc ? "DESC" : "ASC"); //Ordena
+            tabla = aux.ToTable();
+            actualizarIDs();
+            gridViewAjustes.DataSource = tabla;
+            gridViewAjustes.DataBind();
+        }
+
+        public void agregarID()
+        {
+            DataColumn columna;
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "id";
+            tabla.Columns.Add(columna);
+            int i = 0;
+            foreach (DataRow fila in tabla.Rows)
+            {
+                fila[3] = idArrayAjustes[i];
+                i++;
+            }
+        }
+
+        public void actualizarIDs()
+        {
+            int i = 0;
+            foreach (DataRow fila in tabla.Rows)
+            {
+                idArrayAjustes[i] = fila[3];
+                i++;
+            }
+            tabla.Columns.Remove("id");
+        }
+
 
     }
 }
