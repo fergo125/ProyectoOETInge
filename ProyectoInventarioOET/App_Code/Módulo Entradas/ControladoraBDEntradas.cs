@@ -117,7 +117,7 @@ namespace ProyectoInventarioOET.Modulo_Entradas
         {
             DataTable resultado = new DataTable();
             String esquema = "Inventarios.";
-            String comandoSQL = "SELECT NOMBRE,CANTIDAD,PRECIO_UNITARIO  FROM (SELECT * FROM " + esquema + "CAT_ENTRADAS_PRODUCTOS JOIN " + esquema + "INV_PRODUCTOS ON " + esquema + "CAT_ENTRADAS_PRODUCTOS.cat_productos =" + esquema + " INV_PRODUCTOS.Codigo) WHERE " + esquema + "CAT_ENTRADAS" + "= '" + id + "'";
+            String comandoSQL = "SELECT Inventarios.INV_PRODUCTOS.NOMBRE,Inventarios.CAT_ENTRADAS_PRODUCTOS.CANTIDAD,Inventarios.CAT_ENTRADAS_PRODUCTOS.COSTO_TOTAL,Inventarios.CAT_ENTRADAS_PRODUCTOS.COSTO_UNITARIO,Inventarios.CAT_ENTRADAS_PRODUCTOS.GRAVADO,Inventarios.CAT_ENTRADAS_PRODUCTOS.DESCUENTO  FROM (SELECT * FROM " + esquema + "CAT_ENTRADAS_PRODUCTOS JOIN " + esquema + "INV_PRODUCTOS ON " + esquema + "CAT_ENTRADAS_PRODUCTOS.cat_productos = " + esquema + "INV_PRODUCTOS.Codigo) WHERE " + esquema + "CAT_ENTRADAS" + "= '" + id + "'";
             resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }
@@ -129,7 +129,7 @@ namespace ProyectoInventarioOET.Modulo_Entradas
         {
             String esquema = "Inventarios.";
             //bool existenteEnBD = false;
-
+            int temp;
             String[] res = new String[4];
             entrada.IdEntrada= generarID();
             res[3] = entrada.IdEntrada;
@@ -139,42 +139,56 @@ namespace ProyectoInventarioOET.Modulo_Entradas
                         ",'" + entrada.IdEncargado+ "'" +
                         ",'" + entrada.Bodega+ "'" +
                         ",'" + entrada.FechEntrada.ToString("dd-MMM-yyy")+ "'" +
-                        ",'" + entrada.TipoMoneda + "'" 
-                       // + ",'" + entrada.MetodoPago + "'"
+                        ",'" + entrada.TipoMoneda + "'" + 
+                        ",'" + entrada.MetodoPago + "'"
                         +")";
-            if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
-            {
-                if (productosAsociados.Rows.Count > 0)
+
+            try {
+                if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
                 {
-                    foreach (DataRow fila in productosAsociados.Rows)
+                    if (productosAsociados.Rows.Count > 0)
                     {
-                        comandoSQL = "insert into" +esquema+"cat_entradas_productos values(" +
-                            "'" + generarID() + "'" +
-                            ",'" + entrada.IdEntrada + "'" +
-                            ",'" + fila[0] + "'" +
-                            "," + fila[1] +
-                            ",'" + fila[2] + "'"
-                            + ")";
-                        if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
+                        foreach (DataRow fila in productosAsociados.Rows)
                         {
-                            comandoSQL = "update INV_BODEGA_PRODUCTOS set saldo = saldo + " + fila[1]
-                                + ", MODIFICADO =  TO_DATE('" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "',  'dd/mm/yyyy hh24:mi:ss') where inv_productos = '" + fila[0] + "' and cat_bodega = '" + entrada.Bodega + "' ";
+                            if (fila[4] == "No")
+                                temp = 0;
+                            else temp = 1;
+
+                            comandoSQL = "insert into " + esquema + "cat_entradas_productos values(" +
+                                "'" + generarID() + "'" +
+                                ",'" + entrada.IdEntrada + "'" +
+                                ",'" + fila[0] + "'" +
+                                "," + fila[1] +
+                                "," + fila[3] +
+                                ",'" + fila[5] + "'" +
+                                "," + fila[2] +
+                                "," + temp
+                                + ")";
                             if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
                             {
-                                res[0] = "success";
-                                res[1] = "Éxito:";
-                                res[2] = "Entrada agregada al sistema.";
+                                comandoSQL = "update INV_BODEGA_PRODUCTOS set saldo = saldo + " + fila[1]
+                                    + ", MODIFICADO =  TO_DATE('" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "',  'dd/mm/yyyy hh24:mi:ss') where inv_productos = '" + fila[0] + "' and cat_bodega = '" + entrada.Bodega + "' ";
+                                if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
+                                {
+                                    res[0] = "success";
+                                    res[1] = "Éxito:";
+                                    res[2] = "Entrada agregada al sistema.";
+                                }
                             }
                         }
                     }
                 }
+                else
+                {
+                    res[0] = "danger";
+                    res[1] = "Error:";
+                    res[2] = "Entrada no agregada, intente nuevamente.";
+                }            
             }
-            else
-            {
-                res[0] = "danger";
-                res[1] = "Error:";
-                res[2] = "Entrada no agregada, intente nuevamente.";
+            catch (Exception x){
+            
             }
+
             return res;
         }
 

@@ -83,12 +83,12 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             EntidadEntrada entrada = null;
 
             DataTable resultado = controladoraBDEntradas.consultarEntrada(id);
-            Object[] datosConsultados = new Object[5];
+            Object[] datosConsultados = new Object[7];
 
             if (resultado.Rows.Count == 1)
             {
                 datosConsultados[0] = resultado.Rows[0][0].ToString();
-                for (int i = 1; i < 5; i++)
+                for (int i = 1; i < 7; i++)
                 {
                     datosConsultados[i] = resultado.Rows[0][i].ToString();
                 }

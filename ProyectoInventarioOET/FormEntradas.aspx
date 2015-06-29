@@ -89,6 +89,16 @@
                                 <p id="outputFecha" runat="server" class="form-control-static"></p>
                             </div>
 
+                            <div class="form-group col-lg-3">
+                                <label for="outputMetodoPagoEntrada" class="control-label">Método de Pago:</label>      
+                                <p id="outputMetodoPagoEntrada" runat="server" class="form-control-static"></p>
+                            </div>
+
+                            <div class="form-group col-lg-3">
+                                <label for="outputTipoMonedaEntrada" class="control-label">Tipo de Moneda:</label>      
+                                <p id="outputTipoMonedaEntrada" runat="server" class="form-control-static"></p>
+                            </div>
+
                         </div>       
                     </div>
             </div>

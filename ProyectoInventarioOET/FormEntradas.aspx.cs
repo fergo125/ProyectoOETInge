@@ -404,6 +404,7 @@ namespace ProyectoInventarioOET
                     {
                         datos[0] = fila[0].ToString();
                         datos[1] = fila[1].ToString();
+                        datos[2] = 
                         datos[2] = fila[2].ToString();
                         datos[3] = Convert.ToDouble(fila[2].ToString()) / Convert.ToDouble(fila[1].ToString());
 
@@ -567,7 +568,7 @@ namespace ProyectoInventarioOET
                 String[] resultado = new String[3];
                 String[] provisional = new String[2];
                 Object[] objetoEntrada = new Object[7];
-                Object[] datos = new Object[3];
+                Object[] datos = new Object[6];
                 DataTable tablaProductosConID = new DataTable();
                 tablaProductosConID = tablaFacturaDetallada();
 
@@ -589,6 +590,10 @@ namespace ProyectoInventarioOET
                             datos[0] = provisional[1];
                             datos[1] = fila[1].ToString();
                             datos[2] = fila[2].ToString();
+                            datos[3] = fila[3].ToString();
+                            datos[4] = fila[4].ToString();
+                            datos[5] = fila[5].ToString();
+
 
                             tablaProductosConID.Rows.Add(datos);
 
@@ -1026,6 +1031,8 @@ namespace ProyectoInventarioOET
             outputUsuario.InnerText = controladoraSeguridad.consultarNombreDeUsuario(Convert.ToString(entradaConsultada.IdEncargado));
             outputBodega.InnerText = controladoraBodegas.consultarBodega(Convert.ToString(entradaConsultada.Bodega)).Nombre;
             outputFecha.InnerText = Convert.ToString(entradaConsultada.FechEntrada);
+            outputTipoMonedaEntrada.InnerText = entradaConsultada.TipoMoneda;
+            outputMetodoPagoEntrada.InnerText = entradaConsultada.MetodoPago;
         }
 
         /*
