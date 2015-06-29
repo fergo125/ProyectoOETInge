@@ -1063,11 +1063,8 @@ namespace ProyectoInventarioOET
             DataTable tmp = tablaAgregarProductos.Select("Nombre LIKE '%"+ query+ "%'").CopyToDataTable();
             gridViewAgregarProductos.DataSource = tmp;
             gridViewAgregarProductos.DataBind();
-            //ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "test", "mifuncion();", true);
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "test", "mifuncion();", true);
-            //ClientScript.RegisterStartupScript(this.GetType(), "name1", "setTimeout(function(){ mifuncion(); }, 250);",true);
-            //Page.ClientScript.RegisterStartupScript(this.GetType(), "test", "mifuncion();", true);
-            //Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "test", "mifuncion();", true); 
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "test", "mifuncion() ;", true);
+
         }
 
 
