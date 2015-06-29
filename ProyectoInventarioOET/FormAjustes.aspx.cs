@@ -49,10 +49,6 @@ namespace ProyectoInventarioOET
             //Elementos visuales
             ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
             mensajeAlerta.Visible = false;
-           // ScriptManager.RegisterStartupScript(this, GetType(), "test", "$('#modalAgregarProducto').modal('show');", true);
-            //ScriptManager.RegisterClientScriptBlock(this, GetType(), "test", "alert('11111');", true);
-            
-
 
 
             if (!IsPostBack)
@@ -70,7 +66,7 @@ namespace ProyectoInventarioOET
                 if (permisos == "000000")
                     Response.Redirect("~/ErrorPages/404.html");
                 mostrarBotonesSegunPermisos();
-                
+
 
                 if (!seConsulto)
                 {
@@ -140,7 +136,7 @@ namespace ProyectoInventarioOET
                     gridViewProductos.Visible = false;
                     habilitarCampos(true);
                     gridViewProductos.Columns[1].Visible = true;
-                    foreach( DataControlField col in gridViewProductos.Columns )
+                    foreach (DataControlField col in gridViewProductos.Columns)
                         col.Visible = true;
                     break;
 
@@ -222,7 +218,7 @@ namespace ProyectoInventarioOET
             this.outputFecha.Value = ajusteConsultado.Fecha.ToString();
             this.inputNotas.Text = ajusteConsultado.Notas;
             this.outputBodega.Value = ((this.Master as SiteMaster).NombreBodegaSesion);
-            this.DropDownEstado.SelectedIndex = ajusteConsultado.Estado==3?1:0;
+            this.DropDownEstado.SelectedIndex = ajusteConsultado.Estado == 3 ? 1 : 0;
 
             // Manejo grid
             DataTable tabla = tablaProductoConsulta();
@@ -245,7 +241,7 @@ namespace ProyectoInventarioOET
                 datos[2] = 0;
                 tabla.Rows.Add(datos);
             }
-            
+
 
             gridViewProductos.DataSource = tabla;
             gridViewProductos.DataBind();
@@ -293,7 +289,6 @@ namespace ProyectoInventarioOET
         protected void llenarGrid()
         {
             tabla = tablaAjustes();
-            int indiceNuevoAjuste = -1;
             int i = 0;
 
             try
@@ -302,7 +297,7 @@ namespace ProyectoInventarioOET
                 Object[] datos = new Object[3];
 
                 DataTable ajustes = controladoraAjustes.consultarAjustes((this.Master as SiteMaster).LlaveBodegaSesion);
-                
+
                 if (ajustes.Rows.Count > 0)
                 {
                     idArrayAjustes = new Object[ajustes.Rows.Count];
@@ -313,12 +308,6 @@ namespace ProyectoInventarioOET
                         datos[1] = fila[2].ToString();
                         datos[2] = fila[3].ToString();
                         tabla.Rows.Add(datos);
-                        /*
-                        if (ajusteConsultado != null && (fila[0].Equals(ajusteConsultado.Codigo)))
-                        {
-                            indiceNuevoAjuste = i;
-                        }
-                         */
                         i++;
                     }
                 }
@@ -393,7 +382,7 @@ namespace ProyectoInventarioOET
             {
                 mostrarMensaje("warning", "Alerta", "No hay conexión a la base de datos.");
             }
-            
+
         }
 
         /*
@@ -555,7 +544,7 @@ namespace ProyectoInventarioOET
         {
             dropdownTipo.Items.Clear();
             DataTable tipos = controladoraAjustes.tiposAjuste();
-            signos = new bool [tipos.Rows.Count];
+            signos = new bool[tipos.Rows.Count];
             int i = 0;
             foreach (DataRow fila in tipos.Rows)
             {
@@ -591,7 +580,7 @@ namespace ProyectoInventarioOET
 
             cargarTipos();
             cargarEstados();
-            if( (this.Master as SiteMaster).Usuario != null )
+            if ((this.Master as SiteMaster).Usuario != null)
                 outputUsuario.Value = (this.Master as SiteMaster).Usuario.Nombre;
             outputBodega.Value = (this.Master as SiteMaster).NombreBodegaSesion;
             outputFecha.Value = DateTime.Now.ToString();
@@ -648,7 +637,7 @@ namespace ProyectoInventarioOET
                 switch (e.CommandName)
                 {
                     case "Select":
-                        
+
                         GridViewRow filaSeleccionada = this.gridViewAjustes.Rows[Convert.ToInt32(e.CommandArgument)];
                         //String codigo = filaSeleccionada.Cells[0].Text.ToString();
                         codigo = Convert.ToString(idArrayAjustes[Convert.ToInt32(e.CommandArgument) + (this.gridViewAjustes.PageIndex * this.gridViewAjustes.PageSize)]);
@@ -712,10 +701,24 @@ namespace ProyectoInventarioOET
             mostrarGridParaCorrecciones();
             if (idArrayAgregarProductos != null && idArrayAgregarProductos.Count() > 0)
             {
+
                 switch (e.CommandName)
                 {
                     case "Select":
                         int indice = Convert.ToInt32(e.CommandArgument) + (this.gridViewAgregarProductos.PageIndex * this.gridViewAgregarProductos.PageSize);
+                        String codigo_humano = gridViewAgregarProductos.Rows[Convert.ToInt32(e.CommandArgument)].Cells[2].Text.ToString();
+                        indice = 0;
+                        //Tabla que tiene los productos
+                        foreach (DataRow u in tablaAgregarProductos.Rows)
+                        {
+                            if (u[1].ToString().Equals(codigo_humano))
+                            {
+                                break;
+                            }
+                            indice++;
+                        }
+
+
                         DataRow seleccionada = tablaAgregarProductos.Rows[indice];
 
                         // Sacamos datos pertinentes del producto
@@ -724,7 +727,6 @@ namespace ProyectoInventarioOET
                         datos[1] = seleccionada["Código"];
                         datos[2] = seleccionada["Unidad Métrica"];
                         datos[3] = seleccionada["Cantidad Actual"];
-                        
 
                         // Agregar nueva tupla a tabla
                         tablaProductos.Rows.Add(datos);
@@ -735,7 +737,9 @@ namespace ProyectoInventarioOET
 
 
                         // Eliminar vieja tupla de grid
-                        tablaAgregarProductos.Rows[Convert.ToInt32(e.CommandArgument) + (this.gridViewAgregarProductos.PageIndex * this.gridViewAgregarProductos.PageSize)].Delete();
+                        // tablaAgregarProductos.Rows[Convert.ToInt32(e.CommandArgument) + (this.gridViewAgregarProductos.PageIndex * this.gridViewAgregarProductos.PageSize)].Delete();
+                        DataRow y = tablaAgregarProductos.Rows[indice];
+                        tablaAgregarProductos.Rows[indice].Delete();
                         gridViewAgregarProductos.DataSource = tablaAgregarProductos;
                         gridViewAgregarProductos.DataBind();
 
@@ -782,7 +786,7 @@ namespace ProyectoInventarioOET
             Object[] ajuste = obtenerDatosAjuste();
             EntidadAjustes nueva = new EntidadAjustes(ajuste);
             DataTable productoDeBodega;
-            bool signo = signos[ dropdownTipo.SelectedIndex ];
+            bool signo = signos[dropdownTipo.SelectedIndex];
             bool alerta = false;
 
             // Agregar detalles a entidad
@@ -790,16 +794,17 @@ namespace ProyectoInventarioOET
             int i = 0;
             try
             {
-                if (tablaProductos.Rows.Count ==0) { // Caso en que no se agrego nada
+                if (tablaProductos.Rows.Count == 0)
+                { // Caso en que no se agrego nada
                     throw new NoNullAllowedException();
                 }
                 foreach (DataRow row in tablaProductos.Rows)
                 {
-                    if (((TextBox)gridViewProductos.Rows[i].FindControl("textAjustes")).Text=="") // Caso en que no se especifico un ajuste
+                    if (((TextBox)gridViewProductos.Rows[i].FindControl("textAjustes")).Text == "") // Caso en que no se especifico un ajuste
                         throw new NullReferenceException();
 
                     Double cantAjuste = Double.Parse(((TextBox)gridViewProductos.Rows[i].FindControl("textAjustes")).Text);
-                    if( cantAjuste < 0 )
+                    if (cantAjuste < 0)
                         throw new InvalidConstraintException();
 
 
@@ -890,9 +895,12 @@ namespace ProyectoInventarioOET
                 }
                 else
                     operacionCorrecta = false;
-            }  else {   // Caso Modificacion
-                if (this.DropDownEstado.SelectedIndex == 0) { // Se anula
-                    controladoraAjustes.anularAjuste(ajusteConsultado, codigo);                  
+            }
+            else
+            {   // Caso Modificacion
+                if (this.DropDownEstado.SelectedIndex == 0)
+                { // Se anula
+                    controladoraAjustes.anularAjuste(ajusteConsultado, codigo);
                 }
                 modo = (int)Modo.Inicial;
                 cambiarModo();
@@ -926,7 +934,8 @@ namespace ProyectoInventarioOET
             this.gridViewAgregarProductos.DataBind();
         }
 
-        protected void mostrarGridParaCorrecciones() {
+        protected void mostrarGridParaCorrecciones()
+        {
             this.gridViewProductos.Visible = true;
             this.tituloGridProductos.Visible = true;
         }
@@ -1058,15 +1067,23 @@ namespace ProyectoInventarioOET
 
         protected void botonBuscar_Click(object sender, EventArgs e)
         {
-
+            gridViewProductos.DataSource = tablaProductos;
+            gridViewProductos.DataBind();
             String query = barraDeBusqueda.Value;
-            DataTable tmp = tablaAgregarProductos.Select("Nombre LIKE '%"+ query+ "%'").CopyToDataTable();
-            gridViewAgregarProductos.DataSource = tmp;
-            gridViewAgregarProductos.DataBind();
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "test", "mifuncion() ;", true);
-
+            mensajeAlerta.Visible = false;
+            this.barraDeBusqueda.Value = "";
+            try
+            {
+                DataTable tmp = tablaAgregarProductos.Select("Nombre LIKE '%" + query + "%'").CopyToDataTable();
+                gridViewAgregarProductos.DataSource = tmp;
+                gridViewAgregarProductos.DataBind();
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "test", "mifuncion() ;", true);
+            }
+            catch
+            {
+                mostrarMensaje("warning", "Atención: ", "No existen productos en la bodega actual que se relacionen con su busqueda.");
+                query = "";
+            }
         }
-
-
     }
 }

@@ -18,7 +18,7 @@
 
                                 <script>
                                     function mifuncion() {
-                                        setTimeout(function () { $("#modalAgregarProducto").modal('show');; }, 2000);
+                                        setTimeout(function () { $("#modalAgregarProducto").modal('show');; }, 500);
                                         
                                     }
          </script>
