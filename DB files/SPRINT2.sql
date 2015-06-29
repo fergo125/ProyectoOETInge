@@ -136,7 +136,8 @@ CREATE TABLE CAT_ENTRADAS
   SEG_USUARIO     VARCHAR2(30),
   SEG_BODEGA      VARCHAR2(30),
   FECHA           DATE,
-  tipoMoneda      varchar2(10)
+  tipoMoneda      varchar2(10), 
+  METODO_PAGO	  varchar2(10)
 );
 
 CREATE TABLE CAT_ENTRADAS_PRODUCTOS
@@ -145,8 +146,8 @@ CREATE TABLE CAT_ENTRADAS_PRODUCTOS
   CAT_ENTRADAS              VARCHAR2(30),
   CAT_PRODUCTOS             VARCHAR2(30),
   CANTIDAD                  NUMBER(10),
-  PRECIO_UNITARIO           NUMBER(10),
-  DESCUENTO                 NUMBER,
+  COSTO_UNITARIO           NUMBER(10),
+  DESCUENTO                 varchar2(10),
   COSTO_TOTAL               NUMBER(10),
   GRAVADO                   NUMBER(1)
 );

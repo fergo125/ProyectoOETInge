@@ -566,7 +566,7 @@ namespace ProyectoInventarioOET
                 String fecha = DateTime.Now.ToString("h:mm:ss");
                 String[] resultado = new String[3];
                 String[] provisional = new String[2];
-                Object[] objetoEntrada = new Object[5];
+                Object[] objetoEntrada = new Object[7];
                 Object[] datos = new Object[3];
                 DataTable tablaProductosConID = new DataTable();
                 tablaProductosConID = tablaFacturaDetallada();
@@ -580,6 +580,8 @@ namespace ProyectoInventarioOET
                         objetoEntrada[4] = fecha;
                         objetoEntrada[3] = bodegaDeTrabajo;
                         objetoEntrada[2] = usuario;
+                        objetoEntrada[5] = this.dropdownlistTipoMoneda.SelectedValue;
+                        objetoEntrada[6] = this.dropdownlistMetodoPago.SelectedValue;
 
                         foreach (DataRow fila in tablaProductosNuevos.Rows)
                         {
@@ -638,6 +640,7 @@ namespace ProyectoInventarioOET
             String impuesto = this.dropdownlistProductoImpuesto.SelectedValue.ToString();
             String[] provisional = new String[2];
             provisional = obtenerCodigoDeProducto(productoEscogido);
+            int impuestoDeVentas = controladoraEntradas.consultarImpuestoDeVentas();
             bool repetido = false;
 
             DataTable producto = controladoraEntradas.consultarProductoDeBodega(bodegaDeTrabajo, provisional[1]);
@@ -666,9 +669,9 @@ namespace ProyectoInventarioOET
 
                 if (descuentoReal != "Inválido")
                 {
-                    if ("Sí".Equals(impuesto))//TRAER IMPUESTO DE LA BD
+                    if ("Sí".Equals(impuesto))
                     {
-                        Double costoTotalSinImpuesto = Convert.ToDouble(costo) - ((13 * Convert.ToDouble(costo)) / 100.0);
+                        Double costoTotalSinImpuesto = Convert.ToDouble(costo) - ((impuestoDeVentas * Convert.ToDouble(costo)) / 100.0);
                         costoUnitario = costoTotalSinImpuesto / Convert.ToDouble(cantidad);
                     }
                     else

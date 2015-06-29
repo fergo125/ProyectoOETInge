@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using ProyectoInventarioOET.Modulo_ProductosGlobales;
 using ProyectoInventarioOET.Modulo_Productos_Locales;
+using ProyectoInventarioOET.App_Code;
 
 namespace ProyectoInventarioOET.Modulo_Entradas
 {
@@ -15,6 +16,7 @@ namespace ProyectoInventarioOET.Modulo_Entradas
         private ControladoraBDEntradas controladoraBDEntradas;                  // Instancia de la controladora de base de datos para realizar operaciones allí.
         private ControladoraProductoLocal controladoraProductoLocal;
         private ControladoraProductosGlobales controladoraProductosGlobales;
+        private ControladoraDatosGenerales controladoraDatosGenerales;
 
         /*
          * Constructor.
@@ -27,6 +29,7 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             controladoraBDEntradas.NombreUsuarioLogueado = (this.NombreUsuarioLogueado);
             controladoraProductoLocal.NombreUsuarioLogueado = (this.NombreUsuarioLogueado);
             controladoraProductosGlobales.NombreUsuarioLogueado = (this.NombreUsuarioLogueado);
+            controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
         }
 
         /*
@@ -126,6 +129,14 @@ namespace ProyectoInventarioOET.Modulo_Entradas
         public String consultarNombreProveedor(String idProveedor)
         {
             return controladoraBDEntradas.consultarNombreProveedor(idProveedor);
+        }
+
+        /*
+         * Consulta el impuesto de ventas vigente en el momento.
+         */
+        public int consultarImpuestoDeVentas()
+        {
+            return controladoraDatosGenerales.impuestoVentas();
         }
     }
 }

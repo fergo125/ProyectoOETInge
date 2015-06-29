@@ -12,6 +12,8 @@ namespace ProyectoInventarioOET.Modulo_Entradas
         DateTime fechaEntrada;
         String bodega;
         String idEncargado;
+        String tipoMoneda;
+        String metodoPago;
 
         public EntidadEntrada(Object[] datos)
         {
@@ -20,6 +22,8 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             fechaEntrada = Convert.ToDateTime(datos[4]).Date;
             Bodega = datos[3].ToString();
             idEncargado = datos[2].ToString();
+            tipoMoneda = datos[5].ToString();
+            metodoPago = datos[6].ToString();
         }
         public String IdFactura
         {
@@ -45,6 +49,17 @@ namespace ProyectoInventarioOET.Modulo_Entradas
         {
             get { return idEncargado; }
             set { idEncargado = value; }
+        }
+
+        public String TipoMoneda
+        {
+            get { return tipoMoneda; }
+            set { tipoMoneda = value; }
+        }
+        public String MetodoPago
+        {
+            get { return metodoPago; }
+            set { metodoPago = value; }
         }
     }
 }

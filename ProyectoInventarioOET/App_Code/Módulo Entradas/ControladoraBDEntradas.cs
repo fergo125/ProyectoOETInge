@@ -138,7 +138,9 @@ namespace ProyectoInventarioOET.Modulo_Entradas
                         ",'" + entrada.IdFactura + "'"+
                         ",'" + entrada.IdEncargado+ "'" +
                         ",'" + entrada.Bodega+ "'" +
-                        ",'" + entrada.FechEntrada.ToString("dd-MMM-yyy")+ "'" 
+                        ",'" + entrada.FechEntrada.ToString("dd-MMM-yyy")+ "'" +
+                        ",'" + entrada.TipoMoneda + "'" 
+                       // + ",'" + entrada.MetodoPago + "'"
                         +")";
             if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
             {
