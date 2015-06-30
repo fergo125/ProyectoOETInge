@@ -33,6 +33,8 @@ namespace ProyectoInventarioOET
                 this.inputNombre.Value = entidadConsultada.Nombre;
                 this.gridCuentas.DataSource = controladora.consultarCuentas(); // Recordadr no desplegar el idUsuario!! Yo lo hice xq era un ejemplo de que funka 
                 this.gridCuentas.DataBind();
+
+
                 modo = (int)Modo.Inicial;
                 cambiarModo();
             }
@@ -51,6 +53,7 @@ namespace ProyectoInventarioOET
                     FieldsetAsociarUsuario.Visible = false;
                     FieldsetUsuario.Visible = false;
                     FieldsetBotones.Visible = false;
+                    FieldsetGrid.Visible = false;
                     break;
                 case (int)Modo.InicialPerfil:
                     FieldsetBotonesPerfiles.Visible = true;
@@ -58,6 +61,7 @@ namespace ProyectoInventarioOET
                     FieldsetUsuario.Visible = false;
                     FieldsetAsociarUsuario.Visible = false;
                     FieldsetBotones.Visible = false;
+                    FieldsetGrid.Visible = false;
                     break;
                 case (int)Modo.InicialUsuario:
                     FieldsetBotonesUsuarios.Visible = true;
@@ -65,18 +69,26 @@ namespace ProyectoInventarioOET
                     FieldsetUsuario.Visible = false;
                     FieldsetAsociarUsuario.Visible = false;
                     FieldsetBotones.Visible = false;
+                    FieldsetGrid.Visible = false;
                     break;
 
-
+                case (int)Modo.ConsultaUsuario:
+                    FieldsetUsuario.Visible = false;
+                    FieldsetGrid.Visible = true;
+                    FieldsetBotones.Visible = false;
+                    FieldsetAsociarUsuario.Visible = false;
+                    break;
                 case (int)Modo.InsercionUsuario:
                     FieldsetUsuario.Visible = true;
                     FieldsetAsociarUsuario.Visible = false;
                     FieldsetBotones.Visible = true;
+                    FieldsetGrid.Visible = false;
                     break;
                 case (int)Modo.AsociarUsuario:
                     FieldsetUsuario.Visible = false;
                     FieldsetAsociarUsuario.Visible = true;
                     FieldsetBotones.Visible = true;
+                    FieldsetGrid.Visible = false;
                     break;
             }
         }
@@ -113,6 +125,13 @@ namespace ProyectoInventarioOET
         protected void botonCrearUsuario_ServerClick(object sender, EventArgs e)
         {
             modo = (int)Modo.InsercionUsuario;
+            cambiarModo();
+        }
+
+        // Consulta los usuarios
+        protected void botonConsultarUsuario_ServerClick(object sender, EventArgs e)
+        {
+            modo = (int)Modo.ConsultaUsuario;
             cambiarModo();
         }
     }

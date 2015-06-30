@@ -32,7 +32,7 @@
     </fieldset>
     <!-- Fieldset de administracion de usuarios -->
     <fieldset id= "FieldsetBotonesUsuarios" class="fieldset" runat="server" visible="false">
-        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonConsultarUsuario">Consultar usuario</button>
+        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonConsultarUsuario" onserverclick="botonConsultarUsuario_ServerClick">Consultar usuario</button>
         <button runat="server" type="button" class="btn btn-info-fozkr" id="botonCrearUsuario" onserverclick="botonCrearUsuario_ServerClick">Crear usuario</button>
         <button runat="server" type="button" class="btn btn-info-fozkr" id="botonAsociarPerfil" onserverclick="botonAsociarPerfil_ServerClick">Asociar usuario a perfil</button>
     </fieldset>
@@ -105,7 +105,34 @@
          </div>
     </fieldset>
 
+    <!-- Fieldset de grid -->
+    <fieldset id="FieldsetGrid" class="fieldset" runat="server" visible="false">
+
+            <!-- Grid de prueba para que blopa vea como vienen los permisos-->
+
+            <asp:GridView ID="gridPermisos" runat="server"></asp:GridView>
+
+             <!-- Grid de prueba para que blopa vea como vienen los permisos-->
+
+             <asp:GridView ID="gridCuentas" runat="server"></asp:GridView>
+
+            <asp:GridView ID="gridViewGeneral" CssClass="table" runat="server" AllowPaging="false" PageSize="16" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                        <Columns>
+                            <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Consultar">
+                                <ControlStyle CssClass="btn btn-default"></ControlStyle>
+                            </asp:ButtonField>
+                       </Columns>
+                       <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
+                       <PagerStyle CssClass="paging" HorizontalAlign="Center" />
+                       <AlternatingRowStyle BackColor="#F8F8F8" />
+                       <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="Black" />
+                       <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
+           </asp:GridView>
+
+    </fieldset>
     <br />
+
+
     <!-- Fieldset de botones de aceptar/cancelar -->
     <fieldset id="FieldsetBotones" class="fieldset" runat="server" visible="false">
         <div class="col-lg-12" id="bloqueBotones" runat="server">
@@ -117,15 +144,6 @@
     </fieldset>
 
     <br />
-
-
-    <!-- Grid de prueba para que blopa vea como vienen los permisos-->
-
-    <asp:GridView ID="gridPermisos" runat="server"></asp:GridView>
-
-    <!-- Grid de prueba para que blopa vea como vienen los permisos-->
-
-    <asp:GridView ID="gridCuentas" runat="server"></asp:GridView>
 
 
     <!--Modal Cancelar-->
