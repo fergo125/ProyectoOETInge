@@ -25,7 +25,7 @@
             <div class="form-horizontal">
                 <div class="form-group">
                     <div class="col-md-offset-8 col-md-2">
-                        <a runat="server" href="#modalCambiarContrasena" id="botonCambiarContrasena" class="btn btn-danger-fozkr" role="button" data-toggle="modal">Cambiar contraseña</a>
+                        <a runat="server" href="#modalCambiarContrasena" id="botonCambiarContrasena" class="btn btn-info-fozkr" role="button" data-toggle="modal">Cambiar contraseña</a>
                     </div>
                     <div class="col-md-2">
                         <asp:Button runat="server" ID="CerrarSesion" Text="Cerrar sesión" CssClass="btn btn-danger-fozkr" OnClick="CerrarSesion_Click" />
