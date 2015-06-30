@@ -178,6 +178,25 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             return tabla;
         }
 
+        /*
+        * Crea una nueva cuenta dado un vector con los datos de la misma.
+        */
+        public String[] insertarUsuario(Object[] datosUsuario)
+        {
+            EntidadUsuario usuario = new EntidadUsuario(datosUsuario);
+            return controladoraBDSeguridad.insertarUsuario(usuario);
+        }
+
+        //Consulta todos los usuarios
+        public DataTable consultarUsuarios()
+        {
+            return controladoraBDSeguridad.consultarUsuarios();
+        }
+
+        public EntidadUsuario consultarUsuario(String id)
+        {
+            return controladoraBDSeguridad.consultarUsuario(id);
+        }
 
     }
 }

@@ -170,6 +170,11 @@ namespace ProyectoInventarioOET
             modo = (int)Modo.ConsultaUsuario;
             cambiarModo();
         }
+
+        // Consulta los perfiles
+        protected void botonConsultarPerfil_ServerClick(object sender, EventArgs e)
+        {
+        }
         //Carga las estaciones al combobox
         protected void cargarEstaciones()
         {
@@ -206,7 +211,7 @@ namespace ProyectoInventarioOET
                 if (codigoInsertado != "")
                 {
                     operacionCorrecta = true;
-                    //usuarioConsultado = controladoraSeguridad.consultarUsuario(codigoInsertado);
+                    usuarioConsultado = controladoraSeguridad.consultarUsuario(codigoInsertado);
                     modo = (int)Modo.ConsultadoUsuario;
                     habilitarCampos(false);
                 }
@@ -224,13 +229,12 @@ namespace ProyectoInventarioOET
         {
             String codigo = "";
             Object[] usuario = obtenerDatosCuenta();
-            //String[] error = controladoraSeguridad.insertarUsuario(usuario);
-            String[] error = new String[4];
+            String[] error = controladoraSeguridad.insertarUsuario(usuario);
             codigo = Convert.ToString(error[3]);
             mostrarMensaje(error[0], error[1], error[2]);
             if (error[0].Contains("success"))
             {
-          //      llenarGrid();
+                llenarGrid();
             }
             else
             {
@@ -264,8 +268,7 @@ namespace ProyectoInventarioOET
             {
                 // Cargar usuarios
                 Object[] datos = new Object[4];
-                //DataTable usuarios = controladoraSeguridad.consultarUsuarios();
-                DataTable usuarios = new DataTable();
+                DataTable usuarios = controladoraSeguridad.consultarUsuarios();
                 if (usuarios.Rows.Count > 0)
                 {
                     idArray = new Object[usuarios.Rows.Count];
@@ -299,9 +302,9 @@ namespace ProyectoInventarioOET
             }
             catch (Exception e)
             {
-                mostrarMensaje("warning", "Alerta", "No hay conexión a la base de datos.");
+                //mostrarMensaje("warning", "Alerta", "No hay conexión a la base de datos.");
             }
-
+    
 
 
         }
@@ -313,7 +316,7 @@ namespace ProyectoInventarioOET
             datos[0] = 0;
             datos[1] = this.inputUsuario.Value;
             datos[2] = this.inputPassword.Value;
-            datos[3] = DateTime.Now.Date.ToString("dd/MMM/yyyy") + ' ' + DateTime.Now.ToString("hh:mm:ss tt");
+            datos[3] = DateTime.Now.Date.ToString("dd/MMM/yyyy");
             datos[4] = this.inputDescripcion.Value;
             datos[5] = this.DropDownListEstacion.SelectedValue;
             datos[6] = 0; //Pendiente
@@ -327,7 +330,7 @@ namespace ProyectoInventarioOET
         protected DataTable tablaUsuarios()
         {
             DataTable tabla = new DataTable();
-            //A Carlos le toca implementarlo :)
+            //A Carlos le toca implementarlo
             return tabla;
         }
 

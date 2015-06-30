@@ -179,6 +179,43 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             return resultado;
         }
 
+        public String[] insertarUsuario(EntidadUsuario usuario)
+        {
+            //String[] resultado = new String[4];
+            String esquema = "Inventarios.";
+            String[] resultado = new String[4];
+            String comandoSQL = "INSERT INTO " + esquema + "SEG_USUARIO (SEG_USUARIO, USUARIO, CLAVE,FECHACREACION,DESCRIPCION,IDESTACION,ANFRITRIONA,NOMBRE, ESTADO, DESCUENTO_MAXIMO) VALUES ('" + usuario.Codigo + "','" + usuario.Usuario + "','" + usuario.Clave + "','" + usuario.FechaCreacion + "','" +usuario.Descripcion +"','" + usuario.IdEstacion +"','" + usuario.Anfitriona +"','" + usuario.Nombre +"'," + usuario.Estado +",15);";
+                if(ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
+                {
+                    resultado[0] = "success";
+                    resultado[1] = "Éxito:";
+                    resultado[2] = "Cuenta agregada agregada al sistema.";
+                }
+                else
+                {
+                    resultado[0] = "danger";
+                    resultado[1] = "Error:";
+                    resultado[2] = "Cuenta no agregada, intente nuevamente.";
+                }
+            return resultado;
+        }
+
+        //Consulta todos los usuarios
+        public DataTable consultarUsuarios()
+        {
+            DataTable resultado = new DataTable();
+            //Le toca a Carlos
+            return resultado;
+        }
+
+        public EntidadUsuario consultarUsuario(String codigo)
+        {
+            EntidadUsuario usuarioConsultado = null;
+            //Le toca a Carlos
+            return usuarioConsultado;
+        }
+
+
 
 
     }
