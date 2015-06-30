@@ -929,8 +929,9 @@ namespace ProyectoInventarioOET
 
         protected void gridViewAgregarProductos_CambioPagina(Object sender, GridViewPageEventArgs e)
         {
-            llenarGridAgregarProductos();
+            //llenarGridAgregarProductos();
             this.gridViewAgregarProductos.PageIndex = e.NewPageIndex;
+            this.gridViewAgregarProductos.DataSource = tablaAgregarProductos;
             this.gridViewAgregarProductos.DataBind();
         }
 
@@ -1067,8 +1068,6 @@ namespace ProyectoInventarioOET
 
         protected void botonBuscar_Click(object sender, EventArgs e)
         {
-            gridViewProductos.DataSource = tablaProductos;
-            gridViewProductos.DataBind();
             String query = barraDeBusqueda.Value;
             mensajeAlerta.Visible = false;
             this.barraDeBusqueda.Value = "";
@@ -1081,9 +1080,12 @@ namespace ProyectoInventarioOET
             }
             catch
             {
+                gridViewAgregarProductos.DataSource = tablaAgregarProductos;
+                gridViewAgregarProductos.DataBind();
                 mostrarMensaje("warning", "Atención: ", "No existen productos en la bodega actual que se relacionen con su busqueda.");
                 query = "";
             }
+            mostrarGridParaCorrecciones();
         }
     }
 }
