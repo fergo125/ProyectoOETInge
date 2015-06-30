@@ -49,34 +49,34 @@
         <br />
         <div class="col-lg-12">
             <div class="col-lg-12 row">
-                <div class="col-lg-4 form-group">
+                <div class="col-lg-3 form-group">
                     <label for="inputNombre" class= "control-label">Nombre completo:</label>
                     <input id="inputNombre" runat="server"  type="text"  class="form-control"/>
                 </div>
-                <div class="col-lg-4 form-group">
-                    <label for="inputUsuario" class= "control-label">Nombre de Usuario:</label>      
+                <div class="col-lg-3 form-group">
+                    <label for="inputUsuario" class= "control-label">Nombre de usuario:</label>      
                     <input id="inputUsuario" runat="server" type="text" class="form-control" />
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <label for="inputEstacion" class="control-label">Estación:</label>
                     <asp:DropDownList ID="DropDownListEstacion" runat="server" CssClass="form-control">
                     </asp:DropDownList>
                 </div>
             </div>
             <div class="col-lg-12 row">
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <div class= "form-group">
                         <label for="inputPassword" class= "control-label">Contraseña:</label>
                         <input id="inputPassword" runat="server"  type="password" class="form-control" />
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <div class= "form-group">
                         <label for="inputPasswordConfirm" class= "control-label">Confirmar contraseña:</label>
                         <input id="inputPasswordConfirm" runat="server"  type="password"  class="form-control"/>
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <div class="form-group">
                         <label for="DropDownListAnfitriona" class="control-label">Anfitriona:</label>
                         <asp:DropDownList ID="DropDownListAnfitriona" runat="server" CssClass="form-control"></asp:DropDownList>
@@ -84,17 +84,17 @@
                 </div>
             </div>
             <div class="col-lg-12 row">
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <label for="inputDescripcion" class="control-label">Descripción:</label>
                     <input id="inputDescripcion" runat="server"  type="text" class="form-control"/>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-3">
+                    <label for="inputDescuentoMaximo" class="control-label">Descuento máximo para ventas:</label>
+                    <input id="inputDescuentoMaximo" runat="server" type="text" class="form-control" />
+                </div>
+                <div class="col-lg-3">
                     <label for="DropDownListEstado" class="control-label">Estado:</label>
                     <asp:DropDownList ID="DropDownListEstado" runat="server" CssClass="form-control"></asp:DropDownList>
-                </div>
-                <div class="col-lg-4">
-                    <label for="inputDescuentoMaximo" class="control-label">Descuento máximo:</label>
-                    <input id="inputDescuentoMaximo" runat="server" type="text" class="form-control" />
                 </div>
             </div>
         </div>
@@ -119,15 +119,6 @@
 
     <!-- Fieldset de grid -->
     <fieldset id="FieldsetGrid" class="fieldset" runat="server" visible="false">
-
-            <!-- Grid de prueba para que blopa vea como vienen los permisos-->
-
-            <asp:GridView ID="gridPermisos" runat="server"></asp:GridView>
-
-             <!-- Grid de prueba para que blopa vea como vienen los permisos-->
-
-             <asp:GridView ID="gridCuentas" runat="server"></asp:GridView>
-
             <asp:GridView ID="gridViewGeneral" CssClass="table" runat="server" AllowPaging="false" PageSize="16" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
                         <Columns>
                             <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Consultar">

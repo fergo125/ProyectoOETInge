@@ -175,10 +175,13 @@ namespace ProyectoInventarioOET
             cambiarModo();
         }
 
-        // Consulta los perfiles
+        // Consulta perfiles
         protected void botonConsultarPerfil_ServerClick(object sender, EventArgs e)
         {
+            modo = (int)Modo.ConsultaPerfil;
+            cambiarModo();
         }
+
         //Carga las estaciones al combobox
         protected void cargarEstaciones()
         {
@@ -261,7 +264,7 @@ namespace ProyectoInventarioOET
             this.inputDescripcion.Disabled = !habilitar;
         }
 
-        //Metodo que llena el grid de cuentas consultadas
+        // Metodo que llena el grid de cuentas consultadas
         protected void llenarGrid()
         {
             DataTable tabla = tablaUsuarios();
@@ -301,8 +304,8 @@ namespace ProyectoInventarioOET
                     mostrarMensaje("warning", "Atención: ", "No existen bodegas en la base de datos.");
                 }
 
-                /*this.gridViewUsuarios.DataSource = tabla;
-                this.gridViewUsuarios.DataBind();*/
+                this.gridViewGeneral.DataSource = tabla;
+                this.gridViewGeneral.DataBind();
             }
             catch (Exception e)
             {
@@ -336,13 +339,6 @@ namespace ProyectoInventarioOET
             DataTable tabla = new DataTable();
             //A Carlos le toca implementarlo
             return tabla;
-        }
-
-        // Consulta perfiles
-        protected void botonConsultarPerfil_ServerClick(object sender, EventArgs e)
-        {
-            modo = (int)Modo.ConsultaPerfil;
-            cambiarModo();
         }
 
     }
