@@ -11,7 +11,7 @@ namespace ProyectoInventarioOET.Modulo_ProductosGlobales
      * Auspicia los datos generales o globales de los productos que la OET maneja 
      * Ofrece la comunicación entre la Controladora de Base de Datos y la interfaz.
      */
-    public class ControladoraProductosGlobales
+    public class ControladoraProductosGlobales : Controladora
     {
         private ControladoraBDProductosGlobales controladoraBD; 
         private EntidadProductoGlobal productoActual;           
@@ -23,6 +23,7 @@ namespace ProyectoInventarioOET.Modulo_ProductosGlobales
         public ControladoraProductosGlobales()
         {
             controladoraBD = new ControladoraBDProductosGlobales(); // Instancia de la controladora de base de datos para realizar operaciones allí.
+            controladoraBD.NombreUsuarioLogueado = (this.NombreUsuarioLogueado);
         }
 
         /*

@@ -11,7 +11,7 @@ namespace ProyectoInventarioOET.Modulo_Ventas
      * Toda operación de base de datos solicitada por la interfaz pasa por esta clase, realizando los arreglos, adaptaciones,
      * y encapsulamientos necesarios.
      */
-    public class ControladoraVentas
+    public class ControladoraVentas : Controladora
     {
         //Atributos
         private ControladoraBDVentas controladoraBDVentas;  //Usada para interactuar con la base de datos
@@ -22,6 +22,7 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         public ControladoraVentas()
         {
             controladoraBDVentas = new ControladoraBDVentas();
+            controladoraBDVentas.NombreUsuarioLogueado = (this.NombreUsuarioLogueado);
         }
 
         /*
@@ -55,9 +56,9 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         /*
          * ???
          */
-        public DataTable consultarFacturas(String idUsuario, String idBodega, String idEstacion)
+        public DataTable consultarFacturas(String idUsuario, String idBodega, String idEstacion, String idMetodoPago, String idCliente)
         {
-            return controladoraBDVentas.consultarFacturas(idUsuario, idBodega, idEstacion);
+            return controladoraBDVentas.consultarFacturas(idUsuario, idBodega, idEstacion, idMetodoPago, idCliente);
         }
 
         /*
@@ -126,6 +127,11 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         public String consultarMetodoDePago(String llaveMetodo)
         {
             return controladoraBDVentas.consultarMetodoDePago(llaveMetodo);
+        }
+
+        public String getLlaveProductoBodega(String idProducto)
+        {
+            return controladoraBDVentas.getLlaveProductoBodega(idProducto);
         }
 
         /*

@@ -5,17 +5,18 @@ using System.Linq;
 using System.Web;
 using ProyectoInventarioOET.Modulo_ProductosGlobales;
 using ProyectoInventarioOET.Modulo_Productos_Locales;
+using ProyectoInventarioOET.App_Code;
 
 namespace ProyectoInventarioOET.Modulo_Entradas
 {
-    public class ControladoraEntradas
+    public class ControladoraEntradas : Controladora
     {
 
         //Atributos
-        private ControladoraBDEntradas controladoraBDEntradas;    // Instancia de la controladora de base
-        // de datos para realizar operaciones allí.
-        private ControladoraProductosGlobales controladoraProductosGlobales;
+        private ControladoraBDEntradas controladoraBDEntradas;                  // Instancia de la controladora de base de datos para realizar operaciones allí.
         private ControladoraProductoLocal controladoraProductoLocal;
+        private ControladoraProductosGlobales controladoraProductosGlobales;
+        private ControladoraDatosGenerales controladoraDatosGenerales;
 
         /*
          * Constructor.
@@ -23,8 +24,12 @@ namespace ProyectoInventarioOET.Modulo_Entradas
         public ControladoraEntradas()
         {
             controladoraBDEntradas = new ControladoraBDEntradas();
-            controladoraProductosGlobales = new ControladoraProductosGlobales();
             controladoraProductoLocal = new ControladoraProductoLocal();
+            controladoraProductosGlobales = new ControladoraProductosGlobales();
+            controladoraBDEntradas.NombreUsuarioLogueado = (this.NombreUsuarioLogueado);
+            controladoraProductoLocal.NombreUsuarioLogueado = (this.NombreUsuarioLogueado);
+            controladoraProductosGlobales.NombreUsuarioLogueado = (this.NombreUsuarioLogueado);
+            controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
         }
 
         /*
@@ -55,12 +60,12 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             EntidadFactura factura = null;
             
             DataTable resultado = controladoraBDEntradas.consultarFactura(id);
-            Object[] datosConsultados = new Object[13];
+            Object[] datosConsultados = new Object[16];
 
             if (resultado.Rows.Count == 1)
             {
                 datosConsultados[0] = resultado.Rows[0][0].ToString();
-                for (int i = 1; i < 13; i++)
+                for (int i = 1; i < 16; i++)
                 {
                     datosConsultados[i] = resultado.Rows[0][i].ToString();
                 }
@@ -78,12 +83,12 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             EntidadEntrada entrada = null;
 
             DataTable resultado = controladoraBDEntradas.consultarEntrada(id);
-            Object[] datosConsultados = new Object[5];
+            Object[] datosConsultados = new Object[7];
 
             if (resultado.Rows.Count == 1)
             {
                 datosConsultados[0] = resultado.Rows[0][0].ToString();
-                for (int i = 1; i < 5; i++)
+                for (int i = 1; i < 7; i++)
                 {
                     datosConsultados[i] = resultado.Rows[0][i].ToString();
                 }
@@ -116,6 +121,22 @@ namespace ProyectoInventarioOET.Modulo_Entradas
         public DataTable consultarProductoDeBodega(String idBodega, String idProducto)
         {
             return controladoraProductoLocal.consultarProductoDeBodega(idBodega, idProducto);
+        }
+
+        /*
+         * Consulta el nombre del proveedor asociado a una factura para mostrarlo en el encabezado de esta.
+         */
+        public String consultarNombreProveedor(String idProveedor)
+        {
+            return controladoraBDEntradas.consultarNombreProveedor(idProveedor);
+        }
+
+        /*
+         * Consulta el impuesto de ventas vigente en el momento.
+         */
+        public int consultarImpuestoDeVentas()
+        {
+            return controladoraDatosGenerales.impuestoVentas();
         }
     }
 }

@@ -33,45 +33,36 @@ namespace ProyectoInventarioOET.Modulo_Bodegas
             {
                 existenteEnBD = false;
                 foreach (DataRow fila in bodegas.Rows)
-                {
                     if(fila[1].Equals(bodega.Nombre))
-                    {
                         existenteEnBD = true;
-                    }
-                }
             }
-
-            String[] res = new String[4];
-            res[3] = bodega.Codigo;
-
+            String[] resultado = new String[4];
+            resultado[3] = bodega.Codigo;
             if (existenteEnBD)
             {
-                res[0] = "danger";
-                res[1] = "Error:";
-                res[2] = "Ya existe una bodega con ese nombre en la base de datos.";
+                resultado[0] = "danger";
+                resultado[1] = "Error:";
+                resultado[2] = "Ya existe una bodega con ese nombre en la base de datos.";
             }
             else
             {
-                try
-                {
-                    OracleCommand command = conexionBD.CreateCommand();
-                    command.CommandText = "INSERT INTO " + esquema + "CAT_BODEGA (CAT_BODEGA,DESCRIPCION,ANFITRIONA,ESTACION,ESTADO,CAT_INTENCIONUSO) VALUES ('"
+                String comandoSQL = "INSERT INTO " + esquema + "CAT_BODEGA (CAT_BODEGA,DESCRIPCION,ANFITRIONA,ESTACION,ESTADO,CAT_INTENCIONUSO) VALUES ('"
                     + bodega.Codigo + "','" + bodega.Nombre + "','" + bodega.Anfitriona + "','"
                     + bodega.Estacion + "'," + (short)bodega.Estado + "," + bodega.IntencionUso + ")";
-                    OracleDataReader reader = command.ExecuteReader();
-
-                    res[0] = "success";
-                    res[1] = "Éxito:";
-                    res[2] = "Bodega agregada al sistema.";
-                }
-                catch (OracleException e)
+                if(ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
                 {
-                    res[0] = "danger";
-                    res[1] = "Error:";
-                    res[2] = "Bodega no agregada, intente nuevamente.";
+                    resultado[0] = "success";
+                    resultado[1] = "Éxito:";
+                    resultado[2] = "Bodega agregada al sistema.";
+                }
+                else
+                {
+                    resultado[0] = "danger";
+                    resultado[1] = "Error:";
+                    resultado[2] = "Bodega no agregada, intente nuevamente.";
                 }
             }
-            return res;
+            return resultado;
         }
 
         /*
@@ -94,43 +85,37 @@ namespace ProyectoInventarioOET.Modulo_Bodegas
                 }
             }
 
-            String[] res = new String[4];
-            res[3] = bodega.Codigo;
+            String[] resultado = new String[4];
+            resultado[3] = bodega.Codigo;
 
             if ((existenteEnBD)&&(nuevaBodega.Nombre!=bodega.Nombre))
             {
-                res[0] = "danger";
-                res[1] = "Error: ";
-                res[2] = "Ya existe una bodega con ese nombre en la base de datos.";
+                resultado[0] = "danger";
+                resultado[1] = "Error: ";
+                resultado[2] = "Ya existe una bodega con ese nombre en la base de datos.";
             }
             else
             {
-               try
+                String comandoSQL = "UPDATE " + esquema + "CAT_BODEGA SET DESCRIPCION = '" + nuevaBodega.Nombre + "',ANFITRIONA = '"
+                    + nuevaBodega.Anfitriona + "',ESTACION = '" + nuevaBodega.Estacion + "',ESTADO = " + (short)nuevaBodega.Estado + ", CAT_INTENCIONUSO = "
+                    + (short)nuevaBodega.IntencionUso + " WHERE DESCRIPCION = '"
+                    + bodega.Nombre + "' AND ANFITRIONA = '" + bodega.Anfitriona + "' AND ESTACION = '" 
+                    + bodega.Estacion + "' AND ESTADO = " + bodega.Estado + " AND CAT_INTENCIONUSO = " + bodega.IntencionUso;
+                if(ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
                 {
-                    OracleCommand command = conexionBD.CreateCommand();
-                    command.CommandText = "UPDATE " + esquema + "CAT_BODEGA SET DESCRIPCION = '" + nuevaBodega.Nombre + "',ANFITRIONA = '"
-                        + nuevaBodega.Anfitriona + "',ESTACION = '" + nuevaBodega.Estacion + "',ESTADO = " + (short)nuevaBodega.Estado + ", CAT_INTENCIONUSO = "
-                        + (short)nuevaBodega.IntencionUso + " WHERE DESCRIPCION = '"
-                        + bodega.Nombre + "' AND ANFITRIONA = '" + bodega.Anfitriona + "' AND ESTACION = '" 
-                        + bodega.Estacion + "' AND ESTADO = " + bodega.Estado + " AND CAT_INTENCIONUSO = " + bodega.IntencionUso;
-                    OracleDataReader reader = command.ExecuteReader();
-                
-                    res[0] = "success";
-                    res[1] = "Éxito:";
-                    res[2] = "Bodega modificada en el sistema.";
+                    resultado[0] = "success";
+                    resultado[1] = "Éxito:";
+                    resultado[2] = "Bodega modificada en el sistema.";
                 }
-                catch (OracleException e)
+                else
                 {
-                    if (e.Number == 2627)
-                    {
-                        res[0] = "danger";
-                        res[1] = "Error:";
-                        res[2] = "Bodega no modificada, intente nuevamente.";
-                    }
+                    resultado[0] = "danger";
+                    resultado[1] = "Error:";
+                    resultado[2] = "Bodega no modificada, intente nuevamente.";
                 }
             }
                 
-            return res;
+            return resultado;
         }
 
         /*
@@ -144,28 +129,20 @@ namespace ProyectoInventarioOET.Modulo_Bodegas
             DataTable resultado = new DataTable();
             
             /*Modificar para recibir como parametros*/
-            try 
+            String comandoSQL = "";
+            if (rol.Equals("Administrador global"))
             {
-                OracleCommand command = conexionBD.CreateCommand();
-                if (rol.Equals("Administrador global"))
-                {
-                    command.CommandText = "SELECT C.CAT_BODEGA,C.DESCRIPCION,C.ANFITRIONA,D.NOMBRE,E.DESCRIPCION, F.NOMBRE FROM " + esquema1 + "CAT_BODEGA C, " + esquema2
-                        + "ESTACION D, " + esquema3 + "CAT_ESTADOS E, " + esquema1 + "CAT_INTENCIONUSO F WHERE C.ESTACION = D.ID AND E.VALOR = C.ESTADO AND C.CAT_INTENCIONUSO = F.CAT_INTENCIONUSO";
-                }
-                else
-                { 
-                    command.CommandText = "SELECT C.CAT_BODEGA,C.DESCRIPCION,C.ANFITRIONA,D.NOMBRE,E.DESCRIPCION,"
-                        + "F.NOMBRE FROM " + esquema1 + "CAT_BODEGA C, " + esquema2 + "ESTACION D, " + esquema3 + "CAT_ESTADOS E, " + esquema1 + "CAT_INTENCIONUSO F WHERE C.ESTACION = "
-                        + "D.ID AND E.VALOR = C.ESTADO AND C.CAT_INTENCIONUSO = F.CAT_INTENCIONUSO AND C.CAT_BODEGA IN "
-                        + "(SELECT CAT_BODEGA FROM " + esquema1 + "SEG_USUARIO_BODEGA WHERE SEG_USUARIO = '" + idUsuario + "')";
-                }
-                OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
+                comandoSQL = "SELECT C.CAT_BODEGA,C.DESCRIPCION,C.ANFITRIONA,D.NOMBRE,E.DESCRIPCION, F.NOMBRE FROM " + esquema1 + "CAT_BODEGA C, " + esquema2
+                    + "ESTACION D, " + esquema3 + "CAT_ESTADOS E, " + esquema1 + "CAT_INTENCIONUSO F WHERE C.ESTACION = D.ID AND E.VALOR = C.ESTADO AND C.CAT_INTENCIONUSO = F.CAT_INTENCIONUSO";
             }
-            catch (OracleException e)
+            else
             {
-                resultado = null;
+                comandoSQL = "SELECT C.CAT_BODEGA,C.DESCRIPCION,C.ANFITRIONA,D.NOMBRE,E.DESCRIPCION,"
+                    + "F.NOMBRE FROM " + esquema1 + "CAT_BODEGA C, " + esquema2 + "ESTACION D, " + esquema3 + "CAT_ESTADOS E, " + esquema1 + "CAT_INTENCIONUSO F WHERE C.ESTACION = "
+                    + "D.ID AND E.VALOR = C.ESTADO AND C.CAT_INTENCIONUSO = F.CAT_INTENCIONUSO AND C.CAT_BODEGA IN "
+                    + "(SELECT CAT_BODEGA FROM " + esquema1 + "SEG_USUARIO_BODEGA WHERE SEG_USUARIO = '" + idUsuario + "')";
             }
+            resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }
 
@@ -178,26 +155,14 @@ namespace ProyectoInventarioOET.Modulo_Bodegas
             DataTable resultado = new DataTable();
             EntidadBodega bodegaConsultada = null; 
             Object[] datosConsultados = new Object[6]; 
-            try
+            String comandoSQL = "SELECT * FROM " + esquema + "CAT_BODEGA WHERE CAT_BODEGA = '" + codigo + "'";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
+            if (resultado.Rows.Count == 1)
             {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT * FROM " + esquema + "CAT_BODEGA WHERE CAT_BODEGA = '" + codigo + "'";
-                OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
-
-                if (resultado.Rows.Count == 1)
-                {
-                    datosConsultados[0] = codigo;
-                    for (int i = 1; i < 6; i++)
-                    {
-                        datosConsultados[i] = resultado.Rows[0][i].ToString();
-                    }
-
-                    bodegaConsultada = new EntidadBodega(datosConsultados);
-                }
-            }
-            catch (OracleException e)
-            {
+                datosConsultados[0] = codigo;
+                for (int i = 1; i < 6; i++)
+                    datosConsultados[i] = resultado.Rows[0][i].ToString();
+                bodegaConsultada = new EntidadBodega(datosConsultados);
             }
             return bodegaConsultada;
         }
@@ -209,20 +174,12 @@ namespace ProyectoInventarioOET.Modulo_Bodegas
         {
             String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
-            try
-            {
-                OracleCommand command = conexionBD.CreateCommand();
-                if(codigo == null)
-                    command.CommandText = "SELECT * FROM " + esquema + "CAT_BODEGA";
-                else
-                    command.CommandText = "SELECT * FROM " + esquema + "CAT_BODEGA WHERE ESTACION = '" + codigo + "'";
-                OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
-            }
-            catch (OracleException e)
-            {
-                resultado = null;
-            }
+            String comandoSQL = "";
+            if(codigo == null)
+                comandoSQL = "SELECT * FROM " + esquema + "CAT_BODEGA";
+            else
+                comandoSQL = "SELECT * FROM " + esquema + "CAT_BODEGA WHERE ESTACION = '" + codigo + "'";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }
 
@@ -233,17 +190,8 @@ namespace ProyectoInventarioOET.Modulo_Bodegas
         {
             String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
-            try
-            {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT * FROM " + esquema + "CAT_INTENCIONUSO";
-                OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
-            }
-            catch (OracleException e)
-            {
-                resultado = null;
-            }
+            String comandoSQL = "SELECT * FROM " + esquema + "CAT_INTENCIONUSO";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }
         /*
@@ -253,18 +201,9 @@ namespace ProyectoInventarioOET.Modulo_Bodegas
         {
             String esquema = "Inventarios."; //TODO: revisar si todos esos +esquema+ sirven
             DataTable resultado=new DataTable();
-            try
-            {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT I.NOMBRE, I.CODIGO, I.CAT_CATEGORIAS, I.INTENCION, I.INV_PRODUCTOS FROM " + esquema + "INV_PRODUCTOS I WHERE I.INV_PRODUCTOS NOT IN "
-                    + "(SELECT B.INV_PRODUCTOS FROM " + esquema + "INV_BODEGA_PRODUCTOS B WHERE B.CAT_BODEGA = '" + idBodega + "')";
-                OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
-            }
-            catch (Exception e)
-            {
-                resultado = null;
-            }
+            String comandoSQL = "SELECT I.NOMBRE, I.CODIGO, I.CAT_CATEGORIAS, I.INTENCION, I.INV_PRODUCTOS FROM " + esquema + "INV_PRODUCTOS I WHERE I.INV_PRODUCTOS NOT IN "
+                + "(SELECT B.INV_PRODUCTOS FROM " + esquema + "INV_BODEGA_PRODUCTOS B WHERE B.CAT_BODEGA = '" + idBodega + "')";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }
 
@@ -275,17 +214,8 @@ namespace ProyectoInventarioOET.Modulo_Bodegas
         {
             String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
-            try
-            {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT ESTACION FROM " + esquema + "CAT_BODEGA WHERE CAT_BODEGA = '" + idBodega + "'";
-                OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
-            }
-            catch (OracleException e)
-            {
-                resultado = null;
-            }
+            String comandoSQL = "SELECT ESTACION FROM " + esquema + "CAT_BODEGA WHERE CAT_BODEGA = '" + idBodega + "'";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }
       

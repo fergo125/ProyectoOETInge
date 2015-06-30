@@ -47,11 +47,15 @@ namespace ProyectoInventarioOET
             if (!IsPostBack)
             {
                 modo = (int)Modo.Inicial;
+                controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
                 controladoraBodegas = new ControladoraBodegas();
                 controladoraProductoLocal = new ControladoraProductoLocal();
                 controladoraCategorias = new ControladoraCategorias();
                 controladoraSeguridad = new ControladoraSeguridad();
-                controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
+                controladoraBodegas.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
+                controladoraProductoLocal.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
+                controladoraCategorias.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
+                controladoraSeguridad.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
                 DropDownListEstacion_CargaEstaciones();
 
                 //Seguridad
@@ -548,6 +552,7 @@ namespace ProyectoInventarioOET
             labelTipoAlerta.Text = alerta + " ";
             labelAlerta.Text = mensaje;
             FormProductosLocales.mensaje = true;
+            ScriptManager.RegisterStartupScript(Page, this.GetType(), "ScrollPage", "window.scroll(0,0);", true);
         }
 
         /*

@@ -230,6 +230,7 @@
     <Content Include="FormLogin.aspx" />
     <Content Include="FormProductosGlobales.aspx" />
     <Content Include="FormProductosLocales.aspx" />
+    <Content Include="FormSeguridad.aspx" />
     <Content Include="FormTraslados.aspx" />
     <Content Include="FormVentas.aspx" />
     <Content Include="FormAjustes.aspx" />
@@ -327,6 +328,7 @@
     <Compile Include="Account\RegisterExternalLogin.aspx.designer.cs">
       <DependentUpon>RegisterExternalLogin.aspx</DependentUpon>
     </Compile>
+    <Compile Include="App_Code\Controladora.cs" />
     <Compile Include="App_Code\ControladoraBDAnfitrionas.cs" />
     <Compile Include="App_Code\ControladoraBDEstaciones.cs" />
     <Compile Include="App_Code\ControladoraBDEstados.cs" />
@@ -438,6 +440,13 @@
     </Compile>
     <Compile Include="FormProductosLocales.aspx.designer.cs">
       <DependentUpon>FormProductosLocales.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FormSeguridad.aspx.cs">
+      <DependentUpon>FormSeguridad.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormSeguridad.aspx.designer.cs">
+      <DependentUpon>FormSeguridad.aspx</DependentUpon>
     </Compile>
     <Compile Include="FormTraslados.aspx.cs">
       <DependentUpon>FormTraslados.aspx</DependentUpon>

@@ -36,8 +36,9 @@ namespace ProyectoInventarioOET
 
             if (!IsPostBack)
             {
-                controladoraCategorias = new ControladoraCategorias();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
+                controladoraCategorias = new ControladoraCategorias();
+                controladoraCategorias.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
                 permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Gestion de actividades");
                 if (permisos == "000000")
                     Response.Redirect("~/ErrorPages/404.html");
@@ -88,8 +89,6 @@ namespace ProyectoInventarioOET
                 textoObligatorioBodega.Visible = false;
                 mensajeAlerta.Visible = false;
                 tituloAccion.InnerText = "Seleccione una opción";
-                
-
 
             }
             else if (modo == (int)Modo.Modificacion)
@@ -307,6 +306,7 @@ namespace ProyectoInventarioOET
             labelTipoAlerta.Text = alerta + " ";
             labelAlerta.Text = mensaje;
             mensajeAlerta.Visible = true;
+            ScriptManager.RegisterStartupScript(Page, this.GetType(), "ScrollPage", "window.scroll(0,0);", true);
         }
 
         /*
@@ -384,12 +384,14 @@ namespace ProyectoInventarioOET
 
                 if (codigoInsertado == "success")
                 {
-                    //modo = (int)Modo.Consultado;
-                    //comboBoxEstadosActividades.SelectedValue = categoriaConsultada.Estado;
+                    modo = (int)Modo.Consultado;
+                    comboBoxEstadosActividades.SelectedValue = Convert.ToString(categoriaConsultada.Estado);
                     seConsulto = true;
                     mostrarMensaje("success", "Éxito:", "Categoría agregada al sistema.");
                     cargarEstados();
-                    //setDatosConsultados();
+
+                    llenarGrid();
+                    irAModo();
 
                 }
                 if(codigoInsertado == "repetido"){
@@ -488,12 +490,13 @@ namespace ProyectoInventarioOET
             
                 String[] error = controladoraCategorias.insertarDatos(nombre,estado);
 
-                codigo = Convert.ToString(error[3]);
+                codigo = Convert.ToString(error[2]);
                 categoriaConsultada = controladoraCategorias.consultarCategoria(codigo);
                 if (error[0].Contains("success"))
                 {
                     llenarGrid();
                     res = "success";
+
                 }
                 else
                 {

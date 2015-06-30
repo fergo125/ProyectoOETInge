@@ -22,23 +22,33 @@ where inv_productos = 'PITAN130012015110927803059';
 
 --Trigger que actualiza la existencia(saldo) de cada producto en catalogo global cuando se modifica la existencia del mismo producto en el catalogo local 
                               
-create or replace trigger "GRUPO02"."INV_PRODUCTOS_TRIG_SALDO" AFTER UPDATE ON INV_BODEGA_PRODUCTOS 
-
-  FOR EACH ROW 
+create or replace trigger "INV_PRODUCTOS_TRIG_SALDO" BEFORE UPDATE OF SALDO ON INV_BODEGA_PRODUCTOS 
+FOR EACH ROW
   DECLARE
       var_diferencia number(15,2);
       var_actual number(15,2);
   BEGIN
       -- Se obtiene la diferencia entre la existencia nueva y vieja del catalogo local
-      var_diferencia := :new.saldo - :old.saldo;
+      IF :new.saldo <> :old.saldo THEN
       
-      SELECT saldo INTO var_actual
-      FROM inv_productos p
-      WHERE p.inv_productos = :old.inv_productos; 
-      
-      UPDATE inv_productos 
-      SET saldo = var_actual + var_diferencia
-      where inv_productos = :old.inv_productos;
+        var_diferencia := :new.saldo - :old.saldo;       
+        SELECT saldo INTO var_actual
+        FROM inv_productos p
+        WHERE p.inv_productos = :old.inv_productos; 
+       
+        UPDATE inv_productos 
+        SET saldo = var_actual + var_diferencia
+        where inv_productos = :old.inv_productos;       
+        
+        UPDATE AJUSTES
+        SET ANULABLE = 0
+        WHERE ANULABLE = 1
+        AND ID_AJUSTES IN ( SELECT DISTINCT D.ID_AJUSTES
+                            FROM	 DETALLES_AJUSTES D
+                            WHERE d.inv_bodega_productos = :old.inv_bodega_productos
+                            );       
+        
+      END IF;     
 END;
 
 --PRUEBA1: Se modifica localmente la cantidad de un producto (que solo esta en una bodega) -Actualmente tiene 1500-
@@ -87,28 +97,35 @@ where inv_productos = 'PITAN130012015092529441001';
 CREATE OR REPLACE TRIGGER "TRIGGER_ACTUALIZA_SALDO_VENTA" AFTER INSERT ON REGISTRO_DETALLES_FACTURAS
   FOR EACH ROW
   DECLARE
-      VAR_CANTIDADVENDIDA NUMBER(15,2);
+      VAR_CANTIDADVENDIDA   NUMBER(15,2);
       VAR_CANTIDADEXISTENTE NUMBER(15,2);
+      VAR_BODEGATRABAJO     VARCHAR2(30 BYTE);
   BEGIN
-      -- Se obtiene la cantidad que fue vendida de cada producto
+      --Se averigua en qué bodega estamos trabajando
+      SELECT  BODEGA
+      INTO    VAR_BODEGATRABAJO
+      FROM    REGISTRO_FACTURAS_VENTA
+      WHERE   CONSECUTIVO = :NEW.IDFACTURA;
+      --Se obtiene la cantidad que fue vendida de cada producto
       VAR_CANTIDADVENDIDA := :NEW.CANTIDAD;
       --Se obtiene la cantidad existente desde antes para luego restarle
       SELECT  SALDO
       INTO    VAR_CANTIDADEXISTENTE
       FROM    INV_BODEGA_PRODUCTOS
-      WHERE   INV_PRODUCTOS = :NEW.IDPRODUCTO;
+      WHERE   INV_PRODUCTOS = :NEW.IDPRODUCTO
+        AND   CAT_BODEGA = VAR_BODEGATRABAJO;
       --Se actualiza
       UPDATE  INV_BODEGA_PRODUCTOS 
       SET     SALDO = VAR_CANTIDADEXISTENTE - VAR_CANTIDADVENDIDA
-      WHERE   INV_PRODUCTOS = :NEW.IDPRODUCTO AND CAT_BODEGA = (SELECT  BODEGA
-                                                                FROM    REGISTRO_FACTURAS_VENTA
-                                                                WHERE   CONSECUTIVO = :NEW.IDFACTURA);
+      WHERE   INV_PRODUCTOS = :NEW.IDPRODUCTO
+        AND   CAT_BODEGA = VAR_BODEGATRABAJO;
 END;
 --PRUEBAS:
 SELECT  * FROM  INV_BODEGA_PRODUCTOS  WHERE CAT_BODEGA='PITAN129012015101713605001' AND INV_PRODUCTOS='PITAN130012015150910658107'
 --Usando la factura 15 existente
 INSERT INTO  REGISTRO_DETALLES_FACTURAS
 VALUES(15, 'PITAN130012015150910658107', 2, 540, 1, 0, 1)
+SELECT  * FROM  REGISTRO_DETALLES_FACTURAS WHERE IDFACTURA = 15
 --COMMIT
 
 -- Creación de Tabla para modulo de Entradas
@@ -118,7 +135,9 @@ CREATE TABLE CAT_ENTRADAS
   FACTURA         VARCHAR2(30),   -- No se sabe
   SEG_USUARIO     VARCHAR2(30),
   SEG_BODEGA      VARCHAR2(30),
-  FECHA           DATE
+  FECHA           DATE,
+  tipoMoneda      varchar2(10), 
+  METODO_PAGO	  varchar2(10)
 );
 
 CREATE TABLE CAT_ENTRADAS_PRODUCTOS
@@ -127,7 +146,10 @@ CREATE TABLE CAT_ENTRADAS_PRODUCTOS
   CAT_ENTRADAS              VARCHAR2(30),
   CAT_PRODUCTOS             VARCHAR2(30),
   CANTIDAD                  NUMBER(10),
-  PRECIO_UNITARIO           NUMBER(10)
+  COSTO_UNITARIO           NUMBER(10),
+  DESCUENTO                 varchar2(10),
+  COSTO_TOTAL               NUMBER(10),
+  GRAVADO                   NUMBER(1)
 );
 
 --Asignación de códigos internos únicos para cada perfil para que el sistema
@@ -153,7 +175,9 @@ create table  AJUSTES(
 	fecha                   date,
 	usuario_bodega          varchar2(30),
 	idBodega                varchar2(30),
-	notas                   varchar2(140)
+	notas                   varchar2(140),
+	anulable				number(2,0),
+	estado					number(2,0)	
 );
  
 create table DETALLES_AJUSTES (

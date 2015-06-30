@@ -49,6 +49,13 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             this.productos = (datos[13] == null ? null : (DataTable)datos[13]);
         }
 
+
+
+        /*
+         * Métodos de acceso a datos (setters y getters).
+         * Permiten obtener o manipular los atributos, cada método se refiere al atributo del mismo nombre.
+         */
+
         public String Consecutivo
         {
             get { return consecutivo; }

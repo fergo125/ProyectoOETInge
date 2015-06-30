@@ -32,16 +32,17 @@ namespace ProyectoInventarioOET
         private static List<int> cantidadesProductos;                           //Para guardar las cantidades en los textboxes del grid de productos durante el proceso de creación //TODO: usar esto
         private static DataTable productosAgregados;                            //Para llenar el grid de productos al crear una factura
         private static DataTable facturasConsultadas;                           //Para llenar el grid y para mostrar los detalles de cada factura específica
-        private static EntidadFacturaVenta facturaConsultada;                   //???
+        private static EntidadFacturaVenta facturaConsultada;                   //Entidad de factura para almacenar la consulta de la base de datos
         private static ControladoraVentas controladoraVentas;                   //Para accesar las tablas del módulo y realizar las operaciones de consulta, inserción, modificación y anulación
-        private static ControladoraAjustes controladoraAjustes;                 //???
-        private static ControladoraBodegas controladoraBodegas;                 //???
-        private static ControladoraSeguridad controladoraSeguridad;             //???
+        private static ControladoraAjustes controladoraAjustes;                 //Controladora de ajustes para trabajar con los ajustes de factura
+        private static ControladoraBodegas controladoraBodegas;                 //Controlaodra de bodegas para tramitar las existencias de productos en bodega
+        private static ControladoraSeguridad controladoraSeguridad;             //Controladora de seguridad para la comprobación de permisos de usuario y para el cambio de sesión
         private static ControladoraActividades controladoraActividades;         //Para consultar las actividades a las que se puede asociar una nueva factura
         private static ControladoraDatosGenerales controladoraDatosGenerales;   //Para accesar datos generales de la base de datos
         private static ControladoraProductoLocal controladoraProductoLocal ;    //Para revisar existencias de productos
         private static ControladoraProductosGlobales controladoraProductoGlobal;//Para consultar nombre y otra información de los productos al desplegar facturas
-        
+        //object pagina;
+        //EventArgs events;
         //Importante:
         //Para el codigoPerfilUsuario (que se usa un poco hard-coded), los números son:
         //1 = Administrador global
@@ -54,9 +55,12 @@ namespace ProyectoInventarioOET
          */
         protected void Page_Load(object sender, EventArgs e)
         {
-            mensajeAlerta.Visible = false;
             //Elementos visuales
+            mensajeAlerta.Visible = false;
             ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
+
+            //pagina = sender;
+            //events = e;
 
             if (!IsPostBack) //Si es la primera vez que se carga la página
             {
@@ -73,6 +77,13 @@ namespace ProyectoInventarioOET
                 controladoraProductoLocal = new ControladoraProductoLocal();
                 controladoraProductoGlobal = new ControladoraProductosGlobales();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
+                controladoraVentas.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
+                controladoraBodegas.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
+                controladoraAjustes.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
+                controladoraSeguridad.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
+                controladoraActividades.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
+                controladoraProductoLocal.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
+                controladoraProductoGlobal.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
 
                 //Seguridad
                 permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Facturacion");
@@ -87,8 +98,6 @@ namespace ProyectoInventarioOET
             }
             else //si la página fue refrezcada por algún elemento
             {
-                //if ((checksProductos.Count > 0) || (cantidadesProductos.Count > 0))
-                //    restaurarCheckBoxesYCantidades();
             }
         }
 
@@ -171,6 +180,7 @@ namespace ProyectoInventarioOET
             labelTipoAlerta.Text = alerta + " ";
             labelAlerta.Text = mensaje;
             mensajeAlerta.Visible = true;
+            ScriptManager.RegisterStartupScript(Page, this.GetType(), "ScrollPage", "window.scroll(0,0);", true);
         }
 
         /*
@@ -183,10 +193,10 @@ namespace ProyectoInventarioOET
             dropDownListConsultaBodega.SelectedValue = null;
             dropDownListConsultaVendedor.SelectedValue = null;
             //Campos de consulta individual
-
             //Campos de creación
             productosAgregados = null;
             gridViewCrearFacturaProductos.DataBind();
+            labelCrearFacturaPrecioTotal.Text = "";
         }
 
         /*
@@ -231,6 +241,14 @@ namespace ProyectoInventarioOET
                 default:
                     break;
             }
+            //Todos los perfiles pueden escoger estos criterios extra, se limpian, se cargan igual que al crear, pero se ocupa hacer algunos arreglos para consulta
+            dropDownListConsultaMetodoPago.Items.Clear();
+            dropDownListConsultaCliente.Items.Clear();
+            cargarMetodosPago(dropDownListConsultaMetodoPago);
+            cargarPosiblesClientes(dropDownListConsultaCliente);
+            dropDownListConsultaMetodoPago.Items.Insert(0, (new ListItem("Todos", "All"))); //En el caso de métodos de pago, se ocupa insertar la opción de "todos" al tope
+            dropDownListConsultaCliente.Items[0].Text = "Todos";    //En el caso de los posibles clientes, se reemplaza la opción de dejar el campo vacío por
+            dropDownListConsultaCliente.Items[0].Value = "All";     //escoger "todos" los clientes, lo mismo que decir cualquier cliente
         }
 
         /*
@@ -365,13 +383,15 @@ namespace ProyectoInventarioOET
             String codigoEstacion = dropDownListConsultaEstacion.SelectedValue;
             String codigoBodega = dropDownListConsultaBodega.SelectedValue;
             String codigoVendedor = dropDownListConsultaVendedor.SelectedValue;
+            String codigoMetodoPago = dropDownListConsultaMetodoPago.SelectedValue;
+            String codigoCliente = dropDownListConsultaCliente.SelectedValue;
 
             DataTable tablaFacturas = crearTablaFacturasConsultadas(); //tabla que se usará para el grid
             try
             {
                 Object[] datos = new Object[6];
                 facturasConsultadas = null; //tabla atributo que se usará para almacenar toda la consulta
-                facturasConsultadas = controladoraVentas.consultarFacturas(codigoVendedor, codigoBodega, codigoEstacion);
+                facturasConsultadas = controladoraVentas.consultarFacturas(codigoVendedor, codigoBodega, codigoEstacion, codigoMetodoPago, codigoCliente);
                 if (facturasConsultadas.Rows.Count > 0)
                 {
                     idArray = new Object[facturasConsultadas.Rows.Count];
@@ -410,7 +430,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Método de controladora que consulta la factura de la base de datos con la llave seleccionada
          */
         protected void consultarFactura(String idFactura)
         {
@@ -431,7 +451,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Método de interfaz que pone en los datos de la factura consultada en la interfaz
          */
         protected void setDatosConsultados()
         {
@@ -471,7 +491,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Método de interfaz que habilita o deshabilita la casilla de estado; el resto de casillas siempre están bloqueadas
          */
         protected void habilitarCampos(bool habilitar)
         {
@@ -481,7 +501,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Creación de la tabla para unir al grid donde irán los datos principales de la factura 
          */
         protected DataTable crearTablaFacturasConsultadas() 
         {
@@ -599,14 +619,15 @@ namespace ProyectoInventarioOET
         /*
          * Consulta en la BD las diferentes formas de pago para cargarlas en el dropdownlist.
          */
-        protected void cargarMetodosPago()
+        protected void cargarMetodosPago(DropDownList dropdownlist)
         {
             DataTable metodosPago = controladoraVentas.consultarMetodosPago();
             if(metodosPago != null)
             {
-                dropDownListCrearFacturaMetodoPago.Items.Clear();
+                dropdownlist.Items.Clear();
                 foreach (DataRow fila in metodosPago.Rows)
-                    dropDownListCrearFacturaMetodoPago.Items.Add(new ListItem(fila[0].ToString(), fila[1].ToString()));
+                    dropdownlist.Items.Add(new ListItem(fila[0].ToString(), fila[1].ToString()));
+                dropdownlist.Items.Add(new ListItem("Varios (definidos al crear la factura)", "VARIOS"));
             }
             else
                 mostrarMensaje("warning", "Alerta: ", "Error al intentar cargar los métodos de pago.");
@@ -615,15 +636,15 @@ namespace ProyectoInventarioOET
         /*
          * Consulta en la BD las diferentes formas de pago para cargarlas en el dropdownlist.
          */
-        protected void cargarPosiblesClientes()
+        protected void cargarPosiblesClientes(DropDownList dropdownlist)
         {
             DataTable clientes = controladoraVentas.consultarPosiblesClientes();
             if (clientes != null)
             {
-                dropDownListCrearFacturaCliente.Items.Clear();
-                dropDownListCrearFacturaCliente.Items.Add(new ListItem("", ""));
+                dropdownlist.Items.Clear();
+                dropdownlist.Items.Add(new ListItem("", ""));
                 foreach (DataRow fila in clientes.Rows)
-                    dropDownListCrearFacturaCliente.Items.Add(new ListItem(fila[0].ToString(), fila[1].ToString()));
+                    dropdownlist.Items.Add(new ListItem(fila[0].ToString(), fila[1].ToString()));
             }
             else
                 mostrarMensaje("warning", "Alerta: ", "Error al intentar cargar los posibles clientes.");
@@ -726,9 +747,10 @@ namespace ProyectoInventarioOET
                 String cantidad = ((TextBox)fila.FindControl("gridCrearFacturaTextBoxCantidadProducto")).Text;
                 precioProducto = Convert.ToDouble(Convert.ToDouble(fila.Cells[4].Text) * Convert.ToInt32(cantidad)); //precio = precio unitario * cantidad
                 if(fila.Cells[6].Text != "0") //si tiene descuento
-                    precioProducto -= (precioProducto * (Convert.ToInt32(fila.Cells[6].Text) / 100)); //se le resta
+                    precioProducto -= (precioProducto * (Convert.ToDouble(fila.Cells[6].Text) / 100)); //se le resta
                 if (fila.Cells[5].Text != "No") //si tiene impuesto
                     precioProducto += (precioProducto * 0.13); //se le suma
+                precioProducto = Math.Round(precioProducto, 2, MidpointRounding.AwayFromZero); //se redondea a dos decimales
                 fila.Cells[7].Text = precioProducto.ToString(); //se actualiza el total en la línea de la factura
                 precioTotal += precioProducto; //se actualiza el total de toda la factura
             }
@@ -755,7 +777,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Método de interfaz que toma los datos de la interfaz y los almacena en un vector para trabajar de manera encapsulada
          */
         protected Object[] obtenerDatos()
         {
@@ -881,8 +903,7 @@ namespace ProyectoInventarioOET
             textBoxCrearFacturaBodega.Text = (this.Master as SiteMaster).NombreBodegaSesion; //nombre de la bodega de trabajo (punto de venta)
             textBoxCrearFacturaVendedor.Text = (this.Master as SiteMaster).Usuario.Nombre;
             textBoxCrearFacturaTipoCambio.Text = controladoraVentas.consultarTipoCambio().ToString();
-            cargarMetodosPago();
-            //cargarPosiblesClientes();
+            cargarMetodosPago(dropDownListCrearFacturaMetodoPago);
             cargarActividades();
 
             modo = Modo.Insercion;
@@ -953,7 +974,7 @@ namespace ProyectoInventarioOET
         /*
          * Edita las propiedades de descuento e impuesto del producto seleccionado.
          */
-        protected void clickBotonCrearModalAceptar(object sender, EventArgs e)
+        protected void clickBotonAceptarModalModificarProducto(object sender, EventArgs e)
         {
             for(int i=0; i<gridViewCrearFacturaProductos.Rows.Count; ++i)
             {
@@ -967,6 +988,7 @@ namespace ProyectoInventarioOET
                     break;
                 }
             }
+            actualizarPreciosTotales();
         }
 
         /*
@@ -983,6 +1005,9 @@ namespace ProyectoInventarioOET
             Object[] datosFactura = obtenerDatos();
             String[] resultado = controladoraVentas.insertarFactura(datosFactura);
             mostrarMensaje(resultado[0], resultado[1], resultado[2]);
+            if (resultado[0] == "success") //si todo salió bien, reiniciar la interfaz para insertar más facturas
+                clickBotonCrear(sender, e);
+
 
             //blopa
             //DataTable productoConsultado;
@@ -1012,13 +1037,13 @@ namespace ProyectoInventarioOET
         /*
          * Invocada al dar click al botón de Cancelar durante el proceso de creación. Limpia los campos y vuelve al modo de creación.
          */
-        protected void clickBotonCrearCancelarModal(object sender, EventArgs e)
+        protected void clickBotonAceptarModalCancelar(object sender, EventArgs e)
         {
             clickBotonCrear(sender, e); //se hace prácticamente lo mismo en ambas funciones
         }
 
         /*
-         * ???
+         * Evento de disparo que cambia el modo a modificacón tras haber presionado el botón Modificar para iniciar un cambio
          */
         protected void clickBotonModificar(object sender, EventArgs e)
         {
@@ -1027,7 +1052,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Método que consolida el cambio a la factura
          */
         protected void clickBotonAceptarModificar(object sender, EventArgs e)
         {
@@ -1047,7 +1072,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Método de cancelar modificación
          */
         protected void clickBotonCancelarModificar(object sender, EventArgs e)
         {
@@ -1055,11 +1080,12 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Evento que hace el cambio de usuario rápido
          */
         protected void clickBotonAceptarCambioUsuario(object sender, EventArgs e)
         {
             // Consulta al usuario
+            EntidadUsuario usuarioActual = (this.Master as SiteMaster).Usuario;
             EntidadUsuario usuario = controladoraSeguridad.consultarUsuario(inputUsername.Value, inputPassword.Value);
 
             if (usuario != null)
@@ -1067,18 +1093,18 @@ namespace ProyectoInventarioOET
                 // Si me retorna un usuario valido
                 // Hacer el usuario logueado visible a todas los modulos
                 (this.Master as SiteMaster).Usuario = usuario;
+                (this.Master as SiteMaster).cambiarSesion(usuario.Nombre,usuario.Perfil,(this.Master as SiteMaster).NombreBodegaSesion);
+                this.textBoxCrearFacturaVendedor.Text = (this.Master as SiteMaster).Usuario.Nombre;
                 // Redirigir a pagina principal
             }
             else
             {
-                // Si no me retorna un usuario valido, advertir
-                //mostrarMensaje();
+                mostrarMensaje("danger", "Error: ", "Credenciales inválidas ingresadas para cambio de usuario.");
             }
-            //String[] resultado = controladoraVentas.insertarFactura(obtenerDatos());
         }
 
         /*
-         * ???
+         * Método que realiza el ajuste rápido 
          */
         protected void clickBotonAceptarAjusteRapido(object sender, EventArgs e)
         {
@@ -1087,19 +1113,20 @@ namespace ProyectoInventarioOET
             String llaveProductoEscogido = controladoraVentas.verificarExistenciaProductoLocal((this.Master as SiteMaster).LlaveBodegaSesion, nombreCodigoProductoEscogido[0], nombreCodigoProductoEscogido[1]);
 
             Object[] datos = new Object[6];
-            datos[0] = "CYCLO106062012145550408008";
+            datos[0] = "CYCLO106062012145550408008"; //Todas las ventas están asociadas a ESYNTRO
             datos[1] = DateTime.Now.ToString("dd-MMM-yy");
             datos[2] = (this.Master as SiteMaster).Usuario.Nombre;
             datos[3] = (this.Master as SiteMaster).Usuario.Codigo;
-            datos[4] = "Ajuste realizado para permitir una venta";
+            datos[4] = "Ajuste realizado para permitir una venta"; //Todos los ajustes rápidos son de esta categoría; no se deberia pedir al usuario que indique el tipo, siempre es fijo
             datos[5] = (this.Master as SiteMaster).LlaveBodegaSesion;
 
             EntidadAjustes nuevoAjusteRapido = new EntidadAjustes(datos);
             
             datos = new Object[5];
-            datos[0] = datos[1] = "";
+            datos[0] = nombreCodigoProductoEscogido[0];
+            datos[1] = nombreCodigoProductoEscogido[1];
             datos[2] = Convert.ToInt32(nuevaCantidadParaAjusteRapido.Text);
-            datos[3] = productoEscogido;
+            datos[3] = controladoraVentas.getLlaveProductoBodega(llaveProductoEscogido);
             datos[4] = Convert.ToInt32(nuevaCantidadParaAjusteRapido.Text);
 
             nuevoAjusteRapido.agregarDetalle(datos);
@@ -1118,17 +1145,16 @@ namespace ProyectoInventarioOET
                 case "Select":
                     String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewFacturas.PageIndex * this.gridViewFacturas.PageSize)]);
                     consultarFactura(codigo);
-                    //Response.Redirect("FormVentas.aspx");
                     break;
             }
         }
 
         /*
-         * ???
+         * Método que se encarga del cambio de página del grid
          */
         protected void gridViewFacturas_CambioPagina(Object sender, GridViewPageEventArgs e)
         {
-            llenarGrid(); //súper ineficiente, TODO: buscar cómo evitar esto
+            llenarGrid(); 
             gridViewFacturas.PageIndex = e.NewPageIndex;
             gridViewFacturas.DataBind();
             tituloGrid.Visible = true;
@@ -1136,7 +1162,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Evento que cada vez que se selecciona una estación, refresca las bodegas de esa estación
          */
         protected void dropDownListConsultaEstacion_ValorCambiado(object sender, EventArgs e)
         {
@@ -1145,7 +1171,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Evento que cada vez que se selecciona una bodega, refresca los asociados a esa bodega
          */
         protected void dropDownListConsultaBodega_ValorCambiado(object sender, EventArgs e)
         {
@@ -1158,7 +1184,17 @@ namespace ProyectoInventarioOET
         protected void dropDownListCrearFacturaMetodoPago_ValorCambiado(object sender, EventArgs e)
         {
             //Deberia hacerse solo cuando escoja "deduccion de planilla"
-            cargarPosiblesClientes();
+            cargarPosiblesClientes(dropDownListCrearFacturaCliente);
+            if (dropDownListCrearFacturaMetodoPago.SelectedValue == "VARIOS")
+            {
+                botonCrearFacturaVariosMetodosPago.Visible = true;
+                dropDownListCrearFacturaMetodoPago.Style["width"] = "100%";
+            }
+            else
+            {
+                botonCrearFacturaVariosMetodosPago.Visible = false;
+                dropDownListCrearFacturaMetodoPago.Style["width"] = "160.5%%";
+            }
         }
 
         /*
@@ -1187,6 +1223,14 @@ namespace ProyectoInventarioOET
                         dropdownlistModalModificarProductoDescuento.Items.Add(new ListItem(i + "%",i.ToString()));
                 }
             }
+        }
+
+        /*
+         * Se usa para hacer visible o invisible la fila que contiene los campos extra para consultas de facturas más detalladas (método de pago, cliente, y fechas de inicio y final).
+         */
+        protected void checkBoxConsultarDetalles_CheckCambiado(object sender, EventArgs e)
+        {
+            detallesConsulta.Visible = (((CheckBox)sender).Checked);
         }
 
         /*
@@ -1227,5 +1271,30 @@ namespace ProyectoInventarioOET
                 ++i;
             }
         }
+
+        /*
+         * Intento fallido de poner el textbox de cantidad de los productos en algún punto medio de cada fila.
+         * No hacer.
+         */
+        //protected void gridViewCrearFacturaProductos_FilaCreada()
+        //{
+        //    //GridViewRow row = gridViewCrearFacturaProductos.Rows[gridViewCrearFacturaProductos.Rows.Count - 1];
+        //    foreach (GridViewRow row in gridViewCrearFacturaProductos.Rows)
+        //    {
+        //        List<TableCell> columns = new List<TableCell>();
+        //        TableCell cantidad = row.Cells[1];
+        //        int i = 0;
+        //        foreach (DataControlFieldCell column in row.Cells)
+        //        {
+        //            TableCell cell = row.Cells[i];
+        //            if (i == 4) columns.Add(cantidad);
+        //            if (i != 1) columns.Add(cell);
+        //            ++i;
+        //        }
+        //        for (int k = 0; k < columns.Count; ++k)
+        //            row.Cells.Remove(columns[k]);
+        //        row.Cells.AddRange(columns.ToArray());
+        //    }
+        //}
     }
 }

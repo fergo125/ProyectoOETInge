@@ -9,7 +9,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
     /*
      * Controladora de Seguridad, encargada de las funciones de seguridad del sistema, también encripta/desencripta contraseñas.
      */
-    public class ControladoraSeguridad
+    public class ControladoraSeguridad : Controladora
     {
         //Atributos
         private ControladoraBDSeguridad controladoraBDSeguridad;    // Entidad de controladora de base de datos, usada para acceder a base de datos
@@ -21,6 +21,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         public ControladoraSeguridad()
         {
             controladoraBDSeguridad = new ControladoraBDSeguridad();
+            controladoraBDSeguridad.NombreUsuarioLogueado = (this.NombreUsuarioLogueado);
         }
 
         /*
@@ -30,6 +31,15 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         {
             //TODO: Encriptar password aqui***
             return controladoraBDSeguridad.consultarUsuario(nombre, password);
+        }
+
+        /*
+         * Modifica la contraseña de un usuario en especifico
+         */
+        public String[] modificarContrasena(String codigoInternoUsuario, String password)
+        {
+            //TODO: Encriptar password aqui**
+            return controladoraBDSeguridad.modificarContrasena(codigoInternoUsuario,password);
         }
 
         public String consultarPermisosUsuario(String codigoPerfil, String interfaz)
@@ -88,5 +98,86 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         {
             return controladoraBDSeguridad.consultarNombreDeEstacion(id);
         }
+
+        // Retorna si un String es una contraseña valida
+        public bool contrasenaEsValida(String pass)
+        {
+            bool result = pass.Length>=8,mayuscula=false, minuscula=false, numero=false;
+            if (result)
+            {
+                CharEnumerator recorrido = pass.GetEnumerator();
+                char a = 'a', z = 'z', am = 'A', zm = 'Z', zero = '0', nueve = '9';
+                while (recorrido.MoveNext())
+                {
+                    minuscula |= (recorrido.Current >= a && recorrido.Current <= z);
+                    mayuscula |= (recorrido.Current >= am && recorrido.Current <= zm);
+                    numero |= (recorrido.Current >= zero && recorrido.Current <= nueve);
+                }
+                result = minuscula && mayuscula && numero;
+            }
+            return result;
+        }
+
+        public DataTable consultarCuentas()
+        {
+            return controladoraBDSeguridad.consultarCuentas();
+        }
+
+        public EntidadUsuario consultarCuenta(String idUsuario)
+        {
+            DataTable cuenta = controladoraBDSeguridad.consultarCuenta(idUsuario);
+            DataTable permisos = crearMatrizPermisos(cuenta);
+            return new EntidadUsuario(cuenta, permisos);
+        }
+
+        private DataTable crearMatrizPermisos(DataTable cuenta)
+        {
+            DataTable permisos = tablaPermisos();  
+            int i = 0;
+            DataRow nueva = permisos.NewRow();
+            foreach (DataRow fila in cuenta.Rows) {
+                nueva["Interfaz"] = fila[9].ToString();
+                String permiso = fila[10].ToString();
+                nueva["Consulta"] = permiso[5]=='1'?"X":"";
+                nueva["Creación"] = permiso[4] == '1' ? "X" : "";
+                nueva["Modificación"] = permiso[3] == '1' ? "X" : "";
+                permisos.Rows.Add(nueva);
+                nueva = permisos.NewRow();
+            }
+            return permisos;
+        }
+
+        /*
+         * Crea una datatable en el formato del grid de consultas
+         */
+        private DataTable tablaPermisos()
+        {
+            DataTable tabla = new DataTable();
+            DataColumn columna;
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Interfaz";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Consulta";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Creación";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Modificación";
+            tabla.Columns.Add(columna);
+
+            return tabla;
+        }
+
+
     }
 }

@@ -25,6 +25,9 @@ namespace ProyectoInventarioOET
         private static ControladoraDatosGenerales controladoraDatosGenerales;   // Controladora para obtener datos generales
         private static ControladoraProductosGlobales controladora;              // Controladora para obtener datos y manejar lógica de negocio.
         private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
+        private static DataTable consulta;
+        private static String argumentoSorteo = "";
+        private static bool boolSorteo = false;
 
         /*
          * Maneja las acciones que se ejecutan cuando se carga la página, establecer el modo de operación, 
@@ -38,8 +41,9 @@ namespace ProyectoInventarioOET
 
             if (!IsPostBack)
             {
-                controladora = new ControladoraProductosGlobales();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
+                controladora = new ControladoraProductosGlobales();
+                controladora.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
                 permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Catalogo general de productos");
                 if (permisos == "000000")
                     Response.Redirect("~/ErrorPages/404.html");
@@ -63,6 +67,7 @@ namespace ProyectoInventarioOET
                         cargarUnidades();
                         cargarVendible();
                         cargarCategorias();
+                        cargarImpuesto();
                         presentarDatos();
                         seConsulto = false;
                     }
@@ -80,6 +85,7 @@ namespace ProyectoInventarioOET
             labelTipoAlerta.Text = alerta + " ";
             labelAlerta.Text = mensaje;
             mensajeAlerta.Visible = true;
+            ScriptManager.RegisterStartupScript(Page, this.GetType(), "ScrollPage", "window.scroll(0,0);", true);
         }
 
         /*
@@ -201,6 +207,18 @@ namespace ProyectoInventarioOET
             inputVendible.Items.Add(new ListItem("Para venta", null));   
         }
 
+        protected void cargarImpuesto()
+        {
+            inputImpuesto.Items.Clear();
+            DataTable impuesto = controladoraDatosGenerales.consultarBooleanos();
+            foreach (DataRow fila in impuesto.Rows)
+            {
+                inputImpuesto.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
+            }
+
+        
+        }
+
         /*
         * Carga las posibles unidades para un producto en el 'comboBox' establecido para esto.
         */
@@ -260,7 +278,7 @@ namespace ProyectoInventarioOET
             datos[6] = this.inputSaldo.Value;
             datos[7] = this.inputEstado.SelectedValue;
             datos[8] = this.inputCostoDolares.Value;
-            datos[9] = this.inputImpuesto.Value;
+            datos[9] = this.inputImpuesto.SelectedValue;
             datos[10] = this.inputVendible.SelectedValue;
             datos[11] = this.inputPrecioColones.Value;
             datos[12] = this.inputPrecioDolares.Value;
@@ -322,9 +340,9 @@ namespace ProyectoInventarioOET
             int id = 0; // Es la posicion en donde se guardan los iD'  
             try
             {
-                DataTable productosGlobales;
+               
                 Object[] datos = new Object[4];
-
+                DataTable productosGlobales;
                 if (query == null)
                 {
                     productosGlobales = controladora.consultarProductosGlobales(); //Se trae el resultado de todos los productos
@@ -367,6 +385,7 @@ namespace ProyectoInventarioOET
 
                 this.gridViewProductosGlobales.DataSource = tabla;  // Se llena el grid con los datos de la BD
                 this.gridViewProductosGlobales.DataBind();
+                consulta = tabla;
                  if (productoConsultado != null)
                  {
                      //GridViewRow filaSeleccionada = this.gridViewProductosGlobales.Rows[indiceNuevoProductoGlobal];
@@ -391,7 +410,7 @@ namespace ProyectoInventarioOET
                 this.inpuCategoria.SelectedValue = productoConsultado.Categoria;
                 this.inputUnidades.SelectedValue = productoConsultado.Unidades.ToString();
                 this.inputSaldo.Value = productoConsultado.Existencia.ToString();
-                this.inputImpuesto.Value = productoConsultado.Impuesto.ToString();
+                this.inputImpuesto.SelectedValue = productoConsultado.Impuesto.ToString();
                 this.inputPrecioColones.Value = productoConsultado.PrecioColones.ToString();
                 this.inputPrecioDolares.Value = productoConsultado.PrecioDolares.ToString();
                 this.inputCostoColones.Value = productoConsultado.CostoColones.ToString();
@@ -488,7 +507,7 @@ namespace ProyectoInventarioOET
             this.inputCostoDolares.Value = "";
             this.inputPrecioColones.Value = "";
             this.inputPrecioDolares.Value = "";
-            this.inputImpuesto.Value = "";
+            this.inputImpuesto.SelectedValue = null;
             this.inputSaldo.Value = "";
             this.inputUnidades.SelectedValue = null;
             this.inpuCategoria.SelectedValue = null;
@@ -508,7 +527,7 @@ namespace ProyectoInventarioOET
             this.inputCostoDolares.Disabled = true;
             this.inputPrecioColones.Disabled = !resp;
             this.inputPrecioDolares.Disabled = !resp;
-            this.inputImpuesto.Disabled = !resp;
+            this.inputImpuesto.Enabled = resp;
             this.inputSaldo.Disabled = true;
             this.inputUnidades.Enabled = resp;
             this.inpuCategoria.Enabled = resp;
@@ -533,6 +552,7 @@ namespace ProyectoInventarioOET
             modo = (int)Modo.Consulta;
             cambiarModo();
             habilitarCampos(false);
+            argumentoSorteo = "";
         }
 
         /* 
@@ -564,6 +584,7 @@ namespace ProyectoInventarioOET
             cargarUnidades();
             cargarVendible();
             cargarCategorias();
+            cargarImpuesto();
             limpiarCampos();
             habilitarCampos(true);
         }
@@ -616,7 +637,8 @@ namespace ProyectoInventarioOET
          */
         protected void gridViewProductosGlobales_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
-            llenarGrid(null);
+            gridViewProductosGlobales.DataSource = consulta;
+            gridViewProductosGlobales.DataBind();
             this.gridViewProductosGlobales.PageIndex = e.NewPageIndex;
             this.gridViewProductosGlobales.DataBind();
         }
@@ -653,6 +675,63 @@ namespace ProyectoInventarioOET
             cambiarModo();
         }
 
+        /*
+         * Sorteo del grid
+         */
+        protected void grd_Sorting(object sender, GridViewSortEventArgs e)
+        {
+            if (e.SortExpression == argumentoSorteo)
+            {
+                if (boolSorteo == true)
+                    boolSorteo = false;
+                else
+                    boolSorteo = true;
+            }
+            else //New Column clicked so the default sort direction will be incorporated
+                boolSorteo = false;
+
+            argumentoSorteo = e.SortExpression; //Update the sort column
+            BindGrid(argumentoSorteo, boolSorteo);
+        }
+
+        /*
+         * Auxiliar para ordenar grid
+         */
+        public void BindGrid(string sortBy, bool inAsc)
+        {
+            agregarID();
+            DataView aux = new DataView (consulta);
+            aux.Sort = sortBy + " " + (inAsc ? "DESC" : "ASC"); //Ordena
+            consulta = aux.ToTable();
+            actualizarIDs();
+            gridViewProductosGlobales.DataSource = consulta;
+            gridViewProductosGlobales.DataBind();
+        }
+
+        public void agregarID() {
+            DataColumn columna;
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "id";
+            consulta.Columns.Add(columna);
+            int i = 0;
+            foreach (DataRow fila in consulta.Rows) {
+                fila[4] = idArray[i];
+                i++;
+            }
+        }
+
+        public void actualizarIDs()
+        {
+            int i = 0;
+            foreach (DataRow fila in consulta.Rows)
+            {
+                idArray[i] = fila[4];
+                i++;
+            }
+            consulta.Columns.Remove("id");
+        }
 
     }
 }

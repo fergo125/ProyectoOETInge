@@ -28,10 +28,8 @@ namespace ProyectoInventarioOET.App_Code
         {
             String esquema = "Compras.";
             DataTable resultado = new DataTable();
-            OracleCommand command = conexionBD.CreateCommand();
-            command.CommandText = "SELECT * FROM " + esquema + "GEN_GENERAL WHERE ROWNUM = 1";
-            OracleDataReader reader = command.ExecuteReader();
-            resultado.Load(reader);
+            String comandoSQL = "SELECT * FROM " + esquema + "GEN_GENERAL WHERE ROWNUM = 1";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
             return Convert.ToInt32(resultado.Rows[0][0]);
         }
 
@@ -42,10 +40,8 @@ namespace ProyectoInventarioOET.App_Code
         {
             String esquema = "Reservas.";
             DataTable resultado = new DataTable();
-            OracleCommand command = conexionBD.CreateCommand();
-            command.CommandText = "SELECT * FROM(SELECT COMPRA, VENTA FROM " + esquema + "TIPOCAMBIO ORDER BY ORDEN DESC) WHERE ROWNUM = 1";
-            OracleDataReader reader = command.ExecuteReader();
-            resultado.Load(reader);
+            String comandoSQL = "SELECT * FROM(SELECT COMPRA, VENTA FROM " + esquema + "TIPOCAMBIO ORDER BY ORDEN DESC) WHERE ROWNUM = 1";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }
     }

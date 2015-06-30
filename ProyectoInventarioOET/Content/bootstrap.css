@@ -7039,10 +7039,9 @@ td.visible-print {
     margin-top: -3px;
 }
 
-/*Used for the checkboxes associated to products in billing, the margin-right is not working.*/
+/*Used for the checkboxes associated to products in billing.*/
 .input-fozkr-check {
-    margin-top: -3px;
-    margin-right: 10px;
+    margin-left: 20%;
 }
 
 /*Used for buttons */

@@ -3,7 +3,7 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
     <div class="jumbotron">
-        <h1>SIO: Sistema de Inventarios para la OET</h1>
+        <h1>SIO: Sistema de Inventarios de la OET</h1>
         <p class="lead">Este sistema permite realizar diversas labores, como facturación, mantenimiento de inventario, generación de reportes contables, e incluso tareas administrativas.</p>
         <%--<p><a href="~/FormLogin.aspx" class="btn btn-primary btn-large">Iniciar sesión</a></p>--%>
     </div>

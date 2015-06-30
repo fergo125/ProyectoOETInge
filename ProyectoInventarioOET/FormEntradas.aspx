@@ -89,6 +89,16 @@
                                 <p id="outputFecha" runat="server" class="form-control-static"></p>
                             </div>
 
+                            <div class="form-group col-lg-3">
+                                <label for="outputMetodoPagoEntrada" class="control-label">Método de Pago:</label>      
+                                <p id="outputMetodoPagoEntrada" runat="server" class="form-control-static"></p>
+                            </div>
+
+                            <div class="form-group col-lg-3">
+                                <label for="outputTipoMonedaEntrada" class="control-label">Tipo de Moneda:</label>      
+                                <p id="outputTipoMonedaEntrada" runat="server" class="form-control-static"></p>
+                            </div>
+
                         </div>       
                     </div>
             </div>
@@ -169,6 +179,11 @@
                         <label for="outputFactura" class= "control-label">Factura:</label>      
                         <p id="outputFactura" runat="server" class="form-control-static"></p>
                     </div>
+
+                    <div class= "form-group col-lg-3">
+                        <label for="outputProveedor" class= "control-label">Proveedor:</label>      
+                        <p id="outputProveedor" runat="server" class="form-control-static"></p>
+                    </div>
             
                     <div class="form-group col-lg-3">
                         <label for="outputFechaPago" class= "control-label">Fecha de Pago:</label>      
@@ -186,7 +201,7 @@
                     </div>
 
                     <div class="form-group col-lg-3">
-                        <label for="outputImpuestos" class="control-label">Moneda:</label>      
+                        <label for="outputImpuestos" class="control-label">Tipo de Moneda:</label>      
                         <p id="outputMoneda" runat="server" class="form-control-static"></p>
                     </div>
 
@@ -196,25 +211,25 @@
                     </div>
 
                     <div class="form-group col-lg-3">
-                        <label for="outputSubtotal" class= "control-label">SubTotal:</label>      
-                        <p id="outputSubtotal" runat="server" class="form-control-static"></p>
-                    </div>
-
-                    <div class="form-group col-lg-3">
                         <label for="outputDescuento" class= "control-label">Descuento:</label>      
                         <p id="outputDescuento" runat="server" class="form-control-static"></p>
                     </div>
+                     <div class="form-group col-lg-3">
+                        <label for="outputImpuestos" class="control-label">Retención de Impuestos:</label>      
+                        <p id="outputImpuestos" runat="server" class="form-control-static"></p>
+                    </div>
 
+                    <div class="form-group col-lg-3">
+                        <label for="outputSubtotal" class= "control-label">SubTotal:</label>      
+                        <p id="outputSubtotal" runat="server" class="form-control-static"></p>
+                    </div>
+                    
                     <div class="form-group col-lg-3">
                         <label for="outputTotal" class= "control-label">Total:</label>      
                         <p id="outputTotal" runat="server" class="form-control-static"></p>
                     </div>
 
-                    <div class="form-group col-lg-3">
-                        <label for="outputImpuestos" class="control-label">Retención de Impuestos:</label>      
-                        <p id="outputImpuestos" runat="server" class="form-control-static"></p>
-                    </div>
-
+                   
                 </div>       
             </div>
 
@@ -249,7 +264,12 @@
                      </Triggers>
                   </asp:UpdatePanel>
                </div>     
+            <div class="row" style="margin-left:5%">
+                    <label for="outputTotalFacturaEntrante" class="control-label">Total de la Factura entrante:</label>      
+                    <p id="outputTotalFacturaEntrante" runat="server" class="form-control-static"></p>
             </div>
+            </div>
+
 
             <div class="row col-lg-3">
                 <label class= "control-label">Buscar producto:</label>
@@ -258,15 +278,33 @@
                 <label for="inputCantidadProducto" class= "control-label">Cantidad:</label>      
                 <input id="inputCantidadProducto" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
                 
-                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="inputCantidadProducto" ClientValidationFunction="changeColor" Display="Dynamic"
-                                                 ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="Solo se permiten números enteros"  Font-Bold="true" ValidationExpression="\d+$"></asp:RegularExpressionValidator>
+                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="inputCantidadProducto" ClientValidationFunction="changeColor" Display="Dynamic"
+                ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="Sólo se permiten números enteros"  Font-Bold="true" ValidationExpression="[1-9]+[0-9]*$"></asp:RegularExpressionValidator>
+
                 <br />
                 <label for="inputCostoProducto" class= "control-label">Costo Total:</label>      
                 <input id="inputCostoProducto" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
+                                
+                <asp:RegularExpressionValidator ID="RegularExpressionValidator2" ControlToValidate="inputCostoProducto" ClientValidationFunction="changeColor" Display="Dynamic"
+                ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="Sólo se permiten números enteros"  Font-Bold="true" ValidationExpression="(([1-9]+\d*(\.\d)*)|([0]\.[1-9]+)|([1-9]+(\.[0])*))?$"></asp:RegularExpressionValidator>
                 
-                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator2" ControlToValidate="inputCostoProducto" ClientValidationFunction="changeColor" Display="Dynamic"
-                                                 ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="Solo se permiten números válidos"  Font-Bold="true" ValidationExpression="^\d*(\.\d+)?$"></asp:RegularExpressionValidator>
                 <br />
+
+                <label for="inputDescuentoProducto" class= "control-label">Descuento (por ej. 1500 o 15%):</label>      
+                <input id="inputDescuentoProducto" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
+                <asp:RegularExpressionValidator ID="RegularExpressionValidator3" ControlToValidate="inputDescuentoProducto" ClientValidationFunction="changeColor" Display="Dynamic"
+                ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="Sólo se permiten cantidades o porcentajes"  Font-Bold="true" ValidationExpression="(([0]\.[0]*[1-9]+)|([1-9]+\d*(\.[0-9]+)?\%)|([0]\.[0]*[1-9]+\%)|([1-9]+\d*(\.[0-9]+)?)|([0]*))$"></asp:RegularExpressionValidator>
+                
+                <br />
+
+                <label class= "control-label">Impuesto:</label>
+                <asp:DropDownList ID="dropdownlistProductoImpuesto" CssClass="form-control" Width="75%" runat="server">
+                    <asp:ListItem Value="Sí">Sí</asp:ListItem>
+                    <asp:ListItem Value="No">No</asp:ListItem>
+                </asp:DropDownList>
+
+                <br />
+
                 <asp:Button ID="botonAgregarProductoFactura" runat="server" Text="Agregar a Factura" CssClass="btn btn-success-fozkr" OnClick="botonAgregarProductoFactura_Click"/>
             </div>
 
@@ -274,7 +312,8 @@
                  <div class="col-lg-12"><strong><div ID="Div3" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Detalle de la Factura Consignada</div></strong>
                     <asp:UpdatePanel ID="UpdatePanelFacturaNueva" runat="server">
                         <ContentTemplate>
-                            <asp:GridView ID="gridFacturaNueva" CssClass="table" OnPageIndexChanging="gridFacturaNueva_PageIndexChanging" runat="server" AllowPaging="True" PageSize="7" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                                                <asp:Panel ID="PanelCrearFacturaProductos" runat="server" ScrollBars="Vertical" Height="300px">
+                            <asp:GridView ID="gridFacturaNueva" CssClass="table" OnPageIndexChanging="gridFacturaNueva_PageIndexChanging" runat="server" AllowPaging="false"  BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
 						        <Columns>
 							        <asp:TemplateField HeaderText="Seleccionar">
 								        <ItemTemplate>
@@ -288,6 +327,7 @@
                                <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
                                <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
                           </asp:GridView>
+                                                    </asp:Panel>
                      </ContentTemplate>
                      <Triggers>
                         <asp:AsyncPostBackTrigger ControlID="gridFacturaNueva" EventName="RowCommand" />
@@ -301,8 +341,25 @@
                 </div>
                 <br />
                 <div class="row" style="margin-left:5%">
-                    <label for="outputTotalFacturaNueva" class="control-label">Total de la Factura:</label>      
+                    <label for="outputTotalFacturaNueva" class="control-label">Total de la factura:</label>      
                     <p id="outputTotalFacturaNueva" runat="server" class="form-control-static"></p>
+                </div>
+                <br />
+                <br />
+                <div class="row" style="margin-left:5%">
+                    <label class= "control-label">Tipo de moneda:</label>
+                    <asp:DropDownList ID="dropdownlistTipoMoneda" CssClass="form-control" Width="60%" runat="server">
+                        <asp:ListItem Value="Colones">Colones</asp:ListItem>
+                        <asp:ListItem Value="Dólares">Dólares</asp:ListItem>
+                    </asp:DropDownList>
+                </div>
+                <br />
+                <div class="row" style="margin-left:5%">
+                    <label class= "control-label">Método de pago:</label>
+                    <asp:DropDownList ID="dropdownlistMetodoPago" CssClass="form-control" Width="60%" runat="server">
+                        <asp:ListItem Value="Contado">Contado</asp:ListItem>
+                        <asp:ListItem Value="Crédito">Crédito</asp:ListItem>
+                    </asp:DropDownList>
                 </div>
 
             </div>

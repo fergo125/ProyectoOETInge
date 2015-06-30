@@ -27,10 +27,19 @@ namespace ProyectoInventarioOET.App_Code
         {
             String esquema = "Tesoreria.";
             DataTable resultado = new DataTable();
-            OracleCommand command = conexionBD.CreateCommand();
-            command.CommandText = "SELECT * FROM " + esquema + "CAT_ESTADOS";
-            OracleDataReader reader = command.ExecuteReader();
-            resultado.Load(reader);
+            String comandoSQL = "SELECT * FROM " + esquema + "CAT_ESTADOS";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
+            return resultado;
+        }
+        /*
+         * Método que retorna una tabla con la información de los posibles estados para las entidades dentro del sistema.
+         */
+        public DataTable consultarEstadosAnular()
+        {
+            String esquema = "Tesoreria.";
+            DataTable resultado = new DataTable();
+            String comandoSQL = "SELECT * FROM " + esquema + "CAT_ESTADOS WHERE CAT_ESTADO > 1 AND CAT_ESTADO < 4";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }
 
@@ -42,10 +51,8 @@ namespace ProyectoInventarioOET.App_Code
         {
             String esquema = "Tesoreria.";
             DataTable resultado = new DataTable();
-            OracleCommand command = conexionBD.CreateCommand();
-            command.CommandText = "SELECT * FROM " + esquema + "CAT_ESTADOS WHERE VALOR < 2";
-            OracleDataReader reader = command.ExecuteReader();
-            resultado.Load(reader);
+            String comandoSQL = "SELECT * FROM " + esquema + "CAT_ESTADOS WHERE VALOR < 2";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }
     }

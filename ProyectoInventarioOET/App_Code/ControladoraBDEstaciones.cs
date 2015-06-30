@@ -27,10 +27,8 @@ namespace ProyectoInventarioOET.App_Code
         {
             String esquema = "Reservas.";
             DataTable resultado = new DataTable();
-            OracleCommand command = conexionBD.CreateCommand();
-            command.CommandText = "SELECT * FROM " + esquema + "ESTACION";
-            OracleDataReader reader = command.ExecuteReader();
-            resultado.Load(reader);
+            String comandoSQL = "SELECT * FROM " + esquema + "ESTACION";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }
 
@@ -42,10 +40,8 @@ namespace ProyectoInventarioOET.App_Code
             String esquema1 = "Reservas.";
             String esquema2 = "Inventarios.";
             DataTable resultado = new DataTable();
-            OracleCommand command = conexionBD.CreateCommand();
-            command.CommandText = "SELECT NOMBRE,ID FROM " + esquema1 + "ESTACION WHERE ID=(SELECT " + esquema2 + "CAT_BODEGA.ESTACION FROM " + esquema2 + "CAT_BODEGA WHERE CAT_BODEGA='" + idBodega + "')";
-            OracleDataReader reader = command.ExecuteReader();
-            resultado.Load(reader);
+            String comandoSQL = "SELECT NOMBRE,ID FROM " + esquema1 + "ESTACION WHERE ID=(SELECT " + esquema2 + "CAT_BODEGA.ESTACION FROM " + esquema2 + "CAT_BODEGA WHERE CAT_BODEGA='" + idBodega + "')";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }
     }

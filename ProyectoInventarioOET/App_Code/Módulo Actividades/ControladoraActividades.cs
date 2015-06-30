@@ -9,7 +9,7 @@ namespace ProyectoInventarioOET.Modulo_Actividades
     /*
      * Comunicación entre la Controladora de Base de Datos y la que maneja las operaciones de la interfaz.
      */
-    public class ControladoraActividades
+    public class ControladoraActividades : Controladora
     {
         //Atributos
         private ControladoraBDActividades controladoraBDActividades;    // Instancia de la controladora de base
@@ -21,6 +21,7 @@ namespace ProyectoInventarioOET.Modulo_Actividades
         public ControladoraActividades()
         {
             controladoraBDActividades = new ControladoraBDActividades();
+            controladoraBDActividades.NombreUsuarioLogueado = (this.NombreUsuarioLogueado);
         }
 
         /*
@@ -65,14 +66,6 @@ namespace ProyectoInventarioOET.Modulo_Actividades
 
             EntidadActividad actividad = new EntidadActividad(actividadNueva);
             return controladoraBDActividades.modificarActividad(actividadVieja, actividad);
-        }
-
-        /*
-         * Desactiva una actividad de la base de datos
-         */
-        public String[] desactivarActividad(EntidadActividad actividad)
-        {
-            return controladoraBDActividades.desactivarActividad(actividad);
         }
 
         /*

@@ -21,30 +21,18 @@ namespace ProyectoInventarioOET.Modulo_Actividades
         public EntidadActividad consultarActividad(String codigo)
         {
             String esquema = "Inventarios.";
-            DataTable resultado = new DataTable();
+            DataTable resultado = null;
             EntidadActividad actividadConsultada = null;
             Object[] datosConsultados = new Object[3];
+            String comandoSQL = "SELECT * FROM " + esquema + "CAT_ACTIVIDAD WHERE CAT_ACTIVIDAD = '" + codigo + "'";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
 
-            try
+            if (resultado.Rows.Count == 1)
             {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT * FROM " + esquema + "CAT_ACTIVIDAD WHERE CAT_ACTIVIDAD = '" + codigo + "'";
-                OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
-
-                if (resultado.Rows.Count == 1)
-                {
-                    datosConsultados[0] = codigo;
-                    for (int i = 1; i < 3; i++)
-                    {
-                        datosConsultados[i] = resultado.Rows[0][i].ToString();
-                    }
-
-                    actividadConsultada = new EntidadActividad(datosConsultados);
-                }
-            }
-            catch (Exception e)
-            {
+                datosConsultados[0] = codigo;
+                for (int i = 1; i < 3; i++)
+                    datosConsultados[i] = resultado.Rows[0][i].ToString();
+                actividadConsultada = new EntidadActividad(datosConsultados);
             }
             return actividadConsultada;
         }
@@ -56,30 +44,18 @@ namespace ProyectoInventarioOET.Modulo_Actividades
         public EntidadActividad consultarActividadPorNombre(String nombre)
         {
             String esquema = "Inventarios.";
-            DataTable resultado = new DataTable();
+            DataTable resultado = null;
             EntidadActividad actividadConsultada = null;
             Object[] datosConsultados = new Object[3];
+            String comandoSQL = "SELECT * FROM " + esquema + "CAT_ACTIVIDAD WHERE DESCRIPCION = '" + nombre + "'";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
 
-            try
+            if (resultado.Rows.Count == 1)
             {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT * FROM " + esquema + "CAT_ACTIVIDAD WHERE DESCRIPCION = '" + nombre + "'";
-                OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
-
-                if (resultado.Rows.Count == 1)
-                {
-                    datosConsultados[0] = resultado.Rows[0][0].ToString();
-                    for (int i = 1; i < 3; i++)
-                    {
-                        datosConsultados[i] = resultado.Rows[0][i].ToString();
-                    }
-
-                    actividadConsultada = new EntidadActividad(datosConsultados);
-                }
-            }
-            catch (Exception e)
-            {
+                datosConsultados[0] = resultado.Rows[0][0].ToString();
+                for (int i = 1; i < 3; i++)
+                    datosConsultados[i] = resultado.Rows[0][i].ToString();
+                actividadConsultada = new EntidadActividad(datosConsultados);
             }
             return actividadConsultada;
         }
@@ -92,31 +68,24 @@ namespace ProyectoInventarioOET.Modulo_Actividades
         public string[] insertarActividad(EntidadActividad actividad)
         {
             String esquema = "Inventarios.";
-            String[] res = new String[4];
+            String[] resultado = new String[4];
             actividad.Codigo = generarID();
-            res[3] = actividad.Codigo.ToString();
-            try
+            resultado[3] = actividad.Codigo.ToString();
+            String comandoSQL = "INSERT INTO " + esquema + "CAT_ACTIVIDAD (CAT_ACTIVIDAD,DESCRIPCION,ESTADO) VALUES ('" + actividad.Codigo + "','"
+                + actividad.Descripcion + "','" + (short)actividad.Estado + "')";
+            if(ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
             {
-                DataTable resultado = new DataTable();
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "INSERT INTO " + esquema + "CAT_ACTIVIDAD (CAT_ACTIVIDAD,DESCRIPCION,ESTADO) VALUES ('"
-                    + actividad.Codigo + "','" + actividad.Descripcion + "','"
-                    + (short)actividad.Estado + "')";
-                OracleDataReader reader = command.ExecuteReader();
-
-
-                res[0] = "success";
-                res[1] = "Éxito";
-                res[2] = "Actividad agregada al sistema.";
+                resultado[0] = "success";
+                resultado[1] = "Éxito";
+                resultado[2] = "Actividad agregada al sistema.";
             }
-            catch (SqlException e)
+            else
             {
-                // Como la llave es generada se puede volver a intentar
-                res[0] = "danger";
-                res[1] = "Error";
-                res[2] = "Actividad no agregada, intente nuevamente.";
+                resultado[0] = "danger";
+                resultado[1] = "Error";
+                resultado[2] = "Actividad no agregada, intente nuevamente."; // Como la llave es generada se puede volver a intentar
             }
-            return res;
+            return resultado;
         }
 
         /*
@@ -127,51 +96,22 @@ namespace ProyectoInventarioOET.Modulo_Actividades
         public string[] modificarActividad(EntidadActividad actividad, EntidadActividad nuevaActividad)
         {
             String esquema = "Inventarios.";
-            String[] res = new String[3];
-            try
+            String[] resultado = new String[3];
+            String comandoSQL = "UPDATE " + esquema + "CAT_ACTIVIDAD SET DESCRIPCION = '" + nuevaActividad.Descripcion + "',ESTADO = '"
+                + (short)nuevaActividad.Estado + "' WHERE DESCRIPCION = '" + actividad.Descripcion + "' AND ESTADO = " + actividad.Estado;
+            if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
             {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "UPDATE " + esquema + "CAT_ACTIVIDAD SET DESCRIPCION = '" + nuevaActividad.Descripcion 
-                    + "',ESTADO = '" + (short)nuevaActividad.Estado + "' WHERE DESCRIPCION = '" + actividad.Descripcion + "' AND ESTADO = " + actividad.Estado;
-                OracleDataReader reader = command.ExecuteReader();
-                res[0] = "success";
-                res[1] = "Éxito";
-                res[2] = "Actividad modificada en el sistema.";
+                resultado[0] = "success";
+                resultado[1] = "Éxito";
+                resultado[2] = "Actividad modificada en el sistema.";
             }
-            catch (SqlException e)
+            else
             {
-                if (e.Number == 2627)
-                {
-                    res[0] = "danger";
-                    res[1] = "Error";
-                    res[2] = "Actividad no modificada.";
-                }
+                resultado[0] = "danger";
+                resultado[1] = "Error";
+                resultado[2] = "Actividad no modificada.";
             }
-            return res;
-        }
-
-        /*
-         * Método que desactiva una actividad a partir de la EntidadActividad.
-         */
-        public string[] desactivarActividad(EntidadActividad actividad)
-        {
-            String[] res = new String[3];
-            try
-            {
-
-                //adaptadorBodega.Update();
-
-                res[0] = "success";
-                res[1] = "Éxito";
-                res[2] = "Actividad desactivada en el sistema.";
-            }
-            catch (SqlException e)
-            {
-                res[1] = "danger";
-                res[1] = "Error";
-                res[3] = "Actividad no desactivada.";
-            }
-            return res;
+            return resultado;
         }
 
         /*
@@ -181,18 +121,9 @@ namespace ProyectoInventarioOET.Modulo_Actividades
         public DataTable consultarActividades()
         {
             String esquema = "Inventarios.";
-            DataTable resultado = new DataTable();
-            try
-            {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT * FROM " + esquema + "CAT_ACTIVIDAD";
-                OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
-            }
-            catch (Exception e)
-            {
-                resultado = null;
-            }
+            DataTable resultado = null;
+            String comandoSQL = "SELECT * FROM " + esquema + "CAT_ACTIVIDAD";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }
     }

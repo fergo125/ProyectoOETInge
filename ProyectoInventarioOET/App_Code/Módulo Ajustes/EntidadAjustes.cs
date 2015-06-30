@@ -10,15 +10,19 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
     public class EntidadAjustes
     {
 
-        private String idTipoAjuste; 
-        private DateTime fecha;
-        private String usuario; 
-        private String idUsuario;
-        private String notas;
-        private String idBodega; 
-        private List<EntidadDetalles> detalles = new List<EntidadDetalles>();
+        private String idTipoAjuste; // Código del ajuste
+        private DateTime fecha;     // Fecha de creación del ajuste
+        private String usuario;     //Nombre del usuario responsable del ajuste
+        private String idUsuario;   //iD del usuario responsable del ajuste
+        private String notas;       // Notas realizadas sobre el ajuste 
+        private String idBodega;    // Id de la bodega.
+        private int estado;
+        private List<EntidadDetalles> detalles = new List<EntidadDetalles>(); // Lista de los productos trasladados
+        private int anulable; 
 
-        //public EntidadAjustes(Object[] datos, DataTable datosProductos)
+        /*
+         * Constructor encargado de encapsular los datos de un ajuste
+         */
         public EntidadAjustes(Object[] datos)
         {
             detalles = new List<EntidadDetalles>();
@@ -30,11 +34,14 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
             if (datos.Count() >= 6)
             {
                 this.idBodega = datos[5].ToString();
-                //this.idUsuario = datos[6].ToString();
+                this.estado = Int32.Parse( datos[6].ToString());
+                this.anulable = datos[7].ToString().Equals("")?1:Int32.Parse(datos[7].ToString());
             }
         }
 
-        // Decirle a leo que los nuevos productos vienen en un datatable
+        /*
+         * Método encargado de encapsular y añadir un nuevo producto al ajuste
+         */
         public void agregarDetalle(Object[] datosProductos) {
             EntidadDetalles nuevo = new EntidadDetalles(datosProductos);
             detalles.Add(nuevo);
@@ -42,43 +49,76 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
 
 
 
-
+        /*
+         * Método para obtener y establecer el id del tipo de ajuste.
+         */
         public String IdTipoAjuste
         {
             get { return idTipoAjuste; }
             set { idTipoAjuste = value; }
         }
-
+        /*
+         * Método para obtener y establecer la fecha del ajuste.
+         */
         public DateTime Fecha
         {
             get { return fecha; }
             set { fecha = value; }
         }
-
+        /*
+         * Método para obtener y establecer el nombre del responsable del ajuste.
+         */
         public String Usuario
         {
             get { return usuario; }
             set { usuario = value; }
         }
-
+        /*
+         * Método para obtener y establecer el id del responsable del ajuste.
+         */
         public String IdUsuario
         {
             get { return idUsuario; }
             set { idUsuario = value; }
         }
-
+        /*
+         * Método para obtener y establecer el id de la bodega.
+         */
         public String IdBodega
         {
             get { return idBodega; }
             set { idBodega = value; }
         }
 
+        /*
+         * Método para obtener y establecer las notas sobre el ajuste.
+         */
         public String Notas
         {
             get { return notas; }
             set { notas = value; }
         }
 
+
+        /*
+         * Método para obtener y establecer las notas sobre el ajuste.
+         */
+        public int Estado
+        {
+            get { return estado; }
+            set { estado = value; }
+        }
+
+
+        public int Anulable
+        {
+            get { return anulable; }
+            set { anulable = value; }
+        }
+
+        /*
+         * Método para obtener los detalles de los productos ajustados.
+         */
         public List<EntidadDetalles> Detalles
         {
             get { return detalles; }

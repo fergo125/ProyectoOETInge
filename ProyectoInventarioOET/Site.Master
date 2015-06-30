@@ -15,6 +15,14 @@
     <webopt:bundlereference runat="server" path="~/Content/css" />
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <link href="Content/bootstrap.css" rel="stylesheet" />
+
+                                <script>
+                                    function mifuncion() {
+                                        setTimeout(function () { $("#modalAgregarProducto").modal('show');; }, 500);
+                                        
+                                    }
+         </script>
+
 </head>
 
 <body>
@@ -92,7 +100,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li id="linkFormAdministracion1" visible="false" runat="server"><a runat="server" href="~/FormContact">Reportes</a></li>
-                                <li id="linkFormAdministracion2" visible="false" runat="server"><a runat="server" href="~/FormContact">Seguridad</a></li>
+                                <li id="linkFormAdministracion2" visible="false" runat="server"><a runat="server" href="~/FormSeguridad">Seguridad</a></li>
                             </ul>
                         </li>
                     </ul>

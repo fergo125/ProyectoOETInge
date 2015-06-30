@@ -26,26 +26,23 @@ namespace ProyectoInventarioOET.Modulo_Categorias
         public String[] insertarCategoria(EntidadCategoria categoria)
         {
             String esquema = "Inventarios.";
-            String[] res = new String[4];
-            res[3] = categoria.Nombre;
-            try
-            {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "INSERT INTO " + esquema + "CAT_CATEGORIAS (CAT_CATEGORIAS,DESCRIPCION,Estado) VALUES ('"
+            String[] resultado = new String[4];
+            resultado[3] = categoria.Nombre;
+            String comandoSQL = "INSERT INTO " + esquema + "CAT_CATEGORIAS (CAT_CATEGORIAS,DESCRIPCION,Estado) VALUES ('"
                 + generarID() + "','" + categoria.Descripcion + "','" + categoria.Estado+ "')";
-                OracleDataReader reader = command.ExecuteReader();
-
-                res[0] = "success";
-                res[1] = "Éxito:";
-                res[2] = "Categoría agregada al sistema.";
-            }
-            catch (SqlException e)
+            if(ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
             {
-                res[0] = "danger";
-                res[1] = "Error:";
-                res[2] = "Categoría no agregada, intente nuevamente.";
+                resultado[0] = "success";
+                resultado[1] = "Éxito:";
+                resultado[2] = "Categoría agregada al sistema.";
             }
-            return res;
+            else
+            {
+                resultado[0] = "danger";
+                resultado[1] = "Error:";
+                resultado[2] = "Categoría no agregada, intente nuevamente.";
+            }
+            return resultado;
         }
 
         /*
@@ -54,50 +51,22 @@ namespace ProyectoInventarioOET.Modulo_Categorias
         public String[] modificarCategoria(EntidadCategoria categoria, EntidadCategoria nuevaCategoria)
         {
             String esquema = "Inventarios.";
-            String[] res = new String[3];
-            try
+            String[] resultado = new String[3];
+            String comandoSQL = "UPDATE " + esquema + "CAT_CATEGORIAS SET DESCRIPCION = '" + nuevaCategoria.Nombre + "', estado = "
+                + (short)nuevaCategoria.Estado + " WHERE CAT_CATEGORIAS = '" + categoria.Nombre + "'";
+            if(ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
             {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "UPDATE " + esquema + "CAT_CATEGORIAS SET DESCRIPCION = '" + nuevaCategoria.Nombre + "', estado = " + (short)nuevaCategoria.Estado + " WHERE CAT_CATEGORIAS = '" + categoria.Nombre + "'";
-                OracleDataReader reader = command.ExecuteReader();
-
-
-                res[0] = "success";
-                res[1] = "Éxito:";
-                res[2] = "Categoria modificada en el sistema.";
+                resultado[0] = "success";
+                resultado[1] = "Éxito:";
+                resultado[2] = "Categoria modificada en el sistema.";
             }
-            catch (SqlException e)
+            else
             {
-                if (e.Number == 2627)
-                {
-                    res[0] = "danger";
-                    res[1] = "Error:";
-                    res[2] = "Categoría no modificada, intente nuevamente.";
-                }
+                resultado[0] = "danger";
+                resultado[1] = "Error:";
+                resultado[2] = "Categoría no modificada, intente nuevamente.";
             }
-            return res;
-        }
-
-        /*
-         * Metodo que recibe una entidad categoria para desactivarla
-         */
-        public String[] desactivarCategoria(EntidadCategoria categoria)
-        {
-            String[] res = new String[3];
-            try
-            {
-                //adaptadorCategoria.Update();
-                res[0] = "success";
-                res[1] = "Éxito:";
-                res[2] = "Categoría desactivada en el sistema.";
-            }
-            catch (SqlException e)
-            {
-                res[1] = "danger";
-                res[1] = "Error:";
-                res[3] = "Categoría no desactivada, intente nuevamente.";
-            }
-            return res;
+            return resultado;
         }
 
         /*
@@ -107,17 +76,8 @@ namespace ProyectoInventarioOET.Modulo_Categorias
         {
             String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
-            try
-            {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT * FROM " + esquema + "CAT_CATEGORIAS";
-                OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
-            }
-            catch (Exception e)
-            {
-                resultado = null;
-            }
+            String comandoSQL = "SELECT * FROM " + esquema + "CAT_CATEGORIAS";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }
 
@@ -129,17 +89,10 @@ namespace ProyectoInventarioOET.Modulo_Categorias
             String esquema = "Inventarios.";
             String res = "";
             DataTable resultado = new DataTable();
-            try
-            {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT C.DESCRIPCION FROM " + esquema + "CAT_BODEGA C WHERE C.NOMBRE = '" + idCategoria + "'";
-                OracleDataReader reader = command.ExecuteReader();
+            String comandoSQL = "SELECT C.DESCRIPCION FROM " + esquema + "CAT_BODEGA C WHERE C.NOMBRE = '" + idCategoria + "'";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
+            if(resultado.Rows.Count == 1)
                 res = resultado.Rows[0][0].ToString();
-            }
-            catch (Exception e)
-            {
-                resultado = null;
-            }
             return res;
         }
 
@@ -152,23 +105,14 @@ namespace ProyectoInventarioOET.Modulo_Categorias
             DataTable resultado = new DataTable();
             EntidadCategoria categoriaConsultada = null;
             Object[] datosConsultados = new Object[3];
-            try
+            String comandoSQL = "SELECT * FROM " + esquema + "CAT_CATEGORIAS WHERE CAT_CATEGORIAS = '" + nombre + "'";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
+            if (resultado.Rows.Count == 1)
             {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT * FROM " + esquema + "CAT_CATEGORIAS WHERE CAT_CATEGORIAS = '" + nombre + "'";
-                OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
-
-                if (resultado.Rows.Count == 1)
-                {
-                    datosConsultados[0] = nombre;
-                    datosConsultados[1] = resultado.Rows[0][1].ToString();
-                    datosConsultados[2] = Convert.ToInt32(resultado.Rows[0][2].ToString());
-                    categoriaConsultada = new EntidadCategoria(datosConsultados);
-                }
-            }
-            catch (Exception e)
-            {
+                datosConsultados[0] = nombre;
+                datosConsultados[1] = resultado.Rows[0][1].ToString();
+                datosConsultados[2] = Convert.ToInt32(resultado.Rows[0][2].ToString());
+                categoriaConsultada = new EntidadCategoria(datosConsultados);
             }
             return categoriaConsultada;
         }

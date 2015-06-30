@@ -10,7 +10,7 @@ namespace ProyectoInventarioOET.Modulo_Categorias
     /*
      * ???
      */
-    public class ControladoraCategorias
+    public class ControladoraCategorias : Controladora
     {
         //Atributos
         private ControladoraBDCategorias controladoraBDCategorias;  //???
@@ -21,6 +21,7 @@ namespace ProyectoInventarioOET.Modulo_Categorias
         public ControladoraCategorias()
         {
             controladoraBDCategorias = new ControladoraBDCategorias();
+            controladoraBDCategorias.NombreUsuarioLogueado = (this.NombreUsuarioLogueado);
         }
 
         /*
@@ -47,14 +48,6 @@ namespace ProyectoInventarioOET.Modulo_Categorias
         {
             EntidadCategoria categoriaNueva = new EntidadCategoria(datoscategoriaNueva);
             return controladoraBDCategorias.modificarCategoria(categoriaVieja, categoriaNueva);
-        }
-
-        /*
-         * Desactiva una categoria de la base de datos.
-         */
-        public String[] desactivarcategoria(EntidadCategoria categoria)
-        {
-            return controladoraBDCategorias.desactivarCategoria(categoria);
         }
 
         /*

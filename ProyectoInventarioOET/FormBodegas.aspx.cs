@@ -41,8 +41,9 @@ namespace ProyectoInventarioOET
           
             if (!IsPostBack)
             {
-                controladoraBodegas = new ControladoraBodegas();
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
+                controladoraBodegas = new ControladoraBodegas();
+                controladoraBodegas.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
                 //Seguridad
                 permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Gestion de bodegas");
                 if (permisos == "000000")
@@ -308,6 +309,7 @@ namespace ProyectoInventarioOET
             labelTipoAlerta.Text = alerta + " ";
             labelAlerta.Text = mensaje;
             mensajeAlerta.Visible = true;
+            ScriptManager.RegisterStartupScript(Page, this.GetType(), "ScrollPage", "window.scroll(0,0);", true);
         }
 
         /*

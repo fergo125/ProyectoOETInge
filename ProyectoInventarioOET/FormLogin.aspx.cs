@@ -26,6 +26,10 @@ namespace ProyectoInventarioOET
             if(!IsPostBack)
             {
                 controladora = new ControladoraSeguridad();
+                if ((this.Master as SiteMaster).Usuario == null)
+                    controladora.NombreUsuarioLogueado = ""; //en el caso de que el usuario no esté logueado, se pone nulo
+                else
+                    controladora.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
             }
         }
 
@@ -62,6 +66,7 @@ namespace ProyectoInventarioOET
             labelTipoAlerta.Text = "Error:";
             labelAlerta.Text = "Nombre de usuario o contraseña inválidos";
             mensajeAlerta.Visible = true;
+            ScriptManager.RegisterStartupScript(Page, this.GetType(), "ScrollPage", "window.scroll(0,0);", true);
         }
     }
 }

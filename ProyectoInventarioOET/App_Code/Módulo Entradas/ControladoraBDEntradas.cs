@@ -11,210 +11,215 @@ namespace ProyectoInventarioOET.Modulo_Entradas
     public class ControladoraBDEntradas : ControladoraBD
     {
         /*
- * Constructor.
- */
+         * Constructor.
+         */
         public ControladoraBDEntradas()
         {
         }
         /*
--         * Recibe un id de bodega y devuelve las entradas para esa bodega especifica
--         */
+-        * Recibe un id de bodega y devuelve las entradas para esa bodega especifica
+-        */
         public DataTable consultarEntradasDeBodega(string bodega)
         {
             String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
-            try
-            {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT * FROM " + esquema + "CAT_ENTRADAS WHERE CAT_BODEGA = '" + bodega + "'";
-                OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
-            }
-            catch (OracleException e)
-            {
-                resultado = null;
-            }
+            String comandoSQL = "SELECT * FROM " + esquema + "CAT_ENTRADAS WHERE CAT_BODEGA = '" + bodega + "'";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }
+
         /*
--         * Si en el ID se pasa por parametro todas, el sistema devuelve todas las facturas en la base,
--         * pero si recibe por paramentro un id o el inicio de un id, tratara de buscar todas las facturas que sean similares
--         */
+-        * Si en el ID se pasa por parametro todas, el sistema devuelve todas las facturas en la base,
+-        * pero si recibe por paramentro un id o el inicio de un id, tratara de buscar todas las facturas que sean similares
+-        */
         public DataTable buscarFacturas(string id)
         {
             DataTable resultado = new DataTable();
-            //String esquema = "Compras.";
-            try
-            {
-                OracleCommand command = conexionBD.CreateCommand();
-                if ("Todas".Equals(id))
-                {
-                    command.CommandText = "SELECT *" 
-                        + "FROM compras.facturas full outer join INVENTARIOS.cat_entradas on compras.facturas.idfactura = inventarios.cat_entradas.factura"
-                        +" where INVENTARIOS.cat_entradas.cat_entradas is null";
-                    OracleDataReader reader = command.ExecuteReader();
-                    resultado.Load(reader);
-
-                }
-                else
-                {
-                    command.CommandText = "SELECT *"
-                        + "FROM compras.facturas full outer join INVENTARIOS.cat_entradas on compras.facturas.idfactura = inventarios.cat_entradas.factura"
-                        + " where INVENTARIOS.cat_entradas.cat_entradas is null and compras.facturas.idfactura" + " like '" + id +"%'";
-                    OracleDataReader reader = command.ExecuteReader();
-                    resultado.Load(reader);
-                }
-
-            }
-            catch (Exception e)
-            {
-                resultado = null;
-            }
+            String esquema1 = "Compras.";
+            String esquema2 = "Inventarios.";
+            String comandoSQL = "";
+            if ("Todas".Equals(id))
+                comandoSQL = "SELECT *"
+                    + "FROM " + esquema1 + "facturas full outer join " + esquema2 + "cat_entradas on " + esquema1 + "facturas.idfactura = " + esquema2 + "cat_entradas.factura"
+                    + " where " + esquema2 + "cat_entradas.cat_entradas is null";
+            else
+                comandoSQL = "SELECT *"
+                    + "FROM " + esquema1 + "facturas full outer join " + esquema2 + "cat_entradas on " + esquema1 + "facturas.idfactura = " + esquema2 + "cat_entradas.factura"
+                    + " where" + esquema2 + "cat_entradas.cat_entradas is null and " + esquema1 + "facturas.idfactura" + " like '" + id + "%'";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }
+
          /*
--         *Recibe el id de una factura y devuelve el detalle de la misma 
+-         * Recibe el id de una factura y devuelve el detalle de la misma 
 -         */
-        public DataTable consultarDetalleFactura(String id)
+        public DataTable consultarDetalleFactura(String idFactura)
         {
             DataTable resultado = new DataTable();
+            String ordenDeCompra = "";
             String esquema = "Compras.";
-            try
-            {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT *  "
-                + " FROM " + esquema + "PRODUCTO_ORDENADOS "
-                + " WHERE IDORDENDECOMPRA= " + " '" + id + "'";
-                OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
+            String comandoSQL = "SELECT IDORDENDECOMPRA "
+            + "FROM " + esquema + "FACTURAS_CON_OC"
+            + " WHERE IDFACTURA = '" + idFactura + "'";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
 
-            }
-            catch (Exception e)
+
+            if (resultado.Rows.Count > 0)
             {
-                resultado = null;
+                foreach (DataRow fila in resultado.Rows)
+                {
+                    ordenDeCompra = fila[0].ToString();
+                }
+
+                resultado = new DataTable();
+                String comandoSQL2 = "SELECT *  "
+                    + " FROM " + esquema + "PRODUCTO_ORDENADOS "
+                    + " WHERE IDORDENDECOMPRA= " + " '" + ordenDeCompra + "'";
+                resultado = ejecutarComandoSQL(comandoSQL2, true);
             }
+
             return resultado;
         }
+
         /*
--         * Recibe el id de una factura y devuelve los datos de esa factura.
--         */
+-        * Recibe el id de una factura y devuelve los datos de esa factura.
+-        */
         public DataTable consultarFactura(String id)
         {
             DataTable resultado = new DataTable();
             String esquema = "Compras.";
-            try
-            {
-                OracleCommand command = conexionBD.CreateCommand();
-
-                command.CommandText = "SELECT *  "
+            String comandoSQL = "SELECT *  "
                 + " FROM " + esquema + "FACTURAS "
                 + " WHERE IDFACTURA =" + " '" + id + "'";
-                OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
-            }
-            catch (Exception e)
-            {
-                resultado = null;
-            }
+            resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }
+
         /*
--         * Recibe el id de una entrada y devuelve sus datos.
--         */
+-        * Recibe el id de una entrada y devuelve sus datos.
+-        */
         public DataTable consultarEntrada(String id)
         {
             DataTable resultado = new DataTable();
             String esquema = "Inventarios.";
-            try
-            {
-                OracleCommand command = conexionBD.CreateCommand();
-
-                command.CommandText = "SELECT *  "
-                + " FROM " + esquema + "CAT_ENTRADAS" 
+            String comandoSQL = "SELECT *  "
+                + " FROM " + esquema + "CAT_ENTRADAS"
                 + " WHERE CAT_ENTRADAS =" + " '" + id + "'";
-                OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
-            }
-            catch (Exception e)
-            {
-                resultado = null;
-            }
+            resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }
+
         /*
-         *Recibe el id de una entrada de inventario y devuelve los productos asociados a esa 
-         *entrada.
+         * Recibe el id de una entrada de inventario y devuelve los productos asociados a esa 
+         * entrada.
          */
         public DataTable consultarProductosEntrada(string id)
         {
             DataTable resultado = new DataTable();
-            //String esquema = "Inventarios.";
-            try
-            {
-                OracleCommand command = conexionBD.CreateCommand();
-                command.CommandText = "SELECT NOMBRE,CANTIDAD,PRECIO_UNITARIO  FROM (SELECT * FROM CAT_ENTRADAS_PRODUCTOS JOIN INV_PRODUCTOS ON CAT_ENTRADAS_PRODUCTOS.cat_productos = INV_PRODUCTOS.Codigo) WHERE CAT_ENTRADAS" + "= '" + id + "'";
-                OracleDataReader reader = command.ExecuteReader();
-                resultado.Load(reader);
-            }
-            catch (Exception e)
-            {
-                resultado = null;
-            }
+            String esquema = "Inventarios.";
+            String comandoSQL = "select A.NOMBRE, A.CANTIDAD, A.COSTO_TOTAL, A.COSTO_UNITARIO, A.DESCUENTO, A.GRAVADO" +
+                "from (select * from " + esquema + "CAT_ENTRADAS_PRODUCTOS entradasProductos, " + esquema + "INV_PRODUCTOS productos where entradasProductos.cat_productos = productos.Codigo ) A" +
+                " WHERE CAT_ENTRADAS" + "= '" + id + "'";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
+
+//select A.NOMBRE, A.CANTIDAD, A.COSTO_TOTAL, 
+//A.COSTO_UNITARIO, A.DESCUENTO, A.GRAVADO
+//from (select * from Inventarios.CAT_ENTRADAS_PRODUCTOS entradasProductos, Inventarios.INV_PRODUCTOS productos where entradasProductos.cat_productos = productos.Codigo ) A;
+
         }
+
+        /*
+         * Recibe la informacion de una entrada y los productos asociados y los ingresa a la
+         * base de datos.
+         */
         public String[] insertarEntrada(EntidadEntrada entrada, DataTable productosAsociados)
         {
             String esquema = "Inventarios.";
             //bool existenteEnBD = false;
-
+            int temp;
             String[] res = new String[4];
             entrada.IdEntrada= generarID();
             res[3] = entrada.IdEntrada;
-      
-                try
-                {
-                    OracleCommand command = conexionBD.CreateCommand();
-                    command.CommandText = "insert into cat_entradas values("+
+            String comandoSQL = "insert into "+esquema+"cat_entradas values("+
                         "'"+ entrada.IdEntrada +"'"+
                         ",'" + entrada.IdFactura + "'"+
                         ",'" + entrada.IdEncargado+ "'" +
                         ",'" + entrada.Bodega+ "'" +
-                        ",'" + entrada.FechEntrada.ToString("dd-MMM-yyy")+ "'" 
+                        ",'" + entrada.FechEntrada.ToString("dd-MMM-yyy")+ "'" +
+                        ",'" + entrada.TipoMoneda + "'" + 
+                        ",'" + entrada.MetodoPago + "'"
                         +")";
-                    OracleDataReader reader = command.ExecuteReader();
 
+            try {
+                if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
+                {
                     if (productosAsociados.Rows.Count > 0)
                     {
                         foreach (DataRow fila in productosAsociados.Rows)
                         {
-                            command = conexionBD.CreateCommand();
-                            command.CommandText = "insert into cat_entradas_productos values(" +
+                            if (fila[4] == "No")
+                                temp = 0;
+                            else temp = 1;
+
+                            comandoSQL = "insert into " + esquema + "cat_entradas_productos values(" +
                                 "'" + generarID() + "'" +
                                 ",'" + entrada.IdEntrada + "'" +
                                 ",'" + fila[0] + "'" +
                                 "," + fila[1] +
-                                ",'" + fila[2] + "'" 
+                                "," + fila[3] +
+                                ",'" + fila[5] + "'" +
+                                "," + fila[2] +
+                                "," + temp
                                 + ")";
-                             reader = command.ExecuteReader();
-
-                            command = conexionBD.CreateCommand();
-                            command.CommandText = "update INV_BODEGA_PRODUCTOS set saldo = saldo + " + fila[1]
-                                + " where inv_productos = '" + fila[0] + "' and cat_bodega = '" + entrada.Bodega + "' ";
-                            reader = command.ExecuteReader();
+                            if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
+                            {
+                                comandoSQL = "update INV_BODEGA_PRODUCTOS set saldo = saldo + " + fila[1]
+                                    + ", MODIFICADO =  TO_DATE('" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "',  'dd/mm/yyyy hh24:mi:ss') where inv_productos = '" + fila[0] + "' and cat_bodega = '" + entrada.Bodega + "' ";
+                                if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
+                                {
+                                    res[0] = "success";
+                                    res[1] = "Éxito:";
+                                    res[2] = "Entrada agregada al sistema.";
+                                }
+                            }
                         }
                     }
-                    res[0] = "success";
-                    res[1] = "Éxito:";
-                    res[2] = "Entrada agregada al sistema.";
                 }
-                catch (OracleException e)
+                else
                 {
                     res[0] = "danger";
                     res[1] = "Error:";
                     res[2] = "Entrada no agregada, intente nuevamente.";
-                }
+                }            
+            }
+            catch (Exception x){
+            
+            }
+
             return res;
         }
 
+        /*
+         * Consulta el nombre de un proveedor a partir de su identificador.
+         */
+        public String consultarNombreProveedor(string idProveedor)
+        {
+            String esquema = "Compras.";
+            DataTable consultado = new DataTable();
+            String resultado = "";
+            String comandoSQL = "select NOMBRE from "+ esquema + "V_PROVEEDOR where IDPROVEEDOR = '" + idProveedor + "'";
+
+            consultado = ejecutarComandoSQL(comandoSQL, true);
+            if (consultado.Rows.Count > 0) 
+            {
+                foreach (DataRow fila in consultado.Rows)
+                {
+                    resultado = fila[0].ToString();
+                }            
+            }
+
+            return resultado;
+        }
     }
 }

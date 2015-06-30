@@ -9,7 +9,7 @@ namespace ProyectoInventarioOET.Modulo_Productos_Locales
     /*
      * Clase de controladora de productos
      */
-    public class ControladoraProductoLocal
+    public class ControladoraProductoLocal : Controladora
     {
         //Atributos
         private ControladoraBDProductosLocales controladoraBD;  //???
@@ -21,6 +21,7 @@ namespace ProyectoInventarioOET.Modulo_Productos_Locales
         public ControladoraProductoLocal()
         {
             controladoraBD = new ControladoraBDProductosLocales();
+            controladoraBD.NombreUsuarioLogueado = (this.NombreUsuarioLogueado);
         }
 
         /*
@@ -73,9 +74,9 @@ namespace ProyectoInventarioOET.Modulo_Productos_Locales
         }
 
         //B1.INV_PRODUCTOS, P.NOMBRE, P.CODIGO, B1.SALDO, B1.MINIMO, B1.MAXIMO, B1.INV_BODEGA_PRODUCTOS, B2.INV_BODEGA_PRODUCTOS
-        public DataTable consultarProductosDeBodega(string idBodegaOrigen, string idBodegaDestino)
+        public DataTable consultarProductosDeBodega(string idBodegaOrigen, string idBodegaDestino, String query)
         {
-            return controladoraBD.consultarProductosDeBodega(idBodegaOrigen, idBodegaDestino);
+            return controladoraBD.consultarProductosDeBodega(idBodegaOrigen, idBodegaDestino, query);
         }
 
         /*

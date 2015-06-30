@@ -39,6 +39,7 @@ namespace ProyectoInventarioOET
             {
                 controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
                 controladoraActividades = new ControladoraActividades();
+                controladoraActividades.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
                 permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Gestion de actividades");
                 if (permisos == "000000")
                     Response.Redirect("~/ErrorPages/404.html");
@@ -200,6 +201,7 @@ namespace ProyectoInventarioOET
             labelTipoAlerta.Text = alerta + " ";
             labelAlerta.Text = mensaje;
             mensajeAlerta.Visible = true;
+            ScriptManager.RegisterStartupScript(Page, this.GetType(), "ScrollPage", "window.scroll(0,0);", true);
         }
 
         /*
