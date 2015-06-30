@@ -1085,6 +1085,8 @@ namespace ProyectoInventarioOET
                 mostrarMensaje("warning", "Atención: ", "No existen productos en la bodega actual que se relacionen con su busqueda.");
                 query = "";
             }
+            gridViewProductos.DataSource = tablaProductos;
+            gridViewProductos.DataBind();
             mostrarGridParaCorrecciones();
         }
     }
