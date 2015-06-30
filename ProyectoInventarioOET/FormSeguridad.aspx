@@ -49,11 +49,11 @@
         <div class="col-lg-12">
             <div class="col-lg-12 row">
                 <div class="col-lg-4 form-group">
-                    <label for="inputUsuario" class= "control-label">Usuario:</label>      
+                    <label for="inputUsuario" class= "control-label">Nombre de Usuario:</label>      
                     <input id="inputUsuario" type="text" class="form-control" />
                 </div>
                 <div class="col-lg-4 form-group">
-                    <label for="inputNombre" class= "control-label">Nombre de usuario:</label>
+                    <label for="inputNombre" class= "control-label">Nombre completo:</label>
                     <input id="inputNombre" type="text"  class="form-control"/>
                 </div>
             </div>
