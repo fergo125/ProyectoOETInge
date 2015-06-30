@@ -46,15 +46,21 @@
 
     <!-- Fieldset de informacion de usuario (crear/consultar/modificar) -->
     <fieldset id="FieldsetUsuario" class="fieldset" runat="server" visible="false">
+        <br />
         <div class="col-lg-12">
             <div class="col-lg-12 row">
+                <div class="col-lg-4 form-group">
+                    <label for="inputNombre" class= "control-label">Nombre completo:</label>
+                    <input id="inputNombre" runat="server"  type="text"  class="form-control"/>
+                </div>
                 <div class="col-lg-4 form-group">
                     <label for="inputUsuario" class= "control-label">Nombre de Usuario:</label>      
                     <input id="inputUsuario" runat="server" type="text" class="form-control" />
                 </div>
-                <div class="col-lg-4 form-group">
-                    <label for="inputNombre" class= "control-label">Nombre completo:</label>
-                    <input id="inputNombre" runat="server"  type="text"  class="form-control"/>
+                <div class="col-lg-4">
+                    <label for="inputEstacion" class="control-label">Estación:</label>
+                    <asp:DropDownList ID="DropDownListEstacion" runat="server" CssClass="form-control">
+                    </asp:DropDownList>
                 </div>
             </div>
             <div class="col-lg-12 row">
@@ -70,16 +76,25 @@
                         <input id="inputPasswordConfirm" runat="server"  type="password"  class="form-control"/>
                     </div>
                 </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="DropDownListAnfitriona" class="control-label">Anfitriona:</label>
+                        <asp:DropDownList ID="DropDownListAnfitriona" runat="server" CssClass="form-control"></asp:DropDownList>
+                    </div>
+                </div>
             </div>
             <div class="col-lg-12 row">
                 <div class="col-lg-4">
-                    <label for="inputEstacion" class="control-label">Seleccione estación:</label>
-                    <asp:DropDownList ID="DropDownListEstacion" runat="server" CssClass="form-control">
-                    </asp:DropDownList>
+                    <label for="inputDescripcion" class="control-label">Descripción:</label>
+                    <input id="inputDescripcion" runat="server"  type="text" class="form-control"/>
                 </div>
                 <div class="col-lg-4">
-                    <label for="inputDescripcion" class="control-label">Seleccione su descripción:</label>
-                    <input id="inputDescripcion" runat="server"  type="text" class="form-control"/>
+                    <label for="DropDownListEstado" class="control-label">Estado:</label>
+                    <asp:DropDownList ID="DropDownListEstado" runat="server" CssClass="form-control"></asp:DropDownList>
+                </div>
+                <div class="col-lg-4">
+                    <label for="inputDescuentoMaximo" class="control-label">Descuento máximo:</label>
+                    <input id="inputDescuentoMaximo" runat="server" type="text" class="form-control" />
                 </div>
             </div>
         </div>

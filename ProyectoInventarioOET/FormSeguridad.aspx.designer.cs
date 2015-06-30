@@ -157,6 +157,15 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetUsuario;
         
         /// <summary>
+        /// Control inputNombre.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText inputNombre;
+        
+        /// <summary>
         /// Control inputUsuario.
         /// </summary>
         /// <remarks>
@@ -166,13 +175,13 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlInputText inputUsuario;
         
         /// <summary>
-        /// Control inputNombre.
+        /// Control DropDownListEstacion.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText inputNombre;
+        protected global::System.Web.UI.WebControls.DropDownList DropDownListEstacion;
         
         /// <summary>
         /// Control inputPassword.
@@ -193,13 +202,13 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlInputPassword inputPasswordConfirm;
         
         /// <summary>
-        /// Control DropDownListEstacion.
+        /// Control DropDownListAnfitriona.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownListEstacion;
+        protected global::System.Web.UI.WebControls.DropDownList DropDownListAnfitriona;
         
         /// <summary>
         /// Control inputDescripcion.
@@ -209,6 +218,24 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputText inputDescripcion;
+        
+        /// <summary>
+        /// Control DropDownListEstado.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DropDownListEstado;
+        
+        /// <summary>
+        /// Control inputDescuentoMaximo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText inputDescuentoMaximo;
         
         /// <summary>
         /// Control FieldsetAsociarUsuario.
