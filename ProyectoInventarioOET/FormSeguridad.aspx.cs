@@ -20,7 +20,8 @@ namespace ProyectoInventarioOET
         private static ControladoraSeguridad controladoraSeguridad;
         private static ControladoraDatosGenerales controladoraDatosGenerales;   //Controladora para consultar las estaciones
         private static EntidadUsuario usuarioConsultado;                        //Entidad que almacena la cuenta consultada
-        private static Boolean seConsulto = false;                              //Bandera que revisa si ya se consulto o no
+        private static Boolean seConsulto = false;                              //Bandera que revisa si ya se consulto o no                       //???
+        private static Object[] idArray;                                //Array de ids para almacenar los usuarios
         
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -222,8 +223,8 @@ namespace ProyectoInventarioOET
         protected String crearUsuario()
         {
             String codigo = "";
-           // Object[] usuario = obtenerDatosUsuario();
-           // String[] error = controladoraUsuario.insertarDatos(usuario);
+            Object[] usuario = obtenerDatosCuenta();
+            String[] error = controladoraSeguridad.insertarDatos(usuario);
 
             codigo = Convert.ToString(error[3]);
             mostrarMensaje(error[0], error[1], error[2]);
@@ -250,6 +251,84 @@ namespace ProyectoInventarioOET
             this.inputPasswordConfirm.Enabled = habilitar;
             this.DropDownListEstacion.Enabled = habilitar;
             this.DropDownListDescripcion.Enabled = habilitar;
+        }
+
+        //Metodo que llena el grid de cuentas consultadas
+        protected void llenarGrid()
+        {
+            DataTable tabla = tablaUsuarios();
+            int indiceNuevoUsuario = -1;
+            int i = 0;
+
+            try
+            {
+                // Cargar usuarios
+                Object[] datos = new Object[4];
+                DataTable bodegas = controladoraUsuarios.consultarUsuarios();
+
+                if (bodegas.Rows.Count > 0)
+                {
+                    idArray = new Object[bodegas.Rows.Count];
+                    foreach (DataRow fila in bodegas.Rows)
+                    {
+                        idArray[i] = fila[0];
+                        datos[0] = fila[1].ToString();
+                        datos[1] = fila[3].ToString();
+                        datos[2] = fila[4].ToString();
+                        datos[3] = fila[5].ToString();
+                        tabla.Rows.Add(datos);
+                        if (usuarioConsultado != null && (fila[0].Equals(usuarioConsultado.Codigo)))
+                        {
+                            indiceNuevoUsuario = i;
+                        }
+                        i++;
+                    }
+                }
+                else
+                {
+                    datos[0] = "-";
+                    datos[1] = "-";
+                    datos[2] = "-";
+                    datos[3] = "-";
+                    tabla.Rows.Add(datos);
+                    mostrarMensaje("warning", "Atención: ", "No existen bodegas en la base de datos.");
+                }
+
+                /*this.gridViewUsuarios.DataSource = tabla;
+                this.gridViewUsuarios.DataBind();*/
+            }
+            catch (Exception e)
+            {
+                mostrarMensaje("warning", "Alerta", "No hay conexión a la base de datos.");
+            }
+
+
+
+        }
+
+
+        protected Object[] obtenerDatosCuenta()
+        {
+            Object[] datos = new Object[10];
+            datos[0] = 0;
+            datos[1] = this.inputUsuario.Value;
+            datos[2] = this.inputPassword.Text;
+            datos[3] = DateTime.Now.Date.ToString("dd/MMM/yyyy") + ' ' + DateTime.Now.ToString("hh:mm:ss tt");
+            datos[4] = this.DropDownListDescripcion.SelectedValue;
+            datos[5] = this.DropDownListEstacion.SelectedValue;
+            datos[6] = 0; //Pendiente
+            datos[7] = this.inputNombre.Value;
+            datos[8] = 1; //Pendiente
+            datos[9] = 15; //
+            return datos;
+        }
+
+        //Tabla de consulta de cuentas
+        protected DataTable tablaUsuarios()
+        {
+            DataTable tabla = new DataTable();
+            //A Carlos le toca implementarlo :)
+            return tabla;
         }
 
     }
