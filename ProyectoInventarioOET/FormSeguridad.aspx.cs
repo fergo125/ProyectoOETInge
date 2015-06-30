@@ -106,6 +106,10 @@ namespace ProyectoInventarioOET
                     FieldsetBotones.Visible = false;
                     FieldsetGrid.Visible = false;
                     break;
+                case (int)Modo.ConsultaPerfil:
+                    FieldsetGrid.Visible = true;
+                    FieldsetPerfil.Visible = false;
+                    break;
 
                 case (int)Modo.ConsultaUsuario:
                     FieldsetUsuario.Visible = false;
@@ -332,6 +336,13 @@ namespace ProyectoInventarioOET
             DataTable tabla = new DataTable();
             //A Carlos le toca implementarlo
             return tabla;
+        }
+
+        // Consulta perfiles
+        protected void botonConsultarPerfil_ServerClick(object sender, EventArgs e)
+        {
+            modo = (int)Modo.ConsultaPerfil;
+            cambiarModo();
         }
 
     }
