@@ -224,8 +224,8 @@ namespace ProyectoInventarioOET
         {
             String codigo = "";
             Object[] usuario = obtenerDatosCuenta();
-            String[] error = controladoraSeguridad.insertarDatos(usuario);
-
+            //String[] error = controladoraSeguridad.insertarUsuario(usuario);
+            String[] error = new String[4];
             codigo = Convert.ToString(error[3]);
             mostrarMensaje(error[0], error[1], error[2]);
             if (error[0].Contains("success"))
@@ -247,10 +247,10 @@ namespace ProyectoInventarioOET
         {
             this.inputUsuario.Disabled = !habilitar;
             this.inputNombre.Disabled = !habilitar;
-            this.inputPassword.Enabled = habilitar;
-            this.inputPasswordConfirm.Enabled = habilitar;
+            this.inputPassword.Disabled = !habilitar;
+            this.inputPasswordConfirm.Disabled = !habilitar;
             this.DropDownListEstacion.Enabled = habilitar;
-            this.DropDownListDescripcion.Enabled = habilitar;
+            this.inputDescripcion.Disabled = !habilitar;
         }
 
         //Metodo que llena el grid de cuentas consultadas
@@ -264,12 +264,12 @@ namespace ProyectoInventarioOET
             {
                 // Cargar usuarios
                 Object[] datos = new Object[4];
-                DataTable bodegas = controladoraUsuarios.consultarUsuarios();
-
-                if (bodegas.Rows.Count > 0)
+                //DataTable usuarios = controladoraSeguridad.consultarUsuarios();
+                DataTable usuarios = new DataTable();
+                if (usuarios.Rows.Count > 0)
                 {
-                    idArray = new Object[bodegas.Rows.Count];
-                    foreach (DataRow fila in bodegas.Rows)
+                    idArray = new Object[usuarios.Rows.Count];
+                    foreach (DataRow fila in usuarios.Rows)
                     {
                         idArray[i] = fila[0];
                         datos[0] = fila[1].ToString();
@@ -312,9 +312,9 @@ namespace ProyectoInventarioOET
             Object[] datos = new Object[10];
             datos[0] = 0;
             datos[1] = this.inputUsuario.Value;
-            datos[2] = this.inputPassword.Text;
+            datos[2] = this.inputPassword.Value;
             datos[3] = DateTime.Now.Date.ToString("dd/MMM/yyyy") + ' ' + DateTime.Now.ToString("hh:mm:ss tt");
-            datos[4] = this.DropDownListDescripcion.SelectedValue;
+            datos[4] = this.inputDescripcion.Value;
             datos[5] = this.DropDownListEstacion.SelectedValue;
             datos[6] = 0; //Pendiente
             datos[7] = this.inputNombre.Value;

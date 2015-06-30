@@ -50,24 +50,24 @@
             <div class="col-lg-12 row">
                 <div class="col-lg-4 form-group">
                     <label for="inputUsuario" class= "control-label">Nombre de Usuario:</label>      
-                    <input id="inputUsuario" type="text" class="form-control" />
+                    <input id="inputUsuario" runat="server" type="text" class="form-control" />
                 </div>
                 <div class="col-lg-4 form-group">
                     <label for="inputNombre" class= "control-label">Nombre completo:</label>
-                    <input id="inputNombre" type="text"  class="form-control"/>
+                    <input id="inputNombre" runat="server"  type="text"  class="form-control"/>
                 </div>
             </div>
             <div class="col-lg-12 row">
                 <div class="col-lg-4">
                     <div class= "form-group">
                         <label for="inputPassword" class= "control-label">Contraseña:</label>
-                        <input id="inputPassword" type="password" class="form-control" />
+                        <input id="inputPassword" runat="server"  type="password" class="form-control" />
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class= "form-group">
                         <label for="inputPasswordConfirm" class= "control-label">Confirmar contraseña:</label>
-                        <input id="inputPasswordConfirm" type="password"  class="form-control"/>
+                        <input id="inputPasswordConfirm" runat="server"  type="password"  class="form-control"/>
                     </div>
                 </div>
             </div>
@@ -79,7 +79,7 @@
                 </div>
                 <div class="col-lg-4">
                     <label for="inputDescripcion" class="control-label">Seleccione su descripción:</label>
-                    <input id="inputDescripcion" type="text" class="form-control"/>
+                    <input id="inputDescripcion" runat="server"  type="text" class="form-control"/>
                 </div>
             </div>
         </div>
