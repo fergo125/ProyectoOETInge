@@ -117,13 +117,21 @@ namespace ProyectoInventarioOET.Modulo_Entradas
         {
             DataTable resultado = new DataTable();
             String esquema = "Inventarios.";
-            String comandoSQL = "SELECT Inventarios.INV_PRODUCTOS.NOMBRE,Inventarios.CAT_ENTRADAS_PRODUCTOS.CANTIDAD,Inventarios.CAT_ENTRADAS_PRODUCTOS.COSTO_TOTAL,Inventarios.CAT_ENTRADAS_PRODUCTOS.COSTO_UNITARIO,Inventarios.CAT_ENTRADAS_PRODUCTOS.GRAVADO,Inventarios.CAT_ENTRADAS_PRODUCTOS.DESCUENTO  FROM (SELECT * FROM " + esquema + "CAT_ENTRADAS_PRODUCTOS JOIN " + esquema + "INV_PRODUCTOS ON " + esquema + "CAT_ENTRADAS_PRODUCTOS.cat_productos = " + esquema + "INV_PRODUCTOS.Codigo) WHERE " + esquema + "CAT_ENTRADAS" + "= '" + id + "'";
+            String comandoSQL = "select A.NOMBRE, A.CANTIDAD, A.COSTO_TOTAL, A.COSTO_UNITARIO, A.DESCUENTO, A.GRAVADO" +
+                "from (select * from " + esquema + "CAT_ENTRADAS_PRODUCTOS entradasProductos, " + esquema + "INV_PRODUCTOS productos where entradasProductos.cat_productos = productos.Codigo ) A" +
+                " WHERE CAT_ENTRADAS" + "= '" + id + "'";
             resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
+
+//select A.NOMBRE, A.CANTIDAD, A.COSTO_TOTAL, 
+//A.COSTO_UNITARIO, A.DESCUENTO, A.GRAVADO
+//from (select * from Inventarios.CAT_ENTRADAS_PRODUCTOS entradasProductos, Inventarios.INV_PRODUCTOS productos where entradasProductos.cat_productos = productos.Codigo ) A;
+
         }
 
         /*
-         * ???
+         * Recibe la informacion de una entrada y los productos asociados y los ingresa a la
+         * base de datos.
          */
         public String[] insertarEntrada(EntidadEntrada entrada, DataTable productosAsociados)
         {
@@ -192,6 +200,9 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             return res;
         }
 
+        /*
+         * Consulta el nombre de un proveedor a partir de su identificador.
+         */
         public String consultarNombreProveedor(string idProveedor)
         {
             String esquema = "Compras.";
