@@ -26,7 +26,7 @@
     <br /><br />
     <!-- Fieldset de administracion de perfiles -->
     <fieldset id= "FieldsetBotonesPerfiles" class="fieldset" runat="server" visible="false">
-        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonConsultarPerfil">Consultar perfil</button>
+        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonConsultarPerfil" onserverclick="botonConsultarPerfil_ServerClick">Consultar perfil</button>
         <button runat="server" type="button" class="btn btn-info-fozkr" id="botonCrearPerfil">Crear perfil</button>
         <button runat="server" type="button" class="btn btn-info-fozkr" id="botonModificarPerfil" disabled="disabled">Modificar perfil</button>
     </fieldset>
@@ -47,43 +47,40 @@
     <!-- Fieldset de informacion de usuario (crear/consultar/modificar) -->
     <fieldset id="FieldsetUsuario" class="fieldset" runat="server" visible="false">
         <div class="col-lg-12">
-            <div class="col-lg-4">
-                <div class="form-group col-lg-12" >
+            <div class="col-lg-12 row">
+                <div class="col-lg-4 form-group">
                     <label for="inputUsuario" class= "control-label">Usuario:</label>      
-                    <input type="text" id="inputUsuario" class="form-control" style="max-width:100%"  runat="server">
+                    <input id="inputUsuario" type="text" class="form-control" />
+                </div>
+                <div class="col-lg-4 form-group">
+                    <label for="inputNombre" class= "control-label">Nombre de usuario:</label>
+                    <input id="inputNombre" type="text"  class="form-control"/>
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="form-group col-lg-12" >
-                    <label for="inputNombre" class= "control-label">Nombre de usuario:</label>      
-                    <input type="text" id="inputNombre" class="form-control" style="max-width:100%"  runat="server">
+            <div class="col-lg-12 row">
+                <div class="col-lg-4">
+                    <div class= "form-group">
+                        <label for="inputPassword" class= "control-label">Contraseña:</label>
+                        <input id="inputPassword" type="password" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class= "form-group">
+                        <label for="inputPasswordConfirm" class= "control-label">Confirmar contraseña:</label>
+                        <input id="inputPasswordConfirm" type="password"  class="form-control"/>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-12">
-            <div class="col-lg-4">
-                <div class= "form-group">
-                    <label for="inputPassword" class= "control-label">Contraseña:</label>
-                    <asp:TextBox runat="server" ID="inputPassword" TextMode="Password" CssClass="form-control"/>
+            <div class="col-lg-12 row">
+                <div class="col-lg-4">
+                    <label for="inputEstacion" class="control-label">Seleccione estación:</label>
+                    <asp:DropDownList ID="DropDownListEstacion" runat="server" CssClass="form-control">
+                    </asp:DropDownList>
                 </div>
-            </div>
-            <div class="col-lg-4">
-                <div class= "form-group">
-                    <label for="inputPasswordConfirm" class= "control-label">Confirmar contraseña:</label>
-                    <asp:TextBox runat="server" ID="inputPasswordConfirm" TextMode="Password" CssClass="form-control"/>
+                <div class="col-lg-4">
+                    <label for="inputDescripcion" class="control-label">Seleccione su descripción:</label>
+                    <input id="inputDescripcion" type="text" class="form-control"/>
                 </div>
-            </div>
-        </div>
-        <div class="col-lg-12">
-            <div class="col-lg-4">
-                <label for="inputEstacion" class="control-label">Seleccione estación:</label>
-                <asp:DropDownList ID="DropDownListEstacion" runat="server" CssClass="form-control">
-                </asp:DropDownList>
-            </div>
-            <div class="col-lg-4">
-                <label for="inputDescripcion" class="control-label">Seleccione su descripción:</label>
-                <asp:DropDownList ID="DropDownListDescripcion" runat="server" CssClass="form-control">
-                </asp:DropDownList>
             </div>
         </div>
     </fieldset>
@@ -140,7 +137,9 @@
                 <div class="text-center">
                     <button runat="server" type="button" class="btn btn-success-fozkr" id="botonAceptar">Aceptar</button>
                     <a runat="server" href="#modalCancelar" id="botonCancelarEverything" class="btn btn-danger-fozkr" role="button" data-toggle="modal">Cancelar</a>
-        </div></div></div>
+                </div>
+            </div>
+        </div>
     </fieldset>
 
     <br />

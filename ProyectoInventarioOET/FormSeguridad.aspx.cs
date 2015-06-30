@@ -30,7 +30,6 @@ namespace ProyectoInventarioOET
                 entidadConsultada = controladora.consultarCuenta("3"); //Recibe el id (Seg_usuario)
                 this.gridPermisos.DataSource = entidadConsultada.MatrizPermisos;
                 this.gridPermisos.DataBind();  //IMPORTANTE!! ASI VIENEN LOS PERMISOS DE UN USUARIO
-                this.inputNombre.Value = entidadConsultada.Nombre;
                 this.gridCuentas.DataSource = controladora.consultarCuentas(); // Recordadr no desplegar el idUsuario!! Yo lo hice xq era un ejemplo de que funka 
                 this.gridCuentas.DataBind();
 
@@ -70,6 +69,10 @@ namespace ProyectoInventarioOET
                     FieldsetAsociarUsuario.Visible = false;
                     FieldsetBotones.Visible = false;
                     FieldsetGrid.Visible = false;
+                    break;
+                case (int)Modo.ConsultaPerfil:
+                    FieldsetGrid.Visible = true;
+                    FieldsetPerfil.Visible = false;
                     break;
 
                 case (int)Modo.ConsultaUsuario:
@@ -132,6 +135,13 @@ namespace ProyectoInventarioOET
         protected void botonConsultarUsuario_ServerClick(object sender, EventArgs e)
         {
             modo = (int)Modo.ConsultaUsuario;
+            cambiarModo();
+        }
+
+        // Consulta de perfiles
+        protected void botonConsultarPerfil_ServerClick(object sender, EventArgs e)
+        {
+            modo = (int)Modo.ConsultaPerfil;
             cambiarModo();
         }
     }
