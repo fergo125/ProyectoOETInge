@@ -90,12 +90,12 @@
         <!-- DropDown Lists que cargan las estaciones disponibles y las bodegas pertenecientes a la estación seleccionada -->
         <div class="row">
             <div class="col-lg-4">
-                <label for="inputUsuario" class="control-label">Seleccione al usuario:</label>
+                <label for="DropDownListUsuario" class="control-label">Seleccione al usuario:</label>
                 <asp:DropDownList ID="DropDownListUsuario" runat="server" CssClass="form-control" AutoPostBack="true">
                 </asp:DropDownList>
             </div>
             <div class="col-lg-4">
-                <label for="inputPerfil" class="control-label">Seleccione perfil a asignar:</label>
+                <label for="DropDownListPerfil" class="control-label">Seleccione perfil a asignar:</label>
                 <asp:DropDownList ID="DropDownListPerfil" runat="server" CssClass="form-control">
                 </asp:DropDownList>
             </div>
