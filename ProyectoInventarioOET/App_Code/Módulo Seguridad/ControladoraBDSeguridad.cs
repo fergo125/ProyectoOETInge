@@ -246,6 +246,13 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         }
 
 
+        public String[] asociarABodega(String codigo, String llaveBodega, String idEstacion)
+        {
+            String[] resultado = new String[4];
+            return resultado;
+        }
+
+
         public DataTable consultarPerfiles()
         {
             String esquema = "Inventarios.";

@@ -78,5 +78,11 @@ namespace ProyectoInventarioOET.Modulo_Bodegas
         {
             return controladoraBDBodegas.consultarEstacionDeBodega(idBodega);
         }
+
+        //Consulta la llave de una bodega según su nombre y estación
+        public String consultarLlaveBodega(String nombre, String idEstacion)
+        {
+            return controladoraBDBodegas.consultarLlaveBodega(nombre, idEstacion);
+        }
     }
 }
