@@ -170,10 +170,10 @@ namespace ProyectoInventarioOET
                     labelDropDownListPerfilConsulta.Visible = true;
                     inputFecha.Visible = true;
                     labelInputFecha.Visible = true;
-
+                    this.gridViewBodegas.Enabled = false;
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfil.Visible = false;
-                    this.botonAsociarPerfil.Visible = true;
+                    this.botonModificarUsuario.Visible = true;
                     this.FieldsetBotonesUsuarios.Visible = true;
                     break;
             }
