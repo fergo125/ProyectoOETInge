@@ -20,14 +20,14 @@
     </div>
 
     <!-- Botones de acción -->
-    <button runat="server" type="button" class=" btn btn-info-fozkr" id="botonPerfiles" onserverclick="botonPerfiles_ServerClick">Administrar perfiles</button>
     <button runat="server" type="button" class=" btn btn-info-fozkr" id="botonUsuarios" onserverclick="botonUsuarios_ServerClick">Administrar usuarios</button>
+    <button runat="server" type="button" class=" btn btn-info-fozkr" id="botonPerfiles" onserverclick="botonPerfiles_ServerClick">Administrar perfiles</button>
 
     <br /><br />
     <!-- Fieldset de administracion de perfiles -->
     <fieldset id= "FieldsetBotonesPerfiles" class="fieldset" runat="server" visible="false">
         <button runat="server" type="button" class="btn btn-info-fozkr" id="botonConsultarPerfil" onserverclick="botonConsultarPerfil_ServerClick">Consultar perfil</button>
-        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonCrearPerfil">Crear perfil</button>
+        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonCrearPerfil" onserverclick="botonCrearPerfil_ServerClick">Crear perfil</button>
         <button runat="server" type="button" class="btn btn-info-fozkr" id="botonModificarPerfil" disabled="disabled">Modificar perfil</button>
     </fieldset>
     <!-- Fieldset de administracion de usuarios -->
@@ -42,13 +42,10 @@
     <h3 ID="tituloAccionForm" runat="server"></h3>
 
     <!-- Fieldset de informacion de perfil (crear/consultar/modificar) -->
-    <fieldset id="FieldsetPerfil" class="fieldset" runat="server" visible="true">
-        <!-- Fieldset de consulta -->
-        <fieldset id="FieldsetPerfilConsulta" class="fieldset" runat="server" visible="false">
-        </fieldset>
+    <fieldset id="FieldsetPerfil" class="fieldset" runat="server" visible="false">
         <!-- Fieldset de creación (Oscar) -->
         <br />
-        <fieldset id="FieldsetPerfilCreacion" class="fieldset" runat="server" visible="true">
+        <fieldset id="FieldsetPerfilCreacion" class="fieldset" runat="server" visible="false">
             <table>
                 <tr>
                     <td style="width:80%; vertical-align:top;">
@@ -60,11 +57,11 @@
                     </td>
                     <td rowspan="100"> <!-- Árbol -->
                         <label class="control-label">Permisos:</label>  
-                        <asp:Panel ID="PanelArbolPermisos" runat="server" ScrollBars="Vertical" Height="500px" Width="500px" BorderWidth="1px" style="">
-                            <asp:TreeView ID="ArbolPermisos" ShowCheckBoxes="Leaf" runat="server" ImageSet="Simple" ShowLines="True">
+                        <asp:Panel ID="PanelArbolPermisos" runat="server" ScrollBars="Vertical" Height="500px" Width="500px" BorderWidth="1px">
+                            <asp:TreeView ID="ArbolPermisos" ShowCheckBoxes="Leaf" runat="server" ImageSet="Simple" ShowLines="True" NodeIndent="30" OnTreeNodeCollapsed="ArbolPermisos_TreeNodeCollapsed">
                                 <HoverNodeStyle Font-Underline="False" ForeColor="Black" />
                                 <LeafNodeStyle Font-Size="Medium" />
-                                <NodeStyle Font-Names="Tahoma" Font-Size="Medium" ForeColor="Black" HorizontalPadding="5px" ChildNodesPadding="5px" />
+                                <NodeStyle Font-Names="Tahoma" Font-Size="Medium" ForeColor="Black"/>
                                 <ParentNodeStyle Font-Bold="False" />
                                 <RootNodeStyle Font-Size="Medium" />
                                 <SelectedNodeStyle Font-Underline="True" ForeColor="#336699" HorizontalPadding="5px" VerticalPadding="0px" />
@@ -73,9 +70,6 @@
                     </td>
                 </tr>
             </table>
-        </fieldset>
-        <!-- Fieldset de modificación -->
-        <fieldset id="FieldsetPerfilModificacion" class="fieldset" runat="server" visible="false">
         </fieldset>
     </fieldset>
 
@@ -230,5 +224,11 @@
             </div>
         </div>
     </div>
-
+    <!-- Javascript -->
+    <!-- Modificar tab de site master activo -->
+    <script type = "text/javascript">
+        function setCurrentTab() {
+            document.getElementById("linkFormVentas").className = "active";
+        }
+    </script>
 </asp:Content>
