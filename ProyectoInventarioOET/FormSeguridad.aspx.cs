@@ -65,8 +65,10 @@ namespace ProyectoInventarioOET
                         }
                         else
                         {
-                            
+
                             cargarEstaciones();
+                            cargarAnfitriones();
+                            cargarEstados();
 
                             seConsulto = false;
                         }
@@ -211,6 +213,8 @@ namespace ProyectoInventarioOET
         {
             modo = (int)Modo.InsercionUsuario;
             cargarEstaciones();
+            cargarAnfitriones();
+            cargarEstados();
             cambiarModo();
         }
 
@@ -308,6 +312,9 @@ namespace ProyectoInventarioOET
             this.inputPasswordConfirm.Disabled = !habilitar;
             this.DropDownListEstacion.Enabled = habilitar;
             this.inputDescripcion.Disabled = !habilitar;
+            this.DropDownListAnfitriona.Enabled = habilitar ;
+            this.DropDownListEstado.Enabled = habilitar;
+            this.inputDescuentoMaximo.Disabled = !habilitar;
         }
 
         // Metodo que llena el grid de cuentas consultadas
@@ -369,13 +376,13 @@ namespace ProyectoInventarioOET
             datos[0] = 0;
             datos[1] = this.inputUsuario.Value;
             datos[2] = this.inputPassword.Value;
-            datos[3] = DateTime.Now.Date.ToString("dd/MMM/yyyy");
+            datos[3] = DateTime.Now.Date.ToString("dd-MMM-yyyy");
             datos[4] = this.inputDescripcion.Value;
             datos[5] = this.DropDownListEstacion.SelectedValue;
-            datos[6] = 0; //Pendiente
+            datos[6] = this.DropDownListAnfitriona.SelectedValue;
             datos[7] = this.inputNombre.Value;
-            datos[8] = 1; //Pendiente
-            datos[9] = 15; //
+            datos[8] = this.DropDownListEstado.SelectedValue;
+            datos[9] = this.inputDescuentoMaximo.Value;
             return datos;
         }
 
@@ -393,6 +400,32 @@ namespace ProyectoInventarioOET
             DataTable tabla = new DataTable();
             // Toca implementarlo
             return tabla;
+        }
+
+        //Carga los anfitriones de la base de datos
+        protected void cargarAnfitriones()
+        {
+
+            DropDownListAnfitriona.Items.Clear();
+            DropDownListAnfitriona.Items.Add(new ListItem("", null));
+            DataTable anfitriones = controladoraDatosGenerales.consultarAnfitriones();
+            foreach (DataRow fila in anfitriones.Rows)
+            {
+                DropDownListAnfitriona.Items.Add(new ListItem(fila[2].ToString(), fila[0].ToString()));
+            }
+        }
+
+        //Carga los posibles estados de una cuenta
+        protected void cargarEstados()
+        {
+
+            DropDownListEstado.Items.Clear();
+            DropDownListEstado.Items.Add(new ListItem("", null));
+            DataTable estados = controladoraDatosGenerales.consultarEstadosActividad();
+            foreach (DataRow fila in estados.Rows)
+            {
+                DropDownListEstado.Items.Add(new ListItem(fila[1].ToString(), fila[2].ToString()));
+            }
         }
 
     }
