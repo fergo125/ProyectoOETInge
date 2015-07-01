@@ -319,11 +319,31 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             //String[] resultado = new String[3];
             String esquema = "Inventarios.";
             String[] resultado = new String[4];
+            Boolean exito = true;
             String comandoSQL = "UPDATE " + esquema + "SEG_USUARIO SET USUARIO = '" + usuario.Usuario + "', DESCRIPCION = '" + usuario.Descripcion + "', IDESTACION = '"
                 + usuario.IdEstacion + "', ANFITRIONA = '" + usuario.Anfitriona + "', NOMBRE = '" + usuario.Nombre + "', ESTADO = " + usuario.Estado + ", DESCUENTO_MAXIMO = "
                 + usuario.DescuentoMaximo + " WHERE SEG_USUARIO = '" + usuario.Codigo + "'";
 
             if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
+            {
+                comandoSQL = "DELETE FROM " + esquema + "SEG_USUARIO_BODEGA WHERE SEG_USUARIO = '" + usuario.Codigo + "'";
+                if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
+                {
+                    foreach (String bodega in listadoBodegas) 
+                    {
+                        comandoSQL = "INSERT INTO " + esquema + "SEG_USUARIO_BODEGA (SEG_USUARIO_BODEGA, SEG_USUARIO, CAT_BODEGA, ESTACION) VALUES ('"
+                        + generarID() + "','" + usuario.Codigo + "','" + bodega + "','" + usuario.IdEstacion + "')";
+                        if (ejecutarComandoSQL(comandoSQL, false) == null)
+                            exito = false;
+                    }              
+                }
+            }
+            else
+            {
+                exito = false;
+            }
+
+            if (exito)
             {
                 resultado[0] = "success";
                 resultado[1] = "Éxito:";
@@ -333,7 +353,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             {
                 resultado[0] = "danger";
                 resultado[1] = "Error:";
-                resultado[2] = "Cuenta no modificada, intente nuevamente.";
+                resultado[2] = "Cuenta no modificada, intente nuevamente.";                       
             }
             return resultado;
         }
