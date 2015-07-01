@@ -41,8 +41,6 @@ namespace ProyectoInventarioOET
         private static ControladoraDatosGenerales controladoraDatosGenerales;   //Para accesar datos generales de la base de datos
         private static ControladoraProductoLocal controladoraProductoLocal ;    //Para revisar existencias de productos
         private static ControladoraProductosGlobales controladoraProductoGlobal;//Para consultar nombre y otra información de los productos al desplegar facturas
-        //object pagina;
-        //EventArgs events;
         //Importante:
         //Para el codigoPerfilUsuario (que se usa un poco hard-coded), los números son:
         //1 = Administrador global
@@ -58,9 +56,6 @@ namespace ProyectoInventarioOET
             //Elementos visuales
             mensajeAlerta.Visible = false;
             ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
-
-            //pagina = sender;
-            //events = e;
 
             if (!IsPostBack) //Si es la primera vez que se carga la página
             {

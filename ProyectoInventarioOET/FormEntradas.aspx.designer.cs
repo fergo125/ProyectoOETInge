@@ -139,15 +139,6 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl Div5;
         
         /// <summary>
-        /// Control outputEntrada.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl outputEntrada;
-        
-        /// <summary>
         /// Control outputFacturaAsociada.
         /// </summary>
         /// <remarks>
@@ -200,6 +191,24 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl outputTipoMonedaEntrada;
+        
+        /// <summary>
+        /// Control estadoEntrada.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList estadoEntrada;
+        
+        /// <summary>
+        /// Control fieldSetProductosEntrada.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl fieldSetProductosEntrada;
         
         /// <summary>
         /// Control Div4.

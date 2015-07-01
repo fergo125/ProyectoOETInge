@@ -156,9 +156,11 @@ namespace ProyectoInventarioOET.Modulo_Entradas
                 {
                     if (productosAsociados.Rows.Count > 0)
                     {
+                        agregarProductosHistorial(entrada.Bodega, productosAsociados);
+
                         foreach (DataRow fila in productosAsociados.Rows)
                         {
-                            if (fila[4] == "No")
+                            if (fila[4].ToString() == "No")
                                 temp = 0;
                             else temp = 1;
 
@@ -200,6 +202,22 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             }
 
             return res;
+        }
+
+        /*
+         * Antes de insertar los detalles de la entrada, se actualiza la tabla de historial
+         * Se agrega cada producto, en su cantidad
+         */
+        private void agregarProductosHistorial(String idBodega, DataTable productos)
+        {
+            foreach (DataRow producto in productos.Rows)
+            {
+                String comandoSQL = "SELECT INV_BODEGA_PRODUCTOS FROM INV_PRODUCTOS P, INV_BODEGA_PRODUCTOS B WHERE P.INV_PRODUCTOS = B.INV_PRODUCTOS AND P.CODIGO = '" + producto[0].ToString() + "' AND B.CAT_BODEGA = '" + idBodega + "' ";
+                DataTable temp = ejecutarComandoSQL(comandoSQL, true);
+                String llaveProductoBodega = temp.Rows[0][0].ToString();
+                comandoSQL = "call insertar_historial( '" + llaveProductoBodega + "', " + producto[1].ToString() + ", " + producto[3].ToString() + " )";
+                ejecutarComandoSQL(comandoSQL, false);
+            }
         }
 
         /*

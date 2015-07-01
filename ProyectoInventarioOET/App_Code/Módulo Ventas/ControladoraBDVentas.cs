@@ -44,6 +44,7 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             + factura.Estado + ")";
             if(ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
             {
+                quitarProductosHistorial(factura.Bodega, factura.Productos);
                 if (insertarProductosFactura(idSiguienteFactura, factura.Productos))
                 {
                     res[0] = "success";
@@ -64,6 +65,22 @@ namespace ProyectoInventarioOET.Modulo_Ventas
                 res[2] = "Error al intentar insertar la factura en la base de datos.";
             }
             return res;
+        }
+
+        /*
+         * Antes de insertar los detalles de la factura, se actualiza la tabla de historial
+         * Se elimina cada producto, en su cantidad
+         */
+        private void quitarProductosHistorial( String idBodega, DataTable productos )
+        {
+            foreach (DataRow producto in productos.Rows)
+            {
+                String comandoSQL = "SELECT INV_BODEGA_PRODUCTOS FROM INV_BODEGA_PRODUCTOS WHERE INV_PRODUCTOS = '" + producto[1].ToString() + "' AND CAT_BODEGA = '" + idBodega + "' ";
+                DataTable temp = ejecutarComandoSQL(comandoSQL, true);
+                String llaveProductoBodega = temp.Rows[0][0].ToString();
+                comandoSQL = "call quitar_historial( '" + llaveProductoBodega + "', " + producto[4].ToString() + " )";
+                ejecutarComandoSQL(comandoSQL, false);
+            }
         }
 
         /*
