@@ -16,11 +16,38 @@
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <link href="Content/bootstrap.css" rel="stylesheet" />
 
-                                <script>
-                                    function mifuncion() {
-                                        setTimeout(function () { $("#modalAgregarProducto").modal('show');; }, 500);
-                                        
-                                    }
+         <script>
+              function mifuncion() {
+                   setTimeout(function () { $("#modalAgregarProducto").modal('show');; }, 500);                                        
+              }
+
+              tipoCambioCompra = 2;
+              tipoCambioVenta = 1;
+              function setCompra(value) {
+                  tipoCambioCompra = value;
+              }
+              function setVenta(value) {
+                  tipoCambioVenta = value;
+              }
+
+              function convertirToDolares() {
+                  var actual = $("#MainContent_inputPrecioColones").val();
+                  if (!isNaN(actual)) {
+                      $("#MainContent_inputPrecioDolares").val(actual / tipoCambioCompra);
+                  } else {
+                      $("#MainContent_inputPrecioDolares").val("");
+                  }
+              }
+
+              function convertirToColones() {
+                  var actual = $("#MainContent_inputPrecioDolares").val();
+                  if (!isNaN(actual)) {
+                      $("#MainContent_inputPrecioColones").val(actual * tipoCambioVenta);
+                  } else {
+                      $("#MainContent_inputPrecioColones").val("");
+                  }
+              }
+
          </script>
 
 </head>
