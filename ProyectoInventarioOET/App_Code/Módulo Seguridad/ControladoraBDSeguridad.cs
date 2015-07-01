@@ -166,7 +166,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             String esquemaI = "Inventarios.";
             String esquemaR = "Reservas.";
             DataTable resultado = new DataTable();
-            String comandoSQL = "SELECT u.seg_usuario, u.nombre, p.nombre ,u.usuario, u.clave, e.descripcion, r.nombre, af.nombre, u.fechacreacion, sp.interfaz, sp.permisos"
+            String comandoSQL = "SELECT u.seg_usuario, u.nombre, p.nombre ,u.usuario, u.clave, e.descripcion, r.nombre, af.siglas, u.fechacreacion, sp.interfaz, sp.permisos"
             + " FROM " + esquemaI + "seg_usuario U, " + esquemaI + "seg_perfil P, " + esquemaI + "seg_perfil_usuario PU, " + esquemaI + "cat_estados E, " + esquemaR + "estacion R, " + esquemaI + "seg_permisos SP, " + esquemaR + "anfitriona AF "
             + " WHERE u.seg_usuario = '" + idUsuario + "' "
             + " AND u.seg_usuario = PU.seg_usuario"

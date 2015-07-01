@@ -81,12 +81,6 @@
 
     <!-- Fieldset de informacion de usuario (crear/consultar/modificar) -->
     <fieldset id="FieldsetUsuario" class="fieldset" runat="server" visible="false">
-        <!-- Fieldset de creación -->
-        <fieldset id="FieldsetUsuarioCreacion" class="fieldset" runat="server" visible="false">
-        </fieldset>
-        <!-- Fieldset de consulta y modificación -->
-        <fieldset id="FieldsetUsuarioConsultaModificacion" class="fieldset" runat="server" visible="false">
-        </fieldset>
         <div class="col-lg-12">
             <div class="col-lg-12 row">
                 <div class="col-lg-3 form-group">

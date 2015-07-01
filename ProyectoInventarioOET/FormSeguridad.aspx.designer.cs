@@ -220,24 +220,6 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetUsuario;
         
         /// <summary>
-        /// Control FieldsetUsuarioCreacion.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetUsuarioCreacion;
-        
-        /// <summary>
-        /// Control FieldsetUsuarioConsultaModificacion.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetUsuarioConsultaModificacion;
-        
-        /// <summary>
         /// Control inputNombre.
         /// </summary>
         /// <remarks>

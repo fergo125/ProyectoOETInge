@@ -22,12 +22,13 @@ namespace ProyectoInventarioOET
         private static EntidadUsuario usuarioConsultado;                        //Entidad que almacena la cuenta consultada
         private static Boolean seConsulto = false;                              //Bandera que revisa si ya se consulto o no                       //???
         private static Object[] idArray;                                //Array de ids para almacenar los usuarios
+        private static DataTable tablaCuentas;
         
         protected void Page_Load(object sender, EventArgs e)
         {
                 mensajeAlerta.Visible = false;
             
-                ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
+                ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab();", true); //para que quede marcada la página seleccionada en el sitemaster
                 labelAlerta.Text = "";
 
                 if (!IsPostBack)
@@ -69,7 +70,7 @@ namespace ProyectoInventarioOET
                             cargarEstaciones();
                             cargarAnfitriones();
                             cargarEstados();
-
+                            setDatosCuenta();
                             seConsulto = false;
                         }
                     }
@@ -138,6 +139,14 @@ namespace ProyectoInventarioOET
                     FieldsetBotones.Visible = true;
                     FieldsetGrid.Visible = false;
                     FieldsetGridCuentas.Visible = false;
+                    break;
+                case (int)Modo.ConsultadoUsuario:
+                    FieldsetUsuario.Visible = true;
+                    FieldsetAsociarUsuario.Visible = false;
+                    FieldsetBotones.Visible = false;
+                    FieldsetGrid.Visible = false;
+                    FieldsetGridCuentas.Visible = false;
+                    FieldsetPerfil.Visible = false;
                     break;
             }
         }
@@ -329,7 +338,7 @@ namespace ProyectoInventarioOET
         // Metodo que llena el grid de cuentas consultadas
         protected void llenarGrid()
         {
-            DataTable tabla = tablaUsuarios();
+            tablaCuentas = tablaUsuarios();
             int indiceNuevoUsuario = -1;
             int i = 0;
 
@@ -347,7 +356,7 @@ namespace ProyectoInventarioOET
                         datos[0] = fila[1].ToString();
                         datos[1] = fila[2].ToString();
                         datos[2] = fila[3].ToString();
-                        tabla.Rows.Add(datos);
+                        tablaCuentas.Rows.Add(datos);
                         if (usuarioConsultado != null && (fila[0].Equals(usuarioConsultado.Codigo)))
                         {
                             indiceNuevoUsuario = i;
@@ -361,11 +370,11 @@ namespace ProyectoInventarioOET
                     datos[1] = "-";
                     datos[2] = "-";
                     datos[3] = "-";
-                    tabla.Rows.Add(datos);
+                    tablaCuentas.Rows.Add(datos);
                     mostrarMensaje("warning", "Atención: ", "No existen bodegas en la base de datos.");
                 }
 
-                this.gridViewCuentas.DataSource = tabla;
+                this.gridViewCuentas.DataSource = tablaCuentas;
                 this.gridViewCuentas.DataBind();
             }
             catch (Exception e)
@@ -393,6 +402,22 @@ namespace ProyectoInventarioOET
             datos[9] = this.inputDescuentoMaximo.Value;
             return datos;
         }
+
+
+        protected void setDatosCuenta()
+        {
+            this.inputUsuario.Value = usuarioConsultado.Usuario;
+            this.inputPassword.Value = usuarioConsultado.Clave;            
+            this.DropDownListEstacion.SelectedIndex = DropDownListEstacion.Items.IndexOf(DropDownListEstacion.Items.FindByText(usuarioConsultado.DescripcionEstacion));
+            this.DropDownListAnfitriona.SelectedIndex = DropDownListAnfitriona.Items.IndexOf(DropDownListAnfitriona.Items.FindByText(usuarioConsultado.DescripcionAnfitriona));
+            this.DropDownListEstado.SelectedIndex = DropDownListEstado.Items.IndexOf(DropDownListEstado.Items.FindByText(usuarioConsultado.DescripcionEstado));
+
+            //this.DropDownListAnfitriona.SelectedValue = usuarioConsultado.DescripcionAnfitriona;
+            this.inputNombre.Value = usuarioConsultado.Nombre;
+
+            //this.inputDescuentoMaximo.Value;
+        }
+
 
         //Tabla de consulta de cuentas
         protected DataTable tablaUsuarios()
@@ -452,19 +477,37 @@ namespace ProyectoInventarioOET
             }
         }
 
+
+        /*
+         * Método auxiliar que viaja a la base de datos y maneja la consulta de ajustes
+         */
+        protected void consultarCuenta(String id)
+        {
+            seConsulto = true;
+            try
+            {
+                usuarioConsultado = controladoraSeguridad.consultarCuenta(id);
+                modo = (int)Modo.ConsultadoUsuario;
+            }
+            catch
+            {
+                usuarioConsultado = null;
+                modo = (int)Modo.Inicial;
+            }
+            cambiarModo();
+        }
         protected void gridViewCuentas_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            //if (idArrayAjustes != null && idArrayAjustes.Count() > 0)
             {
                 switch (e.CommandName)
                 {
                     case "Select":
 
                         GridViewRow filaSeleccionada = this.gridViewCuentas.Rows[Convert.ToInt32(e.CommandArgument)];
-                        //String codigo = filaSeleccionada.Cells[0].Text.ToString();
-                        //codigo = Convert.ToString(idArrayAjustes[Convert.ToInt32(e.CommandArgument) + (this.gridViewAjustes.PageIndex * this.gridViewAjustes.PageSize)]);
-                        String codigo = "3";
-                        usuarioConsultado = controladoraSeguridad.consultarCuenta(codigo);
+                        String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewCuentas.PageIndex * this.gridViewCuentas.PageSize)]);
+                        consultarCuenta(codigo);
+                        setDatosCuenta();
+                        Response.Redirect("FormSeguridad.aspx");  
                         break;
                 }
             }
@@ -472,7 +515,9 @@ namespace ProyectoInventarioOET
 
         protected void gridViewCuentas_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
-
+            this.gridViewCuentas.PageIndex = e.NewPageIndex;
+            this.gridViewCuentas.DataSource = tablaCuentas;
+            this.gridViewCuentas.DataBind();
         }
 
         protected void gridViewCuentas_Sorting(object sender, GridViewSortEventArgs e)
