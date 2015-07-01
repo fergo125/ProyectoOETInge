@@ -290,7 +290,9 @@ namespace ProyectoInventarioOET
         }
 
 
-        //Carga las estaciones al combobox
+        /*
+         * Carga las estaciones al combobox
+        */
         protected void cargarPerfiles()
         {
             DropDownListPerfilConsulta.Items.Clear();
@@ -302,7 +304,7 @@ namespace ProyectoInventarioOET
             }
         }
 
-        //Metodo que muestra el resultado de la accion
+        /*Metodo que muestra el resultado de la accion*/
         protected void mostrarMensaje(String tipoAlerta, String alerta, String mensaje)
         {
 
@@ -313,7 +315,7 @@ namespace ProyectoInventarioOET
             ScriptManager.RegisterStartupScript(Page, this.GetType(), "ScrollPage", "window.scroll(0,0);", true);
         }
 
-
+        /*Metodo que acepta el usuario*/
         protected void botonAceptarUsuario_ServerClick(object sender, EventArgs e)
         {
             Boolean operacionCorrecta = true;
@@ -339,7 +341,7 @@ namespace ProyectoInventarioOET
             }
         }
 
-        //Metodo que realiza la insercion de un nuevo usuario en la base de datos
+        /*Metodo que realiza la insercion de un nuevo usuario en la base de datos*/
         protected String crearUsuario()
         {
             String codigo = "";
@@ -361,7 +363,7 @@ namespace ProyectoInventarioOET
         }
 
 
-        //Metodo que habilita o deshabilita los campos de usuario
+        /*Metodo que habilita o deshabilita los campos de usuario*/
         protected void habilitarCampos(bool habilitar)
         {
             this.inputUsuario.Disabled = !habilitar;
@@ -377,7 +379,8 @@ namespace ProyectoInventarioOET
             this.DropDownListPerfilConsulta.Enabled = habilitar;
         }
 
-        // Metodo que llena el grid de cuentas consultadas
+        /*
+         * Metodo que llena el grid de cuentas consultadas*/
         protected void llenarGrid()
         {
             tablaCuentas = tablaUsuarios();
