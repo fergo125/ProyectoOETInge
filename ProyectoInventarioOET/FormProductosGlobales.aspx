@@ -99,20 +99,20 @@
             <div class="form-group col-lg-6">
 <%--                <asp:RequiredFieldValidator CssClass="label label-danger" runat=server ControlToValidate=inputPrecioColones ErrorMessage=""> </asp:RequiredFieldValidator>--%>
                 <label for="inputPrecioColones" class= "control-label">Precio (colones):</label>      
-                <input type="text" id= "inputPrecioColones" class="form-control" runat="server" style= "max-width: 100%"><br>
+                <input type="text" id= "inputPrecioColones" class="form-control" runat="server" style= "max-width: 100%" onblur ="convertirToDolares()"><br>
             </div>
 
             <div class="form-group col-lg-6">
 <%--                <asp:RequiredFieldValidator CssClass="label label-danger" runat=server ControlToValidate=inputPrecioDolares ErrorMessage=""> </asp:RequiredFieldValidator>--%>
                 <label for="inputPrecioDolares" class= "control-label">Precio (dólares):</label>      
-                <input type="text" id= "inputPrecioDolares" class="form-control" runat="server" style= "max-width: 100%" ><br>
+                <input type="text" id= "inputPrecioDolares" class="form-control" runat="server" style= "max-width: 100%" onblur ="convertirToColones()" ><br>
             </div>
             </div>
 
             <div class="row">
             <div class="form-group col-lg-6">
                 <label for="inputCostoColones" class= "control-label">Costo (colones):</label>      
-                <input type="text" id= "inputCostoColones" class="form-control" runat="server" style= "max-width: 100%"><br>
+                <input type="text" id= "inputCostoColones" class="form-control" runat="server" style= "max-width: 100%" ><br>
             </div>
 
             <div class="form-group col-lg-6">

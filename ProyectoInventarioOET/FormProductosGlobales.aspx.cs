@@ -28,6 +28,9 @@ namespace ProyectoInventarioOET
         private static DataTable consulta;
         private static String argumentoSorteo = "";
         private static bool boolSorteo = false;
+        private static int tipoCambioCompra = 1;
+        private static int tipoCambioVenta = 1;
+
 
         /*
          * Maneja las acciones que se ejecutan cuando se carga la página, establecer el modo de operación, 
@@ -37,7 +40,9 @@ namespace ProyectoInventarioOET
         {
             mensajeAlerta.Visible = false;
             //Elementos visuales
-            ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
+            ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab();", true); //para que quede marcada la página seleccionada en el sitemaster
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "setcompra", "setCompra(" + tipoCambioCompra + ");", true);
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "setventa", "setVenta(" + tipoCambioVenta + ");", true);
 
             if (!IsPostBack)
             {
@@ -45,6 +50,10 @@ namespace ProyectoInventarioOET
                 controladora = new ControladoraProductosGlobales();
                 controladora.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
                 permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Catalogo general de productos");
+                tipoCambioCompra = controladoraDatosGenerales.dolarCompra();
+                tipoCambioVenta = controladoraDatosGenerales.dolarVenta();
+
+
                 if (permisos == "000000")
                     Response.Redirect("~/ErrorPages/404.html");
 
