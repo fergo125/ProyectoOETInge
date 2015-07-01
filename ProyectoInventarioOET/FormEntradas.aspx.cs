@@ -265,7 +265,7 @@ namespace ProyectoInventarioOET
                         datos[0] = fila[0].ToString();
                         datos[1] = fila[1].ToString();
                         datos[2] = controladoraSeguridad.consultarNombreDeUsuario(fila[2].ToString());
-                        datos[3] = fila[4].ToString();
+                        datos[3] = Convert.ToDateTime(fila[4]).Date.ToString("dd/MM/yyyy"); 
 
 
                         tabla.Rows.Add(datos);
@@ -1027,7 +1027,7 @@ namespace ProyectoInventarioOET
             outputFacturaAsociada.InnerText = Convert.ToString(entradaConsultada.IdFactura);
             outputUsuario.InnerText = controladoraSeguridad.consultarNombreDeUsuario(Convert.ToString(entradaConsultada.IdEncargado));
             outputBodega.InnerText = controladoraBodegas.consultarBodega(Convert.ToString(entradaConsultada.Bodega)).Nombre;
-            outputFecha.InnerText = Convert.ToString(entradaConsultada.FechEntrada);
+            outputFecha.InnerText = Convert.ToDateTime(entradaConsultada.FechEntrada).Date.ToString("dd/MM/yyyy"); 
             outputTipoMonedaEntrada.InnerText = entradaConsultada.TipoMoneda;
             outputMetodoPagoEntrada.InnerText = entradaConsultada.MetodoPago;
         }
