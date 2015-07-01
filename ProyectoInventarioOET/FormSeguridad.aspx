@@ -100,8 +100,8 @@
             <div class="col-lg-12 row">
                 <div class="col-lg-4">
                     <div class= "form-group">
-                        <label for="inputPassword" class= "control-label">Contraseña:</label>
-                        <input id="inputPassword" runat="server"  type="text" class="form-control" />
+                        <label for="inputPassword" id="labelInputPassword" runat="server" class= "control-label">Contraseña:</label>
+                        <input id="inputPassword" runat="server" type="text" class="form-control" />
                         <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" 
                          ErrorMessage="&laquo; (Requerido)" 
                          ControlToValidate="inputPassword"
@@ -109,13 +109,13 @@
 
                         ToolTip="La contraseña es un espacio necesario"
                         ></asp:RequiredFieldValidator>
-                        <label for="inputFecha" class= "control-label">Fecha de creación:</label>
+                        <label for="inputFecha" id="labelInputFecha" runat="server" class= "control-label">Fecha de creación:</label>
                         <input id="inputFecha" runat="server"  type="text" class="form-control" />
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class= "form-group">
-                        <label for="inputPasswordConfirm" class= "control-label">Confirmar contraseña:</label>
+                        <label for="inputPasswordConfirm" id="labelInputPasswordConfirm" runat="server" class= "control-label">Confirmar contraseña:</label>
                         <input id="inputPasswordConfirm" runat="server"  type="password"  class="form-control"/>
                         <asp:CompareValidator ID="CompareValidator1" runat="server" 
                         ControlToValidate="inputPasswordConfirm"
@@ -139,9 +139,9 @@
                             CssClass="ValidationError"
                             ClientValidationFunction="changeColor" 
                             ForeColor="Red"
-                            ToolTip="La confirmación de contraseña es requerida"
+                            ToolTip="Su contraseña debe tener una mayúscula, una minúscula, y un número. Debe ser de al menos 8 caracteres."
                             ValidationExpression="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"></asp:RegularExpressionValidator>
-                        <label for="DropDownListPerfilConsulta" class="control-label">Perfil:</label>
+                        <label for="DropDownListPerfilConsulta" id="labelDropDownListPerfilConsulta" runat="server" class="control-label">Perfil:</label>
                         <asp:DropDownList ID="DropDownListPerfilConsulta" runat="server" CssClass="form-control"></asp:DropDownList>
                     </div>
                 </div>

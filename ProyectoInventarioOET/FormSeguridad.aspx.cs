@@ -132,6 +132,17 @@ namespace ProyectoInventarioOET
                     break;
                 case (int)Modo.InsercionUsuario:
                     FieldsetUsuario.Visible = true;
+
+                    inputPassword.Visible = true;
+                    inputPasswordConfirm.Visible = true;
+                    labelInputPassword.Visible = true;
+                    labelInputPasswordConfirm.Visible = true;
+                    
+                    DropDownListPerfilConsulta.Visible = false;
+                    labelDropDownListPerfilConsulta.Visible = false;
+                    inputFecha.Visible = false;
+                    labelInputFecha.Visible = false;
+
                     FieldsetAsociarUsuario.Visible = false;
                     FieldsetBotones.Visible = true;
                     FieldsetGrid.Visible = false;
@@ -149,6 +160,17 @@ namespace ProyectoInventarioOET
                     FieldsetAsociarUsuario.Visible = false;
                     FieldsetBotones.Visible = false;
                     FieldsetGrid.Visible = false;
+
+                    inputPassword.Visible = false;
+                    inputPasswordConfirm.Visible = false;
+                    labelInputPassword.Visible = false;
+                    labelInputPasswordConfirm.Visible = false;
+                    
+                    DropDownListPerfilConsulta.Visible = true;
+                    labelDropDownListPerfilConsulta.Visible = true;
+                    inputFecha.Visible = true;
+                    labelInputFecha.Visible = true;
+
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfil.Visible = false;
                     break;
@@ -344,8 +366,8 @@ namespace ProyectoInventarioOET
         {
             this.inputUsuario.Disabled = !habilitar;
             this.inputNombre.Disabled = !habilitar;
-            //this.inputPassword.Disabled = !habilitar;
-            //this.inputPasswordConfirm.Disabled = !habilitar;
+            this.inputPassword.Disabled = !habilitar;
+            this.inputPasswordConfirm.Disabled = !habilitar;
             this.inputFecha.Disabled = !habilitar;
             this.DropDownListEstacion.Enabled = habilitar;
             this.inputDescripcion.Disabled = !habilitar;

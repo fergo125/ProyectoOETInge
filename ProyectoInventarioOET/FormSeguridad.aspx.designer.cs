@@ -247,13 +247,22 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.DropDownList DropDownListEstacion;
         
         /// <summary>
-        /// Control inputFecha.
+        /// Control labelInputPassword.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText inputFecha;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl labelInputPassword;
+        
+        /// <summary>
+        /// Control inputPassword.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText inputPassword;
         
         /// <summary>
         /// Control RequiredFieldValidator1.
@@ -265,14 +274,40 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
         
         /// <summary>
-        /// Control inputPasswordConfirm.
-        /// Control DropDownListPerfilConsulta.
+        /// Control labelInputFecha.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownListPerfilConsulta;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl labelInputFecha;
+        
+        /// <summary>
+        /// Control inputFecha.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText inputFecha;
+        
+        /// <summary>
+        /// Control labelInputPasswordConfirm.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl labelInputPasswordConfirm;
+        
+        /// <summary>
+        /// Control inputPasswordConfirm.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputPassword inputPasswordConfirm;
         
         /// <summary>
         /// Control CompareValidator1.
@@ -300,6 +335,24 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RegularExpressionValidator RegularExpressionValidator1;
+        
+        /// <summary>
+        /// Control labelDropDownListPerfilConsulta.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl labelDropDownListPerfilConsulta;
+        
+        /// <summary>
+        /// Control DropDownListPerfilConsulta.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DropDownListPerfilConsulta;
         
         /// <summary>
         /// Control DropDownListAnfitriona.
