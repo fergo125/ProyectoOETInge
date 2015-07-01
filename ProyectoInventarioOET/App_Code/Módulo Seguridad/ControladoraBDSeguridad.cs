@@ -38,8 +38,8 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             // Si encuentro una única cuenta
             if(resultado.Rows.Count == 1)
             {
-                Object[] datosConsultados = new Object[9];
-                for(int i=0; i<9; ++i)
+                Object[] datosConsultados = new Object[10];
+                for(int i=0; i<10; ++i)
                     datosConsultados[i] = resultado.Rows[0][i].ToString();
                 usuario = new EntidadUsuario(datosConsultados);
                 String[] perfil = consultarPerfilUsuario(usuario.Codigo);
@@ -308,6 +308,40 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
                     resultado[1] = "Error:";
                     resultado[2] = "Cuenta no agregada, intente nuevamente.";
                 }
+            return resultado;
+        }
+
+        /*
+        * Modifica una cuenta dado un vector con los datos de la misma.
+        */
+        public String[] modificarUsuario(EntidadUsuario usuario)
+        {
+            //String[] resultado = new String[3];
+            String esquema = "Inventarios.";
+            String[] resultado = new String[4];
+            String comandoSQL = "UPDATE " + esquema + "SEG_USUARIO SET USUARIO = '" + usuario.Usuario + "', DESCRIPCION = '" + usuario.Descripcion + "', IDESTACION = '"
+                + usuario.IdEstacion + "', ANFITRIONA = '" + usuario.Anfitriona + "', NOMBRE = '" + usuario.Nombre + "', ESTADO = " + usuario.Estado + ", DESCUENTO_MAXIMO = "
+                + usuario.DescuentoMaximo + " WHERE SEG_USUARIO = '" + usuario.Codigo + "'";
+
+            if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
+            {
+                resultado[0] = "success";
+                resultado[1] = "Éxito:";
+                resultado[2] = "Cuenta modificada exitosamente.";
+            }
+            else
+            {
+                resultado[0] = "danger";
+                resultado[1] = "Error:";
+                resultado[2] = "Cuenta no modificada, intente nuevamente.";
+            }
+            return resultado;
+        }
+
+
+        public String[] asociarABodega(String codigo, String llaveBodega, String idEstacion)
+        {
+            String[] resultado = new String[4];
             return resultado;
         }
 

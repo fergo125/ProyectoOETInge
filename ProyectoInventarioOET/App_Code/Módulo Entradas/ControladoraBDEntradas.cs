@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -156,6 +156,8 @@ namespace ProyectoInventarioOET.Modulo_Entradas
                 {
                     if (productosAsociados.Rows.Count > 0)
                     {
+                        agregarProductosHistorial(entrada.Bodega, productosAsociados);
+
                         foreach (DataRow fila in productosAsociados.Rows)
                         {
                             if (fila[4].ToString() == "No")
@@ -174,16 +176,27 @@ namespace ProyectoInventarioOET.Modulo_Entradas
                                 + ")";
                             if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
                             {
-                                comandoSQL = "update INV_BODEGA_PRODUCTOS set saldo = saldo + " + fila[1]
-                                    + ", MODIFICADO =  TO_DATE('" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "',  'dd/mm/yyyy hh24:mi:ss') where inv_productos = '" + fila[0] + "' and cat_bodega = '" + entrada.Bodega + "' ";
-                                if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
+                                comandoSQL = "SELECT INV_PRODUCTOS FROM INV_PRODUCTOS WHERE CODIGO = '" + fila[0] + "'";
+                                DataTable consulta = new DataTable();
+                                consulta = ejecutarComandoSQL(comandoSQL, true);
+                                String idProducto = "";
+                                if (consulta.Rows.Count > 0) //si sale bien
                                 {
-                                    res[0] = "success";
-                                    res[1] = "�xito:";
-                                    res[2] = "Entrada agregada al sistema.";
-                                }
-                                //comandoSQL = "call insertar_historial( llave_bodega_local, cantidad, precio_colones )";
-                                // Aqui para agregar tabla de costo promedio
+                                    foreach (DataRow filaB in consulta.Rows)
+                                    {
+                                        idProducto = filaB[0].ToString();
+                                    }   
+                                    comandoSQL = "update INV_BODEGA_PRODUCTOS set saldo = saldo + " + fila[1]
+                                        + ", MODIFICADO =  TO_DATE('" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "',  'dd/mm/yyyy hh24:mi:ss') where inv_productos = '" + idProducto + "' and cat_bodega = '" + entrada.Bodega + "' ";
+                                    if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
+                                    {
+                                        res[0] = "success";
+                                        res[1] = "Éxito:";
+                                        res[2] = "Entrada agregada al sistema.";
+                                    }
+                                    //comandoSQL = "call insertar_historial( llave_bodega_local, cantidad, precio_colones )";
+                                    // Aqui para agregar tabla de costo promedio
+                                }                             
                             }
                         }
                     }
@@ -200,6 +213,22 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             }
 
             return res;
+        }
+
+        /*
+         * Antes de insertar los detalles de la entrada, se actualiza la tabla de historial
+         * Se agrega cada producto, en su cantidad
+         */
+        private void agregarProductosHistorial(String idBodega, DataTable productos)
+        {
+            foreach (DataRow producto in productos.Rows)
+            {
+                String comandoSQL = "SELECT INV_BODEGA_PRODUCTOS FROM INV_PRODUCTOS P, INV_BODEGA_PRODUCTOS B WHERE P.INV_PRODUCTOS = B.INV_PRODUCTOS AND P.CODIGO = '" + producto[0].ToString() + "' AND B.CAT_BODEGA = '" + idBodega + "' ";
+                DataTable temp = ejecutarComandoSQL(comandoSQL, true);
+                String llaveProductoBodega = temp.Rows[0][0].ToString();
+                comandoSQL = "call insertar_historial( '" + llaveProductoBodega + "', " + producto[1].ToString() + ", " + producto[3].ToString() + " )";
+                ejecutarComandoSQL(comandoSQL, false);
+            }
         }
 
         /*

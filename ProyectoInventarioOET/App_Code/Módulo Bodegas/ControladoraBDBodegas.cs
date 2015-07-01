@@ -184,8 +184,17 @@ namespace ProyectoInventarioOET.Modulo_Bodegas
         }
 
         /*
-         * ???
-         */
+        * Consulta y devuelve las bodegas que pertenecen a una estacion en especifico.
+        */
+        public String consultarLlaveBodega(String nombre, String idEstacion)
+        {
+            String esquema = "Inventarios.";
+            DataTable resultado = new DataTable();
+            String comandoSQL = "SELECT CAT_BODEGA FROM " + esquema + "CAT_BODEGA WHERE DESCRIPCION = '" + nombre + "' AND ESTACION = '" + idEstacion + "'";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
+            return resultado.Rows[0][0].ToString();
+        }
+        
         public DataTable consultarIntenciones()
         {
             String esquema = "Inventarios.";

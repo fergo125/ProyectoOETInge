@@ -202,6 +202,15 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             return controladoraBDSeguridad.insertarUsuario(usuario);
         }
 
+        /*
+        * Modifica una cuenta dado un vector con los datos de la misma.
+        */
+        public String[] modificarUsuario(Object[] datosUsuario)
+        {
+            EntidadUsuario usuario = new EntidadUsuario(datosUsuario);
+            return controladoraBDSeguridad.modificarUsuario(usuario);
+        }	
+
         //Consulta todos los usuarios
         public DataTable consultarUsuarios()
         {
@@ -210,6 +219,11 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
 
         public DataTable consultarPerfiles() {
             return controladoraBDSeguridad.consultarPerfiles();
+        }
+
+        public String[] asociarABodega(String codigo, String llaveBodega, String idEstacion)
+        {
+            return controladoraBDSeguridad.asociarABodega(codigo, llaveBodega, idEstacion);
         }
 
     }

@@ -46,6 +46,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             this.anfitriona = datos[6].ToString();
             this.nombre = datos[7].ToString();
             this.estado = Convert.ToInt32(datos[8].ToString());
+            this.descuentoMaximo = Convert.ToInt32(datos[9].ToString());
         }
 
         /*
