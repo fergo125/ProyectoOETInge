@@ -104,13 +104,6 @@
                     <div class= "form-group">
                         <label for="inputPassword" id="labelInputPassword" runat="server" class= "control-label">Contraseña:</label>
                         <input id="inputPassword" runat="server" type="text" class="form-control" />
-                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" 
-                         ErrorMessage="&laquo; (Requerido)" 
-                         ControlToValidate="inputPassword"
-                         CssClass="ValidationError"
-
-                        ToolTip="La contraseña es un espacio necesario"
-                        ></asp:RequiredFieldValidator>
                         <label for="inputFecha" id="labelInputFecha" runat="server" class= "control-label">Fecha de creación:</label>
                         <input id="inputFecha" runat="server"  type="text" class="form-control" />
                     </div>
@@ -119,30 +112,7 @@
                     <div class= "form-group">
                         <label for="inputPasswordConfirm" id="labelInputPasswordConfirm" runat="server" class= "control-label">Confirmar contraseña:</label>
                         <input id="inputPasswordConfirm" runat="server"  type="password"  class="form-control"/>
-                        <asp:CompareValidator ID="CompareValidator1" runat="server" 
-                        ControlToValidate="inputPasswordConfirm"
-                        CssClass="ValidationError"
-                        ControlToCompare="inputPassword"
-                        ClientValidationFunction="changeColor" 
-                        ForeColor="Red"
-                        ErrorMessage="La contraseña no es la misma" 
-                        ToolTip="La contraseña y la confirmación deben coincidir" />
-                      <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" 
-                        ErrorMessage="&laquo; (Requerido)" 
-                        ControlToValidate="inputPasswordConfirm"
-                        ClientValidationFunction="changeColor" 
-                        ForeColor="Red"
-                        CssClass="ValidationError"
-                        ToolTip="La confirmación de contraseña es requerida">
-                      </asp:RequiredFieldValidator>
-                        <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" 
-                            ErrorMessage="&laquo; (Formato incorrecto)" 
-                            ControlToValidate="inputPasswordConfirm"
-                            CssClass="ValidationError"
-                            ClientValidationFunction="changeColor" 
-                            ForeColor="Red"
-                            ToolTip="Su contraseña debe tener una mayúscula, una minúscula, y un número. Debe ser de al menos 8 caracteres."
-                            ValidationExpression="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"></asp:RegularExpressionValidator>
+                        
                         <label for="DropDownListPerfilConsulta" id="labelDropDownListPerfilConsulta" runat="server" class="control-label">Perfil:</label>
                         <asp:DropDownList ID="DropDownListPerfilConsulta" runat="server" CssClass="form-control"></asp:DropDownList>
                     </div>
@@ -260,6 +230,37 @@
 
     </fieldset>
     <br />
+
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" 
+                            ErrorMessage="&laquo; (Requerido)" 
+                            ControlToValidate="inputPassword"
+                            CssClass="ValidationError"
+                            ToolTip="La contraseña es un espacio necesario">
+                            </asp:RequiredFieldValidator>
+                            <asp:CompareValidator ID="CompareValidator1" runat="server" 
+                            ControlToValidate="inputPasswordConfirm"
+                            CssClass="ValidationError"
+                            ControlToCompare="inputPassword"
+                            ClientValidationFunction="changeColor" 
+                            ForeColor="Red"
+                            ErrorMessage="La contraseña no es la misma" 
+                            ToolTip="La contraseña y la confirmación deben coincidir" />
+                           <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" 
+                            ErrorMessage="&laquo; (Requerido)" 
+                            ControlToValidate="inputPasswordConfirm"
+                            ClientValidationFunction="changeColor" 
+                            ForeColor="Red"
+                            CssClass="ValidationError"
+                            ToolTip="La confirmación de contraseña es requerida">
+                            </asp:RequiredFieldValidator>
+                            <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" 
+                            ErrorMessage="&laquo; (Formato incorrecto)" 
+                            ControlToValidate="inputPasswordConfirm"
+                            CssClass="ValidationError"
+                            ClientValidationFunction="changeColor" 
+                            ForeColor="Red"
+                            ToolTip="Su contraseña debe tener una mayúscula, una minúscula, y un número. Debe ser de al menos 8 caracteres."
+                            ValidationExpression="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"></asp:RegularExpressionValidator>
 
 
     <!-- Fieldset de botones de aceptar/cancelar -->
