@@ -90,6 +90,22 @@ BEGIN
   actualizar_costo( id_producto );
 END;
 
+-- Insertar nuevas tuplas a tabla historial, usando costo promedio actual
+CREATE OR REPLACE PROCEDURE insertar_historial_promedio ( id_producto IN HISTORIAL_COSTOS.INV_BODEGA_PRODUCTOS%TYPE
+                                                          , cantidad_entrada IN HISTORIAL_COSTOS.CANTIDAD%TYPE  )
+AS
+  costo_unit_col         HISTORIAL_COSTOS.COSTO_UNITARIO_COL%TYPE;
+  costo_unit_dol         HISTORIAL_COSTOS.COSTO_UNITARIO_DOL%TYPE;
+BEGIN
+  SELECT COSTO_COLONES, COSTO_DOLARES
+    INTO costo_unit_col, costo_unit_dol
+    FROM INV_BODEGA_PRODUCTOS
+    WHERE INV_BODEGA_PRODUCTOS = id_producto;
+  INSERT INTO HISTORIAL_COSTOS
+    VALUES( id_producto, (SELECT SYSDATE FROM DUAL), cantidad_entrada, costo_unit_col, costo_unit_dol );
+  actualizar_costo( id_producto );
+END;
+
 -- Pruebas
 DELETE FROM HISTORIAL_COSTOS;
 INSERT INTO HISTORIAL_COSTOS VALUES ('PITAN102022015142627451180', TO_TIMESTAMP('29/07/2015 16:58:00', 'DD/MM/YYYY HH24:MI:SS'), 5, 1300, 2.46 );
