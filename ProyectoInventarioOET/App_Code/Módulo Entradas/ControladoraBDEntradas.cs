@@ -117,7 +117,7 @@ namespace ProyectoInventarioOET.Modulo_Entradas
         {
             DataTable resultado = new DataTable();
             String esquema = "Inventarios.";
-            String comandoSQL = "select A.NOMBRE, A.CANTIDAD, A.COSTO_TOTAL, A.COSTO_UNITARIO, A.DESCUENTO, A.GRAVADO" +
+            String comandoSQL = "select A.NOMBRE, A.CANTIDAD, A.COSTO_TOTAL, A.COSTO_UNITARIO, A.GRAVADO, A.DESCUENTO" +
                 "from (select * from " + esquema + "CAT_ENTRADAS_PRODUCTOS entradasProductos, " + esquema + "INV_PRODUCTOS productos where entradasProductos.cat_productos = productos.Codigo ) A" +
                 " WHERE CAT_ENTRADAS" + "= '" + id + "'";
             resultado = ejecutarComandoSQL(comandoSQL, true);

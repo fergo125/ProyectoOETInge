@@ -348,20 +348,17 @@
                 <br />
                 <div class="row" style="margin-left:5%">
                     <label class= "control-label">Tipo de moneda:</label>
-                    <asp:DropDownList ID="dropdownlistTipoMoneda" CssClass="form-control" Width="60%" runat="server">
+                    <asp:DropDownList ID="dropdownlistTipoMoneda" CssClass="form-control" Width="40%" runat="server">
                         <asp:ListItem Value="Colones">Colones</asp:ListItem>
                         <asp:ListItem Value="Dólares">Dólares</asp:ListItem>
                     </asp:DropDownList>
-                </div>
-                <br />
-                <div class="row" style="margin-left:5%">
+
                     <label class= "control-label">Método de pago:</label>
-                    <asp:DropDownList ID="dropdownlistMetodoPago" CssClass="form-control" Width="60%" runat="server">
+                    <asp:DropDownList ID="dropdownlistMetodoPago" CssClass="form-control" Width="40%" runat="server">
                         <asp:ListItem Value="Contado">Contado</asp:ListItem>
                         <asp:ListItem Value="Crédito">Crédito</asp:ListItem>
                     </asp:DropDownList>
                 </div>
-
             </div>
         </div>
 

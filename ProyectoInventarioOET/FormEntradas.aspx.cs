@@ -248,7 +248,6 @@ namespace ProyectoInventarioOET
         protected void llenarGridEntradas()
         {
             DataTable tabla = tablaEntradas();
-            int indiceNuevaActividad = -1;
             int i = 0;
 
             try
@@ -310,7 +309,6 @@ namespace ProyectoInventarioOET
                         idArrayFactura[i] = fila[0];
                         datos[0] = fila[0].ToString();
                         datos[1] = controladoraEntradas.consultarNombreProveedor(fila[6].ToString());
-                        //datos[2] = Convert.ToDateTime(fila[1]).Date.ToString("d", new CultureInfo("es-CR"));
                         datos[2] = Convert.ToDateTime(fila[1]).Date.ToString("dd/MM/yyyy");
                         datos[3] = fila[3].ToString();
                         datos[4] = fila[4].ToString();
@@ -351,7 +349,6 @@ namespace ProyectoInventarioOET
 
                 if (productos.Rows.Count > 0)
                 {
-                    //idArray = new Object[facturas.Rows.Count];
                     foreach (DataRow fila in productos.Rows)
                     {
                         datos[0] = fila[2].ToString();
@@ -394,7 +391,7 @@ namespace ProyectoInventarioOET
             try
             {
                 // Cargar entradas
-                Object[] datos = new Object[4];
+                Object[] datos = new Object[6];
                 DataTable facturas = controladoraEntradas.consultarProductosEntrada(entradaConsultada.IdEntrada);
 
                 if (facturas.Rows.Count > 0)
@@ -404,10 +401,10 @@ namespace ProyectoInventarioOET
                     {
                         datos[0] = fila[0].ToString();
                         datos[1] = fila[1].ToString();
-                        datos[2] = 
                         datos[2] = fila[2].ToString();
-                        datos[3] = Convert.ToDouble(fila[2].ToString()) / Convert.ToDouble(fila[1].ToString());
-
+                        datos[3] = fila[3].ToString();
+                        datos[4] = fila[4].ToString();
+                        datos[5] = fila[5].ToString();
 
                         tabla.Rows.Add(datos);
                         i++;
