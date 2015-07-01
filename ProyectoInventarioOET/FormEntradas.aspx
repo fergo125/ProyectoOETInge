@@ -101,6 +101,8 @@
 
                         </div>       
                     </div>
+
+            <button runat="server" onserverclick="botonAnularEntradas_ServerClick" causesvalidation="false" id="botonAnularEntrada" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false">Crear Entrada</button>
             </div>
             <div class="col-lg-12"><strong><div ID="Div4" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Productos relacionados con la Entrada</div></strong>
         <%--    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
