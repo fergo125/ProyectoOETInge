@@ -314,7 +314,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         /*
         * Modifica una cuenta dado un vector con los datos de la misma.
         */
-        public String[] modificarUsuario(EntidadUsuario usuario)
+        public String[] modificarUsuario(EntidadUsuario usuario, List<String> listadoBodegas)
         {
             //String[] resultado = new String[3];
             String esquema = "Inventarios.";

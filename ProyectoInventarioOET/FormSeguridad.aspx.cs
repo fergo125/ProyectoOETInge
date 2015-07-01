@@ -20,6 +20,7 @@ namespace ProyectoInventarioOET
         private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
         private static ControladoraSeguridad controladoraSeguridad;
         private static ControladoraDatosGenerales controladoraDatosGenerales;   //Controladora para consultar las estaciones
+        private static ControladoraBodegas controladoraBodegas;
         private static EntidadUsuario usuarioConsultado;                        //Entidad que almacena la cuenta consultada
         private static Boolean seConsulto = false;                              //Bandera que revisa si ya se consulto o no                       //???
         private static Object[] idArray;                                //Array de ids para almacenar los usuarios
@@ -38,6 +39,7 @@ namespace ProyectoInventarioOET
                 {
                     controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
                     controladoraSeguridad = new ControladoraSeguridad();
+                    controladoraBodegas = new ControladoraBodegas();
                   //Seguridad
                     permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Gestion de bodegas");
                     if (permisos == "000000")
@@ -159,10 +161,12 @@ namespace ProyectoInventarioOET
                     tituloAccionForm.Visible = true;
                     tituloAccionForm.InnerText = "Modifique la información del usuario.";
                     FieldsetUsuario.Visible = true;
-                    FieldsetAsociarUsuario.Visible = true;
+                    FieldsetAsociarUsuario.Visible = false;
                     FieldsetBotones.Visible = true;
                     FieldsetGrid.Visible = false;
                     FieldsetGridCuentas.Visible = false;
+                    gridViewBodegas.Enabled = true;
+                    this.inputFecha.Disabled = true;
                     break;
                 case (int)Modo.InsercionPerfil:
                     tituloAccionForm.InnerText = "Ingrese los datos para el nuevo perfil";
@@ -529,7 +533,20 @@ namespace ProyectoInventarioOET
             Boolean exito = false;
             Object[] usuario = obtenerDatosCuenta();
             usuario[0] = usuarioConsultado.Codigo;
-            String[] error = controladoraSeguridad.modificarUsuario(usuario);
+            List<String> listadoBodegas = new List<String>();
+
+            int i = 0;
+            foreach (GridViewRow fila in gridViewBodegas.Rows)
+            {
+                if (((CheckBox)gridViewBodegas.Rows[i].FindControl("checkBoxBodegas")).Checked)
+                {
+                    String llaveBodega = controladoraBodegas.consultarLlaveBodega(fila.Cells[1].Text, DropDownListEstacion.SelectedValue);
+                    listadoBodegas.Add(llaveBodega);
+                }
+                i++;
+            }
+
+            String[] error = controladoraSeguridad.modificarUsuario(usuario, listadoBodegas);
             mostrarMensaje(error[0], error[1], error[2]);
             if (error[0].Contains("success"))
             {

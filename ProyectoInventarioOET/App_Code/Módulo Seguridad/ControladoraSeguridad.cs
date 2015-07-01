@@ -205,10 +205,10 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         /*
         * Modifica una cuenta dado un vector con los datos de la misma.
         */
-        public String[] modificarUsuario(Object[] datosUsuario)
+        public String[] modificarUsuario(Object[] datosUsuario, List<String> listadoBodegas)
         {
             EntidadUsuario usuario = new EntidadUsuario(datosUsuario);
-            return controladoraBDSeguridad.modificarUsuario(usuario);
+            return controladoraBDSeguridad.modificarUsuario(usuario, listadoBodegas);
         }	
 
         //Consulta todos los usuarios
