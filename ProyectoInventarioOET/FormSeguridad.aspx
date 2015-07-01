@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="FormSeguridad.aspx.cs" Inherits="ProyectoInventarioOET.FormSeguridad" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="FormSeguridad.aspx.cs" MaintainScrollPositionOnPostback="true" Inherits="ProyectoInventarioOET.FormSeguridad" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
     <!-- Label para desplegar mensajes -->
@@ -93,7 +93,7 @@
                 </div>
                 <div class="col-lg-4">
                     <label for="inputEstacion" class="control-label">Estación:</label>
-                    <asp:DropDownList ID="DropDownListEstacion" runat="server" CssClass="form-control">
+                    <asp:DropDownList ID="DropDownListEstacion" OnSelectedIndexChanged="DropDownListEstacion_SelectedIndexChanged" AutoPostBack="true" runat="server" CssClass="form-control">
                     </asp:DropDownList>
                 </div>
             </div>

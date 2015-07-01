@@ -618,6 +618,15 @@ namespace ProyectoInventarioOET
 
         }
 
+        protected void DropDownListEstacion_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+            ControladoraBodegas controladoraBodegas = new ControladoraBodegas();
+            bodegasEstacion = controladoraBodegas.consultarBodegasDeEstacion(DropDownListEstacion.SelectedValue);
+            this.gridViewBodegas.DataSource = crearTablaBodegas();
+            this.gridViewBodegas.DataBind();
+        }
+
 
     }
 }
