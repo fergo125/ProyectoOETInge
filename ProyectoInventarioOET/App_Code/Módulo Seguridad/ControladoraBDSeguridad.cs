@@ -121,17 +121,17 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
                     + llavePerfil + "', '";
                 switch(i)
                 {
-                    case 1: tuplas += "Catalogo general de productos"; break;
-                    case 2: tuplas += "Categorias de productos"; break;
-                    case 3: tuplas += "Catalogos de productos en bodegas"; break;
-                    case 4: tuplas += "Gestion de bodegas"; break;
-                    case 5: tuplas += "Gestion de actividades"; break;
-                    case 6: tuplas += "Entradas de inventario"; break;
-                    case 7: tuplas += "Traslados de inventario"; break;
-                    case 8: tuplas += "Ajustes de inventario"; break;
-                    case 9: tuplas += "Facturacion"; break;
-                    case 10: tuplas += "Reportes"; break;
-                    case 11: tuplas += "Seguridad"; break;
+                    case 1:  tuplas += "Catalogo general de productos";     break;
+                    case 2:  tuplas += "Categorias de productos";           break;
+                    case 3:  tuplas += "Catalogos de productos en bodegas"; break;
+                    case 4:  tuplas += "Gestion de bodegas";                break;
+                    case 5:  tuplas += "Gestion de actividades";            break;
+                    case 6:  tuplas += "Entradas de inventario";            break;
+                    case 7:  tuplas += "Traslados de inventario";           break;
+                    case 8:  tuplas += "Ajustes de inventario";             break;
+                    case 9:  tuplas += "Facturacion";                       break;
+                    case 10: tuplas += "Reportes";                          break;
+                    case 11: tuplas += "Seguridad";                         break;
                     default: break;
                 }
                 tuplas += "', '" + permisos[i-1].ToString() + "')";

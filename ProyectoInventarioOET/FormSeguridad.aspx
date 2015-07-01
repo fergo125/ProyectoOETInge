@@ -56,15 +56,14 @@
                         <asp:DropDownList ID="dropDownListCrearPerfilNivel" class="input input-fozkr-dropdownlist" CssClass="form-control" Width="70%" runat="server"></asp:DropDownList>
                     </td>
                     <td rowspan="100"> <!-- Árbol -->
-                        <label class="control-label">Permisos:</label>  
+                        <label class="control-label">Permisos (un check significa que tiene ese permiso):</label>  
                         <asp:Panel ID="PanelArbolPermisos" runat="server" ScrollBars="Vertical" Height="500px" Width="500px" BorderWidth="1px">
-                            <asp:TreeView ID="ArbolPermisos" ShowCheckBoxes="Leaf" runat="server" ImageSet="Simple" ShowLines="True" NodeIndent="30" OnTreeNodeCollapsed="ArbolPermisos_TreeNodeCollapsed">
+                            <asp:TreeView ID="ArbolPermisos" ShowCheckBoxes="Leaf" runat="server" ImageSet="Simple" ShowLines="True" NodeIndent="30" Enabled="false" OnTreeNodeCollapsed="ArbolPermisos_TreeNodeCollapsed">
                                 <HoverNodeStyle Font-Underline="False" ForeColor="Black" />
                                 <LeafNodeStyle Font-Size="Medium" />
                                 <NodeStyle Font-Names="Tahoma" Font-Size="Medium" ForeColor="Black"/>
                                 <ParentNodeStyle Font-Bold="False" />
                                 <RootNodeStyle Font-Size="Medium" />
-                                <SelectedNodeStyle Font-Underline="True" ForeColor="#336699" HorizontalPadding="5px" VerticalPadding="0px" />
                             </asp:TreeView>
                         </asp:Panel>
                     </td>
@@ -300,7 +299,7 @@
     <!-- Modificar tab de site master activo -->
     <script type = "text/javascript">
         function setCurrentTab() {
-            document.getElementById("linkFormVentas").className = "active";
+            document.getElementById("linkFormAdministracion").className = "active";
         }
     </script>
 </asp:Content>

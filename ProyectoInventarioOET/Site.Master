@@ -20,7 +20,6 @@
               function mifuncion() {
                    setTimeout(function () { $("#modalAgregarProducto").modal('show');; }, 500);                                        
               }
-
               tipoCambioCompra = 2;
               tipoCambioVenta = 1;
               function setCompra(value) {
@@ -29,7 +28,6 @@
               function setVenta(value) {
                   tipoCambioVenta = value;
               }
-
               function convertirToDolares() {
                   var actual = $("#MainContent_inputPrecioColones").val();
                   if (!isNaN(actual)) {
@@ -38,7 +36,6 @@
                       $("#MainContent_inputPrecioDolares").val("");
                   }
               }
-
               function convertirToColones() {
                   var actual = $("#MainContent_inputPrecioDolares").val();
                   if (!isNaN(actual)) {
@@ -47,7 +44,6 @@
                       $("#MainContent_inputPrecioColones").val("");
                   }
               }
-
          </script>
 
 </head>

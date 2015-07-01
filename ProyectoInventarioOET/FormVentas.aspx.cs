@@ -622,7 +622,7 @@ namespace ProyectoInventarioOET
         /*
          * Consulta en la BD las diferentes formas de pago para cargarlas en el dropdownlist.
          */
-        protected void cargarMetodosPago(DropDownList dropdownlist)
+        protected void cargarMetodosPago(DropDownList dropdownlist, GridView gridView)
         {
             DataTable metodosPago = controladoraVentas.consultarMetodosPago();
             if(metodosPago != null)
@@ -859,7 +859,7 @@ namespace ProyectoInventarioOET
 
 
 
-
+        
 
         /*
          *****************************************************************************************************************************************************************************
@@ -1192,6 +1192,9 @@ namespace ProyectoInventarioOET
             {
                 botonCrearFacturaVariosMetodosPago.Visible = true;
                 dropDownListCrearFacturaMetodoPago.Style["width"] = "100%";
+                //Cargar el grid de métodos de pago
+
+                gridViewModalVariosMetodosPago.DataSource =;
             }
             else
             {
@@ -1275,22 +1278,34 @@ namespace ProyectoInventarioOET
             }
         }
 
-        // Presionado boton de fecha de inicio/final de calendario
+        /*
+         * Presionado boton de fecha de inicio/final de calendario
+         */
         protected void clickBotonConsultaCalendarioInicio_ServerClick(object sender, EventArgs e)
         {
             this.CalendarFechaInicio.Visible = true;
         }
+
+        /*
+         * ???
+         */
         protected void clickBotonConsultaCalendarioFinal_ServerClick(object sender, EventArgs e)
         {
             this.CalendarFechaFinal.Visible = true;
         }
 
-        // Seleccionada una nueva fecha en el calendario inicial/final
+        /*
+         * Seleccionada una nueva fecha en el calendario inicial/final
+         */
         protected void CalendarFechaInicio_SelectionChanged(object sender, EventArgs e)
         {
             this.textboxConsultaFechaInicio.Value = this.CalendarFechaInicio.SelectedDate.ToString("dd/MM/yyyy").Substring(0,10);
             this.CalendarFechaInicio.Visible = false;
         }
+
+        /*
+         * ???
+         */
         protected void CalendarFechaFinal_SelectionChanged(object sender, EventArgs e)
         {
             this.textboxConsultaFechaFinal.Value = this.CalendarFechaFinal.SelectedDate.ToString("dd/MM/yyyy").Substring(0,10);

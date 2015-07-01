@@ -90,6 +90,7 @@ namespace ProyectoInventarioOET
             switch (modo)
             {
                 case (int)Modo.Inicial:
+                    ArbolPermisos.Enabled = false;
                     FieldsetBotonesPerfiles.Visible = false;
                     FieldsetBotonesUsuarios.Visible = false;
                     FieldsetAsociarUsuario.Visible = false;
@@ -101,6 +102,7 @@ namespace ProyectoInventarioOET
                     tituloAccionForm.InnerText = "";
                     break;
                 case (int)Modo.InicialPerfil:
+                    ArbolPermisos.Enabled = false;
                     FieldsetBotonesPerfiles.Visible = true;
                     FieldsetBotonesUsuarios.Visible = false;
                     FieldsetUsuario.Visible = false;
@@ -111,6 +113,7 @@ namespace ProyectoInventarioOET
                     FieldsetPerfilCreacion.Visible = false;
                     break;
                 case (int)Modo.InicialUsuario:
+                    ArbolPermisos.Enabled = false;
                     FieldsetBotonesUsuarios.Visible = true;
                     FieldsetBotonesPerfiles.Visible = false;
                     FieldsetUsuario.Visible = false;
@@ -121,6 +124,7 @@ namespace ProyectoInventarioOET
                     FieldsetPerfilCreacion.Visible = false;
                     break;
                 case (int)Modo.ConsultaPerfil:
+                    ArbolPermisos.Enabled = false;
                     FieldsetGrid.Visible = true;
                     FieldsetPerfil.Visible = false;
                     FieldsetGridCuentas.Visible = false;
@@ -128,6 +132,7 @@ namespace ProyectoInventarioOET
                     break;
 
                 case (int)Modo.ConsultaUsuario:
+                    ArbolPermisos.Enabled = false;
                     FieldsetUsuario.Visible = false;
                     FieldsetGrid.Visible = true;
                     FieldsetBotones.Visible = false;
@@ -137,6 +142,7 @@ namespace ProyectoInventarioOET
                     FieldsetPerfilCreacion.Visible = false;
                     break;
                 case (int)Modo.InsercionUsuario:
+                    ArbolPermisos.Enabled = false;
                     FieldsetUsuario.Visible = true;
 
                     inputPassword.Visible = true;
@@ -156,7 +162,7 @@ namespace ProyectoInventarioOET
                     FieldsetPerfilCreacion.Visible = false;
                     break;
                 case (int)Modo.ModificarUsuario:
-                    tituloAccionForm.Visible = true;
+                    ArbolPermisos.Enabled = false;
                     tituloAccionForm.InnerText = "Modifique la información del usuario.";
                     FieldsetUsuario.Visible = true;
                     FieldsetAsociarUsuario.Visible = true;
@@ -166,6 +172,7 @@ namespace ProyectoInventarioOET
                     break;
                 case (int)Modo.InsercionPerfil:
                     tituloAccionForm.InnerText = "Ingrese los datos para el nuevo perfil";
+                    ArbolPermisos.Enabled = true;
                     FieldsetUsuario.Visible = false;
                     FieldsetAsociarUsuario.Visible = false;
                     FieldsetBotones.Visible = false;
@@ -183,6 +190,7 @@ namespace ProyectoInventarioOET
                 //    FieldsetPerfilCreacion.Visible = false;
                 //    break;
                 case (int)Modo.ConsultadoUsuario:
+                    ArbolPermisos.Enabled = false;
                     FieldsetUsuario.Visible = true;
                     FieldsetAsociarUsuario.Visible = false;
                     FieldsetBotones.Visible = false;

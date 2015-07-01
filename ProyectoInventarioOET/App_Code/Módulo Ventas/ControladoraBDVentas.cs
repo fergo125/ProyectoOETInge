@@ -111,7 +111,7 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         }
 
         /*
-         * ???
+         * Consulta las facturas usando los posibles filtros: vendedor, bodega, estación, método de pago, fecha inicial y fecha final.
          */
         public DataTable consultarFacturas(String idVendedor, String idBodega, String idEstacion, String idMetodoPago, String idCliente, String fechaInicio, String fechaFinal)
         {
@@ -143,7 +143,7 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         }
 
         /*
-         * ???
+         * Consulta una factura de venta específica.
          */
         public EntidadFacturaVenta consultarFactura(String llaveFactura)
         {
@@ -205,7 +205,7 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         }
 
         /*
-         * ???
+         * Consulta el último consecutivo de factura para generar el siguiente. Si no hay factura, retorna un 0.
          */
         public int getUltimoConsecutivo()
         {
