@@ -70,7 +70,8 @@ namespace ProyectoInventarioOET
             {
                 OracleCommand command = conexionBD.CreateCommand();
                 command.CommandText = comandoSQL;
-                insertarReplicaSQL(comandoSQL); //Insertar en la tabla de réplica aquí
+                if(comandoSQL.Contains("INSERT") || comandoSQL.Contains("UPDATE") || comandoSQL.Contains("DELETE")) //las consultas no se replican
+                    insertarReplicaSQL(comandoSQL); //Insertar en la tabla de réplica aquí
                 OracleDataReader reader = command.ExecuteReader();
                 if (esperaResultado) //Si se trata de una consulta, se debe cargar lo que devuelva, de lo contrario, no
                     resultado.Load(reader);

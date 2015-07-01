@@ -38,8 +38,8 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             // Si encuentro una única cuenta
             if(resultado.Rows.Count == 1)
             {
-                Object[] datosConsultados = new Object[9];
-                for(int i=0; i<9; ++i)
+                Object[] datosConsultados = new Object[10];
+                for(int i=0; i<10; ++i)
                     datosConsultados[i] = resultado.Rows[0][i].ToString();
                 usuario = new EntidadUsuario(datosConsultados);
                 String[] perfil = consultarPerfilUsuario(usuario.Codigo);
@@ -49,6 +49,100 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             }
             return usuario;
         }
+
+        /*
+         * Consultar un perfil con base en su nombre.
+         */
+        public EntidadPerfil consultarPerfil(String nombre)
+        {
+            String esquema = "Inventarios.";
+            DataTable resultado = new DataTable();
+            EntidadPerfil perfil = null;
+            String comandoSQL = "SELECT * FROM " + esquema + "SEG_PERFIL WHERE NOMBRE = '" + nombre + "'";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
+            if (resultado.Rows.Count == 1)
+            {
+                Object[] datosConsultados = new Object[3];
+                for (int i = 0; i < 3; ++i)
+                    datosConsultados[i] = resultado.Rows[0][i].ToString();
+                perfil = new EntidadPerfil(datosConsultados);
+            }
+            return perfil;
+        }
+
+        /*
+         * Insertar un perfil.
+         */
+        public String[] insertarPerfil(String nombre, int nivel, String[] permisos)
+        {
+            String esquema = "Inventarios.";
+            String[] resultado = new String[3];
+            String id = generarID();
+            String comandoSQL = "INSERT INTO " + esquema + "SEG_PERFIL VALUES ('"
+                + id + "', '"
+                + nombre + "', "
+                + "1, '"
+                + nivel + "')";
+            if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
+            {
+                if (insertarPermisosPerfil(permisos, id))
+                {
+                    resultado[0] = "success";
+                    resultado[1] = "Éxito";
+                    resultado[2] = "Perfil creado con éxito";
+                }
+                else
+                {
+                    resultado[0] = "danger";
+                    resultado[1] = "Error";
+                    resultado[2] = "Error al intentar crear el nuevo perfil.";
+                }
+            }
+            else
+            {
+                resultado[0] = "danger";
+                resultado[1] = "Error";
+                resultado[2] = "Error al intentar crear el nuevo perfil.";
+            }
+            return resultado;
+        }
+
+        /*
+         * Insertar los permisos del perfil.
+         */
+        public bool insertarPermisosPerfil(String[] permisos, String llavePerfil)
+        {
+            String esquema = "Inventarios.";
+            String tuplas = ""; //se agrega cada string de permisos en una inserción por aparte para luego unirlas en un sólo query
+            for (short i = 1; i <= 11; ++i)
+            {
+                tuplas += " INTO " + esquema + "SEG_PERMISOS VALUES('"
+                    + generarID() + "', '"
+                    + llavePerfil + "', '";
+                switch(i)
+                {
+                    case 1: tuplas += "Catalogo general de productos"; break;
+                    case 2: tuplas += "Categorias de productos"; break;
+                    case 3: tuplas += "Catalogos de productos en bodegas"; break;
+                    case 4: tuplas += "Gestion de bodegas"; break;
+                    case 5: tuplas += "Gestion de actividades"; break;
+                    case 6: tuplas += "Entradas de inventario"; break;
+                    case 7: tuplas += "Traslados de inventario"; break;
+                    case 8: tuplas += "Ajustes de inventario"; break;
+                    case 9: tuplas += "Facturacion"; break;
+                    case 10: tuplas += "Reportes"; break;
+                    case 11: tuplas += "Seguridad"; break;
+                    default: break;
+                }
+                tuplas += "', '" + permisos[i-1].ToString() + "')";
+            }
+
+            String comandoSQL = "INSERT ALL" + tuplas + " SELECT * FROM DUAL"; //query unificado
+            if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
+                return true;
+            return false;
+        }
+
         /*
          * Modifica la contraseña de un usuario en especifico basado en su codigo interno de la base de datos
          */
@@ -220,14 +314,13 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         /*
         * Modifica una cuenta dado un vector con los datos de la misma.
         */
-        public String[] modificarUsuario(EntidadUsuario usuario)
+        public String[] modificarUsuario(EntidadUsuario usuario, List<String> listadoBodegas)
         {
             //String[] resultado = new String[3];
             String esquema = "Inventarios.";
             String[] resultado = new String[4];
-            usuario.Codigo = generarID();
             String comandoSQL = "UPDATE " + esquema + "SEG_USUARIO SET USUARIO = '" + usuario.Usuario + "', DESCRIPCION = '" + usuario.Descripcion + "', IDESTACION = '"
-                + usuario.IdEstacion + "', ANFITRIONA = '" + usuario.Anfitriona + "', NOMBRE = '" + usuario.Nombre + "', ESTADO = " + usuario.Estado + ", DESCUENTO_MAXIMO ="
+                + usuario.IdEstacion + "', ANFITRIONA = '" + usuario.Anfitriona + "', NOMBRE = '" + usuario.Nombre + "', ESTADO = " + usuario.Estado + ", DESCUENTO_MAXIMO = "
                 + usuario.DescuentoMaximo + " WHERE SEG_USUARIO = '" + usuario.Codigo + "'";
 
             if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien

@@ -20,6 +20,7 @@ namespace ProyectoInventarioOET
         private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
         private static ControladoraSeguridad controladoraSeguridad;
         private static ControladoraDatosGenerales controladoraDatosGenerales;   //Controladora para consultar las estaciones
+        private static ControladoraBodegas controladoraBodegas;
         private static EntidadUsuario usuarioConsultado;                        //Entidad que almacena la cuenta consultada
         private static Boolean seConsulto = false;                              //Bandera que revisa si ya se consulto o no                       //???
         private static Object[] idArray;                                //Array de ids para almacenar los usuarios
@@ -38,6 +39,7 @@ namespace ProyectoInventarioOET
                 {
                     controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
                     controladoraSeguridad = new ControladoraSeguridad();
+                    controladoraBodegas = new ControladoraBodegas();
                   //Seguridad
                     permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Gestion de bodegas");
                     if (permisos == "000000")
@@ -98,6 +100,7 @@ namespace ProyectoInventarioOET
                     FieldsetGrid.Visible = false;
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfilCreacion.Visible = false;
+                    tituloAccionForm.InnerText = "";
                     break;
 
                 case (int)Modo.InicialPerfil:
@@ -161,34 +164,43 @@ namespace ProyectoInventarioOET
                     tituloAccionForm.Visible = true;
                     tituloAccionForm.InnerText = "Modifique la información del usuario.";
                     FieldsetUsuario.Visible = true;
-                    FieldsetAsociarUsuario.Visible = true;
+                    FieldsetAsociarUsuario.Visible = false;
                     FieldsetBotones.Visible = true;
                     FieldsetGrid.Visible = false;
                     FieldsetGridCuentas.Visible = false;
+                    gridViewBodegas.Enabled = true;
+                    this.inputFecha.Disabled = true;
                     break;
 
                 case (int)Modo.InsercionPerfil:
                     tituloAccionForm.InnerText = "Ingrese los datos para el nuevo perfil";
                     FieldsetUsuario.Visible = false;
                     FieldsetAsociarUsuario.Visible = false;
-                    FieldsetBotones.Visible = true;
+                    FieldsetBotones.Visible = false;
                     FieldsetGrid.Visible = false;
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfil.Visible = true;
                     FieldsetPerfilCreacion.Visible = true;
                     break;
-
+                //case (int)Modo.AsociarUsuario:
+                //    FieldsetUsuario.Visible = false;
+                //    FieldsetAsociarUsuario.Visible = true;
+                //    FieldsetBotones.Visible = true;
+                //    FieldsetGrid.Visible = false;
+                //    FieldsetGridCuentas.Visible = false;
+                //    FieldsetPerfilCreacion.Visible = false;
+                //    break;
                 case (int)Modo.ConsultadoUsuario:
                     FieldsetUsuario.Visible = true;
                     FieldsetAsociarUsuario.Visible = false;
                     FieldsetBotones.Visible = false;
                     FieldsetGrid.Visible = false;
-                    
+
                     inputPassword.Visible = false; inputPasswordConfirm.Visible = false;
                     labelInputPassword.Visible = false; labelInputPasswordConfirm.Visible = false;
                     DropDownListPerfilConsulta.Visible = true; labelDropDownListPerfilConsulta.Visible = true;
                     inputFecha.Visible = true; labelInputFecha.Visible = true;
-
+                    
                     this.gridViewBodegas.Enabled = false;
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfil.Visible = false;
@@ -213,28 +225,12 @@ namespace ProyectoInventarioOET
                 TreeNode interfaz = new TreeNode();
                 switch(i)
                 {
-                    case 1:
-                        interfaz.Text = "Productos";
-                        interfaz.Value = "PRO";
-                        break;
-                    case 2:
-                        interfaz.Text = "Bodegas";
-                        interfaz.Value = "BOD";
-                        break;
-                    case 3:
-                        interfaz.Text = "Inventario";
-                        interfaz.Value = "INV";
-                        break;
-                    case 4:
-                        interfaz.Text = "Ventas";
-                        interfaz.Value = "VEN";
-                        break;
-                    case 5:
-                        interfaz.Text = "Administración";
-                        interfaz.Value = "ADM";
-                        break;
-                    default:
-                        break;
+                    case 1: interfaz.Text = "Productos";        interfaz.Value = "PRO"; break;
+                    case 2: interfaz.Text = "Bodegas";          interfaz.Value = "BOD"; break;
+                    case 3: interfaz.Text = "Inventario";       interfaz.Value = "INV"; break;
+                    case 4: interfaz.Text = "Ventas";           interfaz.Value = "VEN"; break;
+                    case 5: interfaz.Text = "Administración";   interfaz.Value = "ADM"; break;
+                    default: break;
                 }
                 for(short s=1; s<=3; ++s)
                 {
@@ -244,108 +240,55 @@ namespace ProyectoInventarioOET
                         case 1: //Productos
                             switch(s)
                             {
-                                case 1:
-                                    subinterfaz.Text = "Catálogo general de productos";
-                                    subinterfaz.Value = "CGP";
-                                    break;
-                                case 2:
-                                    subinterfaz.Text = "Categorías de productos";
-                                    subinterfaz.Value = "CDP";
-                                    ++s;
-                                    break;
-                                default:
-                                    break;
+                                case 1: subinterfaz.Text = "Catálogo general de productos";     subinterfaz.Value = "CGP"; break;
+                                case 2: subinterfaz.Text = "Categorías de productos";           subinterfaz.Value = "CDP"; ++s; break;
+                                default: break;
                             }
                             break;
                         case 2: //Bodegas
                             switch(s)
                             {
-                                case 1:
-                                    subinterfaz.Text = "Catálogos de productos en bodegas";
-                                    subinterfaz.Value = "CPB";
-                                    break;
-                                case 2:
-                                    subinterfaz.Text = "Gestión de bodegas";
-                                    subinterfaz.Value = "GDB";
-                                    break;
-                                case 3:
-                                    subinterfaz.Text = "Gestión de actividades";
-                                    subinterfaz.Value = "GDA";
-                                    break;
-                                default:
-                                    break;
+                                case 1: subinterfaz.Text = "Catálogos de productos en bodegas"; subinterfaz.Value = "CPB"; break;
+                                case 2: subinterfaz.Text = "Gestión de bodegas";                subinterfaz.Value = "GDB"; break;
+                                case 3: subinterfaz.Text = "Gestión de actividades";            subinterfaz.Value = "GDA"; break;
+                                default: break;
                             }
                             break;
                         case 3: //Inventario
                             switch(s)
                             {
-                                case 1:
-                                    subinterfaz.Text = "Entradas de inventario";
-                                    subinterfaz.Value = "EDI";
-                                    break;
-                                case 2:
-                                    subinterfaz.Text = "Ajustes de inventario";
-                                    subinterfaz.Value = "ADI";
-                                    break;
-                                case 3:
-                                    subinterfaz.Text = "Traslados de inventario";
-                                    subinterfaz.Value = "TDI";
-                                    break;
-                                default:
-                                    break;
+                                case 1: subinterfaz.Text = "Entradas de inventario";            subinterfaz.Value = "EDI"; break;
+                                case 2: subinterfaz.Text = "Ajustes de inventario";             subinterfaz.Value = "ADI"; break;
+                                case 3: subinterfaz.Text = "Traslados de inventario";           subinterfaz.Value = "TDI"; break;
+                                default: break;
                             }
                             break;
                         case 4: //Ventas
                             switch(s)
                             {
-                                case 1:
-                                    subinterfaz.Text = "Facturación";
-                                    subinterfaz.Value = "FDV";
-                                    ++s;
-                                    ++s;
-                                    break;
-                                default:
-                                    break;
+                                case 1: subinterfaz.Text = "Facturación";                       subinterfaz.Value = "FDV"; ++s; ++s; break;
+                                default: break;
                             }
                             break;
                         case 5: //Administración
                             switch(s)
                             {
-                                case 1:
-                                    subinterfaz.Text = "Reportes";
-                                    subinterfaz.Value = "RDC";
-                                    break;
-                                case 2:
-                                    subinterfaz.Text = "Seguridad";
-                                    subinterfaz.Value = "SDS";
-                                    ++s;
-                                    break;
-                                default:
-                                    break;
+                                case 1: subinterfaz.Text = "Reportes";                          subinterfaz.Value = "RDC"; break;
+                                case 2: subinterfaz.Text = "Seguridad";                         subinterfaz.Value = "SDS"; ++s; break;
+                                default: break;
                             }
                             break;
-                        default:
-                            break;
+                        default: break;
                     }
                     for(short p=1; p<=3; ++p)
                     {
                         TreeNode permisos = new TreeNode();
                         switch(p)
                         {
-                            case 1:
-                                permisos.Text = " Consultar";
-                                permisos.Value = "C";
-                                break;
-                            case 2:
-                                permisos.Text = " Crear";
-                                permisos.Value = "I";
-                                break;
-                            case 3:
-                                permisos.Text = " Modificar";
-                                permisos.Value = "M";
-                                break;
-                            default:
-                                break;
+                            case 1: permisos.Text = " Consultar";   permisos.Value = "C"; break;
+                            case 2: permisos.Text = " Crear";       permisos.Value = "I"; break;
+                            case 3: permisos.Text = " Modificar";   permisos.Value = "M"; break;
+                            default: break;
                         }
                         subinterfaz.ChildNodes.Add(permisos);
                     }
@@ -359,6 +302,18 @@ namespace ProyectoInventarioOET
         }
 
         /*
+         * 
+         */
+        protected void cargarNivelesPerfil()
+        {
+            dropDownListCrearPerfilNivel.Items.Clear();
+            dropDownListCrearPerfilNivel.Items.Add(new ListItem("Normal (no supervisa nada)", "4"));
+            dropDownListCrearPerfilNivel.Items.Add(new ListItem("Medio (supervisa vendedores)", "3"));
+            dropDownListCrearPerfilNivel.Items.Add(new ListItem("Alto (supervisa bodegas)", "2"));
+            dropDownListCrearPerfilNivel.Items.Add(new ListItem("Máximo (supervisa estaciones)", "1"));
+        }
+
+        /*
          * Forma un arreglo de strings que representan 
          */
         protected String[] obtenerPermisosArbol()
@@ -369,7 +324,7 @@ namespace ProyectoInventarioOET
             {
                 foreach(TreeNode subinterfaz in interfaz.ChildNodes) //hijos de la interfaz
                 {
-                    permisos[iterador] = "000";
+                    permisos[iterador] = (dropDownListCrearPerfilNivel.SelectedValue == "1" ? "111" : "000");
                     permisos[iterador] += (subinterfaz.ChildNodes[2].Checked ? "1" : "0"); //modificar
                     permisos[iterador] += (subinterfaz.ChildNodes[1].Checked ? "1" : "0"); //insertar
                     permisos[iterador] += (subinterfaz.ChildNodes[0].Checked ? "1" : "0"); //consultar
@@ -377,6 +332,38 @@ namespace ProyectoInventarioOET
                 }
             }
             return permisos;
+        }
+
+        /*
+         * Muestra los campos necesarios para crear un perfil de seguridad, incluyendo el árbol de permisos.
+         */
+        protected void botonCrearPerfil_ServerClick(object sender, EventArgs e)
+        {
+            modo = (int)Modo.InsercionPerfil;
+            cambiarModo();
+            llenarArbol();
+            cargarNivelesPerfil();
+        }
+
+        /*
+         * Invocada cuando se da click al botón "Guardar" debajo de los campos de creación de perfil.
+         */
+        protected void botonAceptarCreacionPerfil_ServerClick(object sender, EventArgs e)
+        {
+            if(textBoxCrearPerfilNombre.Value == null)
+            {
+                mostrarMensaje("warning", "Atención: ", "Ingrese un nombre para el nuevo perfil.");
+                return;
+            }
+            //primero revisar que el nombre no sea repetido
+            if (controladoraSeguridad.consultarPerfil(textBoxCrearPerfilNombre.Value) != null) //ya existe
+            {
+                mostrarMensaje("danger", "Error: ", "Ese nombre ya pertenece a otro perfil existente.");
+                return;
+            }
+            //segundo intentar crear el nuevo perfil
+            String[] resultado = controladoraSeguridad.insertarPerfil(textBoxCrearPerfilNombre.Value, Convert.ToInt32(dropDownListCrearPerfilNivel.SelectedValue), obtenerPermisosArbol());
+            mostrarMensaje(resultado[0], resultado[1], resultado[2]);
         }
 
         // Seleccion de administracion de perfiles
@@ -391,16 +378,6 @@ namespace ProyectoInventarioOET
         {
             modo = (int)Modo.InicialUsuario;
             cambiarModo();
-        }
-
-        /*
-         * Muestra los campos necesarios para crear un perfil de seguridad, incluyendo el árbol de permisos.
-         */
-        protected void botonCrearPerfil_ServerClick(object sender, EventArgs e)
-        {
-            modo = (int)Modo.InsercionPerfil;
-            cambiarModo();
-            llenarArbol();
         }
 
         // Seleccion de asociacion de usuarios a perfil
@@ -505,6 +482,7 @@ namespace ProyectoInventarioOET
             else if (modo == (int)Modo.ModificarUsuario)
             {
                 operacionCorrecta = modificarUsuario();
+                modo = (int)Modo.Inicial;
             }
             if (operacionCorrecta)
             {
@@ -564,12 +542,23 @@ namespace ProyectoInventarioOET
          */
         protected Boolean modificarUsuario()
         {
-            String codigo = "";
             Boolean exito = false;
             Object[] usuario = obtenerDatosCuenta();
             usuario[0] = usuarioConsultado.Codigo;
-            String[] error = controladoraSeguridad.modificarUsuario(usuario);
-            codigo = Convert.ToString(error[3]);
+            List<String> listadoBodegas = new List<String>();
+
+            int i = 0;
+            foreach (GridViewRow fila in gridViewBodegas.Rows)
+            {
+                if (((CheckBox)gridViewBodegas.Rows[i].FindControl("checkBoxBodegas")).Checked)
+                {
+                    String llaveBodega = controladoraBodegas.consultarLlaveBodega(fila.Cells[1].Text, DropDownListEstacion.SelectedValue);
+                    listadoBodegas.Add(llaveBodega);
+                }
+                i++;
+            }
+
+            String[] error = controladoraSeguridad.modificarUsuario(usuario, listadoBodegas);
             mostrarMensaje(error[0], error[1], error[2]);
             if (error[0].Contains("success"))
             {

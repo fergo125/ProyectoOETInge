@@ -305,8 +305,7 @@
                 <label for="inputDescuentoProducto" class= "control-label">Descuento (por ej. 1500 o 15%):</label>      
                 <input id="inputDescuentoProducto" class="form-control" type="text" placeholder="Ingrese una cantidad" runat="server">
                 <asp:RegularExpressionValidator ID="RegularExpressionValidator3" ControlToValidate="inputDescuentoProducto" ClientValidationFunction="changeColor" Display="Dynamic"
-                ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="Sólo se permiten cantidades o porcentajes"  Font-Bold="true" ValidationExpression="(([0]\.[0]*[1-9]+)|([1-9]+\d*(\.[0-9]+)?\%)|([0]\.[0]*[1-9]+\%)|([1-9]+\d*(\.[0-9]+)?)|([0]*))$"></asp:RegularExpressionValidator>
-                
+                ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="Sólo se permiten cantidades o porcentajes"  Font-Bold="true" ValidationExpression="((0\.[0]*[1-9]+)|([1-9]+\d*(\.[0]*[1-9]+)?\%)|(0\.[0]*[1-9]+\%)|([1-9]+\d*(\.[0]*[1-9]+)?)|0)$"></asp:RegularExpressionValidator>
                 <br />
 
                 <label class= "control-label">Impuesto:</label>
