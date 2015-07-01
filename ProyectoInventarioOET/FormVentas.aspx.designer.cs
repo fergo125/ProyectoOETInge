@@ -184,6 +184,24 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.DropDownList dropDownListConsultaCliente;
         
         /// <summary>
+        /// Control textboxConsultaFechaInicio.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText textboxConsultaFechaInicio;
+        
+        /// <summary>
+        /// Control CalendarFechaInicio.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Calendar CalendarFechaInicio;
+        
+        /// <summary>
         /// Control botonConsultaCalendarioInicio.
         /// </summary>
         /// <remarks>
@@ -191,6 +209,24 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlButton botonConsultaCalendarioInicio;
+        
+        /// <summary>
+        /// Control textboxConsultaFechaFinal.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText textboxConsultaFechaFinal;
+        
+        /// <summary>
+        /// Control CalendarFechaFinal.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Calendar CalendarFechaFinal;
         
         /// <summary>
         /// Control botonConsultaCalendarioFinal.

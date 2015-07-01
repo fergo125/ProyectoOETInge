@@ -182,6 +182,8 @@ namespace ProyectoInventarioOET.Modulo_Entradas
                                     res[1] = "Éxito:";
                                     res[2] = "Entrada agregada al sistema.";
                                 }
+                                //comandoSQL = "call insertar_historial( llave_bodega_local, cantidad, precio_colones )";
+                                // Aqui para agregar tabla de costo promedio
                             }
                         }
                     }

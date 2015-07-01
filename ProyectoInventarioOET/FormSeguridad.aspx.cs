@@ -2,42 +2,77 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Data;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using ProyectoInventarioOET.Modulo_Seguridad;
+using ProyectoInventarioOET.App_Code;
 
 namespace ProyectoInventarioOET
 {
     public partial class FormSeguridad : System.Web.UI.Page
     {
 
-        enum Modo { Inicial, InicialPerfil, InicialUsuario, ConsultaPerfil, InsercionPerfil, ModificacionPerfil, ConsultaUsuario, InsercionUsuario, AsociarUsuario };
-        ControladoraSeguridad controladora;
-        EntidadUsuario entidadConsultada;
-        // Atributos
-        private static int modo = 0;                    // Modo actual de la pagina
-
+        enum Modo { Inicial, InicialPerfil, InicialUsuario, ConsultaPerfil, InsercionPerfil, ModificacionPerfil, ConsultaUsuario, InsercionUsuario, AsociarUsuario, ConsultadoUsuario };
+       // Atributos
+        private static int modo = (int)Modo.Inicial;                    // Modo actual de la pagina
+        private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
+        private static ControladoraSeguridad controladoraSeguridad;
+        private static ControladoraDatosGenerales controladoraDatosGenerales;   //Controladora para consultar las estaciones
+        private static EntidadUsuario usuarioConsultado;                        //Entidad que almacena la cuenta consultada
+        private static Boolean seConsulto = false;                              //Bandera que revisa si ya se consulto o no                       //???
+        private static Object[] idArray;                                //Array de ids para almacenar los usuarios
+        
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
-            {
-                /*EJEMPLO PARA EL BLOPA YO HICE DOS METODS COOOOOORRERRRRRRLO!
-                 *  i) consultarCuentas que trae informacion previa(idUsuario, Nombre, Perfil, Estado) de todas las cuentas que existen en el sistema 
-                 *  ii) consultarCuenta(String id) que devuelve la Entidad de Usuario con todas las cosas que existen en la BD de un usuario especifico, esta entidad contiene
-                 *       una matriz  de permisos que despliega los permisos de dicho usuario en cada interfaz
-                 */
-                controladora = new ControladoraSeguridad();
-                entidadConsultada = controladora.consultarCuenta("3"); //Recibe el id (Seg_usuario)
-                this.gridPermisos.DataSource = entidadConsultada.MatrizPermisos;
-                this.gridPermisos.DataBind();  //IMPORTANTE!! ASI VIENEN LOS PERMISOS DE UN USUARIO
-                this.inputNombre.Value = entidadConsultada.Nombre;
-                this.gridCuentas.DataSource = controladora.consultarCuentas(); // Recordadr no desplegar el idUsuario!! Yo lo hice xq era un ejemplo de que funka 
-                this.gridCuentas.DataBind();
+                mensajeAlerta.Visible = false;
+            
+                ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab()", true); //para que quede marcada la página seleccionada en el sitemaster
+                labelAlerta.Text = "";
 
+                if (!IsPostBack)
+                {
+                    controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
+                    controladoraSeguridad = new ControladoraSeguridad();
+                  //Seguridad
+                    permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Gestion de bodegas");
+                    if (permisos == "000000")
+                        Response.Redirect("~/ErrorPages/404.html");
+                    //mostrarBotonesSegunPermisos();
 
-                modo = (int)Modo.Inicial;
+          
+                    /*EJEMPLO PARA EL BLOPA YO HICE DOS METODS COOOOOORRERRRRRRLO!
+                     *  i) consultarCuentas que trae informacion previa(idUsuario, Nombre, Perfil, Estado) de todas las cuentas que existen en el sistema 
+                     *  ii) consultarCuenta(String id) que devuelve la Entidad de Usuario con todas las cosas que existen en la BD de un usuario especifico, esta entidad contiene
+                     *       una matriz  de permisos que despliega los permisos de dicho usuario en cada interfaz
+                     */
+                    /*controladoraSeguridad = new ControladoraSeguridad();
+                    entidadConsultada = controladoraSeguridad.consultarCuenta("3"); //Recibe el id (Seg_usuario)
+                    this.gridPermisos.DataSource = entidadConsultada.MatrizPermisos;
+                    this.gridPermisos.DataBind();  //IMPORTANTE!! ASI VIENEN LOS PERMISOS DE UN USUARIO
+                    this.inputNombre.Value = entidadConsultada.Nombre;
+                    this.gridCuentas.DataSource = controladoraSeguridad.consultarCuentas(); // Recordadr no desplegar el idUsuario!! Yo lo hice xq era un ejemplo de que funka 
+                    this.gridCuentas.DataBind();*/
+                     if (!seConsulto)
+                    {
+                        modo = (int)Modo.Inicial;
+                    }
+                    else
+                    {
+                        if (usuarioConsultado == null)
+                        {
+                            mostrarMensaje("warning", "Alerta: ", "No se pudo consultar la bodega.");
+                        }
+                        else
+                        {
+                            
+                            cargarEstaciones();
+
+                            seConsulto = false;
+                        }
+                    }
+                }
                 cambiarModo();
-            }
         }
 
          /*
@@ -70,6 +105,10 @@ namespace ProyectoInventarioOET
                     FieldsetAsociarUsuario.Visible = false;
                     FieldsetBotones.Visible = false;
                     FieldsetGrid.Visible = false;
+                    break;
+                case (int)Modo.ConsultaPerfil:
+                    FieldsetGrid.Visible = true;
+                    FieldsetPerfil.Visible = false;
                     break;
 
                 case (int)Modo.ConsultaUsuario:
@@ -171,6 +210,7 @@ namespace ProyectoInventarioOET
         protected void botonCrearUsuario_ServerClick(object sender, EventArgs e)
         {
             modo = (int)Modo.InsercionUsuario;
+            cargarEstaciones();
             cambiarModo();
         }
 
@@ -180,5 +220,180 @@ namespace ProyectoInventarioOET
             modo = (int)Modo.ConsultaUsuario;
             cambiarModo();
         }
+
+        // Consulta perfiles
+        protected void botonConsultarPerfil_ServerClick(object sender, EventArgs e)
+        {
+            modo = (int)Modo.ConsultaPerfil;
+            cambiarModo();
+        }
+
+        //Carga las estaciones al combobox
+        protected void cargarEstaciones()
+        {
+            DropDownListEstacion.Items.Clear();
+            DropDownListEstacion.Items.Add(new ListItem("", null));
+            DataTable estaciones = controladoraDatosGenerales.consultarEstaciones();
+            foreach (DataRow fila in estaciones.Rows)
+            {
+                DropDownListEstacion.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
+            }
+        }
+
+        //Metodo que muestra el resultado de la accion
+        protected void mostrarMensaje(String tipoAlerta, String alerta, String mensaje)
+        {
+
+            mensajeAlerta.Attributes["class"] = "alert alert-" + tipoAlerta + " alert-dismissable fade in";
+            labelTipoAlerta.Text = alerta + " ";
+            labelAlerta.Text = mensaje;
+            mensajeAlerta.Visible = true;
+            ScriptManager.RegisterStartupScript(Page, this.GetType(), "ScrollPage", "window.scroll(0,0);", true);
+        }
+
+
+        protected void botonAceptarUsuario_ServerClick(object sender, EventArgs e)
+        {
+            Boolean operacionCorrecta = true;
+            String codigoInsertado = "";
+
+            if (modo == (int)Modo.InsercionUsuario)
+            {
+                codigoInsertado = crearUsuario();
+
+                if (codigoInsertado != "")
+                {
+                    operacionCorrecta = true;
+                    usuarioConsultado = controladoraSeguridad.consultarUsuario(codigoInsertado);
+                    modo = (int)Modo.ConsultadoUsuario;
+                    habilitarCampos(false);
+                }
+                else
+                    operacionCorrecta = false;
+            }
+            if (operacionCorrecta)
+            {
+                cambiarModo();
+            }
+        }
+
+        //Metodo que realiza la insercion de un nuevo usuario en la base de datos
+        protected String crearUsuario()
+        {
+            String codigo = "";
+            Object[] usuario = obtenerDatosCuenta();
+            String[] error = controladoraSeguridad.insertarUsuario(usuario);
+            codigo = Convert.ToString(error[3]);
+            mostrarMensaje(error[0], error[1], error[2]);
+            if (error[0].Contains("success"))
+            {
+                llenarGrid();
+            }
+            else
+            {
+                codigo = "";
+                modo = (int)Modo.InsercionUsuario;
+            }
+
+            return codigo;
+        }
+
+
+        //Metodo que habilita o deshabilita los campos de usuario
+        protected void habilitarCampos(bool habilitar)
+        {
+            this.inputUsuario.Disabled = !habilitar;
+            this.inputNombre.Disabled = !habilitar;
+            this.inputPassword.Disabled = !habilitar;
+            this.inputPasswordConfirm.Disabled = !habilitar;
+            this.DropDownListEstacion.Enabled = habilitar;
+            this.inputDescripcion.Disabled = !habilitar;
+        }
+
+        // Metodo que llena el grid de cuentas consultadas
+        protected void llenarGrid()
+        {
+            DataTable tabla = tablaUsuarios();
+            int indiceNuevoUsuario = -1;
+            int i = 0;
+
+            try
+            {
+                // Cargar usuarios
+                Object[] datos = new Object[4];
+                DataTable usuarios = controladoraSeguridad.consultarUsuarios();
+                if (usuarios.Rows.Count > 0)
+                {
+                    idArray = new Object[usuarios.Rows.Count];
+                    foreach (DataRow fila in usuarios.Rows)
+                    {
+                        idArray[i] = fila[0];
+                        datos[0] = fila[1].ToString();
+                        datos[1] = fila[3].ToString();
+                        datos[2] = fila[4].ToString();
+                        datos[3] = fila[5].ToString();
+                        tabla.Rows.Add(datos);
+                        if (usuarioConsultado != null && (fila[0].Equals(usuarioConsultado.Codigo)))
+                        {
+                            indiceNuevoUsuario = i;
+                        }
+                        i++;
+                    }
+                }
+                else
+                {
+                    datos[0] = "-";
+                    datos[1] = "-";
+                    datos[2] = "-";
+                    datos[3] = "-";
+                    tabla.Rows.Add(datos);
+                    mostrarMensaje("warning", "Atención: ", "No existen bodegas en la base de datos.");
+                }
+
+                this.gridViewGeneral.DataSource = tabla;
+                this.gridViewGeneral.DataBind();
+            }
+            catch (Exception e)
+            {
+                //mostrarMensaje("warning", "Alerta", "No hay conexión a la base de datos.");
+            }
+    
+
+
+        }
+
+
+        protected Object[] obtenerDatosCuenta()
+        {
+            Object[] datos = new Object[10];
+            datos[0] = 0;
+            datos[1] = this.inputUsuario.Value;
+            datos[2] = this.inputPassword.Value;
+            datos[3] = DateTime.Now.Date.ToString("dd/MMM/yyyy");
+            datos[4] = this.inputDescripcion.Value;
+            datos[5] = this.DropDownListEstacion.SelectedValue;
+            datos[6] = 0; //Pendiente
+            datos[7] = this.inputNombre.Value;
+            datos[8] = 1; //Pendiente
+            datos[9] = 15; //
+            return datos;
+        }
+
+        //Tabla de consulta de cuentas
+        protected DataTable tablaUsuarios()
+        {
+            DataTable tabla = new DataTable();
+            //A Carlos le toca implementarlo
+            return tabla;
+        }
+
+        // Tabla de consulta de perfiles
+        protected DataTable tablaPerfiles()
+        {
+            DataTable tabla = new DataTable();
+            // Toca implementarlo
+            return tabla;
+        }
+
     }
 }

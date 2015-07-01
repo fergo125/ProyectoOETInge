@@ -73,8 +73,18 @@
                     <label for="ConsultaVendedor" class="control-label">Fecha inicial:</label>
                     <table class="table-fozkr">
                         <tr>
-                            <td><input id="textboxConsultaFechaInicio" disabled="disabled" class="form-control" type="text"/></td>
-                            <td><button runat="server" ID="botonConsultaCalendarioInicio" class="btn btn-default" type="button">
+                            <td>
+                                <input id="textboxConsultaFechaInicio" disabled="disabled" class="form-control" type="text" runat="server"/>
+                                <asp:Calendar ID="CalendarFechaInicio" runat="server" Visible="False" BackColor="White" BorderColor="White" BorderWidth="1px" Font-Names="Verdana" Font-Size="9pt" ForeColor="Black" Height="190px" NextPrevFormat="FullMonth" Width="200px" OnSelectionChanged="CalendarFechaInicio_SelectionChanged">
+                                    <DayHeaderStyle Font-Bold="True" Font-Size="8pt" />
+                                    <NextPrevStyle Font-Bold="True" Font-Size="8pt" ForeColor="#333333" VerticalAlign="Bottom" />
+                                    <OtherMonthDayStyle ForeColor="#999999" />
+                                    <SelectedDayStyle BackColor="#333399" ForeColor="White" />
+                                    <TitleStyle BackColor="White" BorderColor="Black" BorderWidth="4px" Font-Bold="True" Font-Size="12pt" ForeColor="#333399" />
+                                    <TodayDayStyle BackColor="#CCCCCC" />
+                                </asp:Calendar>
+                            </td>
+                            <td><button runat="server" ID="botonConsultaCalendarioInicio" class="btn btn-default" type="button" onserverclick="clickBotonConsultaCalendarioInicio_ServerClick">
                                     <i class="glyphicon glyphicon-calendar"></i>
                                 </button>
                             </td>
@@ -85,8 +95,18 @@
                     <label for="ConsultaVendedor" class="control-label">Fecha final:</label>
                     <table class="table-fozkr">
                         <tr>
-                            <td><input id="textboxConsultaFechaFinal" disabled="disabled" class="form-control" type="text"/></td>
-                            <td><button runat="server" ID="botonConsultaCalendarioFinal" class="btn btn-default" type="button">
+                            <td>
+                                <input id="textboxConsultaFechaFinal" disabled="disabled" class="form-control" type="text" runat="server"/>
+                                <asp:Calendar ID="CalendarFechaFinal" runat="server" Visible="False" BackColor="White" BorderColor="White" BorderWidth="1px" Font-Names="Verdana" Font-Size="9pt" ForeColor="Black" Height="190px" NextPrevFormat="FullMonth" Width="200px" OnSelectionChanged="CalendarFechaFinal_SelectionChanged">
+                                    <DayHeaderStyle Font-Bold="True" Font-Size="8pt" />
+                                    <NextPrevStyle Font-Bold="True" Font-Size="8pt" ForeColor="#333333" VerticalAlign="Bottom" />
+                                    <OtherMonthDayStyle ForeColor="#999999" />
+                                    <SelectedDayStyle BackColor="#333399" ForeColor="White" />
+                                    <TitleStyle BackColor="White" BorderColor="Black" BorderWidth="4px" Font-Bold="True" Font-Size="12pt" ForeColor="#333399" />
+                                    <TodayDayStyle BackColor="#CCCCCC" />
+                                </asp:Calendar>
+                            </td>
+                            <td><button runat="server" ID="botonConsultaCalendarioFinal" class="btn btn-default" type="button" onserverclick="clickBotonConsultaCalendarioFinal_ServerClick">
                                     <i class="glyphicon glyphicon-calendar"></i>
                                 </button>
                             </td>

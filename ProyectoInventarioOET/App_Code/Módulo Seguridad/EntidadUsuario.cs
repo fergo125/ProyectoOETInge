@@ -28,6 +28,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         private String descripcionEstacion;
         private String descripcionAnfitriona;
         private DataTable matrixDePermisos;
+        private int descuentoMaximo;
 
         /*
          * Constructor de la clase
@@ -43,7 +44,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             this.idEstacion = datos[5].ToString();
             this.anfitriona = datos[6].ToString();
             this.nombre = datos[7].ToString();
-            this.estado = Convert.ToInt32(datos[8].ToString()); 
+            this.estado = Convert.ToInt32(datos[8].ToString());
         }
 
         /*
@@ -172,6 +173,13 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             get { return matrixDePermisos; }
             set { matrixDePermisos = value; }
         }
+
+        public int DescuentoMaximo
+        {
+            get { return descuentoMaximo; }
+            set { descuentoMaximo = value; }
+        }
+
         // Fin de metodos de acceso a datos
     }
 }
