@@ -186,7 +186,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             String comandoSQL = "SELECT distinct b.cat_bodega, b.descripcion "
                                 + " FROM seg_usuario_bodega UB, seg_usuario u, cat_bodega b "
                                 + " where u.seg_usuario = ub.seg_usuario "
-                                + " and b.cat_bodega = b.cat_bodega "
+                                + " and ub.cat_bodega = b.cat_bodega "
                                 + " and u.seg_usuario = '" + idUsuario + "' ";
             resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado; 

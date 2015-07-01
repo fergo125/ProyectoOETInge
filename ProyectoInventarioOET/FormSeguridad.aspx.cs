@@ -173,6 +173,8 @@ namespace ProyectoInventarioOET
 
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfil.Visible = false;
+                    this.botonAsociarPerfil.Visible = true;
+                    this.FieldsetBotonesUsuarios.Visible = true;
                     break;
             }
         }
@@ -462,18 +464,23 @@ namespace ProyectoInventarioOET
             this.inputDescuentoMaximo.Value = ""+usuarioConsultado.DescuentoMaximo;
             ControladoraBodegas controladoraBodegas = new ControladoraBodegas();
             bodegasEstacion = controladoraBodegas.consultarBodegasDeEstacion(usuarioConsultado.IdEstacion);
-            this.gridViewBodegas.DataSource = crearTablaBodegas();
+            DataTable aux = crearTablaBodegas();
+            this.gridViewBodegas.DataSource = aux;
             this.gridViewBodegas.DataBind();
             foreach (DataRow fila in usuarioConsultado.Bodegas.Rows) {
-                foreach (GridViewRow fila2 in gridViewBodegas.Rows) { 
-                        
-                
+                int i = 0;
+                foreach (DataRow fila2 in aux.Rows)
+                {
+                    if (fila[1].ToString() == fila2[0].ToString()) {
+                        ((CheckBox)gridViewBodegas.Rows[i].FindControl("checkBoxBodegas")).Checked = true;
+                    }
+                    i++;
                 }
             }
             habilitarCampos(false);
         }
 
-        private object crearTablaBodegas()
+        private DataTable crearTablaBodegas()
         {
             DataTable tabla = new DataTable();
             DataColumn columna;
@@ -608,10 +615,6 @@ namespace ProyectoInventarioOET
             this.gridViewCuentas.DataBind();
         }
 
-        protected void gridViewBodegas_PageIndexChanging(object sender, GridViewPageEventArgs e)
-        {
-
-        }
 
         protected void checkBoxBodegas_CheckedChanged(object sender, EventArgs e)
         {
