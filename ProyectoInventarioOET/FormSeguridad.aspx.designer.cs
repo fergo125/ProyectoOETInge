@@ -130,13 +130,13 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlButton botonCrearUsuario;
         
         /// <summary>
-        /// Control botonAsociarPerfil.
+        /// Control botonModificarUsuario.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonAsociarPerfil;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonModificarUsuario;
         
         /// <summary>
         /// Control tituloAccionForm.
@@ -289,7 +289,7 @@ namespace ProyectoInventarioOET {
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText inputFecha;
+        protected global::System.Web.UI.HtmlControls.HtmlInputPassword inputPassword;
         
         /// <summary>
         /// Control labelInputPasswordConfirm.
@@ -299,6 +299,15 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl labelInputPasswordConfirm;
+        
+        /// <summary>
+        /// Control inputFecha.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText inputFecha;
         
         /// <summary>
         /// Control inputPasswordConfirm.
@@ -344,6 +353,15 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl labelDropDownListPerfilConsulta;
+        
+        /// <summary>
+        /// Control DropDownListPerfilConsulta.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DropDownListPerfilConsulta;
         
         /// <summary>
         /// Control DropDownListPerfilConsulta.
