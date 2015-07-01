@@ -239,7 +239,7 @@ namespace ProyectoInventarioOET
             //Todos los perfiles pueden escoger estos criterios extra, se limpian, se cargan igual que al crear, pero se ocupa hacer algunos arreglos para consulta
             dropDownListConsultaMetodoPago.Items.Clear();
             dropDownListConsultaCliente.Items.Clear();
-            cargarMetodosPago(dropDownListConsultaMetodoPago);
+            cargarMetodosPago(dropDownListConsultaMetodoPago, null);
             cargarPosiblesClientes(dropDownListConsultaCliente);
             dropDownListConsultaMetodoPago.Items.Insert(0, (new ListItem("Todos", "All"))); //En el caso de métodos de pago, se ocupa insertar la opción de "todos" al tope
             dropDownListConsultaCliente.Items[0].Text = "Todos";    //En el caso de los posibles clientes, se reemplaza la opción de dejar el campo vacío por
@@ -627,10 +627,18 @@ namespace ProyectoInventarioOET
             DataTable metodosPago = controladoraVentas.consultarMetodosPago();
             if(metodosPago != null)
             {
-                dropdownlist.Items.Clear();
-                foreach (DataRow fila in metodosPago.Rows)
-                    dropdownlist.Items.Add(new ListItem(fila[0].ToString(), fila[1].ToString()));
-                dropdownlist.Items.Add(new ListItem("Varios (definidos al crear la factura)", "VARIOS"));
+                if(dropdownlist != null) //si se quiere llenar el dropdownlist
+                {
+                    dropdownlist.Items.Clear();
+                    foreach (DataRow fila in metodosPago.Rows)
+                        dropdownlist.Items.Add(new ListItem(fila[0].ToString(), fila[1].ToString()));
+                    dropdownlist.Items.Add(new ListItem("Varios (definidos al crear la factura)", "VARIOS"));
+                }
+                if(gridView != null)
+                {
+                    gridView.DataSource = metodosPago;
+                    gridView.DataBind();
+                }
             }
             else
                 mostrarMensaje("warning", "Alerta: ", "Error al intentar cargar los métodos de pago.");
@@ -906,7 +914,7 @@ namespace ProyectoInventarioOET
             textBoxCrearFacturaBodega.Text = (this.Master as SiteMaster).NombreBodegaSesion; //nombre de la bodega de trabajo (punto de venta)
             textBoxCrearFacturaVendedor.Text = (this.Master as SiteMaster).Usuario.Nombre;
             textBoxCrearFacturaTipoCambio.Text = controladoraVentas.consultarTipoCambio().ToString();
-            cargarMetodosPago(dropDownListCrearFacturaMetodoPago);
+            cargarMetodosPago(dropDownListCrearFacturaMetodoPago, null);
             cargarActividades();
 
             modo = Modo.Insercion;
@@ -1193,8 +1201,7 @@ namespace ProyectoInventarioOET
                 botonCrearFacturaVariosMetodosPago.Visible = true;
                 dropDownListCrearFacturaMetodoPago.Style["width"] = "100%";
                 //Cargar el grid de métodos de pago
-
-                gridViewModalVariosMetodosPago.DataSource =;
+                cargarMetodosPago(null, gridViewModalVariosMetodosPago);
             }
             else
             {
