@@ -44,6 +44,7 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             + factura.Estado + ")";
             if(ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
             {
+                quitarProductosHistorial(factura.Bodega, factura.Productos);
                 if (insertarProductosFactura(idSiguienteFactura, factura.Productos))
                 {
                     res[0] = "success";
@@ -64,6 +65,22 @@ namespace ProyectoInventarioOET.Modulo_Ventas
                 res[2] = "Error al intentar insertar la factura en la base de datos.";
             }
             return res;
+        }
+
+        /*
+         * Antes de insertar los detalles de la factura, se actualiza la tabla de historial
+         * Se elimina cada producto, en su cantidad
+         */
+        private void quitarProductosHistorial( String idBodega, DataTable productos )
+        {
+            foreach (DataRow producto in productos.Rows)
+            {
+                String comandoSQL = "SELECT INV_BODEGA_PRODUCTOS FROM INV_BODEGA_PRODUCTOS WHERE INV_PRODUCTOS = '" + producto[1].ToString() + "' AND CAT_BODEGA = '" + idBodega + "' ";
+                DataTable temp = ejecutarComandoSQL(comandoSQL, true);
+                String llaveProductoBodega = temp.Rows[0][0].ToString();
+                comandoSQL = "call quitar_historial( '" + llaveProductoBodega + "', " + producto[4].ToString() + " )";
+                ejecutarComandoSQL(comandoSQL, false);
+            }
         }
 
         /*
@@ -96,12 +113,12 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         /*
          * ???
          */
-        public DataTable consultarFacturas(String idVendedor, String idBodega, String idEstacion, String idMetodoPago, String idCliente)
+        public DataTable consultarFacturas(String idVendedor, String idBodega, String idEstacion, String idMetodoPago, String idCliente, String fechaInicio, String fechaFinal)
         {
             String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
             String comandoSQL = "SELECT * FROM " + esquema + "REGISTRO_FACTURAS_VENTA";
-            if (idVendedor != "All" || idBodega != "All" || idEstacion != "All" || idMetodoPago != "All" || idCliente != "All") //Se debe parametrizar con alguno de los 3
+            if (idVendedor != "All" || idBodega != "All" || idEstacion != "All" || idMetodoPago != "All" || idCliente != "All" || fechaInicio!="" || fechaFinal!="") //Se debe parametrizar con alguno de los 3
             {
                 comandoSQL += " WHERE ";
                 if (idVendedor != "All")
@@ -114,6 +131,10 @@ namespace ProyectoInventarioOET.Modulo_Ventas
                     comandoSQL += "METODOPAGO = '" + idMetodoPago + "' AND ";
                 if (idCliente != "All")
                     comandoSQL += "CLIENTE = '" + idCliente + "' AND ";
+                if (fechaInicio != "")
+                    comandoSQL += "FECHAHORA >= TO_DATE('" + fechaInicio + "','DD/MM/YYYY') AND ";
+                if (fechaFinal != "")
+                    comandoSQL += "FECHAHORA <= TO_DATE('" + fechaFinal + "','DD/MM/YYYY') AND ";
                 comandoSQL = comandoSQL.Substring(0, comandoSQL.Length - 4); //se le quita el último pedazo de "AND " que haya quedado
             }
             comandoSQL += "ORDER BY CONSECUTIVO DESC";

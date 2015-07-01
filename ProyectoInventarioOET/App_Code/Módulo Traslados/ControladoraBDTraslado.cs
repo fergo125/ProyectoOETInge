@@ -149,6 +149,10 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
                     + " MODIFICADO =  TO_DATE('" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "',  'dd/mm/yyyy hh24:mi:ss') "
                     + " WHERE INV_BODEGA_PRODUCTOS = '" + idProductoBodegaDestino + "'";
                 ejecutarComandoSQL(comandoSQL, false); //debería retornar un bool o algo
+
+                // Actualizar tabla de costos promedios
+                comandoSQL = "call trasladar_historial( '" + idProductoBodegaOrigen + "', '" + idProductoBodegaDestino + "', " + traslado + " )";
+                ejecutarComandoSQL(comandoSQL, false);
             }
             else  // CASO DE RECHAZAR TRASLADO
             {
