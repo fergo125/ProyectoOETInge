@@ -14,7 +14,7 @@ namespace ProyectoInventarioOET
     public partial class FormSeguridad : System.Web.UI.Page
     {
 
-        enum Modo { Inicial, InicialPerfil, InicialUsuario, ConsultaPerfil, InsercionPerfil, ModificacionPerfil, ConsultaUsuario, InsercionUsuario, AsociarUsuario, ConsultadoUsuario };
+        enum Modo { Inicial, InicialPerfil, InicialUsuario, ConsultaPerfil, InsercionPerfil, ModificacionPerfil, ConsultaUsuario, InsercionUsuario, ModificarUsuario, ConsultadoUsuario };
        // Atributos
         private static int modo = (int)Modo.Inicial;                    // Modo actual de la pagina
         private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
@@ -132,12 +132,23 @@ namespace ProyectoInventarioOET
                     break;
                 case (int)Modo.InsercionUsuario:
                     FieldsetUsuario.Visible = true;
+
+                    inputPassword.Visible = true;
+                    inputPasswordConfirm.Visible = true;
+                    labelInputPassword.Visible = true;
+                    labelInputPasswordConfirm.Visible = true;
+                    
+                    DropDownListPerfilConsulta.Visible = false;
+                    labelDropDownListPerfilConsulta.Visible = false;
+                    inputFecha.Visible = false;
+                    labelInputFecha.Visible = false;
+
                     FieldsetAsociarUsuario.Visible = false;
                     FieldsetBotones.Visible = true;
                     FieldsetGrid.Visible = false;
                     FieldsetGridCuentas.Visible = false;
                     break;
-                case (int)Modo.AsociarUsuario:
+                case (int)Modo.ModificarUsuario:
                     FieldsetUsuario.Visible = false;
                     FieldsetAsociarUsuario.Visible = true;
                     FieldsetBotones.Visible = true;
@@ -149,8 +160,21 @@ namespace ProyectoInventarioOET
                     FieldsetAsociarUsuario.Visible = false;
                     FieldsetBotones.Visible = false;
                     FieldsetGrid.Visible = false;
+
+                    inputPassword.Visible = false;
+                    inputPasswordConfirm.Visible = false;
+                    labelInputPassword.Visible = false;
+                    labelInputPasswordConfirm.Visible = false;
+                    
+                    DropDownListPerfilConsulta.Visible = true;
+                    labelDropDownListPerfilConsulta.Visible = true;
+                    inputFecha.Visible = true;
+                    labelInputFecha.Visible = true;
+                    this.gridViewBodegas.Enabled = false;
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfil.Visible = false;
+                    this.botonModificarUsuario.Visible = true;
+                    this.FieldsetBotonesUsuarios.Visible = true;
                     break;
             }
         }
@@ -216,9 +240,9 @@ namespace ProyectoInventarioOET
         }
 
         // Seleccion de asociacion de usuarios a perfil
-        protected void botonAsociarPerfil_ServerClick(object sender, EventArgs e)
+        protected void botonModificarUsuario_ServerClick(object sender, EventArgs e)
         {
-            modo = (int)Modo.AsociarUsuario;
+            modo = (int)Modo.ModificarUsuario;
             cambiarModo();
         }
 
@@ -268,7 +292,9 @@ namespace ProyectoInventarioOET
         }
 
 
-        //Carga las estaciones al combobox
+        /*
+         * Carga las estaciones al combobox
+        */
         protected void cargarPerfiles()
         {
             DropDownListPerfilConsulta.Items.Clear();
@@ -280,7 +306,7 @@ namespace ProyectoInventarioOET
             }
         }
 
-        //Metodo que muestra el resultado de la accion
+        /*Metodo que muestra el resultado de la accion*/
         protected void mostrarMensaje(String tipoAlerta, String alerta, String mensaje)
         {
 
@@ -291,7 +317,7 @@ namespace ProyectoInventarioOET
             ScriptManager.RegisterStartupScript(Page, this.GetType(), "ScrollPage", "window.scroll(0,0);", true);
         }
 
-
+        /*Metodo que acepta el usuario*/
         protected void botonAceptarUsuario_ServerClick(object sender, EventArgs e)
         {
             Boolean operacionCorrecta = true;
@@ -317,7 +343,7 @@ namespace ProyectoInventarioOET
             }
         }
 
-        //Metodo que realiza la insercion de un nuevo usuario en la base de datos
+        /*Metodo que realiza la insercion de un nuevo usuario en la base de datos*/
         protected String crearUsuario()
         {
             String codigo = "";
@@ -339,13 +365,13 @@ namespace ProyectoInventarioOET
         }
 
 
-        //Metodo que habilita o deshabilita los campos de usuario
+        /*Metodo que habilita o deshabilita los campos de usuario*/
         protected void habilitarCampos(bool habilitar)
         {
             this.inputUsuario.Disabled = !habilitar;
             this.inputNombre.Disabled = !habilitar;
-            //this.inputPassword.Disabled = !habilitar;
-            //this.inputPasswordConfirm.Disabled = !habilitar;
+            this.inputPassword.Disabled = !habilitar;
+            this.inputPasswordConfirm.Disabled = !habilitar;
             this.inputFecha.Disabled = !habilitar;
             this.DropDownListEstacion.Enabled = habilitar;
             this.inputDescripcion.Disabled = !habilitar;
@@ -355,7 +381,8 @@ namespace ProyectoInventarioOET
             this.DropDownListPerfilConsulta.Enabled = habilitar;
         }
 
-        // Metodo que llena el grid de cuentas consultadas
+        /*
+         * Metodo que llena el grid de cuentas consultadas*/
         protected void llenarGrid()
         {
             tablaCuentas = tablaUsuarios();
@@ -437,18 +464,23 @@ namespace ProyectoInventarioOET
             this.inputDescuentoMaximo.Value = ""+usuarioConsultado.DescuentoMaximo;
             ControladoraBodegas controladoraBodegas = new ControladoraBodegas();
             bodegasEstacion = controladoraBodegas.consultarBodegasDeEstacion(usuarioConsultado.IdEstacion);
-            this.gridViewBodegas.DataSource = crearTablaBodegas();
+            DataTable aux = crearTablaBodegas();
+            this.gridViewBodegas.DataSource = aux;
             this.gridViewBodegas.DataBind();
             foreach (DataRow fila in usuarioConsultado.Bodegas.Rows) {
-                foreach (GridViewRow fila2 in gridViewBodegas.Rows) { 
-                        
-                
+                int i = 0;
+                foreach (DataRow fila2 in aux.Rows)
+                {
+                    if (fila[1].ToString() == fila2[0].ToString()) {
+                        ((CheckBox)gridViewBodegas.Rows[i].FindControl("checkBoxBodegas")).Checked = true;
+                    }
+                    i++;
                 }
             }
             habilitarCampos(false);
         }
 
-        private object crearTablaBodegas()
+        private DataTable crearTablaBodegas()
         {
             DataTable tabla = new DataTable();
             DataColumn columna;
@@ -583,14 +615,19 @@ namespace ProyectoInventarioOET
             this.gridViewCuentas.DataBind();
         }
 
-        protected void gridViewBodegas_PageIndexChanging(object sender, GridViewPageEventArgs e)
-        {
-
-        }
 
         protected void checkBoxBodegas_CheckedChanged(object sender, EventArgs e)
         {
 
+        }
+
+        protected void DropDownListEstacion_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+            ControladoraBodegas controladoraBodegas = new ControladoraBodegas();
+            bodegasEstacion = controladoraBodegas.consultarBodegasDeEstacion(DropDownListEstacion.SelectedValue);
+            this.gridViewBodegas.DataSource = crearTablaBodegas();
+            this.gridViewBodegas.DataBind();
         }
 
 

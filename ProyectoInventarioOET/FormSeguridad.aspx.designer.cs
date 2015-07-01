@@ -130,13 +130,13 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlButton botonCrearUsuario;
         
         /// <summary>
-        /// Control botonAsociarPerfil.
+        /// Control botonModificarUsuario.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonAsociarPerfil;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonModificarUsuario;
         
         /// <summary>
         /// Control tituloAccionForm.
@@ -247,13 +247,22 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.DropDownList DropDownListEstacion;
         
         /// <summary>
+        /// Control labelInputPassword.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl labelInputPassword;
+        
+        /// <summary>
         /// Control inputPassword.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputPassword inputPassword;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText inputPassword;
         
         /// <summary>
         /// Control RequiredFieldValidator1.
@@ -265,6 +274,15 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
         
         /// <summary>
+        /// Control labelInputFecha.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl labelInputFecha;
+        
+        /// <summary>
         /// Control inputFecha.
         /// </summary>
         /// <remarks>
@@ -272,6 +290,15 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputText inputFecha;
+        
+        /// <summary>
+        /// Control labelInputPasswordConfirm.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl labelInputPasswordConfirm;
         
         /// <summary>
         /// Control inputPasswordConfirm.
@@ -308,6 +335,15 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RegularExpressionValidator RegularExpressionValidator1;
+        
+        /// <summary>
+        /// Control labelDropDownListPerfilConsulta.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl labelDropDownListPerfilConsulta;
         
         /// <summary>
         /// Control DropDownListPerfilConsulta.
