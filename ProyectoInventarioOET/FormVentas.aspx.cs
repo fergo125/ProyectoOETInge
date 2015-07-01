@@ -385,6 +385,8 @@ namespace ProyectoInventarioOET
             String codigoVendedor = dropDownListConsultaVendedor.SelectedValue;
             String codigoMetodoPago = dropDownListConsultaMetodoPago.SelectedValue;
             String codigoCliente = dropDownListConsultaCliente.SelectedValue;
+            String fechaInicio = CalendarFechaInicio.SelectedDate.ToString("dd/MM/yyyy").Substring(0,10);
+            String fechaFinal = CalendarFechaFinal.SelectedDate.ToString("dd/MM/yyyy").Substring(0, 10);
 
             DataTable tablaFacturas = crearTablaFacturasConsultadas(); //tabla que se usará para el grid
             try
@@ -1285,12 +1287,12 @@ namespace ProyectoInventarioOET
         // Seleccionada una nueva fecha en el calendario inicial/final
         protected void CalendarFechaInicio_SelectionChanged(object sender, EventArgs e)
         {
-            this.textboxConsultaFechaInicio.Value = this.CalendarFechaInicio.SelectedDate.ToString("dd/MMM/yyyy").Substring(0,11);
+            this.textboxConsultaFechaInicio.Value = this.CalendarFechaInicio.SelectedDate.ToString("dd/MM/yyyy").Substring(0,10);
             this.CalendarFechaInicio.Visible = false;
         }
         protected void CalendarFechaFinal_SelectionChanged(object sender, EventArgs e)
         {
-            this.textboxConsultaFechaFinal.Value = this.CalendarFechaFinal.SelectedDate.ToString("dd/MMM/yyyy").Substring(0,11);
+            this.textboxConsultaFechaFinal.Value = this.CalendarFechaFinal.SelectedDate.ToString("dd/MM/yyyy").Substring(0,10);
             this.CalendarFechaFinal.Visible = false;
         }
 
