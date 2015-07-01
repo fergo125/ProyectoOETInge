@@ -13,6 +13,7 @@ CREATE TABLE HISTORIAL_COSTOS
 
 -- Procedimientos almacenados
 
+
 -- Actualizar el costo promedio de un producto
 CREATE OR REPLACE PROCEDURE actualizar_costo ( id_producto IN HISTORIAL_COSTOS.INV_BODEGA_PRODUCTOS%TYPE )
 AS
@@ -104,6 +105,59 @@ BEGIN
   INSERT INTO HISTORIAL_COSTOS
     VALUES( id_producto, (SELECT SYSDATE FROM DUAL), cantidad_entrada, costo_unit_col, costo_unit_dol );
   actualizar_costo( id_producto );
+END;
+
+
+-- Trasladar productos de una bodega a otra
+CREATE OR REPLACE PROCEDURE trasladar_historial ( id_producto_origen IN HISTORIAL_COSTOS.INV_BODEGA_PRODUCTOS%TYPE
+                                                , id_producto_destino IN HISTORIAL_COSTOS.INV_BODEGA_PRODUCTOS%TYPE
+                                                , cantidad_traslado IN HISTORIAL_COSTOS.CANTIDAD%TYPE )
+AS
+	fecha_prod		        TIMESTAMP;
+	cantidad_actual			  NUMBER;
+  cantidad_faltante     NUMBER;
+  costo_colones         HISTORIAL_COSTOS.COSTO_UNITARIO_COL%TYPE;
+  costo_dolares         HISTORIAL_COSTOS.COSTO_UNITARIO_DOL%TYPE;
+  contador              NUMBER := 0;
+BEGIN
+	cantidad_faltante := cantidad_traslado;
+	WHILE cantidad_faltante > 0
+	LOOP
+    SELECT *
+    INTO fecha_prod, cantidad_actual
+      FROM (
+        SELECT FECHA, CANTIDAD
+          FROM HISTORIAL_COSTOS
+          WHERE INV_BODEGA_PRODUCTOS = id_producto_origen
+          ORDER BY FECHA ASC
+      )
+      WHERE ROWNUM <= 1;
+		DBMS_OUTPUT.PUT_LINE( fecha_prod || ' ' || cantidad_actual);
+		IF cantidad_faltante >= cantidad_actual THEN
+			DBMS_OUTPUT.PUT_LINE( 'Mover tupla' );
+			UPDATE HISTORIAL_COSTOS
+        SET INV_BODEGA_PRODUCTOS = id_producto_destino,
+            FECHA = (SELECT SYSDATE + contador/(24*60*60) FROM DUAL)
+				WHERE INV_BODEGA_PRODUCTOS = id_producto_origen AND FECHA = fecha_prod;
+			cantidad_faltante := cantidad_faltante - cantidad_actual;
+		ELSE
+      SELECT COSTO_UNITARIO_COL, COSTO_UNITARIO_DOL
+        INTO costo_colones, costo_dolares
+        FROM HISTORIAL_COSTOS
+        WHERE INV_BODEGA_PRODUCTOS = id_producto_origen AND FECHA = fecha_prod;
+			UPDATE HISTORIAL_COSTOS
+				SET CANTIDAD = cantidad_actual - cantidad_faltante
+				WHERE INV_BODEGA_PRODUCTOS = id_producto_origen AND FECHA = fecha_prod;
+      INSERT INTO HISTORIAL_COSTOS
+        VALUES( id_producto_destino, (SELECT SYSDATE + contador/(24*60*60) FROM DUAL), cantidad_faltante, costo_colones, costo_dolares );
+			DBMS_OUTPUT.PUT_LINE( 'Actualizar Tupla' );
+		cantidad_faltante := 0;
+		END IF;
+		DBMS_OUTPUT.PUT_LINE( cantidad_faltante );
+    contador := contador + 1;
+	END LOOP;
+  actualizar_costo( id_producto_origen );
+  actualizar_costo( id_producto_destino );
 END;
 
 -- Pruebas
