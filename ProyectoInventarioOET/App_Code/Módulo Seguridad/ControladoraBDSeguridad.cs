@@ -197,14 +197,16 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             //String[] resultado = new String[4];
             String esquema = "Inventarios.";
             String[] resultado = new String[4];
+            usuario.Codigo = generarID();
             String comandoSQL = "INSERT INTO " + esquema + "SEG_USUARIO (SEG_USUARIO, USUARIO, CLAVE,FECHACREACION,DESCRIPCION,IDESTACION,ANFITRIONA,NOMBRE, ESTADO, DESCUENTO_MAXIMO) VALUES ('"
-                + generarID() + "','" + usuario.Usuario + "','" + usuario.Clave + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','" + usuario.Descripcion + "','" 
+                + usuario.Codigo + "','" + usuario.Usuario + "','" + usuario.Clave + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','" + usuario.Descripcion + "','" 
                 + usuario.IdEstacion +"','" + usuario.Anfitriona +"','" + usuario.Nombre +"'," + usuario.Estado +",15)";
                 if(ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
                 {
                     resultado[0] = "success";
                     resultado[1] = "Éxito:";
                     resultado[2] = "Cuenta agregada agregada al sistema.";
+                    resultado[3] = usuario.Codigo;
                 }
                 else
                 {
