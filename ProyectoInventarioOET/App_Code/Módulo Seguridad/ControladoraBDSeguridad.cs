@@ -161,22 +161,34 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             return resultado;
         }
 
-        public DataTable consultarCuenta(String idUsuario)
+        public DataTable[] consultarCuenta(String idUsuario)
         {
             String esquemaI = "Inventarios.";
             String esquemaR = "Reservas.";
-            DataTable resultado = new DataTable();
-            String comandoSQL = "SELECT u.seg_usuario, u.nombre, p.nombre ,u.usuario, u.clave, e.descripcion, r.nombre, af.siglas, u.fechacreacion, sp.interfaz, sp.permisos"
-            + " FROM " + esquemaI + "seg_usuario U, " + esquemaI + "seg_perfil P, " + esquemaI + "seg_perfil_usuario PU, " + esquemaI + "cat_estados E, " + esquemaR + "estacion R, " + esquemaI + "seg_permisos SP, " + esquemaR + "anfitriona AF "
+            DataTable[] resultado = new DataTable[2];
+            String comandoSQL = "SELECT u.seg_usuario, u.nombre, u.usuario, u.clave, e.descripcion, r.nombre, af.siglas, u.fechacreacion,  u.descripcion, u.descuento_maximo "
+            + " FROM " + esquemaI + "seg_usuario U, " + esquemaI + "cat_estados E, " + esquemaR + "estacion R, " +  esquemaR + "anfitriona AF "
             + " WHERE u.seg_usuario = '" + idUsuario + "' "
-            + " AND u.seg_usuario = PU.seg_usuario"
-            + " AND PU.seg_perfil = p.seg_perfil"
-            + " AND P.seg_perfil = sp.seg_perfil"
             + " AND e.valor = u.estado"
             + " AND af.id = u.anfitriona"
             + " AND R.ID = u.idestacion";
-            resultado = ejecutarComandoSQL(comandoSQL, true);
+            resultado[0] = ejecutarComandoSQL(comandoSQL, true);
+            resultado[1] = consultarBodegasUsuario(idUsuario);
             return resultado;
+        }
+
+        private DataTable consultarBodegasUsuario(String idUsuario)
+        {
+
+            String esquema = "Inventarios.";
+            DataTable resultado = new DataTable();
+            String comandoSQL = "SELECT distinct b.cat_bodega, b.descripcion "
+                                + " FROM seg_usuario_bodega UB, seg_usuario u, cat_bodega b "
+                                + " where u.seg_usuario = ub.seg_usuario "
+                                + " and b.cat_bodega = b.cat_bodega "
+                                + " and u.seg_usuario = '" + idUsuario + "' ";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
+            return resultado; 
         }
 
         public String[] insertarUsuario(EntidadUsuario usuario)
@@ -201,15 +213,6 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
                 }
             return resultado;
         }
-
-        public EntidadUsuario consultarUsuario(String codigo)
-        {
-            EntidadUsuario usuarioConsultado = null;
-            //Le toca a Carlos
-            return usuarioConsultado;
-        }
-
-
 
 
     }

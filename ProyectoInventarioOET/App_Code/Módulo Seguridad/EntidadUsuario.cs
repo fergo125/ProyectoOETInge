@@ -28,6 +28,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         private String descripcionEstacion;
         private String descripcionAnfitriona;
         private DataTable matrixDePermisos;
+        private DataTable bodegas;
         private int descuentoMaximo;
 
         /*
@@ -51,25 +52,28 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
          * Constructor especial para consulata de un usuario especifico
          * Este método toma datos y los encapsula en la Entidad Usuario
          */
-        public EntidadUsuario(DataTable cuenta, DataTable matriz)
+        public EntidadUsuario(DataTable cuenta, DataTable bodegas)
         {
-            DataRow fila = cuenta.Rows[1];
+            DataRow fila = cuenta.Rows[0];
             this.codigo = fila[0].ToString();
             this.nombre = fila[1].ToString();
-            this.perfil = fila[2].ToString();
-            this.usuario = fila[3].ToString();
-            this.clave = fila[4].ToString();
-            this.descripcionEstado = fila[5].ToString();
-            this.descripcionEstacion = fila[6].ToString();
-            this.descripcionAnfitriona = fila[7].ToString();
+            this.usuario = fila[2].ToString();
+            this.clave = fila[3].ToString();
+            this.descripcionEstado = fila[4].ToString();
+            this.descripcionEstacion = fila[5].ToString();
+            this.descripcionAnfitriona = fila[6].ToString();
+            this.descripcion = fila[8].ToString();
+            this.descuentoMaximo = Int32.Parse(fila[9].ToString());
+
             try
             {
-                this.fechaCreacion = Convert.ToDateTime(fila[8].ToString());
+                this.fechaCreacion = Convert.ToDateTime(fila[7].ToString());
             } catch (Exception e) {
                this.fechaCreacion = null;
             }
 
-            this.matrixDePermisos = matriz;
+            //this.matrixDePermisos = matriz;
+            this.bodegas = bodegas;
         }
 
         
@@ -172,6 +176,12 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         {
             get { return matrixDePermisos; }
             set { matrixDePermisos = value; }
+        }
+
+        public DataTable Bodegas
+        {
+            get { return bodegas; }
+            set { bodegas = value; }
         }
 
         public int DescuentoMaximo

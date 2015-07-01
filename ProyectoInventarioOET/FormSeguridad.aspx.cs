@@ -286,7 +286,7 @@ namespace ProyectoInventarioOET
                 if (codigoInsertado != "")
                 {
                     operacionCorrecta = true;
-                    usuarioConsultado = controladoraSeguridad.consultarUsuario(codigoInsertado);
+                    usuarioConsultado = controladoraSeguridad.consultarCuenta(codigoInsertado);
                     modo = (int)Modo.ConsultadoUsuario;
                     habilitarCampos(false);
                 }
@@ -407,15 +407,14 @@ namespace ProyectoInventarioOET
         protected void setDatosCuenta()
         {
             this.inputUsuario.Value = usuarioConsultado.Usuario;
-            this.inputPassword.Value = usuarioConsultado.Clave;            
+            this.inputPassword.Value = usuarioConsultado.Clave; // Ver porque no funciona           
             this.DropDownListEstacion.SelectedIndex = DropDownListEstacion.Items.IndexOf(DropDownListEstacion.Items.FindByText(usuarioConsultado.DescripcionEstacion));
             this.DropDownListAnfitriona.SelectedIndex = DropDownListAnfitriona.Items.IndexOf(DropDownListAnfitriona.Items.FindByText(usuarioConsultado.DescripcionAnfitriona));
             this.DropDownListEstado.SelectedIndex = DropDownListEstado.Items.IndexOf(DropDownListEstado.Items.FindByText(usuarioConsultado.DescripcionEstado));
-
-            //this.DropDownListAnfitriona.SelectedValue = usuarioConsultado.DescripcionAnfitriona;
             this.inputNombre.Value = usuarioConsultado.Nombre;
-
-            //this.inputDescuentoMaximo.Value;
+            this.inputDescripcion.Value = usuarioConsultado.Descripcion;
+            this.inputDescuentoMaximo.Value = ""+usuarioConsultado.DescuentoMaximo;
+            this.inputPasswordConfirm.Disabled = true;
         }
 
 
@@ -506,7 +505,6 @@ namespace ProyectoInventarioOET
                         GridViewRow filaSeleccionada = this.gridViewCuentas.Rows[Convert.ToInt32(e.CommandArgument)];
                         String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewCuentas.PageIndex * this.gridViewCuentas.PageSize)]);
                         consultarCuenta(codigo);
-                        setDatosCuenta();
                         Response.Redirect("FormSeguridad.aspx");  
                         break;
                 }

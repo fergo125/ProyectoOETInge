@@ -101,7 +101,7 @@
                 <div class="col-lg-3">
                     <div class= "form-group">
                         <label for="inputPassword" class= "control-label">Contraseña:</label>
-                        <input id="inputPassword" runat="server"  type="password" class="form-control" />
+                        <input id="inputPassword" runat="server"  type="text" class="form-control" />
                     </div>
                 </div>
                 <div class="col-lg-3">
