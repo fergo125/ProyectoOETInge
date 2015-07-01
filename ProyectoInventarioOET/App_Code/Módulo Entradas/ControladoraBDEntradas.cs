@@ -223,5 +223,27 @@ namespace ProyectoInventarioOET.Modulo_Entradas
 
             return resultado;
         }
+
+        /*
+         * Consulta el nombre de una Moneda a partir de su identificador.
+         */
+        public String consultarNombreMoneda(string idMoneda)
+        {
+            String esquema = "Compras.";
+            DataTable consultado = new DataTable();
+            String resultado = "";
+            String comandoSQL = "select NOMBRE from " + esquema + "V_MONEDA where ID = '" + idMoneda + "'";
+
+            consultado = ejecutarComandoSQL(comandoSQL, true);
+            if (consultado.Rows.Count > 0)
+            {
+                foreach (DataRow fila in consultado.Rows)
+                {
+                    resultado = fila[0].ToString();
+                }
+            }
+
+            return resultado;
+        }
     }
 }
