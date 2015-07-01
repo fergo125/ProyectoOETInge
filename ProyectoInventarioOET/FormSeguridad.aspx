@@ -263,7 +263,7 @@
     </fieldset>
     <br />
 
-    <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" 
+                           <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" 
                             ErrorMessage="Es necesario que confirme su contraseña es un espacio necesario"
                             Font-Bold="true"
                             ControlToValidate="inputPasswordConfirm"
