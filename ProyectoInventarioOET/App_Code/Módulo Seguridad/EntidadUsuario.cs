@@ -22,7 +22,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         private String perfil;              // Perfil de permisos de la persona
         private String llavePerfil;         // Llave de BD del perfil usada para averiguar permisos
         private String codigoPerfil;        // Código interno de dicho perfil usado para operaciones de interfaz
-        private DateTime? fechaCreacion;     // Fecha en la que el usuario fue creado
+        private DateTime? fechaCreacion;    // Fecha en la que el usuario fue creado
         private int estado;                 // Estado de la cuenta, una cuenta desactivada no debería poder utilizarse
         private String descripcionEstado;
         private String descripcionEstacion;

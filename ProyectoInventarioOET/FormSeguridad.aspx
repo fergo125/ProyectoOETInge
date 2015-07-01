@@ -50,7 +50,7 @@
                 <tr>
                     <td style="width:80%; vertical-align:top;">
                         <label class="control-label">Nombre:</label>  
-                        <input id="textBoxCrearPerfilNombre" type="text" class="form-control" style="width: 70%;"/>
+                        <input id="textBoxCrearPerfilNombre" type="text" class="form-control" style="width: 70%;" runat="server"/>
                         <br />
                         <label class="control-label">Nivel:</label>
                         <asp:DropDownList ID="dropDownListCrearPerfilNivel" class="input input-fozkr-dropdownlist" CssClass="form-control" Width="70%" runat="server"></asp:DropDownList>
@@ -70,6 +70,15 @@
                     </td>
                 </tr>
             </table>
+            <br /> <!-- Botones de Guardar/Cancelar para perfiles -->
+            <div class="col-lg-12" runat="server">
+                <div class="row">
+                    <div class="text-center">
+                        <button runat="server" type="button" class="btn btn-success-fozkr" onserverclick="botonAceptarCreacionPerfil_ServerClick" id="botonAceptarCreacionPerfil">Guardar</button>
+                        <a runat="server" href="#modalCancelar" id="botonCancelarCreacionPerfil" class="btn btn-danger-fozkr" role="button" data-toggle="modal">Cancelar</a>
+                    </div>
+                </div>
+            </div>
         </fieldset>
     </fieldset>
 
