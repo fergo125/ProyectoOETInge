@@ -10,6 +10,7 @@ using ProyectoInventarioOET.App_Code;
 using ProyectoInventarioOET.Modulo_Seguridad;
 using System.Text;
 using ProyectoInventarioOET.Modulo_Bodegas;
+using ProyectoInventarioOET.App_Code.Modulo_Ajustes;
 
 
 namespace ProyectoInventarioOET
@@ -933,7 +934,7 @@ namespace ProyectoInventarioOET
                     this.FieldsetEncabezadoFactura.Visible = false;
                     this.gridViewEntradas.Visible = false;
                     this.FieldsetGridEntradas.Visible = false;
-                    this.fieldSetProductosEntrada.Visible = false;
+                    this.fieldSetProductosEntrada.Visible = true;
                     tituloAccionEntradas.InnerText = "Modificacion de una entrada";
                     this.estadoEntrada.Enabled = true;
                     this.botonModificarEntrada.Disabled = true;
@@ -1074,6 +1075,26 @@ namespace ProyectoInventarioOET
 
         }
 
+        private void anularDatosEntrada()
+        {
+                Object[] datos = new Object[6];
+                DataTable facturas = controladoraEntradas.consultarProductosEntrada(entradaConsultada.IdEntrada);
+                List<EntidadDetalles> detallesEntrada = new List<EntidadDetalles>();
+
+                if (facturas.Rows.Count > 0)
+                {
+                    idArrayFactura = new Object[facturas.Rows.Count];
+                    foreach (DataRow fila in facturas.Rows)
+                    {
+                        datos[0] = fila[0].ToString();
+                        datos[1] = fila[1].ToString();
+                        datos[2] = fila[2].ToString();
+                        datos[3] = fila[3].ToString();
+                        datos[4] = fila[4].ToString();
+                        datos[5] = fila[5].ToString();
+                    }
+                }
+        }
         /*
          * Se dispara para completar la entrada con los productos seleccionados.
          */			
