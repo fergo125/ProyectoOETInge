@@ -114,6 +114,8 @@ namespace ProyectoInventarioOET
                     FieldsetGrid.Visible = false;
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfilCreacion.Visible = false;
+                    this.botonModificarUsuario.Disabled = true;
+                    tituloAccionForm.InnerText = "";
                     break;
 
                 case (int)Modo.InicialUsuario:
@@ -126,6 +128,8 @@ namespace ProyectoInventarioOET
                     FieldsetGrid.Visible = false;
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfilCreacion.Visible = false;
+                    this.botonModificarUsuario.Disabled = true;
+                    tituloAccionForm.InnerText = "";
                     break;
 
                 case (int)Modo.ConsultaPerfil:
@@ -145,6 +149,7 @@ namespace ProyectoInventarioOET
                     FieldsetGridCuentas.Visible = true;
                     FieldsetPerfil.Visible = false;
                     FieldsetPerfilCreacion.Visible = false;
+                    this.botonModificarUsuario.Disabled = true;
                     break;
 
                 case (int)Modo.InsercionUsuario:
@@ -212,7 +217,7 @@ namespace ProyectoInventarioOET
                     this.gridViewBodegas.Enabled = false;
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfil.Visible = false;
-                    this.botonModificarUsuario.Visible = true;
+                    this.botonModificarUsuario.Disabled = false;
                     this.FieldsetBotonesUsuarios.Visible = true;
                     break;
             }
