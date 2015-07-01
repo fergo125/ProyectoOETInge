@@ -130,13 +130,13 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlButton botonCrearUsuario;
         
         /// <summary>
-        /// Control botonAsociarPerfil.
+        /// Control botonModificarUsuario.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton botonAsociarPerfil;
+        protected global::System.Web.UI.HtmlControls.HtmlButton botonModificarUsuario;
         
         /// <summary>
         /// Control tituloAccionForm.

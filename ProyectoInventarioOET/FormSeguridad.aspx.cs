@@ -14,7 +14,7 @@ namespace ProyectoInventarioOET
     public partial class FormSeguridad : System.Web.UI.Page
     {
 
-        enum Modo { Inicial, InicialPerfil, InicialUsuario, ConsultaPerfil, InsercionPerfil, ModificacionPerfil, ConsultaUsuario, InsercionUsuario, AsociarUsuario, ConsultadoUsuario };
+        enum Modo { Inicial, InicialPerfil, InicialUsuario, ConsultaPerfil, InsercionPerfil, ModificacionPerfil, ConsultaUsuario, InsercionUsuario, ModificarUsuario, ConsultadoUsuario };
        // Atributos
         private static int modo = (int)Modo.Inicial;                    // Modo actual de la pagina
         private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
@@ -137,7 +137,7 @@ namespace ProyectoInventarioOET
                     FieldsetGrid.Visible = false;
                     FieldsetGridCuentas.Visible = false;
                     break;
-                case (int)Modo.AsociarUsuario:
+                case (int)Modo.ModificarUsuario:
                     FieldsetUsuario.Visible = false;
                     FieldsetAsociarUsuario.Visible = true;
                     FieldsetBotones.Visible = true;
@@ -216,9 +216,9 @@ namespace ProyectoInventarioOET
         }
 
         // Seleccion de asociacion de usuarios a perfil
-        protected void botonAsociarPerfil_ServerClick(object sender, EventArgs e)
+        protected void botonModificarUsuario_ServerClick(object sender, EventArgs e)
         {
-            modo = (int)Modo.AsociarUsuario;
+            modo = (int)Modo.ModificarUsuario;
             cambiarModo();
         }
 
