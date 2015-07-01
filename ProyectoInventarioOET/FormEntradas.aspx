@@ -65,10 +65,10 @@
 
                     <div class="well well-lg" id="Div5" runat="server">
                         <div class="row col-lg-12">
-                            <div class= "form-group col-lg-3">
+                           <%-- <div class= "form-group col-lg-3">
                                 <label for="outputEntrada" class= "control-label">Código de Entrada:</label>      
                                 <p id="outputEntrada" runat="server" class="form-control-static"></p>
-                            </div>
+                            </div>--%>
             
                             <div class="form-group col-lg-3">
                                 <label for="outputFacturaAsociada" class= "control-label">Factura Asociada:</label>      
@@ -99,18 +99,24 @@
                                 <label for="outputTipoMonedaEntrada" class="control-label">Tipo de Moneda:</label>      
                                 <p id="outputTipoMonedaEntrada" runat="server" class="form-control-static"></p>
                             </div>
-
-                        </div>       
+                             <div class="form-group col-lg-3">
+                            <asp:DropDownList ID="estadoEntrada" CssClass="form-control" Width="40%" runat="server" OnSelectedIndexChanged="dropdownlist1_SelectedIndexChanged">
+                        <asp:ListItem Value="activo">Activo</asp:ListItem>
+                        <asp:ListItem Value="inactivo">Inactivo</asp:ListItem>
+                    </asp:DropDownList>
+                            </div>
+                             </div>       
                     </div>
 
             <fieldset>
             <br />   
             </fieldset>
             </div>
+             <fieldset id="fieldSetProductosEntrada" runat="server" class="fieldset" visible="false">
             <div class="col-lg-12"><strong><div ID="Div4" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Productos relacionados con la Entrada</div></strong>
         <%--    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                 <ContentTemplate>--%>
-                <asp:GridView ID="gridProductosDeEntrada" CssClass="table" OnPageIndexChanging="gridProductosDeEntrada_PageIndexChanging" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                <asp:GridView ID="gridProductosDeEntrada" CssClass="table" OnPageIndexChanging="gridProductosDeEntrada_PageIndexChanging" runat="server" AllowPaging="True" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None" >
                     <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
                     <PagerStyle CssClass="paging" HorizontalAlign="Center" />
                     <AlternatingRowStyle BackColor="#F8F8F8" />
@@ -122,7 +128,8 @@
                 <asp:AsyncPostBackTrigger ControlID="gridProductosDeEntrada" EventName="RowCommand" />
                 </Triggers>
             </asp:UpdatePanel>--%>
-            </div> 
+            </div>
+                 </fieldset> 
         </fieldset>
     </div>
 
