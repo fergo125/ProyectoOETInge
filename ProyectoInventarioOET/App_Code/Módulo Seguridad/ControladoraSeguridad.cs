@@ -68,7 +68,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
          * Desencripta un string en el formato de almacenamiento de la base de datos.
          * No funcional
          */
-        public String desencriptarText(String s)
+        public String desencriptarTexto(String s)
         {
             String resultado = "";
             s.Replace("$#6@$", "'");
@@ -80,6 +80,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             }
             return resultado;
         }
+
         /*
          * Obtiene el nombre de un usuario (texto, no llave) de un id de usuario en específico.
          */
@@ -93,11 +94,27 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             return controladoraBDSeguridad.consultarNombreDeBodega(id);
         }
 
-
         public String consultarNombreDeEstacion(String id)
         {
             return controladoraBDSeguridad.consultarNombreDeEstacion(id);
         }
+
+        /*
+         * Consulta un perfil con base en su nombre, si existe lo retorna, de lo contrario retorna null (útil al desear verificar la existencia del perfil).
+         */
+        public EntidadPerfil consultarPerfil(String nombre)
+        {
+            return controladoraBDSeguridad.consultarPerfil(nombre);
+        }
+
+        /*
+         * Consulta un perfil con base en su nombre, si existe lo retorna, de lo contrario retorna null (útil al desear verificar la existencia del perfil).
+         */
+        public String[] insertarPerfil(String nombre, int nivel, String[] permisos)
+        {
+            return controladoraBDSeguridad.insertarPerfil(nombre, nivel, permisos);
+        }
+
 
         // Retorna si un String es una contraseña valida
         public bool contrasenaEsValida(String pass)
@@ -122,9 +139,9 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         public EntidadUsuario consultarCuenta(String idUsuario)
         {
             DataTable[] cuenta = controladoraBDSeguridad.consultarCuenta(idUsuario); // en cuenta[1] van las bodegas
-            String [] perfil = controladoraBDSeguridad.consultarPerfilUsuario(idUsuario); 
+            //String [] perfil = controladoraBDSeguridad.consultarPerfilUsuario(idUsuario); 
             EntidadUsuario consultada = new EntidadUsuario(cuenta[0], cuenta[1]);
-            consultada.Perfil = perfil[0];
+            //consultada.Perfil = perfil[0];
             return consultada;
         }
 
@@ -188,10 +205,10 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         /*
         * Modifica una cuenta dado un vector con los datos de la misma.
         */
-        public String[] modificarUsuario(Object[] datosUsuario)
+        public String[] modificarUsuario(Object[] datosUsuario, List<String> listadoBodegas)
         {
             EntidadUsuario usuario = new EntidadUsuario(datosUsuario);
-            return controladoraBDSeguridad.modificarUsuario(usuario);
+            return controladoraBDSeguridad.modificarUsuario(usuario, listadoBodegas);
         }	
 
         //Consulta todos los usuarios

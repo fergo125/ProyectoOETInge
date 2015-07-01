@@ -50,26 +50,34 @@
                 <tr>
                     <td style="width:80%; vertical-align:top;">
                         <label class="control-label">Nombre:</label>  
-                        <input id="textBoxCrearPerfilNombre" type="text" class="form-control" style="width: 70%;"/>
+                        <input id="textBoxCrearPerfilNombre" type="text" class="form-control" style="width: 70%;" runat="server"/>
                         <br />
                         <label class="control-label">Nivel:</label>
                         <asp:DropDownList ID="dropDownListCrearPerfilNivel" class="input input-fozkr-dropdownlist" CssClass="form-control" Width="70%" runat="server"></asp:DropDownList>
                     </td>
                     <td rowspan="100"> <!-- Árbol -->
-                        <label class="control-label">Permisos:</label>  
+                        <label class="control-label">Permisos (un check significa que tiene ese permiso):</label>  
                         <asp:Panel ID="PanelArbolPermisos" runat="server" ScrollBars="Vertical" Height="500px" Width="500px" BorderWidth="1px">
-                            <asp:TreeView ID="ArbolPermisos" ShowCheckBoxes="Leaf" runat="server" ImageSet="Simple" ShowLines="True" NodeIndent="30" OnTreeNodeCollapsed="ArbolPermisos_TreeNodeCollapsed">
+                            <asp:TreeView ID="ArbolPermisos" ShowCheckBoxes="Leaf" runat="server" ImageSet="Simple" ShowLines="True" NodeIndent="30" Enabled="false" OnTreeNodeCollapsed="ArbolPermisos_TreeNodeCollapsed">
                                 <HoverNodeStyle Font-Underline="False" ForeColor="Black" />
                                 <LeafNodeStyle Font-Size="Medium" />
                                 <NodeStyle Font-Names="Tahoma" Font-Size="Medium" ForeColor="Black"/>
                                 <ParentNodeStyle Font-Bold="False" />
                                 <RootNodeStyle Font-Size="Medium" />
-                                <SelectedNodeStyle Font-Underline="True" ForeColor="#336699" HorizontalPadding="5px" VerticalPadding="0px" />
                             </asp:TreeView>
                         </asp:Panel>
                     </td>
                 </tr>
             </table>
+            <br /> <!-- Botones de Guardar/Cancelar para perfiles -->
+            <div class="col-lg-12" runat="server">
+                <div class="row">
+                    <div class="text-center">
+                        <button runat="server" type="button" class="btn btn-success-fozkr" onserverclick="botonAceptarCreacionPerfil_ServerClick" id="botonAceptarCreacionPerfil">Guardar</button>
+                        <a runat="server" href="#modalCancelar" id="botonCancelarCreacionPerfil" class="btn btn-danger-fozkr" role="button" data-toggle="modal">Cancelar</a>
+                    </div>
+                </div>
+            </div>
         </fieldset>
     </fieldset>
 
@@ -96,13 +104,6 @@
                     <div class= "form-group">
                         <label for="inputPassword" id="labelInputPassword" runat="server" class= "control-label">Contraseña:</label>
                         <input id="inputPassword" runat="server" type="text" class="form-control" />
-                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" 
-                         ErrorMessage="&laquo; (Requerido)" 
-                         ControlToValidate="inputPassword"
-                         CssClass="ValidationError"
-
-                        ToolTip="La contraseña es un espacio necesario"
-                        ></asp:RequiredFieldValidator>
                         <label for="inputFecha" id="labelInputFecha" runat="server" class= "control-label">Fecha de creación:</label>
                         <input id="inputFecha" runat="server"  type="text" class="form-control" />
                     </div>
@@ -111,30 +112,7 @@
                     <div class= "form-group">
                         <label for="inputPasswordConfirm" id="labelInputPasswordConfirm" runat="server" class= "control-label">Confirmar contraseña:</label>
                         <input id="inputPasswordConfirm" runat="server"  type="password"  class="form-control"/>
-                        <asp:CompareValidator ID="CompareValidator1" runat="server" 
-                        ControlToValidate="inputPasswordConfirm"
-                        CssClass="ValidationError"
-                        ControlToCompare="inputPassword"
-                        ClientValidationFunction="changeColor" 
-                        ForeColor="Red"
-                        ErrorMessage="La contraseña no es la misma" 
-                        ToolTip="La contraseña y la confirmación deben coincidir" />
-                      <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" 
-                        ErrorMessage="&laquo; (Requerido)" 
-                        ControlToValidate="inputPasswordConfirm"
-                        ClientValidationFunction="changeColor" 
-                        ForeColor="Red"
-                        CssClass="ValidationError"
-                        ToolTip="La confirmación de contraseña es requerida">
-                      </asp:RequiredFieldValidator>
-                        <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" 
-                            ErrorMessage="&laquo; (Formato incorrecto)" 
-                            ControlToValidate="inputPasswordConfirm"
-                            CssClass="ValidationError"
-                            ClientValidationFunction="changeColor" 
-                            ForeColor="Red"
-                            ToolTip="Su contraseña debe tener una mayúscula, una minúscula, y un número. Debe ser de al menos 8 caracteres."
-                            ValidationExpression="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"></asp:RegularExpressionValidator>
+                        
                         <label for="DropDownListPerfilConsulta" id="labelDropDownListPerfilConsulta" runat="server" class="control-label">Perfil:</label>
                         <asp:DropDownList ID="DropDownListPerfilConsulta" runat="server" CssClass="form-control"></asp:DropDownList>
                     </div>
@@ -253,6 +231,37 @@
     </fieldset>
     <br />
 
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" 
+                            ErrorMessage="&laquo; (Requerido)" 
+                            ControlToValidate="inputPassword"
+                            CssClass="ValidationError"
+                            ToolTip="La contraseña es un espacio necesario">
+                            </asp:RequiredFieldValidator>
+                            <asp:CompareValidator ID="CompareValidator1" runat="server" 
+                            ControlToValidate="inputPasswordConfirm"
+                            CssClass="ValidationError"
+                            ControlToCompare="inputPassword"
+                            ClientValidationFunction="changeColor" 
+                            ForeColor="Red"
+                            ErrorMessage="La contraseña no es la misma" 
+                            ToolTip="La contraseña y la confirmación deben coincidir" />
+                           <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" 
+                            ErrorMessage="&laquo; (Requerido)" 
+                            ControlToValidate="inputPasswordConfirm"
+                            ClientValidationFunction="changeColor" 
+                            ForeColor="Red"
+                            CssClass="ValidationError"
+                            ToolTip="La confirmación de contraseña es requerida">
+                            </asp:RequiredFieldValidator>
+                            <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" 
+                            ErrorMessage="&laquo; (Formato incorrecto)" 
+                            ControlToValidate="inputPasswordConfirm"
+                            CssClass="ValidationError"
+                            ClientValidationFunction="changeColor" 
+                            ForeColor="Red"
+                            ToolTip="Su contraseña debe tener una mayúscula, una minúscula, y un número. Debe ser de al menos 8 caracteres."
+                            ValidationExpression="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"></asp:RegularExpressionValidator>
+
 
     <!-- Fieldset de botones de aceptar/cancelar -->
     <fieldset id="FieldsetBotones" class="fieldset" runat="server" visible="false">
@@ -291,7 +300,7 @@
     <!-- Modificar tab de site master activo -->
     <script type = "text/javascript">
         function setCurrentTab() {
-            document.getElementById("linkFormVentas").className = "active";
+            document.getElementById("linkFormAdministracion").className = "active";
         }
     </script>
 </asp:Content>
