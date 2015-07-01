@@ -548,89 +548,6 @@ namespace ProyectoInventarioOET
 
 
 
-        /*
-         * Se dispara para completar la entrada con los productos seleccionados.
-         */
-        protected void botonAceptarEntrada_ServerClick(object sender, EventArgs e)
-        {
-            switch (modo)
-            {
-                case (int)Modo.EntradaConsultada:
-                    if (totalFactura > (facturaConsultada.Total + 1) || totalFactura < (facturaConsultada.Total - 1))
-                    {
-                        mostrarMensaje("warning", "Alerta", "La diferencia entre el total de la factura nueva y el de la factura consultada no puede ser superior a 1 colón.");
-                        if (tablaProductosNuevos.Rows.Count > 0)
-                        {
-                            this.botonEliminarProducto.Enabled = true;
-                            this.botonModificarProducto.Enabled = true;
-                        }
-                    }
-                    else
-                    {
-                        Boolean operacionCorrecta = false;
-                        String codigoInsertado = "";
-                        String usuario = (this.Master as SiteMaster).Usuario.Codigo;
-                        String idFactura = facturaConsultada.IdFactura;
-                        String fecha = DateTime.Now.ToString("h:mm:ss");
-                        String[] resultado = new String[3];
-                        String[] provisional = new String[2];
-                        Object[] objetoEntrada = new Object[7];
-                        Object[] datos = new Object[6];
-                        DataTable tablaProductosConID = new DataTable();
-                        tablaProductosConID = tablaFacturaDetallada();
-
-                        if (modo == (int)Modo.SeleccionProductos)
-                        {
-                            try
-                            {
-                                objetoEntrada[1] = idFactura;
-                                objetoEntrada[0] = "";
-                                objetoEntrada[4] = fecha;
-                                objetoEntrada[3] = bodegaDeTrabajo;
-                                objetoEntrada[2] = usuario;
-                                objetoEntrada[5] = this.dropdownlistTipoMoneda.SelectedValue;
-                                objetoEntrada[6] = this.dropdownlistMetodoPago.SelectedValue;
-
-                                foreach (DataRow fila in tablaProductosNuevos.Rows)
-                                {
-                                    provisional = obtenerCodigoDeProducto(fila[0].ToString());
-                                    datos[0] = provisional[1];
-                                    datos[1] = fila[1].ToString();
-                                    datos[2] = fila[2].ToString();
-                                    datos[3] = fila[3].ToString();
-                                    datos[4] = fila[4].ToString();
-                                    datos[5] = fila[5].ToString();
-
-
-                                    tablaProductosConID.Rows.Add(datos);
-
-                                }
-                                resultado = controladoraEntradas.insertarEntrada(objetoEntrada, tablaProductosConID);
-                                if (resultado[1] == "Éxito:")
-                                {
-                                    modo = (int)Modo.Inicial;
-                                    operacionCorrecta = true;
-                                }
-                            }
-                            catch (Exception t)
-                            {
-                                mostrarMensaje("warning", "Alerta", "No se pudo insertar la entrada.");
-                                operacionCorrecta = false;
-                            }
-
-                            if (operacionCorrecta)
-                            {
-                                mostrarMensaje(resultado[0], resultado[1], resultado[2]);
-                                cambiarModo();
-                            }
-                        }
-                    }
-                    break;
-                case (int)Modo.ModificarEntrada:
-
-                    break;
-            }
-        }
 
         /*
          * Regresa la interfaz a modo inicial en caso de darse una cancelación de una acción (inserción).
@@ -1153,6 +1070,90 @@ namespace ProyectoInventarioOET
         protected void dropdownlist1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        /*
+         * Se dispara para completar la entrada con los productos seleccionados.
+         */			
+        protected void botonAceptarEntrada_ServerClick(object sender, EventArgs e)
+        {
+            switch (modo)
+            {
+                case (int)Modo.SeleccionProductos:
+                    if (totalFactura > (facturaConsultada.Total + 1) || totalFactura < (facturaConsultada.Total - 1))
+                    {
+                        mostrarMensaje("warning", "Alerta", "La diferencia entre el total de la factura nueva y el de la factura consultada no puede ser superior a 1 colón.");
+                        if (tablaProductosNuevos.Rows.Count > 0)
+                        {
+                            this.botonEliminarProducto.Enabled = true;
+                            this.botonModificarProducto.Enabled = true;
+                        }
+                    }
+                    else
+                    {
+                        Boolean operacionCorrecta = false;
+                        String codigoInsertado = "";
+                        String usuario = (this.Master as SiteMaster).Usuario.Codigo;
+                        String idFactura = facturaConsultada.IdFactura;
+                        String fecha = DateTime.Now.ToString("h:mm:ss");
+                        String[] resultado = new String[3];
+                        String[] provisional = new String[2];
+                        Object[] objetoEntrada = new Object[7];
+                        Object[] datos = new Object[6];
+                        DataTable tablaProductosConID = new DataTable();
+                        tablaProductosConID = tablaFacturaDetallada();
+
+                        if (modo == (int)Modo.SeleccionProductos)
+                        {
+                            try
+                            {
+                                objetoEntrada[1] = idFactura;
+                                objetoEntrada[0] = "";
+                                objetoEntrada[4] = fecha;
+                                objetoEntrada[3] = bodegaDeTrabajo;
+                                objetoEntrada[2] = usuario;
+                                objetoEntrada[5] = this.dropdownlistTipoMoneda.SelectedValue;
+                                objetoEntrada[6] = this.dropdownlistMetodoPago.SelectedValue;
+
+                                foreach (DataRow fila in tablaProductosNuevos.Rows)
+                                {
+                                    provisional = obtenerCodigoDeProducto(fila[0].ToString());
+                                    datos[0] = provisional[1];
+                                    datos[1] = fila[1].ToString();
+                                    datos[2] = fila[2].ToString();
+                                    datos[3] = fila[3].ToString();
+                                    datos[4] = fila[4].ToString();
+                                    datos[5] = fila[5].ToString();
+
+
+                                    tablaProductosConID.Rows.Add(datos);
+
+                                }
+                                resultado = controladoraEntradas.insertarEntrada(objetoEntrada, tablaProductosConID);
+                                if (resultado[1] == "Éxito:")
+                                {
+                                    modo = (int)Modo.Inicial;
+                                    operacionCorrecta = true;
+                                }
+                            }
+                            catch (Exception t)
+                            {
+                                mostrarMensaje("warning", "Alerta", "No se pudo insertar la entrada.");
+                                operacionCorrecta = false;
+                            }
+
+                            if (operacionCorrecta)
+                            {
+                                mostrarMensaje(resultado[0], resultado[1], resultado[2]);
+                                cambiarModo();
+                            }
+                        }
+                    }
+                    break;
+                case (int)Modo.ModificarEntrada:
+
+                    break;
+            }
         }
         
     }
