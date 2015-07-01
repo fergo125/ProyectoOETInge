@@ -155,6 +155,14 @@ namespace ProyectoInventarioOET
                     FieldsetPerfilCreacion.Visible = false;
                     break;
                 case (int)Modo.ModificarUsuario:
+                    tituloAccionForm.Visible = true;
+                    tituloAccionForm.InnerText = "Modifique la información del usuario.";
+                    FieldsetUsuario.Visible = true;
+                    FieldsetAsociarUsuario.Visible = true;
+                    FieldsetBotones.Visible = true;
+                    FieldsetGrid.Visible = false;
+                    FieldsetGridCuentas.Visible = false;
+                    break;
                 case (int)Modo.InsercionPerfil:
                     tituloAccionForm.InnerText = "Ingrese los datos para el nuevo perfil";
                     FieldsetUsuario.Visible = false;
@@ -164,14 +172,6 @@ namespace ProyectoInventarioOET
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfil.Visible = true;
                     FieldsetPerfilCreacion.Visible = true;
-                    break;
-                case (int)Modo.AsociarUsuario:
-                    FieldsetUsuario.Visible = false;
-                    FieldsetAsociarUsuario.Visible = true;
-                    FieldsetBotones.Visible = true;
-                    FieldsetGrid.Visible = false;
-                    FieldsetGridCuentas.Visible = false;
-                    FieldsetPerfilCreacion.Visible = false;
                     break;
                 case (int)Modo.ConsultadoUsuario:
                     FieldsetUsuario.Visible = true;
@@ -406,6 +406,7 @@ namespace ProyectoInventarioOET
         protected void botonModificarUsuario_ServerClick(object sender, EventArgs e)
         {
             modo = (int)Modo.ModificarUsuario;
+            habilitarCampos(true);
             cambiarModo();
         }
 
@@ -500,6 +501,10 @@ namespace ProyectoInventarioOET
                 else
                     operacionCorrecta = false;
             }
+            else if (modo == (int)Modo.ModificarUsuario)
+            {
+                operacionCorrecta = modificarUsuario();
+            }
             if (operacionCorrecta)
             {
                 cambiarModo();
@@ -525,6 +530,25 @@ namespace ProyectoInventarioOET
             }
 
             return codigo;
+        }
+
+        /*
+         * Metodo que realiza la modificación de un usuario en la base de datos          
+         */
+        protected Boolean modificarUsuario()
+        {
+            String codigo = "";
+            Boolean exito = false;
+            Object[] usuario = obtenerDatosCuenta();
+            usuario[0] = usuarioConsultado.Codigo;
+            String[] error = controladoraSeguridad.modificarUsuario(usuario);
+            codigo = Convert.ToString(error[3]);
+            mostrarMensaje(error[0], error[1], error[2]);
+            if (error[0].Contains("success"))
+            {
+                exito = true;
+            }
+            return exito;
         }
 
 
@@ -755,6 +779,10 @@ namespace ProyectoInventarioOET
             }
             cambiarModo();
         }
+
+        /*
+         * Procedimiento invocado cuando se selecciona uno de los usuarios para consultar su información.
+         */
         protected void gridViewCuentas_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             {
@@ -771,6 +799,9 @@ namespace ProyectoInventarioOET
             }
         }
 
+        /*
+         * Procedimiento invocado cuando se cambia la página de la tabla con los usuarios.
+         */
         protected void gridViewCuentas_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             this.gridViewCuentas.PageIndex = e.NewPageIndex;

@@ -217,6 +217,34 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             return resultado;
         }
 
+        /*
+        * Modifica una cuenta dado un vector con los datos de la misma.
+        */
+        public String[] modificarUsuario(EntidadUsuario usuario)
+        {
+            //String[] resultado = new String[3];
+            String esquema = "Inventarios.";
+            String[] resultado = new String[4];
+            usuario.Codigo = generarID();
+            String comandoSQL = "UPDATE " + esquema + "SEG_USUARIO SET USUARIO = '" + usuario.Usuario + "', DESCRIPCION = '" + usuario.Descripcion + "', IDESTACION = '"
+                + usuario.IdEstacion + "', ANFITRIONA = '" + usuario.Anfitriona + "', NOMBRE = '" + usuario.Nombre + "', ESTADO = " + usuario.Estado + ", DESCUENTO_MAXIMO ="
+                + usuario.DescuentoMaximo + " WHERE SEG_USUARIO = '" + usuario.Codigo + "'";
+
+            if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
+            {
+                resultado[0] = "success";
+                resultado[1] = "Éxito:";
+                resultado[2] = "Cuenta modificada exitosamente.";
+            }
+            else
+            {
+                resultado[0] = "danger";
+                resultado[1] = "Error:";
+                resultado[2] = "Cuenta no modificada, intente nuevamente.";
+            }
+            return resultado;
+        }
+
 
         public DataTable consultarPerfiles()
         {
