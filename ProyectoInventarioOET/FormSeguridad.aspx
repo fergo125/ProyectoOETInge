@@ -101,7 +101,7 @@
                 <div class="col-lg-4">
                     <div class= "form-group">
                         <label for="inputPassword" class= "control-label">Contraseña:</label>
-                        <input id="inputPassword" runat="server"  type="text" class="form-control" />
+                        <input id="inputPassword" runat="server"  type="password" class="form-control" />
                         <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" 
                          ErrorMessage="&laquo; (Requerido)" 
                          ControlToValidate="inputPassword"
