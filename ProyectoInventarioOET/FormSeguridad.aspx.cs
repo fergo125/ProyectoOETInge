@@ -349,6 +349,7 @@ namespace ProyectoInventarioOET
             String codigo = "";
             Object[] usuario = obtenerDatosCuenta();
             String[] error = controladoraSeguridad.insertarUsuario(usuario);
+
             codigo = Convert.ToString(error[3]);
             mostrarMensaje(error[0], error[1], error[2]);
             if (error[0].Contains("success"))
@@ -361,6 +362,19 @@ namespace ProyectoInventarioOET
                 modo = (int)Modo.InsercionUsuario;
             }
 
+            ControladoraBodegas controladoraBodegas = new ControladoraBodegas();
+            int i = 0;
+            foreach (GridViewRow fila in gridViewBodegas.Rows)
+            {
+                if(((CheckBox)gridViewBodegas.Rows[i].FindControl("checkBoxBodegas")).Checked)
+                {
+                    String llaveBodega = controladoraBodegas.consultarLlaveBodega(fila.Cells[1].Text, DropDownListEstacion.SelectedValue);
+                    String [] controladoraSeguridad.asociarABodega(codigo, llaveBodega, DropDownListEstacion.SelectedValue);
+
+                }
+                i++;
+                
+            }
             return codigo;
         }
 
@@ -439,7 +453,7 @@ namespace ProyectoInventarioOET
             Object[] datos = new Object[10];
             datos[0] = 0;
             datos[1] = this.inputUsuario.Value;
-            datos[2] = this.inputFecha.Value;//this.inputPassword.Value; ya no existe
+            datos[2] = this.inputPassword.Value;
             datos[3] = DateTime.Now.Date.ToString("dd-MMM-yyyy");
             datos[4] = this.inputDescripcion.Value;
             datos[5] = this.DropDownListEstacion.SelectedValue;

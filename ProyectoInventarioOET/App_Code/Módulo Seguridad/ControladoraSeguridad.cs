@@ -195,5 +195,10 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             return controladoraBDSeguridad.consultarPerfiles();
         }
 
+        public String[] asociarABodega(String codigo, String llaveBodega, String idEstacion)
+        {
+            return controladoraBDSeguridad.asociarABodega(codigo, llaveBodega, idEstacion);
+        }
+
     }
 }
