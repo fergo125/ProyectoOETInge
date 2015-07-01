@@ -34,7 +34,7 @@
     <fieldset id= "FieldsetBotonesUsuarios" class="fieldset" runat="server" visible="false">
         <button runat="server" type="button" class="btn btn-info-fozkr" id="botonConsultarUsuario" onserverclick="botonConsultarUsuario_ServerClick">Consultar usuario</button>
         <button runat="server" type="button" class="btn btn-info-fozkr" id="botonCrearUsuario" onserverclick="botonCrearUsuario_ServerClick">Crear usuario</button>
-        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonAsociarPerfil" onserverclick="botonAsociarPerfil_ServerClick">Asociar usuario a perfil</button>
+        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonAsociarPerfil" onserverclick="botonAsociarPerfil_ServerClick">Modificar usuario</button>
     </fieldset>
     <br />
 
