@@ -177,6 +177,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             return resultado;
         }
 
+
         private DataTable consultarBodegasUsuario(String idUsuario)
         {
 
