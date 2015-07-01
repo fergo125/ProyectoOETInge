@@ -56,9 +56,9 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         /*
          * ???
          */
-        public DataTable consultarFacturas(String idUsuario, String idBodega, String idEstacion, String idMetodoPago, String idCliente)
+        public DataTable consultarFacturas(String idUsuario, String idBodega, String idEstacion, String idMetodoPago, String idCliente, String fechaInicio, String fechaFinal)
         {
-            return controladoraBDVentas.consultarFacturas(idUsuario, idBodega, idEstacion, idMetodoPago, idCliente);
+            return controladoraBDVentas.consultarFacturas(idUsuario, idBodega, idEstacion, idMetodoPago, idCliente, fechaInicio, fechaFinal);
         }
 
         /*

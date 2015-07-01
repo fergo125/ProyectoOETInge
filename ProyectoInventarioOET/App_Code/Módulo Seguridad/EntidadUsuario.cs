@@ -64,7 +64,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             this.descripcionAnfitriona = fila[6].ToString();
             this.descripcion = fila[8].ToString();
             this.descuentoMaximo = Int32.Parse(fila[9].ToString());
-
+            this.idEstacion = fila[10].ToString();
             try
             {
                 this.fechaCreacion = Convert.ToDateTime(fila[7].ToString());

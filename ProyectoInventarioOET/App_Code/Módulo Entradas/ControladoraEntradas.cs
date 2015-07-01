@@ -132,6 +132,14 @@ namespace ProyectoInventarioOET.Modulo_Entradas
         }
 
         /*
+         * Consulta el nombre de la moneda asociada a una factura para mostrarla en el encabezado de esta.
+         */
+        public String consultarNombreMoneda(String idMoneda)
+        {
+            return controladoraBDEntradas.consultarNombreProveedor(idMoneda);
+        }
+
+        /*
          * Consulta el impuesto de ventas vigente en el momento.
          */
         public int consultarImpuestoDeVentas()

@@ -112,15 +112,13 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
                     if( detallesProducto.CantidadNueva - detallesProducto.CantidadPrevia > 0 )
                     {
                         // Incremental
-                        comandoSQL = "call insertar_historial( '" + detallesProducto.IdProductoBodega + "', " + (detallesProducto.CantidadNueva - detallesProducto.CantidadPrevia) + ", "
-                            + "( SELECT COSTO_COLONES FROM INV_BODEGA_PRODUCTOS WHERE INV_BODEGA_PRODUCTOS = '" + detallesProducto.IdProductoBodega + "' "
-                            + ") )";
+                        comandoSQL = "call insertar_historial_promedio( '" + detallesProducto.IdProductoBodega + "', " + (detallesProducto.CantidadNueva - detallesProducto.CantidadPrevia) + " )";
                         ejecutarComandoSQL(comandoSQL, false);
                     }
                     else
                     {
                         // Decremental
-                        comandoSQL = "call quitar_historial( '" + detallesProducto.IdProductoBodega + "', " + (-1 * (detallesProducto.CantidadNueva - detallesProducto.CantidadPrevia)) + " )";
+                        comandoSQL = "call quitar_historial( '" + detallesProducto.IdProductoBodega + "', " + (detallesProducto.CantidadPrevia - detallesProducto.CantidadNueva) + " )";
                         ejecutarComandoSQL(comandoSQL, false);
 
                     }
