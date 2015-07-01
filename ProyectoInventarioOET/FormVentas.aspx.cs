@@ -1272,6 +1272,28 @@ namespace ProyectoInventarioOET
             }
         }
 
+        // Presionado boton de fecha de inicio/final de calendario
+        protected void clickBotonConsultaCalendarioInicio_ServerClick(object sender, EventArgs e)
+        {
+            this.CalendarFechaInicio.Visible = true;
+        }
+        protected void clickBotonConsultaCalendarioFinal_ServerClick(object sender, EventArgs e)
+        {
+            this.CalendarFechaFinal.Visible = true;
+        }
+
+        // Seleccionada una nueva fecha en el calendario inicial/final
+        protected void CalendarFechaInicio_SelectionChanged(object sender, EventArgs e)
+        {
+            this.textboxConsultaFechaInicio.Value = this.CalendarFechaInicio.SelectedDate.ToString("dd/MMM/yyyy").Substring(0,11);
+            this.CalendarFechaInicio.Visible = false;
+        }
+        protected void CalendarFechaFinal_SelectionChanged(object sender, EventArgs e)
+        {
+            this.textboxConsultaFechaFinal.Value = this.CalendarFechaFinal.SelectedDate.ToString("dd/MMM/yyyy").Substring(0,11);
+            this.CalendarFechaFinal.Visible = false;
+        }
+
         /*
          * Intento fallido de poner el textbox de cantidad de los productos en algún punto medio de cada fila.
          * No hacer.
