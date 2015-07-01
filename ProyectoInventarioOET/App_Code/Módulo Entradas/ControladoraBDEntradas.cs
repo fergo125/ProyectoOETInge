@@ -158,7 +158,7 @@ namespace ProyectoInventarioOET.Modulo_Entradas
                     {
                         foreach (DataRow fila in productosAsociados.Rows)
                         {
-                            if (fila[4] == "No")
+                            if (fila[4].ToString() == "No")
                                 temp = 0;
                             else temp = 1;
 
