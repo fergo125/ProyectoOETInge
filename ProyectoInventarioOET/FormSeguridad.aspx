@@ -81,24 +81,24 @@
 
     <!-- Fieldset de informacion de usuario (crear/consultar/modificar) -->
     <fieldset id="FieldsetUsuario" class="fieldset" runat="server" visible="false">
-        <div class="col-lg-12">
+        <div class="col-lg-9">
             <div class="col-lg-12 row">
-                <div class="col-lg-3 form-group">
+                <div class="col-lg-4 form-group">
                     <label for="inputNombre" class= "control-label">Nombre completo:</label>
                     <input id="inputNombre" runat="server"  type="text"  class="form-control"/>
                 </div>
-                <div class="col-lg-3 form-group">
+                <div class="col-lg-4 form-group">
                     <label for="inputUsuario" class= "control-label">Nombre de usuario:</label>      
                     <input id="inputUsuario" runat="server" type="text" class="form-control" />
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-4">
                     <label for="inputEstacion" class="control-label">Estación:</label>
                     <asp:DropDownList ID="DropDownListEstacion" runat="server" CssClass="form-control">
                     </asp:DropDownList>
                 </div>
             </div>
             <div class="col-lg-12 row">
-                <div class="col-lg-3">
+                <div class="col-lg-4">
                     <div class= "form-group">
                         <label for="inputPassword" class= "control-label">Contraseña:</label>
                         <input id="inputPassword" runat="server"  type="text" class="form-control" />
@@ -109,9 +109,11 @@
 
                         ToolTip="La contraseña es un espacio necesario"
                         ></asp:RequiredFieldValidator>
+                        <label for="inputFecha" class= "control-label">Fecha de creación:</label>
+                        <input id="inputFecha" runat="server"  type="text" class="form-control" />
                     </div>
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-4">
                     <div class= "form-group">
                         <label for="inputPasswordConfirm" class= "control-label">Confirmar contraseña:</label>
                         <input id="inputPasswordConfirm" runat="server"  type="password"  class="form-control"/>
@@ -139,9 +141,11 @@
                             ForeColor="Red"
                             ToolTip="La confirmación de contraseña es requerida"
                             ValidationExpression="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"></asp:RegularExpressionValidator>
+                        <label for="DropDownListPerfilConsulta" class="control-label">Perfil:</label>
+                        <asp:DropDownList ID="DropDownListPerfilConsulta" runat="server" CssClass="form-control"></asp:DropDownList>
                     </div>
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-4">
                     <div class="form-group">
                         <label for="DropDownListAnfitriona" class="control-label">Anfitriona:</label>
                         <asp:DropDownList ID="DropDownListAnfitriona" runat="server" CssClass="form-control"></asp:DropDownList>
@@ -149,19 +153,47 @@
                 </div>
             </div>
             <div class="col-lg-12 row">
-                <div class="col-lg-3">
+                <div class="col-lg-4">
                     <label for="inputDescripcion" class="control-label">Descripción:</label>
                     <input id="inputDescripcion" runat="server"  type="text" class="form-control"/>
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-4">
                     <label for="inputDescuentoMaximo" class="control-label">Descuento máximo para ventas:</label>
                     <input id="inputDescuentoMaximo" runat="server" type="text" class="form-control" />
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-4">
                     <label for="DropDownListEstado" class="control-label">Estado:</label>
                     <asp:DropDownList ID="DropDownListEstado" runat="server" CssClass="form-control"></asp:DropDownList>
                 </div>
             </div>
+        </div>
+        <div class="col-lg-3">
+            <!-- Grid de bodegas -->
+             <div class="col-lg-12"><strong><div ID="Div3" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;"> Bodegas</div></strong>
+                    <asp:UpdatePanel ID="UpdatePanelBodegas" runat="server">
+                        <ContentTemplate>
+                                                <asp:Panel ID="PanelBodegas" runat="server" ScrollBars="Vertical" Height="300px">
+                            <asp:GridView ID="gridViewBodegas" CssClass="table" OnPageIndexChanging="gridViewBodegas_PageIndexChanging" runat="server" AllowPaging="false"  BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+						        <Columns>
+							        <asp:TemplateField HeaderText="Seleccionar">
+								        <ItemTemplate>
+									        <asp:CheckBox ID="checkBoxBodegas" OnCheckedChanged="checkBoxBodegas_CheckedChanged" runat="server" AutoPostBack="true"/>
+								        </ItemTemplate>
+							        </asp:TemplateField>
+						        </Columns>                                
+                                <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
+                               <PagerStyle CssClass="paging" HorizontalAlign="Center" />
+                               <AlternatingRowStyle BackColor="#F8F8F8" />
+                               <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
+                               <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
+                          </asp:GridView>
+                                                    </asp:Panel>
+                     </ContentTemplate>
+                     <Triggers>
+                        <asp:AsyncPostBackTrigger ControlID="gridViewBodegas" EventName="RowCommand" />
+                     </Triggers>
+                  </asp:UpdatePanel>
+               </div>  
         </div>
     </fieldset>
 
@@ -172,7 +204,7 @@
                 <strong><div ID="tituloGridConsulta" runat="server" visible="false" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Cuentas en Sistema</div></strong>
                 <asp:UpdatePanel ID="UpdatePanelCuentas" runat="server">
                     <ContentTemplate>
-                        <asp:GridView ID="gridViewCuentas" CssClass="table" OnRowCommand="gridViewCuentas_RowCommand" OnPageIndexChanging="gridViewCuentas_PageIndexChanging" runat="server" AllowPaging="True" PageSize="10" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None" AllowSorting="true" OnSorting="gridViewCuentas_Sorting">
+                        <asp:GridView ID="gridViewCuentas" CssClass="table" OnRowCommand="gridViewCuentas_RowCommand" OnPageIndexChanging="gridViewCuentas_PageIndexChanging" runat="server" AllowPaging="True" PageSize="10" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None" >
                             <Columns>
                                 <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Consultar">
                                     <ControlStyle CssClass="btn btn-default"></ControlStyle>

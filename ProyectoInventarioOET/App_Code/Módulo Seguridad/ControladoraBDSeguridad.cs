@@ -166,7 +166,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             String esquemaI = "Inventarios.";
             String esquemaR = "Reservas.";
             DataTable[] resultado = new DataTable[2];
-            String comandoSQL = "SELECT u.seg_usuario, u.nombre, u.usuario, u.clave, e.descripcion, r.nombre, af.siglas, u.fechacreacion,  u.descripcion, u.descuento_maximo "
+            String comandoSQL = "SELECT u.seg_usuario, u.nombre, u.usuario, u.clave, e.descripcion, r.nombre, af.siglas, u.fechacreacion,  u.descripcion, u.descuento_maximo, r.id "
             + " FROM " + esquemaI + "seg_usuario U, " + esquemaI + "cat_estados E, " + esquemaR + "estacion R, " +  esquemaR + "anfitriona AF "
             + " WHERE u.seg_usuario = '" + idUsuario + "' "
             + " AND e.valor = u.estado"
@@ -214,6 +214,17 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
                     resultado[1] = "Error:";
                     resultado[2] = "Cuenta no agregada, intente nuevamente.";
                 }
+            return resultado;
+        }
+
+
+        public DataTable consultarPerfiles()
+        {
+            String esquema = "Inventarios.";
+            DataTable resultado = new DataTable();
+            String comandoSQL = " SELECT *"
+            + " FROM " + esquema + "seg_perfil U ";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }
 

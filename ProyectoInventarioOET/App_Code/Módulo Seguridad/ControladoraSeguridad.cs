@@ -123,7 +123,9 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         {
             DataTable[] cuenta = controladoraBDSeguridad.consultarCuenta(idUsuario); // en cuenta[1] van las bodegas
             String [] perfil = controladoraBDSeguridad.consultarPerfilUsuario(idUsuario); 
-            return new EntidadUsuario(cuenta[0], cuenta[1]);
+            EntidadUsuario consultada = new EntidadUsuario(cuenta[0], cuenta[1]);
+            consultada.Perfil = perfil[0];
+            return consultada;
         }
 
         private DataTable crearMatrizPermisos(DataTable cuenta)
@@ -187,6 +189,10 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         public DataTable consultarUsuarios()
         {
             return controladoraBDSeguridad.consultarUsuarios();
+        }
+
+        public DataTable consultarPerfiles() {
+            return controladoraBDSeguridad.consultarPerfiles();
         }
 
     }
