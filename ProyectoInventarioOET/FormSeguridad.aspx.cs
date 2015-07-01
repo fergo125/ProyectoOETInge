@@ -341,5 +341,13 @@ namespace ProyectoInventarioOET
             return tabla;
         }
 
+        // Tabla de consulta de perfiles
+        protected DataTable tablaPerfiles()
+        {
+            DataTable tabla = new DataTable();
+            // Toca implementarlo
+            return tabla;
+        }
+
     }
 }
