@@ -1,8 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="FormSeguridad.aspx.cs" Inherits="ProyectoInventarioOET.FormSeguridad" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-    <br />
     <!-- Label para desplegar mensajes -->
+    <br />
     <div>
         <div id="mensajeAlerta" runat="server" Visible="false" style="margin-left:50%;">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -36,16 +36,60 @@
         <button runat="server" type="button" class="btn btn-info-fozkr" id="botonCrearUsuario" onserverclick="botonCrearUsuario_ServerClick">Crear usuario</button>
         <button runat="server" type="button" class="btn btn-info-fozkr" id="botonAsociarPerfil" onserverclick="botonAsociarPerfil_ServerClick">Asociar usuario a perfil</button>
     </fieldset>
-
     <br />
 
-    <!-- Fieldset de informacion de perfil (crear/consultar/modificar) -->
-    <fieldset id="FieldsetPerfil" class="fieldset" runat="server" visible="false">
+    <!-- Título de la acción que se está realizando -->
+    <h3 ID="tituloAccionForm" runat="server"></h3>
 
+    <!-- Fieldset de informacion de perfil (crear/consultar/modificar) -->
+    <fieldset id="FieldsetPerfil" class="fieldset" runat="server" visible="true">
+        <!-- Fieldset de consulta -->
+        <fieldset id="FieldsetPerfilConsulta" class="fieldset" runat="server" visible="false">
+        </fieldset>
+        <!-- Fieldset de creación (Oscar) -->
+        <br />
+        <fieldset id="FieldsetPerfilCreacion" class="fieldset" runat="server" visible="true">
+            <table>
+                <tr>
+                    <td style="width:80%; vertical-align:top;">
+                        <label class="control-label">Nombre:</label>  
+                        <input id="textBoxCrearPerfilNombre" type="text" class="form-control" style="width: 70%;"/>
+                        <br />
+                        <label class="control-label">Nivel:</label>
+                        <asp:DropDownList ID="dropDownListCrearPerfilNivel" class="input input-fozkr-dropdownlist" CssClass="form-control" Width="70%" runat="server"></asp:DropDownList>
+                    </td>
+                    <td rowspan="100"> <!-- Árbol -->
+                        <label class="control-label">Permisos:</label>  
+                        <asp:Panel ID="PanelArbolPermisos" runat="server" ScrollBars="Vertical" Height="500px" Width="500px" BorderWidth="1px" style="">
+                            <asp:TreeView ID="ArbolPermisos" ShowCheckBoxes="Leaf" runat="server" ImageSet="Simple" ShowLines="True">
+                                <HoverNodeStyle Font-Underline="False" ForeColor="Black" />
+                                <LeafNodeStyle Font-Size="Medium" />
+                                <NodeStyle Font-Names="Tahoma" Font-Size="Medium" ForeColor="Black" HorizontalPadding="5px" ChildNodesPadding="5px" />
+                                <ParentNodeStyle Font-Bold="False" />
+                                <RootNodeStyle Font-Size="Medium" />
+                                <SelectedNodeStyle Font-Underline="True" ForeColor="#336699" HorizontalPadding="5px" VerticalPadding="0px" />
+                            </asp:TreeView>
+                        </asp:Panel>
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+        <!-- Fieldset de modificación -->
+        <fieldset id="FieldsetPerfilModificacion" class="fieldset" runat="server" visible="false">
+        </fieldset>
     </fieldset>
 
     <!-- Fieldset de informacion de usuario (crear/consultar/modificar) -->
     <fieldset id="FieldsetUsuario" class="fieldset" runat="server" visible="false">
+        <!-- Fieldset de consulta -->
+        <fieldset id="FieldsetUsuarioConsulta" class="fieldset" runat="server" visible="false">
+        </fieldset>
+        <!-- Fieldset de creación -->
+        <fieldset id="FieldsetUsuarioCreacion" class="fieldset" runat="server" visible="false">
+        </fieldset>
+        <!-- Fieldset de modificación -->
+        <fieldset id="FieldsetUsuarioModificacion" class="fieldset" runat="server" visible="false">
+        </fieldset>
         <div class="col-lg-12">
             <div class="col-lg-4">
                 <div class="form-group col-lg-12" >

@@ -93,6 +93,52 @@ namespace ProyectoInventarioOET
             }
         }
 
+        /*
+         * Llena el árbol de permisos, con ningún permiso si es para creación, o con los permisos de un perfil si es para modificación.
+         * Para determinar la situación, se fija si es nulo o no el parámetro que recibe.
+         * TODO: que reciba una EntidadPerfil como parámetro
+         */
+        protected void llenarArbol()
+        {
+            //Agregar los permisos para cada subinterfaz
+            TreeNode raiz = new TreeNode();
+            raiz.Text = "Interfaces";
+            raiz.Value = "Raiz";
+            for(short i=0; i<5; ++i)
+            {
+                TreeNode interfaz = new TreeNode();
+                switch(i)
+                {
+                    case 1:
+                        interfaz.Text = "Productos";
+                        interfaz.Value = "Pro";
+                        break;
+                    case 2:
+                        interfaz.Text = "Bodegas";
+                        interfaz.Value = "Bod";
+                        break;
+                    case 3:
+                        interfaz.Text = "Inventario";
+                        interfaz.Value = "Inv";
+                        break;
+                    case 4:
+                        interfaz.Text = "Ventas";
+                        interfaz.Value = "Ven";
+                        break;
+                    case 5:
+                        interfaz.Text = "Administración";
+                        interfaz.Value = "Adm";
+                        break;
+                    default:
+                        break;
+                }
+                raiz.ChildNodes.Add(interfaz);
+            }
+            TreeNode subinterfaz = new TreeNode();
+            subinterfaz.Text = "Interfaces";
+            subinterfaz.Value = "Root";
+        }
+
         // Seleccion de administracion de perfiles
         protected void botonPerfiles_ServerClick(object sender, EventArgs e)
         {
