@@ -232,7 +232,7 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             String esquema = "Compras.";
             DataTable consultado = new DataTable();
             String resultado = "";
-            String comandoSQL = "select NOMBRE from " + esquema + "V_PROVEEDOR where IDPROVEEDOR = '" + idMoneda + "'";
+            String comandoSQL = "select NOMBRE from " + esquema + "V_MONEDA where ID = '" + idMoneda + "'";
 
             consultado = ejecutarComandoSQL(comandoSQL, true);
             if (consultado.Rows.Count > 0)
