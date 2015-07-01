@@ -102,12 +102,43 @@
                     <div class= "form-group">
                         <label for="inputPassword" class= "control-label">Contraseña:</label>
                         <input id="inputPassword" runat="server"  type="text" class="form-control" />
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" 
+                         ErrorMessage="&laquo; (Requerido)" 
+                         ControlToValidate="inputPassword"
+                         CssClass="ValidationError"
+
+                        ToolTip="La contraseña es un espacio necesario"
+                        ></asp:RequiredFieldValidator>
                     </div>
                 </div>
                 <div class="col-lg-3">
                     <div class= "form-group">
                         <label for="inputPasswordConfirm" class= "control-label">Confirmar contraseña:</label>
                         <input id="inputPasswordConfirm" runat="server"  type="password"  class="form-control"/>
+                        <asp:CompareValidator ID="CompareValidator1" runat="server" 
+                        ControlToValidate="inputPasswordConfirm"
+                        CssClass="ValidationError"
+                        ControlToCompare="inputPassword"
+                        ClientValidationFunction="changeColor" 
+                        ForeColor="Red"
+                        ErrorMessage="La contraseña no es la misma" 
+                        ToolTip="La contraseña y la confirmación deben coincidir" />
+                      <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" 
+                        ErrorMessage="&laquo; (Requerido)" 
+                        ControlToValidate="inputPasswordConfirm"
+                        ClientValidationFunction="changeColor" 
+                        ForeColor="Red"
+                        CssClass="ValidationError"
+                        ToolTip="La confirmación de contraseña es requerida">
+                      </asp:RequiredFieldValidator>
+                        <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" 
+                            ErrorMessage="&laquo; (Formato incorrecto)" 
+                            ControlToValidate="inputPasswordConfirm"
+                            CssClass="ValidationError"
+                            ClientValidationFunction="changeColor" 
+                            ForeColor="Red"
+                            ToolTip="La confirmación de contraseña es requerida"
+                            ValidationExpression="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"></asp:RegularExpressionValidator>
                     </div>
                 </div>
                 <div class="col-lg-3">
