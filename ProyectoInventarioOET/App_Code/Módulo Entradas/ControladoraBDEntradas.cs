@@ -118,7 +118,7 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             DataTable resultado = new DataTable();
             String esquema = "Inventarios.";
             String comandoSQL = "select A.NOMBRE, A.CANTIDAD, A.COSTO_TOTAL, A.COSTO_UNITARIO, A.GRAVADO, A.DESCUENTO" +
-                "from (select * from " + esquema + "CAT_ENTRADAS_PRODUCTOS entradasProductos, " + esquema + "INV_PRODUCTOS productos where entradasProductos.cat_productos = productos.Codigo ) A" +
+                " from (select * from " + esquema + "CAT_ENTRADAS_PRODUCTOS entradasProductos, " + esquema + "INV_PRODUCTOS productos where entradasProductos.cat_productos = productos.Codigo ) A" +
                 " WHERE CAT_ENTRADAS" + "= '" + id + "'";
             resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
@@ -219,6 +219,28 @@ namespace ProyectoInventarioOET.Modulo_Entradas
                 {
                     resultado = fila[0].ToString();
                 }            
+            }
+
+            return resultado;
+        }
+
+        /*
+         * Consulta el nombre de una Moneda a partir de su identificador.
+         */
+        public String consultarNombreMoneda(string idMoneda)
+        {
+            String esquema = "Compras.";
+            DataTable consultado = new DataTable();
+            String resultado = "";
+            String comandoSQL = "select NOMBRE from " + esquema + "V_MONEDA where ID = '" + idMoneda + "'";
+
+            consultado = ejecutarComandoSQL(comandoSQL, true);
+            if (consultado.Rows.Count > 0)
+            {
+                foreach (DataRow fila in consultado.Rows)
+                {
+                    resultado = fila[0].ToString();
+                }
             }
 
             return resultado;

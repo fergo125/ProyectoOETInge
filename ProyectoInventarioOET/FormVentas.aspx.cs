@@ -385,13 +385,21 @@ namespace ProyectoInventarioOET
             String codigoVendedor = dropDownListConsultaVendedor.SelectedValue;
             String codigoMetodoPago = dropDownListConsultaMetodoPago.SelectedValue;
             String codigoCliente = dropDownListConsultaCliente.SelectedValue;
+            String fechaInicio="", fechaFinal = "";
+            if (checkboxConsultaDetalles.Checked)
+            {
+                //fechaInicio = CalendarFechaInicio.SelectedDate.ToString("dd/MM/yyyy").Substring(0, 10);
+                //fechaFinal = CalendarFechaFinal.SelectedDate.ToString("dd/MM/yyyy").Substring(0, 10);
+                fechaInicio = textboxConsultaFechaInicio.Value.ToString();
+                fechaFinal = textboxConsultaFechaFinal.Value.ToString();
+            }
 
             DataTable tablaFacturas = crearTablaFacturasConsultadas(); //tabla que se usará para el grid
             try
             {
                 Object[] datos = new Object[6];
                 facturasConsultadas = null; //tabla atributo que se usará para almacenar toda la consulta
-                facturasConsultadas = controladoraVentas.consultarFacturas(codigoVendedor, codigoBodega, codigoEstacion, codigoMetodoPago, codigoCliente);
+                facturasConsultadas = controladoraVentas.consultarFacturas(codigoVendedor, codigoBodega, codigoEstacion, codigoMetodoPago, codigoCliente, fechaInicio, fechaFinal);
                 if (facturasConsultadas.Rows.Count > 0)
                 {
                     idArray = new Object[facturasConsultadas.Rows.Count];
@@ -1285,12 +1293,12 @@ namespace ProyectoInventarioOET
         // Seleccionada una nueva fecha en el calendario inicial/final
         protected void CalendarFechaInicio_SelectionChanged(object sender, EventArgs e)
         {
-            this.textboxConsultaFechaInicio.Value = this.CalendarFechaInicio.SelectedDate.ToString("dd/MMM/yyyy").Substring(0,11);
+            this.textboxConsultaFechaInicio.Value = this.CalendarFechaInicio.SelectedDate.ToString("dd/MM/yyyy").Substring(0,10);
             this.CalendarFechaInicio.Visible = false;
         }
         protected void CalendarFechaFinal_SelectionChanged(object sender, EventArgs e)
         {
-            this.textboxConsultaFechaFinal.Value = this.CalendarFechaFinal.SelectedDate.ToString("dd/MMM/yyyy").Substring(0,11);
+            this.textboxConsultaFechaFinal.Value = this.CalendarFechaFinal.SelectedDate.ToString("dd/MM/yyyy").Substring(0,10);
             this.CalendarFechaFinal.Visible = false;
         }
 

@@ -23,6 +23,7 @@
     
     <button runat="server" onserverclick="botonConsultaEntradas_ServerClick" causesvalidation="false"  id="botonConsultaEntradas" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true">Consultar Entradas</button>
     <button runat="server" onserverclick="botonAgregarEntradas_ServerClick" causesvalidation="false" id="botonAgregarEntradas" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true">Crear Entrada</button>
+    <button runat="server" onserverclick="botonModificarEntrada_ServerClick" causesvalidation="false" id="botonModificarEntrada" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true">Modificar Entrada</button>
     <br />
     <br />
 
@@ -101,6 +102,10 @@
 
                         </div>       
                     </div>
+
+            <fieldset>
+            <br />   
+            </fieldset>
             </div>
             <div class="col-lg-12"><strong><div ID="Div4" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Productos relacionados con la Entrada</div></strong>
         <%--    <asp:UpdatePanel ID="UpdatePanel1" runat="server">

@@ -166,7 +166,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             String esquemaI = "Inventarios.";
             String esquemaR = "Reservas.";
             DataTable[] resultado = new DataTable[2];
-            String comandoSQL = "SELECT u.seg_usuario, u.nombre, u.usuario, u.clave, e.descripcion, r.nombre, af.siglas, u.fechacreacion,  u.descripcion, u.descuento_maximo "
+            String comandoSQL = "SELECT u.seg_usuario, u.nombre, u.usuario, u.clave, e.descripcion, r.nombre, af.siglas, u.fechacreacion,  u.descripcion, u.descuento_maximo, r.id "
             + " FROM " + esquemaI + "seg_usuario U, " + esquemaI + "cat_estados E, " + esquemaR + "estacion R, " +  esquemaR + "anfitriona AF "
             + " WHERE u.seg_usuario = '" + idUsuario + "' "
             + " AND e.valor = u.estado"
@@ -176,6 +176,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             resultado[1] = consultarBodegasUsuario(idUsuario);
             return resultado;
         }
+
 
         private DataTable consultarBodegasUsuario(String idUsuario)
         {
@@ -196,14 +197,16 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             //String[] resultado = new String[4];
             String esquema = "Inventarios.";
             String[] resultado = new String[4];
+            usuario.Codigo = generarID();
             String comandoSQL = "INSERT INTO " + esquema + "SEG_USUARIO (SEG_USUARIO, USUARIO, CLAVE,FECHACREACION,DESCRIPCION,IDESTACION,ANFITRIONA,NOMBRE, ESTADO, DESCUENTO_MAXIMO) VALUES ('"
-                + generarID() + "','" + usuario.Usuario + "','" + usuario.Clave + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','" + usuario.Descripcion + "','" 
+                + usuario.Codigo + "','" + usuario.Usuario + "','" + usuario.Clave + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','" + usuario.Descripcion + "','" 
                 + usuario.IdEstacion +"','" + usuario.Anfitriona +"','" + usuario.Nombre +"'," + usuario.Estado +",15)";
                 if(ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
                 {
                     resultado[0] = "success";
                     resultado[1] = "Éxito:";
                     resultado[2] = "Cuenta agregada agregada al sistema.";
+                    resultado[3] = usuario.Codigo;
                 }
                 else
                 {
@@ -211,6 +214,17 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
                     resultado[1] = "Error:";
                     resultado[2] = "Cuenta no agregada, intente nuevamente.";
                 }
+            return resultado;
+        }
+
+
+        public DataTable consultarPerfiles()
+        {
+            String esquema = "Inventarios.";
+            DataTable resultado = new DataTable();
+            String comandoSQL = " SELECT *"
+            + " FROM " + esquema + "seg_perfil U ";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }
 
