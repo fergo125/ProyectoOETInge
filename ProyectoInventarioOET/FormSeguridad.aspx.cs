@@ -99,6 +99,7 @@ namespace ProyectoInventarioOET
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfilCreacion.Visible = false;
                     break;
+
                 case (int)Modo.InicialPerfil:
                     FieldsetBotonesPerfiles.Visible = true;
                     FieldsetBotonesUsuarios.Visible = false;
@@ -109,6 +110,7 @@ namespace ProyectoInventarioOET
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfilCreacion.Visible = false;
                     break;
+
                 case (int)Modo.InicialUsuario:
                     FieldsetBotonesUsuarios.Visible = true;
                     FieldsetBotonesPerfiles.Visible = false;
@@ -119,6 +121,7 @@ namespace ProyectoInventarioOET
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfilCreacion.Visible = false;
                     break;
+
                 case (int)Modo.ConsultaPerfil:
                     FieldsetGrid.Visible = true;
                     FieldsetPerfil.Visible = false;
@@ -135,6 +138,7 @@ namespace ProyectoInventarioOET
                     FieldsetPerfil.Visible = false;
                     FieldsetPerfilCreacion.Visible = false;
                     break;
+
                 case (int)Modo.InsercionUsuario:
                     FieldsetUsuario.Visible = true;
 
@@ -143,10 +147,8 @@ namespace ProyectoInventarioOET
                     labelInputPassword.Visible = true;
                     labelInputPasswordConfirm.Visible = true;
                     
-                    DropDownListPerfilConsulta.Visible = false;
-                    labelDropDownListPerfilConsulta.Visible = false;
-                    inputFecha.Visible = false;
-                    labelInputFecha.Visible = false;
+                    DropDownListPerfilConsulta.Visible = false; labelDropDownListPerfilConsulta.Visible = false;
+                    inputFecha.Visible = false; labelInputFecha.Visible = false;
 
                     FieldsetAsociarUsuario.Visible = false;
                     FieldsetBotones.Visible = true;
@@ -154,6 +156,7 @@ namespace ProyectoInventarioOET
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfilCreacion.Visible = false;
                     break;
+
                 case (int)Modo.ModificarUsuario:
                     tituloAccionForm.Visible = true;
                     tituloAccionForm.InnerText = "Modifique la información del usuario.";
@@ -163,6 +166,7 @@ namespace ProyectoInventarioOET
                     FieldsetGrid.Visible = false;
                     FieldsetGridCuentas.Visible = false;
                     break;
+
                 case (int)Modo.InsercionPerfil:
                     tituloAccionForm.InnerText = "Ingrese los datos para el nuevo perfil";
                     FieldsetUsuario.Visible = false;
@@ -173,21 +177,18 @@ namespace ProyectoInventarioOET
                     FieldsetPerfil.Visible = true;
                     FieldsetPerfilCreacion.Visible = true;
                     break;
+
                 case (int)Modo.ConsultadoUsuario:
                     FieldsetUsuario.Visible = true;
                     FieldsetAsociarUsuario.Visible = false;
                     FieldsetBotones.Visible = false;
                     FieldsetGrid.Visible = false;
-
-                    inputPassword.Visible = false;
-                    inputPasswordConfirm.Visible = false;
-                    labelInputPassword.Visible = false;
-                    labelInputPasswordConfirm.Visible = false;
                     
-                    DropDownListPerfilConsulta.Visible = true;
-                    labelDropDownListPerfilConsulta.Visible = true;
-                    inputFecha.Visible = true;
-                    labelInputFecha.Visible = true;
+                    inputPassword.Visible = false; inputPasswordConfirm.Visible = false;
+                    labelInputPassword.Visible = false; labelInputPasswordConfirm.Visible = false;
+                    DropDownListPerfilConsulta.Visible = true; labelDropDownListPerfilConsulta.Visible = true;
+                    inputFecha.Visible = true; labelInputFecha.Visible = true;
+
                     this.gridViewBodegas.Enabled = false;
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfil.Visible = false;
@@ -532,17 +533,29 @@ namespace ProyectoInventarioOET
 
             ControladoraBodegas controladoraBodegas = new ControladoraBodegas();
             int i = 0;
+            String[] res = new String[3];
             foreach (GridViewRow fila in gridViewBodegas.Rows)
             {
                 if(((CheckBox)gridViewBodegas.Rows[i].FindControl("checkBoxBodegas")).Checked)
                 {
                     String llaveBodega = controladoraBodegas.consultarLlaveBodega(fila.Cells[1].Text, DropDownListEstacion.SelectedValue);
-                    String [] controladoraSeguridad.asociarABodega(codigo, llaveBodega, DropDownListEstacion.SelectedValue);
+                    res = controladoraSeguridad.asociarABodega(codigo, llaveBodega, DropDownListEstacion.SelectedValue);
 
                 }
                 i++;
                 
             }
+            mostrarMensaje(res[0], res[1], res[2]);
+            if (res[0].Contains("success"))
+            {
+                llenarGrid();
+            }
+            else
+            {
+                codigo = "";
+                modo = (int)Modo.InsercionUsuario;
+            }
+
             return codigo;
         }
 

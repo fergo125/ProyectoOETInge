@@ -205,7 +205,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
                 {
                     resultado[0] = "success";
                     resultado[1] = "Éxito:";
-                    resultado[2] = "Cuenta agregada agregada al sistema.";
+                    resultado[2] = "Cuenta agregada al sistema.";
                     resultado[3] = usuario.Codigo;
                 }
                 else
@@ -248,7 +248,22 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
 
         public String[] asociarABodega(String codigo, String llaveBodega, String idEstacion)
         {
-            String[] resultado = new String[4];
+            String esquema = "Inventarios.";
+            String[] resultado = new String[3];
+            String comandoSQL = "INSERT INTO " + esquema + "SEG_USUARIO_BODEGA (SEG_USUARIO_BODEGA, SEG_USUARIO, CAT_BODEGA, ESTACION) VALUES ('"
+                +generarID() + "','" + codigo + "','" + llaveBodega + "','" + idEstacion + "')";
+            if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
+            {
+                resultado[0] = "success";
+                resultado[1] = "Éxito:";
+                resultado[2] = "Cuenta agregada al sistema y asociado a las bodegas seleccionadas.";
+            }
+            else
+            {
+                resultado[0] = "danger";
+                resultado[1] = "Error:";
+                resultado[2] = "Cuenta no agregada, intente nuevamente.";
+            }
             return resultado;
         }
 

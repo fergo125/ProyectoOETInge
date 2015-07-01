@@ -122,9 +122,9 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         public EntidadUsuario consultarCuenta(String idUsuario)
         {
             DataTable[] cuenta = controladoraBDSeguridad.consultarCuenta(idUsuario); // en cuenta[1] van las bodegas
-            String [] perfil = controladoraBDSeguridad.consultarPerfilUsuario(idUsuario); 
+            //String [] perfil = controladoraBDSeguridad.consultarPerfilUsuario(idUsuario); 
             EntidadUsuario consultada = new EntidadUsuario(cuenta[0], cuenta[1]);
-            consultada.Perfil = perfil[0];
+            //consultada.Perfil = perfil[0];
             return consultada;
         }
 
