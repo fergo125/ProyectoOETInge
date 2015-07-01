@@ -173,7 +173,7 @@
                     <asp:UpdatePanel ID="UpdatePanelBodegas" runat="server">
                         <ContentTemplate>
                                                 <asp:Panel ID="PanelBodegas" runat="server" ScrollBars="Vertical" Height="300px">
-                            <asp:GridView ID="gridViewBodegas" CssClass="table" OnPageIndexChanging="gridViewBodegas_PageIndexChanging" runat="server" AllowPaging="false"  BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                            <asp:GridView ID="gridViewBodegas" CssClass="table"  runat="server" AllowPaging="false"  BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
 						        <Columns>
 							        <asp:TemplateField HeaderText="Seleccionar">
 								        <ItemTemplate>
