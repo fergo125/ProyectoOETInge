@@ -91,6 +91,7 @@ namespace ProyectoInventarioOET
                     FieldsetUsuario.Visible = false;
                     FieldsetBotones.Visible = false;
                     FieldsetGrid.Visible = false;
+                    FieldsetGridCuentas.Visible = false;
                     break;
                 case (int)Modo.InicialPerfil:
                     FieldsetBotonesPerfiles.Visible = true;
@@ -99,6 +100,7 @@ namespace ProyectoInventarioOET
                     FieldsetAsociarUsuario.Visible = false;
                     FieldsetBotones.Visible = false;
                     FieldsetGrid.Visible = false;
+                    FieldsetGridCuentas.Visible = false;
                     break;
                 case (int)Modo.InicialUsuario:
                     FieldsetBotonesUsuarios.Visible = true;
@@ -107,10 +109,12 @@ namespace ProyectoInventarioOET
                     FieldsetAsociarUsuario.Visible = false;
                     FieldsetBotones.Visible = false;
                     FieldsetGrid.Visible = false;
+                    FieldsetGridCuentas.Visible = false;
                     break;
                 case (int)Modo.ConsultaPerfil:
                     FieldsetGrid.Visible = true;
                     FieldsetPerfil.Visible = false;
+                    FieldsetGridCuentas.Visible = false;
                     break;
 
                 case (int)Modo.ConsultaUsuario:
@@ -118,18 +122,22 @@ namespace ProyectoInventarioOET
                     FieldsetGrid.Visible = true;
                     FieldsetBotones.Visible = false;
                     FieldsetAsociarUsuario.Visible = false;
+                    FieldsetGridCuentas.Visible = true;
+                    FieldsetPerfil.Visible = false;
                     break;
                 case (int)Modo.InsercionUsuario:
                     FieldsetUsuario.Visible = true;
                     FieldsetAsociarUsuario.Visible = false;
                     FieldsetBotones.Visible = true;
                     FieldsetGrid.Visible = false;
+                    FieldsetGridCuentas.Visible = false;
                     break;
                 case (int)Modo.AsociarUsuario:
                     FieldsetUsuario.Visible = false;
                     FieldsetAsociarUsuario.Visible = true;
                     FieldsetBotones.Visible = true;
                     FieldsetGrid.Visible = false;
+                    FieldsetGridCuentas.Visible = false;
                     break;
             }
         }
@@ -221,6 +229,7 @@ namespace ProyectoInventarioOET
         // Consulta los usuarios
         protected void botonConsultarUsuario_ServerClick(object sender, EventArgs e)
         {
+            llenarGrid();
             modo = (int)Modo.ConsultaUsuario;
             cambiarModo();
         }
@@ -327,7 +336,7 @@ namespace ProyectoInventarioOET
             try
             {
                 // Cargar usuarios
-                Object[] datos = new Object[4];
+                Object[] datos = new Object[3];
                 DataTable usuarios = controladoraSeguridad.consultarUsuarios();
                 if (usuarios.Rows.Count > 0)
                 {
@@ -336,9 +345,8 @@ namespace ProyectoInventarioOET
                     {
                         idArray[i] = fila[0];
                         datos[0] = fila[1].ToString();
-                        datos[1] = fila[3].ToString();
-                        datos[2] = fila[4].ToString();
-                        datos[3] = fila[5].ToString();
+                        datos[1] = fila[2].ToString();
+                        datos[2] = fila[3].ToString();
                         tabla.Rows.Add(datos);
                         if (usuarioConsultado != null && (fila[0].Equals(usuarioConsultado.Codigo)))
                         {
@@ -357,8 +365,8 @@ namespace ProyectoInventarioOET
                     mostrarMensaje("warning", "Atención: ", "No existen bodegas en la base de datos.");
                 }
 
-                this.gridViewGeneral.DataSource = tabla;
-                this.gridViewGeneral.DataBind();
+                this.gridViewCuentas.DataSource = tabla;
+                this.gridViewCuentas.DataBind();
             }
             catch (Exception e)
             {
@@ -390,7 +398,23 @@ namespace ProyectoInventarioOET
         protected DataTable tablaUsuarios()
         {
             DataTable tabla = new DataTable();
-            //A Carlos le toca implementarlo
+            DataColumn columna;
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Nombre";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Perfil";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Estado";
+            tabla.Columns.Add(columna);
+
             return tabla;
         }
 
@@ -426,6 +450,34 @@ namespace ProyectoInventarioOET
             {
                 DropDownListEstado.Items.Add(new ListItem(fila[1].ToString(), fila[2].ToString()));
             }
+        }
+
+        protected void gridViewCuentas_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            //if (idArrayAjustes != null && idArrayAjustes.Count() > 0)
+            {
+                switch (e.CommandName)
+                {
+                    case "Select":
+
+                        GridViewRow filaSeleccionada = this.gridViewCuentas.Rows[Convert.ToInt32(e.CommandArgument)];
+                        //String codigo = filaSeleccionada.Cells[0].Text.ToString();
+                        //codigo = Convert.ToString(idArrayAjustes[Convert.ToInt32(e.CommandArgument) + (this.gridViewAjustes.PageIndex * this.gridViewAjustes.PageSize)]);
+                        String codigo = "3";
+                        usuarioConsultado = controladoraSeguridad.consultarCuenta(codigo);
+                        break;
+                }
+            }
+        }
+
+        protected void gridViewCuentas_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+
+        }
+
+        protected void gridViewCuentas_Sorting(object sender, GridViewSortEventArgs e)
+        {
+
         }
 
     }

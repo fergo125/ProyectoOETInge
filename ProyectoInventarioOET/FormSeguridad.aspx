@@ -81,14 +81,11 @@
 
     <!-- Fieldset de informacion de usuario (crear/consultar/modificar) -->
     <fieldset id="FieldsetUsuario" class="fieldset" runat="server" visible="false">
-        <!-- Fieldset de consulta -->
-        <fieldset id="FieldsetUsuarioConsulta" class="fieldset" runat="server" visible="false">
-        </fieldset>
         <!-- Fieldset de creación -->
         <fieldset id="FieldsetUsuarioCreacion" class="fieldset" runat="server" visible="false">
         </fieldset>
-        <!-- Fieldset de modificación -->
-        <fieldset id="FieldsetUsuarioModificacion" class="fieldset" runat="server" visible="false">
+        <!-- Fieldset de consulta y modificación -->
+        <fieldset id="FieldsetUsuarioConsultaModificacion" class="fieldset" runat="server" visible="false">
         </fieldset>
         <div class="col-lg-12">
             <div class="col-lg-12 row">
@@ -142,6 +139,33 @@
             </div>
         </div>
     </fieldset>
+
+        <!-- Grid de consultas -->
+        <fieldset id="FieldsetGridCuentas" runat="server" class="fieldset">
+            <!-- Gridview de consultar -->
+            <div class="col-lg-12">
+                <strong><div ID="tituloGridConsulta" runat="server" visible="false" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Cuentas en Sistema</div></strong>
+                <asp:UpdatePanel ID="UpdatePanelCuentas" runat="server">
+                    <ContentTemplate>
+                        <asp:GridView ID="gridViewCuentas" CssClass="table" OnRowCommand="gridViewCuentas_RowCommand" OnPageIndexChanging="gridViewCuentas_PageIndexChanging" runat="server" AllowPaging="True" PageSize="10" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None" AllowSorting="true" OnSorting="gridViewCuentas_Sorting">
+                            <Columns>
+                                <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Consultar">
+                                    <ControlStyle CssClass="btn btn-default"></ControlStyle>
+                                </asp:ButtonField>
+                            </Columns>
+                            <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
+                            <PagerStyle CssClass="paging" HorizontalAlign="Center" />
+                            <AlternatingRowStyle BackColor="#F8F8F8" />
+                            <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
+                        </asp:GridView>
+                    </ContentTemplate>
+                    <Triggers>
+                        <asp:AsyncPostBackTrigger ControlID="gridViewCuentas" EventName="RowCommand" />
+                    </Triggers>
+                </asp:UpdatePanel>
+            </div>
+        </fieldset>         
+
 
     <!-- Fieldset de asociacion de usuario a perfil -->
     <fieldset id="FieldsetAsociarUsuario" class="fieldset" runat="server" visible="false">

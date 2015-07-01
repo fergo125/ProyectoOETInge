@@ -148,7 +148,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         }
 
 
-        public DataTable consultarCuentas()
+        public DataTable consultarUsuarios()
         {
             String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
@@ -199,14 +199,6 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
                     resultado[1] = "Error:";
                     resultado[2] = "Cuenta no agregada, intente nuevamente.";
                 }
-            return resultado;
-        }
-
-        //Consulta todos los usuarios
-        public DataTable consultarUsuarios()
-        {
-            DataTable resultado = new DataTable();
-            //Le toca a Carlos
             return resultado;
         }
 
