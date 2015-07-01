@@ -38,8 +38,8 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             // Si encuentro una única cuenta
             if(resultado.Rows.Count == 1)
             {
-                Object[] datosConsultados = new Object[9];
-                for(int i=0; i<9; ++i)
+                Object[] datosConsultados = new Object[10];
+                for(int i=0; i<10; ++i)
                     datosConsultados[i] = resultado.Rows[0][i].ToString();
                 usuario = new EntidadUsuario(datosConsultados);
                 String[] perfil = consultarPerfilUsuario(usuario.Codigo);
@@ -225,9 +225,8 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             //String[] resultado = new String[3];
             String esquema = "Inventarios.";
             String[] resultado = new String[4];
-            usuario.Codigo = generarID();
             String comandoSQL = "UPDATE " + esquema + "SEG_USUARIO SET USUARIO = '" + usuario.Usuario + "', DESCRIPCION = '" + usuario.Descripcion + "', IDESTACION = '"
-                + usuario.IdEstacion + "', ANFITRIONA = '" + usuario.Anfitriona + "', NOMBRE = '" + usuario.Nombre + "', ESTADO = " + usuario.Estado + ", DESCUENTO_MAXIMO ="
+                + usuario.IdEstacion + "', ANFITRIONA = '" + usuario.Anfitriona + "', NOMBRE = '" + usuario.Nombre + "', ESTADO = " + usuario.Estado + ", DESCUENTO_MAXIMO = "
                 + usuario.DescuentoMaximo + " WHERE SEG_USUARIO = '" + usuario.Codigo + "'";
 
             if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien

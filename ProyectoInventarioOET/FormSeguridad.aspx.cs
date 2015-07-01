@@ -98,6 +98,7 @@ namespace ProyectoInventarioOET
                     FieldsetGrid.Visible = false;
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfilCreacion.Visible = false;
+                    tituloAccionForm.InnerText = "";
                     break;
                 case (int)Modo.InicialPerfil:
                     FieldsetBotonesPerfiles.Visible = true;
@@ -504,6 +505,7 @@ namespace ProyectoInventarioOET
             else if (modo == (int)Modo.ModificarUsuario)
             {
                 operacionCorrecta = modificarUsuario();
+                modo = (int)Modo.Inicial;
             }
             if (operacionCorrecta)
             {
@@ -537,7 +539,7 @@ namespace ProyectoInventarioOET
                 if(((CheckBox)gridViewBodegas.Rows[i].FindControl("checkBoxBodegas")).Checked)
                 {
                     String llaveBodega = controladoraBodegas.consultarLlaveBodega(fila.Cells[1].Text, DropDownListEstacion.SelectedValue);
-                    String [] controladoraSeguridad.asociarABodega(codigo, llaveBodega, DropDownListEstacion.SelectedValue);
+                    //String [] controladoraSeguridad.asociarABodega(codigo, llaveBodega, DropDownListEstacion.SelectedValue);
 
                 }
                 i++;
@@ -551,12 +553,10 @@ namespace ProyectoInventarioOET
          */
         protected Boolean modificarUsuario()
         {
-            String codigo = "";
             Boolean exito = false;
             Object[] usuario = obtenerDatosCuenta();
             usuario[0] = usuarioConsultado.Codigo;
             String[] error = controladoraSeguridad.modificarUsuario(usuario);
-            codigo = Convert.ToString(error[3]);
             mostrarMensaje(error[0], error[1], error[2]);
             if (error[0].Contains("success"))
             {

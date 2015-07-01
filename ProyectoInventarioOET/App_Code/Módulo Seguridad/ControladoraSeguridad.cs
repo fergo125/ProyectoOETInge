@@ -191,7 +191,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         public String[] modificarUsuario(Object[] datosUsuario)
         {
             EntidadUsuario usuario = new EntidadUsuario(datosUsuario);
-            return controladoraBDSeguridad.insertarUsuario(usuario);
+            return controladoraBDSeguridad.modificarUsuario(usuario);
         }	
 
         //Consulta todos los usuarios
