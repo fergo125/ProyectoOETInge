@@ -96,12 +96,12 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         /*
          * ???
          */
-        public DataTable consultarFacturas(String idVendedor, String idBodega, String idEstacion, String idMetodoPago, String idCliente)
+        public DataTable consultarFacturas(String idVendedor, String idBodega, String idEstacion, String idMetodoPago, String idCliente, String fechaInicio, String fechaFinal)
         {
             String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
             String comandoSQL = "SELECT * FROM " + esquema + "REGISTRO_FACTURAS_VENTA";
-            if (idVendedor != "All" || idBodega != "All" || idEstacion != "All" || idMetodoPago != "All" || idCliente != "All") //Se debe parametrizar con alguno de los 3
+            if (idVendedor != "All" || idBodega != "All" || idEstacion != "All" || idMetodoPago != "All" || idCliente != "All" || fechaInicio!="" || fechaFinal!="") //Se debe parametrizar con alguno de los 3
             {
                 comandoSQL += " WHERE ";
                 if (idVendedor != "All")
@@ -114,6 +114,10 @@ namespace ProyectoInventarioOET.Modulo_Ventas
                     comandoSQL += "METODOPAGO = '" + idMetodoPago + "' AND ";
                 if (idCliente != "All")
                     comandoSQL += "CLIENTE = '" + idCliente + "' AND ";
+                if (fechaInicio != "")
+                    comandoSQL += "FECHAHORA >= TO_DATE('" + fechaInicio + "','DD/MM/YYYY') AND ";
+                if (fechaFinal != "")
+                    comandoSQL += "FECHAHORA <= TO_DATE('" + fechaFinal + "','DD/MM/YYYY') AND ";
                 comandoSQL = comandoSQL.Substring(0, comandoSQL.Length - 4); //se le quita el último pedazo de "AND " que haya quedado
             }
             comandoSQL += "ORDER BY CONSECUTIVO DESC";
