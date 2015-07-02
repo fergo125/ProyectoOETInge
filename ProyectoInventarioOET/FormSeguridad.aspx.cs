@@ -404,6 +404,7 @@ namespace ProyectoInventarioOET
         // Confirmación del modal de cancelación
         protected void botonAceptarModalCancelar_ServerClick(object sender, EventArgs e)
         {
+            limpiarCampos();
             modo = (int)Modo.Inicial;
             cambiarModo();
         }
@@ -595,6 +596,21 @@ namespace ProyectoInventarioOET
             this.DropDownListEstado.Enabled = habilitar;
             this.inputDescuentoMaximo.Disabled = !habilitar;
             this.DropDownListPerfilConsulta.Enabled = habilitar;
+        }
+
+        protected void limpiarCampos() 
+        {
+            this.inputUsuario.Value = "";
+            this.inputNombre.Value = "";
+            this.inputPassword.Value = "";
+            this.inputPasswordConfirm.Value = "";
+            this.inputFecha.Value = "";
+            this.DropDownListEstacion.SelectedValue = "";
+            this.inputDescripcion.Value = "";
+            this.DropDownListAnfitriona.SelectedValue = "";
+            this.DropDownListEstado.SelectedValue = "";
+            this.inputDescuentoMaximo.Value = "";
+            this.DropDownListPerfilConsulta.SelectedValue = "";
         }
 
         /*

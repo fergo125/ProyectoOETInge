@@ -300,8 +300,8 @@
                     ¿Está seguro que desea cancelar los cambios? Perdería todos los datos no guardados.
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="botonAceptarModalCancelar" class="btn btn-success-fozkr" runat="server" onserverclick="botonAceptarModalCancelar_ServerClick">Aceptar</button>
-                    <button type="button" id="botonCancelarModalCancelar" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
+                    <button type="button" id="botonAceptarModalCancelar" class="btn btn-success-fozkr" causesvalidation="false" runat="server" onserverclick="botonAceptarModalCancelar_ServerClick">Aceptar</button>
+                    <button type="button" id="botonCancelarModalCancelar" class="btn btn-danger-fozkr" causesvalidation="false" data-dismiss="modal">Cancelar</button>                   
                 </div>
             </div>
         </div>
