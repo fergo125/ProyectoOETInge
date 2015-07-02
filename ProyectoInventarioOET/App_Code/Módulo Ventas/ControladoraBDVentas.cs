@@ -150,7 +150,7 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
             EntidadFacturaVenta facturaConsultada = null;
-            Object[] datosConsultados = new Object[14];
+            Object[] datosConsultados = new Object[15];
             String comandoSQL = "SELECT * FROM " + esquema + "REGISTRO_FACTURAS_VENTA WHERE CONSECUTIVO= '" + llaveFactura + "'";
             resultado =  ejecutarComandoSQL(comandoSQL, true);
             if (resultado.Rows.Count == 1)
@@ -158,6 +158,7 @@ namespace ProyectoInventarioOET.Modulo_Ventas
                 for (int i = 0; i < 13; i++)
                     datosConsultados[i] = resultado.Rows[0][i].ToString();
                 datosConsultados[13] = consultarProductosDeFactura(llaveFactura); //productos asociados a factura
+                datosConsultados[14] = null; //varios métodos de pago
                 facturaConsultada = new EntidadFacturaVenta(datosConsultados);
             }
             return facturaConsultada;

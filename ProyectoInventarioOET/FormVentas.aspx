@@ -338,19 +338,14 @@
                     Escriba la cantidad pagada con cada uno (todos son opcionales)
                     <br />
                     <br />
-                    <asp:Panel ID="PanelmodalVariosMetodosPago" runat="server" ScrollBars="Vertical" Height="300px">
+                    <asp:Panel ID="PanelmodalVariosMetodosPago" runat="server" ScrollBars="Vertical" Height="350px">
                     <asp:GridView ID="gridViewModalVariosMetodosPago" CssClass="table" runat="server" AllowPaging="False" BorderColor="White" BorderStyle="Solid" BorderWidth="1px" GridLines="None" ShowHeaderWhenEmpty="True">
                         <Columns>
-							<asp:TemplateField HeaderText="Seleccionar">
-								<ItemTemplate>
-									<asp:CheckBox ID="gridViewModalVariosMetodosPagoSeleccionarMetodo" OnCheckedChanged="checkBoxCrearFacturaProductos_CheckCambiado" runat="server" AutoPostBack="true"/>
-								</ItemTemplate>
-							</asp:TemplateField>
-                            <asp:TemplateField HeaderText="Pago">
+                            <asp:TemplateField HeaderText="PAGO">
                                 <ItemTemplate>
-                                    <asp:TextBox ID="gridViewModalVariosMetodosPagoTextBoxPago" OnTextChanged="textBoxCrearFacturaProductosCantidad_TextoCambiado" ReadOnly="false" Width="75%" CausesValidation="true" AutoPostBack="true" runat="server"></asp:TextBox>
-                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="gridCrearFacturaTextBoxCantidadProducto" ClientValidationFunction="changeColor" Display="Dynamic"
-                                            ForeColor="Red" BorderStyle="Dotted" runat="server" ErrorMessage="Ingrese solo números enteros" Font-Bold="true" ValidationExpression="\d+$"></asp:RegularExpressionValidator>
+                                    <asp:TextBox ID="gridViewModalVariosMetodosPagoTextBoxPago" OnTextChanged="textBoxCrearFacturaProductosCantidad_TextoCambiado" ReadOnly="false" Width="40%" CausesValidation="true" runat="server"></asp:TextBox>
+                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="gridViewModalVariosMetodosPagoTextBoxPago" ClientValidationFunction="changeColor" Display="Dynamic"
+                                            ForeColor="Red" runat="server" ErrorMessage="Ingrese solo números enteros" Font-Bold="true" ValidationExpression="\d+$"></asp:RegularExpressionValidator>
                                 </ItemTemplate>
                             </asp:TemplateField>
                         </Columns>
@@ -361,12 +356,11 @@
                         <HeaderStyle CssClass="active" Font-Size="Small" Font-Bold="true" BackColor="Silver"/>
                     </asp:GridView>
                     </asp:Panel>
-                    <button type="button" ID="Button3" class="btn btn-danger-fozkr" onserverclick="clickBotonCrearEliminarProducto" style="float: left" disabled="disabled" runat="server">Eliminar Método</button>
                     <br />
                     <br />
                 </div>
                 <div class="modal-footer">
-                    <button type="button" ID="botonAceptarModalMetodosPago" causesvalidation="false" class="btn btn-success-fozkr" runat="server" onserverclick="clickBotonAceptarModalCancelar">Aceptar</button>
+                    <button type="button" ID="botonAceptarModalMetodosPago" causesvalidation="true" class="btn btn-success-fozkr" runat="server" onserverclick="clickBotonAceptarModalMetodosPago">Aceptar</button>
                     <button type="button" ID="botonCancelarModalMetodosPago" causesvalidation="false" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
                 </div>
             </div>
