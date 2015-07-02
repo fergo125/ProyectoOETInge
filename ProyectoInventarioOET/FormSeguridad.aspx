@@ -20,26 +20,58 @@
     </div>
 
     <!-- Botones de acción -->
-    <button runat="server" type="button" class=" btn btn-info-fozkr" id="botonUsuarios" onserverclick="botonUsuarios_ServerClick">Administrar usuarios</button>
-    <button runat="server" type="button" class=" btn btn-info-fozkr" id="botonPerfiles" onserverclick="botonPerfiles_ServerClick">Administrar perfiles</button>
+    <button runat="server" type="button" class=" btn btn-info-fozkr" id="botonUsuarios" causesvalidation="false" onserverclick="botonUsuarios_ServerClick">Administrar usuarios</button>
+    <button runat="server" type="button" class=" btn btn-info-fozkr" id="botonPerfiles" causesvalidation="false"  onserverclick="botonPerfiles_ServerClick">Administrar perfiles</button>
 
     <br /><br />
     <!-- Fieldset de administracion de perfiles -->
     <fieldset id= "FieldsetBotonesPerfiles" class="fieldset" runat="server" visible="false">
-        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonConsultarPerfil" onserverclick="botonConsultarPerfil_ServerClick">Consultar perfil</button>
-        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonCrearPerfil" onserverclick="botonCrearPerfil_ServerClick">Crear perfil</button>
-        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonModificarPerfil" disabled="disabled">Modificar perfil</button>
+        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonConsultarPerfil" causesvalidation="false" onserverclick="botonConsultarPerfil_ServerClick">Consultar perfil</button>
+        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonCrearPerfil" causesvalidation="false" onserverclick="botonCrearPerfil_ServerClick">Crear perfil</button>
+        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonModificarPerfil" causesvalidation="false" disabled="disabled">Modificar perfil</button>
     </fieldset>
     <!-- Fieldset de administracion de usuarios -->
     <fieldset id= "FieldsetBotonesUsuarios" class="fieldset" runat="server" visible="false">
-        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonConsultarUsuario" onserverclick="botonConsultarUsuario_ServerClick">Consultar usuario</button>
-        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonCrearUsuario" onserverclick="botonCrearUsuario_ServerClick">Crear usuario</button>
-        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonModificarUsuario" onserverclick="botonModificarUsuario_ServerClick" visible="false" >Modificar usuario</button>
+        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonConsultarUsuario" causesvalidation="false" onserverclick="botonConsultarUsuario_ServerClick">Consultar usuario</button>
+        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonCrearUsuario" causesvalidation="false" onserverclick="botonCrearUsuario_ServerClick">Crear usuario</button>
+        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonModificarUsuario" causesvalidation="false" onserverclick="botonModificarUsuario_ServerClick" visible="false" >Modificar usuario</button>
     </fieldset>
     <br />
 
     <!-- Título de la acción que se está realizando -->
     <h3 ID="tituloAccionForm" runat="server"></h3>
+
+
+    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" 
+                            ErrorMessage="La contraseña es un espacio necesario." 
+                            ControlToValidate="inputPassword"
+                            Font-Bold="true"
+                            ForeColor="Red"
+                            Display="Dynamic"
+                            CssClass="ValidationError">
+                            </asp:RequiredFieldValidator>
+
+                            <asp:CompareValidator ID="CompareValidator1" runat="server" 
+                            ControlToValidate="inputPasswordConfirm"
+                            CssClass="ValidationError"
+                            ControlToCompare="inputPassword"
+                            ClientValidationFunction="changeColor" 
+                            ForeColor="Red"
+                            Display="Dynamic"
+                            Font-Bold="true"
+                            ErrorMessage="La contraseña no coincide con lo ingresado en la confirmación."/>
+
+    
+                            <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" 
+                            ErrorMessage="Su contraseña debe tener una mayúscula, una minúscula, y un número. Debe ser de al menos 8 caracteres." 
+                            ControlToValidate="inputPassword"
+                            CssClass="ValidationError"
+                            ClientValidationFunction="changeColor" 
+                            ForeColor="Red"
+                            Font-Bold="true"
+                            Display="Dynamic"
+                            ValidationExpression="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"></asp:RegularExpressionValidator>
+
 
     <!-- Fieldset de informacion de perfil (crear/consultar/modificar) -->
     <fieldset id="FieldsetPerfil" class="fieldset" runat="server" visible="false">
@@ -69,7 +101,34 @@
                     </td>
                 </tr>
             </table>
-            <br /> <!-- Botones de Guardar/Cancelar para perfiles -->
+            <br />
+            
+            <!-- Grid de consultas de perfiles -->
+            <fieldset id="FieldsetConsultarPerfil" runat="server" class="fieldset">
+                <div class="col-lg-12">
+                    <strong><div ID="Div1" runat="server" visible="false" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Pefiles en Sistema</div></strong>
+                    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                        <ContentTemplate>
+                            <asp:GridView ID="gridViewConsultaPerfiles" CssClass="table" OnRowCommand="gridViewConsultaPerfiles_RowCommand" OnPageIndexChanging="gridViewConsultaPerfiles_PageIndexChanging" runat="server" AllowPaging="True" PageSize="10" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None" >
+                                <Columns>
+                                    <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Consultar">
+                                        <ControlStyle CssClass="btn btn-default"></ControlStyle>
+                                    </asp:ButtonField>
+                                </Columns>
+                                <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
+                                <PagerStyle CssClass="paging" HorizontalAlign="Center" />
+                                <AlternatingRowStyle BackColor="#F8F8F8" />
+                                <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
+                            </asp:GridView>
+                        </ContentTemplate>
+                        <Triggers>
+                            <asp:AsyncPostBackTrigger ControlID="gridViewConsultaPerfiles" EventName="RowCommand" />
+                        </Triggers>
+                    </asp:UpdatePanel>
+                </div>
+            </fieldset>
+
+            <!-- Botones de Guardar/Cancelar para perfiles -->
             <div class="col-lg-12" runat="server">
                 <div class="row">
                     <div class="text-center">
@@ -103,7 +162,7 @@
                 <div class="col-lg-4">
                     <div class= "form-group">
                         <label for="inputPassword" id="labelInputPassword" runat="server" class= "control-label">Contraseña:</label>
-                        <input id="inputPassword" runat="server" type="text" class="form-control" />
+                        <input id="inputPassword" runat="server" type="password" class="form-control" />
                         <label for="inputFecha" id="labelInputFecha" runat="server" class= "control-label">Fecha de creación:</label>
                         <input id="inputFecha" runat="server"  type="text" class="form-control" />
                     </div>
@@ -144,7 +203,7 @@
              <div class="col-lg-12"><strong><div ID="Div3" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;"> Bodegas</div></strong>
                     <asp:UpdatePanel ID="UpdatePanelBodegas" runat="server">
                         <ContentTemplate>
-                                                <asp:Panel ID="PanelBodegas" runat="server" ScrollBars="Vertical" Height="300px">
+                                                <asp:Panel ID="PanelBodegas" runat="server" ScrollBars="Vertical" Height="200px">
                             <asp:GridView ID="gridViewBodegas" CssClass="table"  runat="server" AllowPaging="false"  BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
 						        <Columns>
 							        <asp:TemplateField HeaderText="Seleccionar">
@@ -231,37 +290,15 @@
     </fieldset>
     <br />
 
-                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" 
-                            ErrorMessage="&laquo; (Requerido)" 
-                            ControlToValidate="inputPassword"
-                            CssClass="ValidationError"
-                            ToolTip="La contraseña es un espacio necesario">
-                            </asp:RequiredFieldValidator>
-                            <asp:CompareValidator ID="CompareValidator1" runat="server" 
-                            ControlToValidate="inputPasswordConfirm"
-                            CssClass="ValidationError"
-                            ControlToCompare="inputPassword"
-                            ClientValidationFunction="changeColor" 
-                            ForeColor="Red"
-                            ErrorMessage="La contraseña no es la misma" 
-                            ToolTip="La contraseña y la confirmación deben coincidir" />
                            <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" 
-                            ErrorMessage="&laquo; (Requerido)" 
+                            ErrorMessage="Es necesario que confirme su contraseña es un espacio necesario"
+                            Font-Bold="true"
                             ControlToValidate="inputPasswordConfirm"
                             ClientValidationFunction="changeColor" 
                             ForeColor="Red"
-                            CssClass="ValidationError"
-                            ToolTip="La confirmación de contraseña es requerida">
+                            Display="Dynamic"
+                            CssClass="ValidationError">
                             </asp:RequiredFieldValidator>
-                            <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" 
-                            ErrorMessage="&laquo; (Formato incorrecto)" 
-                            ControlToValidate="inputPasswordConfirm"
-                            CssClass="ValidationError"
-                            ClientValidationFunction="changeColor" 
-                            ForeColor="Red"
-                            ToolTip="Su contraseña debe tener una mayúscula, una minúscula, y un número. Debe ser de al menos 8 caracteres."
-                            ValidationExpression="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"></asp:RegularExpressionValidator>
-
 
     <!-- Fieldset de botones de aceptar/cancelar -->
     <fieldset id="FieldsetBotones" class="fieldset" runat="server" visible="false">
@@ -290,8 +327,8 @@
                     ¿Está seguro que desea cancelar los cambios? Perdería todos los datos no guardados.
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="botonAceptarModalCancelar" class="btn btn-success-fozkr" runat="server" onserverclick="botonAceptarModalCancelar_ServerClick">Aceptar</button>
-                    <button type="button" id="botonCancelarModalCancelar" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
+                    <button type="button" id="botonAceptarModalCancelar" class="btn btn-success-fozkr" causesvalidation="false" runat="server" onserverclick="botonAceptarModalCancelar_ServerClick">Aceptar</button>
+                    <button type="button" id="botonCancelarModalCancelar" class="btn btn-danger-fozkr" causesvalidation="false" data-dismiss="modal">Cancelar</button>                   
                 </div>
             </div>
         </div>

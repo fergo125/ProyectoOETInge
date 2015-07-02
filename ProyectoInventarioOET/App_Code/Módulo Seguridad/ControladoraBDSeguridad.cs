@@ -314,16 +314,44 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         /*
         * Modifica una cuenta dado un vector con los datos de la misma.
         */
-        public String[] modificarUsuario(EntidadUsuario usuario, List<String> listadoBodegas)
+        public String[] modificarUsuario(EntidadUsuario usuario, List<String> listadoBodegas, String perfil)
         {
             //String[] resultado = new String[3];
+            String idPerfil = consultarPerfilPorNombre(perfil);
             String esquema = "Inventarios.";
             String[] resultado = new String[4];
+            Boolean exito = true;
             String comandoSQL = "UPDATE " + esquema + "SEG_USUARIO SET USUARIO = '" + usuario.Usuario + "', DESCRIPCION = '" + usuario.Descripcion + "', IDESTACION = '"
                 + usuario.IdEstacion + "', ANFITRIONA = '" + usuario.Anfitriona + "', NOMBRE = '" + usuario.Nombre + "', ESTADO = " + usuario.Estado + ", DESCUENTO_MAXIMO = "
                 + usuario.DescuentoMaximo + " WHERE SEG_USUARIO = '" + usuario.Codigo + "'";
-
             if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
+            {
+                comandoSQL = "UPDATE " + esquema + "SEG_PERFIL_USUARIO SET SEG_PERFIL = '" + idPerfil + "' WHERE SEG_USUARIO = '" + usuario.Codigo + "'";
+                if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
+                {
+                    comandoSQL = "DELETE FROM " + esquema + "SEG_USUARIO_BODEGA WHERE SEG_USUARIO = '" + usuario.Codigo + "'";
+                    if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
+                    {
+                        foreach (String bodega in listadoBodegas)
+                        {
+                            comandoSQL = "INSERT INTO " + esquema + "SEG_USUARIO_BODEGA (SEG_USUARIO_BODEGA, SEG_USUARIO, CAT_BODEGA, ESTACION) VALUES ('"
+                            + generarID() + "','" + usuario.Codigo + "','" + bodega + "','" + usuario.IdEstacion + "')";
+                            if (ejecutarComandoSQL(comandoSQL, false) == null) //si no sale bien
+                                exito = false;
+                        }
+                    }
+                }
+                else
+                {
+                    exito = false;
+                }            
+            
+            }
+
+
+
+
+            if (exito)
             {
                 resultado[0] = "success";
                 resultado[1] = "Éxito:";
@@ -333,7 +361,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             {
                 resultado[0] = "danger";
                 resultado[1] = "Error:";
-                resultado[2] = "Cuenta no modificada, intente nuevamente.";
+                resultado[2] = "Cuenta no modificada, intente nuevamente.";                       
             }
             return resultado;
         }
@@ -371,6 +399,29 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             return resultado;
         }
 
+        /*
+         * Consulta el identificador de un perfil a partir de su nombre 
+         * 
+         */
+        public String consultarPerfilPorNombre(String nombrePerfil)
+        {
+            String esquema = "Inventarios.";
+            String idPerfil = "";
+            DataTable consultado = new DataTable();
+            String comandoSQL = " SELECT SEG_PERFIL"
+            + " FROM " + esquema + "seg_perfil WHERE NOMBRE = '" + nombrePerfil + "'";
+
+            consultado = ejecutarComandoSQL(comandoSQL, true);
+            if (consultado.Rows.Count > 0)
+            {
+                foreach (DataRow fila in consultado.Rows)
+                {
+                    idPerfil = fila[0].ToString();
+                }
+            }
+
+            return idPerfil;
+        }
 
     }
 }

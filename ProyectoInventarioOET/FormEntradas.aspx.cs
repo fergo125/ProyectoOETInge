@@ -489,6 +489,8 @@ namespace ProyectoInventarioOET
             tablaProductosNuevos = tablaFacturaDetallada();
             this.gridFacturaNueva.DataSource = tablaProductosNuevos;
             this.gridFacturaNueva.DataBind();
+            totalFactura = 0;
+            outputTotalFacturaNueva.InnerText = totalFactura.ToString();
             modo = (int)Modo.BusquedaFactura;
             facturaBuscada = "Todas";
             llenarGridFacturas();
