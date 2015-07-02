@@ -220,6 +220,7 @@ namespace ProyectoInventarioOET
                     FieldsetPerfil.Visible = false;
                     this.botonModificarUsuario.Disabled = false;
                     this.FieldsetBotonesUsuarios.Visible = true;
+                    this.botonModificarUsuario.Visible = true;
                     break;
             }
         }

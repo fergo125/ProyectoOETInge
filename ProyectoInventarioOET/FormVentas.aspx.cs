@@ -29,7 +29,8 @@ namespace ProyectoInventarioOET
         private static String codigoPerfilUsuario = "";                         //Indica el perfil del usuario, usado para acciones de seguridad para las cuales la string de permisos no basta
         private static Object[] idArray;                                        //Para llevar el control de las facturas consultadas
         private static List<bool> checksProductos;                              //Para guardar cuáles checks han sido marcados en el grid de productos durante el proceso de creación
-        private static List<int> cantidadesProductos;                           //Para guardar las cantidades en los textboxes del grid de productos durante el proceso de creación //TODO: usar esto
+        private static List<int> cantidadesProductos;                           //Para guardar las cantidades en los textboxes del grid de productos durante el proceso de creación
+        private static List<Tuple<String,double>> pagosVariosMetodosPago;       //Para guardar la cantidad pagada con cada método
         private static DataTable productosAgregados;                            //Para llenar el grid de productos al crear una factura
         private static DataTable facturasConsultadas;                           //Para llenar el grid y para mostrar los detalles de cada factura específica
         private static EntidadFacturaVenta facturaConsultada;                   //Entidad de factura para almacenar la consulta de la base de datos
@@ -793,7 +794,7 @@ namespace ProyectoInventarioOET
         protected Object[] obtenerDatos()
         {
             String[] datosEstacion = controladoraDatosGenerales.consultarEstacionDeBodega(((this.Master as SiteMaster).LlaveBodegaSesion));
-            Object[] datosFactura = new Object[14];
+            Object[] datosFactura = new Object[15];
             datosFactura[0] = null;                                                 //consecutivo, se autogenera al insertar a nivel de BD
             datosFactura[1] = DateTime.Now.Date.ToString("dd/MMM/yyyy") + ' ' + DateTime.Now.ToString("hh:mm:ss tt"); //fecha y hora
             datosFactura[2] = ((this.Master as SiteMaster).LlaveBodegaSesion);      //bodega (llave)
@@ -816,6 +817,7 @@ namespace ProyectoInventarioOET
                 datosFactura[10] = Math.Round((Convert.ToDouble(datosFactura[11]) * Convert.ToInt32(textBoxCrearFacturaTipoCambio.Text)), 2, MidpointRounding.AwayFromZero);  //montoTotalColones (dólares * tipocambio)
             }
             datosFactura[13] = obtenerProductosAgregados();                         //tabla de productos
+            datosFactura[14] = pagosVariosMetodosPago;                              //lista de varios pagos
             return datosFactura;
         }
 
@@ -1143,6 +1145,17 @@ namespace ProyectoInventarioOET
             nuevoAjusteRapido.agregarDetalle(datos);
             String [] resultado = controladoraAjustes.insertarAjuste(nuevoAjusteRapido);
             mostrarMensaje(resultado[0],resultado[1],resultado[2]);
+        }
+
+        /*
+         * Método que guarda las cantidades pagadas con cada método de pago
+         */
+        protected void clickBotonAceptarModalMetodosPago(object sender, EventArgs e)
+        {
+            pagosVariosMetodosPago = new List<Tuple<string, double>>();
+            foreach(GridViewRow fila in gridViewModalVariosMetodosPago.Rows)
+                if (((TextBox)fila.FindControl("gridViewModalVariosMetodosPagoTextBoxPago")).Text != "")
+                    pagosVariosMetodosPago.Add(new Tuple<String, double>(fila.Cells[2].Text, Convert.ToDouble(((TextBox)fila.FindControl("gridViewModalVariosMetodosPagoTextBoxPago")).Text)));
         }
 
         /*
