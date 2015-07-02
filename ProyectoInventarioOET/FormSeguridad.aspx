@@ -101,7 +101,34 @@
                     </td>
                 </tr>
             </table>
-            <br /> <!-- Botones de Guardar/Cancelar para perfiles -->
+            <br />
+            
+            <!-- Grid de consultas de perfiles -->
+            <fieldset id="FieldsetConsultarPerfil" runat="server" class="fieldset">
+                <div class="col-lg-12">
+                    <strong><div ID="Div1" runat="server" visible="false" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Pefiles en Sistema</div></strong>
+                    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                        <ContentTemplate>
+                            <asp:GridView ID="gridViewConsultaPerfiles" CssClass="table" OnRowCommand="gridViewConsultaPerfiles_RowCommand" OnPageIndexChanging="gridViewConsultaPerfiles_PageIndexChanging" runat="server" AllowPaging="True" PageSize="10" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None" >
+                                <Columns>
+                                    <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Consultar">
+                                        <ControlStyle CssClass="btn btn-default"></ControlStyle>
+                                    </asp:ButtonField>
+                                </Columns>
+                                <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
+                                <PagerStyle CssClass="paging" HorizontalAlign="Center" />
+                                <AlternatingRowStyle BackColor="#F8F8F8" />
+                                <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver" />
+                            </asp:GridView>
+                        </ContentTemplate>
+                        <Triggers>
+                            <asp:AsyncPostBackTrigger ControlID="gridViewConsultaPerfiles" EventName="RowCommand" />
+                        </Triggers>
+                    </asp:UpdatePanel>
+                </div>
+            </fieldset>
+
+            <!-- Botones de Guardar/Cancelar para perfiles -->
             <div class="col-lg-12" runat="server">
                 <div class="row">
                     <div class="text-center">
@@ -300,8 +327,8 @@
                     ¿Está seguro que desea cancelar los cambios? Perdería todos los datos no guardados.
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="botonAceptarModalCancelar" class="btn btn-success-fozkr" runat="server" onserverclick="botonAceptarModalCancelar_ServerClick">Aceptar</button>
-                    <button type="button" id="botonCancelarModalCancelar" class="btn btn-danger-fozkr" data-dismiss="modal">Cancelar</button>                   
+                    <button type="button" id="botonAceptarModalCancelar" class="btn btn-success-fozkr" causesvalidation="false" runat="server" onserverclick="botonAceptarModalCancelar_ServerClick">Aceptar</button>
+                    <button type="button" id="botonCancelarModalCancelar" class="btn btn-danger-fozkr" causesvalidation="false" data-dismiss="modal">Cancelar</button>                   
                 </div>
             </div>
         </div>

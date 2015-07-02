@@ -12,21 +12,21 @@ namespace ProyectoInventarioOET.Modulo_Ventas
     public class EntidadFacturaVenta
     {
         //Atributos
-        private String consecutivo;
-        private String fechaYhora;
-        private String estacion;
-        private String bodega;
-        private String compania;
-        private String vendedor;
-        private String tipoMoneda;
-        private String metodoPago;
-        private String cliente;
-        private String actividad;
-        private String estado;
-        private double montoTotalColones;
-        private double montoTotalDolares;
-        private DataTable productos;
-
+        private String consecutivo;         //Número de la factura, llave
+        private String fechaYhora;          //Fecha y hora de la creación de la factura
+        private String estacion;            //Estación donde fue creada la factura
+        private String bodega;              //Bodega donde fue creada la factura
+        private String compania;            //Compañía a la que está asociada la factura
+        private String vendedor;            //Vendedor que creó la factura
+        private String tipoMoneda;          //Tipo de moneda usada en la creación de la factura
+        private String metodoPago;          //Método de pago usado, puede ser "VARIOS"
+        private String cliente;             //Cliente (empleado de la OET) de la venta
+        private String actividad;           //Actividad a la que está asociada la factura
+        private String estado;              //Estado de la factura (puede anularse)
+        private double montoTotalColones;   //Monto total pagado en colones
+        private double montoTotalDolares;   //Monto total pagado en dólares
+        private DataTable productos;        //Lista de productos que fueron vendidos
+        private List<Tuple<String, double>> pagosVariosMetodosPago;    //Opcional, cuando se paga con "VARIOS" métodos de pago, se guarda cuáles y lo pagado con cada uno
 
         /*
          * Constructor de la clase, recibe datos iniciales para crear una instancia de factura.
@@ -47,6 +47,7 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             this.montoTotalDolares = Convert.ToDouble(datos[11].ToString());
             this.estado = datos[12].ToString().ToString();
             this.productos = (datos[13] == null ? null : (DataTable)datos[13]);
+            this.pagosVariosMetodosPago = (datos[14] == null ? null : (List<Tuple<String, double>>)datos[14]);
         }
 
 
@@ -141,9 +142,10 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             set { productos = value; }
         }
 
-        /*
-         * Métodos de acceso a datos (setters y getters).
-         * Permiten obtener o manipular los atributos, cada método se refiere al atributo del mismo nombre.
-         */
+        public List<Tuple<String, double>> PagosVariosMetodosPago
+        {
+            get { return pagosVariosMetodosPago; }
+            set { pagosVariosMetodosPago = value; }
+        }
     }
 }
