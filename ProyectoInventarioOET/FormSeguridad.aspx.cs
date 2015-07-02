@@ -218,6 +218,7 @@ namespace ProyectoInventarioOET
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfil.Visible = false;
                     this.botonModificarUsuario.Disabled = false;
+                    this.botonModificarUsuario.Visible = true;
                     this.FieldsetBotonesUsuarios.Visible = true;
                     break;
             }
@@ -570,8 +571,8 @@ namespace ProyectoInventarioOET
                 }
                 i++;
             }
-
-            String[] error = controladoraSeguridad.modificarUsuario(usuario, listadoBodegas);
+            String perfil = DropDownListPerfilConsulta.SelectedItem.Text;
+            String[] error = controladoraSeguridad.modificarUsuario(usuario, listadoBodegas, perfil);
             mostrarMensaje(error[0], error[1], error[2]);
             if (error[0].Contains("success"))
             {
