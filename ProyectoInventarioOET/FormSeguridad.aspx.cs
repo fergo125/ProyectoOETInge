@@ -114,6 +114,8 @@ namespace ProyectoInventarioOET
                     FieldsetGrid.Visible = false;
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfilCreacion.Visible = false;
+                    this.botonModificarUsuario.Disabled = true;
+                    tituloAccionForm.InnerText = "";
                     break;
 
                 case (int)Modo.InicialUsuario:
@@ -126,6 +128,8 @@ namespace ProyectoInventarioOET
                     FieldsetGrid.Visible = false;
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfilCreacion.Visible = false;
+                    this.botonModificarUsuario.Disabled = true;
+                    tituloAccionForm.InnerText = "";
                     break;
 
                 case (int)Modo.ConsultaPerfil:
@@ -145,6 +149,7 @@ namespace ProyectoInventarioOET
                     FieldsetGridCuentas.Visible = true;
                     FieldsetPerfil.Visible = false;
                     FieldsetPerfilCreacion.Visible = false;
+                    this.botonModificarUsuario.Disabled = true;
                     break;
 
                 case (int)Modo.InsercionUsuario:
@@ -212,7 +217,7 @@ namespace ProyectoInventarioOET
                     this.gridViewBodegas.Enabled = false;
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfil.Visible = false;
-                    this.botonModificarUsuario.Visible = true;
+                    this.botonModificarUsuario.Disabled = false;
                     this.FieldsetBotonesUsuarios.Visible = true;
                     break;
             }
@@ -399,6 +404,7 @@ namespace ProyectoInventarioOET
         // Confirmación del modal de cancelación
         protected void botonAceptarModalCancelar_ServerClick(object sender, EventArgs e)
         {
+            limpiarCampos();
             modo = (int)Modo.Inicial;
             cambiarModo();
         }
@@ -590,6 +596,21 @@ namespace ProyectoInventarioOET
             this.DropDownListEstado.Enabled = habilitar;
             this.inputDescuentoMaximo.Disabled = !habilitar;
             this.DropDownListPerfilConsulta.Enabled = habilitar;
+        }
+
+        protected void limpiarCampos() 
+        {
+            this.inputUsuario.Value = "";
+            this.inputNombre.Value = "";
+            this.inputPassword.Value = "";
+            this.inputPasswordConfirm.Value = "";
+            this.inputFecha.Value = "";
+            this.DropDownListEstacion.SelectedValue = "";
+            this.inputDescripcion.Value = "";
+            this.DropDownListAnfitriona.SelectedValue = "";
+            this.DropDownListEstado.SelectedValue = "";
+            this.inputDescuentoMaximo.Value = "";
+            this.DropDownListPerfilConsulta.SelectedValue = "";
         }
 
         /*
