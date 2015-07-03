@@ -71,6 +71,35 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         }
 
         /*
+         * Asigna un perfil al usuario recien creado.
+         */
+        public String[] asociarPerfilNuevoUsuario(String llaveUsuario, String llavePerfil)
+        {
+            String esquema = "Inventarios.";
+            String[] resultado = new String[3];
+            String id = generarID();
+            String comandoSQL = "INSERT INTO " + esquema + "SEG_PERFIL_USUARIO VALUES ('"
+                + id + "', '"
+                + llaveUsuario + "','"
+                + llavePerfil + "')";
+            if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
+            {
+                    resultado[0] = "success";
+                    resultado[1] = "Éxito";
+                    resultado[2] = "Perfil creado con éxito";
+            }
+            else
+            {
+                resultado[0] = "danger";
+                resultado[1] = "Error";
+                resultado[2] = "Error al intentar crear el nuevo perfil.";
+            }
+            return resultado;
+        }
+
+
+
+        /*
          * Insertar un perfil.
          */
         public String[] insertarPerfil(String nombre, int nivel, String[] permisos)
@@ -292,8 +321,9 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             String esquema = "Inventarios.";
             String[] resultado = new String[4];
             usuario.Codigo = generarID();
+            usuario.FechaCreacion = Convert.ToDateTime(DateTime.Now.ToString("dd-MMM-yyyy"));
             String comandoSQL = "INSERT INTO " + esquema + "SEG_USUARIO (SEG_USUARIO, USUARIO, CLAVE,FECHACREACION,DESCRIPCION,IDESTACION,ANFITRIONA,NOMBRE, ESTADO, DESCUENTO_MAXIMO) VALUES ('"
-                + usuario.Codigo + "','" + usuario.Usuario + "','" + usuario.Clave + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','" + usuario.Descripcion + "','" 
+                + usuario.Codigo + "','" + usuario.Usuario + "','" + usuario.Clave + "','" + usuario.FechaCreacion + "','" + usuario.Descripcion + "','" 
                 + usuario.IdEstacion +"','" + usuario.Anfitriona +"','" + usuario.Nombre +"'," + usuario.Estado +",15)";
                 if(ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
                 {

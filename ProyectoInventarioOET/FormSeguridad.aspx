@@ -169,8 +169,8 @@
                     <div class= "form-group">
 
                         
-                        <label for="DropDownListPerfilConsulta" id="labelDropDownListPerfilConsulta" runat="server" class="control-label">Perfil:</label>
-                        <asp:DropDownList ID="DropDownListPerfilConsulta" runat="server" CssClass="form-control"></asp:DropDownList>
+                        <label for="DropDownListPerfilConsulta"  id="labelDropDownListPerfilConsulta" runat="server" class="control-label">Perfil:</label>
+                        <asp:DropDownList ID="DropDownListPerfilConsulta"  OnSelectedIndexChanged="dropDownListCrearPerfilNivel_SelectedIndexChanged" AutoPostBack="true"  runat="server" CssClass="form-control"></asp:DropDownList>
                     </div>
                 </div>
                 <div class="col-lg-4">

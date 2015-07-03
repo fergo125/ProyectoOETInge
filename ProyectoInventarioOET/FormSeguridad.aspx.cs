@@ -24,6 +24,7 @@ namespace ProyectoInventarioOET
         private static EntidadUsuario usuarioConsultado;                        //Entidad que almacena la cuenta consultada
         private static Boolean seConsulto = false;                              //Bandera que revisa si ya se consulto o no                       //???
         private static Object[] idArray;                                //Array de ids para almacenar los usuarios
+        private static String perfilSeleccionado="";                                //Array de ids para almacenar los usuarios
         private static Object[] idBodegas;                                //Array de ids para almacenar los usuarios
         private static DataTable tablaCuentas;
         private static DataTable tablaPerfiles;                         // Datatable para almacenar los perfiles de consulta
@@ -527,12 +528,13 @@ namespace ProyectoInventarioOET
                 if(((CheckBox)gridViewBodegas.Rows[i].FindControl("checkBoxBodegas")).Checked)
                 {
                     String llaveBodega = controladoraBodegas.consultarLlaveBodega(fila.Cells[1].Text, DropDownListEstacion.SelectedValue);
-                    res = controladoraSeguridad.asociarABodega(codigo, llaveBodega, DropDownListEstacion.SelectedValue);
+                    res = controladoraSeguridad.asociarABodega(codigo, llaveBodega, perfilSeleccionado);
 
                 }
                 i++;
                 
             }
+            res = controladoraSeguridad.asociarPerfilNuevoUsuario(codigo, perfilSeleccionado);
             mostrarMensaje(res[0], res[1], res[2]);
             if (res[0].Contains("success"))
             {
@@ -901,6 +903,11 @@ namespace ProyectoInventarioOET
          */
         protected void ArbolPermisos_TreeNodeCollapsed(object sender, TreeNodeEventArgs e)
         {
+        }
+
+        protected void dropDownListCrearPerfilNivel_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            perfilSeleccionado = DropDownListPerfilConsulta.SelectedValue;
         }
 
     }
