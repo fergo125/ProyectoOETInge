@@ -64,7 +64,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             {
                 Object[] datosConsultados = new Object[3];
                 for (int i = 0; i < 3; ++i)
-                    datosConsultados[i] = resultado.Rows[0][i].ToString();
+                    datosConsultados[i] = resultado.Rows[0][i + 1].ToString();
                 perfil = new EntidadPerfil(datosConsultados);
             }
             return perfil;
@@ -451,6 +451,23 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             }
 
             return idPerfil;
+        }
+
+        public Boolean nombreUsuarioRepetido(String nombreUsuario)
+        {
+            Boolean repetido = false;
+            String esquema = "Inventarios.";
+            String comandoSQL = " SELECT SEG_USUARIO"
+            + " FROM " + esquema + "SEG_USUARIO WHERE USUARIO = '" + nombreUsuario + "'";
+            DataTable consultado = new DataTable();
+            consultado = ejecutarComandoSQL(comandoSQL, true);
+            
+            if (consultado.Rows.Count > 0)
+            {
+                repetido = true;
+            }
+
+            return repetido;
         }
 
     }

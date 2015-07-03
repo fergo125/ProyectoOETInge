@@ -231,5 +231,10 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             return controladoraBDSeguridad.asociarPerfilNuevoUsuario(llaveUsuario, llavePerfil);
         }
 
+        public Boolean nombreUsuarioRepetido(String nombreUsuario)
+        {
+            return controladoraBDSeguridad.nombreUsuarioRepetido(nombreUsuario);        
+        }
+    
     }
 }
