@@ -14,7 +14,7 @@ namespace ProyectoInventarioOET
     public partial class FormSeguridad : System.Web.UI.Page
     {
 
-        enum Modo { Inicial, InicialPerfil, InicialUsuario, ConsultaPerfil, InsercionPerfil, ModificacionPerfil, ConsultaUsuario, InsercionUsuario, ModificarUsuario, ConsultadoUsuario };
+        enum Modo { Inicial, InicialPerfil, InicialUsuario, ConsultaPerfil, InsercionPerfil, ModificacionPerfil, ConsultaUsuario, InsercionUsuario, ModificarUsuario, ConsultadoUsuario, ConsultadoPerfil };
        // Atributos
         private static int modo = (int)Modo.Inicial;                    // Modo actual de la pagina
         private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
@@ -22,8 +22,10 @@ namespace ProyectoInventarioOET
         private static ControladoraDatosGenerales controladoraDatosGenerales;   //Controladora para consultar las estaciones
         private static ControladoraBodegas controladoraBodegas;
         private static EntidadUsuario usuarioConsultado;                        //Entidad que almacena la cuenta consultada
+        private static EntidadPerfil perfilConsultado;                          //Entidad que almacena el perfil consultado
         private static Boolean seConsulto = false;                              //Bandera que revisa si ya se consulto o no                       //???
         private static Object[] idArray;                                //Array de ids para almacenar los usuarios
+        private static Object[] idArrayPerfiles;                        //Array de ids para almacenar los perfiles
         private static Object[] idBodegas;                                //Array de ids para almacenar los usuarios
         private static DataTable tablaCuentas;
         private static DataTable tablaPerfiles;                         // Datatable para almacenar los perfiles de consulta
@@ -103,6 +105,7 @@ namespace ProyectoInventarioOET
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfilCreacion.Visible = false;
                     tituloAccionForm.InnerText = "";
+                    FieldsetConsultarPerfil.Visible = false;
                     break;
 
                 case (int)Modo.InicialPerfil:
@@ -117,6 +120,7 @@ namespace ProyectoInventarioOET
                     FieldsetPerfilCreacion.Visible = false;
                     this.botonModificarUsuario.Disabled = true;
                     tituloAccionForm.InnerText = "";
+                    FieldsetConsultarPerfil.Visible = false;
                     break;
 
                 case (int)Modo.InicialUsuario:
@@ -131,6 +135,7 @@ namespace ProyectoInventarioOET
                     FieldsetPerfilCreacion.Visible = false;
                     this.botonModificarUsuario.Disabled = true;
                     tituloAccionForm.InnerText = "";
+                    FieldsetConsultarPerfil.Visible = false;
                     break;
 
                 case (int)Modo.ConsultaPerfil:
@@ -139,6 +144,7 @@ namespace ProyectoInventarioOET
                     FieldsetPerfil.Visible = false;
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfilCreacion.Visible = false;
+                    FieldsetConsultarPerfil.Visible = true;
                     break;
 
                 case (int)Modo.ConsultaUsuario:
@@ -151,6 +157,7 @@ namespace ProyectoInventarioOET
                     FieldsetPerfil.Visible = false;
                     FieldsetPerfilCreacion.Visible = false;
                     this.botonModificarUsuario.Disabled = true;
+                    FieldsetConsultarPerfil.Visible = false;
                     break;
 
                 case (int)Modo.InsercionUsuario:
@@ -170,6 +177,7 @@ namespace ProyectoInventarioOET
                     FieldsetGrid.Visible = false;
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfilCreacion.Visible = false;
+                    FieldsetConsultarPerfil.Visible = false;
                     break;
 
                 case (int)Modo.ModificarUsuario:
@@ -182,6 +190,7 @@ namespace ProyectoInventarioOET
                     FieldsetGridCuentas.Visible = false;
                     gridViewBodegas.Enabled = true;
                     this.inputFecha.Disabled = true;
+                    FieldsetConsultarPerfil.Visible = false;
                     break;
 
                 case (int)Modo.InsercionPerfil:
@@ -194,6 +203,10 @@ namespace ProyectoInventarioOET
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfil.Visible = true;
                     FieldsetPerfilCreacion.Visible = true;
+                    botonAceptarCreacionPerfil.Visible = false;
+                    botonCancelarCreacionPerfil.Visible = false;
+                    FieldsetConsultarPerfil.Visible = false;
+                    habilitarCamposPerfil(true);
                     break;
                 //case (int)Modo.AsociarUsuario:
                 //    FieldsetUsuario.Visible = false;
@@ -219,6 +232,23 @@ namespace ProyectoInventarioOET
                     this.botonModificarUsuario.Visible = true;
                     this.FieldsetBotonesUsuarios.Visible = true;
                     this.botonModificarUsuario.Visible = true;
+                    FieldsetConsultarPerfil.Visible = false;
+                    break;
+
+                case (int)Modo.ConsultadoPerfil:
+                    tituloAccionForm.InnerText = "Datos del Perfil";
+                    ArbolPermisos.Enabled = false;
+                    FieldsetUsuario.Visible = false;
+                    FieldsetAsociarUsuario.Visible = false;
+                    FieldsetBotones.Visible = false;
+                    FieldsetGrid.Visible = false;
+                    FieldsetGridCuentas.Visible = false;
+                    FieldsetPerfil.Visible = true;
+                    FieldsetPerfilCreacion.Visible = true;
+                    botonAceptarCreacionPerfil.Visible = false;
+                    botonCancelarCreacionPerfil.Visible = false;
+                    FieldsetConsultarPerfil.Visible = true;
+                    habilitarCamposPerfil(false);
                     break;
             }
         }
@@ -431,6 +461,7 @@ namespace ProyectoInventarioOET
         // Consulta perfiles
         protected void botonConsultarPerfil_ServerClick(object sender, EventArgs e)
         {
+            llenarGridPerfiles();
             modo = (int)Modo.ConsultaPerfil;
             cambiarModo();
         }
@@ -599,6 +630,16 @@ namespace ProyectoInventarioOET
             this.gridViewBodegas.Enabled = habilitar;
         }
 
+        /*
+         * Metodo que habilita o deshabilita los campos de perfiles
+         */
+        protected void habilitarCamposPerfil(bool habilitar)
+        {
+            this.textBoxCrearPerfilNombre.Disabled = !habilitar;
+            this.dropDownListCrearPerfilNivel.Enabled = habilitar;
+            this.PanelArbolPermisos.Enabled = habilitar;
+        }
+
         protected void limpiarCampos() 
         {
             this.inputUsuario.Value = "";
@@ -615,7 +656,8 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * Metodo que llena el grid de cuentas consultadas*/
+         * Metodo que llena el grid de cuentas consultadas
+         */
         protected void llenarGrid()
         {
             tablaCuentas = tablaUsuarios();
@@ -661,11 +703,56 @@ namespace ProyectoInventarioOET
             {
                 //mostrarMensaje("warning", "Alerta", "No hay conexión a la base de datos.");
             }
-    
-
-
         }
 
+
+        /*
+         * Metodo que llena el grid de perfiles
+         * Viaja a la base de datos y carga los datos a memoria
+         */
+        protected void llenarGridPerfiles()
+        {
+            tablaPerfiles = crearTablaPerfiles();
+            int indiceNuevoPerfil = -1;
+            int i = 0;
+
+            try
+            {
+                // Cargar usuarios
+                Object[] datos = new Object[2];
+                DataTable perfiles = controladoraSeguridad.consultarPerfiles();
+                if (perfiles.Rows.Count > 0)
+                {
+                    idArrayPerfiles = new Object[perfiles.Rows.Count];
+                    foreach (DataRow fila in perfiles.Rows)
+                    {
+                        idArrayPerfiles[i] = fila[1];
+                        datos[0] = fila[1].ToString();
+                        datos[1] = fila[3].ToString();
+                        tablaPerfiles.Rows.Add(datos);
+                        if (perfilConsultado != null && (fila[0].Equals(perfilConsultado.Nombre)))
+                        {
+                            indiceNuevoPerfil = i;
+                        }
+                        i++;
+                    }
+                }
+                else
+                {
+                    datos[0] = "-";
+                    datos[1] = "-";
+                    tablaPerfiles.Rows.Add(datos);
+                    mostrarMensaje("warning", "Atención: ", "No existen perfiles en la base de datos.");
+                }
+
+                this.gridViewConsultaPerfiles.DataSource = tablaPerfiles;
+                this.gridViewConsultaPerfiles.DataBind();
+            }
+            catch (Exception e)
+            {
+                mostrarMensaje("warning", "Alerta", "No hay conexión a la base de datos.");
+            }
+        }
 
         protected Object[] obtenerDatosCuenta()
         {
@@ -776,7 +863,18 @@ namespace ProyectoInventarioOET
         protected DataTable crearTablaPerfiles()
         {
             DataTable tabla = new DataTable();
-            // Toca implementarlo
+            DataColumn columna;
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Nombre";
+            tabla.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.Int32");
+            columna.ColumnName = "Nivel";
+            tabla.Columns.Add(columna);
+
             return tabla;
         }
 
@@ -808,7 +906,7 @@ namespace ProyectoInventarioOET
 
 
         /*
-         * Método auxiliar que viaja a la base de datos y maneja la consulta de ajustes
+         * Método auxiliar que viaja a la base de datos y maneja la consulta de cuentas
          */
         protected void consultarCuenta(String id)
         {
@@ -825,6 +923,26 @@ namespace ProyectoInventarioOET
             }
             cambiarModo();
         }
+
+        /*
+         * Método auxiliar que viaja a la base de datos y maneja la consulta de perfiles
+         */
+        protected void consultarPerfil(String id)
+        {
+            seConsulto = true;
+            try
+            {
+                perfilConsultado = controladoraSeguridad.consultarPerfil(id);
+                modo = (int)Modo.ConsultadoPerfil;
+            }
+            catch
+            {
+                perfilConsultado = null;
+                modo = (int)Modo.Inicial;
+            }
+            cambiarModo();
+        }
+
 
         /*
          * Procedimiento invocado cuando se selecciona uno de los usuarios para consultar su información.
@@ -867,8 +985,8 @@ namespace ProyectoInventarioOET
                     case "Select":
 
                         GridViewRow filaSeleccionada = this.gridViewConsultaPerfiles.Rows[Convert.ToInt32(e.CommandArgument)];
-                        String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewConsultaPerfiles.PageIndex * this.gridViewConsultaPerfiles.PageSize)]);
-                        //consultarPerfil(codigo);
+                        String codigo = Convert.ToString(idArrayPerfiles[Convert.ToInt32(e.CommandArgument) + (this.gridViewConsultaPerfiles.PageIndex * this.gridViewConsultaPerfiles.PageSize)]);
+                        consultarPerfil(codigo);
                         Response.Redirect("FormSeguridad.aspx");
                         break;
                 }

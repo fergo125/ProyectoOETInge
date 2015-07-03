@@ -64,7 +64,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             {
                 Object[] datosConsultados = new Object[3];
                 for (int i = 0; i < 3; ++i)
-                    datosConsultados[i] = resultado.Rows[0][i].ToString();
+                    datosConsultados[i] = resultado.Rows[0][i + 1].ToString();
                 perfil = new EntidadPerfil(datosConsultados);
             }
             return perfil;
