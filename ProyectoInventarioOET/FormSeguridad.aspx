@@ -149,10 +149,33 @@
                 <div class="col-lg-4 form-group">
                     <label for="inputNombre" class= "control-label">Nombre completo:</label>
                     <input id="inputNombre" runat="server"  type="text"  class="form-control"/>
+                    
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" 
+                            ErrorMessage="Este espacio es requerido." 
+                            ControlToValidate="inputNombre"
+                            Font-Bold="true"
+                            ForeColor="Red"
+                            Display="Dynamic"
+                            CssClass="ValidationError">
+                            </asp:RequiredFieldValidator>
                 </div>
+
+
+
                 <div class="col-lg-4 form-group">
                     <label for="inputUsuario" class= "control-label">Nombre de usuario:</label>      
                     <input id="inputUsuario" runat="server" type="text" class="form-control" />
+
+                    
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" 
+                            ErrorMessage="Este espacio es requerido." 
+                            ControlToValidate="inputUsuario"
+                            Font-Bold="true"
+                            ForeColor="Red"
+                            Display="Dynamic"
+                            CssClass="ValidationError">
+                            </asp:RequiredFieldValidator>
+
                 </div>
                 <div class="col-lg-4">
                     <label for="inputEstacion" class="control-label">Estación:</label>
