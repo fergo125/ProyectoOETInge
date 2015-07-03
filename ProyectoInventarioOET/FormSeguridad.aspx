@@ -163,16 +163,13 @@
             <div class="col-lg-12 row">
                 <div class="col-lg-4">
                     <div class= "form-group">
-                        <label for="inputPassword" id="labelInputPassword" runat="server" class= "control-label">Contraseña:</label>
-                        <input id="inputPassword" runat="server" type="password" class="form-control" />
                         <label for="inputFecha" id="labelInputFecha" runat="server" class= "control-label">Fecha de creación:</label>
                         <input id="inputFecha" runat="server"  type="text" class="form-control" />
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class= "form-group">
-                        <label for="inputPasswordConfirm" id="labelInputPasswordConfirm" runat="server" class= "control-label">Confirmar contraseña:</label>
-                        <input id="inputPasswordConfirm" runat="server"  type="password"  class="form-control"/>
+
                         
                         <label for="DropDownListPerfilConsulta" id="labelDropDownListPerfilConsulta" runat="server" class="control-label">Perfil:</label>
                         <asp:DropDownList ID="DropDownListPerfilConsulta" runat="server" CssClass="form-control"></asp:DropDownList>
@@ -198,6 +195,18 @@
                     <label for="DropDownListEstado" class="control-label">Estado:</label>
                     <asp:DropDownList ID="DropDownListEstado" runat="server" CssClass="form-control"></asp:DropDownList>
                 </div>
+            </div>
+            <div class="col-lg-12 row">
+                <br />
+                <div class="col-lg-4">
+                    <label for="inputPassword" id="labelInputPassword" runat="server" class= "control-label">Contraseña:</label>
+                    <input id="inputPassword" runat="server" type="password" class="form-control" />
+                 </div>
+                <div class="col-lg-4">
+                    <label for="inputPasswordConfirm" id="labelInputPasswordConfirm" runat="server" class= "control-label">Confirmar contraseña:</label>
+                    <input id="inputPasswordConfirm" runat="server"  type="password"  class="form-control"/>
+                </div>
+                <br />
             </div>
         </div>
         <div class="col-lg-3">

@@ -167,11 +167,7 @@ namespace ProyectoInventarioOET
                     inputPassword.Visible = true;
                     inputPasswordConfirm.Visible = true;
                     labelInputPassword.Visible = true;
-                    labelInputPasswordConfirm.Visible = true;
-                    
-                    DropDownListPerfilConsulta.Visible = false; labelDropDownListPerfilConsulta.Visible = false;
-                    inputFecha.Visible = false; labelInputFecha.Visible = false;
-
+                    labelInputPasswordConfirm.Visible = true;                   
                     FieldsetAsociarUsuario.Visible = false;
                     FieldsetBotones.Visible = true;
                     FieldsetGrid.Visible = false;
@@ -223,9 +219,7 @@ namespace ProyectoInventarioOET
                     FieldsetBotones.Visible = false;
                     FieldsetGrid.Visible = false;
                     inputPassword.Visible = false; inputPasswordConfirm.Visible = false;
-                    labelInputPassword.Visible = false; labelInputPasswordConfirm.Visible = false;
-                    DropDownListPerfilConsulta.Visible = true; labelDropDownListPerfilConsulta.Visible = true;
-                    inputFecha.Visible = true; labelInputFecha.Visible = true;                   
+                    labelInputPassword.Visible = false; labelInputPasswordConfirm.Visible = false;                 
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfil.Visible = false;
                     this.botonModificarUsuario.Disabled = false;
@@ -442,6 +436,8 @@ namespace ProyectoInventarioOET
         // Crear usuario
         protected void botonCrearUsuario_ServerClick(object sender, EventArgs e)
         {
+            limpiarCampos();
+            habilitarCampos(true);
             modo = (int)Modo.InsercionUsuario;
             cargarEstaciones();
             cargarAnfitriones();
@@ -527,7 +523,8 @@ namespace ProyectoInventarioOET
             else if (modo == (int)Modo.ModificarUsuario)
             {
                 operacionCorrecta = modificarUsuario();
-                modo = (int)Modo.Inicial;
+                if (operacionCorrecta)
+                    modo = (int)Modo.Inicial;
             }
             if (operacionCorrecta)
             {
@@ -540,44 +537,55 @@ namespace ProyectoInventarioOET
         {
             String codigo = "";
             Object[] usuario = obtenerDatosCuenta();
-            String[] error = controladoraSeguridad.insertarUsuario(usuario);
 
-            codigo = Convert.ToString(error[3]);
-            mostrarMensaje(error[0], error[1], error[2]);
-            if (error[0].Contains("success"))
+            if (!controladoraSeguridad.nombreUsuarioRepetido(usuario[1].ToString()))
             {
-                llenarGrid();
-            }
-            else
-            {
-                codigo = "";
-                modo = (int)Modo.InsercionUsuario;
-            }
+                String[] error = controladoraSeguridad.insertarUsuario(usuario);
 
-            ControladoraBodegas controladoraBodegas = new ControladoraBodegas();
-            int i = 0;
-            String[] res = new String[3];
-            foreach (GridViewRow fila in gridViewBodegas.Rows)
-            {
-                if(((CheckBox)gridViewBodegas.Rows[i].FindControl("checkBoxBodegas")).Checked)
+                codigo = Convert.ToString(error[3]);
+                mostrarMensaje(error[0], error[1], error[2]);
+                if (error[0].Contains("success"))
                 {
-                    String llaveBodega = controladoraBodegas.consultarLlaveBodega(fila.Cells[1].Text, DropDownListEstacion.SelectedValue);
-                    res = controladoraSeguridad.asociarABodega(codigo, llaveBodega, DropDownListEstacion.SelectedValue);
+                    llenarGrid();
+                }
+                else
+                {
+                    codigo = "";
+                    modo = (int)Modo.InsercionUsuario;
+                }
+
+                ControladoraBodegas controladoraBodegas = new ControladoraBodegas();
+                int i = 0;
+                String[] res = new String[3];
+                foreach (GridViewRow fila in gridViewBodegas.Rows)
+                {
+                    if (((CheckBox)gridViewBodegas.Rows[i].FindControl("checkBoxBodegas")).Checked)
+                    {
+                        String llaveBodega = controladoraBodegas.consultarLlaveBodega(fila.Cells[1].Text, DropDownListEstacion.SelectedValue);
+                        res = controladoraSeguridad.asociarABodega(codigo, llaveBodega, DropDownListEstacion.SelectedValue);
+
+                    }
+                    i++;
 
                 }
-                i++;
-                
-            }
-            mostrarMensaje(res[0], res[1], res[2]);
-            if (res[0].Contains("success"))
-            {
-                llenarGrid();
+                mostrarMensaje(res[0], res[1], res[2]);
+                if (res[0].Contains("success"))
+                {
+                    llenarGrid();
+                }
+                else
+                {
+                    codigo = "";
+                    modo = (int)Modo.InsercionUsuario;
+                }
+            
+            
             }
             else
             {
-                codigo = "";
-                modo = (int)Modo.InsercionUsuario;
+                mostrarMensaje("warning", "Alerta", "El nombre de usuario especificado ya existe, por favor revise los datos.");
             }
+
 
             return codigo;
         }
@@ -592,23 +600,34 @@ namespace ProyectoInventarioOET
             usuario[0] = usuarioConsultado.Codigo;
             List<String> listadoBodegas = new List<String>();
 
-            int i = 0;
-            foreach (GridViewRow fila in gridViewBodegas.Rows)
+            if (!controladoraSeguridad.nombreUsuarioRepetido(usuario[1].ToString()))
             {
-                if (((CheckBox)gridViewBodegas.Rows[i].FindControl("checkBoxBodegas")).Checked)
+                int i = 0;
+                foreach (GridViewRow fila in gridViewBodegas.Rows)
                 {
-                    String llaveBodega = controladoraBodegas.consultarLlaveBodega(fila.Cells[1].Text, DropDownListEstacion.SelectedValue);
-                    listadoBodegas.Add(llaveBodega);
+                    if (((CheckBox)gridViewBodegas.Rows[i].FindControl("checkBoxBodegas")).Checked)
+                    {
+                        String llaveBodega = controladoraBodegas.consultarLlaveBodega(fila.Cells[1].Text, DropDownListEstacion.SelectedValue);
+                        listadoBodegas.Add(llaveBodega);
+                    }
+                    i++;
                 }
-                i++;
+                String perfil = DropDownListPerfilConsulta.SelectedItem.Text;
+                String[] error = controladoraSeguridad.modificarUsuario(usuario, listadoBodegas, perfil);
+                mostrarMensaje(error[0], error[1], error[2]);
+                if (error[0].Contains("success"))
+                {
+                    exito = true;
+                }
+
             }
-            String perfil = DropDownListPerfilConsulta.SelectedItem.Text;
-            String[] error = controladoraSeguridad.modificarUsuario(usuario, listadoBodegas, perfil);
-            mostrarMensaje(error[0], error[1], error[2]);
-            if (error[0].Contains("success"))
+            else
             {
-                exito = true;
+                mostrarMensaje("warning", "Alerta", "El nombre de usuario especificado ya existe, por favor revise los datos.");
+                exito = false;
             }
+
+
             return exito;
         }
 
