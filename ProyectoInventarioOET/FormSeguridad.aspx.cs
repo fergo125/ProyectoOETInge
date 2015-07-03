@@ -200,19 +200,11 @@ namespace ProyectoInventarioOET
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfil.Visible = true;
                     FieldsetPerfilCreacion.Visible = true;
-                    botonAceptarCreacionPerfil.Visible = false;
-                    botonCancelarCreacionPerfil.Visible = false;
+                    botonAceptarCreacionPerfil.Visible = true;
+                    botonCancelarCreacionPerfil.Visible = true;
                     FieldsetConsultarPerfil.Visible = false;
                     habilitarCamposPerfil(true);
                     break;
-                //case (int)Modo.AsociarUsuario:
-                //    FieldsetUsuario.Visible = false;
-                //    FieldsetAsociarUsuario.Visible = true;
-                //    FieldsetBotones.Visible = true;
-                //    FieldsetGrid.Visible = false;
-                //    FieldsetGridCuentas.Visible = false;
-                //    FieldsetPerfilCreacion.Visible = false;
-                //    break;
                 case (int)Modo.ConsultadoUsuario:
                     ArbolPermisos.Enabled = false;
                     FieldsetUsuario.Visible = true;
@@ -444,6 +436,7 @@ namespace ProyectoInventarioOET
             cargarAnfitriones();
             cargarEstados();
             cargarPerfiles();
+            inputFecha.Disabled = true;
             cambiarModo();
         }
 
@@ -482,7 +475,6 @@ namespace ProyectoInventarioOET
         protected void cargarPerfiles()
         {
             DropDownListPerfilConsulta.Items.Clear();
-            DropDownListPerfilConsulta.Items.Add(new ListItem("", null));
             DataTable perfiles = controladoraSeguridad.consultarPerfiles();
             foreach (DataRow fila in perfiles.Rows)
             {

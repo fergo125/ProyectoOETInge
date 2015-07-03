@@ -321,9 +321,10 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             String esquema = "Inventarios.";
             String[] resultado = new String[4];
             usuario.Codigo = generarID();
-            usuario.FechaCreacion = Convert.ToDateTime(DateTime.Now.ToString("dd-MMM-yyyy"));
+            String date = DateTime.Now.ToString("dd-MMM-yyyy");
+            usuario.FechaCreacion = Convert.ToDateTime(date);
             String comandoSQL = "INSERT INTO " + esquema + "SEG_USUARIO (SEG_USUARIO, USUARIO, CLAVE,FECHACREACION,DESCRIPCION,IDESTACION,ANFITRIONA,NOMBRE, ESTADO, DESCUENTO_MAXIMO) VALUES ('"
-                + usuario.Codigo + "','" + usuario.Usuario + "','" + usuario.Clave + "','" + usuario.FechaCreacion + "','" + usuario.Descripcion + "','" 
+                + usuario.Codigo + "','" + usuario.Usuario + "','" + usuario.Clave + "','" + date + "','" + usuario.Descripcion + "','" 
                 + usuario.IdEstacion +"','" + usuario.Anfitriona +"','" + usuario.Nombre +"'," + usuario.Estado +",15)";
                 if(ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
                 {

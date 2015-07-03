@@ -325,7 +325,7 @@
     <br />
 
                            <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" 
-                            ErrorMessage="Es necesario que confirme su contraseña es un espacio necesario"
+                            ErrorMessage="Es necesario que confirme su contraseña"
                             Font-Bold="true"
                             ControlToValidate="inputPasswordConfirm"
                             ClientValidationFunction="changeColor" 
