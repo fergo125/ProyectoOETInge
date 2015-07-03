@@ -11,7 +11,7 @@ using ProyectoInventarioOET.Modulo_Seguridad;
 using System.Text;
 using ProyectoInventarioOET.Modulo_Bodegas;
 using ProyectoInventarioOET.App_Code.Modulo_Ajustes;
-
+using ProyectoInventarioOET.Modulo_Productos_Locales;
 
 namespace ProyectoInventarioOET
 {
@@ -42,6 +42,8 @@ namespace ProyectoInventarioOET
         private static double totalFactura;
         private static double totalFacturaConsultada;
         private static ControladoraBodegas controladoraBodegas;
+        private static ControladoraProductoLocal controladoraProductoLocal;
+        private static ControladoraAjustes controladoraAjustes;
         /*
          * Maneja las acciones que se ejecutan cuando se carga la página, establecer el modo de operación, 
          * cargar elementos de la interfaz, gestión de seguridad.
@@ -55,6 +57,8 @@ namespace ProyectoInventarioOET
             mensajeAlerta.Visible = false;
             controladoraSeguridad = new ControladoraSeguridad();
             controladoraBodegas = new ControladoraBodegas();
+            controladoraProductoLocal = new ControladoraProductoLocal();
+
             controladoraSeguridad.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
             controladoraBodegas.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
             if (!IsPostBack)
@@ -407,7 +411,8 @@ namespace ProyectoInventarioOET
                         datos[3] = fila[3].ToString();
                         datos[4] = fila[4].ToString();
                         datos[5] = fila[5].ToString();
-
+                        
+                        datos[6]= 
                         tabla.Rows.Add(datos);
                         i++;
                     }
@@ -936,7 +941,7 @@ namespace ProyectoInventarioOET
                     this.FieldsetGridEntradas.Visible = false;
                     this.fieldSetProductosEntrada.Visible = true;
                     tituloAccionEntradas.InnerText = "Modificacion de una entrada";
-                    this.estadoEntrada.Enabled = true;
+                    
                     this.botonModificarEntrada.Disabled = true;
                     botonAceptarEntrada.Visible = true;
                     botonCancelarEntrada.Visible = true;
@@ -1078,22 +1083,37 @@ namespace ProyectoInventarioOET
         private void anularDatosEntrada()
         {
                 Object[] datos = new Object[6];
+                Object[] datosAjustes = new Object[8];
+                datosAjustes[0] = "CYCLO106062012145550377006";
+                datosAjustes[1] = DateTime.Now.ToString("h:mm:ss");
+                datosAjustes[2] = (this.Master as SiteMaster).Usuario.Nombre;
+                datosAjustes[3] = (this.Master as SiteMaster).Usuario.Codigo;
+                datosAjustes[4] = "Anulacion de entrada de inventario";
+                datosAjustes[6] = 2;
+                datosAjustes[7] = 0;
+
                 DataTable facturas = controladoraEntradas.consultarProductosEntrada(entradaConsultada.IdEntrada);
                 List<EntidadDetalles> detallesEntrada = new List<EntidadDetalles>();
-
+                EntidadAjustes ajuste = new EntidadAjustes(datosAjustes);
                 if (facturas.Rows.Count > 0)
                 {
                     idArrayFactura = new Object[facturas.Rows.Count];
                     foreach (DataRow fila in facturas.Rows)
                     {
                         datos[0] = fila[0].ToString();
-                        datos[1] = fila[1].ToString();
+                        datos[1] = "";
                         datos[2] = fila[2].ToString();
-                        datos[3] = fila[3].ToString();
-                        datos[4] = fila[4].ToString();
-                        datos[5] = fila[5].ToString();
+                        datos[3] = fila[6].ToString();
+                        datos[4] = controladoraProductoLocal.consultarProductoDeBodega((this.Master as SiteMaster).LlaveBodegaSesion,fila[6].ToString());
+                        datos[5] = Convert.ToInt32(datos[4]) - Convert.ToInt32(fila[2]);
+                        ajuste.agregarDetalle(datos);
+
                     }
                 }
+                //controladoraAjustes.insertarAjuste(ajuste);
+                //controladoraEntradas.anularEntrada(entradaConsultada.IdEntrada);
+                
+            
         }
         /*
          * Se dispara para completar la entrada con los productos seleccionados.
@@ -1174,7 +1194,9 @@ namespace ProyectoInventarioOET
                     }
                     break;
                 case (int)Modo.ModificarEntrada:
-
+                    
+                    this.estadoEntrada.Enabled = true;
+                    anularDatosEntrada();
                     break;
             }
         }

@@ -146,5 +146,9 @@ namespace ProyectoInventarioOET.Modulo_Entradas
         {
             return controladoraDatosGenerales.impuestoVentas();
         }
+        public string anularEntrada(string idEntrada)
+        {
+            return controladoraBDEntradas.anularEntrada(idEntrada);
+        }
     }
 }
