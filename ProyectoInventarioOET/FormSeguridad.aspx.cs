@@ -209,13 +209,10 @@ namespace ProyectoInventarioOET
                     FieldsetAsociarUsuario.Visible = false;
                     FieldsetBotones.Visible = false;
                     FieldsetGrid.Visible = false;
-
                     inputPassword.Visible = false; inputPasswordConfirm.Visible = false;
                     labelInputPassword.Visible = false; labelInputPasswordConfirm.Visible = false;
                     DropDownListPerfilConsulta.Visible = true; labelDropDownListPerfilConsulta.Visible = true;
-                    inputFecha.Visible = true; labelInputFecha.Visible = true;
-                    
-                    this.gridViewBodegas.Enabled = false;
+                    inputFecha.Visible = true; labelInputFecha.Visible = true;                   
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfil.Visible = false;
                     this.botonModificarUsuario.Disabled = false;
@@ -599,6 +596,7 @@ namespace ProyectoInventarioOET
             this.DropDownListEstado.Enabled = habilitar;
             this.inputDescuentoMaximo.Disabled = !habilitar;
             this.DropDownListPerfilConsulta.Enabled = habilitar;
+            this.gridViewBodegas.Enabled = habilitar;
         }
 
         protected void limpiarCampos() 
