@@ -26,6 +26,7 @@ namespace ProyectoInventarioOET
         private static Object[] idArray;                                //Array de ids para almacenar los usuarios
         private static Object[] idBodegas;                                //Array de ids para almacenar los usuarios
         private static DataTable tablaCuentas;
+        private static DataTable tablaPerfiles;                         // Datatable para almacenar los perfiles de consulta
         private static DataTable bodegasEstacion;
         
         protected void Page_Load(object sender, EventArgs e)
@@ -208,16 +209,14 @@ namespace ProyectoInventarioOET
                     FieldsetAsociarUsuario.Visible = false;
                     FieldsetBotones.Visible = false;
                     FieldsetGrid.Visible = false;
-
                     inputPassword.Visible = false; inputPasswordConfirm.Visible = false;
                     labelInputPassword.Visible = false; labelInputPasswordConfirm.Visible = false;
                     DropDownListPerfilConsulta.Visible = true; labelDropDownListPerfilConsulta.Visible = true;
-                    inputFecha.Visible = true; labelInputFecha.Visible = true;
-                    
-                    this.gridViewBodegas.Enabled = false;
+                    inputFecha.Visible = true; labelInputFecha.Visible = true;                   
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfil.Visible = false;
                     this.botonModificarUsuario.Disabled = false;
+                    this.botonModificarUsuario.Visible = true;
                     this.FieldsetBotonesUsuarios.Visible = true;
                     this.botonModificarUsuario.Visible = true;
                     break;
@@ -572,8 +571,8 @@ namespace ProyectoInventarioOET
                 }
                 i++;
             }
-
-            String[] error = controladoraSeguridad.modificarUsuario(usuario, listadoBodegas);
+            String perfil = DropDownListPerfilConsulta.SelectedItem.Text;
+            String[] error = controladoraSeguridad.modificarUsuario(usuario, listadoBodegas, perfil);
             mostrarMensaje(error[0], error[1], error[2]);
             if (error[0].Contains("success"))
             {
@@ -597,6 +596,7 @@ namespace ProyectoInventarioOET
             this.DropDownListEstado.Enabled = habilitar;
             this.inputDescuentoMaximo.Disabled = !habilitar;
             this.DropDownListPerfilConsulta.Enabled = habilitar;
+            this.gridViewBodegas.Enabled = habilitar;
         }
 
         protected void limpiarCampos() 
@@ -773,7 +773,7 @@ namespace ProyectoInventarioOET
 
 
         // Tabla de consulta de perfiles
-        protected DataTable tablaPerfiles()
+        protected DataTable crearTablaPerfiles()
         {
             DataTable tabla = new DataTable();
             // Toca implementarlo
@@ -855,6 +855,35 @@ namespace ProyectoInventarioOET
             this.gridViewCuentas.DataBind();
         }
 
+
+        /*
+         * Procedimiento invocado cuando se selecciona uno de los perfiles para consultar su información.
+         */
+        protected void gridViewConsultaPerfiles_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            {
+                switch (e.CommandName)
+                {
+                    case "Select":
+
+                        GridViewRow filaSeleccionada = this.gridViewConsultaPerfiles.Rows[Convert.ToInt32(e.CommandArgument)];
+                        String codigo = Convert.ToString(idArray[Convert.ToInt32(e.CommandArgument) + (this.gridViewConsultaPerfiles.PageIndex * this.gridViewConsultaPerfiles.PageSize)]);
+                        //consultarPerfil(codigo);
+                        Response.Redirect("FormSeguridad.aspx");
+                        break;
+                }
+            }
+        }
+
+        /*
+         * Procedimiento invocado cuando se cambia la página de la tabla con los pefiles.
+         */
+        protected void gridViewConsultaPerfiles_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            this.gridViewConsultaPerfiles.PageIndex = e.NewPageIndex;
+            this.gridViewConsultaPerfiles.DataSource = tablaPerfiles;
+            this.gridViewConsultaPerfiles.DataBind();
+        }
 
         protected void checkBoxBodegas_CheckedChanged(object sender, EventArgs e)
         {

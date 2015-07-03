@@ -50,7 +50,7 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             return resultado;
         }
 
-         /*
+        /*
 -         * Recibe el id de una factura y devuelve el detalle de la misma 
 -         */
         public DataTable consultarDetalleFactura(String idFactura)
@@ -117,15 +117,15 @@ namespace ProyectoInventarioOET.Modulo_Entradas
         {
             DataTable resultado = new DataTable();
             String esquema = "Inventarios.";
-            String comandoSQL = "select A.NOMBRE, A.CANTIDAD, A.COSTO_TOTAL, A.COSTO_UNITARIO, A.GRAVADO, A.DESCUENTO" +
+            String comandoSQL = "select A.NOMBRE, A.CANTIDAD, A.COSTO_TOTAL, A.COSTO_UNITARIO, A.GRAVADO, A.DESCUENTO, A.CODIGO" +
                 " from (select * from " + esquema + "CAT_ENTRADAS_PRODUCTOS entradasProductos, " + esquema + "INV_PRODUCTOS productos where entradasProductos.cat_productos = productos.Codigo ) A" +
                 " WHERE CAT_ENTRADAS" + "= '" + id + "'";
             resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
 
-//select A.NOMBRE, A.CANTIDAD, A.COSTO_TOTAL, 
-//A.COSTO_UNITARIO, A.DESCUENTO, A.GRAVADO
-//from (select * from Inventarios.CAT_ENTRADAS_PRODUCTOS entradasProductos, Inventarios.INV_PRODUCTOS productos where entradasProductos.cat_productos = productos.Codigo ) A;
+            //select A.NOMBRE, A.CANTIDAD, A.COSTO_TOTAL, 
+            //A.COSTO_UNITARIO, A.DESCUENTO, A.GRAVADO
+            //from (select * from Inventarios.CAT_ENTRADAS_PRODUCTOS entradasProductos, Inventarios.INV_PRODUCTOS productos where entradasProductos.cat_productos = productos.Codigo ) A;
 
         }
 
@@ -139,19 +139,20 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             //bool existenteEnBD = false;
             int temp;
             String[] res = new String[4];
-            entrada.IdEntrada= generarID();
+            entrada.IdEntrada = generarID();
             res[3] = entrada.IdEntrada;
-            String comandoSQL = "insert into "+esquema+"cat_entradas values("+
-                        "'"+ entrada.IdEntrada +"'"+
-                        ",'" + entrada.IdFactura + "'"+
-                        ",'" + entrada.IdEncargado+ "'" +
-                        ",'" + entrada.Bodega+ "'" +
-                        ",'" + entrada.FechEntrada.ToString("dd-MMM-yyy")+ "'" +
-                        ",'" + entrada.TipoMoneda + "'" + 
+            String comandoSQL = "insert into " + esquema + "cat_entradas values(" +
+                        "'" + entrada.IdEntrada + "'" +
+                        ",'" + entrada.IdFactura + "'" +
+                        ",'" + entrada.IdEncargado + "'" +
+                        ",'" + entrada.Bodega + "'" +
+                        ",'" + entrada.FechEntrada.ToString("dd-MMM-yyy") + "'" +
+                        ",'" + entrada.TipoMoneda + "'" +
                         ",'" + entrada.MetodoPago + "'"
-                        +")";
+                        + ")";
 
-            try {
+            try
+            {
                 if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
                 {
                     if (productosAsociados.Rows.Count > 0)
@@ -185,7 +186,7 @@ namespace ProyectoInventarioOET.Modulo_Entradas
                                     foreach (DataRow filaB in consulta.Rows)
                                     {
                                         idProducto = filaB[0].ToString();
-                                    }   
+                                    }
                                     comandoSQL = "update INV_BODEGA_PRODUCTOS set saldo = saldo + " + fila[1]
                                         + ", MODIFICADO =  TO_DATE('" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "',  'dd/mm/yyyy hh24:mi:ss') where inv_productos = '" + idProducto + "' and cat_bodega = '" + entrada.Bodega + "' ";
                                     if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
@@ -196,7 +197,7 @@ namespace ProyectoInventarioOET.Modulo_Entradas
                                     }
                                     //comandoSQL = "call insertar_historial( llave_bodega_local, cantidad, precio_colones )";
                                     // Aqui para agregar tabla de costo promedio
-                                }                             
+                                }
                             }
                         }
                     }
@@ -206,10 +207,11 @@ namespace ProyectoInventarioOET.Modulo_Entradas
                     res[0] = "danger";
                     res[1] = "Error:";
                     res[2] = "Entrada no agregada, intente nuevamente.";
-                }            
+                }
             }
-            catch (Exception x){
-            
+            catch (Exception x)
+            {
+
             }
 
             return res;
@@ -239,15 +241,15 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             String esquema = "Compras.";
             DataTable consultado = new DataTable();
             String resultado = "";
-            String comandoSQL = "select NOMBRE from "+ esquema + "V_PROVEEDOR where IDPROVEEDOR = '" + idProveedor + "'";
+            String comandoSQL = "select NOMBRE from " + esquema + "V_PROVEEDOR where IDPROVEEDOR = '" + idProveedor + "'";
 
             consultado = ejecutarComandoSQL(comandoSQL, true);
-            if (consultado.Rows.Count > 0) 
+            if (consultado.Rows.Count > 0)
             {
                 foreach (DataRow fila in consultado.Rows)
                 {
                     resultado = fila[0].ToString();
-                }            
+                }
             }
 
             return resultado;
@@ -274,5 +276,26 @@ namespace ProyectoInventarioOET.Modulo_Entradas
 
             return resultado;
         }
+
+        /*
+         * Anular entrada
+         */
+        public String anularEntrada(string idEntrada){
+          
+            String esquema = "Compras.";
+          
+            String resultado = "";
+            //String comandoSQL = "select NOMBRE from "+ esquema + "V_PROVEEDOR where IDPROVEEDOR = '" + idProveedor + "'";
+            try{
+                //ejecutarComandoSQL(comandoSQL, true);
+                resultado = "exito";
+            }
+            catch(Exception e){
+                resultado = "No se pudo";            
+                
+                 }
+            return resultado;   
+        }
     }
+    
 }
