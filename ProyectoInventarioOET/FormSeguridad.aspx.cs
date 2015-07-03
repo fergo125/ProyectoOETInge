@@ -160,11 +160,7 @@ namespace ProyectoInventarioOET
                     inputPassword.Visible = true;
                     inputPasswordConfirm.Visible = true;
                     labelInputPassword.Visible = true;
-                    labelInputPasswordConfirm.Visible = true;
-                    
-                    DropDownListPerfilConsulta.Visible = false; labelDropDownListPerfilConsulta.Visible = false;
-                    inputFecha.Visible = false; labelInputFecha.Visible = false;
-
+                    labelInputPasswordConfirm.Visible = true;                   
                     FieldsetAsociarUsuario.Visible = false;
                     FieldsetBotones.Visible = true;
                     FieldsetGrid.Visible = false;
@@ -210,9 +206,7 @@ namespace ProyectoInventarioOET
                     FieldsetBotones.Visible = false;
                     FieldsetGrid.Visible = false;
                     inputPassword.Visible = false; inputPasswordConfirm.Visible = false;
-                    labelInputPassword.Visible = false; labelInputPasswordConfirm.Visible = false;
-                    DropDownListPerfilConsulta.Visible = true; labelDropDownListPerfilConsulta.Visible = true;
-                    inputFecha.Visible = true; labelInputFecha.Visible = true;                   
+                    labelInputPassword.Visible = false; labelInputPasswordConfirm.Visible = false;                 
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfil.Visible = false;
                     this.botonModificarUsuario.Disabled = false;
@@ -412,6 +406,8 @@ namespace ProyectoInventarioOET
         // Crear usuario
         protected void botonCrearUsuario_ServerClick(object sender, EventArgs e)
         {
+            limpiarCampos();
+            habilitarCampos(true);
             modo = (int)Modo.InsercionUsuario;
             cargarEstaciones();
             cargarAnfitriones();
