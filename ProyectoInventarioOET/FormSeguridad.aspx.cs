@@ -438,8 +438,19 @@ namespace ProyectoInventarioOET
             if( modo == (int)Modo.InsercionPerfil )
                 resultado = controladoraSeguridad.insertarPerfil(textBoxCrearPerfilNombre.Value, Convert.ToInt32(dropDownListCrearPerfilNivel.SelectedValue), obtenerPermisosArbol());
             if (modo == (int)Modo.ModificarPerfil)
-                ;
+                resultado = modificar();
             mostrarMensaje(resultado[0], resultado[1], resultado[2]);
+        }
+
+        protected String[] modificar()
+        {
+            Object[] datos = new Object[3];
+            datos[0] = textBoxCrearPerfilNombre.Value;
+            datos[1] = Convert.ToInt32(dropDownListCrearPerfilNivel.SelectedValue);
+            datos[2] = obtenerPermisosArbol();
+            EntidadPerfil nueva = new EntidadPerfil(datos);
+
+            return controladoraSeguridad.modificarPerfil(perfilConsultado.Nombre, nueva);
         }
 
         // Seleccion de administracion de perfiles

@@ -194,6 +194,71 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         }
 
         /*
+         * Modifica un perfil en la base de datos, y los permisos asociados a este
+         */
+        public String [] modificarPerfil( String nombreViejo, EntidadPerfil nuevo )
+        {
+            String esquema = "Inventarios.";
+            String[] resultado = new String[3];
+            String id = generarID();
+            String comandoSQL = "UPDATE " + esquema + "SEG_PERFIL "
+                + "SET NOMBRE = " + nuevo.Nombre
+                + ", NIVEL = " + nuevo.Nivel;
+            if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
+            {
+                comandoSQL = "SELECT SEG_PERFIL FROM " + esquema + "SEG_PERFIL WHERE NOMBRE = " + nuevo.Nombre;
+                DataTable temp = ejecutarComandoSQL(comandoSQL, true);
+                String codigo = temp.Rows[0][0].ToString();
+                bool continuar = true;
+
+                for (short i = 1; i <= 11 && continuar; ++i)
+                {
+                    comandoSQL = "UPDATE SEG_PERMISOS SET PERMISOS = '" + nuevo.Permisos[i] + "' "
+                        + "WHERE SEG_PERFIL = '" + codigo + "' "
+                        + "AND INTERFAZ = '";
+                    switch (i)
+                    {
+                        case 1: comandoSQL += "Catalogo general de productos"; break;
+                        case 2: comandoSQL += "Categorias de productos"; break;
+                        case 3: comandoSQL += "Catalogos de productos en bodegas"; break;
+                        case 4: comandoSQL += "Gestion de bodegas"; break;
+                        case 5: comandoSQL += "Gestion de actividades"; break;
+                        case 6: comandoSQL += "Entradas de inventario"; break;
+                        case 7: comandoSQL += "Traslados de inventario"; break;
+                        case 8: comandoSQL += "Ajustes de inventario"; break;
+                        case 9: comandoSQL += "Facturacion"; break;
+                        case 10: comandoSQL += "Reportes"; break;
+                        case 11: comandoSQL += "Seguridad"; break;
+                        default: break;
+                    }
+                    comandoSQL += "'";
+                    continuar = (ejecutarComandoSQL(comandoSQL, false) != null);
+
+                }
+
+                if (continuar)
+                {
+                    resultado[0] = "success";
+                    resultado[1] = "Éxito";
+                    resultado[2] = "Perfil modificado con éxito";
+                }
+                else
+                {
+                    resultado[0] = "danger";
+                    resultado[1] = "Error";
+                    resultado[2] = "Error al intentar modificar el perfil.";
+                }
+            }
+            else
+            {
+                resultado[0] = "danger";
+                resultado[1] = "Error";
+                resultado[2] = "Error al intentar modificar el perfil.";
+            }
+            return resultado;
+        }
+
+        /*
          * Modifica la contraseña de un usuario en especifico basado en su codigo interno de la base de datos
          */
         public String[] modificarContrasena(String codigoInternoUsuario, String password)
