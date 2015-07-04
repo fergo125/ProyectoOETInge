@@ -92,7 +92,6 @@ namespace ProyectoInventarioOET
                 this.linkNombreUsuarioLogueado.InnerText = usuarioLogueado.Nombre + " (" + usuarioLogueado.Perfil + ") " + nombreBodegaSesion;
                 this.linkIniciarSesion.Visible = false;
                 this.linkNombreUsuarioLogueado.Visible = true;
-                //this.linkCambiarSesion.Visible = true;
                 esconderLinks(llaveBodegaSesion == null); //Sólo si ya inició sesión y ya escogió bodega se muestran los links para las partes del sistema
             }
         }
@@ -177,7 +176,7 @@ namespace ProyectoInventarioOET
             this.linkFormVentas.Visible = !esconder;
             this.linkFormAdministracion.Visible = (!esconder && (usuarioLogueado.CodigoPerfil == "1" || usuarioLogueado.CodigoPerfil == "2" || usuarioLogueado.CodigoPerfil == "3"));
             this.linkFormAdministracion1.Visible = (!esconder && (usuarioLogueado.CodigoPerfil == "1" || usuarioLogueado.CodigoPerfil == "2" || usuarioLogueado.CodigoPerfil == "3"));
-            this.linkFormAdministracion2.Visible = (!esconder && (usuarioLogueado.CodigoPerfil == "1" || usuarioLogueado.CodigoPerfil == "2"));
+            this.linkFormAdministracion2.Visible = (!esconder && (usuarioLogueado.CodigoPerfil == "1"));
         }
 
         /*

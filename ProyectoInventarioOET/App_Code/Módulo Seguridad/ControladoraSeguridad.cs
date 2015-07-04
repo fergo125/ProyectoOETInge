@@ -115,6 +115,14 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             return controladoraBDSeguridad.insertarPerfil(nombre, nivel, permisos);
         }
 
+        /*
+         * Modifica un perfil con base en su nombre
+         */
+        public String[] modificarPerfil( String nombreViejo, EntidadPerfil nuevo )
+        {
+            return controladoraBDSeguridad.modificarPerfil(nombreViejo, nuevo);
+        }
+
 
         // Retorna si un String es una contraseña valida
         public bool contrasenaEsValida(String pass)
@@ -226,5 +234,15 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             return controladoraBDSeguridad.asociarABodega(codigo, llaveBodega, idEstacion);
         }
 
+        public String[] asociarPerfilNuevoUsuario(String llaveUsuario, String llavePerfil) 
+        {
+            return controladoraBDSeguridad.asociarPerfilNuevoUsuario(llaveUsuario, llavePerfil);
+        }
+
+        public Boolean nombreUsuarioRepetido(String nombreUsuario)
+        {
+            return controladoraBDSeguridad.nombreUsuarioRepetido(nombreUsuario);        
+        }
+    
     }
 }
