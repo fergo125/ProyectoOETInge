@@ -83,12 +83,12 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             EntidadEntrada entrada = null;
 
             DataTable resultado = controladoraBDEntradas.consultarEntrada(id);
-            Object[] datosConsultados = new Object[7];
+            Object[] datosConsultados = new Object[8];
 
             if (resultado.Rows.Count == 1)
             {
                 datosConsultados[0] = resultado.Rows[0][0].ToString();
-                for (int i = 1; i < 7; i++)
+                for (int i = 1; i < 8; i++)
                 {
                     datosConsultados[i] = resultado.Rows[0][i].ToString();
                 }
@@ -149,6 +149,10 @@ namespace ProyectoInventarioOET.Modulo_Entradas
         public string anularEntrada(string idEntrada)
         {
             return controladoraBDEntradas.anularEntrada(idEntrada);
+        }
+        public String consultarCodigoInventario(String codigoPro, String codigoBodega)
+        {
+            return controladoraBDEntradas.consultarCodigoInventario(codigoPro, codigoBodega);
         }
     }
 }
