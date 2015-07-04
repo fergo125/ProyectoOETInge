@@ -14,7 +14,7 @@ namespace ProyectoInventarioOET
     public partial class FormSeguridad : System.Web.UI.Page
     {
 
-        enum Modo { Inicial, InicialPerfil, InicialUsuario, ConsultaPerfil, InsercionPerfil, ModificacionPerfil, ConsultaUsuario, InsercionUsuario, ModificarUsuario, ConsultadoUsuario, ConsultadoPerfil };
+        enum Modo { Inicial, InicialPerfil, InicialUsuario, ConsultaPerfil, InsercionPerfil, ModificarPerfil, ConsultaUsuario, InsercionUsuario, ModificarUsuario, ConsultadoUsuario, ConsultadoPerfil };
        // Atributos
         private static int modo = (int)Modo.Inicial;                    // Modo actual de la pagina
         private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
@@ -126,6 +126,9 @@ namespace ProyectoInventarioOET
                     this.botonModificarUsuario.Disabled = true;
                     tituloAccionForm.InnerText = "";
                     FieldsetConsultarPerfil.Visible = false;
+                    botonConsultarPerfil.Disabled = false;
+                    botonCrearPerfil.Disabled = false;
+                    botonModificarPerfil.Disabled = true;
                     break;
 
                 case (int)Modo.InicialUsuario:
@@ -150,6 +153,10 @@ namespace ProyectoInventarioOET
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfilCreacion.Visible = false;
                     FieldsetConsultarPerfil.Visible = true;
+                    FieldsetBotonesPerfiles.Visible = true;
+                    botonConsultarPerfil.Disabled = true;
+                    botonCrearPerfil.Disabled = false;
+                    botonModificarPerfil.Disabled = true;
                     break;
 
                 case (int)Modo.ConsultaUsuario:
@@ -204,11 +211,28 @@ namespace ProyectoInventarioOET
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfil.Visible = true;
                     FieldsetPerfilCreacion.Visible = true;
+                    botonConsultarPerfil.Disabled = false;
+                    botonCrearPerfil.Disabled = true;
+                    botonModificarPerfil.Disabled = true;
                     botonAceptarCreacionPerfil.Visible = true;
                     botonCancelarCreacionPerfil.Visible = true;
                     FieldsetConsultarPerfil.Visible = false;
                     habilitarCamposPerfil(true);
                     break;
+
+                case (int)Modo.ModificarPerfil:
+                    tituloAccionForm.InnerText = "Cambie los datos para del perfil";
+                    FieldsetBotonesPerfiles.Visible = true;
+                    botonConsultarPerfil.Disabled = false;
+                    botonCrearPerfil.Disabled = false;
+                    botonModificarPerfil.Disabled = true;
+                    botonAceptarCreacionPerfil.Visible = true;
+                    botonCancelarCreacionPerfil.Visible = true;
+                    FieldsetConsultarPerfil.Visible = true;
+                    FieldsetConsultarPerfil.Visible = false;
+                    habilitarCamposPerfil(true);
+                    break;
+
                 case (int)Modo.ConsultadoUsuario:
                     ArbolPermisos.Enabled = false;
                     FieldsetUsuario.Visible = true;
@@ -228,12 +252,10 @@ namespace ProyectoInventarioOET
 
                 case (int)Modo.ConsultadoPerfil:
                     tituloAccionForm.InnerText = "Datos del Perfil";
-                    ArbolPermisos.Enabled = false;
-                    FieldsetUsuario.Visible = false;
-                    FieldsetAsociarUsuario.Visible = false;
-                    FieldsetBotones.Visible = true;
-                    FieldsetGrid.Visible = false;
-                    FieldsetGridCuentas.Visible = false;
+                    FieldsetBotonesPerfiles.Visible = true;
+                    botonConsultarPerfil.Disabled = true;
+                    botonCrearPerfil.Disabled = false;
+                    botonModificarPerfil.Disabled = false;
                     FieldsetPerfil.Visible = true;
                     FieldsetPerfilCreacion.Visible = true;
                     botonAceptarCreacionPerfil.Visible = false;
@@ -391,13 +413,17 @@ namespace ProyectoInventarioOET
                 return;
             }
             //primero revisar que el nombre no sea repetido
-            if (controladoraSeguridad.consultarPerfil(textBoxCrearPerfilNombre.Value) != null) //ya existe
+            if (controladoraSeguridad.consultarPerfil(textBoxCrearPerfilNombre.Value) != null && !(perfilConsultado != null && perfilConsultado.Nombre == textBoxCrearPerfilNombre.Value) ) //ya existe
             {
                 mostrarMensaje("danger", "Error: ", "Ese nombre ya pertenece a otro perfil existente.");
                 return;
             }
             //segundo intentar crear el nuevo perfil
-            String[] resultado = controladoraSeguridad.insertarPerfil(textBoxCrearPerfilNombre.Value, Convert.ToInt32(dropDownListCrearPerfilNivel.SelectedValue), obtenerPermisosArbol());
+            String[] resultado = new String[3];
+            if( modo == (int)Modo.InsercionPerfil )
+                resultado = controladoraSeguridad.insertarPerfil(textBoxCrearPerfilNombre.Value, Convert.ToInt32(dropDownListCrearPerfilNivel.SelectedValue), obtenerPermisosArbol());
+            if (modo == (int)Modo.ModificarPerfil)
+                ;
             mostrarMensaje(resultado[0], resultado[1], resultado[2]);
         }
 
@@ -420,6 +446,15 @@ namespace ProyectoInventarioOET
         {
             modo = (int)Modo.ModificarUsuario;
             habilitarCampos(true);
+            cambiarModo();
+        }
+
+        /*
+         * Cambia la interfa a modo de modificacion de perfiles
+         */
+        protected void botonModificarPerfil_ServerClick(object sender, EventArgs e)
+        {
+            modo = (int)Modo.ModificarPerfil;
             cambiarModo();
         }
 
