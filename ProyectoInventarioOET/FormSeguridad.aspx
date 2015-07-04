@@ -28,7 +28,7 @@
     <fieldset id= "FieldsetBotonesPerfiles" class="fieldset" runat="server" visible="false">
         <button runat="server" type="button" class="btn btn-info-fozkr" id="botonConsultarPerfil" causesvalidation="false" onserverclick="botonConsultarPerfil_ServerClick">Consultar perfil</button>
         <button runat="server" type="button" class="btn btn-info-fozkr" id="botonCrearPerfil" causesvalidation="false" onserverclick="botonCrearPerfil_ServerClick">Crear perfil</button>
-        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonModificarPerfil" causesvalidation="false" disabled="disabled">Modificar perfil</button>
+        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonModificarPerfil" causesvalidation="false" onserverclick="botonModificarPerfil_ServerClick">Modificar perfil</button>
     </fieldset>
     <!-- Fieldset de administracion de usuarios -->
     <fieldset id= "FieldsetBotonesUsuarios" class="fieldset" runat="server" visible="false">

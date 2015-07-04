@@ -14,7 +14,7 @@ namespace ProyectoInventarioOET
     public partial class FormSeguridad : System.Web.UI.Page
     {
 
-        enum Modo { Inicial, InicialPerfil, InicialUsuario, ConsultaPerfil, InsercionPerfil, ModificacionPerfil, ConsultaUsuario, InsercionUsuario, ModificarUsuario, ConsultadoUsuario, ConsultadoPerfil };
+        enum Modo { Inicial, InicialPerfil, InicialUsuario, ConsultaPerfil, InsercionPerfil, ModificarPerfil, ConsultaUsuario, InsercionUsuario, ModificarUsuario, ConsultadoUsuario, ConsultadoPerfil };
        // Atributos
         private static int modo = (int)Modo.Inicial;                    // Modo actual de la pagina
         private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
@@ -45,7 +45,7 @@ namespace ProyectoInventarioOET
                     controladoraSeguridad = new ControladoraSeguridad();
                     controladoraBodegas = new ControladoraBodegas();
                   //Seguridad
-                    permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Gestion de bodegas");
+                    permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Seguridad");
                     if (permisos == "000000")
                         Response.Redirect("~/ErrorPages/404.html");
                     //mostrarBotonesSegunPermisos();
@@ -69,9 +69,9 @@ namespace ProyectoInventarioOET
                     }
                     else
                     {
-                        if (usuarioConsultado == null)
+                        if (usuarioConsultado == null && perfilConsultado == null)
                         {
-                            mostrarMensaje("warning", "Alerta: ", "No se pudo consultar la bodega.");
+                            mostrarMensaje("warning", "Alerta: ", "No se pudo consultar.");
                         }
                         else
                         {
@@ -80,7 +80,11 @@ namespace ProyectoInventarioOET
                             cargarAnfitriones();
                             cargarEstados();
                             cargarPerfiles();
+                            cargarNivelesPerfil();
+                            if (usuarioConsultado != null)
                             setDatosCuenta();
+                            else
+                                setDatosPerfil();
                             seConsulto = false;
                         }
                     }
@@ -124,6 +128,9 @@ namespace ProyectoInventarioOET
                     this.botonModificarUsuario.Disabled = true;
                     tituloAccionForm.InnerText = "";
                     FieldsetConsultarPerfil.Visible = false;
+                    botonConsultarPerfil.Disabled = false;
+                    botonCrearPerfil.Disabled = false;
+                    botonModificarPerfil.Disabled = true;
                     break;
 
                 case (int)Modo.InicialUsuario:
@@ -149,6 +156,10 @@ namespace ProyectoInventarioOET
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfilCreacion.Visible = false;
                     FieldsetConsultarPerfil.Visible = true;
+                    FieldsetBotonesPerfiles.Visible = true;
+                    botonConsultarPerfil.Disabled = true;
+                    botonCrearPerfil.Disabled = false;
+                    botonModificarPerfil.Disabled = true;
                     break;
 
                 case (int)Modo.ConsultaUsuario:
@@ -207,11 +218,28 @@ namespace ProyectoInventarioOET
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfil.Visible = true;
                     FieldsetPerfilCreacion.Visible = true;
+                    botonConsultarPerfil.Disabled = false;
+                    botonCrearPerfil.Disabled = true;
+                    botonModificarPerfil.Disabled = true;
                     botonAceptarCreacionPerfil.Visible = true;
                     botonCancelarCreacionPerfil.Visible = true;
                     FieldsetConsultarPerfil.Visible = false;
                     habilitarCamposPerfil(true);
                     break;
+
+                case (int)Modo.ModificarPerfil:
+                    tituloAccionForm.InnerText = "Cambie los datos para del perfil";
+                    FieldsetBotonesPerfiles.Visible = true;
+                    botonConsultarPerfil.Disabled = false;
+                    botonCrearPerfil.Disabled = false;
+                    botonModificarPerfil.Disabled = true;
+                    botonAceptarCreacionPerfil.Visible = true;
+                    botonCancelarCreacionPerfil.Visible = true;
+                    FieldsetConsultarPerfil.Visible = true;
+                    FieldsetConsultarPerfil.Visible = false;
+                    habilitarCamposPerfil(true);
+                    break;
+
                 case (int)Modo.ConsultadoUsuario:
                     ArbolPermisos.Enabled = false;
                     FieldsetUsuario.Visible = true;
@@ -239,12 +267,17 @@ namespace ProyectoInventarioOET
                     FieldsetBotonesModificar.Visible = false;
                     FieldsetGrid.Visible = false;
                     FieldsetGridCuentas.Visible = false;
+                    FieldsetBotonesPerfiles.Visible = true;
+                    botonConsultarPerfil.Disabled = true;
+                    botonCrearPerfil.Disabled = false;
+                    botonModificarPerfil.Disabled = false;
                     FieldsetPerfil.Visible = true;
                     FieldsetPerfilCreacion.Visible = true;
                     botonAceptarCreacionPerfil.Visible = false;
                     botonCancelarCreacionPerfil.Visible = false;
                     FieldsetConsultarPerfil.Visible = true;
                     habilitarCamposPerfil(false);
+                    llenarGridPerfiles();
                     break;
             }
         }
@@ -395,13 +428,17 @@ namespace ProyectoInventarioOET
                 return;
             }
             //primero revisar que el nombre no sea repetido
-            if (controladoraSeguridad.consultarPerfil(textBoxCrearPerfilNombre.Value) != null) //ya existe
+            if (controladoraSeguridad.consultarPerfil(textBoxCrearPerfilNombre.Value) != null && !(perfilConsultado != null && perfilConsultado.Nombre == textBoxCrearPerfilNombre.Value) ) //ya existe
             {
                 mostrarMensaje("danger", "Error: ", "Ese nombre ya pertenece a otro perfil existente.");
                 return;
             }
             //segundo intentar crear el nuevo perfil
-            String[] resultado = controladoraSeguridad.insertarPerfil(textBoxCrearPerfilNombre.Value, Convert.ToInt32(dropDownListCrearPerfilNivel.SelectedValue), obtenerPermisosArbol());
+            String[] resultado = new String[3];
+            if( modo == (int)Modo.InsercionPerfil )
+                resultado = controladoraSeguridad.insertarPerfil(textBoxCrearPerfilNombre.Value, Convert.ToInt32(dropDownListCrearPerfilNivel.SelectedValue), obtenerPermisosArbol());
+            if (modo == (int)Modo.ModificarPerfil)
+                ;
             mostrarMensaje(resultado[0], resultado[1], resultado[2]);
         }
 
@@ -424,6 +461,15 @@ namespace ProyectoInventarioOET
         {
             modo = (int)Modo.ModificarUsuario;
             habilitarCampos(true);
+            cambiarModo();
+        }
+
+        /*
+         * Cambia la interfa a modo de modificacion de perfiles
+         */
+        protected void botonModificarPerfil_ServerClick(object sender, EventArgs e)
+        {
+            modo = (int)Modo.ModificarPerfil;
             cambiarModo();
         }
 
@@ -543,14 +589,14 @@ namespace ProyectoInventarioOET
             {
                 operacionCorrecta = modificarUsuario();
                 if (operacionCorrecta)
-                    modo = (int)Modo.Inicial;
+                modo = (int)Modo.Inicial;
             }
             if (operacionCorrecta)
             {
                 cambiarModo();
             }
         }
-        
+
 
 
 
@@ -838,6 +884,15 @@ namespace ProyectoInventarioOET
                 }
             }
             habilitarCampos(false);
+        }
+
+        /*
+         * Despleiga la información en la pantalla de la entidad perfil consultada
+         */
+        protected void setDatosPerfil()
+        {
+            textBoxCrearPerfilNombre.Value = perfilConsultado.Nombre;
+            dropDownListCrearPerfilNivel.SelectedValue = perfilConsultado.Nivel.ToString();
         }
 
         private DataTable crearTablaBodegas()
