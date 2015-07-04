@@ -148,8 +148,9 @@ namespace ProyectoInventarioOET.Modulo_Entradas
                         ",'" + entrada.Bodega + "'" +
                         ",'" + entrada.FechEntrada.ToString("dd-MMM-yyy") + "'" +
                         ",'" + entrada.TipoMoneda + "'" +
-                        ",'" + entrada.MetodoPago + "'"
-                        + ")";
+                        ",'" + entrada.MetodoPago + "'" +
+                        "," + entrada.Estado.ToString() + 
+                         ")";
 
             try
             {
@@ -282,12 +283,13 @@ namespace ProyectoInventarioOET.Modulo_Entradas
          */
         public String anularEntrada(string idEntrada){
           
-            String esquema = "Compras.";
+            String esquema = "Inventarios.";
           
             String resultado = "";
-            //String comandoSQL = "select NOMBRE from "+ esquema + "V_PROVEEDOR where IDPROVEEDOR = '" + idProveedor + "'";
+
+            String comandoSQL = "update " +esquema+"cat_entradas set estado= 2 where cat_entradas = " + idEntrada;
             try{
-                //ejecutarComandoSQL(comandoSQL, true);
+                ejecutarComandoSQL(comandoSQL, true);
                 resultado = "exito";
             }
             catch(Exception e){
@@ -295,6 +297,16 @@ namespace ProyectoInventarioOET.Modulo_Entradas
                 
                  }
             return resultado;   
+        }
+        public String consultarCodigoInventario(String codigoPro, String codigoBodega)
+        {
+            String esquema = "Inventarios.";
+            DataTable resultado = new DataTable();
+            String comandoSQL = "SELECT INV_BODEGA_PRODUCTOS "
+                                +"FROM " + esquema+ "INV_BODEGA_PRODUCTOS "
+                                +" WHERE " + "INV_PRODUCTOS IN ( SELECT I.INV_PRODUCTOS FROM " +esquema+"INV_PRODUCTOS I join " +esquema+"CAT_ENTRADAS_PRODUCTOS E on I.CODIGO = E.CAT_PRODUCTOS and I.CODIGO = '"+codigoPro+"') and cat_bodega = '"+codigoBodega+"'";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
+            return resultado.Rows[0].ItemArray[0].ToString();
         }
     }
     

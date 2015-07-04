@@ -14,6 +14,7 @@ namespace ProyectoInventarioOET.Modulo_Entradas
         String idEncargado;
         String tipoMoneda;
         String metodoPago;
+        String estado;
 
         public EntidadEntrada(Object[] datos)
         {
@@ -24,6 +25,7 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             idEncargado = datos[2].ToString();
             tipoMoneda = datos[5].ToString();
             metodoPago = datos[6].ToString();
+            estado = datos[7].ToString();
         }
         public String IdFactura
         {
@@ -60,6 +62,11 @@ namespace ProyectoInventarioOET.Modulo_Entradas
         {
             get { return metodoPago; }
             set { metodoPago = value; }
+        }
+        public String Estado
+        {
+            get { return estado; }
+            set { estado = value; }
         }
     }
 }
