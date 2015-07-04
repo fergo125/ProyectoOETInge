@@ -66,3 +66,4 @@ C:\Users\B25201\Source\Repos\ProyectoOETInge\ProyectoInventarioOET\obj\Debug\Pro
 C:\Users\B25201\Source\Repos\ProyectoOETInge\ProyectoInventarioOET\obj\Debug\ProyectoInventarioOET.pdb
 C:\Users\a76440\Documents\GitHub\ProyectoOETInge\ProyectoInventarioOET\obj\Debug\ProyectoInventarioOET.csprojResolveAssemblyReference.cache
 C:\Users\B25201\Source\Repos\ProyectoOETInge\ProyectoInventarioOET\obj\Debug\ProyectoInventarioOET.csprojResolveAssemblyReference.cache
+C:\Users\b22410\Desktop\ProyectoOETInge\ProyectoInventarioOET\obj\Debug\ProyectoInventarioOET.csprojResolveAssemblyReference.cache

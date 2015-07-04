@@ -32,64 +32,67 @@ namespace ProyectoInventarioOET
         private static DataTable tablaPerfiles;                         // Datatable para almacenar los perfiles de consulta
         private static DataTable bodegasEstacion;
         
+        /*
+         * ???
+         */
         protected void Page_Load(object sender, EventArgs e)
         {
-                mensajeAlerta.Visible = false;
+            mensajeAlerta.Visible = false;
             
-                ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab();", true); //para que quede marcada la página seleccionada en el sitemaster
-                labelAlerta.Text = "";
+            ScriptManager.RegisterStartupScript(this, GetType(), "setCurrentTab", "setCurrentTab();", true); //para que quede marcada la página seleccionada en el sitemaster
+            labelAlerta.Text = "";
 
-                if (!IsPostBack)
-                {
-                    controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
-                    controladoraSeguridad = new ControladoraSeguridad();
-                    controladoraBodegas = new ControladoraBodegas();
-                  //Seguridad
-                    permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Seguridad");
-                    if (permisos == "000000")
-                        Response.Redirect("~/ErrorPages/404.html");
-                    //mostrarBotonesSegunPermisos();
+            if (!IsPostBack)
+            {
+                controladoraDatosGenerales = ControladoraDatosGenerales.Instanciar;
+                controladoraSeguridad = new ControladoraSeguridad();
+                controladoraBodegas = new ControladoraBodegas();
+                //Seguridad
+                permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Seguridad");
+                if (permisos == "000000")
+                    Response.Redirect("~/ErrorPages/404.html");
+                //mostrarBotonesSegunPermisos();
 
           
-                    /*EJEMPLO PARA EL BLOPA YO HICE DOS METODS COOOOOORRERRRRRRLO!
-                     *  i) consultarCuentas que trae informacion previa(idUsuario, Nombre, Perfil, Estado) de todas las cuentas que existen en el sistema 
-                     *  ii) consultarCuenta(String id) que devuelve la Entidad de Usuario con todas las cosas que existen en la BD de un usuario especifico, esta entidad contiene
-                     *       una matriz  de permisos que despliega los permisos de dicho usuario en cada interfaz
-                     */
-                    /*controladoraSeguridad = new ControladoraSeguridad();
-                    entidadConsultada = controladoraSeguridad.consultarCuenta("3"); //Recibe el id (Seg_usuario)
-                    this.gridPermisos.DataSource = entidadConsultada.MatrizPermisos;
-                    this.gridPermisos.DataBind();  //IMPORTANTE!! ASI VIENEN LOS PERMISOS DE UN USUARIO
-                    this.inputNombre.Value = entidadConsultada.Nombre;
-                    this.gridCuentas.DataSource = controladoraSeguridad.consultarCuentas(); // Recordadr no desplegar el idUsuario!! Yo lo hice xq era un ejemplo de que funka 
-                    this.gridCuentas.DataBind();*/
-                     if (!seConsulto)
+                /*EJEMPLO PARA EL BLOPA YO HICE DOS METODS COOOOOORRERRRRRRLO!
+                    *  i) consultarCuentas que trae informacion previa(idUsuario, Nombre, Perfil, Estado) de todas las cuentas que existen en el sistema 
+                    *  ii) consultarCuenta(String id) que devuelve la Entidad de Usuario con todas las cosas que existen en la BD de un usuario especifico, esta entidad contiene
+                    *       una matriz  de permisos que despliega los permisos de dicho usuario en cada interfaz
+                    */
+                /*controladoraSeguridad = new ControladoraSeguridad();
+                entidadConsultada = controladoraSeguridad.consultarCuenta("3"); //Recibe el id (Seg_usuario)
+                this.gridPermisos.DataSource = entidadConsultada.MatrizPermisos;
+                this.gridPermisos.DataBind();  //IMPORTANTE!! ASI VIENEN LOS PERMISOS DE UN USUARIO
+                this.inputNombre.Value = entidadConsultada.Nombre;
+                this.gridCuentas.DataSource = controladoraSeguridad.consultarCuentas(); // Recordadr no desplegar el idUsuario!! Yo lo hice xq era un ejemplo de que funka 
+                this.gridCuentas.DataBind();*/
+                    if (!seConsulto)
+                {
+                    modo = (int)Modo.Inicial;
+                }
+                else
+                {
+                    if (usuarioConsultado == null && perfilConsultado == null)
                     {
-                        modo = (int)Modo.Inicial;
+                        mostrarMensaje("warning", "Alerta: ", "No se pudo consultar.");
                     }
                     else
                     {
-                        if (usuarioConsultado == null && perfilConsultado == null)
-                        {
-                            mostrarMensaje("warning", "Alerta: ", "No se pudo consultar.");
-                        }
-                        else
-                        {
 
-                            cargarEstaciones();
-                            cargarAnfitriones();
-                            cargarEstados();
-                            cargarPerfiles();
-                            cargarNivelesPerfil();
-                            if (usuarioConsultado != null)
-                            setDatosCuenta();
-                            else
-                                setDatosPerfil();
-                            seConsulto = false;
-                        }
+                        cargarEstaciones();
+                        cargarAnfitriones();
+                        cargarEstados();
+                        cargarPerfiles();
+                        cargarNivelesPerfil();
+                        if (usuarioConsultado != null)
+                        setDatosCuenta();
+                        else
+                            setDatosPerfil();
+                        seConsulto = false;
                     }
                 }
-                cambiarModo();
+            }
+            cambiarModo();
         }
 
          /*
@@ -388,18 +391,27 @@ namespace ProyectoInventarioOET
         /*
          * Forma un arreglo de strings que representan 
          */
-        protected String[] obtenerPermisosArbol()
+        protected String[] manejarPermisosArbol(bool obtener, String[] permisosConsultados)
         {
-            String[] permisos = new String[11]; //hay 11 subinterfaces
+            String[] permisos = (obtener ? new String[11] : permisosConsultados); //hay 11 subinterfaces
             short iterador = 0;
             foreach(TreeNode interfaz in ArbolPermisos.Nodes[0].ChildNodes) //hijos de la raíz
             {
                 foreach(TreeNode subinterfaz in interfaz.ChildNodes) //hijos de la interfaz
                 {
-                    permisos[iterador] = (dropDownListCrearPerfilNivel.SelectedValue == "1" ? "111" : "000");
-                    permisos[iterador] += (subinterfaz.ChildNodes[2].Checked ? "1" : "0"); //modificar
-                    permisos[iterador] += (subinterfaz.ChildNodes[1].Checked ? "1" : "0"); //insertar
-                    permisos[iterador] += (subinterfaz.ChildNodes[0].Checked ? "1" : "0"); //consultar
+                    if(obtener)
+                    {
+                        permisos[iterador] = (dropDownListCrearPerfilNivel.SelectedValue == "1" ? "111" : "000");
+                        permisos[iterador] += (subinterfaz.ChildNodes[2].Checked ? "1" : "0"); //modificar
+                        permisos[iterador] += (subinterfaz.ChildNodes[1].Checked ? "1" : "0"); //insertar
+                        permisos[iterador] += (subinterfaz.ChildNodes[0].Checked ? "1" : "0"); //consultar
+                    }
+                    else
+                    {
+                        subinterfaz.ChildNodes[2].Checked = (permisos[iterador][3] == '1' ? true : false); //modificar
+                        subinterfaz.ChildNodes[1].Checked = (permisos[iterador][4] == '1' ? true : false); //insertar
+                        subinterfaz.ChildNodes[0].Checked = (permisos[iterador][5] == '1' ? true : false); //consultar
+                    }
                     ++iterador;
                 }
             }
@@ -422,11 +434,11 @@ namespace ProyectoInventarioOET
          */
         protected void botonAceptarCreacionPerfil_ServerClick(object sender, EventArgs e)
         {
-            if(textBoxCrearPerfilNombre.Value == null)
-            {
-                mostrarMensaje("warning", "Atención: ", "Ingrese un nombre para el nuevo perfil.");
-                return;
-            }
+            //if(textBoxCrearPerfilNombre.Value == null)
+            //{
+            //    mostrarMensaje("warning", "Atención: ", "Ingrese un nombre para el nuevo perfil.");
+            //    return;
+            //}
             //primero revisar que el nombre no sea repetido
             if (controladoraSeguridad.consultarPerfil(textBoxCrearPerfilNombre.Value) != null && !(perfilConsultado != null && perfilConsultado.Nombre == textBoxCrearPerfilNombre.Value) ) //ya existe
             {
@@ -436,7 +448,7 @@ namespace ProyectoInventarioOET
             //segundo intentar crear el nuevo perfil
             String[] resultado = new String[3];
             if( modo == (int)Modo.InsercionPerfil )
-                resultado = controladoraSeguridad.insertarPerfil(textBoxCrearPerfilNombre.Value, Convert.ToInt32(dropDownListCrearPerfilNivel.SelectedValue), obtenerPermisosArbol());
+                resultado = controladoraSeguridad.insertarPerfil(textBoxCrearPerfilNombre.Value, Convert.ToInt32(dropDownListCrearPerfilNivel.SelectedValue), manejarPermisosArbol(true, null));
             if (modo == (int)Modo.ModificarPerfil)
                 ;
             mostrarMensaje(resultado[0], resultado[1], resultado[2]);
@@ -893,6 +905,8 @@ namespace ProyectoInventarioOET
         {
             textBoxCrearPerfilNombre.Value = perfilConsultado.Nombre;
             dropDownListCrearPerfilNivel.SelectedValue = perfilConsultado.Nivel.ToString();
+            llenarArbol();
+            manejarPermisosArbol(false, perfilConsultado.Permisos);
         }
 
         private DataTable crearTablaBodegas()
