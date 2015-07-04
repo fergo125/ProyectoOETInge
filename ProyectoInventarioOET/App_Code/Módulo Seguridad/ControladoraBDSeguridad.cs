@@ -63,12 +63,62 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             if (resultado.Rows.Count == 1)
             {
                 Object[] datosConsultados = new Object[3];
-                for (int i = 0; i < 3; ++i)
-                    datosConsultados[i] = resultado.Rows[0][i].ToString();
+                datosConsultados[0] = resultado.Rows[0][1];
+                datosConsultados[1] = resultado.Rows[0][3];
+
+                String idPerfil = resultado.Rows[0][0].ToString();
+                comandoSQL = "SELECT PERMISOS FROM SEG_PERMISOS WHERE SEG_PERFIL = '" + idPerfil + "' AND INTERFAZ = 'Catalogo general de productos' UNION ALL "
+                    + "SELECT PERMISOS FROM SEG_PERMISOS WHERE SEG_PERFIL = '" + idPerfil + "' AND INTERFAZ = 'Categorias de productos' UNION ALL "
+                    + "SELECT PERMISOS FROM SEG_PERMISOS WHERE SEG_PERFIL = '" + idPerfil + "' AND INTERFAZ = 'Catalogos de productos en bodegas' UNION ALL "
+                    + "SELECT PERMISOS FROM SEG_PERMISOS WHERE SEG_PERFIL = '" + idPerfil + "' AND INTERFAZ = 'Gestion de bodegas' UNION ALL "
+                    + "SELECT PERMISOS FROM SEG_PERMISOS WHERE SEG_PERFIL = '" + idPerfil + "' AND INTERFAZ = 'Gestion de actividades' UNION ALL "
+                    + "SELECT PERMISOS FROM SEG_PERMISOS WHERE SEG_PERFIL = '" + idPerfil + "' AND INTERFAZ = 'Entradas de inventario' UNION ALL "
+                    + "SELECT PERMISOS FROM SEG_PERMISOS WHERE SEG_PERFIL = '" + idPerfil + "' AND INTERFAZ = 'Ajustes de inventario' UNION ALL "
+                    + "SELECT PERMISOS FROM SEG_PERMISOS WHERE SEG_PERFIL = '" + idPerfil + "' AND INTERFAZ = 'Traslados de inventario' UNION ALL "
+                    + "SELECT PERMISOS FROM SEG_PERMISOS WHERE SEG_PERFIL = '" + idPerfil + "' AND INTERFAZ = 'Facturacion' UNION ALL "
+                    + "SELECT PERMISOS FROM SEG_PERMISOS WHERE SEG_PERFIL = '" + idPerfil + "' AND INTERFAZ = 'Reportes' UNION ALL "
+                    + "SELECT PERMISOS FROM SEG_PERMISOS WHERE SEG_PERFIL = '" + idPerfil + "' AND INTERFAZ = 'Seguridad'";
+                resultado = ejecutarComandoSQL(comandoSQL, true);
+
+                String[] permisos = new String[11];
+                for (int i = 0; i < 11; ++i )
+                {
+                    permisos[i] = resultado.Rows[i][0].ToString();
+                }
+                datosConsultados[2] = permisos;
                 perfil = new EntidadPerfil(datosConsultados);
             }
             return perfil;
         }
+
+        /*
+         * Asigna un perfil al usuario recien creado.
+         */
+        public String[] asociarPerfilNuevoUsuario(String llaveUsuario, String llavePerfil)
+        {
+            String esquema = "Inventarios.";
+            String[] resultado = new String[3];
+            String id = generarID();
+            String comandoSQL = "INSERT INTO " + esquema + "SEG_PERFIL_USUARIO VALUES ('"
+                + id + "', '"
+                + llaveUsuario + "','"
+                + llavePerfil + "')";
+            if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
+            {
+                    resultado[0] = "success";
+                    resultado[1] = "Éxito";
+                    resultado[2] = "Perfil creado con éxito";
+            }
+            else
+            {
+                resultado[0] = "danger";
+                resultado[1] = "Error";
+                resultado[2] = "Error al intentar crear el nuevo perfil.";
+            }
+            return resultado;
+        }
+
+
 
         /*
          * Insertar un perfil.
@@ -292,8 +342,10 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             String esquema = "Inventarios.";
             String[] resultado = new String[4];
             usuario.Codigo = generarID();
+            String date = DateTime.Now.ToString("dd-MMM-yyyy");
+            usuario.FechaCreacion = Convert.ToDateTime(date);
             String comandoSQL = "INSERT INTO " + esquema + "SEG_USUARIO (SEG_USUARIO, USUARIO, CLAVE,FECHACREACION,DESCRIPCION,IDESTACION,ANFITRIONA,NOMBRE, ESTADO, DESCUENTO_MAXIMO) VALUES ('"
-                + usuario.Codigo + "','" + usuario.Usuario + "','" + usuario.Clave + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','" + usuario.Descripcion + "','" 
+                + usuario.Codigo + "','" + usuario.Usuario + "','" + usuario.Clave + "','" + date + "','" + usuario.Descripcion + "','" 
                 + usuario.IdEstacion +"','" + usuario.Anfitriona +"','" + usuario.Nombre +"'," + usuario.Estado +",15)";
                 if(ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
                 {
@@ -394,7 +446,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
             String comandoSQL = " SELECT *"
-            + " FROM " + esquema + "seg_perfil U ";
+            + " FROM " + esquema + "seg_perfil U WHERE U.ESTADO = 1 ";
             resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }
@@ -421,6 +473,23 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             }
 
             return idPerfil;
+        }
+
+        public Boolean nombreUsuarioRepetido(String nombreUsuario)
+        {
+            Boolean repetido = false;
+            String esquema = "Inventarios.";
+            String comandoSQL = " SELECT SEG_USUARIO"
+            + " FROM " + esquema + "SEG_USUARIO WHERE USUARIO = '" + nombreUsuario + "'";
+            DataTable consultado = new DataTable();
+            consultado = ejecutarComandoSQL(comandoSQL, true);
+            
+            if (consultado.Rows.Count > 0)
+            {
+                repetido = true;
+            }
+
+            return repetido;
         }
 
     }

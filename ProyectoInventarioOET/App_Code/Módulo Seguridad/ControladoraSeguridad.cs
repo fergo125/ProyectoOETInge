@@ -226,5 +226,15 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             return controladoraBDSeguridad.asociarABodega(codigo, llaveBodega, idEstacion);
         }
 
+        public String[] asociarPerfilNuevoUsuario(String llaveUsuario, String llavePerfil) 
+        {
+            return controladoraBDSeguridad.asociarPerfilNuevoUsuario(llaveUsuario, llavePerfil);
+        }
+
+        public Boolean nombreUsuarioRepetido(String nombreUsuario)
+        {
+            return controladoraBDSeguridad.nombreUsuarioRepetido(nombreUsuario);        
+        }
+    
     }
 }
