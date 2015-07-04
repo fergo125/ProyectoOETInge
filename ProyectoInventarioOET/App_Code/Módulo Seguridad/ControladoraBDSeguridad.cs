@@ -58,7 +58,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
             EntidadPerfil perfil = null;
-            String comandoSQL = "SELECT * FROM " + esquema + "SEG_PERFIL WHERE NOMBRE = '" + nombre + "' AND ESTADO = 1";
+            String comandoSQL = "SELECT * FROM " + esquema + "SEG_PERFIL WHERE NOMBRE = '" + nombre + "'";
             resultado = ejecutarComandoSQL(comandoSQL, true);
             if (resultado.Rows.Count == 1)
             {
@@ -446,7 +446,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
             String comandoSQL = " SELECT *"
-            + " FROM " + esquema + "seg_perfil U ";
+            + " FROM " + esquema + "seg_perfil U WHERE U.ESTADO = 1 ";
             resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }

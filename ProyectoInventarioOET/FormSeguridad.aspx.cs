@@ -231,7 +231,7 @@ namespace ProyectoInventarioOET
                     ArbolPermisos.Enabled = false;
                     FieldsetUsuario.Visible = false;
                     FieldsetAsociarUsuario.Visible = false;
-                    FieldsetBotones.Visible = false;
+                    FieldsetBotones.Visible = true;
                     FieldsetGrid.Visible = false;
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfil.Visible = true;
@@ -240,6 +240,7 @@ namespace ProyectoInventarioOET
                     botonCancelarCreacionPerfil.Visible = false;
                     FieldsetConsultarPerfil.Visible = true;
                     habilitarCamposPerfil(false);
+                    llenarGridPerfiles();
                     break;
             }
         }
