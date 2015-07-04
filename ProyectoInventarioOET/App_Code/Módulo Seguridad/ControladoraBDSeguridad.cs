@@ -58,13 +58,34 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
             EntidadPerfil perfil = null;
-            String comandoSQL = "SELECT * FROM " + esquema + "SEG_PERFIL WHERE NOMBRE = '" + nombre + "'";
+            String comandoSQL = "SELECT * FROM " + esquema + "SEG_PERFIL WHERE NOMBRE = '" + nombre + "' AND ESTADO = 1";
             resultado = ejecutarComandoSQL(comandoSQL, true);
             if (resultado.Rows.Count == 1)
             {
                 Object[] datosConsultados = new Object[3];
-                for (int i = 0; i < 3; ++i)
-                    datosConsultados[i] = resultado.Rows[0][i + 1].ToString();
+                datosConsultados[0] = resultado.Rows[0][1];
+                datosConsultados[1] = resultado.Rows[0][3];
+
+                String idPerfil = resultado.Rows[0][0].ToString();
+                comandoSQL = "SELECT PERMISOS FROM SEG_PERMISOS WHERE SEG_PERFIL = '" + idPerfil + "' AND INTERFAZ = 'Catalogo general de productos' UNION ALL "
+                    + "SELECT PERMISOS FROM SEG_PERMISOS WHERE SEG_PERFIL = '" + idPerfil + "' AND INTERFAZ = 'Categorias de productos' UNION ALL "
+                    + "SELECT PERMISOS FROM SEG_PERMISOS WHERE SEG_PERFIL = '" + idPerfil + "' AND INTERFAZ = 'Catalogos de productos en bodegas' UNION ALL "
+                    + "SELECT PERMISOS FROM SEG_PERMISOS WHERE SEG_PERFIL = '" + idPerfil + "' AND INTERFAZ = 'Gestion de bodegas' UNION ALL "
+                    + "SELECT PERMISOS FROM SEG_PERMISOS WHERE SEG_PERFIL = '" + idPerfil + "' AND INTERFAZ = 'Gestion de actividades' UNION ALL "
+                    + "SELECT PERMISOS FROM SEG_PERMISOS WHERE SEG_PERFIL = '" + idPerfil + "' AND INTERFAZ = 'Entradas de inventario' UNION ALL "
+                    + "SELECT PERMISOS FROM SEG_PERMISOS WHERE SEG_PERFIL = '" + idPerfil + "' AND INTERFAZ = 'Ajustes de inventario' UNION ALL "
+                    + "SELECT PERMISOS FROM SEG_PERMISOS WHERE SEG_PERFIL = '" + idPerfil + "' AND INTERFAZ = 'Traslados de inventario' UNION ALL "
+                    + "SELECT PERMISOS FROM SEG_PERMISOS WHERE SEG_PERFIL = '" + idPerfil + "' AND INTERFAZ = 'Facturacion' UNION ALL "
+                    + "SELECT PERMISOS FROM SEG_PERMISOS WHERE SEG_PERFIL = '" + idPerfil + "' AND INTERFAZ = 'Reportes' UNION ALL "
+                    + "SELECT PERMISOS FROM SEG_PERMISOS WHERE SEG_PERFIL = '" + idPerfil + "' AND INTERFAZ = 'Seguridad'";
+                resultado = ejecutarComandoSQL(comandoSQL, true);
+
+                String[] permisos = new String[11];
+                for (int i = 0; i < 11; ++i )
+                {
+                    permisos[i] = resultado.Rows[i][0].ToString();
+                }
+                datosConsultados[2] = permisos;
                 perfil = new EntidadPerfil(datosConsultados);
             }
             return perfil;

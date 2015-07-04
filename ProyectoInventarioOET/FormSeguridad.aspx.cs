@@ -45,7 +45,7 @@ namespace ProyectoInventarioOET
                     controladoraSeguridad = new ControladoraSeguridad();
                     controladoraBodegas = new ControladoraBodegas();
                   //Seguridad
-                    permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Gestion de bodegas");
+                    permisos = (this.Master as SiteMaster).obtenerPermisosUsuarioLogueado("Seguridad");
                     if (permisos == "000000")
                         Response.Redirect("~/ErrorPages/404.html");
                     //mostrarBotonesSegunPermisos();
@@ -69,9 +69,9 @@ namespace ProyectoInventarioOET
                     }
                     else
                     {
-                        if (usuarioConsultado == null)
+                        if (usuarioConsultado == null && perfilConsultado == null)
                         {
-                            mostrarMensaje("warning", "Alerta: ", "No se pudo consultar la bodega.");
+                            mostrarMensaje("warning", "Alerta: ", "No se pudo consultar.");
                         }
                         else
                         {
@@ -80,7 +80,11 @@ namespace ProyectoInventarioOET
                             cargarAnfitriones();
                             cargarEstados();
                             cargarPerfiles();
-                            setDatosCuenta();
+                            cargarNivelesPerfil();
+                            if (usuarioConsultado != null)
+                                setDatosCuenta();
+                            else
+                                setDatosPerfil();
                             seConsulto = false;
                         }
                     }
@@ -810,6 +814,15 @@ namespace ProyectoInventarioOET
                 }
             }
             habilitarCampos(false);
+        }
+
+        /*
+         * Despleiga la información en la pantalla de la entidad perfil consultada
+         */
+        protected void setDatosPerfil()
+        {
+            textBoxCrearPerfilNombre.Value = perfilConsultado.Nombre;
+            dropDownListCrearPerfilNivel.SelectedValue = perfilConsultado.Nivel.ToString();
         }
 
         private DataTable crearTablaBodegas()

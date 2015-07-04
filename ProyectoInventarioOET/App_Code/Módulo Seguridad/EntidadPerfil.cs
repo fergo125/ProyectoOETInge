@@ -21,8 +21,8 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
          */
         public EntidadPerfil(Object[] datos)
         {
-            this.nombre = datos[1].ToString();
-            this.nivel = Convert.ToInt32(datos[2].ToString());
+            this.nombre = datos[0].ToString();
+            this.nivel = Convert.ToInt32(datos[1].ToString());
             this.permisos = (String[])datos[2];
         }
 
