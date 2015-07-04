@@ -163,20 +163,21 @@ namespace ProyectoInventarioOET
 
             //TODO arreglar esto para que no sea hard coded***
             this.linkFormProductos.Visible = (!esconder && (usuarioLogueado.CodigoPerfil == "1" || usuarioLogueado.CodigoPerfil == "2"));
-            this.linkFormProductos1.Visible = (!esconder && (usuarioLogueado.CodigoPerfil == "1" || usuarioLogueado.CodigoPerfil == "2"));
-            this.linkFormProductos2.Visible = (!esconder && (usuarioLogueado.CodigoPerfil == "1" || usuarioLogueado.CodigoPerfil == "2"));
+                this.linkFormProductos1.Visible = (!esconder && (usuarioLogueado.CodigoPerfil == "1" || usuarioLogueado.CodigoPerfil == "2"));
+                this.linkFormProductos2.Visible = (!esconder && (usuarioLogueado.CodigoPerfil == "1" || usuarioLogueado.CodigoPerfil == "2"));
             this.linkFormBodegas.Visible = !esconder;
                 this.linkFormBodegas1.Visible = !esconder;
                 this.linkFormBodegas2.Visible = (!esconder && (usuarioLogueado.CodigoPerfil == "1" || usuarioLogueado.CodigoPerfil == "2"));
                 this.linkFormBodegas3.Visible = !esconder;
-                this.linkFormInventario.Visible = (!esconder && (usuarioLogueado.CodigoPerfil == "1" || usuarioLogueado.CodigoPerfil == "2" || usuarioLogueado.CodigoPerfil == "3"));
+            this.linkFormInventario.Visible = (!esconder && (usuarioLogueado.CodigoPerfil == "1" || usuarioLogueado.CodigoPerfil == "2" || usuarioLogueado.CodigoPerfil == "3"));
                 this.linkFormInventario1.Visible = (!esconder && (usuarioLogueado.CodigoPerfil == "1" || usuarioLogueado.CodigoPerfil == "2" || usuarioLogueado.CodigoPerfil == "3"));
                 this.linkFormInventario2.Visible = (!esconder && (usuarioLogueado.CodigoPerfil == "1" || usuarioLogueado.CodigoPerfil == "2" || usuarioLogueado.CodigoPerfil == "3"));
                 this.linkFormInventario3.Visible = (!esconder && (usuarioLogueado.CodigoPerfil == "1" || usuarioLogueado.CodigoPerfil == "2" || usuarioLogueado.CodigoPerfil == "3"));
             this.linkFormVentas.Visible = !esconder;
             this.linkFormAdministracion.Visible = (!esconder && (usuarioLogueado.CodigoPerfil == "1" || usuarioLogueado.CodigoPerfil == "2" || usuarioLogueado.CodigoPerfil == "3"));
-            this.linkFormAdministracion1.Visible = (!esconder && (usuarioLogueado.CodigoPerfil == "1" || usuarioLogueado.CodigoPerfil == "2" || usuarioLogueado.CodigoPerfil == "3"));
-            this.linkFormAdministracion2.Visible = (!esconder && (usuarioLogueado.CodigoPerfil == "1"));
+                this.linkFormAdministracion1.Visible = (!esconder && (usuarioLogueado.CodigoPerfil == "1" || usuarioLogueado.CodigoPerfil == "2" || usuarioLogueado.CodigoPerfil == "3"));
+                this.linkFormAdministracion2.Visible = (!esconder && (usuarioLogueado.CodigoPerfil == "1"));
+            this.linkFormAbout.Visible = (!esconder);
         }
 
         /*

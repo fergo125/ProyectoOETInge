@@ -126,6 +126,10 @@
                                 <li id="linkFormAdministracion2" visible="false" runat="server"><a runat="server" href="~/FormSeguridad">Seguridad</a></li>
                             </ul>
                         </li>
+                        <%-- About --%>
+                        <li id="linkFormAbout" runat="server" visible="false">
+                            <a runat="server" href="~/FormAbout">Acerca de</a>
+                        </li>
                     </ul>
                     <%-- Login --%>
                     <ul class="nav navbar-nav navbar-right">
