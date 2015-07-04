@@ -273,7 +273,7 @@ namespace ProyectoInventarioOET
                     FieldsetBotonesPerfiles.Visible = true;
                     botonConsultarPerfil.Disabled = true;
                     botonCrearPerfil.Disabled = false;
-                    botonModificarPerfil.Disabled = false;
+                    botonModificarPerfil.Disabled = (perfilConsultado != null && perfilConsultado.Nivel == 1);
                     FieldsetPerfil.Visible = true;
                     FieldsetPerfilCreacion.Visible = true;
                     botonAceptarCreacionPerfil.Visible = false;
@@ -424,6 +424,7 @@ namespace ProyectoInventarioOET
         protected void botonCrearPerfil_ServerClick(object sender, EventArgs e)
         {
             modo = (int)Modo.InsercionPerfil;
+            limpiarCamposPerfil();
             cambiarModo();
             llenarArbol();
             cargarNivelesPerfil();
@@ -452,6 +453,13 @@ namespace ProyectoInventarioOET
             if (modo == (int)Modo.ModificarPerfil)
                 resultado = modificar();
             mostrarMensaje(resultado[0], resultado[1], resultado[2]);
+
+            if(resultado[0].Contains("success"))
+            {
+                llenarGridPerfiles();
+                modo = (int)Modo.ConsultadoPerfil;
+                cambiarModo();
+            }
         }
 
         protected String[] modificar()
@@ -459,7 +467,7 @@ namespace ProyectoInventarioOET
             Object[] datos = new Object[3];
             datos[0] = textBoxCrearPerfilNombre.Value;
             datos[1] = Convert.ToInt32(dropDownListCrearPerfilNivel.SelectedValue);
-            datos[2] = obtenerPermisosArbol();
+            datos[2] = manejarPermisosArbol(true, null);
             EntidadPerfil nueva = new EntidadPerfil(datos);
 
             return controladoraSeguridad.modificarPerfil(perfilConsultado.Nombre, nueva);
@@ -748,7 +756,8 @@ namespace ProyectoInventarioOET
         {
             this.textBoxCrearPerfilNombre.Disabled = !habilitar;
             this.dropDownListCrearPerfilNivel.Enabled = habilitar;
-            this.PanelArbolPermisos.Enabled = habilitar;
+            this.PanelArbolPermisos.Enabled = true;
+            this.ArbolPermisos.Enabled = habilitar;
         }
 
         protected void limpiarCampos() 
@@ -763,6 +772,11 @@ namespace ProyectoInventarioOET
             this.DropDownListAnfitriona.SelectedValue = "";
             this.DropDownListEstado.SelectedValue = "";
             this.inputDescuentoMaximo.Value = "";
+        }
+
+        protected void limpiarCamposPerfil()
+        {
+            this.textBoxCrearPerfilNombre.Value = "";
         }
 
         /*

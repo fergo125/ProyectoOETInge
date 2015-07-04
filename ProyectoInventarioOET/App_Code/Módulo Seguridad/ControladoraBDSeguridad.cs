@@ -202,18 +202,19 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             String[] resultado = new String[3];
             String id = generarID();
             String comandoSQL = "UPDATE " + esquema + "SEG_PERFIL "
-                + "SET NOMBRE = " + nuevo.Nombre
-                + ", NIVEL = " + nuevo.Nivel;
+                + "SET NOMBRE = '" + nuevo.Nombre
+                + "', CODIGO = " + nuevo.Nivel
+                + " WHERE NOMBRE = '" + nombreViejo + "'";
             if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
             {
-                comandoSQL = "SELECT SEG_PERFIL FROM " + esquema + "SEG_PERFIL WHERE NOMBRE = " + nuevo.Nombre;
+                comandoSQL = "SELECT SEG_PERFIL FROM " + esquema + "SEG_PERFIL WHERE NOMBRE = '" + nuevo.Nombre + "'";
                 DataTable temp = ejecutarComandoSQL(comandoSQL, true);
                 String codigo = temp.Rows[0][0].ToString();
                 bool continuar = true;
 
                 for (short i = 1; i <= 11 && continuar; ++i)
                 {
-                    comandoSQL = "UPDATE SEG_PERMISOS SET PERMISOS = '" + nuevo.Permisos[i] + "' "
+                    comandoSQL = "UPDATE SEG_PERMISOS SET PERMISOS = '" + nuevo.Permisos[i-1] + "' "
                         + "WHERE SEG_PERFIL = '" + codigo + "' "
                         + "AND INTERFAZ = '";
                     switch (i)
