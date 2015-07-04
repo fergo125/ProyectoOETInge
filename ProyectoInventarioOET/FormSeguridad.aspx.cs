@@ -102,6 +102,7 @@ namespace ProyectoInventarioOET
                     FieldsetAsociarUsuario.Visible = false;
                     FieldsetUsuario.Visible = false;
                     FieldsetBotones.Visible = false;
+                    FieldsetBotonesModificar.Visible = false;
                     FieldsetGrid.Visible = false;
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfilCreacion.Visible = false;
@@ -116,6 +117,7 @@ namespace ProyectoInventarioOET
                     FieldsetUsuario.Visible = false;
                     FieldsetAsociarUsuario.Visible = false;
                     FieldsetBotones.Visible = false;
+                    FieldsetBotonesModificar.Visible = false;
                     FieldsetGrid.Visible = false;
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfilCreacion.Visible = false;
@@ -131,6 +133,7 @@ namespace ProyectoInventarioOET
                     FieldsetUsuario.Visible = false;
                     FieldsetAsociarUsuario.Visible = false;
                     FieldsetBotones.Visible = false;
+                    FieldsetBotonesModificar.Visible = false;
                     FieldsetGrid.Visible = false;
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfilCreacion.Visible = false;
@@ -153,6 +156,7 @@ namespace ProyectoInventarioOET
                     FieldsetUsuario.Visible = false;
                     FieldsetGrid.Visible = true;
                     FieldsetBotones.Visible = false;
+                    FieldsetBotonesModificar.Visible = false;
                     FieldsetAsociarUsuario.Visible = false;
                     FieldsetGridCuentas.Visible = true;
                     FieldsetPerfil.Visible = false;
@@ -171,6 +175,7 @@ namespace ProyectoInventarioOET
                     labelInputPasswordConfirm.Visible = true;                   
                     FieldsetAsociarUsuario.Visible = false;
                     FieldsetBotones.Visible = true;
+                    FieldsetBotonesModificar.Visible = false;
                     FieldsetGrid.Visible = false;
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfilCreacion.Visible = false;
@@ -182,7 +187,8 @@ namespace ProyectoInventarioOET
                     tituloAccionForm.InnerText = "Modifique la información del usuario.";
                     FieldsetUsuario.Visible = true;
                     FieldsetAsociarUsuario.Visible = false;
-                    FieldsetBotones.Visible = true;
+                    FieldsetBotones.Visible = false;
+                    FieldsetBotonesModificar.Visible = true;
                     FieldsetGrid.Visible = false;
                     FieldsetGridCuentas.Visible = false;
                     gridViewBodegas.Enabled = true;
@@ -196,6 +202,7 @@ namespace ProyectoInventarioOET
                     FieldsetUsuario.Visible = false;
                     FieldsetAsociarUsuario.Visible = false;
                     FieldsetBotones.Visible = false;
+                    FieldsetBotonesModificar.Visible = false;
                     FieldsetGrid.Visible = false;
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfil.Visible = true;
@@ -210,6 +217,7 @@ namespace ProyectoInventarioOET
                     FieldsetUsuario.Visible = true;
                     FieldsetAsociarUsuario.Visible = false;
                     FieldsetBotones.Visible = false;
+                    FieldsetBotonesModificar.Visible = false;
                     FieldsetGrid.Visible = false;
                     inputPassword.Visible = false; inputPasswordConfirm.Visible = false;
                     labelInputPassword.Visible = false; labelInputPasswordConfirm.Visible = false;                 
@@ -228,6 +236,7 @@ namespace ProyectoInventarioOET
                     FieldsetUsuario.Visible = false;
                     FieldsetAsociarUsuario.Visible = false;
                     FieldsetBotones.Visible = false;
+                    FieldsetBotonesModificar.Visible = false;
                     FieldsetGrid.Visible = false;
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfil.Visible = true;
@@ -525,6 +534,26 @@ namespace ProyectoInventarioOET
             }
         }
 
+
+        protected void botonModificarCuentaUsuario_ServerClick(object sender, EventArgs e)
+        {
+            Boolean operacionCorrecta = true;
+
+            if (modo == (int)Modo.ModificarUsuario)
+            {
+                operacionCorrecta = modificarUsuario();
+                if (operacionCorrecta)
+                    modo = (int)Modo.Inicial;
+            }
+            if (operacionCorrecta)
+            {
+                cambiarModo();
+            }
+        }
+        
+
+
+
         /*Metodo que realiza la insercion de un nuevo usuario en la base de datos*/
         protected String crearUsuario()
         {
@@ -713,7 +742,6 @@ namespace ProyectoInventarioOET
             }
             catch (Exception e)
             {
-                //mostrarMensaje("warning", "Alerta", "No hay conexión a la base de datos.");
             }
         }
     

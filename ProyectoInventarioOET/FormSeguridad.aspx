@@ -47,6 +47,7 @@
                             ControlToValidate="inputPassword"
                             Font-Bold="true"
                             ForeColor="Red"
+                            ValidationGroup="Group1"
                             Display="Dynamic"
                             CssClass="ValidationError">
                             </asp:RequiredFieldValidator>
@@ -57,6 +58,7 @@
                             ControlToCompare="inputPassword"
                             ClientValidationFunction="changeColor" 
                             ForeColor="Red"
+                            ValidationGroup="Group1"
                             Display="Dynamic"
                             Font-Bold="true"
                             ErrorMessage="La contraseña no coincide con lo ingresado en la confirmación."/>
@@ -67,6 +69,7 @@
                             ControlToValidate="inputPassword"
                             CssClass="ValidationError"
                             ClientValidationFunction="changeColor" 
+                            ValidationGroup="Group1"
                             ForeColor="Red"
                             Font-Bold="true"
                             Display="Dynamic"
@@ -83,6 +86,17 @@
                     <td style="width:80%; vertical-align:top;">
                         <label class="control-label">Nombre:</label>  
                         <input id="textBoxCrearPerfilNombre" type="text" class="form-control" style="width: 70%;" runat="server"/>
+                        
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" 
+                            ErrorMessage="El nombre es un espacio necesario." 
+                            ControlToValidate="textBoxCrearPerfilNombre"
+                            Font-Bold="true"
+                            ForeColor="Red"
+                            ValidationGroup="Group3"
+                            Display="Dynamic"
+                            CssClass="ValidationError">
+                            </asp:RequiredFieldValidator>
+
                         <br />
                         <label class="control-label">Nivel:</label>
                         <asp:DropDownList ID="dropDownListCrearPerfilNivel" class="input input-fozkr-dropdownlist" CssClass="form-control" Width="70%" runat="server"></asp:DropDownList>
@@ -108,7 +122,7 @@
             <div class="col-lg-12" runat="server">
                 <div class="row">
                     <div class="text-center">
-                        <button runat="server" type="button" class="btn btn-success-fozkr" onserverclick="botonAceptarCreacionPerfil_ServerClick" id="botonAceptarCreacionPerfil">Guardar</button>
+                        <button runat="server" type="button" class="btn btn-success-fozkr" validationgroup="Group3" onserverclick="botonAceptarCreacionPerfil_ServerClick" id="botonAceptarCreacionPerfil">Guardar</button>
                         <a runat="server" href="#modalCancelar" id="botonCancelarCreacionPerfil" class="btn btn-danger-fozkr" role="button" data-toggle="modal">Cancelar</a>
                     </div>
                 </div>
@@ -154,6 +168,7 @@
                             ErrorMessage="Este espacio es requerido." 
                             ControlToValidate="inputNombre"
                             Font-Bold="true"
+                            ValidationGroup="Group2"
                             ForeColor="Red"
                             Display="Dynamic"
                             CssClass="ValidationError">
@@ -172,6 +187,7 @@
                             ControlToValidate="inputUsuario"
                             Font-Bold="true"
                             ForeColor="Red"
+                            ValidationGroup="Group2"
                             Display="Dynamic"
                             CssClass="ValidationError">
                             </asp:RequiredFieldValidator>
@@ -331,16 +347,33 @@
                             ClientValidationFunction="changeColor" 
                             ForeColor="Red"
                             Display="Dynamic"
+                            ValidationGroup="Group1"
                             CssClass="ValidationError">
                             </asp:RequiredFieldValidator>
 
-    <!-- Fieldset de botones de aceptar/cancelar -->
+    <!-- Fieldset de botones de aceptar/cancelar PARA USO DE CREAR -->
     <fieldset id="FieldsetBotones" class="fieldset" runat="server" visible="false">
         <div class="col-lg-12" id="bloqueBotones" runat="server">
             <div class =" row">
                 <div class="text-center">
-                    <button runat="server" type="button" class="btn btn-success-fozkr" onserverclick="botonAceptarUsuario_ServerClick" id="botonAceptar">Aceptar</button>
+                    <button runat="server" type="button" class="btn btn-success-fozkr" onclientclick="return Validate()" onserverclick="botonAceptarUsuario_ServerClick" id="botonAceptar">Aceptar</button>
                     <a runat="server" href="#modalCancelar" id="botonCancelarEverything" class="btn btn-danger-fozkr" role="button" data-toggle="modal">Cancelar</a>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <br />
+
+
+    
+    <!-- Fieldset de botones de aceptar/cancelar PARA USO DE MODIFICAR -->
+    <fieldset id="FieldsetBotonesModificar" class="fieldset" runat="server" visible="false">
+        <div class="col-lg-12" id="Div2" runat="server">
+            <div class =" row">
+                <div class="text-center">
+                    <button runat="server" type="button" class="btn btn-success-fozkr" validationgroup="Group2" onserverclick="botonModificarCuentaUsuario_ServerClick" id="botonAceptarModificar">Aceptar</button>
+                    <a runat="server" href="#modalCancelar"  id="botonCancelarModificacion" class="btn btn-danger-fozkr" role="button" data-toggle="modal">Cancelar</a>
                 </div>
             </div>
         </div>
@@ -374,4 +407,17 @@
             document.getElementById("linkFormAdministracion").className = "active";
         }
     </script>
+
+    <script type="text/javascript">
+        function Validate() {
+            var isValid = false;
+            isValid = Page_ClientValidate('Group1');
+            if (isValid) {
+                isValid = Page_ClientValidate('Group2');
+            }
+
+            return isValid;
+        }
+</script>
+
 </asp:Content>
