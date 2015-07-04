@@ -665,7 +665,6 @@ namespace ProyectoInventarioOET
             this.DropDownListAnfitriona.SelectedValue = "";
             this.DropDownListEstado.SelectedValue = "";
             this.inputDescuentoMaximo.Value = "";
-            this.DropDownListPerfilConsulta.SelectedValue = "";
         }
 
         /*
