@@ -555,6 +555,9 @@ namespace ProyectoInventarioOET
             dropdownTipo.SelectedIndex = 0;
         }
 
+        /*
+        * Este metodo carga los estados del ajuste (Aplicado o anulado) en la interfaz
+        */
         protected void cargarEstados()
         {
             DropDownEstado.Items.Clear();
@@ -587,7 +590,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * Esto pasa la interfaz al modo de consulta.
+         * Metodo que pasa a la interfaz al modo de consulta.
          */
         protected void botonConsultarAjustes_ServerClick(object sender, EventArgs e)
         {
@@ -921,6 +924,9 @@ namespace ProyectoInventarioOET
             ajusteConsultado = null;
         }
 
+        /*
+         * Método que muestra los botones de acuerdo a los permisos del usuario.
+         */
         protected void mostrarBotonesSegunPermisos()
         {
             this.botonConsultarAjustes.Visible = (permisos[5] == '1');
@@ -928,6 +934,9 @@ namespace ProyectoInventarioOET
         }
 
 
+        /*
+         * 
+         */
         protected void gridViewAgregarProductos_CambioPagina(Object sender, GridViewPageEventArgs e)
         {
             this.gridViewAgregarProductos.PageIndex = e.NewPageIndex;
@@ -1026,8 +1035,8 @@ namespace ProyectoInventarioOET
         }
 
         /*
-  * Auxiliar para ordenar grid
-  */
+        * Método auxiliar para ordenar grid
+        */
         public void BindGrid(string sortBy, bool inAsc)
         {
             agregarID();
@@ -1039,7 +1048,10 @@ namespace ProyectoInventarioOET
             gridViewAjustes.DataBind();
         }
 
-        public void agregarID()
+        /*
+         * Método auxiliar que agrega el id a la tabla de ajustes para su posterior ordenamiento
+         */
+        private void agregarID()
         {
             DataColumn columna;
 
@@ -1055,7 +1067,10 @@ namespace ProyectoInventarioOET
             }
         }
 
-        public void actualizarIDs()
+        /*
+        * Método auxiliar para  actualizar los ids con el nuevo orden
+         */
+        private void actualizarIDs()
         {
             int i = 0;
             foreach (DataRow fila in tabla.Rows)
@@ -1066,6 +1081,10 @@ namespace ProyectoInventarioOET
             tabla.Columns.Remove("id");
         }
 
+        /*
+         * Método (evento) que muestra los productos del inventario local que concuerdan con el criterio de busqueda ingresado por
+         * el usuario en la barra de busqueda en el modal "Agregar Producto "
+         */
         protected void botonBuscar_Click(object sender, EventArgs e)
         {
             String query = barraDeBusqueda.Value;

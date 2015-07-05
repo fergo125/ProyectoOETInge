@@ -167,6 +167,10 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
             ejecutarComandoSQL(comandoSQL, false);
         }
 
+        /*
+         * Método encargado de anular un ajustes con los datos provenientes de la Entidad encapsulada en la interfaz,
+         * este método retorna el inventario a el estado previo al ajuste (Rollback).
+         */
         public String[] anularAjuste(EntidadAjustes ajuste, String idAjuste)
         {
             String[] resultado = new String[3];
@@ -193,7 +197,6 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
                 resultado[1] = "Error:";
                 resultado[2] = "Ajuste no anulado, intente nuevamente.";
                 return resultado;
-
             } 
         }
     }

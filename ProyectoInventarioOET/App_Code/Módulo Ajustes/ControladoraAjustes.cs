@@ -110,6 +110,10 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
             return consultada;
         }
 
+        /*
+         * Metodo encargado de comunicar con la controladoraBD y anular el ajuste especifico
+         * dejando las existencias del producto previas al ajuste
+         */
         public String[] anularAjuste(EntidadAjustes ajuste, String idAjuste) {
             return controladoraBD.anularAjuste(ajuste, idAjuste); 
         }
