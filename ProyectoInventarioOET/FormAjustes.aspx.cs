@@ -900,7 +900,8 @@ namespace ProyectoInventarioOET
             {   // Caso Modificacion
                 if (this.DropDownEstado.SelectedIndex == 0)
                 { // Se anula
-                    controladoraAjustes.anularAjuste(ajusteConsultado, codigo);
+                    String[] resp = controladoraAjustes.anularAjuste(ajusteConsultado, codigo);
+                    mostrarMensaje(resp[0], resp[1], resp[2]);
                 }
                 modo = (int)Modo.Inicial;
                 cambiarModo();
@@ -929,7 +930,6 @@ namespace ProyectoInventarioOET
 
         protected void gridViewAgregarProductos_CambioPagina(Object sender, GridViewPageEventArgs e)
         {
-            //llenarGridAgregarProductos();
             this.gridViewAgregarProductos.PageIndex = e.NewPageIndex;
             this.gridViewAgregarProductos.DataSource = tablaAgregarProductos;
             this.gridViewAgregarProductos.DataBind();

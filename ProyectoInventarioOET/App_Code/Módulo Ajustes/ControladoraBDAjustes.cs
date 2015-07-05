@@ -77,7 +77,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
             String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
             String comandoSQL = "SELECT P.NOMBRE, P.CODIGO, D.CANTIDADPREVIA, D.CANTIDADNUEVA, B.INV_BODEGA_PRODUCTOS, B.SALDO, U.DESCRIPCION "
-            //String comandoSQL = "SELECT P.NOMBRE, P.CODIGO, D.CANTIDADNUEVA - D.CANTIDADPREVIA, B.INV_BODEGA_PRODUCTOS, B.SALDO, U.DESCRIPCION "
+                //String comandoSQL = "SELECT P.NOMBRE, P.CODIGO, D.CANTIDADNUEVA - D.CANTIDADPREVIA, B.INV_BODEGA_PRODUCTOS, B.SALDO, U.DESCRIPCION "
                 + " FROM " + esquema + "DETALLES_AJUSTES D, " + esquema + "INV_BODEGA_PRODUCTOS B, " + esquema + "INV_PRODUCTOS P, " + esquema + "CAT_UNIDADES U "
                 + " WHERE D.ID_AJUSTES = '" + idAjuste + "' "
                 + " AND D.INV_BODEGA_PRODUCTOS = B.INV_BODEGA_PRODUCTOS "
@@ -97,19 +97,19 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
             String esquema = "Inventarios.";
             String[] resultado = new String[4];
             resultado[3] = generarID();
-            String comandoSQL = "INSERT INTO " + esquema + 
+            String comandoSQL = "INSERT INTO " + esquema +
                 "AJUSTES (ID_AJUSTES, CAT_TIPO_MOVIMIENTO, FECHA, USUARIO_BODEGA, IDBODEGA, NOTAS, ANULABLE, ESTADO) VALUES ('"
                 + resultado[3] + "','" + ajuste.IdTipoAjuste + "', TO_DATE('" + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + "',  'dd/mm/yyyy hh24:mi:ss') , '"
-                + ajuste.IdUsuario  + "','" + ajuste.IdBodega + "' , '" + ajuste.Notas + "', " + 1 + " , " + 3 + ")";
-            if(ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
+                + ajuste.IdUsuario + "','" + ajuste.IdBodega + "' , '" + ajuste.Notas + "', " + 1 + " , " + 3 + ")";
+            if (ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
             {
-                foreach(EntidadDetalles detallesProducto in  ajuste.Detalles) // Por cada producto meterlo en el detalles ajustes
+                foreach (EntidadDetalles detallesProducto in ajuste.Detalles) // Por cada producto meterlo en el detalles ajustes
                 {
                     actualizarProducto(detallesProducto.IdProductoBodega, detallesProducto.CantidadNueva);
                     insertarDetalle(resultado[3], detallesProducto);
-                    
+
                     // Actualizar tabla de costo promedio
-                    if( detallesProducto.CantidadNueva - detallesProducto.CantidadPrevia > 0 )
+                    if (detallesProducto.CantidadNueva - detallesProducto.CantidadPrevia > 0)
                     {
                         // Incremental
                         comandoSQL = "call insertar_historial_promedio( '" + detallesProducto.IdProductoBodega + "', " + (detallesProducto.CantidadNueva - detallesProducto.CantidadPrevia) + " )";
@@ -148,7 +148,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
             String comandoSQL = "INSERT INTO " + esquema + "DETALLES_AJUSTES (ID_AJUSTES, INV_BODEGA_PRODUCTOS, CANTIDADPREVIA, CANTIDADNUEVA) VALUES ('" + idAjuste
                 + "','" + detallesProducto.IdProductoBodega + "', " + detallesProducto.CantidadPrevia + ", " + detallesProducto.CantidadNueva + " )";
 
-           // String comandoSQL = "INSERT INTO " + esquema + "DETALLES_AJUSTES (ID_AJUSTES, INV_BODEGA_PRODUCTOS, CANTIDAD_PREVIA, CANTIDAD_NUEVA) VALUES ('" + idAjuste
+            // String comandoSQL = "INSERT INTO " + esquema + "DETALLES_AJUSTES (ID_AJUSTES, INV_BODEGA_PRODUCTOS, CANTIDAD_PREVIA, CANTIDAD_NUEVA) VALUES ('" + idAjuste
             // + "','" + detallesProducto.IdProductoBodega + "', " + detallesProducto.CantidadPrevia + "', " + detallesProducto.CantidadNueva + " )";
 
             ejecutarComandoSQL(comandoSQL, false);
@@ -156,7 +156,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
 
         /*
          * Método auxiliar que se encarga de actualizar la existencia del productos en el catalogo local
-         */ 
+         */
         private void actualizarProducto(String idBodegaProducto, double nuevaCantidad)
         {
             String esquema = "Inventarios.";
@@ -169,19 +169,32 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
 
         public String[] anularAjuste(EntidadAjustes ajuste, String idAjuste)
         {
-            String[] resultado = new String[4];
-            String esquema = "Inventarios.";
-            String comandoSQL = "UPDATE " + esquema + "AJUSTES "
-                                   + " SET ANULABLE = " + 0  + " , "
-                                   + " ESTADO = " + 2
-                                   + " WHERE ID_AJUSTES = '" + idAjuste + "'";
-            ejecutarComandoSQL(comandoSQL, false);
-            foreach (EntidadDetalles detallesProducto in ajuste.Detalles) // Por cada producto meterlo en el detalles ajustes
+            String[] resultado = new String[3];
+            try
             {
-                actualizarProducto(detallesProducto.IdProductoBodega, detallesProducto.CantidadPrevia);
+                String esquema = "Inventarios.";
+                String comandoSQL = "UPDATE " + esquema + "AJUSTES "
+                                       + " SET ANULABLE = " + 0 + " , "
+                                       + " ESTADO = " + 2
+                                       + " WHERE ID_AJUSTES = '" + idAjuste + "'";
+                ejecutarComandoSQL(comandoSQL, false);
+                foreach (EntidadDetalles detallesProducto in ajuste.Detalles) // Por cada producto meterlo en el detalles ajustes
+                {
+                    actualizarProducto(detallesProducto.IdProductoBodega, detallesProducto.CantidadPrevia);
+                }
+                resultado[0] = "success";
+                resultado[1] = "Éxito:";
+                resultado[2] = "Ajuste anulado.";
+                return resultado;
             }
+            catch (Exception e)
+            {
+                resultado[0] = "danger";
+                resultado[1] = "Error:";
+                resultado[2] = "Ajuste no anulado, intente nuevamente.";
+                return resultado;
 
-            return resultado;
+            } 
         }
     }
 }
