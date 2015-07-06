@@ -115,6 +115,7 @@ namespace ProyectoInventarioOET
                     FieldsetPerfilCreacion.Visible = false;
                     tituloAccionForm.InnerText = "";
                     FieldsetConsultarPerfil.Visible = false;
+
                     break;
 
                 case (int)Modo.InicialPerfil:
@@ -194,6 +195,9 @@ namespace ProyectoInventarioOET
                     FieldsetGridCuentas.Visible = false;
                     FieldsetPerfilCreacion.Visible = false;
                     FieldsetConsultarPerfil.Visible = false;
+
+                    this.labelCheckboxCambiaPassword.Visible = false;
+                    this.checkboxCambiaPassword.Visible = false;
                     break;
 
                 case (int)Modo.ModificarUsuario:
@@ -208,6 +212,15 @@ namespace ProyectoInventarioOET
                     gridViewBodegas.Enabled = true;
                     this.inputFecha.Disabled = true;
                     FieldsetConsultarPerfil.Visible = false;
+                    this.inputPassword.Visible = true;
+                    this.inputPassword.Disabled = true;
+                    this.inputPasswordConfirm.Visible = true;
+                    this.inputPasswordConfirm.Disabled = true;
+                    this.labelInputPassword.Visible = true;
+                    this.labelInputPasswordConfirm.Visible = true;
+                    this.labelCheckboxCambiaPassword.Visible = true;
+                    this.checkboxCambiaPassword.Visible = true;
+                    this.botonModificarUsuario.Disabled = true;
                     break;
 
                 case (int)Modo.InsercionPerfil:
@@ -259,6 +272,9 @@ namespace ProyectoInventarioOET
                     this.FieldsetBotonesUsuarios.Visible = true;
                     this.botonModificarUsuario.Visible = true;
                     FieldsetConsultarPerfil.Visible = false;
+
+                    this.labelCheckboxCambiaPassword.Visible = false;
+                    this.checkboxCambiaPassword.Visible = false;
                     break;
 
                 case (int)Modo.ConsultadoPerfil:
@@ -636,7 +652,7 @@ namespace ProyectoInventarioOET
         {
             String codigo = "";
             Object[] usuario = obtenerDatosCuenta();
-
+            String perfilSeleccionadoB = DropDownListPerfilConsulta.SelectedValue;
             if (!controladoraSeguridad.nombreUsuarioRepetido(usuario[1].ToString()))
             {
             String[] error = controladoraSeguridad.insertarUsuario(usuario);
@@ -667,7 +683,7 @@ namespace ProyectoInventarioOET
                 i++;
                 
             }
-            res = controladoraSeguridad.asociarPerfilNuevoUsuario(codigo, perfilSeleccionado);
+            res = controladoraSeguridad.asociarPerfilNuevoUsuario(codigo, perfilSeleccionadoB);
             mostrarMensaje(res[0], res[1], res[2]);
             if (res[0].Contains("success"))
             {
@@ -699,7 +715,7 @@ namespace ProyectoInventarioOET
             Object[] usuario = obtenerDatosCuenta();
             usuario[0] = usuarioConsultado.Codigo;
             List<String> listadoBodegas = new List<String>();
-            Boolean usuarioCambio = (usuarioConsultado.Usuario != usuario[1]);
+            Boolean usuarioCambio = !(usuarioConsultado.Usuario.Equals(usuario[1]));
             Boolean repetido = false;
 
             if (usuarioCambio) 
@@ -721,8 +737,18 @@ namespace ProyectoInventarioOET
                 }
                 String perfil = DropDownListPerfilConsulta.SelectedItem.Text;
                 String[] error = controladoraSeguridad.modificarUsuario(usuario, listadoBodegas, perfil);
+                String[] mensaje = new String[3];
+                if (!"".Equals(this.inputPassword.Value.ToString().Trim()))
+                {
+                    mensaje = controladoraSeguridad.modificarContrasena(usuarioConsultado.Codigo, this.inputPassword.Value);
+                }
+                else 
+                {
+                    mensaje[0] = "success";                
+                }
+
                 mostrarMensaje(error[0], error[1], error[2]);
-                if (error[0].Contains("success"))
+                if (error[0].Contains("success") & mensaje[0].Contains("success"))
                 {
                     exito = true;
                 }
@@ -903,7 +929,7 @@ namespace ProyectoInventarioOET
         protected void setDatosCuenta()
         {
             this.inputUsuario.Value = usuarioConsultado.Usuario;
-            this.inputFecha.Value = usuarioConsultado.FechaCreacion.ToString().Substring(0,10); // Ver porque no funciona           
+            this.inputFecha.Value = Convert.ToDateTime(usuarioConsultado.FechaCreacion).Date.ToString("dd/MM/yyyy"); 
             this.DropDownListEstacion.SelectedIndex = DropDownListEstacion.Items.IndexOf(DropDownListEstacion.Items.FindByText(usuarioConsultado.DescripcionEstacion));
             this.DropDownListAnfitriona.SelectedIndex = DropDownListAnfitriona.Items.IndexOf(DropDownListAnfitriona.Items.FindByText(usuarioConsultado.DescripcionAnfitriona));
             this.DropDownListEstado.SelectedIndex = DropDownListEstado.Items.IndexOf(DropDownListEstado.Items.FindByText(usuarioConsultado.DescripcionEstado));
@@ -1168,6 +1194,23 @@ namespace ProyectoInventarioOET
         protected void dropDownListCrearPerfilNivel_SelectedIndexChanged(object sender, EventArgs e)
         {
             perfilSeleccionado = DropDownListPerfilConsulta.SelectedValue;
+        }
+
+        /*
+         * Evento invocado cuando se da click al checkbox para cambiar la contraseña,
+         * habilita y deshabilita los campos para ingresar la contraseña nueva.
+         */
+        protected void checkboxCambiaPassword_CheckedChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked)
+            {
+                this.inputPassword.Disabled = false;
+                this.inputPasswordConfirm.Disabled = false;
+            }
+            else {
+                this.inputPassword.Disabled = true;
+                this.inputPasswordConfirm.Disabled = true;            
+            }
         }
 
     }

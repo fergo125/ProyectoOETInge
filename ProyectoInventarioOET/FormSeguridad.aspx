@@ -211,7 +211,7 @@
 
                         
                         <label for="DropDownListPerfilConsulta"  id="labelDropDownListPerfilConsulta" runat="server" class="control-label">Perfil:</label>
-                        <asp:DropDownList ID="DropDownListPerfilConsulta"  OnSelectedIndexChanged="dropDownListCrearPerfilNivel_SelectedIndexChanged" AutoPostBack="true"  runat="server" CssClass="form-control"></asp:DropDownList>
+                        <asp:DropDownList ID="DropDownListPerfilConsulta"  OnSelectedIndexChanged="dropDownListCrearPerfilNivel_SelectedIndexChanged" AutoPostBack="false"  runat="server" CssClass="form-control"></asp:DropDownList>
                     </div>
                 </div>
                 <div class="col-lg-4">
@@ -237,6 +237,10 @@
             </div>
             <div class="col-lg-12 row">
                 <br />
+                <div class="col-lg-4" style="margin-top:2.5%;">
+                    <label for="checkboxCambiaPassword" id="labelCheckboxCambiaPassword" class="control-label" runat="server">Cambiar contraseña</label>    
+					<asp:CheckBox ID="checkboxCambiaPassword" OnCheckedChanged="checkboxCambiaPassword_CheckedChanged" CssClass="input-fozkr-check" runat="server" AutoPostBack="true"/>
+                </div>
                 <div class="col-lg-4">
                     <label for="inputPassword" id="labelInputPassword" runat="server" class= "control-label">Contraseña:</label>
                     <input id="inputPassword" runat="server" type="password" class="form-control" />

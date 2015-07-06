@@ -418,6 +418,24 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.DropDownList DropDownListEstado;
         
         /// <summary>
+        /// Control labelCheckboxCambiaPassword.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl labelCheckboxCambiaPassword;
+        
+        /// <summary>
+        /// Control checkboxCambiaPassword.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox checkboxCambiaPassword;
+        
+        /// <summary>
         /// Control labelInputPassword.
         /// </summary>
         /// <remarks>
