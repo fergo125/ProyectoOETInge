@@ -699,27 +699,33 @@ namespace ProyectoInventarioOET
             Object[] usuario = obtenerDatosCuenta();
             usuario[0] = usuarioConsultado.Codigo;
             List<String> listadoBodegas = new List<String>();
+            Boolean usuarioCambio = (usuarioConsultado.Usuario != usuario[1]);
+            Boolean repetido = false;
 
-            if (!controladoraSeguridad.nombreUsuarioRepetido(usuario[1].ToString()))
+            if (usuarioCambio) 
+            { 
+                repetido = controladoraSeguridad.nombreUsuarioRepetido(usuario[1].ToString());
+            }
+
+            if (!repetido)
             {
-            int i = 0;
-            foreach (GridViewRow fila in gridViewBodegas.Rows)
-            {
-                if (((CheckBox)gridViewBodegas.Rows[i].FindControl("checkBoxBodegas")).Checked)
+                int i = 0;
+                foreach (GridViewRow fila in gridViewBodegas.Rows)
                 {
-                    String llaveBodega = controladoraBodegas.consultarLlaveBodega(fila.Cells[1].Text, DropDownListEstacion.SelectedValue);
-                    listadoBodegas.Add(llaveBodega);
+                    if (((CheckBox)gridViewBodegas.Rows[i].FindControl("checkBoxBodegas")).Checked)
+                    {
+                        String llaveBodega = controladoraBodegas.consultarLlaveBodega(fila.Cells[1].Text, DropDownListEstacion.SelectedValue);
+                        listadoBodegas.Add(llaveBodega);
+                    }
+                    i++;
                 }
-                i++;
-            }
-            String perfil = DropDownListPerfilConsulta.SelectedItem.Text;
-            String[] error = controladoraSeguridad.modificarUsuario(usuario, listadoBodegas, perfil);
-            mostrarMensaje(error[0], error[1], error[2]);
-            if (error[0].Contains("success"))
-            {
-                exito = true;
-            }
-
+                String perfil = DropDownListPerfilConsulta.SelectedItem.Text;
+                String[] error = controladoraSeguridad.modificarUsuario(usuario, listadoBodegas, perfil);
+                mostrarMensaje(error[0], error[1], error[2]);
+                if (error[0].Contains("success"))
+                {
+                    exito = true;
+                }
             }
             else
             {
