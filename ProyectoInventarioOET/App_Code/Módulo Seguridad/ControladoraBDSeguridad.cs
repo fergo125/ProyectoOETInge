@@ -357,7 +357,9 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             return nombre;
         }
 
-
+        /*
+         * Método que retorna todas las cuentas en el sistema con informacion preliminar
+        */ 
         public DataTable consultarUsuarios()
         {
             String esquema = "Inventarios.";
@@ -371,6 +373,9 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             return resultado;
         }
 
+        /*
+         * Método que retorna toda la información disponible sobre la cuenta de un usuario específico. 
+        */ 
         public DataTable[] consultarCuenta(String idUsuario)
         {
             String esquemaI = "Inventarios.";
@@ -387,6 +392,10 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             return resultado;
         }
 
+        /*
+         * Método auxiliar que permite encontrar las bodegas en las que un usuario esta asociado 
+         * mediante su id
+         */ 
 
         private DataTable consultarBodegasUsuario(String idUsuario)
         {
