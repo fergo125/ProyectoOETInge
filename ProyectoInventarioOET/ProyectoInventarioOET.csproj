@@ -221,7 +221,6 @@
     <Content Include="FormActividades.aspx" />
     <Content Include="FormLoginBodega.aspx" />
     <Content Include="FormCategorias.aspx" />
-    <Content Include="FormContact.aspx" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
@@ -400,13 +399,6 @@
     </Compile>
     <Compile Include="FormCategorias.aspx.designer.cs">
       <DependentUpon>FormCategorias.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="FormContact.aspx.cs">
-      <DependentUpon>FormContact.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="FormContact.aspx.designer.cs">
-      <DependentUpon>FormContact.aspx</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
