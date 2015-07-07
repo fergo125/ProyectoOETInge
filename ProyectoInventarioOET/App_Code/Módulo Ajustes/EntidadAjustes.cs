@@ -124,5 +124,6 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
             get { return detalles; }
         }
 
+
     }
 }

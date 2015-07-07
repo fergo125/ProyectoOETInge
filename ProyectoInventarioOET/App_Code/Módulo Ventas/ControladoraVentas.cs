@@ -129,9 +129,9 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             return controladoraBDVentas.consultarMetodoDePago(llaveMetodo);
         }
 
-        public String getLlaveProductoBodega(String idProducto)
+        public String getLlaveProductoBodega(String idProducto , String idBodega)
         {
-            return controladoraBDVentas.getLlaveProductoBodega(idProducto);
+            return controladoraBDVentas.getLlaveProductoBodega(idProducto, idBodega);
         }
 
         /*
@@ -140,6 +140,11 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         public DataTable consultarPosiblesClientes()
         {
             return controladoraBDVentas.consultarClientes();
+        }
+
+        public String getExistenciaActual(String idProductoBodega)
+        {
+            return controladoraBDVentas.getExistenciaActual(idProductoBodega);
         }
     }
 }

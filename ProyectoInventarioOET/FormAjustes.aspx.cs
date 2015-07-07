@@ -32,14 +32,13 @@ namespace ProyectoInventarioOET
         private static ControladoraAjustes controladoraAjustes;                 // Controladora del modulo ajustes
         private static ControladoraProductoLocal controladoraProductosLocales;  // Controladora de catálogos locales
         private static EntidadAjustes ajusteConsultado;                         // El ajuste mostrado en pantalla
-        private static bool[] signos;
         private static ArrayList ajustesGuardados;
         private static String codigo;
         private static String argumentoSorteo = "";
         private static bool boolSorteo = false;
         private static DataTable tabla;
 
-        // DataTable bodegas = controladoraBodegas.consultarBodegasDeEstacion(idEstacion);
+
 
         /*
          * Método llamado cada vez que se carga la página.
@@ -167,7 +166,7 @@ namespace ProyectoInventarioOET
                     botonRealizarAjuste.Disabled = false;
                     botonConsultarAjustes.Disabled = false;
                     this.DropDownEstado.Enabled = false;
-                    botonModificarAjuste.Disabled = ajusteConsultado.Anulable == 1 ? false : true;  // Si es anulable;
+                    botonModificarAjuste.Disabled = esModificable(); 
                     FieldsetGridAjustes.Visible = false;
                     this.DropDownEstado.Enabled = false;
                     tituloGridProductos.Visible = true;
@@ -206,6 +205,11 @@ namespace ProyectoInventarioOET
                     // Algo salio mal
                     break;
             }
+        }
+
+        private bool esModificable()
+        {
+            return ajusteConsultado.Anulable == 1 && !(ajusteConsultado.IdTipoAjuste.Equals("CYCLO106062012145550408008") || ajusteConsultado.IdTipoAjuste.Equals("CYCLO106062012145550367009")) ? false : true;  // Si es anulable;;
         }
 
         /*
@@ -544,12 +548,10 @@ namespace ProyectoInventarioOET
         {
             dropdownTipo.Items.Clear();
             DataTable tipos = controladoraAjustes.tiposAjuste();
-            signos = new bool[tipos.Rows.Count];
             int i = 0;
             foreach (DataRow fila in tipos.Rows)
             {
                 dropdownTipo.Items.Add(new ListItem(fila[1].ToString(), fila[0].ToString()));
-                signos[i] = fila[2].ToString().Equals("1") ? true : false;
                 i++;
             }
             dropdownTipo.SelectedIndex = 0;
@@ -767,7 +769,6 @@ namespace ProyectoInventarioOET
         protected Object[] obtenerDatosAjuste()
         {
             Object[] datos = new Object[8];
-            bool fun = signos[this.dropdownTipo.SelectedIndex];
             datos[0] = this.dropdownTipo.SelectedValue;
             datos[1] = this.outputFecha.Value;
             datos[2] = "";
@@ -789,7 +790,6 @@ namespace ProyectoInventarioOET
             Object[] ajuste = obtenerDatosAjuste();
             EntidadAjustes nueva = new EntidadAjustes(ajuste);
             DataTable productoDeBodega;
-            bool signo = signos[dropdownTipo.SelectedIndex];
             bool alerta = false;
 
             // Agregar detalles a entidad
