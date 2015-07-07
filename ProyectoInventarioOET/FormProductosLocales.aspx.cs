@@ -29,7 +29,7 @@ namespace ProyectoInventarioOET
         private static Object[] idArray;                                        // Arreglo de id's de estaciones
         private static int estacionSeleccionada, bodegaSeleccionada, pagina;    // Variables que almacenan la estación seleccionada, la bodega seleccionada y la página actual del grid
         private static Object[] idArray2;                                       // Arreglo de id's de bodegas
-        private static DataTable catalogoLocal, consultaProducto;               // Tablas de datos que almacenan los productos del catálogo local y los datos del producto consultado
+        private static DataTable catalogoLocal, consultaProducto,productos;               // Tablas de datos que almacenan los productos del catálogo local, los datos del producto consultado y los datos de los productos
         private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
         private static bool[] asociados;                                        // Almacena cuales itemes estan siendo asociados actualmente.
         private static String[] idProductos;                                    // Almacena el id de los productos mostrados.
@@ -459,14 +459,9 @@ namespace ProyectoInventarioOET
                 bodegaSeleccionada = this.DropDownListBodega.SelectedIndex;
                 String idBodega = idArray2[bodegaSeleccionada].ToString();
                 catalogoLocal = tablaCatalogoLocal();
-                DataTable productos = controladoraProductoLocal.consultarProductosDeBodega(idBodega);
+                productos = controladoraProductoLocal.consultarProductosDeBodega(idBodega);
                 if (productos.Rows.Count > 0)
                 {
-                    asociados = new bool[productos.Rows.Count];
-                    for (int x = 0; x < productos.Rows.Count; x++)
-                    {
-                        asociados[x]=false;
-                    }
                     Object[] datos = new Object[6];  
                     int i;
                     foreach (DataRow producto in productos.Rows)
@@ -611,6 +606,48 @@ namespace ProyectoInventarioOET
             modo = (int)Modo.Inicial;
             mostrarMensaje(res[0], res[1], res[2]);
             cambiarModo();
+        }
+
+        protected void botonDeBusqueda_Click(object sender, EventArgs e)
+        {
+            modo = (int)Modo.Consulta;
+            cambiarModo();
+            catalogoLocal = tablaCatalogoLocal();
+            if (productos.Rows.Count > 0)
+            {
+                Object[] datos = new Object[6];
+                int i;
+                foreach (DataRow producto in productos.Rows)
+                {
+                    if(producto[1].ToString().ToLower().Contains(barraDeBusqueda.Value.ToString().ToLower())){
+                        for (i = 0; i < 5; i++)
+                        {
+                            datos[i] = producto[i + 1];  //Cambio Carlos
+                        }
+                        datos[5] = "";
+                        try
+                        {
+                            if (Convert.ToDouble(datos[2].ToString()) <= Convert.ToDouble(datos[3].ToString()))
+                            {
+                                datos[5] = "Debajo del mínimo";
+
+                            }
+                            else
+                            {
+                                if (Convert.ToDouble(datos[2].ToString()) >= Convert.ToDouble(datos[4].ToString()))
+                                {
+                                    datos[5] = "Encima del máximo";
+                                }
+                            }
+                        }
+                        catch (SystemException) { };
+                        catalogoLocal.Rows.Add(datos);
+                    }
+                }
+            }
+            this.gridViewCatalogoLocal.DataSource = catalogoLocal;
+            this.gridViewCatalogoLocal.PageIndex = 0;
+            this.gridViewCatalogoLocal.DataBind();
         }
 
 
