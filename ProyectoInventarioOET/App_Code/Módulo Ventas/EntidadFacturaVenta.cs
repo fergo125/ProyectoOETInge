@@ -26,7 +26,7 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         private double montoTotalColones;   //Monto total pagado en colones
         private double montoTotalDolares;   //Monto total pagado en dólares
         private DataTable productos;        //Lista de productos que fueron vendidos
-        private List<Tuple<String, double>> pagosVariosMetodosPago;    //Opcional, cuando se paga con "VARIOS" métodos de pago, se guarda cuáles y lo pagado con cada uno
+        private List<String> pagosVariosMetodosPago;    //Opcional, cuando se paga con "VARIOS" métodos de pago, se guarda cuáles y lo pagado con cada uno
 
         /*
          * Constructor de la clase, recibe datos iniciales para crear una instancia de factura.
@@ -47,7 +47,7 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             this.montoTotalDolares = Convert.ToDouble(datos[11].ToString());
             this.estado = datos[12].ToString().ToString();
             this.productos = (datos[13] == null ? null : (DataTable)datos[13]);
-            this.pagosVariosMetodosPago = (datos[14] == null ? null : (List<Tuple<String, double>>)datos[14]);
+            this.pagosVariosMetodosPago = (datos[14] == null ? null : (List<String>)datos[14]);
         }
 
 
@@ -142,7 +142,7 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             set { productos = value; }
         }
 
-        public List<Tuple<String, double>> PagosVariosMetodosPago
+        public List<String> PagosVariosMetodosPago
         {
             get { return pagosVariosMetodosPago; }
             set { pagosVariosMetodosPago = value; }

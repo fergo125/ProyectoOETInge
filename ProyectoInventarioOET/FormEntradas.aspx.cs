@@ -58,6 +58,7 @@ namespace ProyectoInventarioOET
             controladoraSeguridad = new ControladoraSeguridad();
             controladoraBodegas = new ControladoraBodegas();
             controladoraProductoLocal = new ControladoraProductoLocal();
+            controladoraAjustes = new ControladoraAjustes();
 
             controladoraSeguridad.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
             controladoraBodegas.NombreUsuarioLogueado = (this.Master as SiteMaster).Usuario.Usuario;
@@ -411,8 +412,6 @@ namespace ProyectoInventarioOET
                         datos[3] = fila[3].ToString();
                         datos[4] = fila[4].ToString();
                         datos[5] = fila[5].ToString();
-                        
-                        datos[6]= 
                         tabla.Rows.Add(datos);
                         i++;
                     }
@@ -455,6 +454,7 @@ namespace ProyectoInventarioOET
             modo = (int)Modo.ModificarEntrada;
             CompletarDatosEntrada(entradaConsultada);
             cambiarModo();
+
         }
         /*
          * Se dispara cuando se selecciona una entrada para consultar su información.
@@ -916,21 +916,24 @@ namespace ProyectoInventarioOET
                     tituloAccionEntradas.InnerText = "";
                     this.FieldsetGridEntradas.Visible = false;
                     this.FieldsetGridProductosDeEntrada.Visible = true;
-                    this.gridViewEntradas.Visible = true;
+                  
                     tituloAccionEntradas.InnerText = "";
                     //this.botonAnularEntradas.Visible = true;
-                    this.botonModificarEntrada.Disabled = false;
+                    this.botonModificarEntrada.Disabled = !("1".Equals(entradaConsultada.Estado));
                     this.estadoEntrada.Enabled = false;
                     this.fieldSetProductosEntrada.Visible = true;
+                    
                     break;
 
                 case (int)Modo.SeleccionEntrada:
                     tituloAccionEntradas.InnerText = "";
                     this.FieldsetGridEntradas.Visible = true;
                     this.FieldsetEncabezadoFactura.Visible = false;
+                    this.gridViewEntradas.Visible = true;
                     tituloAccionEntradas.InnerText = "Seleccione una entrada a consultar";
                     //this.botonAnularEntradas.Visible = false;
                     this.botonModificarEntrada.Disabled = true;
+                  
                     
                     break;
                 case (int)Modo.ModificarEntrada:
@@ -941,7 +944,7 @@ namespace ProyectoInventarioOET
                     this.FieldsetGridEntradas.Visible = false;
                     this.fieldSetProductosEntrada.Visible = true;
                     tituloAccionEntradas.InnerText = "Modificacion de una entrada";
-                    
+                    this.estadoEntrada.Enabled = true;
                     this.botonModificarEntrada.Disabled = true;
                     botonAceptarEntrada.Visible = true;
                     botonCancelarEntrada.Visible = true;
@@ -996,6 +999,8 @@ namespace ProyectoInventarioOET
             outputFecha.InnerText = Convert.ToDateTime(entradaConsultada.FechEntrada).Date.ToString("dd/MM/yyyy"); 
             outputTipoMonedaEntrada.InnerText = entradaConsultada.TipoMoneda;
             outputMetodoPagoEntrada.InnerText = entradaConsultada.MetodoPago;
+            estadoEntrada.SelectedIndex = (String.Equals(entradaConsultada.Estado,"1"))?0:1;
+            //estadoEntrada.Enabled = (String.Equals(entradaConsultada.Estado, "1"));
         }
 
         /*
@@ -1080,40 +1085,49 @@ namespace ProyectoInventarioOET
 
         }
 
-        private void anularDatosEntrada()
+        private string anularDatosEntrada()
         {
                 Object[] datos = new Object[6];
                 Object[] datosAjustes = new Object[8];
-                datosAjustes[0] = "CYCLO106062012145550377006";
+                datosAjustes[0] = "CYCLO106062012145300769001";
                 datosAjustes[1] = DateTime.Now.ToString("h:mm:ss");
                 datosAjustes[2] = (this.Master as SiteMaster).Usuario.Nombre;
                 datosAjustes[3] = (this.Master as SiteMaster).Usuario.Codigo;
                 datosAjustes[4] = "Anulacion de entrada de inventario";
+                datosAjustes[5] = (this.Master as SiteMaster).LlaveBodegaSesion;
                 datosAjustes[6] = 2;
                 datosAjustes[7] = 0;
-
+                string res = "";
                 DataTable facturas = controladoraEntradas.consultarProductosEntrada(entradaConsultada.IdEntrada);
                 List<EntidadDetalles> detallesEntrada = new List<EntidadDetalles>();
                 EntidadAjustes ajuste = new EntidadAjustes(datosAjustes);
-                if (facturas.Rows.Count > 0)
+                try
                 {
-                    idArrayFactura = new Object[facturas.Rows.Count];
-                    foreach (DataRow fila in facturas.Rows)
+                    if (facturas.Rows.Count > 0)
                     {
-                        datos[0] = fila[0].ToString();
-                        datos[1] = "";
-                        datos[2] = fila[2].ToString();
-                        datos[3] = fila[6].ToString();
-                        datos[4] = controladoraProductoLocal.consultarProductoDeBodega((this.Master as SiteMaster).LlaveBodegaSesion,fila[6].ToString());
-                        datos[5] = Convert.ToInt32(datos[4]) - Convert.ToInt32(fila[2]);
-                        ajuste.agregarDetalle(datos);
+                        idArrayFactura = new Object[facturas.Rows.Count];
+                        foreach (DataRow fila in facturas.Rows)
+                        {
+                             DataRow rowProducto = controladoraProductoLocal.consultarProductoDeBodega((this.Master as SiteMaster).LlaveBodegaSesion, fila[6].ToString()).Rows[0];
+                            datos[0] = fila[0].ToString();
+                            datos[1] = "";
+                            datos[2] = fila[2].ToString();
+                            datos[3] = controladoraEntradas.consultarCodigoInventario(rowProducto[1].ToString(),(this.Master as SiteMaster).LlaveBodegaSesion);
+                            datos[4] = rowProducto[7];
+                            datos[5] = Convert.ToInt32(datos[4]) - Convert.ToInt32(fila[1].ToString());
+                            ajuste.agregarDetalle(datos);
 
+                        }
                     }
+                    controladoraAjustes.insertarAjuste(ajuste);
+                    controladoraEntradas.anularEntrada(entradaConsultada.IdEntrada);
+                    res ="exito";
+                    }
+                catch (Exception e)
+                {
+                    res = "fallo";
                 }
-                //controladoraAjustes.insertarAjuste(ajuste);
-                //controladoraEntradas.anularEntrada(entradaConsultada.IdEntrada);
-                
-            
+                return res;
         }
         /*
          * Se dispara para completar la entrada con los productos seleccionados.
@@ -1141,7 +1155,7 @@ namespace ProyectoInventarioOET
                         String fecha = DateTime.Now.ToString("h:mm:ss");
                         String[] resultado = new String[3];
                         String[] provisional = new String[2];
-                        Object[] objetoEntrada = new Object[7];
+                        Object[] objetoEntrada = new Object[8];
                         Object[] datos = new Object[6];
                         DataTable tablaProductosConID = new DataTable();
                         tablaProductosConID = tablaFacturaDetallada();
@@ -1157,7 +1171,7 @@ namespace ProyectoInventarioOET
                                 objetoEntrada[2] = usuario;
                                 objetoEntrada[5] = this.dropdownlistTipoMoneda.SelectedValue;
                                 objetoEntrada[6] = this.dropdownlistMetodoPago.SelectedValue;
-
+                                objetoEntrada[7] = 1;
                                 foreach (DataRow fila in tablaProductosNuevos.Rows)
                                 {
                                     provisional = obtenerCodigoDeProducto(fila[0].ToString());
@@ -1194,9 +1208,25 @@ namespace ProyectoInventarioOET
                     }
                     break;
                 case (int)Modo.ModificarEntrada:
-                    
-                    this.estadoEntrada.Enabled = true;
-                    anularDatosEntrada();
+
+                    if (this.estadoEntrada.SelectedIndex == 1)
+                    {
+                        string res = anularDatosEntrada();
+                        if ("exito".Equals(res))
+                        {
+                            modo = (int)Modo.Inicial;
+                            mostrarMensaje("success", "Exito:", "La entrada ha sido modificada satisfactoriamente.");
+                            cambiarModo();
+                        }
+                        else
+                        {
+                            mostrarMensaje("warning", "Alerta", "No se pudo modificar la entrada.");
+                        }
+                    }
+                    else {
+                        mostrarMensaje("warning", "Alerta", "No seleciono modificar la entrada.");
+                    }
+
                     break;
             }
         }

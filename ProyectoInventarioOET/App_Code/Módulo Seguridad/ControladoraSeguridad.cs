@@ -115,6 +115,14 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             return controladoraBDSeguridad.insertarPerfil(nombre, nivel, permisos);
         }
 
+        /*
+         * Modifica un perfil con base en su nombre
+         */
+        public String[] modificarPerfil( String nombreViejo, EntidadPerfil nuevo )
+        {
+            return controladoraBDSeguridad.modificarPerfil(nombreViejo, nuevo);
+        }
+
 
         // Retorna si un String es una contraseña valida
         public bool contrasenaEsValida(String pass)
@@ -135,62 +143,17 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             return result;
         }
 
-
+        /*
+        * Método encargado de consultar una cuenta específica y además 
+         * encapsula los datos para una mejor manipulación en la interfaz
+        */
         public EntidadUsuario consultarCuenta(String idUsuario)
         {
             DataTable[] cuenta = controladoraBDSeguridad.consultarCuenta(idUsuario); // en cuenta[1] van las bodegas
-            //String [] perfil = controladoraBDSeguridad.consultarPerfilUsuario(idUsuario); 
+            String [] perfil = controladoraBDSeguridad.consultarPerfilUsuario(idUsuario); 
             EntidadUsuario consultada = new EntidadUsuario(cuenta[0], cuenta[1]);
-            //consultada.Perfil = perfil[0];
+            consultada.Perfil = perfil[0];
             return consultada;
-        }
-
-        private DataTable crearMatrizPermisos(DataTable cuenta)
-        {
-            DataTable permisos = tablaPermisos();  
-            int i = 0;
-            DataRow nueva = permisos.NewRow();
-            foreach (DataRow fila in cuenta.Rows) {
-                nueva["Interfaz"] = fila[9].ToString();
-                String permiso = fila[10].ToString();
-                nueva["Consulta"] = permiso[5]=='1'?"X":"";
-                nueva["Creación"] = permiso[4] == '1' ? "X" : "";
-                nueva["Modificación"] = permiso[3] == '1' ? "X" : "";
-                permisos.Rows.Add(nueva);
-                nueva = permisos.NewRow();
-            }
-            return permisos;
-        }
-
-        /*
-         * Crea una datatable en el formato del grid de consultas
-         */
-        private DataTable tablaPermisos()
-        {
-            DataTable tabla = new DataTable();
-            DataColumn columna;
-
-            columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Interfaz";
-            tabla.Columns.Add(columna);
-
-            columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Consulta";
-            tabla.Columns.Add(columna);
-
-            columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Creación";
-            tabla.Columns.Add(columna);
-
-            columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Modificación";
-            tabla.Columns.Add(columna);
-
-            return tabla;
         }
 
         /*
@@ -209,9 +172,11 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         {
             EntidadUsuario usuario = new EntidadUsuario(datosUsuario);
             return controladoraBDSeguridad.modificarUsuario(usuario, listadoBodegas, perfil);
-        }	
+        }
 
-        //Consulta todos los usuarios
+        /*
+        * Método encargado de consultar las cuentas de los usuarios del sistema.
+        */
         public DataTable consultarUsuarios()
         {
             return controladoraBDSeguridad.consultarUsuarios();
@@ -226,5 +191,15 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             return controladoraBDSeguridad.asociarABodega(codigo, llaveBodega, idEstacion);
         }
 
+        public String[] asociarPerfilNuevoUsuario(String llaveUsuario, String llavePerfil) 
+        {
+            return controladoraBDSeguridad.asociarPerfilNuevoUsuario(llaveUsuario, llavePerfil);
+        }
+
+        public Boolean nombreUsuarioRepetido(String nombreUsuario)
+        {
+            return controladoraBDSeguridad.nombreUsuarioRepetido(nombreUsuario);        
+        }
+    
     }
 }

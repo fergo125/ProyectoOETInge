@@ -24,10 +24,9 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         private String codigoPerfil;        // Código interno de dicho perfil usado para operaciones de interfaz
         private DateTime? fechaCreacion;    // Fecha en la que el usuario fue creado
         private int estado;                 // Estado de la cuenta, una cuenta desactivada no debería poder utilizarse
-        private String descripcionEstado;
-        private String descripcionEstacion;
-        private String descripcionAnfitriona;
-        private DataTable matrixDePermisos;
+        private String descripcionEstado;   // Texto descriptivo que corresponde al id del estado (se utiliza para su despliegue en la interfaz)
+        private String descripcionEstacion; // Texto descriptivo que corresponde al id de la estacion (se utiliza para su despliegue en la interfaz)
+        private String descripcionAnfitriona; // Texto descriptivo que corresponde al id de la anfitriona (se utiliza para su despliegue en la interfaz)
         private DataTable bodegas;
         private int descuentoMaximo;
 
@@ -72,8 +71,6 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             } catch (Exception e) {
                this.fechaCreacion = null;
             }
-
-            //this.matrixDePermisos = matriz;
             this.bodegas = bodegas;
         }
 
@@ -171,12 +168,6 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         {
             get { return descripcionAnfitriona; }
             set { descripcionAnfitriona = value; }
-        }
-
-        public DataTable MatrizPermisos
-        {
-            get { return matrixDePermisos; }
-            set { matrixDePermisos = value; }
         }
 
         public DataTable Bodegas

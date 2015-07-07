@@ -26,6 +26,7 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         {
             String esquema = "Inventarios.";
             String[] res = new String[4];
+            bool exito = false;
 
             int idSiguienteFactura = getUltimoConsecutivo() + 1;
             String comandoSQL = "INSERT INTO " + esquema + "REGISTRO_FACTURAS_VENTA (CONSECUTIVO, FECHAHORA, BODEGA, ESTACION, COMPAÑIA, ACTIVIDAD, VENDEDOR, CLIENTE, TIPOMONEDA, METODOPAGO, MONTOTOTALCOLONES, MONTOTOTALDOLARES, ESTADO) VALUES ("
@@ -42,23 +43,25 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             + factura.MontoTotalColones + ","
             + factura.MontoTotalDolares + ","
             + factura.Estado + ")";
-            if(ejecutarComandoSQL(comandoSQL, false) != null) //si sale bien
+            if (ejecutarComandoSQL(comandoSQL, false) != null) //si logra insertar la factura
             {
                 quitarProductosHistorial(factura.Bodega, factura.Productos);
-                if (insertarProductosFactura(idSiguienteFactura, factura.Productos))
+                if (insertarProductosFactura(idSiguienteFactura, factura.Productos)) //si logra insertar los productos
                 {
+                    if (factura.MetodoPago == "VARIOS")
+                        if (insertarVariosMetodosPago(idSiguienteFactura, factura.PagosVariosMetodosPago)) //si logra insertar los métodos de pago
+                            exito = true;
+                    else
+                            exito = true;
+                }
+            }
+            if(exito)
+            {
                     res[0] = "success";
                     res[1] = "Éxito:";
                     res[2] = "Factura agregada al sistema con éxito.";
-                }
-                else //hubo un error al intentar insertar los productos, pero la factura se insertó bien
-                {
-                    res[0] = "danger";
-                    res[1] = "Error:";
-                    res[2] = "Error al intentar insertar los productos de la factura en la base de datos. La factura fue insertada con éxito pero sus productos no.";
-                }
             }
-            else
+            else //hubo un error al intentar insertar los productos, pero la factura se insertó bien
             {
                 res[0] = "danger";
                 res[1] = "Error:";
@@ -102,6 +105,30 @@ namespace ProyectoInventarioOET.Modulo_Ventas
                     + producto[3].ToString() + ", "
                     + producto[6].ToString() + ", "
                     + producto[5].ToString() + ")";
+            }
+
+            String comandoSQL = "INSERT ALL" + tuplas + " SELECT * FROM DUAL"; //query unificado
+            if (ejecutarComandoSQL(comandoSQL, false) != null)
+                return true;
+            return false;
+        }
+
+        /*
+         * Una vez que se inserta una factura general y los productos asociados a la misma, en caso de que se hayan especificado
+         * varios métodos de pago, se procede a insertar los detalles de éstos: la identificación de cada método usado y el pago
+         * que se realizó con cada uno.
+         * Retorna true si logra insertar todo con éxito, de lo contrario, retorna false.
+         */
+        private bool insertarVariosMetodosPago(int idFactura, List<String> pagosVariosMetodosPago)
+        {
+            String esquema = "Inventarios.";
+            String tuplas = ""; //se agrega cada método en una inserción por aparte para luego unirlas en un sólo query
+            for (short i=0; i<pagosVariosMetodosPago.Count;)
+            {
+                tuplas += " INTO " + esquema + "REGISTRO_FACTURAS_METODOS VALUES( "
+                    + idFactura + ", '"
+                    + pagosVariosMetodosPago.ElementAt<String>(i++) + "', "
+                    + pagosVariosMetodosPago.ElementAt<String>(i++) + ")";
             }
 
             String comandoSQL = "INSERT ALL" + tuplas + " SELECT * FROM DUAL"; //query unificado
@@ -235,12 +262,12 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         }
 
 
-        public String getLlaveProductoBodega(String idProducto) 
+        public String getLlaveProductoBodega(String idProducto, String bodega) 
         {
             String esquema = "Inventarios.";
             String llaveProducto = null;
             DataTable resultado = new DataTable();
-            String comandoSQL = "SELECT INV_BODEGA_PRODUCTOS FROM " + esquema + "INV_BODEGA_PRODUCTOS WHERE INV_PRODUCTOS = '" + idProducto + "'";
+            String comandoSQL = "SELECT INV_BODEGA_PRODUCTOS FROM " + esquema + "INV_BODEGA_PRODUCTOS WHERE INV_PRODUCTOS = '" + idProducto + "' AND CAT_BODEGA = '" + bodega + "'";
             resultado = ejecutarComandoSQL(comandoSQL, true);
             if (resultado.Rows.Count == 1)
                 llaveProducto = resultado.Rows[0][0].ToString();
@@ -371,6 +398,17 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             String comandoSQL = "SELECT NOMBRE,SEG_USUARIO FROM " + esquema + "SEG_USUARIO ";
             posiblesClientes = ejecutarComandoSQL(comandoSQL, true);
             return posiblesClientes;
+        }
+
+        public String getExistenciaActual(string idProductoBodega)
+        {
+            String esquema = "Inventarios.";
+            DataTable resultado = new DataTable();
+            String comandoSQL = "SELECT SALDO FROM " + esquema + "INV_BODEGA_PRODUCTOS WHERE INV_BODEGA_PRODUCTOS ='" + idProductoBodega + "'";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
+            if (resultado.Rows.Count == 1)
+                return resultado.Rows[0][0].ToString();
+            return null;
         }
     }
 }

@@ -30,7 +30,7 @@ namespace ProyectoInventarioOET
         private static Object[] idArray;                                        //Para llevar el control de las facturas consultadas
         private static List<bool> checksProductos;                              //Para guardar cuáles checks han sido marcados en el grid de productos durante el proceso de creación
         private static List<int> cantidadesProductos;                           //Para guardar las cantidades en los textboxes del grid de productos durante el proceso de creación
-        private static List<Tuple<String,double>> pagosVariosMetodosPago;       //Para guardar la cantidad pagada con cada método
+        private static List<String> pagosVariosMetodosPago;                     //Para guardar la cantidad pagada con cada método
         private static DataTable productosAgregados;                            //Para llenar el grid de productos al crear una factura
         private static DataTable facturasConsultadas;                           //Para llenar el grid y para mostrar los detalles de cada factura específica
         private static EntidadFacturaVenta facturaConsultada;                   //Entidad de factura para almacenar la consulta de la base de datos
@@ -1125,22 +1125,26 @@ namespace ProyectoInventarioOET
             String[] nombreCodigoProductoEscogido = separarNombreCodigoProductoEscogido(productoEscogido);
             String llaveProductoEscogido = controladoraVentas.verificarExistenciaProductoLocal((this.Master as SiteMaster).LlaveBodegaSesion, nombreCodigoProductoEscogido[0], nombreCodigoProductoEscogido[1]);
 
-            Object[] datos = new Object[6];
+            Object[] datos = new Object[8];
             datos[0] = "CYCLO106062012145550408008"; //Todas las ventas están asociadas a ESYNTRO
             datos[1] = DateTime.Now.ToString("dd-MMM-yy");
             datos[2] = (this.Master as SiteMaster).Usuario.Nombre;
             datos[3] = (this.Master as SiteMaster).Usuario.Codigo;
             datos[4] = "Ajuste realizado para permitir una venta"; //Todos los ajustes rápidos son de esta categoría; no se deberia pedir al usuario que indique el tipo, siempre es fijo
             datos[5] = (this.Master as SiteMaster).LlaveBodegaSesion;
+            datos[6] = 2;
+            datos[7] = 0;
 
             EntidadAjustes nuevoAjusteRapido = new EntidadAjustes(datos);
             
-            datos = new Object[5];
+            datos = new Object[6];
             datos[0] = nombreCodigoProductoEscogido[0];
             datos[1] = nombreCodigoProductoEscogido[1];
             datos[2] = Convert.ToInt32(nuevaCantidadParaAjusteRapido.Text);
-            datos[3] = controladoraVentas.getLlaveProductoBodega(llaveProductoEscogido);
-            datos[4] = Convert.ToInt32(nuevaCantidadParaAjusteRapido.Text);
+            datos[3] = controladoraVentas.getLlaveProductoBodega(llaveProductoEscogido, (this.Master as SiteMaster).LlaveBodegaSesion);
+            datos[4] = controladoraVentas.getExistenciaActual(datos[3].ToString());
+            datos[5] = Convert.ToInt32(nuevaCantidadParaAjusteRapido.Text); // Cantidad nueva
+
 
             nuevoAjusteRapido.agregarDetalle(datos);
             String [] resultado = controladoraAjustes.insertarAjuste(nuevoAjusteRapido);
@@ -1152,10 +1156,13 @@ namespace ProyectoInventarioOET
          */
         protected void clickBotonAceptarModalMetodosPago(object sender, EventArgs e)
         {
-            pagosVariosMetodosPago = new List<Tuple<string, double>>();
+            pagosVariosMetodosPago = new List<String>();
             foreach(GridViewRow fila in gridViewModalVariosMetodosPago.Rows)
                 if (((TextBox)fila.FindControl("gridViewModalVariosMetodosPagoTextBoxPago")).Text != "")
-                    pagosVariosMetodosPago.Add(new Tuple<String, double>(fila.Cells[2].Text, Convert.ToDouble(((TextBox)fila.FindControl("gridViewModalVariosMetodosPagoTextBoxPago")).Text)));
+                {
+                    pagosVariosMetodosPago.Add(fila.Cells[2].Text);
+                    pagosVariosMetodosPago.Add(((TextBox)fila.FindControl("gridViewModalVariosMetodosPagoTextBoxPago")).Text);
+                }
         }
 
         /*

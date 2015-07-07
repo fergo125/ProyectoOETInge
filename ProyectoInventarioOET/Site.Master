@@ -31,15 +31,15 @@
               function convertirToDolares() {
                   var actual = $("#MainContent_inputPrecioColones").val();
                   if (!isNaN(actual)) {
-                      $("#MainContent_inputPrecioDolares").val(actual / tipoCambioCompra);
+                      $("#MainContent_inputPrecioDolares").val(Math.round (actual / tipoCambioCompra * 100) / 100);
                   } else {
-                      $("#MainContent_inputPrecioDolares").val("");
+                      $("#MainContent_inputPrecioDolares").val("").toFixed(2);
                   }
               }
               function convertirToColones() {
                   var actual = $("#MainContent_inputPrecioDolares").val();
                   if (!isNaN(actual)) {
-                      $("#MainContent_inputPrecioColones").val(actual * tipoCambioVenta);
+                      $("#MainContent_inputPrecioColones").val(Math.round (actual * tipoCambioVenta));
                   } else {
                       $("#MainContent_inputPrecioColones").val("");
                   }
@@ -125,6 +125,10 @@
                                 <li id="linkFormAdministracion1" visible="false" runat="server"><a runat="server" href="~/FormContact">Reportes</a></li>
                                 <li id="linkFormAdministracion2" visible="false" runat="server"><a runat="server" href="~/FormSeguridad">Seguridad</a></li>
                             </ul>
+                        </li>
+                        <%-- About --%>
+                        <li id="linkFormAbout" runat="server" visible="false">
+                            <a runat="server" href="~/FormAbout">Acerca de</a>
                         </li>
                     </ul>
                     <%-- Login --%>
