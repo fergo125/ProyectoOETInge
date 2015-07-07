@@ -3,8 +3,16 @@
 
      <!-- Título del Form -->
     <div>
-        <h2 id="TituloAjustes" runat="server">Ajustes de inventario</h2>
+        <h2 id="TituloReportes" runat="server">Reportes</h2>
+        
         <hr />
-    </div>
 
+    </div>
+    <br/>
+        <br/>
+        <br/>
+        <br/><br/>
+        <br/>
+        <br/>
+        <br/>
 </asp:Content>
