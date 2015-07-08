@@ -70,3 +70,6 @@ C:\Users\b22410\Desktop\ProyectoOETInge\ProyectoInventarioOET\bin\es\System.Web.
 C:\Users\b22410\Desktop\ProyectoOETInge\ProyectoInventarioOET\obj\Debug\ProyectoInventarioOET.dll
 C:\Users\b22410\Desktop\ProyectoOETInge\ProyectoInventarioOET\obj\Debug\ProyectoInventarioOET.pdb
 C:\Users\b22410\Desktop\ProyectoOETInge\ProyectoInventarioOET\obj\Debug\ProyectoInventarioOET.csprojResolveAssemblyReference.cache
+C:\Users\b16195\Source\Repos\ProyectoOETInge\ProyectoInventarioOET\bin\System.Web.Helpers.dll
+C:\Users\b16195\Source\Repos\ProyectoOETInge\ProyectoInventarioOET\bin\System.Web.Helpers.xml
+C:\Users\b16195\Source\Repos\ProyectoOETInge\ProyectoInventarioOET\bin\es\System.Web.Helpers.resources.dll

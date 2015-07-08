@@ -618,7 +618,8 @@ namespace ProyectoInventarioOET
                 int i;
                 foreach (DataRow producto in productos.Rows)
                 {
-                    if(producto[1].ToString().ToLower().Contains(barraDeBusqueda.Value.ToString().ToLower())){
+                    if (producto[1].ToString().ToLower().Contains(barraDeBusqueda.Value.ToString().ToLower()) || producto[2].ToString().ToLower().Contains(barraDeBusqueda.Value.ToString().ToLower()))
+                    {
                         for (i = 0; i < 5; i++)
                         {
                             datos[i] = producto[i + 1];  //Cambio Carlos
