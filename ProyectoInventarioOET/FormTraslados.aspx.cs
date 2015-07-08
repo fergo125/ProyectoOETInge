@@ -1062,7 +1062,7 @@ namespace ProyectoInventarioOET
         {
             stringBusqueda = barraDeBusqueda.Value;
             llenarGridAgregarProductos(stringBusqueda);
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "test", "openModal() ;", true);
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "test", "mifuncion() ;", true);
         }
         
 
