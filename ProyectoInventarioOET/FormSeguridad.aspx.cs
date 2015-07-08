@@ -74,8 +74,8 @@ namespace ProyectoInventarioOET
                         cargarPerfiles();
                         cargarNivelesPerfil();
                         if (usuarioConsultado != null)
-                        setDatosCuenta();
-                        else
+                            setDatosCuenta();
+                        if (perfilConsultado != null)
                             setDatosPerfil();
                         seConsulto = false;
                     }
