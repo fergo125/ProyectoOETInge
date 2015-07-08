@@ -40,12 +40,16 @@ namespace ProyectoInventarioOET.Modulo_Entradas
             String comandoSQL = "";
             if ("Todas".Equals(id))
                 comandoSQL = "SELECT *"
-                    + "FROM " + esquema1 + "facturas full outer join " + esquema2 + "cat_entradas on " + esquema1 + "facturas.idfactura = " + esquema2 + "cat_entradas.factura"
+                    + " FROM " + esquema1 + "facturas full outer join " + esquema2 + "cat_entradas on " + esquema1 + "facturas.idfactura = " + esquema2 + "cat_entradas.factura"
                     + " where " + esquema2 + "cat_entradas.cat_entradas is null";
             else
+            {
+                id = id.ToUpper();
                 comandoSQL = "SELECT *"
-                    + "FROM " + esquema1 + "facturas full outer join " + esquema2 + "cat_entradas on " + esquema1 + "facturas.idfactura = " + esquema2 + "cat_entradas.factura"
-                    + " where" + esquema2 + "cat_entradas.cat_entradas is null and " + esquema1 + "facturas.idfactura" + " like '" + id + "%'";
+                    + "FROM " + esquema1 + "FACTURAS full outer join " + esquema2 + "CAT_ENTRADAS on " + esquema1 + "FACTURAS.IDFACTURA = " + esquema2 + "CAT_ENTRADAS.FACTURA"
+                    + " where " + esquema2 + "CAT_ENTRADAS.CAT_ENTRADAS is null and " + esquema1 + "FACTURAS.IDFACTURA" + " like '" + id + "%'";            
+            }
+
             resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }

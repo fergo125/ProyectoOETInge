@@ -136,7 +136,7 @@ namespace ProyectoInventarioOET.Modulo_Entradas
          */
         public String consultarNombreMoneda(String idMoneda)
         {
-            return controladoraBDEntradas.consultarNombreProveedor(idMoneda);
+            return controladoraBDEntradas.consultarNombreMoneda(idMoneda);
         }
 
         /*
