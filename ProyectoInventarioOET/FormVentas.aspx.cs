@@ -1375,7 +1375,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * Presionado boton de fecha de inicio/final de calendario
+         * Presionado boton de fecha de inicio de calendario
          */
         protected void clickBotonConsultaCalendarioInicio_ServerClick(object sender, EventArgs e)
         {
@@ -1383,7 +1383,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Presionado boton de fecha de final de calendario
          */
         protected void clickBotonConsultaCalendarioFinal_ServerClick(object sender, EventArgs e)
         {
@@ -1391,7 +1391,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * Seleccionada una nueva fecha en el calendario inicial/final
+         * Seleccionada una nueva fecha en el calendario inicial
          */
         protected void CalendarFechaInicio_SelectionChanged(object sender, EventArgs e)
         {
@@ -1400,7 +1400,7 @@ namespace ProyectoInventarioOET
         }
 
         /*
-         * ???
+         * Seleccionada una nueva fecha en el calendario final
          */
         protected void CalendarFechaFinal_SelectionChanged(object sender, EventArgs e)
         {

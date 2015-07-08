@@ -26,14 +26,18 @@ namespace ProyectoInventarioOET
         private static ControladoraCategorias controladoraCategorias;           // Controladora de categorías
         private static int modo = 0;                                            // Modo actual de la página
         private static Object[] idArray;                                        // Arreglo de id's de estaciones
+        private static Object[] idArray3;                                       // Arreglo de id's de objetos
         private static int estacionSeleccionada, bodegaSeleccionada, pagina;    // Variables que almacenan la estación seleccionada, la bodega seleccionada y la página actual del grid
         private static Object[] idArray2;                                       // Arreglo de id's de bodegas
-        private static DataTable catalogoLocal, consultaProducto,productos;               // Tablas de datos que almacenan los productos del catálogo local, los datos del producto consultado y los datos de los productos
+        private static DataTable catalogoLocal, consultaProducto,productos;     // Tablas de datos que almacenan los productos del catálogo local, los datos del producto consultado y los datos de los productos
         private static String permisos = "000000";                              // Permisos utilizados para el control de seguridad.
         private static bool[] asociados;                                        // Almacena cuales itemes estan siendo asociados actualmente.
         private static String[] idProductos;                                    // Almacena el id de los productos mostrados.
         private static Boolean mensaje = false;                                 // Almacena si se debe mostrar el mensaje.
         private String codigoSeleccionado, idBodegaSeleccionada;                // Almacena el codigo y la id de bodega del producto consultado
+        private static String argumentoSorting = "";                            //Usado para cuando se ordena el grid principal de consulta
+        private static bool boolSorting = false;                                //Usado para cuando se ordena el grid principal de consulta
+        private static DataTable tablaOrdenableSorting;                         //Usada para cuando se ordena el grid principal de consulta
 
         /*
          * Cuando se accede la pagina inicializa los controladores si es la primera vez, sino solo realiza el cambio de modo.
@@ -492,6 +496,7 @@ namespace ProyectoInventarioOET
                 this.gridViewCatalogoLocal.DataSource = catalogoLocal;
                 this.gridViewCatalogoLocal.PageIndex = 0;
                 this.gridViewCatalogoLocal.DataBind();
+                tablaOrdenableSorting = catalogoLocal;
             }
         }
         /*
@@ -651,6 +656,36 @@ namespace ProyectoInventarioOET
         }
 
 
+        /*
+         * Invocada cuando se intenta ordenar el grid principal de consulta.
+         */
+        protected void gridViewCatalogoLocal_Ordenado(object sender, GridViewSortEventArgs e)
+        {
+            if (e.SortExpression == argumentoSorting)
+            {
+                if (boolSorting == true)
+                    boolSorting = false;
+                else
+                    boolSorting = true;
+            }
+            else //New Column clicked so the default sort direction will be incorporated
+                boolSorting = false;
+
+            argumentoSorting = e.SortExpression; //Update the sort column
+            ordenarGrid(argumentoSorting, boolSorting);
+        }
+
+        /*
+         * Función auxiliar usada para ordenar el grid.
+         */
+        protected void ordenarGrid(string sortBy, bool inAsc)
+        {
+            DataView aux = new DataView(tablaOrdenableSorting);
+            aux.Sort = sortBy + " " + (inAsc ? "DESC" : "ASC"); //Ordena
+            tablaOrdenableSorting = aux.ToTable();
+            gridViewCatalogoLocal.DataSource = tablaOrdenableSorting;
+            gridViewCatalogoLocal.DataBind();
+        }
 
     }
 }
