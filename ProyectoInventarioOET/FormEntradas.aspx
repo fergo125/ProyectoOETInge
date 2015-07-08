@@ -33,6 +33,7 @@
     <!-- Bloque con la tabla que muestra las entradas -->
     <div id="bloqueGridEntradas" class="col-lg-12">
         <fieldset id="FieldsetGridEntradas" runat="server" class="fieldset" visible="false">
+    <br />
          <div class="col-lg-12"><strong><div ID="Div2" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Listado de Entradas</div></strong>
 <%--            <asp:UpdatePanel ID="UpdatePanelEntradas" runat="server">
                 <ContentTemplate>--%>

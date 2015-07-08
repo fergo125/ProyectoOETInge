@@ -26,6 +26,7 @@ namespace ProyectoInventarioOET
         private static Modo modo = Modo.Inicial;                                //Indica en qué modo se encuentra la interfaz en un momento cualquiera, de éste depende cuáles elementos son visibles
         private static String permisos = "000000";                              //Permisos utilizados para el control de seguridad
         private static String codigoPerfilUsuario = "";                         //Indica el perfil del usuario, usado para acciones de seguridad para las cuales la string de permisos no basta
+        private static String argumentoSorting = "";                            //Usado para cuando se ordena el grid principal de consulta
         private static Object[] idArray;                                        //Para llevar el control de las facturas consultadas
         private static List<bool> checksProductos;                              //Para guardar cuáles checks han sido marcados en el grid de productos durante el proceso de creación
         private static List<int> cantidadesProductos;                           //Para guardar las cantidades en los textboxes del grid de productos durante el proceso de creación
@@ -1302,6 +1303,25 @@ namespace ProyectoInventarioOET
                 }
                 ++i;
             }
+        }
+
+        /*
+         * Invocada cuando se intenta ordenar el grid principal de consulta.
+         */
+        protected void gridViewFacturas_Ordenado(object sender, GridViewSortEventArgs e)
+        {
+            if (e.SortExpression == argumentoSorteo)
+            {
+                if (boolSorteo == true)
+                    boolSorteo = false;
+                else
+                    boolSorteo = true;
+            }
+            else //New Column clicked so the default sort direction will be incorporated
+                boolSorteo = false;
+
+            argumentoSorteo = e.SortExpression; //Update the sort column
+            BindGrid(argumentoSorteo, boolSorteo);
         }
 
         /*

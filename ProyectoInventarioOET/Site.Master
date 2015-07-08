@@ -128,7 +128,7 @@
                         </li>
                         <%-- About --%>
                         <li id="linkFormAbout" runat="server" visible="false">
-                            <a runat="server" href="~/FormAbout">Acerca de</a>
+                            <a runat="server" href="~/FormAbout">SIO</a>
                         </li>
                     </ul>
                     <%-- Login --%>

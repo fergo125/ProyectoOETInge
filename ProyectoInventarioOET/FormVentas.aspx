@@ -124,7 +124,8 @@
                 <td style="width:20%"></td>
                 <td style="width:20%"></td>
                 <td style="width:20%"></td>
-                <td rowspan="6"> <%--Grid con los productos de la factura, tiene su propia "fila" (abarcando todas las demás) para encontrarlo fácilmente aquí en el aspx--%>
+                <td rowspan="6">
+                    <!-- Grid con los productos de la factura, tiene su propia "fila" (abarcando todas las demás) para encontrarlo fácilmente aquí en el aspx -->
                     <asp:Panel ID="PanelGridProductosFacturaEspecifica" runat="server" Width="100%">
                         <strong><div ID="divTituloGridProductosFactura" runat="server" tabindex="" class="control-label" style="text-align:center; font-size:larger; background-color: #C0C0C0;">Productos de la factura</div></strong>
                         <asp:GridView ID="gridFacturaEspecificaProductos" CssClass="table" runat="server" AllowPaging="True" PageSize="10" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
@@ -201,7 +202,7 @@
     <br />
     <%--<asp:Panel ID="PanelGridConsultarFacturas" runat="server"></asp:Panel>--%>
     <strong><div ID="tituloGrid" runat="server" tabindex="" class="control-label" style="text-align:center; font-size:larger; background-color: #C0C0C0;" visible="false">Facturas en el sistema</div></strong>
-        <asp:GridView ID="gridViewFacturas" Visible="false" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewFacturas_FilaSeleccionada" OnPageIndexChanging="gridViewFacturas_CambioPagina" runat="server" AllowPaging="true" PageSize="10" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+        <asp:GridView ID="gridViewFacturas" Visible="false" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewFacturas_FilaSeleccionada" OnPageIndexChanging="gridViewFacturas_CambioPagina" runat="server" AllowPaging="true" PageSize="10" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None" AllowSorting="true" OnSorting="gridViewFacturas_Ordenado">
             <Columns>
                 <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Consultar">
                     <ControlStyle CssClass="btn btn-default"></ControlStyle>
