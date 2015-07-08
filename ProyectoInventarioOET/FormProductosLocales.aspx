@@ -154,12 +154,28 @@
         <br />
         </fieldset>
             <br />
-            <br />
 
     <!-- Fieldset que muestra los productos de la bodega local elegida -->
     <fieldset id= "FieldsetCatalogoLocal" center="left" runat="server" class="fieldset" visible="false">
         <!-- Gridview de productos de bodega elegida -->
          <div class="col-lg-12">
+              <div class="row">
+            <label class= "col-lg-12">Buscar producto:</label>
+        </div>
+            <div class="row">
+                <div class="col-lg-9">
+                    <input id="barraDeBusqueda" class="form-control" type="search" placeholder="Ingresa una palabra o código" runat="server" >
+                </div>
+<%--                <span class="glyphicon glyphicon-search" runat="server"></span>--%>
+                <div class="col-lg-2">
+                    <asp:Button ID="botonDeBusqueda" runat="server" Text="Buscar" CssClass="btn btn-info-fozkr" OnClick="botonDeBusqueda_Click"/>
+                </div>
+                <%--<Button ID="botonBuscar" runat="server" Text="Buscar" onserverclick="botonBuscar_ServerClick" value="sds" title="ewrwer" name="ppp" />--%>
+
+            </div>
+<%--        </div>--%>
+        <br/> <br/>
+
             <strong><div ID="TituloGrid" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Catálogo de productos en bodega</div></strong>
             <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
                 <ContentTemplate>

@@ -262,12 +262,12 @@ namespace ProyectoInventarioOET.Modulo_Ventas
         }
 
 
-        public String getLlaveProductoBodega(String idProducto) 
+        public String getLlaveProductoBodega(String idProducto, String bodega) 
         {
             String esquema = "Inventarios.";
             String llaveProducto = null;
             DataTable resultado = new DataTable();
-            String comandoSQL = "SELECT INV_BODEGA_PRODUCTOS FROM " + esquema + "INV_BODEGA_PRODUCTOS WHERE INV_PRODUCTOS = '" + idProducto + "'";
+            String comandoSQL = "SELECT INV_BODEGA_PRODUCTOS FROM " + esquema + "INV_BODEGA_PRODUCTOS WHERE INV_PRODUCTOS = '" + idProducto + "' AND CAT_BODEGA = '" + bodega + "'";
             resultado = ejecutarComandoSQL(comandoSQL, true);
             if (resultado.Rows.Count == 1)
                 llaveProducto = resultado.Rows[0][0].ToString();
@@ -398,6 +398,17 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             String comandoSQL = "SELECT NOMBRE,SEG_USUARIO FROM " + esquema + "SEG_USUARIO ";
             posiblesClientes = ejecutarComandoSQL(comandoSQL, true);
             return posiblesClientes;
+        }
+
+        public String getExistenciaActual(string idProductoBodega)
+        {
+            String esquema = "Inventarios.";
+            DataTable resultado = new DataTable();
+            String comandoSQL = "SELECT SALDO FROM " + esquema + "INV_BODEGA_PRODUCTOS WHERE INV_BODEGA_PRODUCTOS ='" + idProductoBodega + "'";
+            resultado = ejecutarComandoSQL(comandoSQL, true);
+            if (resultado.Rows.Count == 1)
+                return resultado.Rows[0][0].ToString();
+            return null;
         }
     }
 }

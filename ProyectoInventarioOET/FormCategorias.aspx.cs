@@ -430,11 +430,11 @@ namespace ProyectoInventarioOET
                     operacionCorrecta = false;
                 }
             }
-            /*
+            
             if (operacionCorrecta)
             {
                 irAModo();
-            }*/
+            }
         }
 
         /*
@@ -446,8 +446,8 @@ namespace ProyectoInventarioOET
             String nombre= this.inputNombre.Value;
             String[] datosCat = {nombre,categoriaConsultada.Nombre,comboBoxEstadosActividades.SelectedValue};
             
-            //if (!nombreRepetido(nombre))
-           // {
+           if (!nombreRepetido(nombre))
+            {
                 String[] error = controladoraCategorias.modificarDatos(categoriaConsultada, datosCat);
                 if (error[0].Contains("success"))// si fue exitoso
                 {
@@ -459,11 +459,11 @@ namespace ProyectoInventarioOET
                     res = "";
                     modo = (int)Modo.Modificacion;
                 }
-            //}
-            //else
-           // {
-               // res = "repetido";
-            //}
+            }
+            else
+           {
+               res = "repetido";
+            }
             return res;
          
         }

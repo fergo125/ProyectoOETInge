@@ -221,7 +221,6 @@
     <Content Include="FormActividades.aspx" />
     <Content Include="FormLoginBodega.aspx" />
     <Content Include="FormCategorias.aspx" />
-    <Content Include="FormContact.aspx" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
@@ -230,6 +229,7 @@
     <Content Include="FormLogin.aspx" />
     <Content Include="FormProductosGlobales.aspx" />
     <Content Include="FormProductosLocales.aspx" />
+    <Content Include="FormReportes.aspx" />
     <Content Include="FormSeguridad.aspx" />
     <Content Include="FormTraslados.aspx" />
     <Content Include="FormVentas.aspx" />
@@ -400,13 +400,6 @@
     <Compile Include="FormCategorias.aspx.designer.cs">
       <DependentUpon>FormCategorias.aspx</DependentUpon>
     </Compile>
-    <Compile Include="FormContact.aspx.cs">
-      <DependentUpon>FormContact.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="FormContact.aspx.designer.cs">
-      <DependentUpon>FormContact.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -441,6 +434,13 @@
     </Compile>
     <Compile Include="FormProductosLocales.aspx.designer.cs">
       <DependentUpon>FormProductosLocales.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FormReportes.aspx.cs">
+      <DependentUpon>FormReportes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FormReportes.aspx.designer.cs">
+      <DependentUpon>FormReportes.aspx</DependentUpon>
     </Compile>
     <Compile Include="FormSeguridad.aspx.cs">
       <DependentUpon>FormSeguridad.aspx</DependentUpon>

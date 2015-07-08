@@ -22,11 +22,10 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
         {
             String esquema = "Inventarios.";
             DataTable resultado = null;
-            String comandoSQL = "SELECT * FROM " + esquema + "CAT_TIPO_MOVIMIENTO WHERE CAT_TIPO_MOVIMIENTO <> 'CYCLO106062012145550408008'";
+            String comandoSQL = "SELECT * FROM " + esquema + "CAT_TIPO_MOVIMIENTO";
             resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }
-
 
         /*
          * Método encargado de consultar todos los ajustes de una bodega específica
