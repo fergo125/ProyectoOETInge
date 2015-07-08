@@ -24,6 +24,7 @@ namespace ProyectoInventarioOET
         enum Modo { Inicial, Consulta, Insercion, Modificacion, Consultado };
         //Atributos
         private static Modo modo = Modo.Inicial;                                //Indica en qué modo se encuentra la interfaz en un momento cualquiera, de éste depende cuáles elementos son visibles
+        private static bool boolSorting = false;                                //Usado para cuando se ordena el grid principal de consulta
         private static String permisos = "000000";                              //Permisos utilizados para el control de seguridad
         private static String codigoPerfilUsuario = "";                         //Indica el perfil del usuario, usado para acciones de seguridad para las cuales la string de permisos no basta
         private static String argumentoSorting = "";                            //Usado para cuando se ordena el grid principal de consulta
@@ -33,6 +34,7 @@ namespace ProyectoInventarioOET
         private static List<String> pagosVariosMetodosPago;                     //Para guardar la cantidad pagada con cada método
         private static DataTable productosAgregados;                            //Para llenar el grid de productos al crear una factura
         private static DataTable facturasConsultadas;                           //Para llenar el grid y para mostrar los detalles de cada factura específica
+        private static DataTable tablaOrdenableSorting;                         //Usada para cuando se ordena el grid principal de consulta
         private static EntidadFacturaVenta facturaConsultada;                   //Entidad de factura para almacenar la consulta de la base de datos
         private static ControladoraVentas controladoraVentas;                   //Para accesar las tablas del módulo y realizar las operaciones de consulta, inserción, modificación y anulación
         private static ControladoraAjustes controladoraAjustes;                 //Controladora de ajustes para trabajar con los ajustes de factura
@@ -426,6 +428,7 @@ namespace ProyectoInventarioOET
                 }
                 gridViewFacturas.DataSource = tablaFacturas;
                 gridViewFacturas.DataBind();
+                tablaOrdenableSorting = tablaFacturas;
             }
             catch (Exception e)
             {
@@ -1310,18 +1313,65 @@ namespace ProyectoInventarioOET
          */
         protected void gridViewFacturas_Ordenado(object sender, GridViewSortEventArgs e)
         {
-            if (e.SortExpression == argumentoSorteo)
+            if (e.SortExpression == argumentoSorting)
             {
-                if (boolSorteo == true)
-                    boolSorteo = false;
+                if (boolSorting == true)
+                    boolSorting = false;
                 else
-                    boolSorteo = true;
+                    boolSorting = true;
             }
             else //New Column clicked so the default sort direction will be incorporated
-                boolSorteo = false;
+                boolSorting = false;
 
-            argumentoSorteo = e.SortExpression; //Update the sort column
-            BindGrid(argumentoSorteo, boolSorteo);
+            argumentoSorting = e.SortExpression; //Update the sort column
+            ordenarGrid(argumentoSorting, boolSorting);
+        }
+
+        /*
+         * Función auxiliar usada para ordenar el grid.
+         */
+        protected void ordenarGrid(string sortBy, bool inAsc)
+        {
+            agregarID();
+            DataView aux = new DataView(tablaOrdenableSorting);
+            aux.Sort = sortBy + " " + (inAsc ? "DESC" : "ASC"); //Ordena
+            tablaOrdenableSorting = aux.ToTable();
+            actualizarIDs();
+            gridViewFacturas.DataSource = tablaOrdenableSorting;
+            gridViewFacturas.DataBind();
+        }
+
+        /*
+         * Función auxiliar usada para ordenar el grid.
+         */
+        public void agregarID()
+        {
+            DataColumn columna;
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "id";
+            tablaOrdenableSorting.Columns.Add(columna);
+            int i = 0;
+            foreach (DataRow fila in tablaOrdenableSorting.Rows)
+            {
+                fila[3] = idArray[i];
+                i++;
+            }
+        }
+
+        /*
+         * Función auxiliar usada para ordenar el grid.
+         */
+        public void actualizarIDs()
+        {
+            int i = 0;
+            foreach (DataRow fila in tablaOrdenableSorting.Rows)
+            {
+                idArray[i] = fila[3];
+                i++;
+            }
+            tablaOrdenableSorting.Columns.Remove("id");
         }
 
         /*
