@@ -1088,7 +1088,9 @@ namespace ProyectoInventarioOET
          */
         protected void clickBotonCancelarModificar(object sender, EventArgs e)
         {
-
+            habilitarCampos(false);
+            modo = Modo.Consultado;
+            cambiarModo();
         }
 
         /*
