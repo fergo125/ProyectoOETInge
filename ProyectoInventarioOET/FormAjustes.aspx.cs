@@ -36,7 +36,7 @@ namespace ProyectoInventarioOET
         private static String codigo;
         private static String argumentoSorteo = "";
         private static bool boolSorteo = false;
-        private static DataTable tabla;
+        private static DataTable tablaGeneralAjustes;
 
 
 
@@ -207,6 +207,9 @@ namespace ProyectoInventarioOET
             }
         }
 
+        /*
+         * Los ajustes provenientes de anulacion de entradas y de ajuste rápido por ventas no son modificables. 
+         */
         private bool esModificable()
         {
             return ajusteConsultado.Anulable == 1 && !(ajusteConsultado.IdTipoAjuste.Equals("CYCLO106062012145550408008") || ajusteConsultado.IdTipoAjuste.Equals("CYCLO106062012145550367009")) ? false : true;  // Si es anulable;;
@@ -292,7 +295,7 @@ namespace ProyectoInventarioOET
          */
         protected void llenarGrid()
         {
-            tabla = tablaAjustes();
+            tablaGeneralAjustes = tablaAjustes();
             int i = 0;
 
             try
@@ -311,7 +314,7 @@ namespace ProyectoInventarioOET
                         datos[0] = fila[1].ToString();
                         datos[1] = fila[2].ToString();
                         datos[2] = fila[3].ToString();
-                        tabla.Rows.Add(datos);
+                        tablaGeneralAjustes.Rows.Add(datos);
                         i++;
                     }
                 }
@@ -320,11 +323,11 @@ namespace ProyectoInventarioOET
                     datos[0] = "-";
                     datos[1] = Convert.ToDateTime("01/01/1997");
                     datos[2] = "-";
-                    tabla.Rows.Add(datos);
+                    tablaGeneralAjustes.Rows.Add(datos);
                     mostrarMensaje("warning", "Atención: ", "No existen ajustes en la bodega actual.");
                 }
 
-                this.gridViewAjustes.DataSource = tabla;
+                this.gridViewAjustes.DataSource = tablaGeneralAjustes;
                 this.gridViewAjustes.DataBind();
             }
             catch (Exception e)
@@ -661,7 +664,7 @@ namespace ProyectoInventarioOET
         protected void gridViewAjustes_CambioPagina(Object sender, GridViewPageEventArgs e)
         {
             this.gridViewAjustes.PageIndex = e.NewPageIndex;
-            this.gridViewAjustes.DataSource = tabla;
+            this.gridViewAjustes.DataSource = tablaGeneralAjustes;
             this.gridViewAjustes.DataBind();
         }
 
@@ -1041,11 +1044,11 @@ namespace ProyectoInventarioOET
         public void BindGrid(string sortBy, bool inAsc)
         {
             agregarID();
-            DataView aux = new DataView(tabla);
+            DataView aux = new DataView(tablaGeneralAjustes);
             aux.Sort = sortBy + " " + (inAsc ? "DESC" : "ASC"); //Ordena
-            tabla = aux.ToTable();
+            tablaGeneralAjustes = aux.ToTable();
             actualizarIDs();
-            gridViewAjustes.DataSource = tabla;
+            gridViewAjustes.DataSource = tablaGeneralAjustes;
             gridViewAjustes.DataBind();
         }
 
@@ -1059,9 +1062,9 @@ namespace ProyectoInventarioOET
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
             columna.ColumnName = "id";
-            tabla.Columns.Add(columna);
+            tablaGeneralAjustes.Columns.Add(columna);
             int i = 0;
-            foreach (DataRow fila in tabla.Rows)
+            foreach (DataRow fila in tablaGeneralAjustes.Rows)
             {
                 fila[3] = idArrayAjustes[i];
                 i++;
@@ -1074,12 +1077,12 @@ namespace ProyectoInventarioOET
         private void actualizarIDs()
         {
             int i = 0;
-            foreach (DataRow fila in tabla.Rows)
+            foreach (DataRow fila in tablaGeneralAjustes.Rows)
             {
                 idArrayAjustes[i] = fila[3];
                 i++;
             }
-            tabla.Columns.Remove("id");
+            tablaGeneralAjustes.Columns.Remove("id");
         }
 
         /*
