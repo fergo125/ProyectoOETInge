@@ -109,7 +109,6 @@ namespace ProyectoInventarioOET
                     ArbolPermisos.Enabled = false;
                     FieldsetBotonesPerfiles.Visible = false;
                     FieldsetBotonesUsuarios.Visible = false;
-                    FieldsetAsociarUsuario.Visible = false;
                     FieldsetUsuario.Visible = false;
                     FieldsetBotones.Visible = false;
                     FieldsetBotonesModificar.Visible = false;
@@ -126,7 +125,6 @@ namespace ProyectoInventarioOET
                     FieldsetBotonesPerfiles.Visible = true;
                     FieldsetBotonesUsuarios.Visible = false;
                     FieldsetUsuario.Visible = false;
-                    FieldsetAsociarUsuario.Visible = false;
                     FieldsetBotones.Visible = false;
                     FieldsetBotonesModificar.Visible = false;
                     FieldsetGrid.Visible = false;
@@ -145,7 +143,6 @@ namespace ProyectoInventarioOET
                     FieldsetBotonesUsuarios.Visible = true;
                     FieldsetBotonesPerfiles.Visible = false;
                     FieldsetUsuario.Visible = false;
-                    FieldsetAsociarUsuario.Visible = false;
                     FieldsetBotones.Visible = false;
                     FieldsetBotonesModificar.Visible = false;
                     FieldsetGrid.Visible = false;
@@ -175,7 +172,6 @@ namespace ProyectoInventarioOET
                     FieldsetGrid.Visible = true;
                     FieldsetBotones.Visible = false;
                     FieldsetBotonesModificar.Visible = false;
-                    FieldsetAsociarUsuario.Visible = false;
                     FieldsetGridCuentas.Visible = true;
                     FieldsetPerfil.Visible = false;
                     FieldsetPerfilCreacion.Visible = false;
@@ -190,8 +186,7 @@ namespace ProyectoInventarioOET
                     inputPassword.Visible = true;
                     inputPasswordConfirm.Visible = true;
                     labelInputPassword.Visible = true;
-                    labelInputPasswordConfirm.Visible = true;                   
-                    FieldsetAsociarUsuario.Visible = false;
+                    labelInputPasswordConfirm.Visible = true;   
                     FieldsetBotones.Visible = true;
                     FieldsetBotonesModificar.Visible = false;
                     FieldsetGrid.Visible = false;
@@ -207,7 +202,6 @@ namespace ProyectoInventarioOET
                     ArbolPermisos.Enabled = false;
                     tituloAccionForm.InnerText = "Modifique la información del usuario.";
                     FieldsetUsuario.Visible = true;
-                    FieldsetAsociarUsuario.Visible = false;
                     FieldsetBotones.Visible = false;
                     FieldsetBotonesModificar.Visible = true;
                     FieldsetGrid.Visible = false;
@@ -230,7 +224,6 @@ namespace ProyectoInventarioOET
                     tituloAccionForm.InnerText = "Ingrese los datos para el nuevo perfil";
                     ArbolPermisos.Enabled = true;
                     FieldsetUsuario.Visible = false;
-                    FieldsetAsociarUsuario.Visible = false;
                     FieldsetBotones.Visible = false;
                     FieldsetBotonesModificar.Visible = false;
                     FieldsetGrid.Visible = false;
@@ -262,7 +255,6 @@ namespace ProyectoInventarioOET
                 case (int)Modo.ConsultadoUsuario:
                     ArbolPermisos.Enabled = false;
                     FieldsetUsuario.Visible = true;
-                    FieldsetAsociarUsuario.Visible = false;
                     FieldsetBotones.Visible = false;
                     FieldsetBotonesModificar.Visible = false;
                     FieldsetGrid.Visible = false;
@@ -284,7 +276,6 @@ namespace ProyectoInventarioOET
                     tituloAccionForm.InnerText = "Datos del Perfil";
                     ArbolPermisos.Enabled = false;
                     FieldsetUsuario.Visible = false;
-                    FieldsetAsociarUsuario.Visible = false;
                     FieldsetBotones.Visible = false;
                     FieldsetBotonesModificar.Visible = false;
                     FieldsetGrid.Visible = false;

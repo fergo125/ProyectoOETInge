@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" MasterPageFile="~/Site.Master" Language="C#" AutoEventWireup="true" CodeBehind="FormLoginBodega.aspx.cs" Inherits="ProyectoInventarioOET.FormBodegaLocal" %>
+﻿<%@ Page Title="Cambiar sesión" MasterPageFile="~/Site.Master" Language="C#" AutoEventWireup="true" CodeBehind="FormLoginBodega.aspx.cs" Inherits="ProyectoInventarioOET.FormBodegaLocal" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
         <br />

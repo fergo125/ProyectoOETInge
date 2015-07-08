@@ -418,24 +418,6 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.WebControls.DropDownList DropDownListEstado;
         
         /// <summary>
-        /// Control labelCheckboxCambiaPassword.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl labelCheckboxCambiaPassword;
-        
-        /// <summary>
-        /// Control checkboxCambiaPassword.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox checkboxCambiaPassword;
-        
-        /// <summary>
         /// Control labelInputPassword.
         /// </summary>
         /// <remarks>
@@ -470,6 +452,24 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputPassword inputPasswordConfirm;
+        
+        /// <summary>
+        /// Control checkboxCambiaPassword.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox checkboxCambiaPassword;
+        
+        /// <summary>
+        /// Control labelCheckboxCambiaPassword.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl labelCheckboxCambiaPassword;
         
         /// <summary>
         /// Control Div3.
@@ -542,33 +542,6 @@ namespace ProyectoInventarioOET {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gridViewCuentas;
-        
-        /// <summary>
-        /// Control FieldsetAsociarUsuario.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl FieldsetAsociarUsuario;
-        
-        /// <summary>
-        /// Control DropDownListUsuario.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownListUsuario;
-        
-        /// <summary>
-        /// Control DropDownListPerfil.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownListPerfil;
         
         /// <summary>
         /// Control FieldsetGrid.

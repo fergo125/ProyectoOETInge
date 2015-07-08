@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="FormEntradas.aspx.cs" Inherits="ProyectoInventarioOET.FormEntradas" %>
+﻿<%@ Page Title="Entradas" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="FormEntradas.aspx.cs" Inherits="ProyectoInventarioOET.FormEntradas" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
     <br />
@@ -15,7 +15,7 @@
 
     <!-- Título del Form -->
     <div>
-        <h2 id="TituloEntradas" runat="server">Gestión de Entradas al Inventario</h2>
+        <h2 id="TituloEntradas" runat="server">Entradas de inventario</h2>
         <hr />
     </div>
 
@@ -100,7 +100,8 @@
                                 <p id="outputTipoMonedaEntrada" runat="server" class="form-control-static"></p>
                             </div>
                              <div class="form-group col-lg-3">
-                            <asp:DropDownList ID="estadoEntrada" CssClass="form-control" Width="40%" runat="server" OnSelectedIndexChanged="dropdownlist1_SelectedIndexChanged">
+                                <label for="outputTipoMonedaEntrada" class="control-label">Estado:</label>  
+                            <asp:DropDownList ID="estadoEntrada" CssClass="form-control" Width="70%" runat="server" OnSelectedIndexChanged="dropdownlist1_SelectedIndexChanged">
                         <asp:ListItem Value="activo">Activo</asp:ListItem>
                         <asp:ListItem Value="inactivo">Inactivo</asp:ListItem>
                     </asp:DropDownList>
@@ -139,8 +140,8 @@
             <label class= "col-lg-12">Buscar factura:</label>
         </div>
         <div class="row">
-            <div class="col-lg-7">
-                <input id="barraDeBusquedaFactura" class="form-control" type="search" placeholder="Ingresa el código de la Factura" runat="server" >
+            <div class="col-lg-9">
+                <input id="barraDeBusquedaFactura" class="form-control" type="search" placeholder="Ingresa el código de la factura" runat="server" >
             </div>
             <div class="col-lg-1">
                 <asp:Button ID="botonBuscarFactura" runat="server" Text="Buscar" CssClass="btn btn-info-fozkr" OnClick="botonBuscarFactura_Click"/>
@@ -160,7 +161,7 @@
          <div class="col-lg-12"><strong><div ID="tituloGrid" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Listado de Facturas</div></strong>
 <%--            <asp:UpdatePanel ID="UpdatePanelFacturas" runat="server">
                 <ContentTemplate>--%>
-                    <asp:GridView ID="gridViewFacturas" CssClass="table" OnRowCommand="gridViewFacturas_RowCommand" OnPageIndexChanging="gridViewFacturas_PageIndexChanging" runat="server" AllowPaging="true" PageSize="5" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
+                    <asp:GridView ID="gridViewFacturas" CssClass="table" OnRowCommand="gridViewFacturas_RowCommand" OnPageIndexChanging="gridViewFacturas_PageIndexChanging" runat="server" AllowPaging="true" PageSize="10" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
                         <Columns>
                             <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Seleccionar">
                                 <ControlStyle CssClass="btn btn-default"></ControlStyle>

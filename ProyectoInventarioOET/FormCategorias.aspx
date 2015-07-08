@@ -86,7 +86,7 @@
        <strong><div ID="tituloGrid" runat="server" visible="false" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Catálogo de categorías</div></strong>
         <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
             <ContentTemplate>
-                <asp:GridView ID="gridViewCategorias" CssClass="table able-responsive table-condensed" runat="server" OnRowCommand="gridViewCategorias_Seleccion" OnPageIndexChanging="gridViewCategorias_CambioPagina" AllowPaging="True" PageSize="16" BorderColor="Transparent" Visible ="false">
+                <asp:GridView ID="gridViewCategorias" CssClass="table able-responsive table-condensed" runat="server" OnRowCommand="gridViewCategorias_Seleccion" OnPageIndexChanging="gridViewCategorias_CambioPagina" AllowPaging="True" PageSize="10" Visible ="false" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
                     <Columns>
                         <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Consultar">
                             <ControlStyle CssClass="btn btn-default"></ControlStyle>
@@ -96,7 +96,7 @@
                    <PagerStyle CssClass="paging" HorizontalAlign="Center" />
                    <AlternatingRowStyle BackColor="#F8F8F8" />
                    <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
-                   <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" />
+                   <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver"/>
               </asp:GridView>
          </ContentTemplate>
          <Triggers>

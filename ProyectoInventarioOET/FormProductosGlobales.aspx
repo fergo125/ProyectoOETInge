@@ -63,13 +63,14 @@
                 <label for="inputVendible" class= "control-label">Intención de uso:</label>     
                 <asp:DropDownList id= "inputVendible" runat="server" CssClass="form-control"></asp:DropDownList> 
             </div>
-
             <div class="form-group col-lg-6">
+            <br />
                 <label for="inputUnidades" class= "control-label">Unidades métricas:</label>
                 <asp:DropDownList ID="inputUnidades" runat="server" Cssclass="form-control" ></asp:DropDownList>
             </div>
 
             <div class="form-group col-lg-6">
+            <br />
                 <label for="inputEstado" class= "control-label">Estado:</label>
                 <asp:DropDownList ID="inputEstado" runat="server" Cssclass="form-control"></asp:DropDownList>
             </div>
@@ -136,11 +137,11 @@
             <label class= "col-lg-12">Buscar producto:</label>
         </div>
             <div class="row">
-                <div class="col-lg-9">
-                    <input id="barraDeBusqueda" class="form-control" type="search" placeholder="Ingresa una palabra o código" runat="server" >
+                <div class="col-lg-11">
+                    <input id="barraDeBusqueda" class="form-control" type="search" placeholder="Ingrese un nombre o código" runat="server" >
                 </div>
 <%--                <span class="glyphicon glyphicon-search" runat="server"></span>--%>
-                <div class="col-lg-2">
+                <div class="col-lg-1">
                     <asp:Button ID="Button1" runat="server" Text="Buscar" CssClass="btn btn-info-fozkr" OnClick="botonBuscar_ServerClick"/>
                 </div>
                 <%--<Button ID="botonBuscar" runat="server" Text="Buscar" onserverclick="botonBuscar_ServerClick" value="sds" title="ewrwer" name="ppp" />--%>
@@ -152,7 +153,7 @@
        <strong><div ID="UpdatePanelPruebas" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;">Catálogo global de productos</div></strong>
        <asp:UpdatePanel ID="UpdatePanelPruebas" runat="server">
            <ContentTemplate>
-                <asp:GridView ID="gridViewProductosGlobales" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewProductosGlobales_RowCommand" OnPageIndexChanging="gridViewProductosGlobales_PageIndexChanging" OnSorting="grd_Sorting" runat="server" AllowPaging="true" PageSize="16" BorderColor="Transparent" AllowSorting="True">
+                <asp:GridView ID="gridViewProductosGlobales" CssClass="table able-responsive table-condensed" OnRowCommand="gridViewProductosGlobales_RowCommand" OnPageIndexChanging="gridViewProductosGlobales_PageIndexChanging" OnSorting="grd_Sorting" runat="server" AllowPaging="true" PageSize="10" AllowSorting="True" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
                     <Columns>
                         <asp:ButtonField ButtonType="Button" ControlStyle-CssClass="btn btn-default" CommandName="Select" Text="Consultar">
                             <ControlStyle CssClass="btn btn-default"></ControlStyle>
@@ -160,9 +161,9 @@
                    </Columns>
                    <RowStyle Font-Size="small" BackColor="White" ForeColor="Black" />
                    <PagerStyle CssClass="paging" HorizontalAlign="Center" />
-                   <AlternatingRowStyle BackColor="#EBEBEB" />
+                   <AlternatingRowStyle BackColor="#F8F8F8"/>
                    <SelectedRowStyle CssClass="info" Font-Bold="true" ForeColor="White" />
-                   <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" />
+                   <HeaderStyle CssClass="active" Font-Size="Medium" Font-Bold="true" BackColor="Silver"/>
               </asp:GridView>
          </ContentTemplate>
          <Triggers>

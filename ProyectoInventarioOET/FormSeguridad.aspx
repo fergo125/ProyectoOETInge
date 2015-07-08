@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="FormSeguridad.aspx.cs" MaintainScrollPositionOnPostback="true" Inherits="ProyectoInventarioOET.FormSeguridad" %>
+﻿<%@ Page Title="Seguridad" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="FormSeguridad.aspx.cs" MaintainScrollPositionOnPostback="true" Inherits="ProyectoInventarioOET.FormSeguridad" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
     <!-- Label para desplegar mensajes -->
@@ -96,7 +96,8 @@
                             Display="Dynamic"
                             CssClass="ValidationError">
                             </asp:RequiredFieldValidator>
-
+                        
+                        <br />
                         <br />
                         <label class="control-label">Nivel:</label>
                         <asp:DropDownList ID="dropDownListCrearPerfilNivel" class="input input-fozkr-dropdownlist" CssClass="form-control" Width="70%" runat="server"></asp:DropDownList>
@@ -237,10 +238,6 @@
             </div>
             <div class="col-lg-12 row">
                 <br />
-                <div class="col-lg-4" style="margin-top:2.5%;">
-                    <label for="checkboxCambiaPassword" id="labelCheckboxCambiaPassword" class="control-label" runat="server">Cambiar contraseña</label>    
-					<asp:CheckBox ID="checkboxCambiaPassword" OnCheckedChanged="checkboxCambiaPassword_CheckedChanged" CssClass="input-fozkr-check" runat="server" AutoPostBack="true"/>
-                </div>
                 <div class="col-lg-4">
                     <label for="inputPassword" id="labelInputPassword" runat="server" class= "control-label">Contraseña:</label>
                     <input id="inputPassword" runat="server" type="password" class="form-control" />
@@ -248,6 +245,10 @@
                 <div class="col-lg-4">
                     <label for="inputPasswordConfirm" id="labelInputPasswordConfirm" runat="server" class= "control-label">Confirmar contraseña:</label>
                     <input id="inputPasswordConfirm" runat="server"  type="password"  class="form-control"/>
+                </div>
+                <div class="col-lg-4" style="margin-top:2.5%;">
+					<asp:CheckBox ID="checkboxCambiaPassword" OnCheckedChanged="checkboxCambiaPassword_CheckedChanged" CssClass="input-fozkr-check" runat="server" AutoPostBack="true"/>
+                    <label for="checkboxCambiaPassword" id="labelCheckboxCambiaPassword" class="control-label" runat="server">Cambiar contraseña</label>    
                 </div>
                 <br />
             </div>
@@ -257,10 +258,10 @@
              <div class="col-lg-12"><strong><div ID="Div3" runat="server" visible="true" tabindex="" class="control-label" style="text-align:center;font-size:larger; background-color: #C0C0C0;"> Bodegas</div></strong>
                     <asp:UpdatePanel ID="UpdatePanelBodegas" runat="server">
                         <ContentTemplate>
-                                                <asp:Panel ID="PanelBodegas" runat="server" ScrollBars="Vertical" Height="200px">
+                          <asp:Panel ID="PanelBodegas" runat="server" ScrollBars="Vertical" BorderColor="#CCCCCC" BorderWidth="1px" Height="250px">
                             <asp:GridView ID="gridViewBodegas" CssClass="table"  runat="server" AllowPaging="false"  BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" GridLines="None">
 						        <Columns>
-							        <asp:TemplateField HeaderText="Seleccionar">
+							        <asp:TemplateField HeaderText="">
 								        <ItemTemplate>
 									        <asp:CheckBox ID="checkBoxBodegas" OnCheckedChanged="checkBoxBodegas_CheckedChanged" runat="server" AutoPostBack="true"/>
 								        </ItemTemplate>
@@ -308,23 +309,6 @@
             </div>
         </fieldset>         
 
-
-    <!-- Fieldset de asociacion de usuario a perfil -->
-    <fieldset id="FieldsetAsociarUsuario" class="fieldset" runat="server" visible="false">
-        <!-- DropDown Lists que cargan las estaciones disponibles y las bodegas pertenecientes a la estación seleccionada -->
-        <div class="row">
-            <div class="col-lg-4">
-                <label for="DropDownListUsuario" class="control-label">Seleccione al usuario:</label>
-                <asp:DropDownList ID="DropDownListUsuario" runat="server" CssClass="form-control" AutoPostBack="true">
-                </asp:DropDownList>
-            </div>
-            <div class="col-lg-4">
-                <label for="DropDownListPerfil" class="control-label">Seleccione perfil a asignar:</label>
-                <asp:DropDownList ID="DropDownListPerfil" runat="server" CssClass="form-control">
-                </asp:DropDownList>
-            </div>
-         </div>
-    </fieldset>
 
     <!-- Fieldset de grid -->
     <fieldset id="FieldsetGrid" class="fieldset" runat="server" visible="false">

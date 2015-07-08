@@ -15,7 +15,7 @@
 
     <!-- Título del Form -->
     <div>
-        <h2 id="TituloActividades" runat="server">Gestión de Actividades</h2>
+        <h2 id="TituloActividades" runat="server">Gestión de actividades</h2>
         <hr />
     </div>
 

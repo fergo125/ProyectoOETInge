@@ -88,7 +88,7 @@ namespace ProyectoInventarioOET
                 comboBoxEstadosActividades.Enabled = false;
                 textoObligatorioBodega.Visible = false;
                 mensajeAlerta.Visible = false;
-                tituloAccion.InnerText = "Seleccione una opción";
+                tituloAccion.InnerText = "Seleccione una categoría";
 
             }
             else if (modo == (int)Modo.Modificacion)
@@ -141,7 +141,7 @@ namespace ProyectoInventarioOET
                 inputNombre.Visible = false;
                 comboBoxEstadosActividades.Visible = false;
                 textoObligatorioBodega.Visible = false;
-                tituloAccion.InnerText = "Seleccione una categoria";
+                tituloAccion.InnerText = "Seleccione una opción";
                 mensajeAlerta.Visible = false;
             }
             else if (modo == (int)Modo.Consultado)
