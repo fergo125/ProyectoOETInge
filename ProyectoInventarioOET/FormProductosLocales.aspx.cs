@@ -572,7 +572,7 @@ namespace ProyectoInventarioOET
             res = controladoraProductoLocal.modificarProductoLocal(consultaProducto.Rows[0][22].ToString(), inputEstado.SelectedItem.ToString(),inputMinimo.Value,inputMaximo.Value);
             botonConsultarBodega_ServerClick(null, null);
             consultaProducto = controladoraProductoLocal.consultarProductoDeBodega(idBodegaSeleccionada, codigoSeleccionado);
-            modo = (int)Modo.Consultado;
+            modo = (int)Modo.Consulta;
             mostrarMensaje(res[0], res[1], res[2]);
             cambiarModo();
         }
