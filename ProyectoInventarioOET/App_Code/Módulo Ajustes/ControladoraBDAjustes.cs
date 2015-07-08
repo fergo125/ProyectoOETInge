@@ -22,7 +22,7 @@ namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
         {
             String esquema = "Inventarios.";
             DataTable resultado = null;
-            String comandoSQL = "SELECT * FROM " + esquema + "CAT_TIPO_MOVIMIENTO";
+            String comandoSQL = "SELECT * FROM " + esquema + "CAT_TIPO_MOVIMIENTO ORDER BY DESCRIPCION ";
             resultado = ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }

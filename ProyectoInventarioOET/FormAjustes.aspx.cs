@@ -582,8 +582,9 @@ namespace ProyectoInventarioOET
             limpiarCampos();
             llenarGridAgregarProductos();
             vaciarGridProductos();
-
             cargarTipos();
+            this.dropdownTipo.Items.RemoveAt(3);
+            this.dropdownTipo.Items.RemoveAt(0);
             cargarEstados();
             if ((this.Master as SiteMaster).Usuario != null)
                 outputUsuario.Value = (this.Master as SiteMaster).Usuario.Nombre;
