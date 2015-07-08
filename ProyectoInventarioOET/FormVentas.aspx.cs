@@ -44,6 +44,7 @@ namespace ProyectoInventarioOET
         private static ControladoraDatosGenerales controladoraDatosGenerales;   //Para accesar datos generales de la base de datos
         private static ControladoraProductoLocal controladoraProductoLocal ;    //Para revisar existencias de productos
         private static ControladoraProductosGlobales controladoraProductoGlobal;//Para consultar nombre y otra información de los productos al desplegar facturas
+        private static Double montoTotal=0;
         //Importante:
         //Para el codigoPerfilUsuario (que se usa un poco hard-coded), los números son:
         //1 = Administrador global
@@ -384,6 +385,7 @@ namespace ProyectoInventarioOET
             String codigoMetodoPago = dropDownListConsultaMetodoPago.SelectedValue;
             String codigoCliente = dropDownListConsultaCliente.SelectedValue;
             String fechaInicio="", fechaFinal = "";
+            montoTotal = 0;
             if (checkboxConsultaDetalles.Checked)
             {
                 //fechaInicio = CalendarFechaInicio.SelectedDate.ToString("dd/MM/yyyy").Substring(0, 10);
@@ -409,6 +411,7 @@ namespace ProyectoInventarioOET
                         datos[1] = fila[1].ToString();  //Fecha y hora
                         datos[2] = controladoraSeguridad.consultarNombreDeUsuario(fila[6].ToString());  //Vendedor
                         datos[3] = fila[10].ToString(); //Monto total
+                        montoTotal += Convert.ToDouble(datos[3]);
                         datos[4] = fila[8].ToString();  //Tipo moneda
                         datos[5] = fila[9].ToString();  //Método de pago
                         tablaFacturas.Rows.Add(datos);

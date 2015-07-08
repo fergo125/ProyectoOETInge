@@ -653,6 +653,7 @@ namespace ProyectoInventarioOET
             this.gridViewCatalogoLocal.DataSource = catalogoLocal;
             this.gridViewCatalogoLocal.PageIndex = 0;
             this.gridViewCatalogoLocal.DataBind();
+            tablaOrdenableSorting = catalogoLocal;
         }
 
 

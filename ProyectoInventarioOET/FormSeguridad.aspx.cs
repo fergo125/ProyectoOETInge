@@ -55,19 +55,6 @@ namespace ProyectoInventarioOET
                     Response.Redirect("~/ErrorPages/404.html");
                 //mostrarBotonesSegunPermisos();
 
-          
-                /*EJEMPLO PARA EL BLOPA YO HICE DOS METODS COOOOOORRERRRRRRLO!
-                    *  i) consultarCuentas que trae informacion previa(idUsuario, Nombre, Perfil, Estado) de todas las cuentas que existen en el sistema 
-                    *  ii) consultarCuenta(String id) que devuelve la Entidad de Usuario con todas las cosas que existen en la BD de un usuario especifico, esta entidad contiene
-                    *       una matriz  de permisos que despliega los permisos de dicho usuario en cada interfaz
-                    */
-                /*controladoraSeguridad = new ControladoraSeguridad();
-                entidadConsultada = controladoraSeguridad.consultarCuenta("3"); //Recibe el id (Seg_usuario)
-                this.gridPermisos.DataSource = entidadConsultada.MatrizPermisos;
-                this.gridPermisos.DataBind();  //IMPORTANTE!! ASI VIENEN LOS PERMISOS DE UN USUARIO
-                this.inputNombre.Value = entidadConsultada.Nombre;
-                this.gridCuentas.DataSource = controladoraSeguridad.consultarCuentas(); // Recordadr no desplegar el idUsuario!! Yo lo hice xq era un ejemplo de que funka 
-                this.gridCuentas.DataBind();*/
                     if (!seConsulto)
                 {
                     modo = (int)Modo.Inicial;

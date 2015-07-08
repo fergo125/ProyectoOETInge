@@ -33,9 +33,9 @@
     </fieldset>
     <!-- Fieldset de administracion de usuarios -->
     <fieldset id= "FieldsetBotonesUsuarios" class="fieldset" runat="server" visible="false">
-        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonConsultarUsuario" causesvalidation="false" onserverclick="botonConsultarUsuario_ServerClick"><i class="fa fa-bars"></i> Consultar usuario</button>
-        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonCrearUsuario" causesvalidation="false" onserverclick="botonCrearUsuario_ServerClick"><i class="fa fa-plus"></i> Crear usuario</button>
-        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonModificarUsuario" causesvalidation="false" onserverclick="botonModificarUsuario_ServerClick" visible="false" ><i class="fa fa-wrench"></i> Modificar usuario</button>
+        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonConsultarUsuario" causesvalidation="false" onserverclick="botonConsultarUsuario_ServerClick">Consultar usuario</button>
+        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonCrearUsuario" causesvalidation="false" onserverclick="botonCrearUsuario_ServerClick">Crear usuario</button>
+        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonModificarUsuario" causesvalidation="false" onserverclick="botonModificarUsuario_ServerClick" disabled="disabled" >Modificar usuario</button>
     </fieldset>
     <br />
 
