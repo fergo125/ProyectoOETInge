@@ -4,10 +4,10 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using ProyectoInventarioOET.Modulo_Bodegas;
-using ProyectoInventarioOET.Modulo_Productos_Locales;
-using ProyectoInventarioOET.App_Code.Modulo_Ajustes;
+using ProyectoInventarioOET.Modulo_ProductosLocales;
+using ProyectoInventarioOET.Modulo_Ajustes;
 
-namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
+namespace ProyectoInventarioOET.Modulo_Traslados
 {
 
     /*

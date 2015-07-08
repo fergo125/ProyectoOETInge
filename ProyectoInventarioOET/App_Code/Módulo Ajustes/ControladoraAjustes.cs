@@ -4,12 +4,12 @@ using System.Linq;
 using System.Web;
 using System.Data;
 using ProyectoInventarioOET.Modulo_Bodegas;
-using ProyectoInventarioOET.Modulo_Productos_Locales;
-using ProyectoInventarioOET.App_Code.Modulo_Traslados;
+using ProyectoInventarioOET.Modulo_ProductosLocales;
+using ProyectoInventarioOET.Modulo_Traslados;
 using ProyectoInventarioOET.Modulo_Seguridad;
 
 
-namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
+namespace ProyectoInventarioOET.Modulo_Ajustes
 {
     /*
      * Comunicación entre la Controladora de Base de Datos y la que maneja las operaciones de la interfaz.

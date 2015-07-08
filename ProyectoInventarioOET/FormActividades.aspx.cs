@@ -6,7 +6,6 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using ProyectoInventarioOET.Modulo_Actividades;
-using ProyectoInventarioOET.App_Code;
 
 
 namespace ProyectoInventarioOET

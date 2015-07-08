@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using ProyectoInventarioOET.App_Code.Modulo_Ajustes;
+using ProyectoInventarioOET.Modulo_Ajustes;
 
-namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
+namespace ProyectoInventarioOET.Modulo_Traslados
 {
     public class EntidadTraslado
     {

@@ -4,8 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using ProyectoInventarioOET.Modulo_ProductosGlobales;
-using ProyectoInventarioOET.Modulo_Productos_Locales;
-using ProyectoInventarioOET.App_Code;
+using ProyectoInventarioOET.Modulo_ProductosLocales;
 
 namespace ProyectoInventarioOET.Modulo_Entradas
 {

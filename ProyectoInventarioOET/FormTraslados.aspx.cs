@@ -6,11 +6,10 @@ using System.Web;
 using System.Data;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using ProyectoInventarioOET.App_Code;
-using ProyectoInventarioOET.App_Code.Modulo_Traslados;
-using ProyectoInventarioOET.App_Code.Modulo_Ajustes;
+using ProyectoInventarioOET.Modulo_Traslados;
+using ProyectoInventarioOET.Modulo_Ajustes;
 using ProyectoInventarioOET.Modulo_Seguridad;
-using ProyectoInventarioOET.Modulo_Productos_Locales;
+using ProyectoInventarioOET.Modulo_ProductosLocales;
 
 namespace ProyectoInventarioOET
 {

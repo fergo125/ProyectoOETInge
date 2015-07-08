@@ -6,8 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 using ProyectoInventarioOET.Modulo_Bodegas;
-using ProyectoInventarioOET.App_Code;
-using ProyectoInventarioOET.Modulo_Productos_Locales;
+using ProyectoInventarioOET.Modulo_ProductosLocales;
 using ProyectoInventarioOET.Modulo_Categorias;
 using ProyectoInventarioOET.Modulo_Seguridad;
 

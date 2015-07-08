@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
+namespace ProyectoInventarioOET.Modulo_Ajustes
 {
 
     // Entidad de producto que sirve para encapsular detalles de un traslado o ajuste

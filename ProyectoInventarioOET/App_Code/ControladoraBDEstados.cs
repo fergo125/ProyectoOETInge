@@ -5,7 +5,7 @@ using System.Web;
 using System.Data;
 using Oracle.DataAccess.Client; //para conectarse a la base de datos manualmente con strings
 
-namespace ProyectoInventarioOET.App_Code
+namespace ProyectoInventarioOET
 {
     /*
      * Controladora del conjunto de datos de los estados del sistema.

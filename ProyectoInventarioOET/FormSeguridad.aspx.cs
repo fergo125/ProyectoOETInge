@@ -6,7 +6,6 @@ using System.Data;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using ProyectoInventarioOET.Modulo_Seguridad;
-using ProyectoInventarioOET.App_Code;
 using ProyectoInventarioOET.Modulo_Bodegas;
 
 namespace ProyectoInventarioOET

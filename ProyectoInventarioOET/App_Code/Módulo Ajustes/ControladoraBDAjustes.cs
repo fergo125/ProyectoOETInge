@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 
-namespace ProyectoInventarioOET.App_Code.Modulo_Ajustes
+namespace ProyectoInventarioOET.Modulo_Ajustes
 {
     /*
      * Clase encargada de la comunicación entre el modulo de ajustes y la Base de Datos.

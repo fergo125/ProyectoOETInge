@@ -5,9 +5,9 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
-using ProyectoInventarioOET.App_Code.Modulo_Ajustes;
+using ProyectoInventarioOET.Modulo_Ajustes;
 
-namespace ProyectoInventarioOET.App_Code.Modulo_Traslados
+namespace ProyectoInventarioOET.Modulo_Traslados
 {
 
     /*

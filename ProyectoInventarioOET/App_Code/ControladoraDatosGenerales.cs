@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data;
 using ProyectoInventarioOET.Modulo_Bodegas;
-namespace ProyectoInventarioOET.App_Code
+namespace ProyectoInventarioOET
 {
     /*
      * Controladora de datos generales, utilizada entre varios módulos.
