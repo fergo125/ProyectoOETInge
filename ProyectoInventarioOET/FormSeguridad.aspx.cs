@@ -671,7 +671,7 @@ namespace ProyectoInventarioOET
                     if (((CheckBox)gridViewBodegas.Rows[i].FindControl("checkBoxBodegas")).Checked)
                 {
                     String llaveBodega = controladoraBodegas.consultarLlaveBodega(fila.Cells[1].Text, DropDownListEstacion.SelectedValue);
-                    res = controladoraSeguridad.asociarABodega(codigo, llaveBodega, perfilSeleccionado);
+                    res = controladoraSeguridad.asociarABodega(codigo, llaveBodega, DropDownListEstacion.SelectedValue);
 
                 }
                 i++;
