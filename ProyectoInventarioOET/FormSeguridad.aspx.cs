@@ -31,6 +31,9 @@ namespace ProyectoInventarioOET
         private static DataTable tablaCuentas;
         private static DataTable tablaPerfiles;                         // Datatable para almacenar los perfiles de consulta
         private static DataTable bodegasEstacion;
+        private static String argumentoSorteo = "";
+        private static bool boolSorteo = false;
+        private static DataTable tablaOrdenable;
         
         /*
          * ???
@@ -854,6 +857,7 @@ namespace ProyectoInventarioOET
 
                 this.gridViewCuentas.DataSource = tablaCuentas;
                 this.gridViewCuentas.DataBind();
+                tablaOrdenable = tablaCuentas;
             }
             catch (Exception e)
             {
@@ -1211,6 +1215,64 @@ namespace ProyectoInventarioOET
                 this.inputPassword.Disabled = true;
                 this.inputPasswordConfirm.Disabled = true;            
             }
+        }
+
+        protected void gridViewCuentas_Sorting(object sender, GridViewSortEventArgs e)
+        {
+            if (e.SortExpression == argumentoSorteo)
+            {
+                if (boolSorteo == true)
+                    boolSorteo = false;
+                else
+                    boolSorteo = true;
+            }
+            else //New Column clicked so the default sort direction will be incorporated
+                boolSorteo = false;
+
+            argumentoSorteo = e.SortExpression; //Update the sort column
+            BindGrid(argumentoSorteo, boolSorteo);
+        }
+
+
+        /*
+ * Auxiliar para ordenar grid
+ */
+        public void BindGrid(string sortBy, bool inAsc)
+        {
+            agregarID();
+            DataView aux = new DataView(tablaOrdenable);
+            aux.Sort = sortBy + " " + (inAsc ? "DESC" : "ASC"); //Ordena
+            tablaOrdenable = aux.ToTable();
+            actualizarIDs();
+            gridViewCuentas.DataSource = tablaOrdenable;
+            gridViewCuentas.DataBind();
+        }
+
+        public void agregarID()
+        {
+            DataColumn columna;
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "id";
+            tablaOrdenable.Columns.Add(columna);
+            int i = 0;
+            foreach (DataRow fila in tablaOrdenable.Rows)
+            {
+                fila[3] = idArray[i];
+                i++;
+            }
+        }
+
+        public void actualizarIDs()
+        {
+            int i = 0;
+            foreach (DataRow fila in tablaOrdenable.Rows)
+            {
+                idArray[i] = fila[3];
+                i++;
+            }
+            tablaOrdenable.Columns.Remove("id");
         }
 
     }
