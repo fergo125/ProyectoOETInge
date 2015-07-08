@@ -29,7 +29,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
          */
         public EntidadUsuario consultarUsuario(String nombre, String password)
         {
-            //TODO: Encriptar password aqui***
+            password = encriptarTexto(password);
             return controladoraBDSeguridad.consultarUsuario(nombre, password);
         }
 
@@ -38,7 +38,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
          */
         public String[] modificarContrasena(String codigoInternoUsuario, String password)
         {
-            //TODO: Encriptar password aqui**
+            password = encriptarTexto(password);
             return controladoraBDSeguridad.modificarContrasena(codigoInternoUsuario,password);
         }
 
@@ -51,34 +51,20 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
          * Encripta un string en el formato de almacenamiento de la base de datos.
          * No funcional
          */
-        public String encriptarTexto(String s)
+        public String encriptarTexto(String texto)
         {
-            String resultado = "";
-            for( int i = 0; i < s.Length; ++i )
+            String codigo = "";
+            String nrletrapass = "";
+            int valorAscii = 0;
+            for (int i = 1; i <= texto.Length; ++i)
             {
-                int letra = llaveEncriptacion[i % llaveEncriptacion.Length];
-                letra = (char)((int)s[i] ^ (letra + 2));
-                resultado += letra;
+                nrletrapass = (Convert.ToInt32((llaveEncriptacion.Substring(((i % (llaveEncriptacion.Length))), 1).ToCharArray()[0]))).ToString();
+                valorAscii = (Convert.ToInt32((texto.Substring(i - 1, 1).ToCharArray()[0])));
+                valorAscii = Convert.ToInt32(valorAscii ^ (Convert.ToInt32(nrletrapass) + 2));
+                codigo += ((char)valorAscii);
             }
-            resultado.Replace("'", "$#6@$");
-            return resultado;
-        }
-
-        /*
-         * Desencripta un string en el formato de almacenamiento de la base de datos.
-         * No funcional
-         */
-        public String desencriptarTexto(String s)
-        {
-            String resultado = "";
-            s.Replace("$#6@$", "'");
-            for (int i = 0; i < s.Length; ++i)
-            {
-                int letra = llaveEncriptacion[i % llaveEncriptacion.Length];
-                letra = (char)( ((int)s[i] ^ letra) + 2);
-                resultado += letra;
-            }
-            return resultado;
+            codigo = codigo.Replace("'", "$#6@$");
+            return codigo;
         }
 
         /*
