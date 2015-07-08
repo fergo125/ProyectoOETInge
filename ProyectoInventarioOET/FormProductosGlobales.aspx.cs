@@ -425,6 +425,7 @@ namespace ProyectoInventarioOET
                 this.inputCostoColones.Value = productoConsultado.CostoColones.ToString();
                 this.inputCostoDolares.Value = productoConsultado.CostoDolares.ToString();
                 this.inputEstado.SelectedValue = productoConsultado.Estado.ToString();
+                this.inputVendible.SelectedValue = productoConsultado.Intencion.ToString();
             }
     
         }
