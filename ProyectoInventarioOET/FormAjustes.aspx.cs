@@ -358,15 +358,18 @@ namespace ProyectoInventarioOET
                     idArrayAgregarProductos = new Object[productos.Rows.Count];
                     foreach (DataRow fila in productos.Rows)
                     {
-                        idArrayAgregarProductos[i] = fila[0];
-                        datos[0] = fila[1].ToString();
-                        datos[1] = fila[2].ToString();
-                        datos[2] = Convert.ToDouble(fila[3].ToString());
-                        datos[3] = fila[6].ToString();
-                        datos[4] = Convert.ToDouble(fila[4].ToString());
-                        datos[5] = Convert.ToDouble(fila[5].ToString());
-                        tablaProd.Rows.Add(datos);
-                        i++;
+                        if (!idArrayProductos.Contains(fila[0]))
+                        {
+                            idArrayAgregarProductos[i] = fila[0];
+                            datos[0] = fila[1].ToString();
+                            datos[1] = fila[2].ToString();
+                            datos[2] = Convert.ToDouble(fila[3].ToString());
+                            datos[3] = fila[6].ToString();
+                            datos[4] = Convert.ToDouble(fila[4].ToString());
+                            datos[5] = Convert.ToDouble(fila[5].ToString());
+                            tablaProd.Rows.Add(datos);
+                            i++;
+                        }
                     }
                 }
                 else
@@ -583,8 +586,8 @@ namespace ProyectoInventarioOET
             modo = (int)Modo.Insercion;
             cambiarModo();
             limpiarCampos();
-            llenarGridAgregarProductos();
             vaciarGridProductos();
+            llenarGridAgregarProductos();
             cargarTipos();
             this.dropdownTipo.Items.RemoveAt(3);
             this.dropdownTipo.Items.RemoveAt(0);
@@ -696,7 +699,15 @@ namespace ProyectoInventarioOET
                         if (idArrayProductos.Count() < 1)
                             vaciarGridProductos();
                         mostrarGridParaCorrecciones();
-                        //
+
+                        // Volver a cargar el grid, para obtener los datos del producto
+                        llenarGridAgregarProductos();
+                        if (barraDeBusqueda.Value != "")
+                        {
+                            DataTable tmp = tablaAgregarProductos.Select("Nombre LIKE '%" + barraDeBusqueda.Value + "%'").CopyToDataTable();
+                            gridViewAgregarProductos.DataSource = tmp;
+                            gridViewAgregarProductos.DataBind();
+                        }
                         break;
                 }
             }

@@ -920,6 +920,9 @@ namespace ProyectoInventarioOET
                         if (idArrayProductosOrigen.Count() < 1)
                             vaciarGridProductos();
 
+                        // Volver a cargar el grid, para obtener los datos del producto
+                        llenarGridAgregarProductos(barraDeBusqueda.Value);
+
                         break;
                 }
             }
@@ -1060,6 +1063,7 @@ namespace ProyectoInventarioOET
         {
             stringBusqueda = barraDeBusqueda.Value;
             llenarGridAgregarProductos(stringBusqueda);
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "test", "openModal() ;", true);
         }
         
 
