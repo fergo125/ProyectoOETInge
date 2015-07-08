@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data;
+using System.Web.Helpers;
 
 namespace ProyectoInventarioOET.Modulo_Seguridad
 {
@@ -29,7 +30,8 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
          */
         public EntidadUsuario consultarUsuario(String nombre, String password)
         {
-            password = encriptarTexto(password);
+            //password = encriptarTexto(password);
+            password = Crypto.SHA256(password);
             return controladoraBDSeguridad.consultarUsuario(nombre, password);
         }
 
@@ -38,7 +40,8 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
          */
         public String[] modificarContrasena(String codigoInternoUsuario, String password)
         {
-            password = encriptarTexto(password);
+            //password = encriptarTexto(password);
+            password = Crypto.SHA256(password);
             return controladoraBDSeguridad.modificarContrasena(codigoInternoUsuario,password);
         }
 
@@ -48,8 +51,8 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         }
 
         /*
-         * Encripta un string en el formato de almacenamiento de la base de datos.
-         * No funcional
+         * Encripta un string según el algoritmo de encripción de la OET. Se decidió no usar este algoritmo, y usar la encripción
+         * Hash estándar, ya que éste algoritmo produce caracteres no ASCII al encriptar cualquier letra mayúscula, y el número 4.
          */
         public String encriptarTexto(String texto)
         {
@@ -157,6 +160,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         public String[] modificarUsuario(Object[] datosUsuario, List<String> listadoBodegas, String perfil)
         {
             EntidadUsuario usuario = new EntidadUsuario(datosUsuario);
+            usuario.Clave = Crypto.SHA256(usuario.Clave);
             return controladoraBDSeguridad.modificarUsuario(usuario, listadoBodegas, perfil);
         }
 

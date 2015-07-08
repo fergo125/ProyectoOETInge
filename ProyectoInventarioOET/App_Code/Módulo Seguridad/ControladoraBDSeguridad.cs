@@ -32,7 +32,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
             EntidadUsuario usuario = null;
 
             // Comandos de SQL para acceder a la base de datos
-            String comandoSQL = "SELECT * FROM " + esquema + "SEG_USUARIO WHERE USUARIO = '" + nombre + "' AND CLAVE = (REPLACE('" + password + "', '\\', ''))";
+            String comandoSQL = "SELECT * FROM " + esquema + "SEG_USUARIO WHERE USUARIO = '" + nombre + "' AND CLAVE = '" + password + "'";
             // Importante, modificar para que solo use cuentas activas
             resultado = ejecutarComandoSQL(comandoSQL, true);
             // Si encuentro una única cuenta
