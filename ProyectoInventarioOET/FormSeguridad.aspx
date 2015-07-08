@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="Seguridad" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="FormSeguridad.aspx.cs" MaintainScrollPositionOnPostback="true" Inherits="ProyectoInventarioOET.FormSeguridad" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
     <!-- Label para desplegar mensajes -->
     <br />
@@ -20,21 +21,21 @@
     </div>
 
     <!-- Botones de acción -->
-    <button runat="server" type="button" class=" btn btn-info-fozkr" id="botonUsuarios" causesvalidation="false" onserverclick="botonUsuarios_ServerClick">Administrar usuarios</button>
-    <button runat="server" type="button" class=" btn btn-info-fozkr" id="botonPerfiles" causesvalidation="false"  onserverclick="botonPerfiles_ServerClick">Administrar perfiles</button>
+    <button runat="server" type="button" class=" btn btn-info-fozkr" id="botonUsuarios" causesvalidation="false" onserverclick="botonUsuarios_ServerClick"><i class="fa fa-users"></i> Administrar usuarios</button>
+    <button runat="server" type="button" class=" btn btn-info-fozkr" id="botonPerfiles" causesvalidation="false"  onserverclick="botonPerfiles_ServerClick"><i class="fa fa-user"></i> Administrar perfiles</button>
 
     <br /><br />
     <!-- Fieldset de administracion de perfiles -->
     <fieldset id= "FieldsetBotonesPerfiles" class="fieldset" runat="server" visible="false">
-        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonConsultarPerfil" causesvalidation="false" onserverclick="botonConsultarPerfil_ServerClick">Consultar perfil</button>
-        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonCrearPerfil" causesvalidation="false" onserverclick="botonCrearPerfil_ServerClick">Crear perfil</button>
-        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonModificarPerfil" causesvalidation="false" onserverclick="botonModificarPerfil_ServerClick">Modificar perfil</button>
+        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonConsultarPerfil" causesvalidation="false" onserverclick="botonConsultarPerfil_ServerClick"><i class="fa fa-bars"></i> Consultar perfil</button>
+        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonCrearPerfil" causesvalidation="false" onserverclick="botonCrearPerfil_ServerClick"><i class="fa fa-plus"></i> Crear perfil</button>
+        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonModificarPerfil" causesvalidation="false" onserverclick="botonModificarPerfil_ServerClick"><i class="fa fa-wrench"></i> Modificar perfil</button>
     </fieldset>
     <!-- Fieldset de administracion de usuarios -->
     <fieldset id= "FieldsetBotonesUsuarios" class="fieldset" runat="server" visible="false">
-        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonConsultarUsuario" causesvalidation="false" onserverclick="botonConsultarUsuario_ServerClick">Consultar usuario</button>
-        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonCrearUsuario" causesvalidation="false" onserverclick="botonCrearUsuario_ServerClick">Crear usuario</button>
-        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonModificarUsuario" causesvalidation="false" onserverclick="botonModificarUsuario_ServerClick" visible="false" >Modificar usuario</button>
+        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonConsultarUsuario" causesvalidation="false" onserverclick="botonConsultarUsuario_ServerClick"><i class="fa fa-bars"></i> Consultar usuario</button>
+        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonCrearUsuario" causesvalidation="false" onserverclick="botonCrearUsuario_ServerClick"><i class="fa fa-plus"></i> Crear usuario</button>
+        <button runat="server" type="button" class="btn btn-info-fozkr" id="botonModificarUsuario" causesvalidation="false" onserverclick="botonModificarUsuario_ServerClick" visible="false" ><i class="fa fa-wrench"></i> Modificar usuario</button>
     </fieldset>
     <br />
 
@@ -123,8 +124,8 @@
             <div class="col-lg-12" runat="server">
                 <div class="row">
                     <div class="text-center">
-                        <button runat="server" type="button" class="btn btn-success-fozkr" validationgroup="Group3" onserverclick="botonAceptarCreacionPerfil_ServerClick" id="botonAceptarCreacionPerfil">Guardar</button>
-                        <a runat="server" href="#modalCancelar" id="botonCancelarCreacionPerfil" class="btn btn-danger-fozkr" role="button" data-toggle="modal">Cancelar</a>
+                        <button runat="server" type="button" class="btn btn-success-fozkr" validationgroup="Group3" onserverclick="botonAceptarCreacionPerfil_ServerClick" id="botonAceptarCreacionPerfil"><i class="fa fa-check"></i> Guardar</button>
+                        <a runat="server" href="#modalCancelar" id="botonCancelarCreacionPerfil" class="btn btn-danger-fozkr" role="button" data-toggle="modal"><i class="fa fa-trash"></i> Cancelar</a>
                     </div>
                 </div>
             </div>
@@ -344,8 +345,8 @@
         <div class="col-lg-12" id="bloqueBotones" runat="server">
             <div class =" row">
                 <div class="text-center">
-                    <button runat="server" type="button" class="btn btn-success-fozkr" onclientclick="return Validate()" onserverclick="botonAceptarUsuario_ServerClick" id="botonAceptar">Aceptar</button>
-                    <a runat="server" href="#modalCancelar" id="botonCancelarEverything" class="btn btn-danger-fozkr" role="button" data-toggle="modal">Cancelar</a>
+                    <button runat="server" type="button" class="btn btn-success-fozkr" onclientclick="return Validate()" onserverclick="botonAceptarUsuario_ServerClick" id="botonAceptar"><i class="fa fa-check"></i> Guardar</button>
+                    <a runat="server" href="#modalCancelar" id="botonCancelarEverything" class="btn btn-danger-fozkr" role="button" data-toggle="modal"><i class="fa fa-trash"></i> Cancelar</a>
                 </div>
             </div>
         </div>
@@ -360,8 +361,8 @@
         <div class="col-lg-12" id="Div2" runat="server">
             <div class =" row">
                 <div class="text-center">
-                    <button runat="server" type="button" class="btn btn-success-fozkr" validationgroup="Group2" onserverclick="botonModificarCuentaUsuario_ServerClick" id="botonAceptarModificar">Aceptar</button>
-                    <a runat="server" href="#modalCancelar"  id="botonCancelarModificacion" class="btn btn-danger-fozkr" role="button" data-toggle="modal">Cancelar</a>
+                    <button runat="server" type="button" class="btn btn-success-fozkr" validationgroup="Group2" onserverclick="botonModificarCuentaUsuario_ServerClick" id="botonAceptarModificar"><i class="fa fa-check"></i> Guardar</button>
+                    <a runat="server" href="#modalCancelar"  id="botonCancelarModificacion" class="btn btn-danger-fozkr" role="button" data-toggle="modal"><i class="fa fa-trash"></i> Cancelar</a>
                 </div>
             </div>
         </div>

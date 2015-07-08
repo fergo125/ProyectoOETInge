@@ -23,7 +23,7 @@
 
     <!-- Botones -->
     <button runat="server" onserverclick="botonConsultarTraslado_ServerClick"  id="botonConsultarTraslado" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true"><i class="fa fa-bars"></i> Consultar Traslados</button>
-    <button runat="server" onserverclick="botonRealizarTraslado_ServerClick" id="botonRealizarTraslado" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true"><i class="fa fa-pencil"></i> Crear Traslado</button>
+    <button runat="server" onserverclick="botonRealizarTraslado_ServerClick" id="botonRealizarTraslado" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true"><i class="fa fa-plus"></i> Crear Traslado</button>
     <button runat="server" onserverclick="botonModificarTraslado_ServerClick" id="botonModificarTraslado" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true"><i class="fa fa-wrench"></i> Modificar Traslado</button>
     <br />
     <br />
@@ -47,7 +47,7 @@
                 </asp:DropDownList>
             </div>
             <div class="col-lg-1">
-                <button runat="server" onserverclick="botonTipoConsulta_ServerClick" id="botonTipoConsulta" class=" btn btn-info-fozkr" type="button" style="float: left;margin-top:35%" visible="true">Consultar</button>
+                <button runat="server" onserverclick="botonTipoConsulta_ServerClick" id="botonTipoConsulta" class=" btn btn-info-fozkr" type="button" style="float: left;margin-top:35%" visible="true"><i class="fa fa-search"></i> Consultar</button>
             </div>
         </div>
         <br />
@@ -147,8 +147,8 @@
     <div class="col-lg-12" id="bloqueBotones">
         <div class ="row">
             <div class="text-center">
-                <button runat="server" onserverclick="botonAceptarTraslado_ServerClick" id="botonAceptarTraslado" class="btn btn-success-fozkr" type="button"><i class="fa fa-pencil-square-o"></i> Guardar</button>
-                <a id="botonCancelarTraslado" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i> Cancelar</a>                
+                <button runat="server" onserverclick="botonAceptarTraslado_ServerClick" id="botonAceptarTraslado" class="btn btn-success-fozkr" type="button"><i class="fa fa-check"></i> Guardar</button>
+                <a id="botonCancelarTraslado" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash"></i> Cancelar</a>                
             </div>
         </div>
     </div>

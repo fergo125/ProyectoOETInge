@@ -49,8 +49,10 @@ namespace ProyectoInventarioOET.Modulo_Ventas
                 if (insertarProductosFactura(idSiguienteFactura, factura.Productos)) //si logra insertar los productos
                 {
                     if (factura.MetodoPago == "VARIOS")
+                    {
                         if (insertarVariosMetodosPago(idSiguienteFactura, factura.PagosVariosMetodosPago)) //si logra insertar los métodos de pago
                             exito = true;
+                    }
                     else
                             exito = true;
                 }
@@ -145,6 +147,7 @@ namespace ProyectoInventarioOET.Modulo_Ventas
             String esquema = "Inventarios.";
             DataTable resultado = new DataTable();
             String comandoSQL = "SELECT * FROM " + esquema + "REGISTRO_FACTURAS_VENTA";
+            if (idEstacion == "All" && idBodega == "All" && idVendedor == "") idVendedor = "All";
             if (idVendedor != "All" || idBodega != "All" || idEstacion != "All" || idMetodoPago != "All" || idCliente != "All" || fechaInicio!="" || fechaFinal!="") //Se debe parametrizar con alguno de los 3
             {
                 comandoSQL += " WHERE ";
@@ -164,7 +167,7 @@ namespace ProyectoInventarioOET.Modulo_Ventas
                     comandoSQL += "FECHAHORA <= TO_DATE('" + fechaFinal + "','DD/MM/YYYY') AND ";
                 comandoSQL = comandoSQL.Substring(0, comandoSQL.Length - 4); //se le quita el último pedazo de "AND " que haya quedado
             }
-            comandoSQL += "ORDER BY CONSECUTIVO DESC";
+            comandoSQL += " ORDER BY CONSECUTIVO DESC";
             resultado =  ejecutarComandoSQL(comandoSQL, true);
             return resultado;
         }

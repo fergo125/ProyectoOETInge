@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="Actividades" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="FormActividades.aspx.cs" Inherits="ProyectoInventarioOET.FormActividades" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
     <br />
     <!-- Label para desplegar mensajes -->
@@ -20,9 +21,9 @@
     </div>
 
     <!-- Botones -->
-    <button runat="server" onserverclick="botonConsultaActividades_ServerClick" causesvalidation="false"  id="botonConsultaActividades" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false">Consultar Actividades</button>
-    <button runat="server" onserverclick="botonAgregarActividades_ServerClick" id="botonAgregarActividades" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false">Crear Actividad</button>
-    <button runat="server" onserverclick="botonModificacionActividades_ServerClick" causesvalidation="false"  id="botonModificacionActividades" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false">Modificar Actividad</button>
+    <button runat="server" onserverclick="botonConsultaActividades_ServerClick" causesvalidation="false"  id="botonConsultaActividades" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false"><i class="fa fa-bars"></i> Consultar Actividades</button>
+    <button runat="server" onserverclick="botonAgregarActividades_ServerClick" id="botonAgregarActividades" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false"><i class="fa fa-plus"></i> Crear Actividad</button>
+    <button runat="server" onserverclick="botonModificacionActividades_ServerClick" causesvalidation="false"  id="botonModificacionActividades" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false"><i class="fa fa-wrench"></i> Modificar Actividad</button>
     <br />
     <br />
 
@@ -80,8 +81,8 @@
     <div class="col-lg-12" id="bloqueBotones">
         <div class =" row">
             <div class="text-center">
-                <button runat="server" onserverclick="botonAceptarActividad_ServerClick" id="botonAceptarActividad" class="btn btn-success-fozkr" type="button"><i class="fa fa-pencil-square-o"></i>Guardar</button>
-                <a id="botonCancelarActividad" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cancelar</a>                
+                <button runat="server" onserverclick="botonAceptarActividad_ServerClick" id="botonAceptarActividad" class="btn btn-success-fozkr" type="button"><i class="fa fa-check"></i> Guardar</button>
+                <a id="botonCancelarActividad" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash"></i> Cancelar</a>                
             </div>
         </div>
     </div>

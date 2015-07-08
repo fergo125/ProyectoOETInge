@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="Bodegas" EnableEventValidation="false" Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="FormBodegas.aspx.cs" Inherits="ProyectoInventarioOET.FormBodegas" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
     <br />
     <!-- Label para desplegar mensajes -->
@@ -20,9 +21,9 @@
     </div>
 
     <!-- Botones -->
-    <button runat="server" onserverclick="botonConsultarBodega_consultarBodegas" causesvalidation="false" id="botonConsultarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Consultar Bodegas</button>
-    <button runat="server" onserverclick="botonAgregarBodega_ServerClick" id="botonAgregarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Crear Bodega</button>
-    <button runat="server" onserverclick="botonModificarBodega_ServerClick"  id="botonModificarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Modificar Bodega</button>
+    <button runat="server" onserverclick="botonConsultarBodega_consultarBodegas" causesvalidation="false" id="botonConsultarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false"><i class="fa fa-bars"></i> Consultar Bodegas</button>
+    <button runat="server" onserverclick="botonAgregarBodega_ServerClick" id="botonAgregarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false"><i class="fa fa-plus"></i> Crear Bodega</button>
+    <button runat="server" onserverclick="botonModificarBodega_ServerClick"  id="botonModificarBodega" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false"><i class="fa fa-wrench"></i> Modificar Bodega</button>
     <br />
     <br />
     
@@ -138,8 +139,8 @@
     <div class="col-lg-12" id="bloqueBotones">
         <div class =" row">
             <div class="text-center">
-                <button runat="server" onserverclick="botonAceptarBodega_ServerClick" id="botonAceptarBodega" class="btn btn-success-fozkr" type="button"><i class="fa fa-pencil-square-o"></i>Guardar</button>
-                <a id="botonCancelarBodega" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cancelar</a>                
+                <button runat="server" onserverclick="botonAceptarBodega_ServerClick" id="botonAceptarBodega" class="btn btn-success-fozkr" type="button"><i class="fa fa-check"></i> Guardar</button>
+                <a id="botonCancelarBodega" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash"></i> Cancelar</a>                
             </div>
         </div>
     </div>

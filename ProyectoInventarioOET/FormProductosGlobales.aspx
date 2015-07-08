@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="Productos Globales" Language="C#" AutoEventWireup="True" MasterPageFile="~/Site.Master" CodeBehind="FormProductosGlobales.aspx.cs" Inherits="ProyectoInventarioOET.FormProductosGlobales" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">   
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <br />
     <!-- Label para desplegar mensajes de éxito o fracaso con respecto a operaciones en la base de datos-->
     <div>
@@ -20,9 +21,9 @@
     </div>
 
     <!-- Botones principales que permiten las funciones de insertar, modificar y consultar -->
-    <button runat="server" id="botonConsultaProductos" causesvalidation="false" onserverclick="botonConsultaProductos_ServerClick" class=" btn btn-info-fozkr" type="button" style="float: left">Consultar Productos</button>
-    <button runat="server" onserverclick="botonAgregarProductos_ServerClick" id="botonAgregarProductos" class=" btn btn-info-fozkr" type="button" style="float: left">Crear Producto</button>
-    <button runat="server" onserverclick="botonModificacionProductos_ServerClick" id="botonModificacionProductos" class=" btn btn-info-fozkr" type="button" style="float: left">Modificar Producto</button>
+    <button runat="server" id="botonConsultaProductos" causesvalidation="false" onserverclick="botonConsultaProductos_ServerClick" class=" btn btn-info-fozkr" type="button" style="float: left"><i class="fa fa-bars"></i> Consultar Productos</button>
+    <button runat="server" onserverclick="botonAgregarProductos_ServerClick" id="botonAgregarProductos" class=" btn btn-info-fozkr" type="button" style="float: left"><i class="fa fa-plus"></i> Crear Producto</button>
+    <button runat="server" onserverclick="botonModificacionProductos_ServerClick" id="botonModificacionProductos" class=" btn btn-info-fozkr" type="button" style="float: left"><i class="fa fa-wrench"></i> Modificar Producto</button>
 
     <br />
     <br />
@@ -142,9 +143,8 @@
                 </div>
 <%--                <span class="glyphicon glyphicon-search" runat="server"></span>--%>
                 <div class="col-lg-1">
-                    <asp:Button ID="Button1" runat="server" Text="Buscar" CssClass="btn btn-info-fozkr" OnClick="botonBuscar_ServerClick"/>
+                    <button ID="ButtonBuscar" runat="server" class="btn btn-info-fozkr" onserverclick="botonBuscar_ServerClick"><i class="fa fa-search"></i> Buscar</button>
                 </div>
-                <%--<Button ID="botonBuscar" runat="server" Text="Buscar" onserverclick="botonBuscar_ServerClick" value="sds" title="ewrwer" name="ppp" />--%>
 
             </div>
 <%--        </div>--%>
@@ -192,8 +192,8 @@
     <div class="col-lg-12" id="bloqueBotones" runat="server">
         <div class =" row">
             <div class="text-center">
-                <button runat="server" onserverclick="botonAceptarProductoGlobal_ServerClick" id="botonAceptarProductoGlobal" class="btn btn-success-fozkr" type="button">Guardar</button>
-                <a id="botonCancelarProductoGlobal" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server">Cancelar</a>
+                <button runat="server" onserverclick="botonAceptarProductoGlobal_ServerClick" id="botonAceptarProductoGlobal" class="btn btn-success-fozkr" type="button"><i class="fa fa-check"></i> Guardar</button>
+                <a id="botonCancelarProductoGlobal" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash"></i> Cancelar</a>
             </div>
         </div>
 

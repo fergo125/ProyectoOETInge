@@ -418,13 +418,6 @@ namespace ProyectoInventarioOET
                 else
                 {
                     mostrarMensaje("warning", "Alerta", "No hay facturas asociadas a ese vendedor.");
-                    //evitar esto ya que crea una fila con un botón de consultar, el cual provoca que el sistema se caiga ya que consulta una tupla vacía
-                    //datos[0] = "-";
-                    //datos[1] = "-";
-                    //datos[2] = "-";
-                    //datos[3] = "-";
-                    //datos[4] = "-";
-                    //tabla.Rows.Add(datos);
                 }
                 gridViewFacturas.DataSource = tablaFacturas;
                 gridViewFacturas.DataBind();
@@ -1188,7 +1181,25 @@ namespace ProyectoInventarioOET
          */
         protected void gridViewFacturas_CambioPagina(Object sender, GridViewPageEventArgs e)
         {
-            llenarGrid(); 
+            DataTable tablaFacturas = crearTablaFacturasConsultadas(); //tabla que se usará para el grid
+            if (facturasConsultadas.Rows.Count > 0)
+            {
+                int i = 0;
+                Object[] datos = new Object[6];
+                foreach (DataRow fila in facturasConsultadas.Rows)
+                {
+                    idArray[i] = fila[0];
+                    datos[0] = fila[0].ToString();  //Consecutivo
+                    datos[1] = fila[1].ToString();  //Fecha y hora
+                    datos[2] = controladoraSeguridad.consultarNombreDeUsuario(fila[6].ToString());  //Vendedor
+                    datos[3] = fila[10].ToString(); //Monto total
+                    datos[4] = fila[8].ToString();  //Tipo moneda
+                    datos[5] = fila[9].ToString();  //Método de pago
+                    tablaFacturas.Rows.Add(datos);
+                    i++;
+                }
+            }
+            gridViewFacturas.DataSource = tablaFacturas;
             gridViewFacturas.PageIndex = e.NewPageIndex;
             gridViewFacturas.DataBind();
             tituloGrid.Visible = true;
@@ -1314,12 +1325,7 @@ namespace ProyectoInventarioOET
         protected void gridViewFacturas_Ordenado(object sender, GridViewSortEventArgs e)
         {
             if (e.SortExpression == argumentoSorting)
-            {
-                if (boolSorting == true)
-                    boolSorting = false;
-                else
-                    boolSorting = true;
-            }
+                boolSorting = !boolSorting;
             else //New Column clicked so the default sort direction will be incorporated
                 boolSorting = false;
 
@@ -1354,10 +1360,7 @@ namespace ProyectoInventarioOET
             tablaOrdenableSorting.Columns.Add(columna);
             int i = 0;
             foreach (DataRow fila in tablaOrdenableSorting.Rows)
-            {
-                fila[3] = idArray[i];
-                i++;
-            }
+                fila[6] = idArray[i++];
         }
 
         /*
@@ -1367,10 +1370,7 @@ namespace ProyectoInventarioOET
         {
             int i = 0;
             foreach (DataRow fila in tablaOrdenableSorting.Rows)
-            {
-                idArray[i] = fila[3];
-                i++;
-            }
+                idArray[i++] = fila[6];
             tablaOrdenableSorting.Columns.Remove("id");
         }
 

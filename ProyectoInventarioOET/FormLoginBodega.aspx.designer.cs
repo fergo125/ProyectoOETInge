@@ -58,13 +58,13 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlAnchor botonCambiarContrasena;
         
         /// <summary>
-        /// Control CerrarSesion.
+        /// Control ButtonCerrarSesion.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button CerrarSesion;
+        protected global::System.Web.UI.HtmlControls.HtmlButton ButtonCerrarSesion;
         
         /// <summary>
         /// Control DropDownListBodega.

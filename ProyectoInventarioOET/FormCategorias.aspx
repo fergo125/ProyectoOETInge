@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="Categorías" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="FormCategorias.aspx.cs" Inherits="ProyectoInventarioOET.FormCategorias" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <br />
     <!-- Label para desplegar mensajes -->
     <div>
@@ -20,9 +21,9 @@
 
 
     <!-- Botones -->
-    <button runat="server" causesvalidation="false" onserverclick="botonConsultaCategoria_ServerClick" id="botonConsultaCategoria"  class=" btn btn-info-fozkr" type="button" style="float: left" visible="false">Consultar Categorías</button>
-    <button runat="server" onserverclick="botonAgregarCategoria_ServerClick"  id="botonAgregarCategoria"  class=" btn btn-info-fozkr" type="button" style="float: left" visible="false">Crear Categoría</button>
-    <button runat="server" onserverclick="botonModificacionCategoria_ServerClick" id="botonModificacionCategoria" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false">Modificar Categoría</button>
+    <button runat="server" causesvalidation="false" onserverclick="botonConsultaCategoria_ServerClick" id="botonConsultaCategoria"  class=" btn btn-info-fozkr" type="button" style="float: left" visible="false"><i class="fa fa-bars"></i> Consultar Categorías</button>
+    <button runat="server" onserverclick="botonAgregarCategoria_ServerClick"  id="botonAgregarCategoria"  class=" btn btn-info-fozkr" type="button" style="float: left" visible="false"><i class="fa fa-plus"></i> Crear Categoría</button>
+    <button runat="server" onserverclick="botonModificacionCategoria_ServerClick" id="botonModificacionCategoria" class=" btn btn-info-fozkr" type="button" style="float: left" visible="false"><i class="fa fa-wrench"></i> Modificar Categoría</button>
 
 
     <br />
@@ -107,8 +108,8 @@
 <%--    Botones de aceptar y cancelar acción--%> 
     <div class= "row" id="bloqueBotones" visible="true" runat="server">
         <div class="text-center">
-            <button id="botonAceptar" class="btn btn-success-fozkr" type="button" runat="server" onserverclick="botonAceptarCategoria_ServerClick" > Guardar</button>
-            <a id="botonCancelar" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i>Cancelar</a>
+            <button id="botonAceptar" class="btn btn-success-fozkr" type="button" runat="server" onserverclick="botonAceptarCategoria_ServerClick" ><i class="fa fa-check"></i> Guardar</button>
+            <a id="botonCancelar" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i> Cancelar</a>
         </div>
     </div>
 

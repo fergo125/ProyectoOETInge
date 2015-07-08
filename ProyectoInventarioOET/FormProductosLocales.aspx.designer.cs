@@ -319,13 +319,13 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlInputGenericControl barraDeBusqueda;
         
         /// <summary>
-        /// Control botonDeBusqueda.
+        /// Control ButtonBuscar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button botonDeBusqueda;
+        protected global::System.Web.UI.HtmlControls.HtmlButton ButtonBuscar;
         
         /// <summary>
         /// Control UpdatePanelPruebas.

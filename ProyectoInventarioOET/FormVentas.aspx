@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="Ventas" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="FormVentas.aspx.cs" Inherits="ProyectoInventarioOET.FormVentas" %>
 <asp:Content ID="ContentVentas" ContentPlaceHolderID="MainContent" runat="server">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
     <!-- Label para desplegar mensajes -->
     <br />
@@ -20,11 +21,11 @@
     </div>
 
     <!-- Botones principales -->
-    <button runat="server" onserverclick="clickBotonConsultar" ID="botonConsultar" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Consultar Facturas</button>
-    <button runat="server" onserverclick="clickBotonCrear" ID="botonCrear" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Crear Factura</button>
-    <button runat="server" onserverclick="clickBotonModificar" ID="botonModificar" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i></i>Modificar Factura</button>
-    <a ID="botonAjusteEntrada" accesskey="A" href="#modalAjusteRapido" class="btn btn-info-fozkr" role="button" style="float: right" visible="false" data-toggle="modal" runat ="server">Ajuste rápido de entrada</a> 
-    <a ID="botonCambioSesion" accesskey="S" href="#modalCambioSesion" class="btn btn-info-fozkr" role="button" style="float: right" visible="false" data-toggle="modal" runat ="server">Cambio rápido de sesión</a>  
+    <button runat="server" onserverclick="clickBotonConsultar" ID="botonConsultar" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i class="fa fa-bars"></i> Consultar Facturas</button>
+    <button runat="server" onserverclick="clickBotonCrear" ID="botonCrear" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i class="fa fa-plus"></i> Crear Factura</button>
+    <button runat="server" onserverclick="clickBotonModificar" ID="botonModificar" class="btn btn-info-fozkr" type="button" style="float: left" visible="false"><i class="fa fa-wrench"></i> Modificar Factura</button>
+    <a ID="botonAjusteEntrada" accesskey="A" href="#modalAjusteRapido" class="btn btn-info-fozkr" role="button" style="float: right" visible="false" data-toggle="modal" runat ="server"><i class="fa fa-plus"></i> Ajuste rápido de entrada</a> 
+    <a ID="botonCambioSesion" accesskey="S" href="#modalCambioSesion" class="btn btn-info-fozkr" role="button" style="float: right" visible="false" data-toggle="modal" runat ="server"><i class="fa fa-user"></i> Cambio rápido de sesión</a>  
     <br />
     <br />
 
@@ -50,7 +51,7 @@
                 </div>
                 <div class="form-group col-lg-1" style="margin-top:2%;">
                     <button runat="server" onserverclick="clickBotonEjecutarConsulta" ID="botonEjecutarConsulta" class="btn btn-info-fozkr" type="button">
-                        <i></i>Consultar
+                        <i class="fa fa-search"></i> Consultar
                     </button>
                 </div>
                 <div class="form-group col-lg-2" style="margin-top:2.5%;">
@@ -191,9 +192,11 @@
             </tr>
         </table>
     </asp:Panel>
-
-    <button type="button" ID="botonAceptarModificacionFacturaEspecifica" class="btn btn-success-fozkr" visible="false" onserverclick="clickBotonAceptarModificar" data-toggle="modal" runat="server">Aceptar</button>
-    <button type="button" ID="botonCancelarModificacionFacturaEspecifica" class="btn btn-danger-fozkr" visible="false" onserverclick="clickBotonCancelarModificar" runat="server">Cancelar</button>
+    
+    <div class="text-center">
+        <button type="button" ID="botonAceptarModificacionFacturaEspecifica" class="btn btn-success-fozkr" visible="false" onserverclick="clickBotonAceptarModificar" data-toggle="modal" runat="server"><i class="fa fa-check"></i> Guardar</button>
+        <button type="button" ID="botonCancelarModificacionFacturaEspecifica" class="btn btn-danger-fozkr" visible="false" onserverclick="clickBotonCancelarModificar" runat="server"><i class="fa fa-trash"></i> Cancelar</button>
+    </div>
                 
 
 
@@ -239,7 +242,7 @@
                 <td>Producto:</td>
                 <td colspan="2"><asp:TextBox ID="textBoxAutocompleteCrearFacturaBusquedaProducto" runat="server" CssClass="form-control" Width="100%"></asp:TextBox>
                 </td>
-                <td><button type="button" ID="botonCrearFacturaAgregarProducto" class="btn btn-success-fozkr" onserverclick="clickBotonAgregarProductoFacturaNueva" runat="server">Agregar Producto</button></td>
+                <td><button type="button" ID="botonCrearFacturaAgregarProducto" class="btn btn-success-fozkr" onserverclick="clickBotonAgregarProductoFacturaNueva" runat="server"><i class="fa fa-cart-plus"></i> Agregar Producto</button></td>
             </tr>
             <tr>
                 <td colspan="4">
@@ -270,8 +273,8 @@
             </tr>
             <tr>
                 <td colspan="4">
-                    <button type="button" ID="botonCrearFacturaEliminarProducto" class="btn btn-danger-fozkr" onserverclick="clickBotonCrearEliminarProducto" style="float: left" disabled="disabled" runat="server">Eliminar Producto</button>
-                    <button type="button" ID="botonCrearFacturaModificarProducto" class="btn btn-warning-fozkr" href="#modalModificarProducto" data-toggle="modal" style="float: left" disabled="disabled" runat="server">Modificar Producto</button>
+                    <button type="button" ID="botonCrearFacturaEliminarProducto" class="btn btn-danger-fozkr" onserverclick="clickBotonCrearEliminarProducto" style="float: left" disabled="disabled" runat="server"><i class="fa fa-trash"></i> Eliminar Producto</button>
+                    <button type="button" ID="botonCrearFacturaModificarProducto" class="btn btn-warning-fozkr" href="#modalModificarProducto" data-toggle="modal" style="float: left" disabled="disabled" runat="server"><i class="fa fa-edit"></i> Modificar Producto</button>
                 </td>
             </tr>
             <tr>
@@ -301,8 +304,8 @@
             </tr>
             <tr>
                 <td colspan="4">
-                    <button type="button" ID="botonCrearFacturaGuardar" class="btn btn-success-fozkr" onserverclick="clickBotonCrearGuardar" runat="server">Guardar</button>
-                    <button type="button" id="botoncrearfacturacancelar" class="btn btn-danger-fozkr" href="#modalcancelarfactura" data-toggle="modal" runat="server">cancelar</button>
+                    <button type="button" ID="botonCrearFacturaGuardar" class="btn btn-success-fozkr" onserverclick="clickBotonCrearGuardar" runat="server"><i class="fa fa-check"></i> Guardar</button>
+                    <button type="button" id="botoncrearfacturacancelar" class="btn btn-danger-fozkr" href="#modalcancelarfactura" data-toggle="modal" runat="server"><i class="fa fa-trash"></i> Cancelar</button>
                 </td>
             </tr>
         </table>

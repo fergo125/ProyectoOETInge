@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="Cambiar sesión" MasterPageFile="~/Site.Master" Language="C#" AutoEventWireup="true" CodeBehind="FormLoginBodega.aspx.cs" Inherits="ProyectoInventarioOET.FormBodegaLocal" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
         <br />
     <!-- Label para desplegar mensajes -->
@@ -25,10 +26,10 @@
             <div class="form-horizontal">
                 <div class="form-group">
                     <div class="col-md-offset-8 col-md-2">
-                        <a runat="server" href="#modalCambiarContrasena" id="botonCambiarContrasena" class="btn btn-info-fozkr" role="button" data-toggle="modal">Cambiar contraseña</a>
+                        <a runat="server" href="#modalCambiarContrasena" id="botonCambiarContrasena" class="btn btn-info-fozkr" role="button" data-toggle="modal"><i class="fa fa-key"></i> Cambiar contraseña</a>
                     </div>
                     <div class="col-md-2">
-                        <asp:Button runat="server" ID="CerrarSesion" Text="Cerrar sesión" CssClass="btn btn-danger-fozkr" OnClick="CerrarSesion_Click" />
+                        <button ID="ButtonCerrarSesion" class="btn btn-danger-fozkr" onserverclick="CerrarSesion_Click" data-toggle="modal" runat="server"><i class="fa fa-sign-out"></i> Cerrar sesión</button>
                     </div>
                 </div>
             </div>

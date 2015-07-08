@@ -23,7 +23,7 @@
 
     <!-- Botones -->
     <button runat="server" onserverclick="botonConsultarAjustes_ServerClick"  id="botonConsultarAjustes" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true"><i class="fa fa-bars"></i> Consultar Ajustes</button>
-    <button runat="server" onserverclick="botonRealizarAjuste_ServerClick" id="botonRealizarAjuste" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true"><i class="fa fa-pencil"></i> Crear Ajuste</button> 
+    <button runat="server" onserverclick="botonRealizarAjuste_ServerClick" id="botonRealizarAjuste" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true"><i class="fa fa-plus"></i> Crear Ajuste</button> 
     <button runat="server" onserverclick="botonModificarAjuste_ServerClick" id="botonModificarAjuste" class=" btn btn-info-fozkr" type="button" style="float: left" visible="true"><i class="fa fa-wrench"></i> Modificar Ajuste</button> <br> <br>
     <!-- Titulo dinamico de la pagina -->
     <h3 id="tituloAccionAjustes" runat="server">Seleccione una opción</h3>
@@ -109,8 +109,8 @@
     <div class="col-lg-12" id="bloqueBotones">
         <div class ="row">
             <div class="text-center">
-                <button runat="server" onserverclick="botonAceptarAjustes_ServerClick" id="botonAceptarAjustes" class="btn btn-success-fozkr" type="button"><i class="fa fa-pencil-square-o"></i> Guardar</button>
-                <a id="botonCancelarAjustes" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash-o fa-lg"></i> Cancelar</a>                
+                <button runat="server" onserverclick="botonAceptarAjustes_ServerClick" id="botonAceptarAjustes" class="btn btn-success-fozkr" type="button"><i class="fa fa-check"></i> Guardar</button>
+                <a id="botonCancelarAjustes" href="#modalCancelar" class="btn btn-danger-fozkr" role="button" data-toggle="modal" runat ="server"><i class="fa fa-trash"></i> Cancelar</a>                
             </div>
         </div>
     </div>

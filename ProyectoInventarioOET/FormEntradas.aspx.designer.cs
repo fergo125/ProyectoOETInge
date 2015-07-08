@@ -247,22 +247,22 @@ namespace ProyectoInventarioOET {
         protected global::System.Web.UI.HtmlControls.HtmlInputGenericControl barraDeBusquedaFactura;
         
         /// <summary>
-        /// Control botonBuscarFactura.
+        /// Control ButtonBuscar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button botonBuscarFactura;
+        protected global::System.Web.UI.HtmlControls.HtmlButton ButtonBuscar;
         
         /// <summary>
-        /// Control botonMostrarFacturas.
+        /// Control ButtonBuscar2.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button botonMostrarFacturas;
+        protected global::System.Web.UI.HtmlControls.HtmlButton ButtonBuscar2;
         
         /// <summary>
         /// Control FieldsetGridFacturas.
