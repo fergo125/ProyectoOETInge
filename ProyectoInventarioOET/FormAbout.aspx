@@ -15,4 +15,8 @@
     <p>Alejandro Sudasassi Arroyo</p>
     <p>Fernando Mata Mora</p>
     <br />
+    <br />
+    <br />
+    <p>Dirigidos por la profesora Gabriela Salazar, en el curso de Ingeniería de software 2.</p>
+    <br />
 </asp:Content>
