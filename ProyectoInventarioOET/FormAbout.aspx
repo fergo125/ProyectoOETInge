@@ -19,4 +19,11 @@
     <br />
     <p>Dirigidos por la profesora Gabriela Salazar, en el curso de Ingeniería de software 2.</p>
     <br />
+    <!-- Javascript -->
+    <!-- Modificar tab de site master activo -->
+    <script type = "text/javascript">
+        function setCurrentTab() {
+            document.getElementById("linkFormAbout").className = "active";
+        }
+    </script>
 </asp:Content>
