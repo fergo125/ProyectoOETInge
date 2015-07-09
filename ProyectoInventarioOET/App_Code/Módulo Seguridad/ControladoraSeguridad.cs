@@ -151,6 +151,7 @@ namespace ProyectoInventarioOET.Modulo_Seguridad
         public String[] insertarUsuario(Object[] datosUsuario)
         {
             EntidadUsuario usuario = new EntidadUsuario(datosUsuario);
+            usuario.Clave = Crypto.SHA256(usuario.Clave);
             return controladoraBDSeguridad.insertarUsuario(usuario);
         }
 
